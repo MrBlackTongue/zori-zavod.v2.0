@@ -44,7 +44,7 @@ const items: MenuItem[] = [
   getItem('Единицы измерения', '11', <AppstoreOutlined />,),
 ];
 
-const Menu: React.FC = () => {
+const MainMenu: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleCollapsed = () => {
@@ -68,4 +68,4 @@ const Menu: React.FC = () => {
   );
 };
 
-export default Menu;
+export default MainMenu;
