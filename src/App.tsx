@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -15,14 +15,18 @@ import {
   AccountBookOutlined,
   DatabaseOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import {Layout, Menu, theme} from 'antd';
+import {Routes, Route} from 'react-router-dom';
+import Home from "../src/layout/modules/home/home";
+import Staff from "../src/layout/modules/staff/staff";
+import {Link} from "react-router-dom";
 
-const { Header, Sider, Content } = Layout;
+const {Header, Sider, Content} = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer },
+    token: {colorBgContainer},
   } = theme.useToken();
 
   return (
@@ -30,7 +34,7 @@ function App() {
       <Layout>
         <Sider trigger={null} collapsible collapsed={collapsed} width={240}>
           {/*<div className="logo" />*/}
-          <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Header style={{padding: 0, background: colorBgContainer}}>
             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
               className: 'trigger',
               onClick: () => setCollapsed(!collapsed),
@@ -39,69 +43,75 @@ function App() {
           <Menu
             theme="light"
             mode="inline"
-            defaultSelectedKeys={['1']}
+            // defaultSelectedKeys={['1']}
             items={[
               {
                 key: '1',
-                icon: <TeamOutlined />,
+                icon: <Link to='/staff'><TeamOutlined /></Link>,
                 label: 'Сотрудники',
               },
               {
                 key: '2',
-                icon: <UnorderedListOutlined />,
+                icon: <Link to='/'><UnorderedListOutlined/></Link>,
                 label: 'Типы операций',
               },
               {
                 key: '3',
-                icon:  <PicLeftOutlined />,
+                icon: <PicLeftOutlined/>,
                 label: 'Учет операций',
               },
               {
                 key: '4',
-                icon: <FormOutlined />,
+                icon: <FormOutlined/>,
                 label: 'Отчет по операциям',
               },
               {
                 key: '5',
-                icon:  <CopyOutlined />,
+                icon: <CopyOutlined/>,
                 label: 'Отчет по выпускам',
               },
               {
                 key: '6',
-                icon: <UploadOutlined />,
+                icon: <UploadOutlined/>,
                 label: 'Продукты',
               },
               {
                 key: '7',
-                icon:  <TrophyOutlined />,
+                icon: <TrophyOutlined/>,
                 label: 'Выпуск продукции',
               },
               {
                 key: '8',
-                icon:  <DatabaseOutlined />,
+                icon: <DatabaseOutlined/>,
                 label: 'Типы расходов',
               },
               {
                 key: '9',
-                icon:  <DollarCircleOutlined />,
+                icon: <DollarCircleOutlined/>,
                 label: 'Расходы по выпускам',
               },
               {
                 key: '10',
-                icon:  <AccountBookOutlined />,
+                icon: <AccountBookOutlined/>,
                 label: 'Расходы по операциям',
               },
               {
                 key: '11',
-                icon:  <FunctionOutlined />,
+                icon: <FunctionOutlined/>,
                 label: 'Единицы измерения',
               },
             ]}
-          />
+          >
+            <Menu.Item>
+              <Link to='/'>Home</Link>
+              <TeamOutlined/>
+              'Сотрудники'
+            </Menu.Item>
+          </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header style={{ padding: 0, background: colorBgContainer }}>
-             Это Зори Завод!
+          <Header style={{padding: 0, background: colorBgContainer}}>
+            Это Зори Завод!
           </Header>
           <Content
             style={{
@@ -111,7 +121,10 @@ function App() {
               background: colorBgContainer,
             }}
           >
-            Content
+            <Routes>
+              <Route path='/' element={<Home/>}/>
+              <Route path='/staff' element={<Staff/>}/>
+            </Routes>
           </Content>
         </Layout>
       </Layout>
