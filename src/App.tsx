@@ -15,13 +15,16 @@ import {
   AccountBookOutlined,
   DatabaseOutlined,
 } from '@ant-design/icons';
-import {Layout, Menu, theme} from 'antd';
+import {Layout, Menu, theme, Typography} from 'antd';
 import {Routes, Route} from 'react-router-dom';
 import Home from "../src/layout/modules/home/home";
 import Staff from "../src/layout/modules/staff/staff";
+import TypesOperations from "../src/layout/modules/typesOperations/typesOperations";
 import {Link} from "react-router-dom";
 
 const {Header, Sider, Content} = Layout;
+const {Title} = Typography;
+
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -47,12 +50,12 @@ function App() {
             items={[
               {
                 key: '1',
-                icon: <Link to='/staff'><TeamOutlined /></Link>,
+                icon: <Link to='/staff'><TeamOutlined/></Link>,
                 label: 'Сотрудники',
               },
               {
                 key: '2',
-                icon: <Link to='/'><UnorderedListOutlined/></Link>,
+                icon: <Link to='/typesOperations'><UnorderedListOutlined/></Link>,
                 label: 'Типы операций',
               },
               {
@@ -111,7 +114,7 @@ function App() {
         </Sider>
         <Layout className="site-layout">
           <Header style={{padding: 0, background: colorBgContainer}}>
-            Это Зори Завод!
+            <Title level={3}>Это Зори Завод!</Title>
           </Header>
           <Content
             style={{
@@ -119,16 +122,18 @@ function App() {
               padding: 24,
               minHeight: 280,
               background: colorBgContainer,
+              borderRadius: '8px',
             }}
           >
             <Routes>
               <Route path='/' element={<Home/>}/>
               <Route path='/staff' element={<Staff/>}/>
+              <Route path='/typesOperations' element={<TypesOperations/>}/>
             </Routes>
+
           </Content>
         </Layout>
       </Layout>
-
     </div>
   );
 }
