@@ -1,5 +1,16 @@
-import React from 'react';
-import {Typography, Space, Button, Table, Tooltip, Popconfirm} from 'antd';
+import React, {useState} from 'react';
+import {
+  Typography,
+  Space,
+  Button,
+  Table,
+  Tooltip,
+  Popconfirm,
+  Modal,
+  Input,
+  Form,
+  Checkbox,
+} from 'antd';
 import {
   SyncOutlined,
   PlusOutlined,
@@ -128,35 +139,114 @@ const columns = [
   },
 ];
 
-const Staff = () => (
-  <div style={{display: 'grid'}}>
-    <div className='centerTitle'>
-      <Title level={3}>Сотрудники</Title>
-      <Space>
-        <Button
-          type="dashed"
-          // icon={<SyncOutlined spin={this.state.loading} />}
-          icon={<SyncOutlined/>}
-          // onClick={this.getBlocks}
-          className='greenButton'>
-          {/*{this.state.loading ? 'Обновление' : 'Обновить'}*/}
-          {'Обновление'}
-        </Button>
-        <Button
-          type="primary"
-          icon={<PlusOutlined/>}
-          onClick={() => {
-            // this.setState({
-            //   downloadModal: true,
-            // });
-          }}>
-          Добавить
-        </Button>
-      </Space>
-    </div>
-    <Table columns={columns} dataSource={dataSource}/>
-  </div>
+const Staff = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const onFinish = (values: string) => {
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  return (
+    <div style={{display: 'grid'}}>
+      <div className='centerTitle'>
+        <Title level={3}>Сотрудники</Title>
+        <Space>
+          <Button
+            type="dashed"
+            // icon={<SyncOutlined spin={this.state.loading} />}
+            icon={<SyncOutlined/>}
+            // onClick={this.getBlocks}
+            className='greenButton'>
+            {/*{this.state.loading ? 'Обновление' : 'Обновить'}*/}
+            {'Обновить'}
+          </Button>
+          <Button
+            type="primary"
+            icon={<PlusOutlined/>}
+            onClick={showModal}
+          >
+            Добавить
+          </Button>
+        </Space>
+      </div>
+      <Table columns={columns} dataSource={dataSource}/>
+      <Modal
+        title={`Добавление нового сотрудника`}
+        open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+        width={500}
+        okText={'Добавить'}
+        cancelText={'Отмена'}
+      >
+        <Form
+          name="add-new-worker"
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 16 }}
+          style={{marginTop: 30}}
+        >
+          <Form.Item
+            label="Имя"
+            name="name"
+            rules={[{ required: true, message: 'Пожалуйста введите имя' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Фамилия"
+            name="surname"
+            rules={[{ required: true, message: 'Пожалуйста введите фамилию' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Телефон"
+            name="phoneNumber"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Ставка"
+            name="salary"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="hired"
+            valuePropName="hired"
+            wrapperCol={{ offset: 8, span: 16 }}>
+            <Checkbox>Нанят</Checkbox>
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
+  );
+};
 
 export default Staff;
