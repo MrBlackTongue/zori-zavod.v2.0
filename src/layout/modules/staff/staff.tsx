@@ -18,15 +18,26 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import './staff.css';
+import type { ColumnsType, TableProps } from 'antd/es/table';
 
 const {Title} = Typography;
+
+interface DataType {
+  key: React.Key;
+  name: string;
+  surname: string;
+  number: number;
+  price: number;
+  staff: string;
+  // id: number;
+}
 
 const dataSource = [
   {
     key: '1',
     name: 'Mike',
     surname: 'John',
-    number: '6385649536',
+    number: 6385649536,
     price: 32,
     staff: 'Да',
     id: (
@@ -67,7 +78,7 @@ const dataSource = [
     key: '2',
     name: 'John',
     surname: 'Mike',
-    number: '347547530',
+    number: 347547530,
     price: 42,
     staff: 'Да',
     id: (
@@ -106,16 +117,20 @@ const dataSource = [
   },
 ];
 
-const columns = [
+const columns: ColumnsType<DataType> = [
   {
     title: 'Имя',
     dataIndex: 'name',
     key: 'name',
+    defaultSortOrder: 'ascend',
+    sorter: (a, b) => a.name < b.name ? -1 : 1,
   },
   {
     title: 'Фамилия',
     dataIndex: 'surname',
     key: 'surname',
+    sorter: (a, b) => a.surname < b.surname ? -1 : 1,
+
   },
   {
     title: 'Телефон',
@@ -126,18 +141,27 @@ const columns = [
     title: 'Ставка',
     dataIndex: 'price',
     key: 'price',
+    sorter: (a, b) => a.price - b.price,
+
   },
   {
     title: 'Нанят',
     dataIndex: 'staff',
     key: 'staff',
+    sorter: (a, b) => a.staff < b.staff ? -1 : 1,
+
   },
   {
     title: 'Действия',
     dataIndex: 'id',
     key: 'id',
+    width: 100,
   },
 ];
+
+const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+  console.log('params', pagination, filters, sorter, extra);
+};
 
 const Staff = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -185,15 +209,24 @@ const Staff = () => {
           </Button>
         </Space>
       </div>
-      <Table columns={columns} dataSource={dataSource}/>
+      <Table columns={columns} dataSource={dataSource} onChange={onChange}/>
       <Modal
         title={`Добавление нового сотрудника`}
         open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
         width={500}
         okText={'Добавить'}
         cancelText={'Отмена'}
+        footer={[
+          <Button form='add-new-worker' type="primary" htmlType="submit">
+            Добавить
+          </Button>,
+          <Button form='add-new-worker' type="dashed" onClick={handleCancel}>
+            Отмена
+          </Button>
+        ]}
       >
         <Form
+          id='add-new-worker'
           name="add-new-worker"
           initialValues={{
             remember: true,
@@ -201,48 +234,48 @@ const Staff = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 16 }}
+          labelCol={{span: 6}}
+          wrapperCol={{span: 16}}
           style={{marginTop: 30}}
         >
           <Form.Item
             label="Имя"
             name="name"
-            rules={[{ required: true, message: 'Пожалуйста введите имя' }]}
+            rules={[{required: true, message: 'Пожалуйста введите имя'}]}
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             label="Фамилия"
             name="surname"
-            rules={[{ required: true, message: 'Пожалуйста введите фамилию' }]}
+            rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             label="Телефон"
             name="phoneNumber"
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             label="Ставка"
             name="salary"
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             name="hired"
             valuePropName="hired"
-            wrapperCol={{ offset: 8, span: 16 }}>
+            wrapperCol={{offset: 8, span: 16}}>
             <Checkbox>Нанят</Checkbox>
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
+          {/*<Form.Item wrapperCol={{ offset: 8, span: 16 }}>*/}
+          {/*  <Button type="primary" htmlType="submit">*/}
+          {/*    Submit*/}
+          {/*  </Button>*/}
+          {/*</Form.Item>*/}
         </Form>
       </Modal>
     </div>
