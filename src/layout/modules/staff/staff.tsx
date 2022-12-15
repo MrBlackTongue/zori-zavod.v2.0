@@ -33,7 +33,7 @@ const Staff = () => {
     surname: string;
     number: number;
     price: number;
-    staff: string;
+    hired: string;
     // id: number;
   }
 
@@ -44,7 +44,7 @@ const Staff = () => {
       surname: 'John',
       number: 6385649536,
       price: 32,
-      staff: 'Да',
+      hired: 'Да',
       id: (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -86,7 +86,7 @@ const Staff = () => {
       surname: 'Mike',
       number: 347547530,
       price: 42,
-      staff: 'Да',
+      hired: 'Да',
       id: (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -129,13 +129,13 @@ const Staff = () => {
       title: 'Имя',
       dataIndex: 'name',
       key: 'name',
-      defaultSortOrder: 'ascend',
       sorter: (a, b) => a.name < b.name ? -1 : 1,
     },
     {
       title: 'Фамилия',
       dataIndex: 'surname',
       key: 'surname',
+      defaultSortOrder: 'ascend',
       sorter: (a, b) => a.surname < b.surname ? -1 : 1,
 
     },
@@ -153,9 +153,9 @@ const Staff = () => {
     },
     {
       title: 'Нанят',
-      dataIndex: 'staff',
-      key: 'staff',
-      sorter: (a, b) => a.staff < b.staff ? -1 : 1,
+      dataIndex: 'hired',
+      key: 'hired',
+      sorter: (a, b) => a.hired < b.hired ? -1 : 1,
 
     },
     {
@@ -299,7 +299,7 @@ const Staff = () => {
           <Space>
             <Button onClick={onCloseDrawer}>Отмена</Button>
             <Button onClick={onCloseDrawer} type="primary" form='change-worker' htmlType="submit">
-              Изменить
+              Сохранить
             </Button>
           </Space>
         }
