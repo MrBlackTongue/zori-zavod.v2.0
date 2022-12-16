@@ -20,13 +20,13 @@ import {
   DeleteOutlined,
   CheckOutlined,
 } from '@ant-design/icons';
-import './typesOperations.css';
+import './operation.css';
 import type {ColumnsType, TableProps} from 'antd/es/table';
 
 const {Title} = Typography;
 const { Option } = Select;
 
-const TypesOperations = () => {
+const Operation = () => {
 
   interface DataType {
     key: React.Key;
@@ -64,7 +64,7 @@ const TypesOperations = () => {
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
-              title="Вы действительно хотите удалить этого сотрудника?"
+              title="Вы действительно хотите удалить эту операцию?"
               onConfirm={() => {
                 // this.deleteBlockInfo(id);
               }}
@@ -105,7 +105,7 @@ const TypesOperations = () => {
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
-              title="Вы действительно хотите удалить этого сотрудника?"
+              title="Вы действительно хотите удалить эту операцию?"
               onConfirm={() => {
                 // this.deleteBlockInfo(id);
               }}
@@ -336,4 +336,4 @@ const TypesOperations = () => {
   );
 }
 
-export default TypesOperations;
+export default Operation;

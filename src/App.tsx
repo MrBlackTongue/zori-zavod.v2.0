@@ -19,7 +19,8 @@ import {Layout, Menu, theme, Typography} from 'antd';
 import {Routes, Route} from 'react-router-dom';
 import Home from "../src/layout/modules/home/home";
 import Staff from "../src/layout/modules/staff/staff";
-import TypesOperations from "../src/layout/modules/typesOperations/typesOperations";
+import Operation from "../src/layout/modules/operation/operation";
+import Unit from "../src/layout/modules/unit/unit";
 import {Link} from "react-router-dom";
 
 const {Header, Sider, Content} = Layout;
@@ -55,7 +56,7 @@ function App() {
               },
               {
                 key: '2',
-                icon: <Link to='/typesOperations'><UnorderedListOutlined/></Link>,
+                icon: <Link to='/operation'><UnorderedListOutlined/></Link>,
                 label: 'Типы операций',
               },
               {
@@ -100,7 +101,7 @@ function App() {
               },
               {
                 key: '11',
-                icon: <FunctionOutlined/>,
+                icon: <Link to='/unit'><FunctionOutlined/></Link>,
                 label: 'Единицы измерения',
               },
             ]}
@@ -128,7 +129,8 @@ function App() {
             <Routes>
               <Route path='/' element={<Home/>}/>
               <Route path='/staff' element={<Staff/>}/>
-              <Route path='/typesOperations' element={<TypesOperations/>}/>
+              <Route path='/operation' element={<Operation/>}/>
+              <Route path='/unit' element={<Unit/>}/>
             </Routes>
 
           </Content>
