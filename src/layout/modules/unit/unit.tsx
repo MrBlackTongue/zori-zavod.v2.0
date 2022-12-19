@@ -9,9 +9,6 @@ import {
   Modal,
   Input,
   Form,
-  Checkbox,
-  Drawer,
-  Select,
 } from 'antd';
 import {
   SyncOutlined,
@@ -24,7 +21,6 @@ import './unit.css';
 import type {ColumnsType, TableProps} from 'antd/es/table';
 
 const {Title} = Typography;
-const { Option } = Select;
 
 const Unit = () => {
 
@@ -47,6 +43,8 @@ const Unit = () => {
               shape="circle"
               ghost
               onClick={() => {
+                showModal()
+                setModalTitle('Редактирование')
                 // this.getBlocksInfo(id);
                 // this.setState({
                 //   editModal: true,
@@ -84,6 +82,8 @@ const Unit = () => {
               shape="circle"
               ghost
               onClick={() => {
+                showModal()
+                setModalTitle('Редактирование')
                 // this.getBlocksInfo(id);
                 // this.setState({
                 //   editModal: true,
@@ -126,16 +126,6 @@ const Unit = () => {
     },
   ];
 
-  // const useDocTitle = title => {
-  //   const [doctitle, setDocTitle] = useState(title);
-  //
-  //   useEffect(() => {
-  //     document.title = doctitle;
-  //   }, [doctitle]);
-  //
-  //   return [doctitle, setDocTitle];
-  // };
-
   const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
   };
@@ -143,6 +133,12 @@ const Unit = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [isChangeUnit] = useState('Редактирование')
   // const [isAddUnit, isChangeUnit] = useDocTitle("Добавление новой");
+  const [modalTitle, setModalTitle] = useState("Добавление новой");
+
+  // useEffect(() => {
+  //   document.title = `Редактирование`;
+  // });
+
   // Modal
   const showModal = () => {
     setIsModalOpen(true);
@@ -181,7 +177,11 @@ const Unit = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={showModal}
+            onClick={() => {
+              showModal()
+              setModalTitle('Добавление новой')
+            }
+          }
           >
             Добавить
           </Button>
@@ -189,14 +189,14 @@ const Unit = () => {
       </div>
       <Table columns={columns} dataSource={dataSource} onChange={onChange}/>
       <Modal
-        // title={`${isAddUnit} единицы измерения`}
+        title={`${modalTitle} единицы измерения`}
         open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
         width={660}
         okText={'Добавить'}
         cancelText={'Отмена'}
         footer={[
           <Button form='add-new-unit' type="primary" htmlType="submit">
-            <CheckOutlined />Добавить
+            <CheckOutlined/>Сохранить
           </Button>,
           <Button form='add-new-unit' onClick={handleCancel}>
             Отмена
