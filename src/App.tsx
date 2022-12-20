@@ -36,7 +36,7 @@ function App() {
   return (
     <div>
       <Layout>
-        <Sider trigger={null} collapsible collapsed={collapsed} width={240}>
+        <Sider trigger={null} collapsible collapsed={collapsed} width={240} theme="light">
           {/*<div className="logo" />*/}
           <Header style={{padding: 0, background: colorBgContainer}}>
             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {

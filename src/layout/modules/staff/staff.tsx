@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Typography,
   Space,
@@ -11,7 +11,10 @@ import {
   Form,
   Checkbox,
   Drawer,
+  FloatButton,
 } from 'antd';
+import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
+import type {SorterResult} from 'antd/es/table/interface';
 import {
   SyncOutlined,
   PlusOutlined,
@@ -20,31 +23,35 @@ import {
   CheckOutlined,
 } from '@ant-design/icons';
 import './staff.css';
-import type { ColumnsType, TableProps } from 'antd/es/table';
 
 const {Title} = Typography;
-
 
 const Staff = () => {
 
   interface DataType {
     key: React.Key;
-    name: string;
-    surname: string;
-    number: number;
-    price: number;
-    hired: string;
-    // id: number;
+    firstName: string;
+    lastName: string;
+    phone: string
+    salaryRate: number;
+    hired: boolean;
+    id: number;
+  }
+
+  interface TableParams {
+    pagination?: TablePaginationConfig;
+    sortField?: string;
+    sortOrder?: string;
   }
 
   const dataSource = [
     {
       key: '1',
-      name: 'Mike',
-      surname: 'John',
-      number: 6385649536,
-      price: 32,
-      hired: 'Да',
+      firstName: 'Mike',
+      lastName: 'John',
+      phone: '6385649536',
+      salaryRate: 32,
+      // hired: 'Да',
       id: (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -82,11 +89,11 @@ const Staff = () => {
     },
     {
       key: '2',
-      name: 'John',
-      surname: 'Mike',
-      number: 347547530,
-      price: 42,
-      hired: 'Да',
+      firstName: 'John',
+      lastName: 'Mike',
+      phone: '347547530',
+      salaryRate: 42,
+      // hired: 'Да',
       id: (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -127,35 +134,44 @@ const Staff = () => {
   const columns: ColumnsType<DataType> = [
     {
       title: 'Имя',
-      dataIndex: 'name',
-      key: 'name',
-      sorter: (a, b) => a.name < b.name ? -1 : 1,
+      dataIndex: 'firstName',
+      key: 'firstName',
+      // sorter: true,
+      // render: (a, b) => a.firstName < b.firstName ? -1 : 1,
+      // sorter: (a, b) => a.firstName < b.firstName ? -1 : 1,
     },
     {
       title: 'Фамилия',
-      dataIndex: 'surname',
-      key: 'surname',
-      defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.surname < b.surname ? -1 : 1,
+      dataIndex: 'lastName',
+      key: 'lastName',
+      // defaultSortOrder: 'ascend',
+      // sorter: true,
+      // render: (a, b) => a.lastName < b.lastName ? -1 : 1,
+      // sorter: (a, b) => a.lastName < b.lastName ? -1 : 1,
 
     },
     {
       title: 'Телефон',
-      dataIndex: 'number',
-      key: 'number',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
       title: 'Ставка',
-      dataIndex: 'price',
-      key: 'price',
-      sorter: (a, b) => a.price - b.price,
+      dataIndex: 'salaryRate',
+      key: 'salaryRate',
+      // sorter: true,
+      // render: (a, b) => a.salaryRate - b.salaryRate,
+      // sorter: (a, b) => a.salaryRate - b.salaryRate,
 
     },
     {
       title: 'Нанят',
       dataIndex: 'hired',
       key: 'hired',
-      sorter: (a, b) => a.hired < b.hired ? -1 : 1,
+      render: ((hired) => {
+        return 'Да'
+      }),
+      // sorter: (a, b) => a.hired < b.hired ? -1 : 1,
 
     },
     {
@@ -166,12 +182,67 @@ const Staff = () => {
     },
   ];
 
-  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
+  // const getRandomuserParams = (params: TableParams) => ({
+  //   results: params.pagination?.pageSize,
+  //   page: params.pagination?.current,
+  //   ...params,
+  // });
+
+  // старое, удалить
+  // const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+  //   console.log('params', pagination, filters, sorter, extra);
+  // };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOOpen] = useState(false);
+
+  const [data, setData] = useState<DataType[]>();
+  const [loading, setLoading] = useState(false);
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+
+  const fetchData = () => {
+    setLoading(true);
+    fetch(`http://localhost:8080/api/employee`)
+      .then((res) => res.json())
+      .then(( results ) => {
+        setData(results);
+        console.log('results', results)
+        console.log('data', data)
+        setLoading(false);
+        setTableParams({
+          ...tableParams,
+          pagination: {
+            ...tableParams.pagination,
+            // total: 100,
+            // 200 is mock data, you should read it from server
+            // total: data.totalCount,
+          },
+        });
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [JSON.stringify(tableParams)]);
+
+
+  const handleTableChange = (
+    pagination: TablePaginationConfig,
+    sorter: SorterResult<DataType>,
+  ) => {
+    setTableParams({
+      pagination,
+      ...sorter,
+    });
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setData([]);
+    }
+  };
 
   // Modal
   const showModal = () => {
@@ -210,12 +281,10 @@ const Staff = () => {
         <Space>
           <Button
             type="dashed"
-            // icon={<SyncOutlined spin={this.state.loading} />}
-            icon={<SyncOutlined/>}
-            // onClick={this.getBlocks}
+            icon={<SyncOutlined spin={loading} />}
+            onClick={fetchData}
             className='greenButton'>
-            {/*{this.state.loading ? 'Обновление' : 'Обновить'}*/}
-            {'Обновить'}
+            {loading ? 'Обновление' : 'Обновить'}
           </Button>
           <Button
             type="primary"
@@ -226,7 +295,17 @@ const Staff = () => {
           </Button>
         </Space>
       </div>
-      <Table columns={columns} dataSource={dataSource} onChange={onChange}/>
+      <Table
+        columns={columns}
+        dataSource={data}
+        // rowKey={(record) => record.lastName}
+        pagination={tableParams.pagination}
+        loading={loading}
+        onChange={handleTableChange}
+        style={{ height: '200vh'}} // удалить, стиль был создан для проверки кнопки FloatButton
+      />
+      <FloatButton.BackTop />
+
       <Modal
         title={`Добавление нового сотрудника`}
         open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
@@ -235,7 +314,7 @@ const Staff = () => {
         cancelText={'Отмена'}
         footer={[
           <Button form='add-new-worker' type="primary" htmlType="submit">
-            <CheckOutlined />Добавить
+            <CheckOutlined/>Добавить
           </Button>,
           <Button form='add-new-worker' onClick={handleCancel}>
             Отмена
@@ -294,7 +373,7 @@ const Staff = () => {
         width={600}
         onClose={onCloseDrawer}
         open={isDrawerOpen}
-        bodyStyle={{ paddingBottom: 80 }}
+        bodyStyle={{paddingBottom: 80}}
         extra={
           <Space>
             <Button onClick={onCloseDrawer}>Отмена</Button>
