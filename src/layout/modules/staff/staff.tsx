@@ -44,6 +44,8 @@ const Staff = () => {
     sortOrder?: string;
   }
 
+  type TablePaginationPosition = 'bottomCenter'
+
   const dataSource = [
     {
       key: '1',
@@ -169,7 +171,8 @@ const Staff = () => {
       dataIndex: 'hired',
       key: 'hired',
       render: ((hired) => {
-        return 'Да'
+        if (hired == true) return 'Да'
+        else return 'Нет'
       }),
       // sorter: (a, b) => a.hired < b.hired ? -1 : 1,
 
@@ -204,12 +207,13 @@ const Staff = () => {
       pageSize: 10,
     },
   });
+  const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
 
   const fetchData = () => {
     setLoading(true);
     fetch(`http://localhost:8080/api/employee`)
       .then((res) => res.json())
-      .then(( results ) => {
+      .then((results) => {
         setData(results);
         console.log('results', results)
         console.log('data', data)
@@ -228,7 +232,7 @@ const Staff = () => {
 
   useEffect(() => {
     fetchData();
-  }, [JSON.stringify(tableParams)]);
+  }, [JSON.stringify(tableParams)])
 
 
   const handleTableChange = (
@@ -281,7 +285,7 @@ const Staff = () => {
         <Space>
           <Button
             type="dashed"
-            icon={<SyncOutlined spin={loading} />}
+            icon={<SyncOutlined spin={loading}/>}
             onClick={fetchData}
             className='greenButton'>
             {loading ? 'Обновление' : 'Обновить'}
@@ -299,12 +303,13 @@ const Staff = () => {
         columns={columns}
         dataSource={data}
         // rowKey={(record) => record.lastName}
-        pagination={tableParams.pagination}
+        // pagination={{ position: TablePaginationPosition}}
+        // pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}
-        style={{ height: '200vh'}} // удалить, стиль был создан для проверки кнопки FloatButton
+        style={{height: '200vh'}} // удалить, стиль был создан для проверки кнопки FloatButton
       />
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
 
       <Modal
         title={`Добавление нового сотрудника`}
