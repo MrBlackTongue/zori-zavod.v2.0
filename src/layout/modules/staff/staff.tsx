@@ -138,18 +138,14 @@ const Staff = () => {
       title: 'Имя',
       dataIndex: 'firstName',
       key: 'firstName',
-      // sorter: true,
-      // render: (a, b) => a.firstName < b.firstName ? -1 : 1,
-      // sorter: (a, b) => a.firstName < b.firstName ? -1 : 1,
+      sorter: (a, b) => a.firstName < b.firstName ? -1 : 1,
     },
     {
       title: 'Фамилия',
       dataIndex: 'lastName',
       key: 'lastName',
-      // defaultSortOrder: 'ascend',
-      // sorter: true,
-      // render: (a, b) => a.lastName < b.lastName ? -1 : 1,
-      // sorter: (a, b) => a.lastName < b.lastName ? -1 : 1,
+      defaultSortOrder: 'ascend',
+      sorter: (a, b) => a.lastName < b.lastName ? -1 : 1,
 
     },
     {
@@ -161,9 +157,7 @@ const Staff = () => {
       title: 'Ставка',
       dataIndex: 'salaryRate',
       key: 'salaryRate',
-      // sorter: true,
-      // render: (a, b) => a.salaryRate - b.salaryRate,
-      // sorter: (a, b) => a.salaryRate - b.salaryRate,
+      sorter: (a, b) => a.salaryRate - b.salaryRate,
 
     },
     {
@@ -174,7 +168,7 @@ const Staff = () => {
         if (hired == true) return 'Да'
         else return 'Нет'
       }),
-      // sorter: (a, b) => a.hired < b.hired ? -1 : 1,
+      sorter: (a, b) => a.hired < b.hired ? -1 : 1, //  todo: проверить сортировку на не нанятом сотруднике
 
     },
     {
@@ -182,6 +176,37 @@ const Staff = () => {
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      render: (() => (
+        <Space>
+          <Tooltip title="Изменить" placement="bottomRight">
+            <Button
+              type="primary"
+              size="small"
+              shape="circle"
+              ghost
+              onClick={() => {
+                showDrawer()
+                // this.getBlocksInfo(id);
+              }}>
+              <EditOutlined/>
+            </Button>
+          </Tooltip>
+          <Tooltip title="Удалить" placement="bottomRight">
+            <Popconfirm
+              title="Вы действительно хотите удалить этого сотрудника?"
+              onConfirm={() => {
+                // this.deleteBlockInfo(id);
+              }}
+              okText="Да"
+              cancelText="Отмена">
+              <Button type="primary" size="small" shape="circle" ghost onClick={() => {
+              }}>
+                <DeleteOutlined/>
+              </Button>
+            </Popconfirm>
+          </Tooltip>
+        </Space>
+      ))
     },
   ];
 
@@ -190,11 +215,6 @@ const Staff = () => {
   //   page: params.pagination?.current,
   //   ...params,
   // });
-
-  // старое, удалить
-  // const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-  //   console.log('params', pagination, filters, sorter, extra);
-  // };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOOpen] = useState(false);
@@ -215,8 +235,6 @@ const Staff = () => {
       .then((res) => res.json())
       .then((results) => {
         setData(results);
-        console.log('results', results)
-        console.log('data', data)
         setLoading(false);
         setTableParams({
           ...tableParams,
@@ -303,7 +321,7 @@ const Staff = () => {
         columns={columns}
         dataSource={data}
         // rowKey={(record) => record.lastName}
-        // pagination={{ position: TablePaginationPosition}}
+        pagination={{ position: [bottom]}}
         // pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}
