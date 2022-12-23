@@ -115,7 +115,7 @@ function App() {
         </Sider>
         <Layout className="site-layout">
           <Header style={{padding: 0, background: colorBgContainer}}>
-            <Title level={3}>Это Зори Завод!</Title>
+            {/*<Title level={3}></Title>*/}
           </Header>
           <Content
             style={{

@@ -26,9 +26,99 @@ import './staff.css';
 
 const {Title} = Typography;
 
+interface EmployeeType {
+  key: React.Key;
+  firstName: string;
+  lastName: string;
+  phone: string
+  salaryRate: number;
+  hired: boolean;
+  id: number;
+}
+
+interface EmployeeCreateFormProps {
+  open: boolean;
+  onCreate: (values: EmployeeType) => void;
+  onCancel: () => void;
+}
+
+const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
+                                                                 open,
+                                                                 onCreate,
+                                                                 onCancel,
+                                                               }) => {
+  const [form] = Form.useForm();
+  return (
+    <Modal
+      title={`Добавление нового сотрудника`}
+      open={open}
+      onCancel={onCancel}
+      width={500}
+      okText={'Сохранить'}
+      cancelText={'Отмена'}
+      onOk={() => {
+        form
+          .validateFields()
+          .then((values) => {
+            form.resetFields();
+            onCreate(values);
+          })
+          .catch((info) => {
+            console.log('Validate Failed:', info);
+          });
+      }}
+    >
+      <Form
+        form={form}
+        name="add-new-employee"
+        initialValues={{
+          modifier: 'public'
+        }}
+        // autoComplete="off"
+        labelCol={{span: 6}}
+        wrapperCol={{span: 16}}
+        style={{marginTop: 30}}
+      >
+        <Form.Item
+          label="Имя"
+          name="firstName"
+          rules={[{required: true, message: 'Пожалуйста введите имя'}]}
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          label="Фамилия"
+          name="lastName"
+          rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          label="Телефон"
+          name="phone"
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          label="Ставка"
+          name="salaryRate"
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="hired"
+          valuePropName="hired"
+          wrapperCol={{offset: 8, span: 16}}>
+          <Checkbox>Нанят</Checkbox>
+        </Form.Item>
+      </Form>
+    </Modal>
+  )
+}
+
 const Staff = () => {
 
-  interface DataType {
+  type EmployeeType = {
     key: React.Key;
     firstName: string;
     lastName: string;
@@ -133,7 +223,7 @@ const Staff = () => {
     },
   ];
 
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<EmployeeType> = [
     {
       title: 'Имя',
       dataIndex: 'firstName',
@@ -168,7 +258,7 @@ const Staff = () => {
         if (hired == true) return 'Да'
         else return 'Нет'
       }),
-      sorter: (a, b) => a.hired < b.hired ? -1 : 1, //  todo: проверить сортировку на не нанятом сотруднике
+      sorter: (a, b) => a.hired < b.hired ? -1 : 1,
 
     },
     {
@@ -219,7 +309,7 @@ const Staff = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOOpen] = useState(false);
 
-  const [data, setData] = useState<DataType[]>();
+  const [data, setData] = useState<EmployeeType[]>();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -228,6 +318,11 @@ const Staff = () => {
     },
   });
   const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
+
+  const onCreate = (values: EmployeeType) => {
+    console.log('onCreate: ', values);
+    setIsModalOpen(false)
+  }
 
   const fetchData = () => {
     setLoading(true);
@@ -255,7 +350,7 @@ const Staff = () => {
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<DataType>,
+    sorter: SorterResult<EmployeeType>,
   ) => {
     setTableParams({
       pagination,
@@ -288,8 +383,8 @@ const Staff = () => {
     setIsDrawerOOpen(false);
   };
 
-  const onFinish = (values: string) => {
-    console.log('Success:', values);
+  const onFinish = (values: EmployeeType) => {
+    console.log('SuccessModal:', values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -311,7 +406,9 @@ const Staff = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={showModal}
+            onClick={() => {
+              setIsModalOpen(true)
+            }}
           >
             Добавить
           </Button>
@@ -321,76 +418,20 @@ const Staff = () => {
         columns={columns}
         dataSource={data}
         // rowKey={(record) => record.lastName}
-        pagination={{ position: [bottom]}}
+        pagination={{position: [bottom]}}
         // pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}
         style={{height: '200vh'}} // удалить, стиль был создан для проверки кнопки FloatButton
       />
-      <FloatButton.BackTop/>
+      <EmployeeCreateForm
+        open={isModalOpen}
+        onCreate={onCreate}
+        onCancel={() => {
+          setIsModalOpen(false)
+        }}
+      />
 
-      <Modal
-        title={`Добавление нового сотрудника`}
-        open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
-        width={500}
-        okText={'Добавить'}
-        cancelText={'Отмена'}
-        footer={[
-          <Button form='add-new-worker' type="primary" htmlType="submit">
-            <CheckOutlined/>Добавить
-          </Button>,
-          <Button form='add-new-worker' onClick={handleCancel}>
-            Отмена
-          </Button>
-        ]}
-      >
-        <Form
-          id='add-new-worker'
-          name="add-new-worker"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-          labelCol={{span: 6}}
-          wrapperCol={{span: 16}}
-          style={{marginTop: 30}}
-        >
-          <Form.Item
-            label="Имя"
-            name="name"
-            rules={[{required: true, message: 'Пожалуйста введите имя'}]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            label="Фамилия"
-            name="surname"
-            rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            label="Телефон"
-            name="phoneNumber"
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            label="Ставка"
-            name="salary"
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            name="hired"
-            valuePropName="hired"
-            wrapperCol={{offset: 8, span: 16}}>
-            <Checkbox>Нанят</Checkbox>
-          </Form.Item>
-        </Form>
-      </Modal>
       <Drawer
         title="Редактирование сотрудника"
         width={600}
