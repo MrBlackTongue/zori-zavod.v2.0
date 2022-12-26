@@ -318,15 +318,18 @@ const Staff = () => {
     },
   });
   const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
+  const [firstName, setFirstName] = useState();
+
 
   const onCreate = (values: EmployeeType) => {
     console.log('onCreate: ', values);
     setIsModalOpen(false)
+    createEmployee()
   }
 
   const fetchData = () => {
     setLoading(true);
-    fetch(`http://localhost:8080/api/employee`)
+    fetch(`http://localhost:8081/api/employee`)
       .then((res) => res.json())
       .then((results) => {
         setData(results);
@@ -342,6 +345,22 @@ const Staff = () => {
         });
       });
   };
+
+  async function createEmployee() {
+    const response = await fetch('http://localhost:8081/api/employee', {
+      method: 'POST',
+      body: JSON.stringify(
+        {
+        firstName: firstName,
+        name: 'John Smith',
+        job: 'manager',
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+  }
 
   useEffect(() => {
     fetchData();
