@@ -12,6 +12,8 @@ import {
   Checkbox,
   Drawer,
   FloatButton,
+  InputNumber,
+  message,
 } from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
@@ -100,10 +102,11 @@ const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
           <Input/>
         </Form.Item>
         <Form.Item
-          label="Ставка"
           name="salaryRate"
+          label="Ставка"
+          rules={[{type: 'number', min: 0, max: 400, message: 'Пожалуйста напишите ставку цифрами'}]}
         >
-          <Input/>
+          <InputNumber/>
         </Form.Item>
         <Form.Item
           name="hired"
@@ -324,7 +327,7 @@ const Staff = () => {
   const onCreate = (values: EmployeeType) => {
     console.log('onCreate: ', values);
     setIsModalOpen(false)
-    createEmployee()
+    createEmployee(values)
   }
 
   const fetchData = () => {
@@ -346,21 +349,23 @@ const Staff = () => {
       });
   };
 
-  async function createEmployee() {
+  async function createEmployee(onCreate: EmployeeType) {
     const response = await fetch('http://localhost:8081/api/employee', {
       method: 'POST',
-      body: JSON.stringify(
-        {
-        firstName: firstName,
-        name: 'John Smith',
-        job: 'manager',
-      }),
+      body: JSON.stringify(onCreate),
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
     });
+
+
+    if (response.ok) {
+      return message.success('Запись добавлена');
+    } else
+      return message.error('Ошибка при добавлении нового сотрудника');
   }
+
 
   useEffect(() => {
     fetchData();
