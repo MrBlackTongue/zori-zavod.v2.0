@@ -17,6 +17,7 @@ import {
 } from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
+import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import {
   SyncOutlined,
   PlusOutlined,
@@ -50,6 +51,9 @@ const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
                                                                  onCancel,
                                                                }) => {
   const [form] = Form.useForm();
+  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
   return (
     <Modal
       title={`Добавление нового сотрудника`}
@@ -104,7 +108,12 @@ const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
         <Form.Item
           name="salaryRate"
           label="Ставка"
-          rules={[{type: 'number', min: 0, max: 400, message: 'Пожалуйста напишите ставку цифрами'}]}
+          rules={[{
+            type: 'number',
+            message: 'Пожалуйста напишите ставку цифрами больше 1',
+            warningOnly: true,
+            // pattern: /[1-9]/,
+          }]}
         >
           <InputNumber/>
         </Form.Item>
@@ -112,7 +121,7 @@ const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
           name="hired"
           valuePropName="hired"
           wrapperCol={{offset: 8, span: 16}}>
-          <Checkbox>Нанят</Checkbox>
+          <Checkbox onChange={onChangeCheckbox}>Нанят</Checkbox>
         </Form.Item>
       </Form>
     </Modal>
@@ -327,8 +336,9 @@ const Staff = () => {
   const onCreate = (values: EmployeeType) => {
     console.log('onCreate: ', values);
     setIsModalOpen(false)
-    createEmployee(values)
+    // createEmployee(values)
   }
+
 
   const fetchData = () => {
     setLoading(true);
@@ -359,11 +369,11 @@ const Staff = () => {
       },
     });
 
-
     if (response.ok) {
       return message.success('Запись добавлена');
-    } else
+    } else {
       return message.error('Ошибка при добавлении нового сотрудника');
+    }
   }
 
 
@@ -512,7 +522,7 @@ const Staff = () => {
           </Form.Item>
           <Form.Item
             name="hired"
-            valuePropName="hired"
+            // valuePropName="hired"
             wrapperCol={{offset: 8, span: 16}}>
             <Checkbox>Нанят</Checkbox>
           </Form.Item>
