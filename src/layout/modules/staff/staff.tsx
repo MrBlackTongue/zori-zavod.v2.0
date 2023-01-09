@@ -45,89 +45,6 @@ interface EmployeeCreateFormProps {
   onCancel: () => void;
 }
 
-const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
-                                                                 open,
-                                                                 onCreate,
-                                                                 onCancel,
-                                                               }) => {
-  const [form] = Form.useForm();
-  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
-  };
-  return (
-    <Modal
-      title={`Добавление нового сотрудника`}
-      open={open}
-      onCancel={onCancel}
-      width={500}
-      okText={'Сохранить'}
-      cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            onCreate(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
-    >
-      <Form
-        form={form}
-        name="add-new-employee"
-        initialValues={{
-          modifier: 'public'
-        }}
-        // autoComplete="off"
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Имя"
-          name="firstName"
-          rules={[{required: true, message: 'Пожалуйста введите имя'}]}
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Фамилия"
-          name="lastName"
-          rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Телефон"
-          name="phone"
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          name="salaryRate"
-          label="Ставка"
-          rules={[{
-            type: 'number',
-            message: 'Пожалуйста напишите ставку цифрами больше 1',
-            warningOnly: true,
-            // pattern: /[1-9]/,
-          }]}
-        >
-          <InputNumber/>
-        </Form.Item>
-        <Form.Item
-          name="hired"
-          valuePropName="hired"
-          wrapperCol={{offset: 8, span: 16}}>
-          <Checkbox onChange={onChangeCheckbox}>Нанят</Checkbox>
-        </Form.Item>
-      </Form>
-    </Modal>
-  )
-}
-
 const Staff = () => {
 
   type EmployeeType = {
@@ -147,6 +64,110 @@ const Staff = () => {
   }
 
   type TablePaginationPosition = 'bottomCenter'
+
+
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [phone, setPhone] = useState();
+  const [salaryRate, setSalaryRate] = useState();
+  const [hired, setHired] = useState(false);
+  const [id, setId] = useState();
+
+  const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
+                                                                   open,
+                                                                   onCreate,
+                                                                   onCancel,
+                                                                 }) => {
+    const [form] = Form.useForm();
+    const onChangeCheckbox = (e: CheckboxChangeEvent) => {
+      setHired(e.target.checked);
+      // setHired(e.target.checked);
+      console.log(`checked = ${e.target.checked}`);
+      console.log('checked', [form]);
+
+    };
+
+
+    return (
+      <Modal
+        title={`Добавление нового сотрудника`}
+        open={open}
+        onCancel={onCancel}
+        width={500}
+        okText={'Сохранить'}
+        cancelText={'Отмена'}
+        onOk={() => {
+          form
+            .validateFields()
+            .then((values) => {
+              form.resetFields();
+              onCreate(values);
+            })
+            .catch((info) => {
+              console.log('Validate Failed:', info);
+            });
+        }}
+      >
+        <Form
+          form={form}
+          name="add-new-employee"
+          initialValues={{
+            modifier: 'public'
+          }}
+          // autoComplete="off"
+          labelCol={{span: 6}}
+          wrapperCol={{span: 16}}
+          style={{marginTop: 30}}
+        >
+          <Form.Item
+            label="Имя"
+            name="firstName"
+            rules={[{required: true, message: 'Пожалуйста введите имя'}]}
+          >
+            <Input
+              value={firstName}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Фамилия"
+            name="lastName"
+            rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
+            valuePropName={lastName}
+
+          >
+            <Input
+              value={lastName}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Телефон"
+            name="phone"
+            valuePropName={phone}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item
+            name="salaryRate"
+            label="Ставка"
+            valuePropName={salaryRate}
+            rules={[{
+              type: 'number',
+              message: 'Пожалуйста напишите ставку цифрами больше 1',
+              warningOnly: true,
+              // pattern: /[1-9]/,
+            }]}
+          >
+            <InputNumber/>
+          </Form.Item>
+          <Form.Item
+            name="hired"
+            wrapperCol={{offset: 8, span: 16}}>
+            <Checkbox onChange={onChangeCheckbox}>Нанят</Checkbox>
+          </Form.Item>
+        </Form>
+      </Modal>
+    )
+  }
 
   const dataSource = [
     {
@@ -330,15 +351,22 @@ const Staff = () => {
     },
   });
   const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [firstName, setFirstName] = useState();
 
-
-  const onCreate = (values: EmployeeType) => {
-    console.log('onCreate: ', values);
+  const onCreate = (values: { [key: string]: any }): EmployeeType => {
+    const employee: EmployeeType = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phone: values.phone,
+      salaryRate: values.salaryRate,
+      hired: hired,
+      id: values.number,
+      key: values.key,
+    };
+    console.log('values: ', values);
     setIsModalOpen(false)
-    // createEmployee(values)
-  }
-
+    createEmployee(employee);
+    return employee;
+  };
 
   const fetchData = () => {
     setLoading(true);
@@ -359,20 +387,23 @@ const Staff = () => {
       });
   };
 
-  async function createEmployee(onCreate: EmployeeType) {
-    const response = await fetch('http://localhost:8081/api/employee', {
-      method: 'POST',
-      body: JSON.stringify(onCreate),
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      return message.success('Запись добавлена');
-    } else {
-      return message.error('Ошибка при добавлении нового сотрудника');
+  async function createEmployee(data: EmployeeType) {
+    try {
+      const config = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+      };
+      const response = await fetch('http://localhost:8081/api/employee', config);
+      if (response.ok) {
+        console.log('Данные успешно отправлены!');
+        return message.success('Запись добавлена');
+      } else {
+        console.error(response.statusText);
+        return message.error('Ошибка при добавлении нового сотрудника');
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -522,7 +553,6 @@ const Staff = () => {
           </Form.Item>
           <Form.Item
             name="hired"
-            // valuePropName="hired"
             wrapperCol={{offset: 8, span: 16}}>
             <Checkbox>Нанят</Checkbox>
           </Form.Item>
