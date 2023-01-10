@@ -11,26 +11,23 @@ import {
   Form,
   Checkbox,
   Drawer,
-  FloatButton,
   InputNumber,
   message,
 } from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import type {CheckboxChangeEvent} from 'antd/es/checkbox';
 import {
   SyncOutlined,
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
-  CheckOutlined,
 } from '@ant-design/icons';
 import './staff.css';
 
 const {Title} = Typography;
 
-interface EmployeeType {
-  key: React.Key;
+type EmployeeType = {
   firstName: string;
   lastName: string;
   phone: string
@@ -46,17 +43,6 @@ interface EmployeeCreateFormProps {
 }
 
 const Staff = () => {
-
-  type EmployeeType = {
-    key: React.Key;
-    firstName: string;
-    lastName: string;
-    phone: string
-    salaryRate: number;
-    hired: boolean;
-    id: number;
-  }
-
   interface TableParams {
     pagination?: TablePaginationConfig;
     sortField?: string;
@@ -70,7 +56,7 @@ const Staff = () => {
   const [lastName, setLastName] = useState();
   const [phone, setPhone] = useState();
   const [salaryRate, setSalaryRate] = useState();
-  const [hired, setHired] = useState(false);
+  const [hired, setHired] = useState();
   const [id, setId] = useState();
 
   const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
@@ -79,14 +65,11 @@ const Staff = () => {
                                                                    onCancel,
                                                                  }) => {
     const [form] = Form.useForm();
+
     const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-      setHired(e.target.checked);
-      // setHired(e.target.checked);
+      form.setFieldsValue({hired: e.target.checked});
       console.log(`checked = ${e.target.checked}`);
-      console.log('checked', [form]);
-
-    };
-
+    }
 
     return (
       <Modal
@@ -114,7 +97,6 @@ const Staff = () => {
           initialValues={{
             modifier: 'public'
           }}
-          // autoComplete="off"
           labelCol={{span: 6}}
           wrapperCol={{span: 16}}
           style={{marginTop: 30}}
@@ -124,32 +106,24 @@ const Staff = () => {
             name="firstName"
             rules={[{required: true, message: 'Пожалуйста введите имя'}]}
           >
-            <Input
-              value={firstName}
-            />
+            <Input />
           </Form.Item>
           <Form.Item
             label="Фамилия"
             name="lastName"
             rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
-            valuePropName={lastName}
-
           >
-            <Input
-              value={lastName}
-            />
+            <Input />
           </Form.Item>
           <Form.Item
             label="Телефон"
             name="phone"
-            valuePropName={phone}
           >
-            <Input/>
+            <Input />
           </Form.Item>
           <Form.Item
             name="salaryRate"
             label="Ставка"
-            valuePropName={salaryRate}
             rules={[{
               type: 'number',
               message: 'Пожалуйста напишите ставку цифрами больше 1',
@@ -157,7 +131,7 @@ const Staff = () => {
               // pattern: /[1-9]/,
             }]}
           >
-            <InputNumber/>
+            <InputNumber />
           </Form.Item>
           <Form.Item
             name="hired"
@@ -168,93 +142,6 @@ const Staff = () => {
       </Modal>
     )
   }
-
-  const dataSource = [
-    {
-      key: '1',
-      firstName: 'Mike',
-      lastName: 'John',
-      phone: '6385649536',
-      salaryRate: 32,
-      // hired: 'Да',
-      id: (
-        <Space>
-          <Tooltip title="Изменить" placement="bottomRight">
-            <Button
-              type="primary"
-              size="small"
-              shape="circle"
-              ghost
-              onClick={() => {
-                showDrawer()
-                // this.getBlocksInfo(id);
-                // this.setState({
-                //   editModal: true,
-                // });
-              }}>
-              <EditOutlined/>
-            </Button>
-          </Tooltip>
-          <Tooltip title="Удалить" placement="bottomRight">
-            <Popconfirm
-              title="Вы действительно хотите удалить этого сотрудника?"
-              onConfirm={() => {
-                // this.deleteBlockInfo(id);
-              }}
-              okText="Да"
-              cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" ghost onClick={() => {
-              }}>
-                <DeleteOutlined/>
-              </Button>
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
-    },
-    {
-      key: '2',
-      firstName: 'John',
-      lastName: 'Mike',
-      phone: '347547530',
-      salaryRate: 42,
-      // hired: 'Да',
-      id: (
-        <Space>
-          <Tooltip title="Изменить" placement="bottomRight">
-            <Button
-              type="primary"
-              size="small"
-              shape="circle"
-              ghost
-              onClick={() => {
-                showDrawer()
-                // this.getBlocksInfo(id);
-                // this.setState({
-                //   editModal: true,
-                // });
-              }}>
-              <EditOutlined/>
-            </Button>
-          </Tooltip>
-          <Tooltip title="Удалить" placement="bottomRight">
-            <Popconfirm
-              title="Вы действительно хотите удалить этого сотрудника?"
-              onConfirm={() => {
-                // this.deleteBlockInfo(id);
-              }}
-              okText="Да"
-              cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" ghost onClick={() => {
-              }}>
-                <DeleteOutlined/>
-              </Button>
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
-    },
-  ];
 
   const columns: ColumnsType<EmployeeType> = [
     {
@@ -358,17 +245,16 @@ const Staff = () => {
       lastName: values.lastName,
       phone: values.phone,
       salaryRate: values.salaryRate,
-      hired: hired,
+      hired: values.hired,
       id: values.number,
-      key: values.key,
     };
     console.log('values: ', values);
     setIsModalOpen(false)
-    createEmployee(employee);
+    postNewEmployee(employee);
     return employee;
   };
 
-  const fetchData = () => {
+  const getAllEmployees = () => {
     setLoading(true);
     fetch(`http://localhost:8081/api/employee`)
       .then((res) => res.json())
@@ -380,18 +266,17 @@ const Staff = () => {
           pagination: {
             ...tableParams.pagination,
             // total: 100,
-            // 200 is mock data, you should read it from server
             // total: data.totalCount,
           },
         });
       });
   };
 
-  async function createEmployee(data: EmployeeType) {
+  async function postNewEmployee(data: EmployeeType) {
     try {
       const config = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data),
       };
       const response = await fetch('http://localhost:8081/api/employee', config);
@@ -407,11 +292,9 @@ const Staff = () => {
     }
   }
 
-
   useEffect(() => {
-    fetchData();
+    getAllEmployees();
   }, [JSON.stringify(tableParams)])
-
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -464,7 +347,7 @@ const Staff = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined spin={loading}/>}
-            onClick={fetchData}
+            onClick={getAllEmployees}
             className='greenButton'>
             {loading ? 'Обновление' : 'Обновить'}
           </Button>
@@ -487,7 +370,6 @@ const Staff = () => {
         // pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}
-        style={{height: '200vh'}} // удалить, стиль был создан для проверки кнопки FloatButton
       />
       <EmployeeCreateForm
         open={isModalOpen}
@@ -496,7 +378,6 @@ const Staff = () => {
           setIsModalOpen(false)
         }}
       />
-
       <Drawer
         title="Редактирование сотрудника"
         width={600}
