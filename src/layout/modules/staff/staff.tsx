@@ -58,6 +58,7 @@ const Staff = () => {
   const [salaryRate, setSalaryRate] = useState();
   const [hired, setHired] = useState();
   const [id, setId] = useState();
+  const [employeeData, setEmployeeData] = useState<EmployeeType | null>(null);
 
   const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
                                                                    open,
@@ -106,20 +107,20 @@ const Staff = () => {
             name="firstName"
             rules={[{required: true, message: 'Пожалуйста введите имя'}]}
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             label="Фамилия"
             name="lastName"
             rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             label="Телефон"
             name="phone"
           >
-            <Input />
+            <Input/>
           </Form.Item>
           <Form.Item
             name="salaryRate"
@@ -131,7 +132,7 @@ const Staff = () => {
               // pattern: /[1-9]/,
             }]}
           >
-            <InputNumber />
+            <InputNumber/>
           </Form.Item>
           <Form.Item
             name="hired"
@@ -186,7 +187,7 @@ const Staff = () => {
       dataIndex: 'id',
       key: 'id',
       width: 100,
-      render: (() => (
+      render: ((id) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -196,7 +197,7 @@ const Staff = () => {
               ghost
               onClick={() => {
                 showDrawer()
-                // this.getBlocksInfo(id);
+                getEmployeeById(id)
               }}>
               <EditOutlined/>
             </Button>
@@ -292,6 +293,42 @@ const Staff = () => {
     }
   }
 
+  async function getEmployeeById(id: number) {
+    try {
+      const response = await fetch(`http://localhost:8081/api/employee/${id}`);
+      const data = await response.json();
+      setEmployeeData(data)
+      if (response.ok) {
+        return data;
+      } else {
+        console.error(response.statusText);
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  // async function putChangeEmployee(data: EmployeeType) {
+  //   try {
+  //     const config = {
+  //       method: 'PUT',
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: JSON.stringify(data),
+  //     };
+  //     const response = await fetch('http://localhost:8081/api/employee', config);
+  //     if (response.ok) {
+  //       console.log('Данные успешно изменены!');
+  //       return message.success('Запись изменена');
+  //     } else {
+  //       console.error(response.statusText);
+  //       return message.error('Ошибка при изменении записи');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
   useEffect(() => {
     getAllEmployees();
   }, [JSON.stringify(tableParams)])
@@ -338,6 +375,8 @@ const Staff = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
+
+  const [form] = Form.useForm();
 
   return (
     <div style={{display: 'grid'}}>
@@ -387,7 +426,10 @@ const Staff = () => {
         extra={
           <Space>
             <Button onClick={onCloseDrawer}>Отмена</Button>
-            <Button onClick={onCloseDrawer} type="primary" form='change-worker' htmlType="submit">
+            <Button onClick={() => {
+              onCloseDrawer()
+              // putChangeEmployee()
+            }} type="primary" form='change-worker' htmlType="submit">
               Сохранить
             </Button>
           </Space>
@@ -396,9 +438,10 @@ const Staff = () => {
         <Form
           id='change-worker'
           name="change-worker"
-          initialValues={{
-            remember: true,
-          }}
+          // initialValues={{
+          //   remember: true,
+          // }}
+          initialValues={employeeData as any}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -408,27 +451,27 @@ const Staff = () => {
         >
           <Form.Item
             label="Имя"
-            name="name"
+            name="firstName"
             rules={[{required: true, message: 'Пожалуйста введите имя'}]}
           >
             <Input/>
           </Form.Item>
           <Form.Item
             label="Фамилия"
-            name="surname"
+            name="lastName"
             rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
           >
             <Input/>
           </Form.Item>
           <Form.Item
             label="Телефон"
-            name="phoneNumber"
+            name="phone"
           >
             <Input/>
           </Form.Item>
           <Form.Item
             label="Ставка"
-            name="salary"
+            name="salaryRate"
           >
             <Input/>
           </Form.Item>
