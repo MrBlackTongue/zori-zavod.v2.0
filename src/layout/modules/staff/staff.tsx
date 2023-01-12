@@ -24,30 +24,16 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import './staff.css';
+import {
+  getAllEmployees,
+  getEmployeeById,
+  postNewEmployee,
+} from "../../../requests/requests";
+import {EmployeeCreateFormProps, EmployeeType, TableParams} from "../../../types/types";
 
 const {Title} = Typography;
 
-type EmployeeType = {
-  firstName: string;
-  lastName: string;
-  phone: string
-  salaryRate: number;
-  hired: boolean;
-  id: number;
-}
-
-interface EmployeeCreateFormProps {
-  open: boolean;
-  onCreate: (values: EmployeeType) => void;
-  onCancel: () => void;
-}
-
 const Staff = () => {
-  interface TableParams {
-    pagination?: TablePaginationConfig;
-    sortField?: string;
-    sortOrder?: string;
-  }
 
   type TablePaginationPosition = 'bottomCenter'
 
@@ -57,8 +43,17 @@ const Staff = () => {
   const [phone, setPhone] = useState();
   const [salaryRate, setSalaryRate] = useState();
   const [hired, setHired] = useState();
-  const [id, setId] = useState();
-  const [employeeData, setEmployeeData] = useState<EmployeeType | null>(null);
+  const [id, setId] = useState<number>();
+
+  const [loading, setLoading] = useState(false);
+  const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
+  const [employee, setEmployee] = useState<EmployeeType | null>(null);
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
 
   const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
                                                                    open,
@@ -196,8 +191,9 @@ const Staff = () => {
               shape="circle"
               ghost
               onClick={() => {
+                setId(id)
                 showDrawer()
-                getEmployeeById(id)
+                // getEmployeeById(id)
               }}>
               <EditOutlined/>
             </Button>
@@ -221,23 +217,8 @@ const Staff = () => {
     },
   ];
 
-  // const getRandomuserParams = (params: TableParams) => ({
-  //   results: params.pagination?.pageSize,
-  //   page: params.pagination?.current,
-  //   ...params,
-  // });
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOOpen] = useState(false);
-
-  const [data, setData] = useState<EmployeeType[]>();
-  const [loading, setLoading] = useState(false);
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
   const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
 
   const onCreate = (values: { [key: string]: any }): EmployeeType => {
@@ -249,89 +230,20 @@ const Staff = () => {
       hired: values.hired,
       id: values.number,
     };
-    console.log('values: ', values);
     setIsModalOpen(false)
     postNewEmployee(employee);
     return employee;
   };
 
-  const getAllEmployees = () => {
-    setLoading(true);
-    fetch(`http://localhost:8081/api/employee`)
-      .then((res) => res.json())
-      .then((results) => {
-        setData(results);
-        setLoading(false);
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-            // total: 100,
-            // total: data.totalCount,
-          },
-        });
-      });
-  };
-
-  async function postNewEmployee(data: EmployeeType) {
-    try {
-      const config = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data),
-      };
-      const response = await fetch('http://localhost:8081/api/employee', config);
-      if (response.ok) {
-        console.log('Данные успешно отправлены!');
-        return message.success('Запись добавлена');
-      } else {
-        console.error(response.statusText);
-        return message.error('Ошибка при добавлении нового сотрудника');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function getEmployeeById(id: number) {
-    try {
-      const response = await fetch(`http://localhost:8081/api/employee/${id}`);
-      const data = await response.json();
-      setEmployeeData(data)
-      if (response.ok) {
-        return data;
-      } else {
-        console.error(response.statusText);
-      }
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-
-  // async function putChangeEmployee(data: EmployeeType) {
-  //   try {
-  //     const config = {
-  //       method: 'PUT',
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: JSON.stringify(data),
-  //     };
-  //     const response = await fetch('http://localhost:8081/api/employee', config);
-  //     if (response.ok) {
-  //       console.log('Данные успешно изменены!');
-  //       return message.success('Запись изменена');
-  //     } else {
-  //       console.error(response.statusText);
-  //       return message.error('Ошибка при изменении записи');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  useEffect(() => {
+    getAllEmployees(setLoading, setAllEmployees);
+  }, []);
 
   useEffect(() => {
-    getAllEmployees();
-  }, [JSON.stringify(tableParams)])
+    if (id) {
+      getEmployeeById(id, setEmployee)
+    }
+  }, []);
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -342,7 +254,7 @@ const Staff = () => {
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setData([]);
+      setAllEmployees([]);
     }
   };
 
@@ -376,7 +288,8 @@ const Staff = () => {
     console.log('Failed:', errorInfo);
   };
 
-  const [form] = Form.useForm();
+
+  console.log('employeeData', employee)
 
   return (
     <div style={{display: 'grid'}}>
@@ -386,7 +299,9 @@ const Staff = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined spin={loading}/>}
-            onClick={getAllEmployees}
+            onClick={() => {
+              getAllEmployees(setLoading, setAllEmployees)
+            }}
             className='greenButton'>
             {loading ? 'Обновление' : 'Обновить'}
           </Button>
@@ -403,7 +318,7 @@ const Staff = () => {
       </div>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={allEmployees}
         // rowKey={(record) => record.lastName}
         pagination={{position: [bottom]}}
         // pagination={tableParams.pagination}
@@ -437,21 +352,18 @@ const Staff = () => {
       >
         <Form
           id='change-worker'
-          name="change-worker"
-          // initialValues={{
-          //   remember: true,
-          // }}
-          initialValues={employeeData as any}
+          // name="change-worker"
+          // initialValues={employeeData} // установить инициализационные значения
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
           labelCol={{span: 6}}
           wrapperCol={{span: 16}}
           style={{marginTop: 30}}
         >
           <Form.Item
             label="Имя"
-            name="firstName"
+            // name="firstName"
+            // valuePropName={employeeData?.firstName}
             rules={[{required: true, message: 'Пожалуйста введите имя'}]}
           >
             <Input/>
