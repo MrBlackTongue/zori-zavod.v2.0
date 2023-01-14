@@ -20,7 +20,7 @@ export interface EmployeeData {
   firstName: string,
 }
 
-export interface EmployeeCreateFormProps {
+export interface AddEmployeeProps {
   open: boolean;
   onCreate: (values: EmployeeType) => void;
   onCancel: () => void;

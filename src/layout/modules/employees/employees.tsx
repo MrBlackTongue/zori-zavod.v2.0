@@ -23,121 +23,43 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import './staff.css';
+import './employees.css';
 import {
   getAllEmployees,
   getEmployeeById,
   postNewEmployee,
 } from "../../../requests/requests";
-import {EmployeeCreateFormProps, EmployeeType, TableParams} from "../../../types/types";
+import {AddEmployeeProps, EmployeeType, TableParams} from "../../../types/types";
+import {AddEmployee} from "./addEmployee";
+import {EmployeesTable} from "./employeesTable";
 
 const {Title} = Typography;
 
-const Staff = () => {
+const Employees = () => {
+
+  const [form] = Form.useForm();
 
   type TablePaginationPosition = 'bottomCenter'
 
+  const [loading, setLoading] = useState(false);
+  const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
+  const [employee, setEmployee] = useState<EmployeeType | null>(null);
+  // const [isHired, setIsHired] = useState(employee?.hired);
 
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [phone, setPhone] = useState();
   const [salaryRate, setSalaryRate] = useState();
-  const [hired, setHired] = useState();
+  const [hired, setHired] = useState(employee?.hired);
   const [id, setId] = useState<number>();
 
-  const [loading, setLoading] = useState(false);
-  const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
-  const [employee, setEmployee] = useState<EmployeeType | null>(null);
+
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
-
-  const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
-                                                                   open,
-                                                                   onCreate,
-                                                                   onCancel,
-                                                                 }) => {
-    const [form] = Form.useForm();
-
-    const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-      form.setFieldsValue({hired: e.target.checked});
-      console.log(`checked = ${e.target.checked}`);
-    }
-
-    return (
-      <Modal
-        title={`Добавление нового сотрудника`}
-        open={open}
-        onCancel={onCancel}
-        width={500}
-        okText={'Сохранить'}
-        cancelText={'Отмена'}
-        onOk={() => {
-          form
-            .validateFields()
-            .then((values) => {
-              form.resetFields();
-              onCreate(values);
-            })
-            .catch((info) => {
-              console.log('Validate Failed:', info);
-            });
-        }}
-      >
-        <Form
-          form={form}
-          name="add-new-employee"
-          initialValues={{
-            modifier: 'public'
-          }}
-          labelCol={{span: 6}}
-          wrapperCol={{span: 16}}
-          style={{marginTop: 30}}
-        >
-          <Form.Item
-            label="Имя"
-            name="firstName"
-            rules={[{required: true, message: 'Пожалуйста введите имя'}]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            label="Фамилия"
-            name="lastName"
-            rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            label="Телефон"
-            name="phone"
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            name="salaryRate"
-            label="Ставка"
-            rules={[{
-              type: 'number',
-              message: 'Пожалуйста напишите ставку цифрами больше 1',
-              warningOnly: true,
-              // pattern: /[1-9]/,
-            }]}
-          >
-            <InputNumber/>
-          </Form.Item>
-          <Form.Item
-            name="hired"
-            wrapperCol={{offset: 8, span: 16}}>
-            <Checkbox onChange={onChangeCheckbox}>Нанят</Checkbox>
-          </Form.Item>
-        </Form>
-      </Modal>
-    )
-  }
 
   const columns: ColumnsType<EmployeeType> = [
     {
@@ -191,9 +113,8 @@ const Staff = () => {
               shape="circle"
               ghost
               onClick={() => {
-                setId(id)
                 showDrawer()
-                // getEmployeeById(id)
+                getEmployeeById(id, setEmployee)
               }}>
               <EditOutlined/>
             </Button>
@@ -240,10 +161,10 @@ const Staff = () => {
   }, []);
 
   useEffect(() => {
-    if (id) {
-      getEmployeeById(id, setEmployee)
+    if (employee) {
+      form.setFieldsValue(employee);
     }
-  }, []);
+  }, [employee, form]);
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -288,8 +209,8 @@ const Staff = () => {
     console.log('Failed:', errorInfo);
   };
 
-
-  console.log('employeeData', employee)
+  console.log('hired', hired)
+  console.log('employee?.hired', employee?.hired)
 
   return (
     <div style={{display: 'grid'}}>
@@ -325,7 +246,18 @@ const Staff = () => {
         loading={loading}
         onChange={handleTableChange}
       />
-      <EmployeeCreateForm
+      {/*<EmployeesTable*/}
+      {/*  // dataSource={allEmployees}*/}
+      {/*  // columns={columns}*/}
+      {/*  // loading={loading}*/}
+      {/*  // setLoading={setLoading}*/}
+      {/*  // pagination={tableParams.pagination}*/}
+      {/*  // setPagination={setTableParams}*/}
+      {/*/>*/}
+
+
+      {/*<EmployeesTable/>*/}
+      <AddEmployee
         open={isModalOpen}
         onCreate={onCreate}
         onCancel={() => {
@@ -352,6 +284,7 @@ const Staff = () => {
       >
         <Form
           id='change-worker'
+          form={form}
           // name="change-worker"
           // initialValues={employeeData} // установить инициализационные значения
           onFinish={onFinish}
@@ -362,8 +295,7 @@ const Staff = () => {
         >
           <Form.Item
             label="Имя"
-            // name="firstName"
-            // valuePropName={employeeData?.firstName}
+            name="firstName"
             rules={[{required: true, message: 'Пожалуйста введите имя'}]}
           >
             <Input/>
@@ -384,13 +316,19 @@ const Staff = () => {
           <Form.Item
             label="Ставка"
             name="salaryRate"
+            rules={[{
+              type: 'number',
+              message: 'Пожалуйста напишите ставку цифрами больше 1',
+              warningOnly: true,
+              // pattern: /[1-9]/,
+            }]}
           >
-            <Input/>
+            <InputNumber/>
           </Form.Item>
           <Form.Item
             name="hired"
             wrapperCol={{offset: 8, span: 16}}>
-            <Checkbox>Нанят</Checkbox>
+            <Checkbox checked={employee?.hired} onChange={() => setHired(hired)}>Нанят</Checkbox>
           </Form.Item>
         </Form>
       </Drawer>
@@ -398,4 +336,4 @@ const Staff = () => {
   );
 };
 
-export default Staff;
+export default Employees;

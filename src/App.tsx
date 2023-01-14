@@ -18,7 +18,7 @@ import {
 import {Layout, Menu, theme, Typography} from 'antd';
 import {Routes, Route} from 'react-router-dom';
 import Home from "../src/layout/modules/home/home";
-import Staff from "../src/layout/modules/staff/staff";
+import Employees from "./layout/modules/employees/employees";
 import Operation from "../src/layout/modules/operation/operation";
 import Unit from "../src/layout/modules/unit/unit";
 import {Link} from "react-router-dom";
@@ -51,7 +51,7 @@ function App() {
             items={[
               {
                 key: '1',
-                icon: <Link to='/staff'><TeamOutlined/></Link>,
+                icon: <Link to='/employees'><TeamOutlined/></Link>,
                 label: 'Сотрудники',
               },
               {
@@ -128,7 +128,7 @@ function App() {
           >
             <Routes>
               <Route path='/' element={<Home/>}/>
-              <Route path='/staff' element={<Staff/>}/>
+              <Route path='/employees' element={<Employees/>}/>
               <Route path='/operation' element={<Operation/>}/>
               <Route path='/unit' element={<Unit/>}/>
             </Routes>
