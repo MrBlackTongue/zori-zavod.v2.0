@@ -1,4 +1,5 @@
 import {TablePaginationConfig} from "antd/es/table";
+import {EditEmployee} from "../layout/modules/employees/editEmployee";
 
 
 export type EmployeeType = {
@@ -24,4 +25,11 @@ export interface AddEmployeeProps {
   open: boolean;
   onCreate: (values: EmployeeType) => void;
   onCancel: () => void;
+}
+
+export interface EditEmployeeProps {
+  onCloseDrawer: () => void,
+  isDrawerOpen: boolean,
+  onFinish: (values: EmployeeType) => void,
+  onFinishFailed: () => void,
 }
