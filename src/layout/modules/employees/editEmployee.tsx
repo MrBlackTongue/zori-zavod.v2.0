@@ -11,6 +11,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                                               }) => {
   const [form] = Form.useForm();
 
+  // const [hired, setHired] = useState(employee?.hired)
 
   return (
     <Drawer

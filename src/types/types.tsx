@@ -17,10 +17,6 @@ export interface TableParams {
   sortOrder?: string;
 }
 
-export interface EmployeeData {
-  firstName: string,
-}
-
 export interface AddEmployeeProps {
   open: boolean;
   onCreate: (values: EmployeeType) => void;
@@ -33,3 +29,8 @@ export interface EditEmployeeProps {
   onFinish: (values: EmployeeType) => void,
   onFinishFailed: () => void,
 }
+
+// export interface EmployeesTableProps {
+//   // data: any[];
+//   // refresh: () => void;
+// }

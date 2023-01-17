@@ -4,15 +4,13 @@ import {message} from "antd";
 
 
 // Получить список всех сотрудников
-export const getAllEmployees = (setLoading: (value: (((prevState: boolean) => boolean) | boolean)) => void,
-                                setData: (value: (((prevState: (EmployeeType[] | undefined)) => (EmployeeType[] | undefined)) | EmployeeType[] | undefined)) => void) => {
+export const getAllEmployees = (
+  setData: (value: (((prevState: (EmployeeType[] | undefined)) => (EmployeeType[] | undefined)) | EmployeeType[] | undefined)) => void) => {
 
-  setLoading(true);
   fetch(`http://localhost:8081/api/employee`)
     .then((res) => res.json())
     .then((results) => {
       setData(results);
-      setLoading(false);
     });
 };
 

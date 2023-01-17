@@ -142,7 +142,7 @@ export const EmployeesTable = () => {
   };
 
   useEffect(() => {
-    getAllEmployees(setLoading, setAllEmployees);
+    getAllEmployees(setAllEmployees);
   }, []);
 
   return (
