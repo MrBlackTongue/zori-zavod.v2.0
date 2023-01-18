@@ -58,6 +58,25 @@ export async function postNewEmployee(data: EmployeeType) {
   }
 }
 
+export const deleteEmployeeById = async (id: number) => {
+  try {
+    const response = await fetch(`http://localhost:8081/api/employee?id=${id}`, {
+      method: 'DELETE',
+    });
+    const data = await response.json();
+    if (data.success) {
+      console.log('Employee deleted successfully');
+      return message.success('Запись удалена');
+    } else {
+      console.log('Error deleting employee');
+      return message.error('Ошибка при удалении сотрудника');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
 
 // async function putChangeEmployee(data: EmployeeType) {
 //   try {

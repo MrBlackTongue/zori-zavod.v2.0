@@ -17,6 +17,7 @@ import './employees.css';
 import {
   getAllEmployees,
   getEmployeeById,
+  deleteEmployeeById,
 } from "../../../requests/requests";
 import {AddEmployeeProps, EmployeeType, TableParams} from "../../../types/types";
 
@@ -30,7 +31,6 @@ export const EmployeesTable = () => {
   const [isDrawerOpen, setIsDrawerOOpen] = useState(false);
   const [employee, setEmployee] = useState<EmployeeType | null>(null);
   const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
-
 
 
   const [tableParams, setTableParams] = useState<TableParams>({
@@ -102,7 +102,8 @@ export const EmployeesTable = () => {
             <Popconfirm
               title="Вы действительно хотите удалить этого сотрудника?"
               onConfirm={() => {
-                // this.deleteBlockInfo(id);
+                deleteEmployeeById(id)
+                getAllEmployees(setAllEmployees)
               }}
               okText="Да"
               cancelText="Отмена">
@@ -146,14 +147,14 @@ export const EmployeesTable = () => {
   }, []);
 
   return (
-      <Table
-        columns={columns}
-        dataSource={allEmployees}
-        // rowKey={(record) => record.lastName}
-        pagination={{position: [bottom]}}
-        // pagination={tableParams.pagination}
-        loading={loading}
-        onChange={handleTableChange}
-      />
+    <Table
+      columns={columns}
+      dataSource={allEmployees}
+      // rowKey={(record) => record.lastName}
+      pagination={{position: [bottom]}}
+      // pagination={tableParams.pagination}
+      loading={loading}
+      onChange={handleTableChange}
+    />
   );
 };
