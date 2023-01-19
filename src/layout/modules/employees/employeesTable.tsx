@@ -19,16 +19,16 @@ import {
   getEmployeeById,
   deleteEmployeeById,
 } from "../../../requests/requests";
-import {AddEmployeeProps, EmployeeType, TableParams} from "../../../types/types";
+import {AddEmployeeProps, EmployeesTableProps, EmployeeType, TableParams} from "../../../types/types";
 
 const {Title} = Typography;
 
-export const EmployeesTable = () => {
+export const EmployeesTable: React.FC<EmployeesTableProps> = ({updateTable, refresh}) => {
 
   type TablePaginationPosition = 'bottomCenter'
 
   const [loading, setLoading] = useState(false);
-  const [isDrawerOpen, setIsDrawerOOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [employee, setEmployee] = useState<EmployeeType | null>(null);
   const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
 
@@ -102,8 +102,9 @@ export const EmployeesTable = () => {
             <Popconfirm
               title="Вы действительно хотите удалить этого сотрудника?"
               onConfirm={() => {
-                deleteEmployeeById(id)
-                getAllEmployees(setAllEmployees)
+                deleteEmployeeById(id).then(()=> {
+                  getAllEmployees(setAllEmployees)
+                })
               }}
               okText="Да"
               cancelText="Отмена">
@@ -135,16 +136,34 @@ export const EmployeesTable = () => {
 
   // Drawer
   const showDrawer = () => {
-    setIsDrawerOOpen(true);
+    setIsDrawerOpen(true);
   };
 
   const onCloseDrawer = () => {
-    setIsDrawerOOpen(false);
+    setIsDrawerOpen(false);
   };
 
   useEffect(() => {
     getAllEmployees(setAllEmployees);
   }, []);
+
+  useEffect(() => {
+    if (updateTable) {
+      console.log('TYT data')
+      refresh();
+      setLoading(true);
+      getAllEmployees(setAllEmployees);
+      setLoading(false);
+    }
+  }, [updateTable, refresh]);
+
+  // useEffect(() => {
+  //   if (updateTable) {
+  //     setLoading(true);
+  //     getAllEmployees(setAllEmployees);
+  //     setLoading(false);
+  //   }
+  // }, [updateTable]);
 
   return (
     <Table

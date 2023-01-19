@@ -30,7 +30,7 @@ export interface EditEmployeeProps {
   onFinishFailed: () => void,
 }
 
-// export interface EmployeesTableProps {
-//   // data: any[];
-//   // refresh: () => void;
-// }
+export interface EmployeesTableProps {
+  updateTable: boolean;
+  refresh: () => void;
+}

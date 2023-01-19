@@ -1,146 +1,43 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   Typography,
   Space,
   Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-  Modal,
   Input,
   Form,
-  Checkbox,
   Drawer,
   InputNumber,
   message,
 } from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
-import type {CheckboxChangeEvent} from 'antd/es/checkbox';
 import {
   SyncOutlined,
   PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
 } from '@ant-design/icons';
 import './employees.css';
 import {
   getAllEmployees,
-  getEmployeeById,
   postNewEmployee,
 } from "../../../requests/requests";
 import {AddEmployeeProps, EmployeeType, TableParams} from "../../../types/types";
 import {AddEmployee} from "./addEmployee";
 import {EmployeesTable} from "./employeesTable";
+import {EditEmployee} from "./editEmployee";
 
 const {Title} = Typography;
 
-const Employees = () => {
+const Employees:React.FC = () => {
 
   const [form] = Form.useForm();
 
-  type TablePaginationPosition = 'bottomCenter'
-
   const [loading, setLoading] = useState(false);
+
   const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
+  const [updateTable, setUpdateTable] = useState(false);
   const [employee, setEmployee] = useState<EmployeeType | null>(null);
-  // const [isHired, setIsHired] = useState(employee?.hired);
 
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [phone, setPhone] = useState();
-  const [salaryRate, setSalaryRate] = useState();
-  const [hired, setHired] = useState(employee?.hired);
-  const [id, setId] = useState<number>();
-
-
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
-
-  const columns: ColumnsType<EmployeeType> = [
-    {
-      title: 'Имя',
-      dataIndex: 'firstName',
-      key: 'firstName',
-      sorter: (a, b) => a.firstName < b.firstName ? -1 : 1,
-    },
-    {
-      title: 'Фамилия',
-      dataIndex: 'lastName',
-      key: 'lastName',
-      defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.lastName < b.lastName ? -1 : 1,
-
-    },
-    {
-      title: 'Телефон',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
-    {
-      title: 'Ставка',
-      dataIndex: 'salaryRate',
-      key: 'salaryRate',
-      sorter: (a, b) => a.salaryRate - b.salaryRate,
-
-    },
-    {
-      title: 'Нанят',
-      dataIndex: 'hired',
-      key: 'hired',
-      render: ((hired) => {
-        if (hired == true) return 'Да'
-        else return 'Нет'
-      }),
-      sorter: (a, b) => a.hired < b.hired ? -1 : 1,
-
-    },
-    {
-      title: 'Действия',
-      dataIndex: 'id',
-      key: 'id',
-      width: 100,
-      render: ((id) => (
-        <Space>
-          <Tooltip title="Изменить" placement="bottomRight">
-            <Button
-              type="primary"
-              size="small"
-              shape="circle"
-              ghost
-              onClick={() => {
-                showDrawer()
-                getEmployeeById(id, setEmployee)
-              }}>
-              <EditOutlined/>
-            </Button>
-          </Tooltip>
-          <Tooltip title="Удалить" placement="bottomRight">
-            <Popconfirm
-              title="Вы действительно хотите удалить этого сотрудника?"
-              onConfirm={() => {
-                // this.deleteBlockInfo(id);
-              }}
-              okText="Да"
-              cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" ghost onClick={() => {
-              }}>
-                <DeleteOutlined/>
-              </Button>
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ))
-    },
-  ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOOpen] = useState(false);
-  const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const onCreate = (values: { [key: string]: any }): EmployeeType => {
     const employee: EmployeeType = {
@@ -153,12 +50,26 @@ const Employees = () => {
     };
     setIsModalOpen(false)
     postNewEmployee(employee);
+    refreshEmployeeTable()
     return employee;
   };
 
-  useEffect(() => {
-    getAllEmployees(setLoading, setAllEmployees);
-  }, []);
+  const refreshEmployeeTable = () => {
+    // console.log('TYT')
+    setLoading(true);
+    getAllEmployees(setAllEmployees);
+    setUpdateTable(!updateTable)
+    setLoading(false);
+  }
+
+  // useEffect(() => {
+  //   refreshEmployeeTable();
+  // }, []);
+  // const refreshRef = useRef(refreshEmployeeTable);
+
+  // useEffect(() => {
+  //   getAllEmployees(setAllEmployees);
+  // }, []);
 
   useEffect(() => {
     if (employee) {
@@ -166,39 +77,13 @@ const Employees = () => {
     }
   }, [employee, form]);
 
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<EmployeeType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllEmployees([]);
-    }
-  };
-
-  // Modal
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   // Drawer
   const showDrawer = () => {
-    setIsDrawerOOpen(true);
+    setIsDrawerOpen(true);
   };
 
   const onCloseDrawer = () => {
-    setIsDrawerOOpen(false);
+    setIsDrawerOpen(false);
   };
 
   const onFinish = (values: EmployeeType) => {
@@ -209,9 +94,6 @@ const Employees = () => {
     console.log('Failed:', errorInfo);
   };
 
-  console.log('hired', hired)
-  console.log('employee?.hired', employee?.hired)
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -220,9 +102,7 @@ const Employees = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined spin={loading}/>}
-            onClick={() => {
-              getAllEmployees(setLoading, setAllEmployees)
-            }}
+            onClick={refreshEmployeeTable}
             className='greenButton'>
             {loading ? 'Обновление' : 'Обновить'}
           </Button>
@@ -237,26 +117,7 @@ const Employees = () => {
           </Button>
         </Space>
       </div>
-      <Table
-        columns={columns}
-        dataSource={allEmployees}
-        // rowKey={(record) => record.lastName}
-        pagination={{position: [bottom]}}
-        // pagination={tableParams.pagination}
-        loading={loading}
-        onChange={handleTableChange}
-      />
-      {/*<EmployeesTable*/}
-      {/*  // dataSource={allEmployees}*/}
-      {/*  // columns={columns}*/}
-      {/*  // loading={loading}*/}
-      {/*  // setLoading={setLoading}*/}
-      {/*  // pagination={tableParams.pagination}*/}
-      {/*  // setPagination={setTableParams}*/}
-      {/*/>*/}
-
-
-      {/*<EmployeesTable/>*/}
+      <EmployeesTable updateTable={updateTable} refresh={refreshEmployeeTable}/>
       <AddEmployee
         open={isModalOpen}
         onCreate={onCreate}
@@ -328,7 +189,7 @@ const Employees = () => {
           <Form.Item
             name="hired"
             wrapperCol={{offset: 8, span: 16}}>
-            <Checkbox checked={employee?.hired} onChange={() => setHired(hired)}>Нанят</Checkbox>
+            {/*<Checkbox checked={employee?.hired} onChange={() => setHired(hired)}>Нанят</Checkbox>*/}
           </Form.Item>
         </Form>
       </Drawer>
