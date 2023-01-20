@@ -18,12 +18,12 @@ import {
   getAllEmployees,
   getEmployeeById,
   deleteEmployeeById,
-} from "../../../requests/requests";
-import {AddEmployeeProps, EmployeesTableProps, EmployeeType, TableParams} from "../../../types/types";
+} from "../../../requests/EmployeeRequests";
+import {AddEmployeeProps, EmployeesTableProps, EmployeeType, TableParams} from "../../../types/employeeType";
 
 const {Title} = Typography;
 
-export const EmployeesTable: React.FC<EmployeesTableProps> = ({updateTable, refresh}) => {
+export const EmployeesTable: React.FC<EmployeesTableProps> = ({updateTable, updateEmployeeTable}) => {
 
   type TablePaginationPosition = 'bottomCenter'
 
@@ -93,7 +93,8 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({updateTable, refr
               ghost
               onClick={() => {
                 showDrawer()
-                getEmployeeById(id, setEmployee)
+                setEmployee(id)
+                // getEmployeeById(id, setEmployee)
               }}>
               <EditOutlined/>
             </Button>
@@ -102,7 +103,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({updateTable, refr
             <Popconfirm
               title="Вы действительно хотите удалить этого сотрудника?"
               onConfirm={() => {
-                deleteEmployeeById(id).then(()=> {
+                deleteEmployeeById(id).then(() => {
                   getAllEmployees(setAllEmployees)
                 })
               }}
@@ -144,26 +145,23 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({updateTable, refr
   };
 
   useEffect(() => {
+    setLoading(true)
     getAllEmployees(setAllEmployees);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     if (updateTable) {
-      console.log('TYT data')
-      refresh();
       setLoading(true);
-      getAllEmployees(setAllEmployees);
+      updateEmployeeTable();
+      // getAllEmployees(setAllEmployees);
       setLoading(false);
     }
-  }, [updateTable, refresh]);
+  }, [updateTable, updateEmployeeTable]);
 
-  // useEffect(() => {
-  //   if (updateTable) {
-  //     setLoading(true);
-  //     getAllEmployees(setAllEmployees);
-  //     setLoading(false);
-  //   }
-  // }, [updateTable]);
+  useEffect(() => {
+    // getEmployeeById(employee, setEmployee)
+  }, [isDrawerOpen,])
 
   return (
     <Table

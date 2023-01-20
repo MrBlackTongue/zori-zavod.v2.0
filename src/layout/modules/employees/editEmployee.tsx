@@ -1,6 +1,6 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React from "react";
-import {EditEmployeeProps} from "../../../types/types";
+import {EditEmployeeProps} from "../../../types/employeeType";
 
 
 export const EditEmployee: React.FC<EditEmployeeProps> = ({

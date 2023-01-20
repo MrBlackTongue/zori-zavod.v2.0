@@ -17,6 +17,11 @@ export interface TableParams {
   sortOrder?: string;
 }
 
+export interface EmployeesTableProps {
+  updateTable: boolean;
+  updateEmployeeTable: () => void;
+}
+
 export interface AddEmployeeProps {
   open: boolean;
   onCreate: (values: EmployeeType) => void;
@@ -27,10 +32,5 @@ export interface EditEmployeeProps {
   onCloseDrawer: () => void,
   isDrawerOpen: boolean,
   onFinish: (values: EmployeeType) => void,
-  onFinishFailed: () => void,
-}
-
-export interface EmployeesTableProps {
-  updateTable: boolean;
-  refresh: () => void;
+  onFinishFailed?: () => void,
 }

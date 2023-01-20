@@ -1,23 +1,24 @@
 import {useState} from "react";
-import {EmployeeType, TableParams} from "../types/types";
+import {EmployeeType, TableParams} from "../types/employeeType";
 import {message} from "antd";
 
+const URL_EMPLOYEE = 'http://localhost:8081/api/employee'
 
 // Получить список всех сотрудников
 export const getAllEmployees = (
   setData: (value: (((prevState: (EmployeeType[] | undefined)) => (EmployeeType[] | undefined)) | EmployeeType[] | undefined)) => void) => {
-
-  fetch(`http://localhost:8081/api/employee`)
+  fetch(URL_EMPLOYEE)
     .then((res) => res.json())
     .then((results) => {
       setData(results);
     });
 };
 
+// Получить данные сотрудника по id
 export async function getEmployeeById(id: number,
                                       setEmployee: (value: (((prevState: (EmployeeType | null)) => (EmployeeType | null)) | EmployeeType | null)) => void) {
   try {
-    const response = await fetch(`http://localhost:8081/api/employee/${id}`);
+    const response = await fetch(URL_EMPLOYEE +`/${id}`);
     const data = await response.json();
     setEmployee({
       firstName: data.firstName,
@@ -38,6 +39,7 @@ export async function getEmployeeById(id: number,
   }
 }
 
+// Добавить нового сотрудника
 export async function postNewEmployee(data: EmployeeType) {
   try {
     const config = {
@@ -45,7 +47,7 @@ export async function postNewEmployee(data: EmployeeType) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    const response = await fetch('http://localhost:8081/api/employee', config);
+    const response = await fetch(URL_EMPLOYEE, config);
     if (response.ok) {
       console.log('Данные успешно отправлены!');
       return message.success('Запись добавлена');
@@ -58,9 +60,10 @@ export async function postNewEmployee(data: EmployeeType) {
   }
 }
 
+// Удалить сотрудника по id
 export const deleteEmployeeById = async (id: number) => {
   try {
-    const response = await fetch(`http://localhost:8081/api/employee?id=${id}`, {
+    const response = await fetch(URL_EMPLOYEE + `?id=${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -76,8 +79,7 @@ export const deleteEmployeeById = async (id: number) => {
   }
 };
 
-
-
+// Редактировать сотрудника
 // async function putChangeEmployee(data: EmployeeType) {
 //   try {
 //     const config = {
@@ -85,7 +87,7 @@ export const deleteEmployeeById = async (id: number) => {
 //       headers: {'Content-Type': 'application/json'},
 //       body: JSON.stringify(data),
 //     };
-//     const response = await fetch('http://localhost:8081/api/employee', config);
+//     const response = await fetch(URL_EMPLOYEE, config);
 //     if (response.ok) {
 //       console.log('Данные успешно изменены!');
 //       return message.success('Запись изменена');

@@ -6,5 +6,20 @@
 }
 
 .greenButton {
-    color: #31aa2d;
+    color: #31aa2d !important;
+}
+
+.greenButton:hover {
+    color: #31aa2d !important;
+    border-color: #31aa2d !important;
+}
+
+.greenButton:active {
+    color: #31aa2d !important;
+    border-color: #31aa2d !important;
+}
+
+.greenButton:focus {
+    color: #31aa2d !important;
+    border-color: #31aa2d !important;
 }

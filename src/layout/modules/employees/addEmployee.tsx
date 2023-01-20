@@ -1,5 +1,5 @@
 import React from "react";
-import {AddEmployeeProps} from "../../../types/types";
+import {AddEmployeeProps} from "../../../types/employeeType";
 import {Checkbox, Form, Input, InputNumber, Modal} from "antd";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
