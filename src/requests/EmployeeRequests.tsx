@@ -16,18 +16,18 @@ export const getAllEmployees = (
 
 // Получить данные сотрудника по id
 export async function getEmployeeById(id: number,
-                                      setEmployee: (value: (((prevState: (EmployeeType | null)) => (EmployeeType | null)) | EmployeeType | null)) => void) {
+                                      setEmployee?: (value: (((prevState: (EmployeeType | null)) => (EmployeeType | null)) | EmployeeType | null)) => void) {
   try {
     const response = await fetch(URL_EMPLOYEE +`/${id}`);
     const data = await response.json();
-    setEmployee({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      phone: data.phone,
-      salaryRate: data.salaryRate,
-      hired: data.hired,
-      id: data.id,
-    })
+    // setEmployee({
+    //   firstName: data.firstName,
+    //   lastName: data.lastName,
+    //   phone: data.phone,
+    //   salaryRate: data.salaryRate,
+    //   hired: data.hired,
+    //   id: data.id,
+    // })
     if (response.ok) {
       return data;
     } else {

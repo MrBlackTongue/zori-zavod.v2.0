@@ -1,30 +1,38 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
-import React from "react";
+import React, {useEffect} from "react";
 import {EditEmployeeProps} from "../../../types/employeeType";
+import {getEmployeeById} from "../../../requests/EmployeeRequests";
 
 
 export const EditEmployee: React.FC<EditEmployeeProps> = ({
-                                                                onCloseDrawer,
-                                                                isDrawerOpen,
-                                                                onFinish,
-                                                                onFinishFailed
-                                                              }) => {
+                                                            isOpen,
+                                                            selectedEmployeeId,
+                                                            closeDrawer,
+                                                            onFinish,
+                                                            onFinishFailed
+                                                          }) => {
   const [form] = Form.useForm();
 
   // const [hired, setHired] = useState(employee?.hired)
+
+  useEffect(() => {
+    if (selectedEmployeeId) {
+    getEmployeeById(selectedEmployeeId)
+    }
+  }, [selectedEmployeeId]);
 
   return (
     <Drawer
       title="Редактирование сотрудника"
       width={600}
-      onClose={onCloseDrawer}
-      open={isDrawerOpen}
+      open={isOpen}
+      onClose={closeDrawer}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={onCloseDrawer}>Отмена</Button>
+          <Button onClick={closeDrawer}>Отмена</Button>
           <Button onClick={() => {
-            onCloseDrawer()
+            closeDrawer()
             // putChangeEmployee()
           }} type="primary" form='change-worker' htmlType="submit">
             Сохранить

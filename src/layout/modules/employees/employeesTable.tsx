@@ -23,7 +23,10 @@ import {AddEmployeeProps, EmployeesTableProps, EmployeeType, TableParams} from "
 
 const {Title} = Typography;
 
-export const EmployeesTable: React.FC<EmployeesTableProps> = ({updateTable, updateEmployeeTable}) => {
+export const EmployeesTable: React.FC<EmployeesTableProps> = ({
+                                                                updateTable,
+                                                                updateEmployeeTable,
+                                                                openDrawer}) => {
 
   type TablePaginationPosition = 'bottomCenter'
 
@@ -91,9 +94,10 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({updateTable, upda
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
+              onClick={(id) => {
                 showDrawer()
-                setEmployee(id)
+                // setEmployee(id)
+                openDrawer()
                 // getEmployeeById(id, setEmployee)
               }}>
               <EditOutlined/>

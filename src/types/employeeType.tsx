@@ -20,6 +20,7 @@ export interface TableParams {
 export interface EmployeesTableProps {
   updateTable: boolean;
   updateEmployeeTable: () => void;
+  openDrawer: () => void;
 }
 
 export interface AddEmployeeProps {
@@ -29,8 +30,9 @@ export interface AddEmployeeProps {
 }
 
 export interface EditEmployeeProps {
-  onCloseDrawer: () => void,
-  isDrawerOpen: boolean,
+  isOpen: boolean,
+  closeDrawer: () => void,
+  selectedEmployeeId: number | undefined;
   onFinish: (values: EmployeeType) => void,
   onFinishFailed?: () => void,
 }

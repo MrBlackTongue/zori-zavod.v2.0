@@ -39,6 +39,7 @@ const Employees: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
 
   const onCreate = (values: { [key: string]: any }): EmployeeType => {
     const employee: EmployeeType = {
@@ -86,11 +87,12 @@ const Employees: React.FC = () => {
   }, [employee, form]);
 
   // Drawer
-  const showDrawer = () => {
+  const openDrawer = () => {
     setIsDrawerOpen(true);
+    // setSelectedEmployeeId(employeeId)
   };
 
-  const onCloseDrawer = () => {
+  const closeDrawer = () => {
     setIsDrawerOpen(false);
   };
 
@@ -101,6 +103,10 @@ const Employees: React.FC = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
+
+  const handleDrawerOpen = (open: boolean) => {
+    setIsDrawerOpen(open);
+  }
 
   return (
     <div style={{display: 'grid'}}>
@@ -126,7 +132,11 @@ const Employees: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <EmployeesTable updateTable={updateTable} updateEmployeeTable={updateEmployeeTable}/>
+      <EmployeesTable
+        updateTable={updateTable}
+        updateEmployeeTable={updateEmployeeTable}
+        openDrawer={openDrawer}
+      />
       <AddEmployee
         open={isModalOpen}
         onCreate={onCreate}
@@ -134,7 +144,12 @@ const Employees: React.FC = () => {
           setIsModalOpen(false)
         }}
       />
-      <EditEmployee onCloseDrawer={onCloseDrawer} isDrawerOpen={isDrawerOpen} onFinish={onFinish} />
+      <EditEmployee
+        isOpen={isDrawerOpen}
+        selectedEmployeeId={selectedEmployeeId}
+        closeDrawer={closeDrawer}
+        onFinish={onFinish}
+      />
     </div>
   );
 };
