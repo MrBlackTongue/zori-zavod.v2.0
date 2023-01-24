@@ -13,7 +13,7 @@ import {
   SyncOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import './employees.css';
+import './index.css';
 import {
   getAllEmployees,
   postNewEmployee,
@@ -25,7 +25,7 @@ import {EditEmployee} from "./editEmployee";
 
 const {Title} = Typography;
 
-const Employees: React.FC = () => {
+const Index: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -147,4 +147,4 @@ const Employees: React.FC = () => {
   );
 };
 
-export default Employees;
+export default Index;

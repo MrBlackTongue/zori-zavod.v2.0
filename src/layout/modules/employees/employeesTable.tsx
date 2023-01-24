@@ -13,7 +13,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import './employees.css';
+import './index.css';
 import {
   getAllEmployees,
   getEmployeeById,

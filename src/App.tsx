@@ -18,7 +18,7 @@ import {
 import {Layout, Menu, theme, Typography} from 'antd';
 import {Routes, Route} from 'react-router-dom';
 import Home from "../src/layout/modules/home/home";
-import Employees from "./layout/modules/employees/employees";
+import Index from "./layout/modules/employees";
 import Operation from "../src/layout/modules/operation/operation";
 import Unit from "../src/layout/modules/unit/unit";
 import {Link} from "react-router-dom";
@@ -128,7 +128,7 @@ function App() {
           >
             <Routes>
               <Route path='/' element={<Home/>}/>
-              <Route path='/employees' element={<Employees/>}/>
+              <Route path='/employees' element={<Index/>}/>
               <Route path='/operation' element={<Operation/>}/>
               <Route path='/unit' element={<Unit/>}/>
             </Routes>
