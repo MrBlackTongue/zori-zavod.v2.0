@@ -1,6 +1,6 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
-import React, {useEffect} from "react";
-import {EditEmployeeProps} from "../../../types/employeeType";
+import React, {useEffect, useState} from "react";
+import {EditEmployeeProps, EmployeeType} from "../../../types/employeeType";
 import {getEmployeeById} from "../../../requests/EmployeeRequests";
 
 
@@ -13,13 +13,23 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                                           }) => {
   const [form] = Form.useForm();
 
-  // const [hired, setHired] = useState(employee?.hired)
+  const [employee, setEmployee] = useState<EmployeeType | null>(null);
+
+  const [hired, setHired] = useState(employee?.hired)
 
   useEffect(() => {
     if (selectedEmployeeId) {
-    getEmployeeById(selectedEmployeeId)
+      getEmployeeById(selectedEmployeeId, setEmployee).then((employee) => {
+        form.setFieldsValue(employee);
+      })
     }
-  }, [selectedEmployeeId]);
+  }, [selectedEmployeeId, getEmployeeById]);
+
+  useEffect(() => {
+    if (employee) {
+      form.setFieldsValue(employee);
+    }
+  }, [employee, form]);
 
   return (
     <Drawer
@@ -86,7 +96,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
         <Form.Item
           name="hired"
           wrapperCol={{offset: 8, span: 16}}>
-          {/*<Checkbox checked={employee?.hired} onChange={() => setHired(hired)}>Нанят</Checkbox>*/}
+          <Checkbox checked={employee?.hired} onChange={() => setHired(hired)}>Нанят</Checkbox>
         </Form.Item>
       </Form>
     </Drawer>

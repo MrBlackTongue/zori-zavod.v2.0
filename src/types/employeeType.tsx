@@ -20,7 +20,7 @@ export interface TableParams {
 export interface EmployeesTableProps {
   updateTable: boolean;
   updateEmployeeTable: () => void;
-  openDrawer: () => void;
+  openDrawer: (employeeId: number) => void;
 }
 
 export interface AddEmployeeProps {

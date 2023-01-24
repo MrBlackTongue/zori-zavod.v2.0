@@ -45,6 +45,8 @@ const Employees: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Открыть сотрудника по id
+  // const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
+  // const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
 
   const onCreate = (values: { [key: string]: any }): EmployeeType => {
@@ -78,9 +80,9 @@ const Employees: React.FC = () => {
   }, [employee, form]);
 
   // Drawer
-  const openDrawer = () => {
+  const openDrawer = (employeeId: number) => {
+    setSelectedEmployeeId(employeeId)
     setIsDrawerOpen(true);
-    // setSelectedEmployeeId(employeeId)
   };
 
   const closeDrawer = () => {

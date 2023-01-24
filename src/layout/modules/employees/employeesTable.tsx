@@ -91,7 +91,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
-      render: ((id) => (
+      render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -99,10 +99,10 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={(id) => {
+              onClick={() => {
                 // showDrawer()
                 // setEmployee(id)
-                openDrawer()
+                openDrawer(id)
                 // getEmployeeById(id, setEmployee)
               }}>
               <EditOutlined/>
