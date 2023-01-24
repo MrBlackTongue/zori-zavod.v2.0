@@ -30,12 +30,17 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
 
   type TablePaginationPosition = 'bottomCenter'
 
+  // Лоудер и список всех сотрудников
   const [loading, setLoading] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [employee, setEmployee] = useState<EmployeeType | null>(null);
   const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
 
+  // Открытие дравера
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const [employee, setEmployee] = useState<EmployeeType | null>(null);
+
+  // Параментры для пагинации
+  const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
@@ -95,7 +100,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
               shape="circle"
               ghost
               onClick={(id) => {
-                showDrawer()
+                // showDrawer()
                 // setEmployee(id)
                 openDrawer()
                 // getEmployeeById(id, setEmployee)
@@ -124,8 +129,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
     },
   ];
 
-  const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
-
+  // Паметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
     sorter: SorterResult<EmployeeType>,
@@ -157,8 +161,8 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
   useEffect(() => {
     if (updateTable) {
       setLoading(true);
-      updateEmployeeTable();
-      // getAllEmployees(setAllEmployees);
+      // updateEmployeeTable();
+      getAllEmployees(setAllEmployees);
       setLoading(false);
     }
   }, [updateTable, updateEmployeeTable]);

@@ -29,16 +29,22 @@ const Employees: React.FC = () => {
 
   const [form] = Form.useForm();
 
+  // Обновить лоудер, обновить тект кнопки "Обновить"
   const [loading, setLoading] = useState(false);
+  const [updateButton, setUpdateButton] = useState('Обновить')
 
+  // Сотрудники в таблице, обновить сотрудников
   const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
   const [updateTable, setUpdateTable] = useState(false);
 
+  // Создать нового сотрудника
   const [employee, setEmployee] = useState<EmployeeType | null>(null);
-  const [updateButton, setUpdateButton] = useState('Обновить')
 
+  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Открыть сотрудника по id
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
 
   const onCreate = (values: { [key: string]: any }): EmployeeType => {
@@ -51,34 +57,19 @@ const Employees: React.FC = () => {
       id: values.number,
     };
     setIsModalOpen(false)
-    postNewEmployee(employee);
-    updateEmployeeTable()
+    postNewEmployee(employee)
+      .then(() => updateEmployeeTable())
     return employee;
   };
 
   const updateEmployeeTable = () => {
+    setLoading(true)
     setUpdateButton('Обновление');
     setUpdateTable(!updateTable)
-    getAllEmployees(setAllEmployees);
+    // getAllEmployees(setAllEmployees);
     setUpdateButton('Обновить');
+    setLoading(false);
   }
-
-  // const updateEmployeeTable = async () => {
-  //   await setLoading(true);
-  //   console.log('loading', loading)
-  //   // getAllEmployees(setAllEmployees);
-  //   await setUpdateTable(!updateTable)
-  //   await setLoading(false);
-  // }
-
-  // const updateEmployeeTable = () => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     updateEmployeeTable();
-  //     setLoading(false);
-  //   }, 2000);
-  // }
-
 
   useEffect(() => {
     if (employee) {
