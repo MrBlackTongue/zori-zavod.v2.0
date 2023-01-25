@@ -2,6 +2,8 @@ import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React, {useEffect, useState} from "react";
 import {EditEmployeeProps, EmployeeType} from "../../../types/employeeType";
 import {getEmployeeById} from "../../../requests/EmployeeRequests";
+import {log} from "util";
+import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 
 export const EditEmployee: React.FC<EditEmployeeProps> = ({
@@ -17,6 +19,12 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
 
   const [hired, setHired] = useState(employee?.hired)
 
+  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
+    setHired(e.target.checked);
+    form.setFieldsValue({hired: e.target.checked});
+    console.log(`checked = ${e.target.checked}`);
+  }
+
   useEffect(() => {
     if (selectedEmployeeId) {
       getEmployeeById(selectedEmployeeId, setEmployee).then((employee) => {
@@ -25,11 +33,11 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
     }
   }, [selectedEmployeeId, getEmployeeById]);
 
-  useEffect(() => {
-    if (employee) {
-      form.setFieldsValue(employee);
-    }
-  }, [employee, form]);
+  // useEffect(() => {
+  //   if (employee) {
+  //     form.setFieldsValue(employee);
+  //   }
+  // }, [employee, form]);
 
   return (
     <Drawer
@@ -95,8 +103,13 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
         </Form.Item>
         <Form.Item
           name="hired"
+          valuePropName='checked'
           wrapperCol={{offset: 8, span: 16}}>
-          <Checkbox checked={employee?.hired} onChange={() => setHired(hired)}>Нанят</Checkbox>
+          <Checkbox
+            checked={employee?.hired}
+            onChange={onChangeCheckbox}
+            // onChange={() => setHired(hired)}
+          >Нанят</Checkbox>
         </Form.Item>
       </Form>
     </Drawer>
