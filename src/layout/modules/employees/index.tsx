@@ -17,6 +17,7 @@ import './index.css';
 import {
   getAllEmployees,
   postNewEmployee,
+  putChangeEmployee,
 } from "../../../requests/EmployeeRequests";
 import {AddEmployeeProps, EmployeeType, TableParams} from "../../../types/employeeType";
 import {AddEmployee} from "./addEmployee";
@@ -45,8 +46,6 @@ const Index: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Открыть сотрудника по id
-  // const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
-  // const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
 
   const onCreate = (values: { [key: string]: any }): EmployeeType => {
@@ -89,8 +88,19 @@ const Index: React.FC = () => {
     setIsDrawerOpen(false);
   };
 
-  const onFinish = (values: EmployeeType) => {
+  const onFinish = (values: { [key: string]: any }): EmployeeType => {
+    const employee: EmployeeType = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phone: values.phone,
+      salaryRate: values.salaryRate,
+      hired: values.hired,
+      id: values.id,
+    };
     console.log('SuccessModal:', values);
+      putChangeEmployee(employee)
+        .then(()=> updateEmployeeTable())
+    return employee
   };
 
   const onFinishFailed = (errorInfo: any) => {

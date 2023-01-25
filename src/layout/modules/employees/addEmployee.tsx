@@ -12,7 +12,6 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({
 
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
     form.setFieldsValue({hired: e.target.checked});
-    console.log(`checked = ${e.target.checked}`);
   }
 
   return (

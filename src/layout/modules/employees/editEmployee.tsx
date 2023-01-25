@@ -33,12 +33,6 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
     }
   }, [selectedEmployeeId, getEmployeeById]);
 
-  // useEffect(() => {
-  //   if (employee) {
-  //     form.setFieldsValue(employee);
-  //   }
-  // }, [employee, form]);
-
   return (
     <Drawer
       title="Редактирование сотрудника"
@@ -51,6 +45,14 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
           <Button onClick={closeDrawer}>Отмена</Button>
           <Button onClick={() => {
             closeDrawer()
+            form.validateFields()
+              .then((values) => {
+                // form.resetFields()
+                onFinish(values);
+              })
+              .catch((info) => {
+                console.log('Validate Failed:', info)
+              })
             // putChangeEmployee()
           }} type="primary" form='change-worker' htmlType="submit">
             Сохранить
@@ -106,10 +108,13 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
           valuePropName='checked'
           wrapperCol={{offset: 8, span: 16}}>
           <Checkbox
-            checked={employee?.hired}
+            // checked={employee?.hired}
             onChange={onChangeCheckbox}
             // onChange={() => setHired(hired)}
           >Нанят</Checkbox>
+        </Form.Item>
+        <Form.Item
+        name='id'>
         </Form.Item>
       </Form>
     </Drawer>

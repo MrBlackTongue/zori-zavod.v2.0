@@ -20,14 +20,6 @@ export async function getEmployeeById(id: number,
   try {
     const response = await fetch(URL_EMPLOYEE +`/${id}`);
     const data = await response.json();
-    // setEmployee({
-    //   firstName: data.firstName,
-    //   lastName: data.lastName,
-    //   phone: data.phone,
-    //   salaryRate: data.salaryRate,
-    //   hired: data.hired,
-    //   id: data.id,
-    // })
     if (response.ok) {
       return data;
     } else {
@@ -80,22 +72,22 @@ export const deleteEmployeeById = async (id: number) => {
 };
 
 // Редактировать сотрудника
-// async function putChangeEmployee(data: EmployeeType) {
-//   try {
-//     const config = {
-//       method: 'PUT',
-//       headers: {'Content-Type': 'application/json'},
-//       body: JSON.stringify(data),
-//     };
-//     const response = await fetch(URL_EMPLOYEE, config);
-//     if (response.ok) {
-//       console.log('Данные успешно изменены!');
-//       return message.success('Запись изменена');
-//     } else {
-//       console.error(response.statusText);
-//       return message.error('Ошибка при изменении записи');
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
+export async function putChangeEmployee(data: EmployeeType) {
+  try {
+    const config = {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data),
+    };
+    const response = await fetch(URL_EMPLOYEE, config);
+    if (response.ok) {
+      console.log('Данные успешно изменены!');
+      return message.success('Запись изменена');
+    } else {
+      console.error(response.statusText);
+      return message.error('Ошибка при изменении записи');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
