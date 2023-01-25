@@ -18,7 +18,7 @@ import {
   getAllEmployees,
   getEmployeeById,
   deleteEmployeeById,
-} from "../../../requests/EmployeeRequests";
+} from "../../../requests/employeesRequests";
 import {AddEmployeeProps, EmployeesTableProps, EmployeeType, TableParams} from "../../../types/employeeType";
 
 const {Title} = Typography;

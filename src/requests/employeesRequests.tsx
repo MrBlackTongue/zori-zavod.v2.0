@@ -1,22 +1,25 @@
-import {useState} from "react";
 import {EmployeeType, TableParams} from "../types/employeeType";
 import {message} from "antd";
 
 const URL_EMPLOYEE = 'http://localhost:8081/api/employee'
 
 // Получить список всех сотрудников
-export const getAllEmployees = (
-  setData: (value: (((prevState: (EmployeeType[] | undefined)) => (EmployeeType[] | undefined)) | EmployeeType[] | undefined)) => void) => {
-  fetch(URL_EMPLOYEE)
-    .then((res) => res.json())
-    .then((results) => {
-      setData(results);
-    });
-};
+export async function getAllEmployees(
+  data: (employees: EmployeeType[]) => void
+) {
+  try {
+    const res = await fetch(URL_EMPLOYEE);
+    const results = await res.json();
+    data(results);
+  } catch(err) {
+    console.log(err);
+  }
+}
 
 // Получить данные сотрудника по id
-export async function getEmployeeById(id: number,
-                                      setEmployee?: (value: (((prevState: (EmployeeType | null)) => (EmployeeType | null)) | EmployeeType | null)) => void) {
+export async function getEmployeeById(
+  id: number,
+) {
   try {
     const response = await fetch(URL_EMPLOYEE +`/${id}`);
     const data = await response.json();
@@ -41,7 +44,6 @@ export async function postNewEmployee(data: EmployeeType) {
     };
     const response = await fetch(URL_EMPLOYEE, config);
     if (response.ok) {
-      console.log('Данные успешно отправлены!');
       return message.success('Запись добавлена');
     } else {
       console.error(response.statusText);
@@ -53,23 +55,22 @@ export async function postNewEmployee(data: EmployeeType) {
 }
 
 // Удалить сотрудника по id
-export const deleteEmployeeById = async (id: number) => {
+export async function deleteEmployeeById(id: number) {
   try {
     const response = await fetch(URL_EMPLOYEE + `?id=${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
     if (data.success) {
-      console.log('Employee deleted successfully');
       return message.success('Запись удалена');
     } else {
-      console.log('Error deleting employee');
+      console.error(response.statusText);
       return message.error('Ошибка при удалении сотрудника');
     }
   } catch (err) {
     console.error(err);
   }
-};
+}
 
 // Редактировать сотрудника
 export async function putChangeEmployee(data: EmployeeType) {
@@ -81,7 +82,6 @@ export async function putChangeEmployee(data: EmployeeType) {
     };
     const response = await fetch(URL_EMPLOYEE, config);
     if (response.ok) {
-      console.log('Данные успешно изменены!');
       return message.success('Запись изменена');
     } else {
       console.error(response.statusText);

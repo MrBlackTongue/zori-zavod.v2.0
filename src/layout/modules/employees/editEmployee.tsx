@@ -1,7 +1,7 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React, {useEffect, useState} from "react";
 import {EditEmployeeProps, EmployeeType} from "../../../types/employeeType";
-import {getEmployeeById} from "../../../requests/EmployeeRequests";
+import {getEmployeeById} from "../../../requests/employeesRequests";
 import {log} from "util";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
@@ -27,7 +27,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
 
   useEffect(() => {
     if (selectedEmployeeId) {
-      getEmployeeById(selectedEmployeeId, setEmployee).then((employee) => {
+      getEmployeeById(selectedEmployeeId).then((employee) => {
         form.setFieldsValue(employee);
       })
     }

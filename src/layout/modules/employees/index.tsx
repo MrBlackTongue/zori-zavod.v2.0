@@ -18,7 +18,7 @@ import {
   getAllEmployees,
   postNewEmployee,
   putChangeEmployee,
-} from "../../../requests/EmployeeRequests";
+} from "../../../requests/employeesRequests";
 import {AddEmployeeProps, EmployeeType, TableParams} from "../../../types/employeeType";
 import {AddEmployee} from "./addEmployee";
 import {EmployeesTable} from "./employeesTable";
