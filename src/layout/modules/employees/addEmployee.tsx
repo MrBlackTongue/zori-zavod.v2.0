@@ -4,7 +4,7 @@ import {Checkbox, Form, Input, InputNumber, Modal} from "antd";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 export const AddEmployee: React.FC<AddEmployeeProps> = ({
-                                                                 open,
+                                                                 isOpen,
                                                                  onCreate,
                                                                  onCancel,
                                                                }) => {
@@ -17,7 +17,7 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({
   return (
     <Modal
       title={`Добавление нового сотрудника`}
-      open={open}
+      open={isOpen}
       onCancel={onCancel}
       width={500}
       okText={'Сохранить'}

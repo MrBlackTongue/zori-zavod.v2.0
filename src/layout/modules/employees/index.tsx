@@ -1,13 +1,9 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Typography,
   Space,
   Button,
-  Input,
   Form,
-  Drawer,
-  InputNumber,
-  message,
 } from 'antd';
 import {
   SyncOutlined,
@@ -15,11 +11,10 @@ import {
 } from '@ant-design/icons';
 import './index.css';
 import {
-  getAllEmployees,
   postNewEmployee,
   putChangeEmployee,
 } from "../../../requests/employeesRequests";
-import {AddEmployeeProps, EmployeeType, TableParams} from "../../../types/employeeType";
+import {EmployeeType} from "../../../types/employeeType";
 import {AddEmployee} from "./addEmployee";
 import {EmployeesTable} from "./employeesTable";
 import {EditEmployee} from "./editEmployee";
@@ -35,7 +30,6 @@ const Index: React.FC = () => {
   const [updateButton, setUpdateButton] = useState('Обновить')
 
   // Сотрудники в таблице, обновить сотрудников
-  const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать нового сотрудника
@@ -59,18 +53,9 @@ const Index: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewEmployee(employee)
-      .then(() => updateEmployeeTable())
+      .then(() => setUpdateTable(true))
     return employee;
   };
-
-  const updateEmployeeTable = () => {
-    setLoading(true)
-    setUpdateButton('Обновление');
-    setUpdateTable(!updateTable)
-    // getAllEmployees(setAllEmployees);
-    setUpdateButton('Обновить');
-    setLoading(false);
-  }
 
   useEffect(() => {
     if (employee) {
@@ -84,11 +69,7 @@ const Index: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
-  };
-
-  const onFinish = (values: { [key: string]: any }): EmployeeType => {
+  const onChange = (values: { [key: string]: any }): EmployeeType => {
     const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -97,19 +78,11 @@ const Index: React.FC = () => {
       hired: values.hired,
       id: values.id,
     };
-    console.log('SuccessModal:', values);
-      putChangeEmployee(employee)
-        .then(()=> updateEmployeeTable())
+    setIsDrawerOpen(false)
+    putChangeEmployee(employee)
+      .then(() => setUpdateTable(true))
     return employee
   };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
-
-  const handleDrawerOpen = (open: boolean) => {
-    setIsDrawerOpen(open);
-  }
 
   return (
     <div style={{display: 'grid'}}>
@@ -119,10 +92,12 @@ const Index: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined spin={loading}/>}
-            onClick={updateEmployeeTable}
+            onClick={async ()=> {
+              await setUpdateTable(true)
+              await setUpdateTable(false)
+            }}
             className='greenButton'>
             {updateButton}
-            {/*{loading ? 'Обновление' : 'Обновить'}*/}
           </Button>
           <Button
             type="primary"
@@ -137,12 +112,14 @@ const Index: React.FC = () => {
       </div>
       <EmployeesTable
         updateTable={updateTable}
-        updateEmployeeTable={updateEmployeeTable}
         openDrawer={openDrawer}
       />
       <AddEmployee
-        open={isModalOpen}
-        onCreate={onCreate}
+        isOpen={isModalOpen}
+        onCreate={async (employee) => {
+          await onCreate(employee)
+          await setUpdateTable(false)
+        }}
         onCancel={() => {
           setIsModalOpen(false)
         }}
@@ -150,8 +127,13 @@ const Index: React.FC = () => {
       <EditEmployee
         isOpen={isDrawerOpen}
         selectedEmployeeId={selectedEmployeeId}
-        closeDrawer={closeDrawer}
-        onFinish={onFinish}
+        onChange={async (employee) => {
+          await onChange(employee)
+          await setUpdateTable(false)
+        }}
+        closeDrawer={() => {
+          setIsDrawerOpen(false);
+        }}
       />
     </div>
   );

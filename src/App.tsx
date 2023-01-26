@@ -15,7 +15,7 @@ import {
   AccountBookOutlined,
   DatabaseOutlined,
 } from '@ant-design/icons';
-import {Layout, Menu, theme, Typography} from 'antd';
+import {Layout, Menu, theme} from 'antd';
 import {Routes, Route} from 'react-router-dom';
 import Home from "../src/layout/modules/home/home";
 import Index from "./layout/modules/employees";
@@ -24,8 +24,6 @@ import Unit from "../src/layout/modules/unit/unit";
 import {Link} from "react-router-dom";
 
 const {Header, Sider, Content} = Layout;
-const {Title} = Typography;
-
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -47,7 +45,6 @@ function App() {
           <Menu
             theme="light"
             mode="inline"
-            // defaultSelectedKeys={['1']}
             items={[
               {
                 key: '1',
@@ -132,7 +129,6 @@ function App() {
               <Route path='/operation' element={<Operation/>}/>
               <Route path='/unit' element={<Unit/>}/>
             </Routes>
-
           </Content>
         </Layout>
       </Layout>

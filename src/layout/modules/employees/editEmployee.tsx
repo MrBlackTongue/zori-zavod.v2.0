@@ -10,8 +10,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                                             isOpen,
                                                             selectedEmployeeId,
                                                             closeDrawer,
-                                                            onFinish,
-                                                            onFinishFailed
+                                                            onChange,
                                                           }) => {
   const [form] = Form.useForm();
 
@@ -45,15 +44,15 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
           <Button onClick={closeDrawer}>Отмена</Button>
           <Button onClick={() => {
             closeDrawer()
-            form.validateFields()
+            form
+              .validateFields()
               .then((values) => {
                 // form.resetFields()
-                onFinish(values);
+                onChange(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-            // putChangeEmployee()
           }} type="primary" form='change-worker' htmlType="submit">
             Сохранить
           </Button>
@@ -65,8 +64,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
         form={form}
         // name="change-worker"
         // initialValues={employeeData} // установить инициализационные значения
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        // onFinish={onChange}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -114,7 +112,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
           >Нанят</Checkbox>
         </Form.Item>
         <Form.Item
-        name='id'>
+          name='id'>
         </Form.Item>
       </Form>
     </Drawer>

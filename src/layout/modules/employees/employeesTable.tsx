@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Typography,
   Space,
   Button,
   Table,
@@ -16,28 +15,20 @@ import {
 import './index.css';
 import {
   getAllEmployees,
-  getEmployeeById,
   deleteEmployeeById,
 } from "../../../requests/employeesRequests";
-import {AddEmployeeProps, EmployeesTableProps, EmployeeType, TableParams} from "../../../types/employeeType";
-
-const {Title} = Typography;
+import {EmployeesTableProps, EmployeeType, TableParams} from "../../../types/employeeType";
 
 export const EmployeesTable: React.FC<EmployeesTableProps> = ({
                                                                 updateTable,
-                                                                updateEmployeeTable,
-                                                                openDrawer}) => {
+                                                                openDrawer
+                                                              }) => {
 
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех сотрудников
   const [loading, setLoading] = useState(false);
   const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
-
-  // Открытие дравера
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const [employee, setEmployee] = useState<EmployeeType | null>(null);
 
   // Параментры для пагинации
   const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -61,7 +52,6 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
       key: 'lastName',
       defaultSortOrder: 'ascend',
       sorter: (a, b) => a.lastName < b.lastName ? -1 : 1,
-
     },
     {
       title: 'Телефон',
@@ -73,7 +63,6 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
       dataIndex: 'salaryRate',
       key: 'salaryRate',
       sorter: (a, b) => a.salaryRate - b.salaryRate,
-
     },
     {
       title: 'Нанят',
@@ -84,7 +73,6 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
         else return 'Нет'
       }),
       sorter: (a, b) => a.hired < b.hired ? -1 : 1,
-
     },
     {
       title: 'Действия',
@@ -100,10 +88,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
               shape="circle"
               ghost
               onClick={() => {
-                // showDrawer()
-                // setEmployee(id)
                 openDrawer(id)
-                // getEmployeeById(id, setEmployee)
               }}>
               <EditOutlined/>
             </Button>
@@ -143,41 +128,29 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
     }
   };
 
-  // Drawer
-  const showDrawer = () => {
-    setIsDrawerOpen(true);
-  };
-
-  const onCloseDrawer = () => {
-    setIsDrawerOpen(false);
-  };
-
   useEffect(() => {
-    setLoading(true)
-    getAllEmployees().then((allEmployees) => setAllEmployees(allEmployees))
-    // getAllEmployees(setAllEmployees);
-    setLoading(false);
+    async function fetchData() {
+      await setLoading(true);
+      const allEmployees = await getAllEmployees();
+      setAllEmployees(allEmployees);
+    }
+    fetchData().then(()=> setLoading(false))
   }, []);
 
   useEffect(() => {
     if (updateTable) {
       setLoading(true);
-      getAllEmployees().then((allEmployees) => setAllEmployees(allEmployees))
-      // updateEmployeeTable();
-      // getAllEmployees(setAllEmployees);
-      setLoading(false);
+      getAllEmployees().then((allEmployees) => {
+        setAllEmployees(allEmployees)
+        setLoading(false);
+      })
     }
-  }, [updateTable, updateEmployeeTable]);
-
-  useEffect(() => {
-    // getEmployeeById(employee, setEmployee)
-  }, [isDrawerOpen,])
+  }, [updateTable]);
 
   return (
     <Table
       columns={columns}
       dataSource={allEmployees}
-      // rowKey={(record) => record.lastName}
       pagination={{position: [bottom]}}
       // pagination={tableParams.pagination}
       loading={loading}
