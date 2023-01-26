@@ -113,7 +113,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
               title="Вы действительно хотите удалить этого сотрудника?"
               onConfirm={() => {
                 deleteEmployeeById(id).then(() => {
-                  getAllEmployees(setAllEmployees)
+                  getAllEmployees().then((allEmployees) => setAllEmployees(allEmployees))
                 })
               }}
               okText="Да"
@@ -154,15 +154,17 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
 
   useEffect(() => {
     setLoading(true)
-    getAllEmployees(setAllEmployees);
+    getAllEmployees().then((allEmployees) => setAllEmployees(allEmployees))
+    // getAllEmployees(setAllEmployees);
     setLoading(false);
   }, []);
 
   useEffect(() => {
     if (updateTable) {
       setLoading(true);
+      getAllEmployees().then((allEmployees) => setAllEmployees(allEmployees))
       // updateEmployeeTable();
-      getAllEmployees(setAllEmployees);
+      // getAllEmployees(setAllEmployees);
       setLoading(false);
     }
   }, [updateTable, updateEmployeeTable]);

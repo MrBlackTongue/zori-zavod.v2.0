@@ -1,36 +1,35 @@
-import {EmployeeType, TableParams} from "../types/employeeType";
+import {EmployeeType} from "../types/employeeType";
 import {message} from "antd";
 
 const URL_EMPLOYEE = 'http://localhost:8081/api/employee'
 
 // Получить список всех сотрудников
-export async function getAllEmployees(
-  data: (employees: EmployeeType[]) => void
-) {
+export async function getAllEmployees(): Promise<EmployeeType[]> {
   try {
     const res = await fetch(URL_EMPLOYEE);
-    const results = await res.json();
-    data(results);
-  } catch(err) {
-    console.log(err);
+    if (!res.ok) {
+      console.error(res.statusText);
+      return Promise.reject();
+    }
+    return await res.json() as EmployeeType[];
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
   }
 }
 
 // Получить данные сотрудника по id
-export async function getEmployeeById(
-  id: number,
-) {
+export async function getEmployeeById(id: number): Promise<EmployeeType | undefined> {
   try {
-    const response = await fetch(URL_EMPLOYEE +`/${id}`);
-    const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
+    const response = await fetch(URL_EMPLOYEE + `/${id}`);
+    if (!response.ok) {
       console.error(response.statusText);
+      return Promise.reject();
     }
+    return await response.json();
   } catch (error) {
     console.error(error);
-    throw error;
+    return Promise.reject(error);
   }
 }
 
