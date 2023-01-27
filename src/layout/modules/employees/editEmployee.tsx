@@ -2,7 +2,6 @@ import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React, {useEffect, useState} from "react";
 import {EditEmployeeProps, EmployeeType} from "../../../types/employeeType";
 import {getEmployeeById} from "../../../requests/employeesRequests";
-import {log} from "util";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 
@@ -10,11 +9,11 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                                             isOpen,
                                                             selectedEmployeeId,
                                                             closeDrawer,
-                                                            onChange,
+                                                            updateEmployee,
                                                           }) => {
   const [form] = Form.useForm();
 
-  const [employee, setEmployee] = useState<EmployeeType | null>(null);
+  const [employee] = useState<EmployeeType | null>(null);
 
   const [hired, setHired] = useState(employee?.hired)
 
@@ -48,7 +47,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
               .validateFields()
               .then((values) => {
                 // form.resetFields()
-                onChange(values);
+                updateEmployee(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)
@@ -64,7 +63,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
         form={form}
         // name="change-worker"
         // initialValues={employeeData} // установить инициализационные значения
-        // onFinish={onChange}
+        // onFinish={updateEmployee}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

@@ -1,5 +1,6 @@
 import {EmployeeType} from "../types/employeeType";
 import {message} from "antd";
+import {log} from "util";
 
 const URL_EMPLOYEE = 'http://localhost:8081/api/employee'
 

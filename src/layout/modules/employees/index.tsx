@@ -25,15 +25,15 @@ const Index: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Обновить лоудер, обновить тект кнопки "Обновить"
-  const [loading, setLoading] = useState(false);
-  const [updateButton, setUpdateButton] = useState('Обновить')
+  // Обновить лоудер, обновить тект кнопки "Обновить" todo: сделать анимационную кнопку обновления
+  const [loading] = useState(false);
+  const [updateButton] = useState('Обновить')
 
   // Сотрудники в таблице, обновить сотрудников
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать нового сотрудника
-  const [employee, setEmployee] = useState<EmployeeType | null>(null);
+  const [employee] = useState<EmployeeType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +42,7 @@ const Index: React.FC = () => {
   // Открыть сотрудника по id
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
 
-  const onCreate = (values: { [key: string]: any }): EmployeeType => {
+  const addEmployee = (values: { [key: string]: any }): EmployeeType => {
     const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -54,6 +54,7 @@ const Index: React.FC = () => {
     setIsModalOpen(false)
     postNewEmployee(employee)
       .then(() => setUpdateTable(true))
+    setUpdateTable(false)
     return employee;
   };
 
@@ -69,7 +70,7 @@ const Index: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const onChange = (values: { [key: string]: any }): EmployeeType => {
+  const updateEmployee = (values: { [key: string]: any }): EmployeeType => {
     const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -81,6 +82,7 @@ const Index: React.FC = () => {
     setIsDrawerOpen(false)
     putChangeEmployee(employee)
       .then(() => setUpdateTable(true))
+    setUpdateTable(false)
     return employee
   };
 
@@ -92,7 +94,7 @@ const Index: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined spin={loading}/>}
-            onClick={async ()=> {
+            onClick={async () => {
               await setUpdateTable(true)
               await setUpdateTable(false)
             }}
@@ -116,10 +118,7 @@ const Index: React.FC = () => {
       />
       <AddEmployee
         isOpen={isModalOpen}
-        onCreate={async (employee) => {
-          await onCreate(employee)
-          await setUpdateTable(false)
-        }}
+        addEmployee={addEmployee}
         onCancel={() => {
           setIsModalOpen(false)
         }}
@@ -127,10 +126,7 @@ const Index: React.FC = () => {
       <EditEmployee
         isOpen={isDrawerOpen}
         selectedEmployeeId={selectedEmployeeId}
-        onChange={async (employee) => {
-          await onChange(employee)
-          await setUpdateTable(false)
-        }}
+        updateEmployee={updateEmployee}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}

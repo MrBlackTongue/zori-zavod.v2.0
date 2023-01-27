@@ -31,7 +31,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
   const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
 
   // Параментры для пагинации
-  const [bottom, setBottom] = useState<TablePaginationPosition>('bottomCenter');
+  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
@@ -129,22 +129,11 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
   };
 
   useEffect(() => {
-    async function fetchData() {
-      await setLoading(true);
-      const allEmployees = await getAllEmployees();
+    setLoading(true);
+    getAllEmployees().then((allEmployees) => {
       setAllEmployees(allEmployees);
-    }
-    fetchData().then(()=> setLoading(false))
-  }, []);
-
-  useEffect(() => {
-    if (updateTable) {
-      setLoading(true);
-      getAllEmployees().then((allEmployees) => {
-        setAllEmployees(allEmployees)
-        setLoading(false);
-      })
-    }
+      setLoading(false);
+    })
   }, [updateTable]);
 
   return (

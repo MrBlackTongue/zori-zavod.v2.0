@@ -4,10 +4,10 @@ import {Checkbox, Form, Input, InputNumber, Modal} from "antd";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 export const AddEmployee: React.FC<AddEmployeeProps> = ({
-                                                                 isOpen,
-                                                                 onCreate,
-                                                                 onCancel,
-                                                               }) => {
+                                                          isOpen,
+                                                          addEmployee,
+                                                          onCancel,
+                                                        }) => {
   const [form] = Form.useForm();
 
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
@@ -27,7 +27,7 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({
           .validateFields()
           .then((values) => {
             form.resetFields();
-            onCreate(values);
+            addEmployee(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);

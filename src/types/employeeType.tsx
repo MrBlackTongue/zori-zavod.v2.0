@@ -22,13 +22,13 @@ export interface EmployeesTableProps {
 
 export interface AddEmployeeProps {
   isOpen: boolean;
-  onCreate: (values: EmployeeType) => void;
   onCancel: () => void;
+  addEmployee: (values: EmployeeType) => void;
 }
 
 export interface EditEmployeeProps {
   isOpen: boolean,
   closeDrawer: () => void,
   selectedEmployeeId: number | undefined;
-  onChange: (values: EmployeeType) => void,
+  updateEmployee: (values: EmployeeType) => void,
 }
