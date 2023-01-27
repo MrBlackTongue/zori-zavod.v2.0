@@ -21,7 +21,7 @@ import {EmployeesTableProps, EmployeeType, TableParams} from "../../../types/emp
 
 export const EmployeesTable: React.FC<EmployeesTableProps> = ({
                                                                 updateTable,
-                                                                openDrawer
+                                                                openDrawer,
                                                               }) => {
 
   type TablePaginationPosition = 'bottomCenter'
@@ -133,8 +133,8 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
     getAllEmployees().then((allEmployees) => {
       setAllEmployees(allEmployees);
       setLoading(false);
-    })
-  }, [updateTable]);
+    });
+  }, [!updateTable]);
 
   return (
     <Table

@@ -53,8 +53,7 @@ const Index: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewEmployee(employee)
-      .then(() => setUpdateTable(true))
-    setUpdateTable(false)
+      .then(() => setUpdateTable(!updateTable))
     return employee;
   };
 
@@ -81,8 +80,7 @@ const Index: React.FC = () => {
     };
     setIsDrawerOpen(false)
     putChangeEmployee(employee)
-      .then(() => setUpdateTable(true))
-    setUpdateTable(false)
+      .then(() => setUpdateTable(!updateTable))
     return employee
   };
 
@@ -94,10 +92,7 @@ const Index: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined spin={loading}/>}
-            onClick={async () => {
-              await setUpdateTable(true)
-              await setUpdateTable(false)
-            }}
+            onClick={() => setUpdateTable(!updateTable)}
             className='greenButton'>
             {updateButton}
           </Button>
