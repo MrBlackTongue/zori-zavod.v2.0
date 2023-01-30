@@ -114,7 +114,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
     },
   ];
 
-  // Паметры изменения таблицы
+  // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
     sorter: SorterResult<EmployeeType>,

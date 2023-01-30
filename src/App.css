@@ -54,3 +54,30 @@
 /*  margin: 16px;*/
 /*  background: rgba(255, 255, 255, 0.3);*/
 /*}*/
+
+/* Кнопка Обновить*/
+.centerTitle {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  /*margin-bottom: 10px;*/
+}
+
+.greenButton {
+  color: #31aa2d !important;
+}
+
+.greenButton:hover {
+  color: #31aa2d !important;
+  border-color: #31aa2d !important;
+}
+
+.greenButton:active {
+  color: #31aa2d !important;
+  border-color: #31aa2d !important;
+}
+
+.greenButton:focus {
+  color: #31aa2d !important;
+  border-color: #31aa2d !important;
+}

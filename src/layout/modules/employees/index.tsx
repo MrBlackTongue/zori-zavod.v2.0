@@ -9,7 +9,8 @@ import {
   SyncOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import './index.css';
+import '../../../App.css'
+// import './index.css';
 import {
   postNewEmployee,
   putChangeEmployee,

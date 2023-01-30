@@ -17,7 +17,8 @@ import {
   DeleteOutlined,
   CheckOutlined,
 } from '@ant-design/icons';
-import './unit.css';
+import '../../../App.css'
+// import './unit.css';
 import type {ColumnsType, TableProps} from 'antd/es/table';
 
 const {Title} = Typography;
