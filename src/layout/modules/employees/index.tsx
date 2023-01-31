@@ -54,7 +54,7 @@ const Index: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewEmployee(employee)
-      .then(() => setUpdateTable(!updateTable))
+    setUpdateTable(!updateTable)
     return employee;
   };
 
@@ -81,7 +81,7 @@ const Index: React.FC = () => {
     };
     setIsDrawerOpen(false)
     putChangeEmployee(employee)
-      .then(() => setUpdateTable(!updateTable))
+    setUpdateTable(!updateTable)
     return employee
   };
 
