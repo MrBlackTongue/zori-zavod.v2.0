@@ -18,8 +18,8 @@ import {
 import {Layout, Menu, theme} from 'antd';
 import {Routes, Route} from 'react-router-dom';
 import Home from "../src/layout/modules/home/home";
-import Index from "./layout/modules/employees";
-import Operation from "../src/layout/modules/operation/operation";
+import PageEmployees from "./layout/modules/employees/pageEmployees";
+import PageOperations from "./layout/modules/operations/pageOperations";
 import Unit from "../src/layout/modules/unit/unit";
 import {Link} from "react-router-dom";
 
@@ -53,7 +53,7 @@ function App() {
               },
               {
                 key: '2',
-                icon: <Link to='/operation'><UnorderedListOutlined/></Link>,
+                icon: <Link to='/operations'><UnorderedListOutlined/></Link>,
                 label: 'Типы операций',
               },
               {
@@ -125,8 +125,8 @@ function App() {
           >
             <Routes>
               <Route path='/' element={<Home/>}/>
-              <Route path='/employees' element={<Index/>}/>
-              <Route path='/operation' element={<Operation/>}/>
+              <Route path='/employees' element={<PageEmployees/>}/>
+              <Route path='/operations' element={<PageOperations/>}/>
               <Route path='/unit' element={<Unit/>}/>
             </Routes>
           </Content>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Typography,
   Space,
@@ -10,7 +10,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../../App.css'
-import './index.css';
+import './pageEmployees.css';
 import {
   postNewEmployee,
   putChangeEmployee,
@@ -22,7 +22,7 @@ import {EditEmployee} from "./editEmployee";
 
 const {Title} = Typography;
 
-const Index: React.FC = () => {
+const PageEmployees: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -131,4 +131,4 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default PageEmployees;

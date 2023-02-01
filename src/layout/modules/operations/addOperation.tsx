@@ -1,22 +1,17 @@
 import React from "react";
-import {AddEmployeeProps} from "../../../types/employeeType";
-import {Checkbox, Form, Input, InputNumber, Modal} from "antd";
-import {CheckboxChangeEvent} from "antd/es/checkbox";
+import {AddOperationProps} from "../../../types/operationType";
+import {Form, Input, InputNumber, Modal} from "antd";
 
-export const AddEmployee: React.FC<AddEmployeeProps> = ({
+export const AddOperation: React.FC<AddOperationProps> = ({
                                                           isOpen,
-                                                          addEmployee,
+                                                          addOperation,
                                                           onCancel,
                                                         }) => {
   const [form] = Form.useForm();
 
-  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-    form.setFieldsValue({hired: e.target.checked});
-  }
-
   return (
     <Modal
-      title={`Добавление нового сотрудника`}
+      title={`Добавление новой операции`}
       open={isOpen}
       onCancel={onCancel}
       width={500}
@@ -27,7 +22,7 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({
           .validateFields()
           .then((values) => {
             form.resetFields();
-            addEmployee(values);
+            addOperation(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);
@@ -36,7 +31,7 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({
     >
       <Form
         form={form}
-        name="add-new-employee"
+        name="add-new-operation"
         initialValues={{
           modifier: 'public'
         }}
@@ -45,28 +40,21 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Имя"
-          name="firstName"
-          rules={[{required: true, message: 'Пожалуйста введите имя'}]}
+          label="Название операции"
+          name="title"
+          rules={[{required: true, message: 'Пожалуйста введите название'}]}
         >
           <Input/>
         </Form.Item>
         <Form.Item
-          label="Фамилия"
-          name="lastName"
-          rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
+          label="Единица измерения"
+          name="unit"
         >
           <Input/>
         </Form.Item>
         <Form.Item
-          label="Телефон"
-          name="phone"
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Ставка"
-          name="salaryRate"
+          label="Норма"
+          name="rate"
           rules={[{
             type: 'number',
             message: 'Пожалуйста напишите ставку цифрами больше 1',
@@ -75,11 +63,6 @@ export const AddEmployee: React.FC<AddEmployeeProps> = ({
           }]}
         >
           <InputNumber/>
-        </Form.Item>
-        <Form.Item
-          name="hired"
-          wrapperCol={{offset: 8, span: 16}}>
-          <Checkbox onChange={onChangeCheckbox}>Нанят</Checkbox>
         </Form.Item>
       </Form>
     </Modal>

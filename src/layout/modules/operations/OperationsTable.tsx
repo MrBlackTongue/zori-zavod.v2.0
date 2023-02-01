@@ -12,23 +12,23 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import './pageEmployees.css';
+import './pageOperations.css';
 import {
-  getAllEmployees,
-  deleteEmployeeById,
-} from "../../../requests/employeesRequests";
-import {EmployeesTableProps, EmployeeType, TableParams} from "../../../types/employeeType";
+  getAllOperations,
+  deleteOperationById,
+} from "../../../requests/operationsRequests";
+import {OperationsTableProps, OperationType, TableParams} from "../../../types/operationType";
 
-export const EmployeesTable: React.FC<EmployeesTableProps> = ({
+export const OperationsTable: React.FC<OperationsTableProps> = ({
                                                                 updateTable,
                                                                 openDrawer,
                                                               }) => {
 
   type TablePaginationPosition = 'bottomCenter'
 
-  // Лоудер и список всех сотрудников
+  // Лоудер и список всех операций
   const [loading, setLoading] = useState(false);
-  const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
+  const [allOperations, setAllOperations] = useState<OperationType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -39,40 +39,24 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
     },
   });
 
-  const columns: ColumnsType<EmployeeType> = [
+  const columns: ColumnsType<OperationType> = [
     {
-      title: 'Имя',
-      dataIndex: 'firstName',
-      key: 'firstName',
-      sorter: (a, b) => a.firstName < b.firstName ? -1 : 1,
-    },
-    {
-      title: 'Фамилия',
-      dataIndex: 'lastName',
-      key: 'lastName',
+      title: 'Операция',
+      dataIndex: 'title',
+      key: 'title',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.lastName < b.lastName ? -1 : 1,
+      sorter: (a, b) => a.title < b.title ? -1 : 1,
     },
     {
-      title: 'Телефон',
-      dataIndex: 'phone',
-      key: 'phone',
+      title: 'Единица измерения',
+      dataIndex: 'unit',
+      key: 'unit',
     },
     {
-      title: 'Ставка',
-      dataIndex: 'salaryRate',
-      key: 'salaryRate',
-      sorter: (a, b) => a.salaryRate - b.salaryRate,
-    },
-    {
-      title: 'Нанят',
-      dataIndex: 'hired',
-      key: 'hired',
-      render: ((hired) => {
-        if (hired == true) return 'Да'
-        else return 'Нет'
-      }),
-      sorter: (a, b) => a.hired < b.hired ? -1 : 1,
+      title: 'Норма',
+      dataIndex: 'rate',
+      key: 'rate',
+      sorter: (a, b) => a.rate - b.rate,
     },
     {
       title: 'Действия',
@@ -95,10 +79,10 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
-              title="Вы действительно хотите удалить этого сотрудника?"
+              title="Вы действительно хотите удалить эту операцию?"
               onConfirm={() => {
-                deleteEmployeeById(id).then(() => {
-                  getAllEmployees().then((allEmployees) => setAllEmployees(allEmployees))
+                deleteOperationById(id).then(() => {
+                  getAllOperations().then((allOperations) => setAllOperations(allOperations))
                 })
               }}
               okText="Да"
@@ -117,21 +101,21 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<EmployeeType>,
+    sorter: SorterResult<OperationType>,
   ) => {
     setTableParams({
       pagination,
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllEmployees([]);
+      setAllOperations([]);
     }
   };
 
   useEffect(() => {
     setLoading(true);
-    getAllEmployees().then((allEmployees) => {
-      setAllEmployees(allEmployees);
+    getAllOperations().then((allOperations) => {
+      setAllOperations(allOperations);
       setLoading(false);
     });
   }, [!updateTable]);
@@ -139,7 +123,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allEmployees}
+      dataSource={allOperations}
       pagination={{position: [bottom]}}
       // pagination={tableParams.pagination}
       loading={loading}
