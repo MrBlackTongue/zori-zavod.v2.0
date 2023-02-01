@@ -52,18 +52,16 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-worker' htmlType="submit">
+          }} type="primary" form='change-employee' htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-worker'
+        id='change-employee'
         form={form}
-        // name="change-worker"
-        // initialValues={employeeData} // установить инициализационные значения
-        // onFinish={updateEmployee}
+        name="change-employee"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -105,9 +103,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
           valuePropName='checked'
           wrapperCol={{offset: 8, span: 16}}>
           <Checkbox
-            // checked={employee?.hired}
             onChange={onChangeCheckbox}
-            // onChange={() => setHired(hired)}
           >Нанят</Checkbox>
         </Form.Item>
         <Form.Item

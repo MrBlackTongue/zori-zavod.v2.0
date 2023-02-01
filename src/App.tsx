@@ -20,7 +20,7 @@ import {Routes, Route} from 'react-router-dom';
 import Home from "../src/layout/modules/home/home";
 import PageEmployees from "./layout/modules/employees/pageEmployees";
 import PageOperations from "./layout/modules/operations/pageOperations";
-import Unit from "../src/layout/modules/unit/unit";
+import PageUnits from "./layout/modules/unit/pageUnits";
 import {Link} from "react-router-dom";
 
 const {Header, Sider, Content} = Layout;
@@ -98,7 +98,7 @@ function App() {
               },
               {
                 key: '11',
-                icon: <Link to='/unit'><FunctionOutlined/></Link>,
+                icon: <Link to='/units'><FunctionOutlined/></Link>,
                 label: 'Единицы измерения',
               },
             ]}
@@ -127,7 +127,7 @@ function App() {
               <Route path='/' element={<Home/>}/>
               <Route path='/employees' element={<PageEmployees/>}/>
               <Route path='/operations' element={<PageOperations/>}/>
-              <Route path='/unit' element={<Unit/>}/>
+              <Route path='/units' element={<PageUnits/>}/>
             </Routes>
           </Content>
         </Layout>
