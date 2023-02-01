@@ -43,7 +43,7 @@ const Index: React.FC = () => {
   // Открыть сотрудника по id
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
 
-  const addEmployee = (values: { [key: string]: any }): EmployeeType => {
+  const addEmployee = async (values: { [key: string]: any }): Promise<EmployeeType> => {
     const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -53,7 +53,7 @@ const Index: React.FC = () => {
       id: values.number,
     };
     setIsModalOpen(false)
-    postNewEmployee(employee)
+    await postNewEmployee(employee)
     setUpdateTable(!updateTable)
     return employee;
   };
@@ -70,7 +70,7 @@ const Index: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateEmployee = (values: { [key: string]: any }): EmployeeType => {
+  const updateEmployee = async (values: { [key: string]: any }): Promise<EmployeeType> => {
     const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -80,7 +80,7 @@ const Index: React.FC = () => {
       id: values.id,
     };
     setIsDrawerOpen(false)
-    putChangeEmployee(employee)
+    await putChangeEmployee(employee)
     setUpdateTable(!updateTable)
     return employee
   };
