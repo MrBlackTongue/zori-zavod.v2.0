@@ -20,9 +20,9 @@ import {
 import {OperationsTableProps, OperationType, TableParams} from "../../../types/operationType";
 
 export const OperationsTable: React.FC<OperationsTableProps> = ({
-                                                                updateTable,
-                                                                openDrawer,
-                                                              }) => {
+                                                                  updateTable,
+                                                                  openDrawer,
+                                                                }) => {
 
   type TablePaginationPosition = 'bottomCenter'
 
@@ -51,6 +51,8 @@ export const OperationsTable: React.FC<OperationsTableProps> = ({
       title: 'Единица измерения',
       dataIndex: 'unit',
       key: 'unit',
+      render: ((unit: any) =>
+        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
     },
     {
       title: 'Норма',

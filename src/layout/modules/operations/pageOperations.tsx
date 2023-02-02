@@ -47,7 +47,7 @@ const PageOperations: React.FC = () => {
     const operation: OperationType = {
       title: values.title,
       unit: {
-        id: values.unit.number,
+        id: values.unit.id,
         name: values.unit.name,
       },
       rate: values.rate,
@@ -75,7 +75,7 @@ const PageOperations: React.FC = () => {
     const operation: OperationType = {
       title: values.title,
       unit: {
-        id: values.unit.number,
+        id: values.unit.id,
         name: values.unit.name,
       },
       rate: values.rate,

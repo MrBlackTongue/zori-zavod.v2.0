@@ -69,7 +69,7 @@ export const EmployeesTable: React.FC<EmployeesTableProps> = ({
       dataIndex: 'hired',
       key: 'hired',
       render: ((hired) => {
-        if (hired == true) return 'Да'
+        if (hired) return 'Да'
         else return 'Нет'
       }),
       sorter: (a, b) => a.hired < b.hired ? -1 : 1,

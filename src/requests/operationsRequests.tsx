@@ -56,7 +56,7 @@ export async function postNewOperation(data:OperationType) {
 // Удалить тип операции по id
 export async function deleteOperationById(id: number) {
   try {
-    const response = await fetch(URL_EMPLOYEE + `?id=${id}`, {
+    const response = await fetch(URL_EMPLOYEE + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();

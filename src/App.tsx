@@ -16,12 +16,11 @@ import {
   DatabaseOutlined,
 } from '@ant-design/icons';
 import {Layout, Menu, theme} from 'antd';
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Link} from 'react-router-dom';
 import Home from "../src/layout/modules/home/home";
 import PageEmployees from "./layout/modules/employees/pageEmployees";
 import PageOperations from "./layout/modules/operations/pageOperations";
 import PageUnits from "./layout/modules/unit/pageUnits";
-import {Link} from "react-router-dom";
 
 const {Header, Sider, Content} = Layout;
 
@@ -103,11 +102,6 @@ function App() {
               },
             ]}
           >
-            <Menu.Item>
-              <Link to='/'>Home</Link>
-              <TeamOutlined/>
-              'Сотрудники'
-            </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="site-layout">

@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {AddOperationProps} from "../../../types/operationType";
-import {Form, Input, InputNumber, Modal} from "antd";
+import {Form, Input, InputNumber, Modal, Select} from "antd";
+import {UnitType} from "../../../types/unitType";
+import {getAllUnits} from "../../../requests/unitsRequests";
+
+const { Option } = Select;
 
 export const AddOperation: React.FC<AddOperationProps> = ({
                                                           isOpen,
@@ -9,12 +13,35 @@ export const AddOperation: React.FC<AddOperationProps> = ({
                                                         }) => {
   const [form] = Form.useForm();
 
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<string>();
+
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
+            id: option.id,
+            name: values,
+        };
+    form.setFieldsValue({
+      unit: unit
+    });
+    setSelectedUnit(values)
+    console.log('selectedUnit', selectedUnit)
+    return unit
+  };
+
+  useEffect(() => {
+    getAllUnits().then((units) => {
+      setUnits(units);
+    });
+  }, []);
+
+
   return (
     <Modal
       title={`Добавление новой операции`}
       open={isOpen}
       onCancel={onCancel}
-      width={500}
+      width={700}
       okText={'Сохранить'}
       cancelText={'Отмена'}
       onOk={() => {
@@ -50,7 +77,17 @@ export const AddOperation: React.FC<AddOperationProps> = ({
           label="Единица измерения"
           name="unit"
         >
-          <Input/>
+          <Select
+            value={selectedUnit}
+            onChange={onChangeUnit}
+          >
+            {units && units.length > 0 ?
+              units.map(unit => (
+              <Option id={unit.id} value={unit.name}>
+                {unit.name}
+              </Option>
+            )): null}
+          </Select>
         </Form.Item>
         <Form.Item
           label="Норма"
