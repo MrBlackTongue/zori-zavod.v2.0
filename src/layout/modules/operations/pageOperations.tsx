@@ -79,7 +79,7 @@ const PageOperations: React.FC = () => {
         name: values.unit.name,
       },
       rate: values.rate,
-      id: values.number,
+      id: values.id,
     };
     setIsDrawerOpen(false)
     await putChangeOperation(operation)

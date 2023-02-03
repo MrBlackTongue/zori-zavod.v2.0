@@ -25,8 +25,6 @@ export const AddOperation: React.FC<AddOperationProps> = ({
       unit: unit
     });
     setSelectedUnit(unit)
-    console.log('values', values)
-    console.log('selectedUnit.name', selectedUnit?.name)
     return unit
   };
 

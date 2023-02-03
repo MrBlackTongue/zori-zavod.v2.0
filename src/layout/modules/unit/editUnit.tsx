@@ -1,6 +1,6 @@
 import {Button, Drawer, Form, Input, Space} from "antd";
-import React, {useEffect, useState} from "react";
-import {EditUnitProps, UnitType} from "../../../types/unitType";
+import React, {useEffect} from "react";
+import {EditUnitProps} from "../../../types/unitType";
 import {getUnitById} from "../../../requests/unitsRequests";
 
 
@@ -11,8 +11,6 @@ export const EditUnit: React.FC<EditUnitProps> = ({
                                                             updateUnit,
                                                           }) => {
   const [form] = Form.useForm();
-
-  const [unit] = useState<UnitType | null>(null);
 
   useEffect(() => {
     if (selectedUnitId) {
