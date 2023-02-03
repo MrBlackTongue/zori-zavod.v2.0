@@ -1,7 +1,9 @@
-import {Button, Drawer, Form, Input, InputNumber, Space} from "antd";
+import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
 import {EditOperationProps, OperationType} from "../../../types/operationType";
 import {getOperationById} from "../../../requests/operationsRequests";
+import {UnitType} from "../../../types/unitType";
+import {getAllUnits} from "../../../requests/unitsRequests";
 
 export const EditOperation: React.FC<EditOperationProps> = ({
                                                             isOpen,
@@ -12,6 +14,29 @@ export const EditOperation: React.FC<EditOperationProps> = ({
   const [form] = Form.useForm();
 
   const [operation] = useState<OperationType | null>(null);
+  // const [units, setUnits] = useState<UnitType[]>();
+  // const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+
+  // const onChangeUnit = (values: string, option: any): UnitType => {
+  //   const unit: UnitType = {
+  //     id: option.id,
+  //     name: values,
+  //   };
+  //   form.setFieldsValue({
+  //     unit: unit
+  //   });
+  //   setSelectedUnit(unit)
+  //
+  //   console.log('values', values)
+  //   console.log('selectedUnit.name', selectedUnit?.name)
+  //   return unit
+  // };
+
+  // useEffect(() => {
+  //   getAllUnits().then((units) => {
+  //     setUnits(units);
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (selectedOperationId) {
@@ -24,7 +49,7 @@ export const EditOperation: React.FC<EditOperationProps> = ({
   return (
     <Drawer
       title="Редактирование операции"
-      width={600}
+      width={700}
       open={isOpen}
       onClose={closeDrawer}
       bodyStyle={{paddingBottom: 80}}
@@ -67,6 +92,18 @@ export const EditOperation: React.FC<EditOperationProps> = ({
           name="unit"
         >
           <Input/>
+          {/*<Select*/}
+          {/*  value={selectedUnit ? selectedUnit.name : undefined}*/}
+          {/*  // value={selectedUnit}*/}
+          {/*  onChange={onChangeUnit}*/}
+          {/*>*/}
+          {/*  {units && units.length > 0 ?*/}
+          {/*    units.map(unit => (*/}
+          {/*      <Option id={unit.id} key={unit.id} value={unit.name}>*/}
+          {/*        {unit.name}*/}
+          {/*      </Option>*/}
+          {/*    )): null}*/}
+          {/*</Select>*/}
         </Form.Item>
         <Form.Item
           label="Норма"

@@ -4,28 +4,29 @@ import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {UnitType} from "../../../types/unitType";
 import {getAllUnits} from "../../../requests/unitsRequests";
 
-const { Option } = Select;
+const {Option} = Select;
 
 export const AddOperation: React.FC<AddOperationProps> = ({
-                                                          isOpen,
-                                                          addOperation,
-                                                          onCancel,
-                                                        }) => {
+                                                            isOpen,
+                                                            addOperation,
+                                                            onCancel,
+                                                          }) => {
   const [form] = Form.useForm();
 
   const [units, setUnits] = useState<UnitType[]>();
-  const [selectedUnit, setSelectedUnit] = useState<string>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
 
   const onChangeUnit = (values: string, option: any): UnitType => {
     const unit: UnitType = {
-            id: option.id,
-            name: values,
-        };
+      id: option.id,
+      name: values,
+    };
     form.setFieldsValue({
       unit: unit
     });
-    setSelectedUnit(values)
-    console.log('selectedUnit', selectedUnit)
+    setSelectedUnit(unit)
+    console.log('values', values)
+    console.log('selectedUnit.name', selectedUnit?.name)
     return unit
   };
 
@@ -35,12 +36,14 @@ export const AddOperation: React.FC<AddOperationProps> = ({
     });
   }, []);
 
-
   return (
     <Modal
       title={`Добавление новой операции`}
       open={isOpen}
-      onCancel={onCancel}
+      onCancel={()=> {
+        setSelectedUnit(undefined);
+        onCancel()
+      }}
       width={700}
       okText={'Сохранить'}
       cancelText={'Отмена'}
@@ -49,6 +52,7 @@ export const AddOperation: React.FC<AddOperationProps> = ({
           .validateFields()
           .then((values) => {
             form.resetFields();
+            setSelectedUnit(undefined);
             addOperation(values);
           })
           .catch((info) => {
@@ -77,17 +81,19 @@ export const AddOperation: React.FC<AddOperationProps> = ({
           label="Единица измерения"
           name="unit"
         >
-          <Select
-            value={selectedUnit}
-            onChange={onChangeUnit}
-          >
-            {units && units.length > 0 ?
-              units.map(unit => (
-              <Option id={unit.id} value={unit.name}>
-                {unit.name}
-              </Option>
-            )): null}
-          </Select>
+          <div>
+            <Select
+              value={selectedUnit ? selectedUnit.name : undefined}
+              onChange={onChangeUnit}
+            >
+              {units && units.length > 0 ?
+                units.map(unit => (
+                  <Option id={unit.id} key={unit.id} value={unit.name}>
+                    {unit.name}
+                  </Option>
+                )) : null}
+            </Select>
+          </div>
         </Form.Item>
         <Form.Item
           label="Норма"
