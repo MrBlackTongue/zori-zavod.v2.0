@@ -43,13 +43,13 @@ const PageUnits: React.FC = () => {
   // Открыть ед измерения по id
   const [selectedUnitId, setSelectedUnitId] = useState<number | undefined>();
 
-  const addUnit = async (values: { [key: string]: any }): Promise<UnitType> => {
+  const addUnit = (values: { [key: string]: any }): UnitType => {
     const unit: UnitType = {
       name: values.name,
       id: values.number,
     };
     setIsModalOpen(false)
-    await postNewUnit(unit)
+    postNewUnit(unit)
     setUpdateTable(!updateTable)
     return unit;
   };
@@ -66,13 +66,13 @@ const PageUnits: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateUnit = async (values: { [key: string]: any }): Promise<UnitType> => {
+  const updateUnit = (values: { [key: string]: any }): UnitType => {
     const unit: UnitType = {
       name: values.name,
       id: values.id,
     };
     setIsDrawerOpen(false)
-    await putChangeUnit(unit)
+    putChangeUnit(unit)
     setUpdateTable(!updateTable)
     return unit
   };

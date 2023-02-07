@@ -34,20 +34,23 @@ export async function getOperationById(id: number): Promise<OperationType | unde
 }
 
 // Добавить новый тип операции
-export async function postNewOperation(data:OperationType) {
+export function postNewOperation(data: OperationType) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    const response = await fetch(URL_EMPLOYEE, config);
-    if (response.ok) {
-      return message.success('Запись добавлена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при добавлении нового типа операции');
-    }
+    fetch(URL_EMPLOYEE, config)
+      .then((response) => {
+        if (response.ok) {
+          return message.success('Запись добавлена');
+        } else {
+          console.error(response.statusText);
+          return message.error('Ошибка при добавлении нового типа операции');
+        }
+      })
+      .catch((error) => console.error(error))
   } catch (error) {
     console.error(error);
   }
@@ -72,20 +75,23 @@ export async function deleteOperationById(id: number) {
 }
 
 // Редактировать тип операции
-export async function putChangeOperation(data:OperationType) {
+export function putChangeOperation(data: OperationType) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    const response = await fetch(URL_EMPLOYEE, config);
-    if (response.ok) {
-      return message.success('Запись изменена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при изменении записи');
-    }
+    fetch(URL_EMPLOYEE, config)
+      .then(response => {
+        if (response.ok) {
+          return message.success('Запись изменена');
+        } else {
+          console.error(response.statusText);
+          return message.error('Ошибка при изменении записи');
+        }
+      })
+      .catch(error => console.error(error))
   } catch (error) {
     console.error(error);
   }

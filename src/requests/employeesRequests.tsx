@@ -34,20 +34,23 @@ export async function getEmployeeById(id: number): Promise<EmployeeType | undefi
 }
 
 // Добавить нового сотрудника
-export async function postNewEmployee(data: EmployeeType) {
+export function postNewEmployee(data: EmployeeType) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    const response = await fetch(URL_EMPLOYEE, config);
-    if (response.ok) {
-      return message.success('Запись добавлена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при добавлении нового сотрудника');
-    }
+    fetch(URL_EMPLOYEE, config)
+      .then((response) => {
+        if (response.ok) {
+          return message.success('Запись добавлена');
+        } else {
+          console.error(response.statusText);
+          return message.error('Ошибка при добавлении нового сотрудника');
+        }
+      })
+      .catch((error) => console.error(error));
   } catch (error) {
     console.error(error);
   }
@@ -72,20 +75,23 @@ export async function deleteEmployeeById(id: number) {
 }
 
 // Редактировать сотрудника
-export async function putChangeEmployee(data: EmployeeType) {
+export function putChangeEmployee(data: EmployeeType) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    const response = await fetch(URL_EMPLOYEE, config);
-    if (response.ok) {
-      return message.success('Запись изменена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при изменении записи');
-    }
+    fetch(URL_EMPLOYEE, config)
+      .then(response => {
+        if (response.ok) {
+          return message.success('Запись изменена');
+        } else {
+          console.error(response.statusText);
+          return message.error('Ошибка при изменении записи');
+        }
+      })
+      .catch(error => console.error(error))
   } catch (error) {
     console.error(error);
   }

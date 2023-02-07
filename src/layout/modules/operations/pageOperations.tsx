@@ -43,7 +43,7 @@ const PageOperations: React.FC = () => {
   // Открыть тип операции по id
   const [selectedOperationId, setSelectedOperationId] = useState<number | undefined>();
 
-  const addOperation = async (values: { [key: string]: any }): Promise<OperationType> => {
+  const addOperation = (values: { [key: string]: any }): OperationType => {
     const operation: OperationType = {
       title: values.title,
       unit: {
@@ -54,7 +54,7 @@ const PageOperations: React.FC = () => {
       id: values.number,
     };
     setIsModalOpen(false)
-    await postNewOperation(operation)
+    postNewOperation(operation)
     setUpdateTable(!updateTable)
     return operation;
   };
@@ -71,7 +71,7 @@ const PageOperations: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateOperation = async (values: { [key: string]: any }): Promise<OperationType> => {
+  const updateOperation = (values: { [key: string]: any }): OperationType => {
     const operation: OperationType = {
       title: values.title,
       unit: {
@@ -82,7 +82,7 @@ const PageOperations: React.FC = () => {
       id: values.id,
     };
     setIsDrawerOpen(false)
-    await putChangeOperation(operation)
+    putChangeOperation(operation)
     setUpdateTable(!updateTable)
     return operation
   };
@@ -94,7 +94,7 @@ const PageOperations: React.FC = () => {
         <Space>
           <Button
             type="dashed"
-            icon={<SyncOutlined spin={loading} />}
+            icon={<SyncOutlined spin={loading}/>}
             onClick={() => setUpdateTable(!updateTable)}
             className='greenButton'>
             {updateButton}

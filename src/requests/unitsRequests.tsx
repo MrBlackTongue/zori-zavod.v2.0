@@ -34,20 +34,23 @@ export async function getUnitById(id: number): Promise<UnitType | undefined> {
 }
 
 // Добавить новую единицу измерения
-export async function postNewUnit(data: UnitType) {
+export function postNewUnit(data: UnitType) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    const response = await fetch(URL_EMPLOYEE, config);
-    if (response.ok) {
-      return message.success('Запись добавлена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при добавлении записи');
-    }
+    fetch(URL_EMPLOYEE, config)
+      .then((response)=> {
+        if (response.ok) {
+          return message.success('Запись добавлена');
+        } else {
+          console.error(response.statusText);
+          return message.error('Ошибка при добавлении записи');
+        }
+      })
+      .catch((error)=> console.error(error))
   } catch (error) {
     console.error(error);
   }
@@ -72,20 +75,23 @@ export async function deleteUnitById(id: number) {
 }
 
 // Редактировать сотрудника
-export async function putChangeUnit(data: UnitType) {
+export function putChangeUnit(data: UnitType) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    const response = await fetch(URL_EMPLOYEE, config);
-    if (response.ok) {
-      return message.success('Запись изменена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при изменении записи');
-    }
+    fetch(URL_EMPLOYEE, config)
+      .then(response => {
+        if (response.ok) {
+          return message.success('Запись изменена');
+        } else {
+          console.error(response.statusText);
+          return message.error('Ошибка при изменении записи');
+        }
+      })
+      .catch(error => console.error(error))
   } catch (error) {
     console.error(error);
   }
