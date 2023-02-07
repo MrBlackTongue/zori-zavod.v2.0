@@ -17,6 +17,7 @@ export const EditOperation: React.FC<EditOperationProps> = ({
 
   const [units, setUnits] = useState<UnitType[]>();
   const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  const [unit, setUnit] = useState<UnitType>()
 
   const onChangeUnit = (values: string, option: any): UnitType => {
     const unit: UnitType = {
@@ -41,7 +42,7 @@ export const EditOperation: React.FC<EditOperationProps> = ({
       getOperationById(selectedOperationId).then((operation) => {
         form.setFieldsValue(operation)
         setSelectedUnit(operation?.unit)
-        console.log('operation', operation)
+        setUnit(operation?.unit)
       })
     }
   }, [selectedOperationId, getOperationById]);
@@ -52,14 +53,15 @@ export const EditOperation: React.FC<EditOperationProps> = ({
       width={700}
       open={isOpen}
       onClose={()=> {
-        setSelectedUnit(undefined);
+        setSelectedUnit(unit);
         closeDrawer()
       }}
+
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={()=> {
-            setSelectedUnit(undefined);
+            setSelectedUnit(unit);
             closeDrawer()
           }}>Отмена</Button>
           <Button onClick={() => {
@@ -69,7 +71,6 @@ export const EditOperation: React.FC<EditOperationProps> = ({
               .then((values) => {
                 // form.resetFields()
                 updateOperation(values);
-                setSelectedUnit(undefined);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)
@@ -98,11 +99,9 @@ export const EditOperation: React.FC<EditOperationProps> = ({
           label="Единица измерения"
           name="unit"
         >
-          {/*<Input />*/}
           <div>
             <Select
               value={selectedUnit ? selectedUnit.name : undefined}
-              // value={operation ? operation.unit.name : undefined}
               onChange={onChangeUnit}
             >
               {units && units.length > 0 ?
@@ -112,7 +111,6 @@ export const EditOperation: React.FC<EditOperationProps> = ({
                   </Option>
                 )) : null}
             </Select>
-
           </div>
         </Form.Item>
         <Form.Item
