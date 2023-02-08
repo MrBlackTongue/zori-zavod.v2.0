@@ -1,13 +1,11 @@
 import {TablePaginationConfig} from "antd/es/table";
 import React from "react";
+import {UnitType} from "./unitType";
 
 export type OperationType = {
   id: number;
   title: string;
-  unit: {
-    id: number;
-    name: string;
-  };
+  unit: UnitType;
   rate: number;
 }
 

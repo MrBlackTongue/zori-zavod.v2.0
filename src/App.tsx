@@ -21,6 +21,7 @@ import Home from "../src/layout/modules/home/home";
 import PageEmployees from "./layout/modules/employees/pageEmployees";
 import PageOperations from "./layout/modules/operations/pageOperations";
 import PageUnits from "./layout/modules/unit/pageUnits";
+import PageOutputs from "./layout/modules/output/pageOutputs";
 
 const {Header, Sider, Content} = Layout;
 
@@ -73,30 +74,55 @@ function App() {
               {
                 key: '6',
                 icon: <UploadOutlined/>,
-                label: 'Продукты',
+                label: 'Отчет по продуктам',
               },
               {
                 key: '7',
                 icon: <TrophyOutlined/>,
-                label: 'Выпуск продукции',
+                label: 'Товары',
               },
               {
                 key: '8',
                 icon: <DatabaseOutlined/>,
-                label: 'Типы расходов',
+                label: 'Группа товаров',
               },
               {
                 key: '9',
                 icon: <DollarCircleOutlined/>,
-                label: 'Расходы по выпускам',
-              },
-              {
-                key: '10',
-                icon: <AccountBookOutlined/>,
-                label: 'Расходы по операциям',
+                label: 'Склад',
               },
               {
                 key: '11',
+                icon: <AccountBookOutlined/>,
+                label: 'Заказы на закупки',
+              },
+              {
+                key: '12',
+                icon: <AccountBookOutlined/>,
+                label: 'Партии товаров',
+              },
+              {
+                key: '13',
+                icon: <AccountBookOutlined/>,
+                label: 'Приемка товаров',
+              },
+              {
+                key: '14',
+                icon: <AccountBookOutlined/>,
+                label: 'Движение товаров',
+              },
+              {
+                key: '15',
+                icon: <AccountBookOutlined/>,
+                label: 'История движения товаров',
+              },
+              {
+                key: '16',
+                icon: <Link to='/output'><AccountBookOutlined/></Link>,
+                label: 'Выпуски продукции',
+              },
+              {
+                key: '17',
                 icon: <Link to='/units'><FunctionOutlined/></Link>,
                 label: 'Единицы измерения',
               },
@@ -121,6 +147,7 @@ function App() {
               <Route path='/' element={<Home/>}/>
               <Route path='/employees' element={<PageEmployees/>}/>
               <Route path='/operations' element={<PageOperations/>}/>
+              <Route path='/output' element={<PageOutputs/>}/>
               <Route path='/units' element={<PageUnits/>}/>
             </Routes>
           </Content>
