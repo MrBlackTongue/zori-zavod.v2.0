@@ -30,17 +30,17 @@ const PageOutputs: React.FC = () => {
   const [loading] = useState(false);
   const [updateButton] = useState('Обновить')
 
-  // Ед измерения в таблице, обновить таблицу
+  // Выпуски продукции в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новую единицу измерения
+  // Создать новый выпуск продукции
   const [output] = useState<OutputType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть ед измерения по id
+  // Открыть выпуск продукции по id
   const [selectedOutputId, setSelectedOutputId] = useState<number | undefined>();
 
   const addOutput = (values: { [key: string]: any }): OutputType => {

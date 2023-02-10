@@ -6,12 +6,12 @@ const URL_EMPLOYEE = 'http://localhost:8081/api/unit'
 // Получить список всех единиц измерения
 export async function getAllUnits(): Promise<UnitType[]> {
   try {
-    const res = await fetch(URL_EMPLOYEE);
-    if (!res.ok) {
-      console.error(res.statusText);
+    const response = await fetch(URL_EMPLOYEE);
+    if (!response.ok) {
+      console.error(response.statusText);
       return Promise.reject();
     }
-    return await res.json() as UnitType[];
+    return await response.json() as UnitType[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -74,7 +74,7 @@ export async function deleteUnitById(id: number) {
   }
 }
 
-// Редактировать сотрудника
+// Редактировать единицу измерения
 export function putChangeUnit(data: UnitType) {
   try {
     const config = {

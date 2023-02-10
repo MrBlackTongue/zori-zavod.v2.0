@@ -74,7 +74,7 @@ export async function deleteOutputById(id: number) {
   }
 }
 
-// Редактировать сотрудника
+// Редактировать единицу изремерения
 export function putChangeOutput(data: OutputType) {
   try {
     const config = {

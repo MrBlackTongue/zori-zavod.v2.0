@@ -3,7 +3,7 @@ import {message} from "antd";
 
 const URL_EMPLOYEE = 'http://localhost:8081/api/product'
 
-// Получить список всех единиц измерения
+// Получить список всех продуктов
 export async function getAllProducts(): Promise<ProductType[]> {
   try {
     const res = await fetch(URL_EMPLOYEE);
@@ -18,7 +18,7 @@ export async function getAllProducts(): Promise<ProductType[]> {
   }
 }
 
-// Получить данные единицы измерения по id
+// Получить данные продукта по id
 export async function getProductById(id: number): Promise<ProductType | undefined> {
   try {
     const response = await fetch(URL_EMPLOYEE + `/${id}`);
@@ -33,7 +33,7 @@ export async function getProductById(id: number): Promise<ProductType | undefine
   }
 }
 
-// Добавить новую единицу измерения
+// Добавить новый продукт
 export function postNewProduct(data: ProductType) {
   try {
     const config = {
@@ -56,7 +56,7 @@ export function postNewProduct(data: ProductType) {
   }
 }
 
-// Удалить единицу измерения по id
+// Удалить продукт по id
 export async function deleteProductById(id: number) {
   try {
     const response = await fetch(URL_EMPLOYEE + `/${id}`, {
@@ -74,7 +74,7 @@ export async function deleteProductById(id: number) {
   }
 }
 
-// Редактировать сотрудника
+// Редактировать продукт
 export function putChangeProduct(data: ProductType) {
   try {
     const config = {
