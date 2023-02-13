@@ -45,7 +45,7 @@ const PageOutputs: React.FC = () => {
 
   const addOutput = (values: { [key: string]: any }): OutputType => {
     const output: OutputType = {
-      date: values.dateUser,
+      date: values['date'].format('YYYY-MM-DD'),
       product: {
         id: values.product,
       }
