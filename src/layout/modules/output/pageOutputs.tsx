@@ -70,11 +70,15 @@ const PageOutputs: React.FC = () => {
 
   const updateOutput = (values: { [key: string]: any }): OutputType => {
     const output: OutputType = {
-      // name: values.name,
+      date: values['date'].format('YYYY-MM-DD'),
+      product: {
+        id: values.product,
+      },
       id: values.id,
     };
+    console.log('values2 :', values)
     setIsDrawerOpen(false)
-    putChangeOutput(output)
+    // putChangeOutput(output)
     setUpdateTable(!updateTable)
     return output
   };

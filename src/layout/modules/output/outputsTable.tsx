@@ -50,6 +50,8 @@ export const OutputsTable: React.FC<OutputsTableProps> = ({
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
+      // render: ((date: any) =>
+      //   date !== null ? (<div>{date}</div>) : null)
       // defaultSortOrder: 'ascend',
       // sorter: (a, b) => a.name < b.name ? -1 : 1,
     },

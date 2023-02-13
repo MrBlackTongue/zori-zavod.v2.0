@@ -5,6 +5,7 @@ import {getAllProducts} from "../../../requests/productsRequests";
 import {ProductType} from "../../../types/productType";
 
 const {Option} = Select;
+const dateFormatUser = 'DD.MM.YYYY';
 
 export const AddOutput: React.FC<AddOutputProps> = ({
                                                           isOpen,
@@ -38,7 +39,10 @@ export const AddOutput: React.FC<AddOutputProps> = ({
     <Modal
       title={`Добавление нового выпуска продукции`}
       open={isOpen}
-      onCancel={onCancel}
+      onCancel={()=>{
+        onCancel()
+        setSelectedProduct(undefined)
+      }}
       width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
@@ -47,7 +51,7 @@ export const AddOutput: React.FC<AddOutputProps> = ({
           .validateFields()
           .then((values) => {
             form.resetFields();
-            console.log('values', values)
+            setSelectedProduct(undefined)
             addOutput(values);
           })
           .catch((info) => {
@@ -72,6 +76,7 @@ export const AddOutput: React.FC<AddOutputProps> = ({
         >
           <DatePicker
             style={{width: '100%'}}
+            format={dateFormatUser}
           />
         </Form.Item>
         <Form.Item
