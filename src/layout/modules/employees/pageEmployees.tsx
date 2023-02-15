@@ -41,7 +41,7 @@ const PageEmployees: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Открыть сотрудника по id
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   const addEmployee = (values: { [key: string]: any }): EmployeeType => {
     const employee: EmployeeType = {
@@ -50,7 +50,6 @@ const PageEmployees: React.FC = () => {
       phone: values.phone,
       salaryRate: values.salaryRate,
       hired: values.hired,
-      id: values.number,
     };
     setIsModalOpen(false)
     postNewEmployee(employee)
@@ -77,7 +76,7 @@ const PageEmployees: React.FC = () => {
       phone: values.phone,
       salaryRate: values.salaryRate,
       hired: values.hired,
-      id: values.id,
+      id: selectedEmployeeId,
     };
     setIsDrawerOpen(false)
     putChangeEmployee(employee)

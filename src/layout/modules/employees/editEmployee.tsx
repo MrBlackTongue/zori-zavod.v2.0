@@ -20,7 +20,6 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
     setHired(e.target.checked);
     form.setFieldsValue({hired: e.target.checked});
-    console.log(`checked = ${e.target.checked}`);
   }
 
   useEffect(() => {
@@ -46,7 +45,6 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
             form
               .validateFields()
               .then((values) => {
-                // form.resetFields()
                 updateEmployee(values);
               })
               .catch((info) => {
@@ -105,9 +103,6 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
           <Checkbox
             onChange={onChangeCheckbox}
           >Нанят</Checkbox>
-        </Form.Item>
-        <Form.Item
-          name='id'>
         </Form.Item>
       </Form>
     </Drawer>

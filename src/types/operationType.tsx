@@ -3,7 +3,7 @@ import React from "react";
 import {UnitType} from "./unitType";
 
 export type OperationType = {
-  id: number;
+  id?: number;
   title: string;
   unit: UnitType;
   rate: number;

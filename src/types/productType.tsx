@@ -2,7 +2,7 @@ import {TablePaginationConfig} from "antd/es/table";
 import {UnitType} from "./unitType";
 
 export type ProductType = {
-  id: number,
+  id?: number,
   title?: string,
   productGroup?: {
     id: number,

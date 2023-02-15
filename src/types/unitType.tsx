@@ -1,7 +1,7 @@
 import {TablePaginationConfig} from "antd/es/table";
 
 export type UnitType = {
-  id: number;
+  id?: number;
   name: string;
 }
 

@@ -1,7 +1,6 @@
 import React from "react";
 import {AddUnitProps} from "../../../types/unitType";
 import {Form, Input, Modal} from "antd";
-import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 export const AddUnit: React.FC<AddUnitProps> = ({
                                                           isOpen,

@@ -1,7 +1,7 @@
 import {TablePaginationConfig} from "antd/es/table";
 
 export type EmployeeType = {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   phone: string

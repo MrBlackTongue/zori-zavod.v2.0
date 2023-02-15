@@ -1,6 +1,6 @@
 import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
-import {EditOutputProps, OutputType} from "../../../types/outputType";
+import {EditOutputProps} from "../../../types/outputType";
 import {getOutputById} from "../../../requests/outputsRequests";
 import {ProductType} from "../../../types/productType";
 import {getAllProducts} from "../../../requests/productsRequests";
@@ -78,7 +78,6 @@ export const EditOutput: React.FC<EditOutputProps> = ({
             form
               .validateFields()
               .then((values) => {
-                // form.resetFields()
                 updateOutput(values);
               })
               .catch((info) => {

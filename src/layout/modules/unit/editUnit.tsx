@@ -62,9 +62,6 @@ export const EditUnit: React.FC<EditUnitProps> = ({
         >
           <Input/>
         </Form.Item>
-        <Form.Item
-          name='id'>
-        </Form.Item>
       </Form>
     </Drawer>
   )

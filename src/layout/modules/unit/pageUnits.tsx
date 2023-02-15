@@ -41,12 +41,11 @@ const PageUnits: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Открыть ед измерения по id
-  const [selectedUnitId, setSelectedUnitId] = useState<number | undefined>();
+  const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
   const addUnit = (values: { [key: string]: any }): UnitType => {
     const unit: UnitType = {
       name: values.name,
-      id: values.number,
     };
     setIsModalOpen(false)
     postNewUnit(unit)
@@ -69,7 +68,7 @@ const PageUnits: React.FC = () => {
   const updateUnit = (values: { [key: string]: any }): UnitType => {
     const unit: UnitType = {
       name: values.name,
-      id: values.id,
+      id: selectedUnitId,
     };
     setIsDrawerOpen(false)
     putChangeUnit(unit)

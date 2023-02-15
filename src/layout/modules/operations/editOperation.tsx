@@ -125,9 +125,6 @@ export const EditOperation: React.FC<EditOperationProps> = ({
         >
           <InputNumber/>
         </Form.Item>
-        <Form.Item
-          name='id'>
-        </Form.Item>
       </Form>
     </Drawer>
   )

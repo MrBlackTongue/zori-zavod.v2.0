@@ -41,7 +41,7 @@ const PageOperations: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Открыть тип операции по id
-  const [selectedOperationId, setSelectedOperationId] = useState<number | undefined>();
+  const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
   const addOperation = (values: { [key: string]: any }): OperationType => {
     const operation: OperationType = {
@@ -51,7 +51,6 @@ const PageOperations: React.FC = () => {
         name: values.unit.name,
       },
       rate: values.rate,
-      id: values.number,
     };
     setIsModalOpen(false)
     postNewOperation(operation)
@@ -79,7 +78,7 @@ const PageOperations: React.FC = () => {
         name: values.unit.name,
       },
       rate: values.rate,
-      id: values.id,
+      id: selectedOperationId,
     };
     setIsDrawerOpen(false)
     putChangeOperation(operation)
