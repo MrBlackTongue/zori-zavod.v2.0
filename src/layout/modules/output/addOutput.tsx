@@ -50,7 +50,6 @@ export const AddOutput: React.FC<AddOutputProps> = ({
         form
           .validateFields()
           .then((values) => {
-            console.log('values123 :', values)
             form.resetFields();
             setSelectedProduct(undefined)
             addOutput(values);

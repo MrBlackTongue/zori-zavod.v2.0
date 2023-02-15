@@ -41,7 +41,7 @@ const PageOutputs: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Открыть выпуск продукции по id
-  const [selectedOutputId, setSelectedOutputId] = useState<number | undefined>();
+  const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
   const addOutput = (values: { [key: string]: any }): OutputType => {
     const output: OutputType = {
@@ -74,9 +74,8 @@ const PageOutputs: React.FC = () => {
       product: {
         id: values.product,
       },
-      id: values.id,
+      id: selectedOutputId,
     };
-    // console.log('output :', output)
     setIsDrawerOpen(false)
     putChangeOutput(output)
     setUpdateTable(!updateTable)

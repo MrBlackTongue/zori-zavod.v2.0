@@ -20,7 +20,6 @@ export const EditOutput: React.FC<EditOutputProps> = ({
   const [selectedProduct, setSelectedProduct] = useState<ProductType>();
   const [product, setProduct] = useState<ProductType>();
   const [date, setDate] = useState<any>();
-  const [outputId, setOutputId] = useState<OutputType>()
 
   const onChangeProduct = (values: string, option: any): ProductType => {
     const product: ProductType = {
@@ -30,7 +29,6 @@ export const EditOutput: React.FC<EditOutputProps> = ({
     form.setFieldsValue({
       product: product.id,
     });
-    console.log('product', product)
     setSelectedProduct(product)
     return product
   };
@@ -38,18 +36,13 @@ export const EditOutput: React.FC<EditOutputProps> = ({
   const handleGetOutputById = useCallback(() => {
     if (selectedOutputId) {
       getOutputById(selectedOutputId).then((output) => {
-        // form.setFieldsValue(output);
         form.setFieldsValue({
-          id: output?.id,
           date: dayjs(output?.date),
           product: output?.product?.id,
         });
         setSelectedProduct(output?.product)
         setProduct(output?.product)
         setDate(dayjs(output?.date));
-        // setDate(output?.date)
-        // console.log('dayjs', dayjs(output?.date))
-        console.log('output', output)
       })
     }
   }, [selectedOutputId]);
@@ -85,8 +78,7 @@ export const EditOutput: React.FC<EditOutputProps> = ({
             form
               .validateFields()
               .then((values) => {
-                console.log('values :', values)
-                form.resetFields()
+                // form.resetFields()
                 updateOutput(values);
               })
               .catch((info) => {
@@ -114,9 +106,7 @@ export const EditOutput: React.FC<EditOutputProps> = ({
         >
           <DatePicker
             style={{width: '100%'}}
-            // value={date}
             format='DD.MM.YYYY'
-            // defaultValue={date}
             onChange={(value) => {
               setDate(value);
             }}
@@ -125,7 +115,9 @@ export const EditOutput: React.FC<EditOutputProps> = ({
         <Form.Item
           label="Продукт"
           name="product"
-          rules={[{required: true, message: 'Пожалуйста выберите продукт'}]}
+          rules={[
+            { required: true, message: 'Пожалуйста выберите продукт' },
+          ]}
         >
           <div>
             <Select
@@ -140,10 +132,6 @@ export const EditOutput: React.FC<EditOutputProps> = ({
                 )) : null}
             </Select>
           </div>
-        </Form.Item>
-        <Form.Item
-          name='id'
-        >
         </Form.Item>
       </Form>
     </Drawer>
