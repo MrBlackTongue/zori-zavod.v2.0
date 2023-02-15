@@ -18,6 +18,7 @@ import {
   deleteOutputById,
 } from "../../../requests/outputsRequests";
 import {OutputsTableProps, OutputType, TableParams} from "../../../types/outputType";
+import dayjs from 'dayjs';
 
 export const OutputsTable: React.FC<OutputsTableProps> = ({
                                                                 updateTable,
@@ -50,10 +51,10 @@ export const OutputsTable: React.FC<OutputsTableProps> = ({
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
-      // render: ((date: any) =>
-      //   date !== null ? (<div>{date}</div>) : null)
-      // defaultSortOrder: 'ascend',
+      render: ((date: any) =>
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
       // sorter: (a, b) => a.name < b.name ? -1 : 1,
+      // defaultSortOrder: 'ascend',
     },
     {
       title: 'Продукт',

@@ -76,9 +76,9 @@ const PageOutputs: React.FC = () => {
       },
       id: values.id,
     };
-    console.log('values2 :', values)
+    // console.log('output :', output)
     setIsDrawerOpen(false)
-    // putChangeOutput(output)
+    putChangeOutput(output)
     setUpdateTable(!updateTable)
     return output
   };

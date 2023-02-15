@@ -1,22 +1,26 @@
-import {Button, DatePicker, Drawer, Form, Input, Select, Space} from "antd";
-import React, {useEffect, useState} from "react";
-import {EditOutputProps} from "../../../types/outputType";
+import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
+import React, {useCallback, useEffect, useState} from "react";
+import {EditOutputProps, OutputType} from "../../../types/outputType";
 import {getOutputById} from "../../../requests/outputsRequests";
 import {ProductType} from "../../../types/productType";
+import {getAllProducts} from "../../../requests/productsRequests";
+import dayjs from 'dayjs';
 
 const {Option} = Select;
-const dateFormatUser = 'DD/MM/YYYY';
 
 export const EditOutput: React.FC<EditOutputProps> = ({
-                                                            isOpen,
-                                                            selectedOutputId,
-                                                            closeDrawer,
-                                                            updateOutput,
-                                                          }) => {
+                                                        isOpen,
+                                                        selectedOutputId,
+                                                        closeDrawer,
+                                                        updateOutput,
+                                                      }) => {
   const [form] = Form.useForm();
 
   const [products, setProducts] = useState<ProductType[]>();
   const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  const [product, setProduct] = useState<ProductType>();
+  const [date, setDate] = useState<any>();
+  const [outputId, setOutputId] = useState<OutputType>()
 
   const onChangeProduct = (values: string, option: any): ProductType => {
     const product: ProductType = {
@@ -24,44 +28,65 @@ export const EditOutput: React.FC<EditOutputProps> = ({
       title: values,
     };
     form.setFieldsValue({
-      product: product.id
+      product: product.id,
     });
+    console.log('product', product)
     setSelectedProduct(product)
     return product
   };
 
-  const onChangeDate = ( date: any, dateString: any) => {
-    form.setFieldsValue({
-      dateUser: dateString,
-    });
-    console.log('date: ', date);
-    console.log('dateString: ', dateString);
-  };
-
-  useEffect(() => {
+  const handleGetOutputById = useCallback(() => {
     if (selectedOutputId) {
       getOutputById(selectedOutputId).then((output) => {
-        form.setFieldsValue(output);
+        // form.setFieldsValue(output);
+        form.setFieldsValue({
+          id: output?.id,
+          date: dayjs(output?.date),
+          product: output?.product?.id,
+        });
+        setSelectedProduct(output?.product)
+        setProduct(output?.product)
+        setDate(dayjs(output?.date));
+        // setDate(output?.date)
+        // console.log('dayjs', dayjs(output?.date))
+        console.log('output', output)
       })
     }
-  }, [selectedOutputId, getOutputById]);
+  }, [selectedOutputId]);
+
+  useEffect(() => {
+    getAllProducts().then((products) => {
+      setProducts(products);
+    });
+  }, []);
+
+  useEffect(() => {
+    handleGetOutputById();
+  }, [selectedOutputId, handleGetOutputById]);
 
   return (
     <Drawer
       title="Редактирование выпуск продукции"
       width={600}
       open={isOpen}
-      onClose={closeDrawer}
+      onClose={() => {
+        closeDrawer()
+        setSelectedProduct(product)
+      }}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={closeDrawer}>Отмена</Button>
+          <Button onClick={() => {
+            closeDrawer()
+            setSelectedProduct(product)
+          }}>Отмена</Button>
           <Button onClick={() => {
             closeDrawer()
             form
               .validateFields()
               .then((values) => {
-                // form.resetFields()
+                console.log('values :', values)
+                form.resetFields()
                 updateOutput(values);
               })
               .catch((info) => {
@@ -80,24 +105,27 @@ export const EditOutput: React.FC<EditOutputProps> = ({
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
+        initialValues={{date: date}}
       >
         <Form.Item
           label="Дата"
-          name="dateUser"
-          rules={[{required: true, message: 'Пожалуйста введите дату'}]}
+          name="date"
+          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста введите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}
-            onChange={onChangeDate}
-            format={dateFormatUser}
-            // format={dateFormatList}
-            // defaultValue={dayjs('01/01/2015', dateFormatList[0])}
+            // value={date}
+            format='DD.MM.YYYY'
+            // defaultValue={date}
+            onChange={(value) => {
+              setDate(value);
+            }}
           />
         </Form.Item>
         <Form.Item
           label="Продукт"
           name="product"
-          // rules={[{required: true, message: 'Пожалуйста выберите продукт'}]}
+          rules={[{required: true, message: 'Пожалуйста выберите продукт'}]}
         >
           <div>
             <Select
@@ -114,7 +142,8 @@ export const EditOutput: React.FC<EditOutputProps> = ({
           </div>
         </Form.Item>
         <Form.Item
-          name='id'>
+          name='id'
+        >
         </Form.Item>
       </Form>
     </Drawer>
