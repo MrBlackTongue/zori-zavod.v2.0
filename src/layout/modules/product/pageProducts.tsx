@@ -10,19 +10,19 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../../App.css'
-import './pageOperations.css';
+import './pageProducts.css';
 import {
-  postNewOperation,
-  putChangeOperation,
-} from "../../../requests/operationsRequests";
-import {OperationType} from "../../../types/operationType";
-import {AddOperation} from "./addOperation";
-import {OperationsTable} from "./operationsTable";
-import {EditOperation} from "./editOperation";
+  postNewProduct,
+  putChangeProduct,
+} from "../../../requests/productsRequests";
+import {ProductType} from "../../../types/productType";
+import {AddProduct} from "./addProduct";
+import {ProductsTable} from "./productsTable";
+import {EditProduct} from "./editProduct";
 
 const {Title} = Typography;
 
-const PageOperations: React.FC = () => {
+const PageProducts: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -30,66 +30,72 @@ const PageOperations: React.FC = () => {
   const [loading] = useState(false);
   const [updateButton] = useState('Обновить')
 
-  // Типы операций в таблице, обновить таблицу
+  // Товары в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новый тип операции
-  const [operation] = useState<OperationType | null>(null);
+  // Создать новый товар
+  const [product] = useState<ProductType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть тип операции по id
-  const [selectedOperationId, setSelectedOperationId] = useState<number>();
+  // Открыть товар по id
+  const [selectedProductId, setSelectedProductId] = useState<number>();
 
-  const addOperation = (values: { [key: string]: any }): OperationType => {
-    const operation: OperationType = {
+  const addProduct = (values: { [key: string]: any }): ProductType => {
+    const product: ProductType = {
       title: values.title,
+      productGroup: {
+        id: values.productGroup.id,
+        title: values.productGroup.title,
+      },
       unit: {
         id: values.unit.id,
         name: values.unit.name,
       },
-      rate: values.rate,
     };
     setIsModalOpen(false)
-    postNewOperation(operation)
+    postNewProduct(product)
     setUpdateTable(!updateTable)
-    return operation;
+    return product;
   };
 
   useEffect(() => {
-    if (operation) {
-      form.setFieldsValue(operation);
+    if (product) {
+      form.setFieldsValue(product);
     }
-  }, [operation, form]);
+  }, [product, form]);
 
   // Drawer
-  const openDrawer = (operationId: number) => {
-    setSelectedOperationId(operationId)
+  const openDrawer = (productId: number) => {
+    setSelectedProductId(productId)
     setIsDrawerOpen(true);
   };
 
-  const updateOperation = (values: { [key: string]: any }): OperationType => {
-    const operation: OperationType = {
+  const updateProduct = (values: { [key: string]: any }): ProductType => {
+    const product: ProductType = {
       title: values.title,
+      productGroup: {
+        id: values.productGroup.id,
+        title: values.productGroup.title,
+      },
       unit: {
         id: values.unit.id,
         name: values.unit.name,
       },
-      rate: values.rate,
-      id: selectedOperationId,
+      id: selectedProductId,
     };
     setIsDrawerOpen(false)
-    putChangeOperation(operation)
+    putChangeProduct(product)
     setUpdateTable(!updateTable)
-    return operation
+    return product
   };
 
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
-        <Title level={3}>Типы операций</Title>
+        <Title level={3}>Товары</Title>
         <Space>
           <Button
             type="dashed"
@@ -109,21 +115,21 @@ const PageOperations: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <OperationsTable
+      <ProductsTable
         updateTable={updateTable}
         openDrawer={openDrawer}
       />
-      <AddOperation
+      <AddProduct
         isOpen={isModalOpen}
-        addOperation={addOperation}
+        addProduct={addProduct}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
-      <EditOperation
+      <EditProduct
         isOpen={isDrawerOpen}
-        selectedOperationId={selectedOperationId}
-        updateOperation={updateOperation}
+        selectedProductId={selectedProductId}
+        updateProduct={updateProduct}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}
@@ -132,4 +138,4 @@ const PageOperations: React.FC = () => {
   );
 }
 
-export default PageOperations;
+export default PageProducts;

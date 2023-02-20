@@ -1,0 +1,136 @@
+import React, {useEffect, useState} from 'react';
+import {
+  Space,
+  Button,
+  Table,
+  Tooltip,
+  Popconfirm,
+} from 'antd';
+import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
+import type {SorterResult} from 'antd/es/table/interface';
+import {
+  EditOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
+import './pageProducts.css';
+import {
+  getAllProducts,
+  deleteProductById,
+} from "../../../requests/productsRequests";
+import {ProductsTableProps, ProductType, TableParams} from "../../../types/productType";
+
+export const ProductsTable: React.FC<ProductsTableProps> = ({
+                                                                  updateTable,
+                                                                  openDrawer,
+                                                                }) => {
+
+  type TablePaginationPosition = 'bottomCenter'
+
+  // Лоудер и список всех товаров
+  const [loading, setLoading] = useState(false);
+  const [allProducts, setAllProducts] = useState<ProductType[]>();
+
+  // Параментры для пагинации
+  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
+
+  const columns: ColumnsType<ProductType> = [
+    {
+      title: 'Название',
+      dataIndex: 'title',
+      key: 'title',
+      defaultSortOrder: 'ascend',
+      // sorter: (a, b) => a.title < b.title ? -1 : 1,
+    },
+    {
+      title: 'Единица измерения',
+      dataIndex: 'unit',
+      key: 'unit',
+      render: ((unit: any) =>
+        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+    },
+    {
+      title: 'Товарная группа',
+      dataIndex: 'productGroup',
+      key: 'productGroup',
+      render: ((productGroup: any) =>
+        productGroup !== null ? (<div key={productGroup.id}> {productGroup.title}</div>) : null),
+    },
+    {
+      title: 'Действия',
+      dataIndex: 'id',
+      key: 'id',
+      width: 100,
+      render: ((id: number) => (
+        <Space>
+          <Tooltip title="Изменить" placement="bottomRight">
+            <Button
+              type="primary"
+              size="small"
+              shape="circle"
+              ghost
+              onClick={() => {
+                openDrawer(id)
+              }}>
+              <EditOutlined/>
+            </Button>
+          </Tooltip>
+          <Tooltip title="Удалить" placement="bottomRight">
+            <Popconfirm
+              title="Вы действительно хотите удалить этот товар?"
+              onConfirm={() => {
+                deleteProductById(id).then(() => {
+                  getAllProducts().then((allProducts) => setAllProducts(allProducts))
+                })
+              }}
+              okText="Да"
+              cancelText="Отмена">
+              <Button type="primary" size="small" shape="circle" ghost onClick={() => {
+              }}>
+                <DeleteOutlined/>
+              </Button>
+            </Popconfirm>
+          </Tooltip>
+        </Space>
+      ))
+    },
+  ];
+
+  // Параметры изменения таблицы
+  const handleTableChange = (
+    pagination: TablePaginationConfig,
+    sorter: SorterResult<ProductType>,
+  ) => {
+    setTableParams({
+      pagination,
+      ...sorter,
+    });
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setAllProducts([]);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    getAllProducts().then((allProducts) => {
+      setAllProducts(allProducts);
+      setLoading(false);
+    });
+  }, [!updateTable]);
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={allProducts}
+      pagination={{position: [bottom]}}
+      // pagination={tableParams.pagination}
+      loading={loading}
+      onChange={handleTableChange}
+    />
+  );
+};

@@ -1,12 +1,12 @@
 import {OperationType} from "../types/operationType";
 import {message} from "antd";
 
-const URL_EMPLOYEE = 'http://localhost:8081/api/operation'
+const URL_OPERATION = 'http://localhost:8081/api/operation'
 
 // Получить список всех типов операций
 export async function getAllOperations(): Promise<OperationType[]> {
   try {
-    const res = await fetch(URL_EMPLOYEE);
+    const res = await fetch(URL_OPERATION);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -21,7 +21,7 @@ export async function getAllOperations(): Promise<OperationType[]> {
 // Получить данные типа операции по id
 export async function getOperationById(id: number): Promise<OperationType | undefined> {
   try {
-    const response = await fetch(URL_EMPLOYEE + `/${id}`);
+    const response = await fetch(URL_OPERATION + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -41,13 +41,13 @@ export function postNewOperation(data: OperationType) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_EMPLOYEE, config)
+    fetch(URL_OPERATION, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
         } else {
           console.error(response.statusText);
-          return message.error('Ошибка при добавлении нового типа операции');
+          return message.error('Ошибка при добавлении записи');
         }
       })
       .catch((error) => console.error(error))
@@ -59,7 +59,7 @@ export function postNewOperation(data: OperationType) {
 // Удалить тип операции по id
 export async function deleteOperationById(id: number) {
   try {
-    const response = await fetch(URL_EMPLOYEE + `/${id}`, {
+    const response = await fetch(URL_OPERATION + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -67,7 +67,7 @@ export async function deleteOperationById(id: number) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
-      return message.error('Ошибка при удалении типа операции');
+      return message.error('Ошибка при удалении записи');
     }
   } catch (err) {
     console.error(err);
@@ -82,7 +82,7 @@ export function putChangeOperation(data: OperationType) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_EMPLOYEE, config)
+    fetch(URL_OPERATION, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');

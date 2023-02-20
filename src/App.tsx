@@ -22,6 +22,7 @@ import PageEmployees from "./layout/modules/employees/pageEmployees";
 import PageOperations from "./layout/modules/operations/pageOperations";
 import PageUnits from "./layout/modules/unit/pageUnits";
 import PageOutputs from "./layout/modules/output/pageOutputs";
+import PageProducts from "./layout/modules/product/pageProducts";
 
 const {Header, Sider, Content} = Layout;
 
@@ -78,7 +79,7 @@ function App() {
               },
               {
                 key: '7',
-                icon: <TrophyOutlined/>,
+                icon: <Link to='/products'><TrophyOutlined/></Link>,
                 label: 'Товары',
               },
               {
@@ -118,7 +119,7 @@ function App() {
               },
               {
                 key: '16',
-                icon: <Link to='/output'><AccountBookOutlined/></Link>,
+                icon: <Link to='/outputs'><AccountBookOutlined/></Link>,
                 label: 'Выпуски продукции',
               },
               {
@@ -147,7 +148,8 @@ function App() {
               <Route path='/' element={<Home/>}/>
               <Route path='/employees' element={<PageEmployees/>}/>
               <Route path='/operations' element={<PageOperations/>}/>
-              <Route path='/output' element={<PageOutputs/>}/>
+              <Route path='/products' element={<PageProducts/>}/>
+              <Route path='/outputs' element={<PageOutputs/>}/>
               <Route path='/units' element={<PageUnits/>}/>
             </Routes>
           </Content>

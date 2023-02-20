@@ -47,7 +47,7 @@ export function postNewEmployee(data: EmployeeType) {
           return message.success('Запись добавлена');
         } else {
           console.error(response.statusText);
-          return message.error('Ошибка при добавлении нового сотрудника');
+          return message.error('Ошибка при добавлении записи');
         }
       })
       .catch((error) => console.error(error));
@@ -67,7 +67,7 @@ export async function deleteEmployeeById(id: number) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
-      return message.error('Ошибка при удалении сотрудника');
+      return message.error('Ошибка при удалении записи');
     }
   } catch (err) {
     console.error(err);

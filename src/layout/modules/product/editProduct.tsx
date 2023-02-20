@@ -1,23 +1,29 @@
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditOperationProps} from "../../../types/operationType";
-import {getOperationById} from "../../../requests/operationsRequests";
+import {EditProductProps, ProductType} from "../../../types/productType";
+import {getAllProductGroups, getProductById} from "../../../requests/productsRequests";
 import {UnitType} from "../../../types/unitType";
 import {getAllUnits} from "../../../requests/unitsRequests";
 
 const {Option} = Select;
 
-export const EditOperation: React.FC<EditOperationProps> = ({
+export const EditProduct: React.FC<EditProductProps> = ({
                                                             isOpen,
-                                                            selectedOperationId,
+                                                            selectedProductId,
                                                             closeDrawer,
-                                                            updateOperation,
+                                                            updateProduct,
                                                           }) => {
   const [form] = Form.useForm();
 
   const [units, setUnits] = useState<UnitType[]>();
   const [selectedUnit, setSelectedUnit] = useState<UnitType>();
   const [unit, setUnit] = useState<UnitType>()
+
+  const [productGroups, setProductGroups] = useState<ProductType[]>();
+  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
+  const [productGroup, setProductGroup] = useState<ProductType>()
+
+
 
   const onChangeUnit = (values: string, option: any): UnitType => {
     const unit: UnitType = {
@@ -31,6 +37,18 @@ export const EditOperation: React.FC<EditOperationProps> = ({
     return unit
   };
 
+  const onChangeProductGroup = (values: string, option: any): ProductType => {
+    const productGroup: ProductType = {
+      id: option.id,
+      title: values,
+    };
+    form.setFieldsValue({
+      productGroup: productGroup
+    });
+    setSelectedProductGroup(productGroup)
+    return productGroup
+  };
+
   useEffect(() => {
     getAllUnits().then((units) => {
       setUnits(units);
@@ -38,22 +56,32 @@ export const EditOperation: React.FC<EditOperationProps> = ({
   }, []);
 
   useEffect(() => {
-    if (selectedOperationId) {
-      getOperationById(selectedOperationId).then((operation) => {
-        form.setFieldsValue(operation)
-        setSelectedUnit(operation?.unit)
-        setUnit(operation?.unit)
+    getAllProductGroups().then((productGroups) => {
+      setProductGroups(productGroups);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedProductId) {
+      getProductById(selectedProductId).then((product) => {
+        form.setFieldsValue(product)
+        console.log('product', product)
+        setSelectedUnit(product?.unit)
+        setUnit(product?.unit)
+        setSelectedProductGroup(productGroup?.productGroup)
+        setProductGroup(product?.productGroup)
       })
     }
-  }, [selectedOperationId, getOperationById]);
+  }, [selectedProductId, getProductById]);
 
   return (
     <Drawer
-      title="Редактирование операции"
+      title="Редактирование товара"
       width={700}
       open={isOpen}
       onClose={()=> {
         setSelectedUnit(unit);
+        setSelectedProductGroup(productGroup);
         closeDrawer()
       }}
       bodyStyle={{paddingBottom: 80}}
@@ -61,6 +89,7 @@ export const EditOperation: React.FC<EditOperationProps> = ({
         <Space>
           <Button onClick={()=> {
             setSelectedUnit(unit);
+            setSelectedProductGroup(productGroup);
             closeDrawer()
           }}>Отмена</Button>
           <Button onClick={() => {
@@ -68,13 +97,13 @@ export const EditOperation: React.FC<EditOperationProps> = ({
             form
               .validateFields()
               .then((values) => {
-                // form.resetFields()
-                updateOperation(values);
+                console.log('value', values)
+                updateProduct(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-operation' htmlType="submit">
+          }} type="primary" form='change-product' htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -82,13 +111,13 @@ export const EditOperation: React.FC<EditOperationProps> = ({
     >
       <Form
         form={form}
-        name="change-operation"
+        name="change-product"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Название операции"
+          label="Название товара"
           name="title"
           rules={[{required: true, message: 'Пожалуйста введите название'}]}
         >
@@ -113,16 +142,22 @@ export const EditOperation: React.FC<EditOperationProps> = ({
           </div>
         </Form.Item>
         <Form.Item
-          label="Норма"
-          name="rate"
-          rules={[{
-            type: 'number',
-            message: 'Пожалуйста напишите ставку цифрами больше 1',
-            warningOnly: true,
-            // pattern: /[1-9]/,
-          }]}
+          label="Товарная группа"
+          name="productGroup"
         >
-          <InputNumber/>
+          <div>
+            <Select
+              value={selectedProductGroup ? selectedProductGroup.title : undefined}
+              onChange={onChangeProductGroup}
+            >
+              {productGroups && productGroups.length > 0 ?
+                productGroups.map(productGroup => (
+                  <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
+                    {productGroup.title}
+                  </Option>
+                )) : null}
+            </Select>
+          </div>
         </Form.Item>
       </Form>
     </Drawer>

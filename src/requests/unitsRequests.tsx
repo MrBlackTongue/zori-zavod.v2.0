@@ -1,12 +1,12 @@
 import {UnitType} from "../types/unitType";
 import {message} from "antd";
 
-const URL_EMPLOYEE = 'http://localhost:8081/api/unit'
+const URL_UNIT = 'http://localhost:8081/api/unit'
 
 // Получить список всех единиц измерения
 export async function getAllUnits(): Promise<UnitType[]> {
   try {
-    const response = await fetch(URL_EMPLOYEE);
+    const response = await fetch(URL_UNIT);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -21,7 +21,7 @@ export async function getAllUnits(): Promise<UnitType[]> {
 // Получить данные единицы измерения по id
 export async function getUnitById(id: number): Promise<UnitType | undefined> {
   try {
-    const response = await fetch(URL_EMPLOYEE + `/${id}`);
+    const response = await fetch(URL_UNIT + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -41,7 +41,7 @@ export function postNewUnit(data: UnitType) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_EMPLOYEE, config)
+    fetch(URL_UNIT, config)
       .then((response)=> {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -59,7 +59,7 @@ export function postNewUnit(data: UnitType) {
 // Удалить единицу измерения по id
 export async function deleteUnitById(id: number) {
   try {
-    const response = await fetch(URL_EMPLOYEE + `/${id}`, {
+    const response = await fetch(URL_UNIT + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -82,7 +82,7 @@ export function putChangeUnit(data: UnitType) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_EMPLOYEE, config)
+    fetch(URL_UNIT, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');
