@@ -14,9 +14,11 @@ export const AddProduct: React.FC<AddProductProps> = ({
                                                           }) => {
   const [form] = Form.useForm();
 
+  // Единицы измерения
   const [units, setUnits] = useState<UnitType[]>();
   const [selectedUnit, setSelectedUnit] = useState<UnitType>();
 
+  // Товарные группы
   const [productGroups, setProductGroups] = useState<ProductType[]>();
   const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
 

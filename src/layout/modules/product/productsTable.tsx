@@ -7,7 +7,8 @@ import {
   Popconfirm,
 } from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
+import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
+
 import {
   EditOutlined,
   DeleteOutlined,
@@ -15,20 +16,22 @@ import {
 import './pageProducts.css';
 import {
   getAllProducts,
-  deleteProductById,
+  deleteProductById, getAllProductGroups,
 } from "../../../requests/productsRequests";
 import {ProductsTableProps, ProductType, TableParams} from "../../../types/productType";
 
 export const ProductsTable: React.FC<ProductsTableProps> = ({
-                                                                  updateTable,
-                                                                  openDrawer,
-                                                                }) => {
-
+                                                              updateTable,
+                                                              openDrawer,
+                                                            }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех товаров
   const [loading, setLoading] = useState(false);
   const [allProducts, setAllProducts] = useState<ProductType[]>();
+
+  // Товарная группа
+  const [productGroups, setProductGroups] = useState<ProductType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -45,12 +48,13 @@ export const ProductsTable: React.FC<ProductsTableProps> = ({
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-      // sorter: (a, b) => a.title < b.title ? -1 : 1,
+      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
     },
     {
       title: 'Единица измерения',
       dataIndex: 'unit',
       key: 'unit',
+      width: 200,
       render: ((unit: any) =>
         unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
     },
@@ -58,8 +62,13 @@ export const ProductsTable: React.FC<ProductsTableProps> = ({
       title: 'Товарная группа',
       dataIndex: 'productGroup',
       key: 'productGroup',
-      render: ((productGroup: any) =>
-        productGroup !== null ? (<div key={productGroup.id}> {productGroup.title}</div>) : null),
+      filters: productGroups?.map((productGroup): ColumnFilterItem => ({
+        text: productGroup.title,
+        value: productGroup.title!
+      })),
+      onFilter: (value, record) => record.productGroup?.title === value,
+      render: ((productGroup: any) => productGroup !== null ? (
+        <div key={productGroup.id}> {productGroup.title}</div>) : null),
     },
     {
       title: 'Действия',
@@ -90,8 +99,9 @@ export const ProductsTable: React.FC<ProductsTableProps> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" ghost onClick={() => {
-              }}>
+              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
+                      onClick={() => {
+                      }}>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -122,6 +132,12 @@ export const ProductsTable: React.FC<ProductsTableProps> = ({
       setLoading(false);
     });
   }, [!updateTable]);
+
+  useEffect(() => {
+    getAllProductGroups().then((productGroups) => {
+      setProductGroups(productGroups);
+    });
+  }, []);
 
   return (
     <Table

@@ -89,7 +89,7 @@ export const OperationsTable: React.FC<OperationsTableProps> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" ghost onClick={() => {
+              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
               }}>
                 <DeleteOutlined/>
               </Button>

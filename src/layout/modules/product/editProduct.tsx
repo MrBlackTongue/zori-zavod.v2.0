@@ -1,4 +1,4 @@
-import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
+import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
 import {EditProductProps, ProductType} from "../../../types/productType";
 import {getAllProductGroups, getProductById} from "../../../requests/productsRequests";
@@ -15,10 +15,12 @@ export const EditProduct: React.FC<EditProductProps> = ({
                                                           }) => {
   const [form] = Form.useForm();
 
+  // Единицы измерения
   const [units, setUnits] = useState<UnitType[]>();
   const [selectedUnit, setSelectedUnit] = useState<UnitType>();
   const [unit, setUnit] = useState<UnitType>()
 
+  // Товарные группы
   const [productGroups, setProductGroups] = useState<ProductType[]>();
   const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
   const [productGroup, setProductGroup] = useState<ProductType>()
@@ -65,10 +67,9 @@ export const EditProduct: React.FC<EditProductProps> = ({
     if (selectedProductId) {
       getProductById(selectedProductId).then((product) => {
         form.setFieldsValue(product)
-        console.log('product', product)
         setSelectedUnit(product?.unit)
         setUnit(product?.unit)
-        setSelectedProductGroup(productGroup?.productGroup)
+        setSelectedProductGroup(product?.productGroup)
         setProductGroup(product?.productGroup)
       })
     }
@@ -97,7 +98,6 @@ export const EditProduct: React.FC<EditProductProps> = ({
             form
               .validateFields()
               .then((values) => {
-                console.log('value', values)
                 updateProduct(values);
               })
               .catch((info) => {
@@ -126,6 +126,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
         <Form.Item
           label="Единица измерения"
           name="unit"
+          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста выберите ед. изм.'}]}
         >
           <div>
             <Select
@@ -144,6 +145,7 @@ export const EditProduct: React.FC<EditProductProps> = ({
         <Form.Item
           label="Товарная группа"
           name="productGroup"
+          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста выберите тов. группу'}]}
         >
           <div>
             <Select
