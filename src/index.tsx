@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
-import {ConfigProvider } from 'antd';
+import {ConfigProvider} from 'antd';
 import ru_RU from 'antd/lib/locale/ru_RU';
 import 'dayjs/locale/ru';
 
@@ -15,7 +15,7 @@ root.render(
     <BrowserRouter>
       <ConfigProvider locale={ru_RU}>
         <App/>
-      </ConfigProvider>;
+      </ConfigProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
