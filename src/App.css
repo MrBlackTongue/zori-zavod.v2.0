@@ -81,3 +81,11 @@
   color: #31aa2d !important;
   border-color: #31aa2d !important;
 }
+
+.context-style {
+  margin: 24px 16px;
+  padding: 24px;
+  min-height: 280px;
+  border-radius: 8px;
+  background: white;
+}

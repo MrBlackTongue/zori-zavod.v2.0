@@ -5,14 +5,8 @@ import {
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import {Layout, theme} from 'antd';
-import {Routes, Route} from 'react-router-dom';
-import Home from "../src/layout/modules/home/home";
-import PageEmployees from "./layout/modules/employees/pageEmployees";
-import PageOperations from "./layout/modules/operations/pageOperations";
-import PageUnits from "./layout/modules/unit/pageUnits";
-import PageOutputs from "./layout/modules/output/pageOutputs";
-import PageProducts from "./layout/modules/product/pageProducts";
 import MenuMain from "./layout/modules/menuMain/menuMain";
+import AppRoutes from "./layout/modules/routes/routes";
 
 const {Header, Sider, Content} = Layout;
 
@@ -39,23 +33,8 @@ function App() {
           <Header style={{padding: 0, background: colorBgContainer}}>
             {/*<Title level={3}></Title>*/}
           </Header>
-          <Content
-            style={{
-              margin: '24px 16px',
-              padding: 24,
-              minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: '8px',
-            }}
-          >
-            <Routes>
-              <Route path='/' element={<Home/>}/>
-              <Route path='/employees' element={<PageEmployees/>}/>
-              <Route path='/operations' element={<PageOperations/>}/>
-              <Route path='/products' element={<PageProducts/>}/>
-              <Route path='/outputs' element={<PageOutputs/>}/>
-              <Route path='/units' element={<PageUnits/>}/>
-            </Routes>
+          <Content className='context-style'>
+            <AppRoutes/>
           </Content>
         </Layout>
       </Layout>
