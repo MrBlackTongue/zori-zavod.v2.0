@@ -1,12 +1,11 @@
-import {OperationTypes} from "../types/OperationTypes";
+import {OperationTypes} from "../types";
 import {message} from "antd";
-
-const URL_OPERATION = 'http://localhost:8081/api/operation'
+import {URL, OPERATION} from "./Routes";
 
 // Получить список всех типов операций
 export async function getAllOperations(): Promise<OperationTypes[]> {
   try {
-    const res = await fetch(URL_OPERATION);
+    const res = await fetch(URL + OPERATION);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -21,7 +20,7 @@ export async function getAllOperations(): Promise<OperationTypes[]> {
 // Получить данные типа операции по id
 export async function getOperationById(id: number): Promise<OperationTypes | undefined> {
   try {
-    const response = await fetch(URL_OPERATION + `/${id}`);
+    const response = await fetch(URL + OPERATION + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -41,7 +40,7 @@ export function postNewOperation(data: OperationTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_OPERATION, config)
+    fetch(URL + OPERATION, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -59,7 +58,7 @@ export function postNewOperation(data: OperationTypes) {
 // Удалить тип операции по id
 export async function deleteOperationById(id: number) {
   try {
-    const response = await fetch(URL_OPERATION + `/${id}`, {
+    const response = await fetch(URL + OPERATION + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -82,7 +81,7 @@ export function putChangeOperation(data: OperationTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_OPERATION, config)
+    fetch(URL + OPERATION, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');

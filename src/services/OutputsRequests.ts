@@ -1,12 +1,11 @@
-import {OutputTypes} from "../types/OutputTypes";
+import {OutputTypes} from "../types";
 import {message} from "antd";
-
-const URL_OUTPUT = 'http://localhost:8081/api/output'
+import {URL, OUTPUT} from "./Routes";
 
 // Получить список всех единиц измерения
 export async function getAllOutputs(): Promise<OutputTypes[]> {
   try {
-    const res = await fetch(URL_OUTPUT);
+    const res = await fetch(URL + OUTPUT);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -21,7 +20,7 @@ export async function getAllOutputs(): Promise<OutputTypes[]> {
 // Получить данные единицы измерения по id
 export async function getOutputById(id: number): Promise<OutputTypes | undefined> {
   try {
-    const response = await fetch(URL_OUTPUT + `/${id}`);
+    const response = await fetch(URL + OUTPUT + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -41,8 +40,8 @@ export function postNewOutput(data: OutputTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_OUTPUT, config)
-      .then((response)=> {
+    fetch(URL + OUTPUT, config)
+      .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
         } else {
@@ -50,7 +49,7 @@ export function postNewOutput(data: OutputTypes) {
           return message.error('Ошибка при добавлении записи');
         }
       })
-      .catch((error)=> console.error(error))
+      .catch((error) => console.error(error))
   } catch (error) {
     console.error(error);
   }
@@ -59,7 +58,7 @@ export function postNewOutput(data: OutputTypes) {
 // Удалить единицу измерения по id
 export async function deleteOutputById(id: number) {
   try {
-    const response = await fetch(URL_OUTPUT + `/${id}`, {
+    const response = await fetch(URL + OUTPUT + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -82,7 +81,7 @@ export function putChangeOutput(data: OutputTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_OUTPUT, config)
+    fetch(URL + OUTPUT, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');

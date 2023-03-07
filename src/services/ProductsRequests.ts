@@ -1,14 +1,11 @@
-import {ProductTypes} from "../types/ProductTypes";
+import {ProductTypes} from "../types";
 import {message} from "antd";
-
-const URL_PRODUCT = 'http://localhost:8081/api/product'
-
-const URL_GROUP = '/group'
+import {URL, PRODUCT, PRODUCT_GROUP} from "./Routes";
 
 // Получить список всех товаров
 export async function getAllProducts(): Promise<ProductTypes[]> {
   try {
-    const res = await fetch(URL_PRODUCT);
+    const res = await fetch(URL + PRODUCT);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -23,7 +20,7 @@ export async function getAllProducts(): Promise<ProductTypes[]> {
 // Получить данные товара по id
 export async function getProductById(id: number): Promise<ProductTypes | undefined> {
   try {
-    const response = await fetch(URL_PRODUCT + `/${id}`);
+    const response = await fetch(URL + PRODUCT + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -43,7 +40,7 @@ export function postNewProduct(data: ProductTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_PRODUCT, config)
+    fetch(URL + PRODUCT, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -61,7 +58,7 @@ export function postNewProduct(data: ProductTypes) {
 // Удалить товар по id
 export async function deleteProductById(id: number) {
   try {
-    const response = await fetch(URL_PRODUCT + `/${id}`, {
+    const response = await fetch(URL + PRODUCT + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -84,7 +81,7 @@ export function putChangeProduct(data: ProductTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_PRODUCT, config)
+    fetch(URL + PRODUCT, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');
@@ -102,7 +99,7 @@ export function putChangeProduct(data: ProductTypes) {
 // Получить список всех товарных групп
 export async function getAllProductGroups(): Promise<ProductTypes[]> {
   try {
-    const res = await fetch(URL_PRODUCT + URL_GROUP);
+    const res = await fetch(URL + PRODUCT + PRODUCT_GROUP);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -117,7 +114,7 @@ export async function getAllProductGroups(): Promise<ProductTypes[]> {
 // Получить данные товарной группы по id
 export async function getProductGroupById(id: number): Promise<ProductTypes | undefined> {
   try {
-    const response = await fetch(URL_PRODUCT + URL_GROUP + `/${id}`);
+    const response = await fetch(URL + PRODUCT + PRODUCT_GROUP + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -137,7 +134,7 @@ export function postNewProductGroup(data: ProductTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_PRODUCT + URL_GROUP, config)
+    fetch(URL + PRODUCT + PRODUCT_GROUP, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -155,7 +152,7 @@ export function postNewProductGroup(data: ProductTypes) {
 // Удалить товарную группу по id
 export async function deleteProductGroupById(id: number) {
   try {
-    const response = await fetch(URL_PRODUCT + URL_GROUP + `/${id}`, {
+    const response = await fetch(URL + PRODUCT + PRODUCT_GROUP + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -178,7 +175,7 @@ export function putChangeProductGroup(data: ProductTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_PRODUCT + URL_GROUP, config)
+    fetch(URL + PRODUCT + PRODUCT_GROUP, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');

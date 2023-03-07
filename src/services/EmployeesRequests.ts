@@ -1,12 +1,11 @@
-import {EmployeeTypes} from "../types/EmployeeTypes";
+import {EmployeeTypes} from "../types";
 import {message} from "antd";
-
-const URL_EMPLOYEE = 'http://localhost:8081/api/employee'
+import {URL, EMPLOYEE} from "./Routes";
 
 // Получить список всех сотрудников
 export async function getAllEmployees(): Promise<EmployeeTypes[]> {
   try {
-    const res = await fetch(URL_EMPLOYEE);
+    const res = await fetch(URL + EMPLOYEE);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -21,7 +20,7 @@ export async function getAllEmployees(): Promise<EmployeeTypes[]> {
 // Получить данные сотрудника по id
 export async function getEmployeeById(id: number): Promise<EmployeeTypes | undefined> {
   try {
-    const response = await fetch(URL_EMPLOYEE + `/${id}`);
+    const response = await fetch(URL + EMPLOYEE + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -41,7 +40,7 @@ export function postNewEmployee(data: EmployeeTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_EMPLOYEE, config)
+    fetch(URL + EMPLOYEE, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -59,7 +58,7 @@ export function postNewEmployee(data: EmployeeTypes) {
 // Удалить сотрудника по id
 export async function deleteEmployeeById(id: number) {
   try {
-    const response = await fetch(URL_EMPLOYEE + `/${id}`, {
+    const response = await fetch(URL + EMPLOYEE + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -82,7 +81,7 @@ export function putChangeEmployee(data: EmployeeTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_EMPLOYEE, config)
+    fetch(URL + EMPLOYEE, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');

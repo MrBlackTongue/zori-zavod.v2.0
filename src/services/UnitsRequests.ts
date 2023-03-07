@@ -1,12 +1,11 @@
-import {UnitTypes} from "../types/UnitTypes";
+import {UnitTypes} from "../types";
 import {message} from "antd";
-
-const URL_UNIT = 'http://localhost:8081/api/unit'
+import {URL, UNIT} from "./Routes";
 
 // Получить список всех единиц измерения
 export async function getAllUnits(): Promise<UnitTypes[]> {
   try {
-    const response = await fetch(URL_UNIT);
+    const response = await fetch(URL + UNIT);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -21,7 +20,7 @@ export async function getAllUnits(): Promise<UnitTypes[]> {
 // Получить данные единицы измерения по id
 export async function getUnitById(id: number): Promise<UnitTypes | undefined> {
   try {
-    const response = await fetch(URL_UNIT + `/${id}`);
+    const response = await fetch(URL + UNIT + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -41,8 +40,8 @@ export function postNewUnit(data: UnitTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_UNIT, config)
-      .then((response)=> {
+    fetch(URL + UNIT, config)
+      .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
         } else {
@@ -50,7 +49,7 @@ export function postNewUnit(data: UnitTypes) {
           return message.error('Ошибка при добавлении записи');
         }
       })
-      .catch((error)=> console.error(error))
+      .catch((error) => console.error(error))
   } catch (error) {
     console.error(error);
   }
@@ -59,7 +58,7 @@ export function postNewUnit(data: UnitTypes) {
 // Удалить единицу измерения по id
 export async function deleteUnitById(id: number) {
   try {
-    const response = await fetch(URL_UNIT + `/${id}`, {
+    const response = await fetch(URL + UNIT + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -82,7 +81,7 @@ export function putChangeUnit(data: UnitTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL_UNIT, config)
+    fetch(URL + UNIT, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');
