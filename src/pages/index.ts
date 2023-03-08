@@ -4,3 +4,4 @@ export * from './PageOperations';
 export * from './PageOutputs';
 export * from './PageProducts';
 export * from './PageUnits';
+export * from './PageClients';
