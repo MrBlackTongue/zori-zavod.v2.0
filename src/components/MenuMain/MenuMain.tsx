@@ -100,6 +100,11 @@ const MenuMain: React.FC = () => {
         icon: <Link to='/units'><FunctionOutlined/></Link>,
         label: 'Единицы измерения',
       },
+      {
+        key: '18',
+        icon: <Link to='/purchases'><FunctionOutlined/></Link>,
+        label: 'Закупки',
+      }
     ]}
   >
   </Menu>
