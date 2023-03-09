@@ -11,13 +11,19 @@ import moment from 'moment';
 const { Title } = Typography;
 
 const PagePurchases: React.FC = () => {
+    
     const [form] = Form.useForm();
+    
     const [loading, setLoading] = useState(false);
     const [updateButton, setUpdateButton] = useState('Обновить');
+    
     const [updateTable, setUpdateTable] = useState(false);
+    
     const [purchase, setPurchase] = useState<PurchaseType | null>(null);
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    
     const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
     const addPurchase = (values: { [key: string]: any }): PurchaseType => {
@@ -25,7 +31,9 @@ const PagePurchases: React.FC = () => {
             amount: values.amount,
             cost: values.cost,
             date: moment(values.date),
-            product: values.product,
+            product: {
+                id: values.product,
+            },
             paid: values.paid,
         };
         setIsModalOpen(false);
