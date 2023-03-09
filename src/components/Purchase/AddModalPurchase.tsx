@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {AddItemProps, PurchaseType, ProductTypes} from "../../types";
-import {Form, Input, Modal, Select, InputNumber, DatePicker, Checkbox} from "antd";
+import {Form, Modal, Select, InputNumber, DatePicker, Checkbox} from "antd";
 import {getAllProducts} from "../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
@@ -98,7 +98,6 @@ export const AddModalPurchase: React.FC<AddItemProps<PurchaseType>> = ({
                     label="Цена"
                     name="cost"
                     rules={[{required: true, message: "Пожалуйста введите цену"}]}
-
                 >
                     <InputNumber/>
                 </Form.Item>
@@ -120,7 +119,6 @@ export const AddModalPurchase: React.FC<AddItemProps<PurchaseType>> = ({
                     />
                 </Form.Item>
                 <Form.Item
-//                     label="Оплачено"
                     name="paid"
                     wrapperCol={{offset: 8, span: 16}}
                 >
