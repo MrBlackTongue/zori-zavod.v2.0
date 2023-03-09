@@ -1,16 +1,16 @@
-import {PurchaseTypes} from "../types";
+import {PurchaseType} from "../types";
 import {message} from "antd";
 import {PURCHASE, URL} from "./Routes";
 
 // Получить все закупки
-export async function getAllPurchases(): Promise<PurchaseTypes[]> {
+export async function getAllPurchases(): Promise<PurchaseType[]> {
     try {
         const res = await fetch(URL + PURCHASE);
         if (!res.ok) {
             console.error(res.statusText);
             return Promise.reject();
         }
-        return await res.json() as PurchaseTypes[];
+        return await res.json() as PurchaseType[];
     } catch (error) {
         console.error(error);
         return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllPurchases(): Promise<PurchaseTypes[]> {
 }
 
 // Получить данные закупки по id
-export async function getPurchaseById(id: number): Promise<PurchaseTypes | undefined> {
+export async function getPurchaseById(id: number): Promise<PurchaseType | undefined> {
     try {
         const response = await fetch(URL + PURCHASE + `/${id}`);
         if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getPurchaseById(id: number): Promise<PurchaseTypes | undef
 }
 
 // Добавить новую закупку
-export function postNewPurchase(data: PurchaseTypes) {
+export function postNewPurchase(data: PurchaseType) {
     try {
         const config = {
             method: 'POST',
@@ -74,7 +74,7 @@ export async function deletePurchaseById(id: number) {
 }
 
 // Редактировать закупку
-export function putChangePurchase(data: PurchaseTypes) {
+export function putChangePurchase(data: PurchaseType) {
     try {
         const config = {
             method: 'PUT',

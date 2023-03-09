@@ -1,16 +1,4 @@
-import { Moment } from 'moment';
-import {ProductTypes} from "./ProductTypes";
-
-export type PurchaseTypes = {
-    id?: number,
-    amount?: number,
-    cost?: number,
-    date?: Moment,
-    product?: ProductTypes,
-    paid?: boolean
-}
-
-export interface TableProps<T> {
+export interface ItemTableProps<T> {
     updateTable: boolean;
     openDrawer: (id: number) => void;
 }

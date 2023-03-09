@@ -1,7 +1,7 @@
 import React from "react";
-import {EditItemProps, PurchaseTypes} from "../../types";
+import {EditItemProps, PurchaseType} from "../../types";
 
-export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseTypes>> = ({
+export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,

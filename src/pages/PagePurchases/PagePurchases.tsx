@@ -4,7 +4,7 @@ import { SyncOutlined, PlusOutlined } from '@ant-design/icons';
 import '../../App.css';
 import './PagePurchases.css';
 import { postNewPurchase, putChangePurchase } from '../../services';
-import { PurchaseTypes } from '../../types';
+import { PurchaseType } from '../../types';
 import { AddModalPurchase, TablePurchases, EditDrawerPurchase } from '../../components';
 import moment from 'moment';
 
@@ -15,13 +15,13 @@ const PagePurchases: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [updateButton, setUpdateButton] = useState('Обновить');
     const [updateTable, setUpdateTable] = useState(false);
-    const [purchase, setPurchase] = useState<PurchaseTypes | null>(null);
+    const [purchase, setPurchase] = useState<PurchaseType | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
-    const addPurchase = (values: { [key: string]: any }): PurchaseTypes => {
-        const purchase: PurchaseTypes = {
+    const addPurchase = (values: { [key: string]: any }): PurchaseType => {
+        const purchase: PurchaseType = {
             amount: values.amount,
             cost: values.cost,
             date: moment(values.date),
@@ -45,8 +45,8 @@ const PagePurchases: React.FC = () => {
         setIsDrawerOpen(true);
     };
 
-    const updatePurchase = (values: { [key: string]: any }): PurchaseTypes => {
-        const purchase: PurchaseTypes = {
+    const updatePurchase = (values: { [key: string]: any }): PurchaseType => {
+        const purchase: PurchaseType = {
             id: selectedPurchaseId,
             amount: values.amount,
             cost: values.cost,
