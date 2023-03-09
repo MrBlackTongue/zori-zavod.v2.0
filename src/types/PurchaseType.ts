@@ -1,11 +1,11 @@
-import { Moment } from 'moment';
 import {ProductTypes} from "./ProductTypes";
+import {Dayjs} from 'dayjs';
 
 export type PurchaseType = {
     id?: number,
     amount?: number,
     cost?: number,
-    date?: Moment,
+    date?: Dayjs,
     product?: ProductTypes,
     paid?: boolean
 }

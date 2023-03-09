@@ -1,2 +1,2 @@
 export * from './AppRoutes'
-export * from './TabsRoutes'
+// export * from './TabsRoutes'

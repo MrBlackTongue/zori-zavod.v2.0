@@ -2,26 +2,32 @@ import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, InputNumber, DatePicker, Checkbox, Space, Button} from "antd";
 import {EditItemProps, ProductTypes, PurchaseType} from "../../types";
 import {getAllProducts, getPurchaseById} from "../../services";
-import dayjs from 'dayjs';
+import dayjs, {Dayjs} from 'dayjs';
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 const {Option} = Select;
 
 export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
-                                                                isOpen,
-                                                                selectedItemId,
-                                                                closeDrawer,
-                                                                updateItem,
-                                                            }) => {
+                                                                              isOpen,
+                                                                              selectedItemId,
+                                                                              closeDrawer,
+                                                                              updateItem,
+                                                                          }) => {
     const [form] = Form.useForm();
+
+    const [purchase] = useState<PurchaseType | null>(null);
 
     const [products, setProducts] = useState<ProductTypes[]>();
     const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
     const [product, setProduct] = useState<ProductTypes>();
-    const [date, setDate] = useState<any>();
+
+    const [selectedDate, setSelectedDate] = useState<Dayjs | null | undefined>();
+
+    const [paid, setPaid] = useState(purchase?.paid)
 
     const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-        form.setFieldsValue({hired: e.target.checked});
+        setPaid(e.target.checked);
+        form.setFieldsValue({paid: e.target.checked});
     }
 
     const onChangeProduct = (values: string, option: any): ProductTypes => {
@@ -40,12 +46,15 @@ export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
         if (selectedItemId) {
             getPurchaseById(selectedItemId).then((purchase) => {
                 form.setFieldsValue({
-                    date: purchase?.date,
+                    date: dayjs(purchase?.date),
                     product: purchase?.product?.id,
+                    cost: purchase?.cost,
+                    amount: purchase?.amount,
+                    paid: purchase?.paid,
                 });
                 setSelectedProduct(purchase?.product)
                 setProduct(purchase?.product)
-                setDate((purchase?.date));
+                setSelectedDate(dayjs(purchase?.date));
             })
         }
     }, [selectedItemId]);
@@ -99,7 +108,7 @@ export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
                 labelCol={{span: 6}}
                 wrapperCol={{span: 16}}
                 style={{marginTop: 30}}
-                initialValues={{date: date}}
+                initialValues={{date: selectedDate}}
             >
                 <Form.Item
                     label="Товар"
@@ -143,13 +152,14 @@ export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
                         style={{width: '100%'}}
                         format='DD.MM.YYYY'
                         onChange={(value) => {
-                            setDate(value);
+                            setSelectedDate(value);
                         }}
                     />
                 </Form.Item>
                 <Form.Item
                     name="paid"
                     wrapperCol={{offset: 8, span: 16}}
+                    valuePropName='checked'
                 >
                     <Checkbox onChange={onChangeCheckbox}>Оплачено</Checkbox>
                 </Form.Item>
