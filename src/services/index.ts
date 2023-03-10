@@ -5,3 +5,4 @@ export * from './ProductsRequests';
 export * from './UnitsRequests';
 export * from './PurchaseRequests'
 export * from './Routes';
+export * from './ClientRequests';

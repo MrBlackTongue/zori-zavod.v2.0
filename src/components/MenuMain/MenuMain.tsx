@@ -102,9 +102,14 @@ const MenuMain: React.FC = () => {
       },
       {
         key: '18',
+        icon: <Link to='/clients'><FunctionOutlined/></Link>,
+        label: 'Клиенты',
+      },
+      {
+        key: '19',
         icon: <Link to='/purchases'><FunctionOutlined/></Link>,
         label: 'Закупки',
-      }
+      },
     ]}
   >
   </Menu>
