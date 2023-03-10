@@ -20,9 +20,9 @@ import {
 import {UnitsTableProps, UnitTypes, TableParams} from "../../types";
 
 export const TableUnits: React.FC<UnitsTableProps> = ({
-                                                                updateTable,
-                                                                openDrawer,
-                                                              }) => {
+                                                        updateTable,
+                                                        openDrawer,
+                                                      }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех единиц измерения
@@ -75,8 +75,9 @@ export const TableUnits: React.FC<UnitsTableProps> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
+                      onClick={() => {
+                      }}>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>

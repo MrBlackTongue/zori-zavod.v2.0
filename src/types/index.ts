@@ -5,4 +5,5 @@ export * from './OutputTypes';
 export * from './UnitTypes';
 export * from './TableParamsTypes';
 export * from './ClientTypes';
-
+export * from './PurchaseType';
+export * from './PropsInterfaces';
