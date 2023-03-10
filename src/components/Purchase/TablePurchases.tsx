@@ -4,11 +4,12 @@ import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/tab
 import {ItemTableProps, PurchaseType, TableParams, UnitTypes} from "../../types";
 import dayjs from "dayjs";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {deletePurchaseById, getAllPurchases} from "../../services";
+import {deletePurchaseById, getAllPurchases, getPurchaseByTitle} from "../../services";
 
 export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
                                                                          updateTable,
                                                                          openDrawer,
+                                                                         searchText,
                                                                        }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -156,6 +157,7 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
     }
   };
 
+// Обновление таблицы
   useEffect(() => {
     setLoading(true);
     getAllPurchases().then((allPurchases) => {
@@ -163,6 +165,17 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
       setLoading(false);
     });
   }, [!updateTable]);
+
+// Поиск таблицы
+  useEffect(() => {
+    if (searchText) {
+      setLoading(true);
+      getPurchaseByTitle(searchText).then((allPurchases) => {
+        setAllPurchases(allPurchases);
+        setLoading(false);
+      });
+    }
+  }, [!searchText]);
 
   return (
     <Table
