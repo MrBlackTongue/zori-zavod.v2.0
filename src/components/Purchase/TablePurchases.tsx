@@ -166,7 +166,7 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
     });
   }, [!updateTable]);
 
-// Поиск таблицы
+// Поиск по таблице
   useEffect(() => {
     if (searchText) {
       setLoading(true);
