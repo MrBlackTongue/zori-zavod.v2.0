@@ -87,7 +87,7 @@ const PagePurchases: React.FC = () => {
         <Space>
           <Search
             placeholder="Поиск"
-            onSearch={searchTable}
+            onChange={(event) => searchTable(event.target.value)}
             style={{width: '230px'}}
             allowClear
           />
@@ -109,7 +109,7 @@ const PagePurchases: React.FC = () => {
         </Space>
       </div>
       <TablePurchases
-        updateTable={updateTable}
+        isUpdateTable={updateTable}
         openDrawer={openDrawer}
         searchText={searchText}
       />

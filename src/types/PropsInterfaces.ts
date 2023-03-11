@@ -1,5 +1,5 @@
 export interface ItemTableProps<T> {
-  updateTable: boolean;
+  isUpdateTable: boolean;
   openDrawer: (id: number) => void;
   searchText?: string | undefined;
 }

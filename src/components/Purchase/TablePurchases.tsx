@@ -7,7 +7,7 @@ import {deletePurchaseById, getAllPurchases, getPurchaseByTitle} from "../../ser
 import dayjs from "dayjs";
 
 export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
-                                                                         updateTable,
+                                                                         isUpdateTable,
                                                                          openDrawer,
                                                                          searchText,
                                                                        }) => {
@@ -157,31 +157,37 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
     }
   };
 
-  // Обновление таблицы
-  useEffect(() => {
+  // Функция для обновления таблицы закупок
+  const updateTable = () => {
     setLoading(true);
     getAllPurchases().then((allPurchases) => {
       setAllPurchases(allPurchases);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }
 
-  // Поиск по таблице
+  // Функция для поиска по таблице покупок
+  const searchTable = () => {
+    setLoading(true);
+    getPurchaseByTitle(searchText ?? '').then((allPurchases) => {
+      setAllPurchases(allPurchases);
+      setLoading(false);
+    });
+  }
+
+  // Обновление таблицы покупок
+  useEffect(() => {
+    updateTable();
+  }, [!isUpdateTable]);
+
+  // Поиск по таблице покупок
   useEffect(() => {
     if (searchText) {
-      setLoading(true);
-      getPurchaseByTitle(searchText).then((allPurchases) => {
-        setAllPurchases(allPurchases);
-        setLoading(false);
-      });
+      searchTable();
     } else {
-      setLoading(true);
-      getAllPurchases().then((allPurchases) => {
-        setAllPurchases(allPurchases);
-        setLoading(false);
-      });
+      updateTable();
     }
-  }, [!searchText]);
+  }, [searchText]);
 
   return (
     <Table
