@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {
   Typography,
   Space,
@@ -17,7 +17,7 @@ import './PageOperations.css';
 import {postNewOperation, putChangeOperation} from "../../services";
 import {OperationTypes} from "../../types";
 import {AddModalOperation, TableOperations, EditDrawerOperation} from "../../components";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const {Title} = Typography;
 const {TabPane} = Tabs;
@@ -102,69 +102,69 @@ const PageOperations: React.FC = () => {
   };
 
   return (
-    <Tabs onTabClick={handleTabClick}>
-      <TabPane
-        tab={
-          <span>
-                <CalendarOutlined />
-                Учет операций
-              </span>
-        }
-        key="employees">
-      </TabPane>
-      <TabPane
-        tab={
-          <span>
-                <CalendarOutlined />
-                Типы операций
-              </span>
-        }
-        key="operations">
-      <div style={{display: 'grid'}}>
-        <div className='centerTitle'>
-          <Title level={3}>Типы операций</Title>
-          <Space>
-            <Button
-              type="dashed"
-              icon={<SyncOutlined spin={loading}/>}
-              onClick={() => setUpdateTable(!updateTable)}
-              className='greenButton'>
-              {updateButton}
-            </Button>
-            <Button
-              type="primary"
-              icon={<PlusOutlined/>}
-              onClick={() => {
-                setIsModalOpen(true)
-              }}
-            >
-              Добавить
-            </Button>
-          </Space>
+    // <Tabs onTabClick={handleTabClick}>
+    //   <TabPane
+    //     tab={
+    //       <span>
+    //             <CalendarOutlined/>
+    //             Учет операций
+    //           </span>
+    //     }
+    //     key="employees">
+    //   </TabPane>
+    //   <TabPane
+    //     tab={
+    //       <span>
+    //             <CalendarOutlined/>
+    //             Типы операций
+    //           </span>
+    //     }
+    //     key="operations">
+        <div style={{display: 'grid'}}>
+          <div className='centerTitle'>
+            <Title level={3}>Типы операций</Title>
+            <Space>
+              <Button
+                type="dashed"
+                icon={<SyncOutlined spin={loading}/>}
+                onClick={() => setUpdateTable(!updateTable)}
+                className='greenButton'>
+                {updateButton}
+              </Button>
+              <Button
+                type="primary"
+                icon={<PlusOutlined/>}
+                onClick={() => {
+                  setIsModalOpen(true)
+                }}
+              >
+                Добавить
+              </Button>
+            </Space>
+          </div>
+          <TableOperations
+            updateTable={updateTable}
+            openDrawer={openDrawer}
+          />
+          <AddModalOperation
+            isOpen={isModalOpen}
+            addOperation={addOperation}
+            onCancel={() => {
+              setIsModalOpen(false)
+            }}
+          />
+          <EditDrawerOperation
+            isOpen={isDrawerOpen}
+            selectedOperationId={selectedOperationId}
+            updateOperation={updateOperation}
+            closeDrawer={() => {
+              setIsDrawerOpen(false);
+            }}
+          />
         </div>
-        <TableOperations
-          updateTable={updateTable}
-          openDrawer={openDrawer}
-        />
-        <AddModalOperation
-          isOpen={isModalOpen}
-          addOperation={addOperation}
-          onCancel={() => {
-            setIsModalOpen(false)
-          }}
-        />
-        <EditDrawerOperation
-          isOpen={isDrawerOpen}
-          selectedOperationId={selectedOperationId}
-          updateOperation={updateOperation}
-          closeDrawer={() => {
-            setIsDrawerOpen(false);
-          }}
-        />
-      </div>
-        <Link to="/operations">Типы операций</Link>
-    </TabPane>
-</Tabs>
+        // <Link to="/operations">Типы операций</Link>
+      // </TabPane>
+    // </Tabs>
 
   );
 }

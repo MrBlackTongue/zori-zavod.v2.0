@@ -85,7 +85,12 @@ const PagePurchases: React.FC = () => {
       <div className="centerTitle">
         <Title level={3}>Закупки</Title>
         <Space>
-          <Search placeholder="Поиск" onSearch={searchTable} style={{width: '250px'}}/>
+          <Search
+            placeholder="Поиск"
+            onSearch={searchTable}
+            style={{width: '230px'}}
+            allowClear
+          />
           <Button
             type="dashed"
             icon={<SyncOutlined spin={loading}/>}
