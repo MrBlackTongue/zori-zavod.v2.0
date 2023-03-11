@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form, Input} from 'antd';
-import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
+import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import './PagePurchases.css';
 import {postNewPurchase, putChangePurchase} from '../../services';
@@ -8,7 +8,6 @@ import {PurchaseType} from '../../types';
 import {AddModalPurchase, TablePurchases, EditDrawerPurchase} from '../../components';
 
 const {Title} = Typography;
-const {Search} = Input;
 
 const PagePurchases: React.FC = () => {
 
@@ -85,11 +84,12 @@ const PagePurchases: React.FC = () => {
       <div className="centerTitle">
         <Title level={3}>Закупки</Title>
         <Space>
-          <Search
-            placeholder="Поиск"
+          <Input
+            placeholder="Поиск по товарам"
             onChange={(event) => searchTable(event.target.value)}
-            style={{width: '230px'}}
+            style={{width: '210px'}}
             allowClear
+            prefix={<SearchOutlined/>}
           />
           <Button
             type="dashed"
