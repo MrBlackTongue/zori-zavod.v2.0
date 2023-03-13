@@ -1,11 +1,13 @@
+import {ProductTypes, PurchaseType} from "../types";
 import {message} from "antd";
-import {URL, PRODUCT, BATCH} from "./Routes";
-import {ProductBatchTypes} from "../types";
+import {PRODUCT, PRODUCT_BATCH, URL} from "./Routes";
+import {ProductBatchTypes} from "../types/ProductBatchTypes";
 
 // Получить все партии товаров
+
 export async function getAllProductBatch(): Promise<ProductBatchTypes[]> {
   try {
-    const res = await fetch(URL + PRODUCT + BATCH);
+    const res = await fetch(URL + PRODUCT_BATCH);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -25,7 +27,7 @@ export function putChangeProductBatch(data: ProductBatchTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCT + BATCH, config)
+    fetch(URL + PRODUCT_BATCH, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');
@@ -48,7 +50,7 @@ export function postNewProductBatch(data: ProductBatchTypes) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCT + BATCH, config)
+    fetch(URL + PRODUCT_BATCH, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -60,38 +62,5 @@ export function postNewProductBatch(data: ProductBatchTypes) {
       .catch((error) => console.error(error));
   } catch (error) {
     console.error(error);
-  }
-}
-
-// Получить данные партии товара по id
-export async function getProductBatchById(id: number): Promise<ProductBatchTypes | undefined> {
-  try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-}
-
-// Удалить партию товара по id
-export async function deleteProductBatchById(id: number) {
-  try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`, {
-      method: 'DELETE',
-    });
-    const data = await response.json();
-    if (data.success) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
   }
 }
