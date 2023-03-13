@@ -166,7 +166,7 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
     });
   }
 
-  // Функция для поиска по таблице покупок
+  // Функция для поиска по таблице закупок
   const searchTable = () => {
     setLoading(true);
     getPurchaseByTitle(searchText ?? '').then((allPurchases) => {
@@ -180,7 +180,7 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
     updateTable();
   }, [!isUpdateTable]);
 
-  // Поиск по таблице покупок
+  // Поиск по таблице закупок
   useEffect(() => {
     if (searchText) {
       searchTable();
