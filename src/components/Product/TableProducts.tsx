@@ -1,28 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
 import '../../pages/PageProducts/PageProducts.css';
-import {
-  getAllProducts,
-  deleteProductById, getAllProductGroups,
-} from "../../services";
-import {ProductsTableProps, ProductTypes, TableParams} from "../../types";
+import {getAllProducts, deleteProductById, getProductsByTitle, getAllProductGroups,} from "../../services";
+import {ItemTableProps, ProductTypes, TableParams} from "../../types";
 
-export const TableProducts: React.FC<ProductsTableProps> = ({
-                                                              updateTable,
-                                                              openDrawer,
-                                                            }) => {
+export const TableProducts: React.FC<ItemTableProps<ProductTypes>> = ({
+                                                                        isUpdateTable,
+                                                                        openDrawer,
+                                                                        searchText
+                                                                      }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех товаров
@@ -124,19 +113,42 @@ export const TableProducts: React.FC<ProductsTableProps> = ({
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы товары
+  const updateTable = () => {
     setLoading(true);
     getAllProducts().then((allProducts) => {
       setAllProducts(allProducts);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }
 
+  // Функция для поиска по таблице товаров
+  const searchTable = () => {
+    setLoading(true);
+    getProductsByTitle(searchText ?? '').then((allProducts) => {
+      setAllProducts(allProducts);
+      setLoading(false);
+    });
+  }
   useEffect(() => {
     getAllProductGroups().then((productGroups) => {
       setProductGroups(productGroups);
     });
   }, []);
+
+  // Обновление таблицы товаров
+  useEffect(() => {
+    updateTable();
+  }, [!isUpdateTable]);
+
+  // Поиск по таблице товаров
+  useEffect(() => {
+    if (searchText) {
+      searchTable();
+    } else {
+      updateTable();
+    }
+  }, [searchText]);
 
   return (
     <Table
@@ -149,3 +161,5 @@ export const TableProducts: React.FC<ProductsTableProps> = ({
     />
   );
 };
+
+

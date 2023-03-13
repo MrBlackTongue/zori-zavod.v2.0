@@ -1,14 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import {Typography, Space, Button, Form, Input,} from 'antd';
+import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import './PageProducts.css';
 import {postNewProduct, putChangeProduct} from "../../services";
@@ -68,6 +60,12 @@ const PageProducts: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
+  const [searchText, setSearchText] = useState("");
+
+  const searchTable = (value: string) => {
+    setSearchText(value);
+  }
+
   const updateProduct = (values: { [key: string]: any }): ProductTypes => {
     const product: ProductTypes = {
       title: values.title,
@@ -92,6 +90,13 @@ const PageProducts: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Товары</Title>
         <Space>
+          <Input
+            placeholder="Поиск по товарам"
+            onChange={(event) => searchTable(event.target.value)}
+            style={{width: '210px'}}
+            allowClear
+            prefix={<SearchOutlined/>}
+          />
           <Button
             type="dashed"
             icon={<SyncOutlined spin={loading}/>}
@@ -111,8 +116,9 @@ const PageProducts: React.FC = () => {
         </Space>
       </div>
       <TableProducts
-        updateTable={updateTable}
+        isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        searchText={searchText}
       />
       <AddModalProduct
         isOpen={isModalOpen}

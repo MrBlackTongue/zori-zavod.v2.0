@@ -1,6 +1,6 @@
 import {ProductTypes} from "../types";
 import {message} from "antd";
-import {URL, PRODUCT, PRODUCT_GROUP} from "./Routes";
+import {URL, PRODUCT, PRODUCT_GROUP, TITLE} from "./Routes";
 
 // Получить список всех товаров
 export async function getAllProducts(): Promise<ProductTypes[]> {
@@ -187,5 +187,20 @@ export function putChangeProductGroup(data: ProductTypes) {
       .catch(error => console.error(error))
   } catch (error) {
     console.error(error);
+  }
+}
+
+// Поиск по товару
+export async function getProductsByTitle(title: string): Promise<ProductTypes[]> {
+  try {
+    const response = await fetch(URL + PRODUCT + TITLE + `/${title}`);
+    if (!response.ok) {
+      console.error(response.statusText);
+      return Promise.reject();
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
   }
 }
