@@ -113,7 +113,7 @@ export const TableProducts: React.FC<ItemTableProps<ProductTypes>> = ({
     }
   };
 
-  // Функция для обновления таблицы товары
+  // Функция для обновления таблицы товаров
   const updateTable = () => {
     setLoading(true);
     getAllProducts().then((allProducts) => {
@@ -130,6 +130,7 @@ export const TableProducts: React.FC<ItemTableProps<ProductTypes>> = ({
       setLoading(false);
     });
   }
+
   useEffect(() => {
     getAllProductGroups().then((productGroups) => {
       setProductGroups(productGroups);

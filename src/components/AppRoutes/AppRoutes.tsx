@@ -8,6 +8,7 @@ import PageOutputs from '../../pages/PageOutputs/PageOutputs';
 import PageUnits from '../../pages/PageUnits/PageUnits';
 import PagePurchases from "../../pages/PagePurchases/PagePurchases";
 import PageClients from "../../pages/PageClients/PageClients";
+import PageProductBatch from "../../pages/PageProductBatch/PageProductBatch";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/units" element={<PageUnits/>}/>
       <Route path="/purchases" element={<PagePurchases/>}/>
       <Route path="/clients" element={<PageClients/>}/>
+      <Route path="/product-batch" element={<PageProductBatch/>}/>
     </Routes>
   );
 };
