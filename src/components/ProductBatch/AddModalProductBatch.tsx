@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {AddItemProps, ProductTypes, ProductBatchTypes} from "../../types";
-import {Form, InputNumber, Modal, Select} from "antd";
+import {Form, Modal, Select} from "antd";
 import {getAllProducts} from "../../services";
 
 const {Option} = Select;
@@ -12,7 +12,6 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Функция для изменения выбранного продукта
   const [products, setProducts] = useState<ProductTypes[]>();
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
 
@@ -28,7 +27,12 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
     return product
   };
 
-  // Функция подтверждения добавления новой партии товара
+  useEffect(() => {
+    getAllProducts().then((products) => {
+      setProducts(products);
+    });
+  }, []);
+
   const handleOk = () => {
     form
       .validateFields()
@@ -41,12 +45,6 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
         console.log("Validate Failed:", error);
       });
   };
-
-  useEffect(() => {
-    getAllProducts().then((products) => {
-      setProducts(products);
-    });
-  }, []);
 
   return (
     <Modal
@@ -89,13 +87,6 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
                 )) : null}
             </Select>
           </div>
-        </Form.Item>
-        <Form.Item
-          label="Количество"
-          name="amount"
-          rules={[{required: true, message: 'Пожалуйста укажите количество'}]}
-        >
-          <InputNumber style={{width: "100%"}}/>
         </Form.Item>
       </Form>
     </Modal>

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
+import {Form, Drawer, Select, Space, Button} from "antd";
 import {EditItemProps, ProductTypes, ProductBatchTypes} from "../../types";
 import {getAllProducts, getProductBatchById} from "../../services";
 
@@ -13,7 +13,8 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> 
                                                                           }) => {
   const [form] = Form.useForm();
 
-  // Выбранный продукт
+  //const [productBatch] = useState<ProductBatchTypes | null>(null);
+
   const [products, setProducts] = useState<ProductTypes[]>();
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
   const [product, setProduct] = useState<ProductTypes>();
@@ -35,7 +36,6 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> 
       getProductBatchById(selectedItemId).then((productBatch) => {
         form.setFieldsValue({
           product: productBatch?.product?.id,
-          amount: productBatch?.amount,
         });
         setSelectedProduct(productBatch?.product)
         setProduct(productBatch?.product)
@@ -111,13 +111,6 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> 
                 )) : null}
             </Select>
           </div>
-        </Form.Item>
-        <Form.Item
-          label="Количество"
-          name="amount"
-          rules={[{required: true, message: 'Пожалуйста укажите количество'}]}
-        >
-          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Form>
     </Drawer>

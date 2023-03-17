@@ -32,26 +32,26 @@ export const TableProductBatch: React.FC<ItemTableProps<ProductBatchTypes>> = ({
       key: 'id',
     },
     {
+      title: 'Количество',
+      dataIndex: 'amount',
+      key: 'amount',
+      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
+      render: ((amount: number | null) =>
+        amount !== null ? (
+          <div>
+            {amount.toLocaleString('ru-RU', {
+              currency: 'RUB',
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : null)
+    },
+    {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
       render: ((product: any) =>
         product !== null ? (<div key={product.id}>{product.title}</div>) : null)
-    },
-    {
-      title: 'Количество',
-      dataIndex: 'amount',
-      key: 'amount',
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
-      // render: ((amount: number | null) =>
-      //   // amount !== null ? (
-      //   //   <div>
-      //   //     {amount.toLocaleString('ru-RU', {
-      //   //       currency: 'RUB',
-      //   //       maximumFractionDigits: 2,
-      //   //     })}
-      //   //   </div>
-      //   // ) : null)
     },
     {
       title: 'Ед. изм',

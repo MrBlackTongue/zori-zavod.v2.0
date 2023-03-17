@@ -37,7 +37,6 @@ const PageProductBatch: React.FC = () => {
       product: {
         id: values.product,
       },
-        amount: values.amount,
     };
     setIsModalOpen(false)
     postNewProductBatch(productBatch)
@@ -51,20 +50,18 @@ const PageProductBatch: React.FC = () => {
     }
   }, [productBatch, form]);
 
-  // Функция для открытия дравера и передачи id выбранной партии товара
+  // Drawer
   const openDrawer = (productBatchId: number) => {
     setSelectedProductBatchId(productBatchId)
     setIsDrawerOpen(true);
   };
 
-  // Функция для обновления партии товара
   const updateProductBatch = (values: { [key: string]: any }): ProductBatchTypes => {
     const productBatch: ProductBatchTypes = {
       id: selectedProductBatchId,
       product: {
         id: values.product,
       },
-      amount: values.amount,
     };
     setIsDrawerOpen(false)
     putChangeProductBatch(productBatch)
@@ -75,7 +72,7 @@ const PageProductBatch: React.FC = () => {
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
-        <Title level={3}>Партии товаров</Title>
+        <Title level={3}>Клиенты</Title>
         <Space>
           <Button
             type="dashed"
@@ -118,3 +115,5 @@ const PageProductBatch: React.FC = () => {
   );
 };
 export default PageProductBatch;
+
+
