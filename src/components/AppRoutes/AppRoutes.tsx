@@ -1,17 +1,16 @@
 import React from 'react';
 import {Route, Routes} from 'react-router-dom';
-import {
-  PageClients,
-  PageEmployees,
-  PageHome,
-  PageOperations,
-  PageOutputs,
-  PageProducts,
-  PagePurchases,
-  PageUnits
-} from '../../pages';
+import PageHome from '../../pages/PageHome/PageHome';
+import PageEmployees from '../../pages/PageEmployees/PageEmployees';
+import PageOperations from '../../pages/PageOperations/PageOperations';
+import PageProducts from '../../pages/PageProducts/PageProducts';
+import PageOutputs from '../../pages/PageOutputs/PageOutputs';
+import PageUnits from '../../pages/PageUnits/PageUnits';
+import PagePurchases from "../../pages/PagePurchases/PagePurchases";
+import PageClients from "../../pages/PageClients/PageClients";
+import PageProductBatch from "../../pages/PageProductBatch/PageProductBatch";
 
-export const AppRoutes: React.FC = () => {
+const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<PageHome/>}/>
@@ -22,6 +21,9 @@ export const AppRoutes: React.FC = () => {
       <Route path="/units" element={<PageUnits/>}/>
       <Route path="/purchases" element={<PagePurchases/>}/>
       <Route path="/clients" element={<PageClients/>}/>
+      <Route path="/product-batch" element={<PageProductBatch/>}/>
     </Routes>
   );
 };
+
+export default AppRoutes;

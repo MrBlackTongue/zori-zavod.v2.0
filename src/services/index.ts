@@ -6,3 +6,4 @@ export * from './UnitsRequests';
 export * from './PurchaseRequests'
 export * from './Routes';
 export * from './ClientRequests';
+export * from './ProductBatchRequests';
