@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {AddItemProps, ProductTypes, ProductBatchTypes} from "../../types";
-import {Form, Modal, Select} from "antd";
+import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllProducts} from "../../services";
 
 const {Option} = Select;
@@ -87,6 +87,13 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
                 )) : null}
             </Select>
           </div>
+        </Form.Item>
+        <Form.Item
+          label="Количество"
+          name="amount"
+          rules={[{required: true, message: 'Пожалуйста укажите количество'}]}
+        >
+          <InputNumber style={{width: "100%"}}/>
         </Form.Item>
       </Form>
     </Modal>

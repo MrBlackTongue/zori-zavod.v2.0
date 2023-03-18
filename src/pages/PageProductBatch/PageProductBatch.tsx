@@ -37,6 +37,7 @@ const PageProductBatch: React.FC = () => {
       product: {
         id: values.product,
       },
+      amount: values.amount,
     };
     setIsModalOpen(false)
     postNewProductBatch(productBatch)
@@ -62,6 +63,7 @@ const PageProductBatch: React.FC = () => {
       product: {
         id: values.product,
       },
+      amount: values.amount,
     };
     setIsDrawerOpen(false)
     putChangeProductBatch(productBatch)
@@ -72,7 +74,7 @@ const PageProductBatch: React.FC = () => {
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
-        <Title level={3}>Клиенты</Title>
+        <Title level={3}>Партии товаров</Title>
         <Space>
           <Button
             type="dashed"
