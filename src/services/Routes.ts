@@ -9,3 +9,5 @@ export const UNIT = '/unit'
 export const CLIENT = '/client'
 export const PURCHASE = '/purchase';
 export const TITLE = '/title';
+export const MOVEMENT = '/product-movement';
+export const HISTORY = '/history';

@@ -7,3 +7,4 @@ export * from './TableParamsTypes';
 export * from './ClientTypes';
 export * from './PurchaseType';
 export * from './PropsInterfaces';
+export * from './ProductMovementHistoryTypes';
