@@ -12,7 +12,7 @@ import {
 import '../../App.css'
 import './PageOutputs.css';
 import {postNewOutput, putChangeOutput} from "../../services";
-import {OutputTypes} from "../../types";
+import {OutputType} from "../../types";
 import {AddModalOutput, TableOutputs, EditDrawerOutput} from "../../components";
 
 const {Title} = Typography;
@@ -29,7 +29,7 @@ const PageOutputs: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать новый выпуск продукции
-  const [output] = useState<OutputTypes | null>(null);
+  const [output] = useState<OutputType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,8 +38,8 @@ const PageOutputs: React.FC = () => {
   // Открыть выпуск продукции по id
   const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
-  const addOutput = (values: { [key: string]: any }): OutputTypes => {
-    const output: OutputTypes = {
+  const addOutput = (values: { [key: string]: any }): OutputType => {
+    const output: OutputType = {
       date: values['date'].format('YYYY-MM-DD'),
       product: {
         id: values.product,
@@ -63,8 +63,8 @@ const PageOutputs: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateOutput = (values: { [key: string]: any }): OutputTypes => {
-    const output: OutputTypes = {
+  const updateOutput = (values: { [key: string]: any }): OutputType => {
+    const output: OutputType = {
       date: values['date'].format('YYYY-MM-DD'),
       product: {
         id: values.product,

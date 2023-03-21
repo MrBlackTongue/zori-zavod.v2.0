@@ -1,11 +1,11 @@
 import React from "react";
-import {AddEmployeeProps} from "../../types";
+import {AddItemProps, EmployeeType} from "../../types";
 import {Checkbox, Form, Input, InputNumber, Modal} from "antd";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
-export const AddModalEmployee: React.FC<AddEmployeeProps> = ({
+export const AddModalEmployee: React.FC<AddItemProps<EmployeeType>> = ({
                                                           isOpen,
-                                                          addEmployee,
+                                                          addItem,
                                                           onCancel,
                                                         }) => {
   const [form] = Form.useForm();
@@ -27,7 +27,7 @@ export const AddModalEmployee: React.FC<AddEmployeeProps> = ({
           .validateFields()
           .then((values) => {
             form.resetFields();
-            addEmployee(values);
+            addItem(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);
