@@ -3,7 +3,6 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
-import '../../pages/PageProducts/PageProducts.css';
 import {getAllProducts, deleteProductById, getProductsByTitle, getAllProductGroups,} from "../../services";
 import {ItemTableProps, ProductType, TableParams} from "../../types";
 

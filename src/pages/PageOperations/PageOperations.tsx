@@ -10,7 +10,6 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageOperations.css';
 import {postNewOperation, putChangeOperation} from "../../services";
 import {OperationType} from "../../types";
 import {AddModalOperation, TableOperations, EditDrawerOperation} from "../../components";

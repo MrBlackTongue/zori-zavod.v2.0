@@ -10,7 +10,6 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageClients.css'
 import {postNewClient, putChangeClient} from "../../services";
 import {
   AddModalClient,
