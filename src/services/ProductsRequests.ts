@@ -1,16 +1,16 @@
-import {ProductTypes} from "../types";
+import {ProductType} from "../types";
 import {message} from "antd";
 import {URL, PRODUCT, GROUP, TITLE} from "./Routes";
 
 // Получить список всех товаров
-export async function getAllProducts(): Promise<ProductTypes[]> {
+export async function getAllProducts(): Promise<ProductType[]> {
   try {
     const res = await fetch(URL + PRODUCT);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as ProductTypes[];
+    return await res.json() as ProductType[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllProducts(): Promise<ProductTypes[]> {
 }
 
 // Получить данные товара по id
-export async function getProductById(id: number): Promise<ProductTypes | undefined> {
+export async function getProductById(id: number): Promise<ProductType | undefined> {
   try {
     const response = await fetch(URL + PRODUCT + `/${id}`);
     if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getProductById(id: number): Promise<ProductTypes | undefin
 }
 
 // Добавить новый товар
-export function postNewProduct(data: ProductTypes) {
+export function postNewProduct(data: ProductType) {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteProductById(id: number) {
 }
 
 // Редактировать товар
-export function putChangeProduct(data: ProductTypes) {
+export function putChangeProduct(data: ProductType) {
   try {
     const config = {
       method: 'PUT',
@@ -97,14 +97,14 @@ export function putChangeProduct(data: ProductTypes) {
 }
 
 // Получить список всех товарных групп
-export async function getAllProductGroups(): Promise<ProductTypes[]> {
+export async function getAllProductGroups(): Promise<ProductType[]> {
   try {
     const res = await fetch(URL + PRODUCT + GROUP);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as ProductTypes[];
+    return await res.json() as ProductType[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -112,7 +112,7 @@ export async function getAllProductGroups(): Promise<ProductTypes[]> {
 }
 
 // Получить данные товарной группы по id
-export async function getProductGroupById(id: number): Promise<ProductTypes | undefined> {
+export async function getProductGroupById(id: number): Promise<ProductType | undefined> {
   try {
     const response = await fetch(URL + PRODUCT + GROUP + `/${id}`);
     if (!response.ok) {
@@ -127,7 +127,7 @@ export async function getProductGroupById(id: number): Promise<ProductTypes | un
 }
 
 // Добавить новую товарную группу
-export function postNewProductGroup(data: ProductTypes) {
+export function postNewProductGroup(data: ProductType) {
   try {
     const config = {
       method: 'POST',
@@ -168,7 +168,7 @@ export async function deleteProductGroupById(id: number) {
 }
 
 // Редактировать товарную группу
-export function putChangeProductGroup(data: ProductTypes) {
+export function putChangeProductGroup(data: ProductType) {
   try {
     const config = {
       method: 'PUT',
@@ -191,7 +191,7 @@ export function putChangeProductGroup(data: ProductTypes) {
 }
 
 // Поиск по товару
-export async function getProductsByTitle(title: string): Promise<ProductTypes[]> {
+export async function getProductsByTitle(title: string): Promise<ProductType[]> {
   try {
     const response = await fetch(URL + PRODUCT + TITLE + `/${title}`);
     if (!response.ok) {

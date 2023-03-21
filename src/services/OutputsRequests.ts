@@ -1,16 +1,16 @@
-import {OutputTypes} from "../types";
+import {OutputType} from "../types";
 import {message} from "antd";
 import {URL, OUTPUT} from "./Routes";
 
 // Получить список всех единиц измерения
-export async function getAllOutputs(): Promise<OutputTypes[]> {
+export async function getAllOutputs(): Promise<OutputType[]> {
   try {
     const res = await fetch(URL + OUTPUT);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as OutputTypes[];
+    return await res.json() as OutputType[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllOutputs(): Promise<OutputTypes[]> {
 }
 
 // Получить данные единицы измерения по id
-export async function getOutputById(id: number): Promise<OutputTypes | undefined> {
+export async function getOutputById(id: number): Promise<OutputType | undefined> {
   try {
     const response = await fetch(URL + OUTPUT + `/${id}`);
     if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getOutputById(id: number): Promise<OutputTypes | undefined
 }
 
 // Добавить новую единицу измерения
-export function postNewOutput(data: OutputTypes) {
+export function postNewOutput(data: OutputType) {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteOutputById(id: number) {
 }
 
 // Редактировать единицу изремерения
-export function putChangeOutput(data: OutputTypes) {
+export function putChangeOutput(data: OutputType) {
   try {
     const config = {
       method: 'PUT',

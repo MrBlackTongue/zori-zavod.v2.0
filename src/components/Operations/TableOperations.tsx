@@ -17,9 +17,9 @@ import {
   getAllOperations,
   deleteOperationById,
 } from "../../services";
-import {ItemTableProps, OperationTypes, TableParams} from "../../types";
+import {ItemTableProps, OperationType, TableParams} from "../../types";
 
-export const TableOperations: React.FC<ItemTableProps<OperationTypes>> = ({
+export const TableOperations: React.FC<ItemTableProps<OperationType>> = ({
                                                                   isUpdateTable,
                                                                   openDrawer,
                                                                 }) => {
@@ -27,7 +27,7 @@ export const TableOperations: React.FC<ItemTableProps<OperationTypes>> = ({
 
   // Лоудер и список всех операций
   const [loading, setLoading] = useState(false);
-  const [allOperations, setAllOperations] = useState<OperationTypes[]>();
+  const [allOperations, setAllOperations] = useState<OperationType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -38,7 +38,7 @@ export const TableOperations: React.FC<ItemTableProps<OperationTypes>> = ({
     },
   });
 
-  const columns: ColumnsType<OperationTypes> = [
+  const columns: ColumnsType<OperationType> = [
     {
       title: 'Операция',
       dataIndex: 'title',
@@ -102,7 +102,7 @@ export const TableOperations: React.FC<ItemTableProps<OperationTypes>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<OperationTypes>,
+    sorter: SorterResult<OperationType>,
   ) => {
     setTableParams({
       pagination,

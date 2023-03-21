@@ -12,7 +12,7 @@ import {
 import '../../App.css'
 import './PageOperations.css';
 import {postNewOperation, putChangeOperation} from "../../services";
-import {OperationTypes} from "../../types";
+import {OperationType} from "../../types";
 import {AddModalOperation, TableOperations, EditDrawerOperation} from "../../components";
 
 const {Title} = Typography;
@@ -29,7 +29,7 @@ export const PageOperations: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать новый тип операции
-  const [operation] = useState<OperationTypes | null>(null);
+  const [operation] = useState<OperationType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,8 +38,8 @@ export const PageOperations: React.FC = () => {
   // Открыть тип операции по id
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
-  const addOperation = (values: { [key: string]: any }): OperationTypes => {
-    const operation: OperationTypes = {
+  const addOperation = (values: { [key: string]: any }): OperationType => {
+    const operation: OperationType = {
       title: values.title,
       unit: {
         id: values.unit.id,
@@ -65,8 +65,8 @@ export const PageOperations: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateOperation = (values: { [key: string]: any }): OperationTypes => {
-    const operation: OperationTypes = {
+  const updateOperation = (values: { [key: string]: any }): OperationType => {
+    const operation: OperationType = {
       title: values.title,
       unit: {
         id: values.unit.id,

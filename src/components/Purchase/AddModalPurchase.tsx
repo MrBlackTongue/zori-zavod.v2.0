@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, PurchaseType, ProductTypes} from "../../types";
+import {AddItemProps, PurchaseType, ProductType} from "../../types";
 import {Form, Modal, Select, InputNumber, DatePicker, Checkbox} from "antd";
 import {getAllProducts} from "../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
@@ -14,15 +14,15 @@ export const AddModalPurchase: React.FC<AddItemProps<PurchaseType>> = ({
                                                                        }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductTypes[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
+  const [products, setProducts] = useState<ProductType[]>();
+  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
 
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
     form.setFieldsValue({paid: e.target.checked});
   }
 
-  const onChangeProduct = (values: string, option: any): ProductTypes => {
-    const product: ProductTypes = {
+  const onChangeProduct = (values: string, option: any): ProductType => {
+    const product: ProductType = {
       id: option.id,
       title: values,
     };

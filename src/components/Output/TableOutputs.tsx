@@ -17,10 +17,10 @@ import {
   getAllOutputs,
   deleteOutputById,
 } from "../../services";
-import {ItemTableProps, OutputTypes, TableParams} from "../../types";
+import {ItemTableProps, OutputType, TableParams} from "../../types";
 import dayjs from 'dayjs';
 
-export const TableOutputs: React.FC<ItemTableProps<OutputTypes>> = ({
+export const TableOutputs: React.FC<ItemTableProps<OutputType>> = ({
                                                                 isUpdateTable,
                                                                 openDrawer,
                                                               }) => {
@@ -28,7 +28,7 @@ export const TableOutputs: React.FC<ItemTableProps<OutputTypes>> = ({
 
   // Лоудер и список всех единиц измерения
   const [loading, setLoading] = useState(false);
-  const [allOutputs, setAllOutputs] = useState<OutputTypes[]>();
+  const [allOutputs, setAllOutputs] = useState<OutputType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -39,7 +39,7 @@ export const TableOutputs: React.FC<ItemTableProps<OutputTypes>> = ({
     },
   });
 
-  const columns: ColumnsType<OutputTypes> = [
+  const columns: ColumnsType<OutputType> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -103,7 +103,7 @@ export const TableOutputs: React.FC<ItemTableProps<OutputTypes>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<OutputTypes>,
+    sorter: SorterResult<OutputType>,
   ) => {
     setTableParams({
       pagination,

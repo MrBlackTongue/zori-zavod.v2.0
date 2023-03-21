@@ -4,7 +4,7 @@ import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import './PageProducts.css';
 import {postNewProduct, putChangeProduct} from "../../services";
-import {ProductTypes} from "../../types";
+import {ProductType} from "../../types";
 import {AddModalProduct, TableProducts, EditDrawerProduct} from "../../components";
 
 const {Title} = Typography;
@@ -21,7 +21,7 @@ export const PageProducts: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать новый товар
-  const [product] = useState<ProductTypes | null>(null);
+  const [product] = useState<ProductType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,8 +30,8 @@ export const PageProducts: React.FC = () => {
   // Открыть товар по id
   const [selectedProductId, setSelectedProductId] = useState<number>();
 
-  const addProduct = (values: { [key: string]: any }): ProductTypes => {
-    const product: ProductTypes = {
+  const addProduct = (values: { [key: string]: any }): ProductType => {
+    const product: ProductType = {
       title: values.title,
       productGroup: {
         id: values.productGroup.id,
@@ -66,8 +66,8 @@ export const PageProducts: React.FC = () => {
     setSearchText(value);
   }
 
-  const updateProduct = (values: { [key: string]: any }): ProductTypes => {
-    const product: ProductTypes = {
+  const updateProduct = (values: { [key: string]: any }): ProductType => {
+    const product: ProductType = {
       title: values.title,
       productGroup: {
         id: values.productGroup.id,

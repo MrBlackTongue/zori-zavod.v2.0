@@ -17,9 +17,9 @@ import {
   getAllEmployees,
   deleteEmployeeById,
 } from "../../services";
-import {ItemTableProps, EmployeeTypes, TableParams} from "../../types";
+import {ItemTableProps, EmployeeType, TableParams} from "../../types";
 
-export const TableEmployees: React.FC<ItemTableProps<EmployeeTypes>> = ({
+export const TableEmployees: React.FC<ItemTableProps<EmployeeType>> = ({
                                                                 isUpdateTable,
                                                                 openDrawer,
                                                               }) => {
@@ -27,7 +27,7 @@ export const TableEmployees: React.FC<ItemTableProps<EmployeeTypes>> = ({
 
   // Лоудер и список всех сотрудников
   const [loading, setLoading] = useState(false);
-  const [allEmployees, setAllEmployees] = useState<EmployeeTypes[]>();
+  const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -38,7 +38,7 @@ export const TableEmployees: React.FC<ItemTableProps<EmployeeTypes>> = ({
     },
   });
 
-  const columns: ColumnsType<EmployeeTypes> = [
+  const columns: ColumnsType<EmployeeType> = [
     {
       title: 'Имя',
       dataIndex: 'firstName',
@@ -116,7 +116,7 @@ export const TableEmployees: React.FC<ItemTableProps<EmployeeTypes>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<EmployeeTypes>,
+    sorter: SorterResult<EmployeeType>,
   ) => {
     setTableParams({
       pagination,

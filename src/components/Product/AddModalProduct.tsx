@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, ProductTypes, UnitTypes} from "../../types";
+import {AddItemProps, ProductType, UnitType} from "../../types";
 import {Form, Input, Modal, Select} from "antd";
 import {getAllUnits, getAllProductGroups} from "../../services";
 
 const {Option} = Select;
 
-export const AddModalProduct: React.FC<AddItemProps<ProductTypes>> = ({
+export const AddModalProduct: React.FC<AddItemProps<ProductType>> = ({
                                                             isOpen,
                                                             addItem,
                                                             onCancel,
@@ -13,15 +13,15 @@ export const AddModalProduct: React.FC<AddItemProps<ProductTypes>> = ({
   const [form] = Form.useForm();
 
   // Единицы измерения
-  const [units, setUnits] = useState<UnitTypes[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitTypes>();
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
 
   // Товарные группы
-  const [productGroups, setProductGroups] = useState<ProductTypes[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductTypes>();
+  const [productGroups, setProductGroups] = useState<ProductType[]>();
+  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
 
-  const onChangeUnit = (values: string, option: any): UnitTypes => {
-    const unit: UnitTypes = {
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
       id: option.id,
       name: values,
     };
@@ -32,8 +32,8 @@ export const AddModalProduct: React.FC<AddItemProps<ProductTypes>> = ({
     return unit
   };
 
-  const onChangeProductGroup = (values: string, option: any): ProductTypes => {
-    const productGroup: ProductTypes = {
+  const onChangeProductGroup = (values: string, option: any): ProductType => {
+    const productGroup: ProductType = {
       id: option.id,
       title: values,
     };

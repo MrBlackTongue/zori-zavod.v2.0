@@ -12,7 +12,7 @@ import {
 import '../../App.css'
 import './PageUnits.css';
 import {postNewUnit, putChangeUnit} from "../../services";
-import {UnitTypes} from "../../types";
+import {UnitType} from "../../types";
 import {AddModalUnit, TableUnits, EditDrawerUnit} from "../../components";
 
 const {Title} = Typography;
@@ -29,7 +29,7 @@ export const PageUnits: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать новую единицу измерения
-  const [unit] = useState<UnitTypes | null>(null);
+  const [unit] = useState<UnitType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,8 +38,8 @@ export const PageUnits: React.FC = () => {
   // Открыть ед измерения по id
   const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
-  const addUnit = (values: { [key: string]: any }): UnitTypes => {
-    const unit: UnitTypes = {
+  const addUnit = (values: { [key: string]: any }): UnitType => {
+    const unit: UnitType = {
       name: values.name,
     };
     setIsModalOpen(false)
@@ -60,8 +60,8 @@ export const PageUnits: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateUnit = (values: { [key: string]: any }): UnitTypes => {
-    const unit: UnitTypes = {
+  const updateUnit = (values: { [key: string]: any }): UnitType => {
+    const unit: UnitType = {
       name: values.name,
       id: selectedUnitId,
     };

@@ -1,4 +1,4 @@
-import {ProductTypes} from "./ProductTypes";
+import {ProductType} from "./ProductType";
 import {Dayjs} from 'dayjs';
 
 export type PurchaseType = {
@@ -6,6 +6,6 @@ export type PurchaseType = {
     amount?: number,
     cost?: number,
     date?: Dayjs,
-    product?: ProductTypes,
+    product?: ProductType,
     paid?: boolean
 }

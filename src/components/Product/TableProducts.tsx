@@ -5,9 +5,9 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
 import '../../pages/PageProducts/PageProducts.css';
 import {getAllProducts, deleteProductById, getProductsByTitle, getAllProductGroups,} from "../../services";
-import {ItemTableProps, ProductTypes, TableParams} from "../../types";
+import {ItemTableProps, ProductType, TableParams} from "../../types";
 
-export const TableProducts: React.FC<ItemTableProps<ProductTypes>> = ({
+export const TableProducts: React.FC<ItemTableProps<ProductType>> = ({
                                                                         isUpdateTable,
                                                                         openDrawer,
                                                                         searchText
@@ -16,10 +16,10 @@ export const TableProducts: React.FC<ItemTableProps<ProductTypes>> = ({
 
   // Лоудер и список всех товаров
   const [loading, setLoading] = useState(false);
-  const [allProducts, setAllProducts] = useState<ProductTypes[]>();
+  const [allProducts, setAllProducts] = useState<ProductType[]>();
 
   // Товарная группа
-  const [productGroups, setProductGroups] = useState<ProductTypes[]>();
+  const [productGroups, setProductGroups] = useState<ProductType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -30,7 +30,7 @@ export const TableProducts: React.FC<ItemTableProps<ProductTypes>> = ({
     },
   });
 
-  const columns: ColumnsType<ProductTypes> = [
+  const columns: ColumnsType<ProductType> = [
     {
       title: 'Название',
       dataIndex: 'title',
@@ -102,7 +102,7 @@ export const TableProducts: React.FC<ItemTableProps<ProductTypes>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<ProductTypes>,
+    sorter: SorterResult<ProductType>,
   ) => {
     setTableParams({
       pagination,

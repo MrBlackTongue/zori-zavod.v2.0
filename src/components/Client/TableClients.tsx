@@ -14,16 +14,16 @@ import {
 } from '@ant-design/icons';
 import '../../pages/PageClients/PageClients.css';
 import {getAllClients, deleteClientById} from "../../services";
-import {ItemTableProps, ClientTypes, TableParams} from "../../types";
+import {ItemTableProps, ClientType, TableParams} from "../../types";
 
-export const TableClients: React.FC<ItemTableProps<ClientTypes>> = ({
+export const TableClients: React.FC<ItemTableProps<ClientType>> = ({
                                                                       isUpdateTable,
                                                                       openDrawer,
                                                                     }) => {
   type TablePaginationPosition = 'bottomCenter'
   // Лоудер и список всех клиентов
   const [loading, setLoading] = useState(false);
-  const [allClients, setAllClients] = useState<ClientTypes[]>();
+  const [allClients, setAllClients] = useState<ClientType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -34,7 +34,7 @@ export const TableClients: React.FC<ItemTableProps<ClientTypes>> = ({
     },
   });
 
-  const columns: ColumnsType<ClientTypes> = [
+  const columns: ColumnsType<ClientType> = [
     {
       title: 'Имя',
       dataIndex: 'title',
@@ -86,7 +86,7 @@ export const TableClients: React.FC<ItemTableProps<ClientTypes>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<ClientTypes>,
+    sorter: SorterResult<ClientType>,
   ) => {
     setTableParams({
       pagination,

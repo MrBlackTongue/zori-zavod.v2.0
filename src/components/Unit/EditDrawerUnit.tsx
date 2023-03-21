@@ -1,9 +1,9 @@
 import {Button, Drawer, Form, Input, Space} from "antd";
 import React, {useEffect} from "react";
-import {EditItemProps, UnitTypes} from "../../types";
+import {EditItemProps, UnitType} from "../../types";
 import {getUnitById} from "../../services";
 
-export const EditDrawerUnit: React.FC<EditItemProps<UnitTypes>> = ({
+export const EditDrawerUnit: React.FC<EditItemProps<UnitType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,

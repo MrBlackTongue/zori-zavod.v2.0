@@ -17,9 +17,9 @@ import {
   getAllUnits,
   deleteUnitById,
 } from "../../services";
-import {ItemTableProps, UnitTypes, TableParams} from "../../types";
+import {ItemTableProps, UnitType, TableParams} from "../../types";
 
-export const TableUnits: React.FC<ItemTableProps<UnitTypes>> = ({
+export const TableUnits: React.FC<ItemTableProps<UnitType>> = ({
                                                         isUpdateTable,
                                                         openDrawer,
                                                       }) => {
@@ -27,7 +27,7 @@ export const TableUnits: React.FC<ItemTableProps<UnitTypes>> = ({
 
   // Лоудер и список всех единиц измерения
   const [loading, setLoading] = useState(false);
-  const [allUnits, setAllUnits] = useState<UnitTypes[]>();
+  const [allUnits, setAllUnits] = useState<UnitType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -38,7 +38,7 @@ export const TableUnits: React.FC<ItemTableProps<UnitTypes>> = ({
     },
   });
 
-  const columns: ColumnsType<UnitTypes> = [
+  const columns: ColumnsType<UnitType> = [
     {
       title: 'Имя',
       dataIndex: 'name',
@@ -90,7 +90,7 @@ export const TableUnits: React.FC<ItemTableProps<UnitTypes>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<UnitTypes>,
+    sorter: SorterResult<UnitType>,
   ) => {
     setTableParams({
       pagination,

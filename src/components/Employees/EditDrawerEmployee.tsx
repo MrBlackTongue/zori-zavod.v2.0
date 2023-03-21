@@ -1,10 +1,10 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditItemProps, EmployeeTypes} from "../../types";
+import {EditItemProps, EmployeeType} from "../../types";
 import {getEmployeeById} from "../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
-export const EditDrawerEmployee: React.FC<EditItemProps<EmployeeTypes>> = ({
+export const EditDrawerEmployee: React.FC<EditItemProps<EmployeeType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,
@@ -12,7 +12,7 @@ export const EditDrawerEmployee: React.FC<EditItemProps<EmployeeTypes>> = ({
                                                           }) => {
   const [form] = Form.useForm();
 
-  const [employee] = useState<EmployeeTypes | null>(null);
+  const [employee] = useState<EmployeeType | null>(null);
 
   const [hired, setHired] = useState(employee?.hired)
 

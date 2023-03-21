@@ -1,6 +1,6 @@
-import {UnitTypes} from "./UnitTypes";
+import {UnitType} from "./UnitType";
 
-export type ProductTypes = {
+export type ProductType = {
   id?: number,
   title?: string,
   productGroup?: {
@@ -11,5 +11,5 @@ export type ProductTypes = {
       title?: string,
     },
   },
-  unit?: UnitTypes;
+  unit?: UnitType;
 }

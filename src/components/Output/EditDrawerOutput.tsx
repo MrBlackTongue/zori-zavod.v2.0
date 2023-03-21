@@ -1,12 +1,12 @@
 import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
-import {EditItemProps, OutputTypes, ProductTypes} from "../../types";
+import {EditItemProps, OutputType, ProductType} from "../../types";
 import {getOutputById, getAllProducts} from "../../services";
 import dayjs from 'dayjs';
 
 const {Option} = Select;
 
-export const EditDrawerOutput: React.FC<EditItemProps<OutputTypes>> = ({
+export const EditDrawerOutput: React.FC<EditItemProps<OutputType>> = ({
                                                         isOpen,
                                                         selectedItemId,
                                                         closeDrawer,
@@ -14,15 +14,15 @@ export const EditDrawerOutput: React.FC<EditItemProps<OutputTypes>> = ({
                                                       }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductTypes[]>();
+  const [products, setProducts] = useState<ProductType[]>();
 
-  const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
-  const [product, setProduct] = useState<ProductTypes>();
+  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  const [product, setProduct] = useState<ProductType>();
 
   const [date, setDate] = useState<any>();
 
-  const onChangeProduct = (values: string, option: any): ProductTypes => {
-    const product: ProductTypes = {
+  const onChangeProduct = (values: string, option: any): ProductType => {
+    const product: ProductType = {
       id: option.id,
       title: values,
     };

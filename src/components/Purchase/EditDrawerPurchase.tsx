@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, InputNumber, DatePicker, Checkbox, Space, Button} from "antd";
-import {EditItemProps, ProductTypes, PurchaseType} from "../../types";
+import {EditItemProps, ProductType, PurchaseType} from "../../types";
 import {getAllProducts, getPurchaseById} from "../../services";
 import dayjs, {Dayjs} from 'dayjs';
 import {CheckboxChangeEvent} from "antd/es/checkbox";
@@ -17,9 +17,9 @@ export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
 
   const [purchase] = useState<PurchaseType | null>(null);
 
-  const [products, setProducts] = useState<ProductTypes[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
-  const [product, setProduct] = useState<ProductTypes>();
+  const [products, setProducts] = useState<ProductType[]>();
+  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  const [product, setProduct] = useState<ProductType>();
 
   const [selectedDate, setSelectedDate] = useState<Dayjs | null | undefined>();
 
@@ -30,8 +30,8 @@ export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
     form.setFieldsValue({paid: e.target.checked});
   }
 
-  const onChangeProduct = (values: string, option: any): ProductTypes => {
-    const product: ProductTypes = {
+  const onChangeProduct = (values: string, option: any): ProductType => {
+    const product: ProductType = {
       id: option.id,
       title: values,
     };

@@ -17,7 +17,7 @@ import {
   EditDrawerClient,
   TableClients
 } from "../../components";
-import {ClientTypes} from "../../types";
+import {ClientType} from "../../types";
 
 const {Title} = Typography;
 
@@ -33,7 +33,7 @@ export const PageClients: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать нового клиента
-  const [client] = useState<ClientTypes | null>(null);
+  const [client] = useState<ClientType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,8 +42,8 @@ export const PageClients: React.FC = () => {
   // Открыть клиента по id
   const [selectedClientId, setSelectedClientId] = useState<number>();
 
-  const addClient = (values: { [key: string]: any }): ClientTypes => {
-    const client: ClientTypes = {
+  const addClient = (values: { [key: string]: any }): ClientType => {
+    const client: ClientType = {
       title: values.title,
     };
     setIsModalOpen(false)
@@ -64,8 +64,8 @@ export const PageClients: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateClient = (values: { [key: string]: any }): ClientTypes => {
-    const client: ClientTypes = {
+  const updateClient = (values: { [key: string]: any }): ClientType => {
+    const client: ClientType = {
       id: selectedClientId,
       title: values.title,
     };

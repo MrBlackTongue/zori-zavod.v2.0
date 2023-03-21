@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, OperationTypes, UnitTypes} from "../../types";
+import {AddItemProps, OperationType, UnitType} from "../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const AddModalOperation: React.FC<AddItemProps<OperationTypes>> = ({
+export const AddModalOperation: React.FC<AddItemProps<OperationType>> = ({
                                                             isOpen,
                                                             addItem,
                                                             onCancel,
                                                           }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<UnitTypes[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitTypes>();
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
 
-  const onChangeUnit = (values: string, option: any): UnitTypes => {
-    const unit: UnitTypes = {
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
       id: option.id,
       name: values,
     };

@@ -1,8 +1,8 @@
 import React from "react";
-import {AddItemProps, UnitTypes} from "../../types";
+import {AddItemProps, UnitType} from "../../types";
 import {Form, Input, Modal} from "antd";
 
-export const AddModalUnit: React.FC<AddItemProps<UnitTypes>> = ({
+export const AddModalUnit: React.FC<AddItemProps<UnitType>> = ({
                                                           isOpen,
                                                           addItem,
                                                           onCancel,

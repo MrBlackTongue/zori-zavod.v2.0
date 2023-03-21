@@ -1,11 +1,11 @@
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditItemProps, OperationTypes, UnitTypes} from "../../types";
+import {EditItemProps, OperationType, UnitType} from "../../types";
 import {getOperationById, getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const EditDrawerOperation: React.FC<EditItemProps<OperationTypes>> = ({
+export const EditDrawerOperation: React.FC<EditItemProps<OperationType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,
@@ -13,12 +13,12 @@ export const EditDrawerOperation: React.FC<EditItemProps<OperationTypes>> = ({
                                                           }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<UnitTypes[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitTypes>();
-  const [unit, setUnit] = useState<UnitTypes>()
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  const [unit, setUnit] = useState<UnitType>()
 
-  const onChangeUnit = (values: string, option: any): UnitTypes => {
-    const unit: UnitTypes = {
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
       id: option.id,
       name: values,
     };

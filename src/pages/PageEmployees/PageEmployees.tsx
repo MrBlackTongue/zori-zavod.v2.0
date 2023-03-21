@@ -12,7 +12,7 @@ import {
 import '../../App.css'
 import './PageEmployees.css';
 import {postNewEmployee, putChangeEmployee} from "../../services";
-import {EmployeeTypes} from "../../types";
+import {EmployeeType} from "../../types";
 import {AddModalEmployee, EditDrawerEmployee, TableEmployees} from "../../components";
 
 const {Title} = Typography;
@@ -29,7 +29,7 @@ export const PageEmployees: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать нового сотрудника
-  const [employee] = useState<EmployeeTypes | null>(null);
+  const [employee] = useState<EmployeeType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,8 +38,8 @@ export const PageEmployees: React.FC = () => {
   // Открыть сотрудника по id
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
-  const addEmployee = (values: { [key: string]: any }): EmployeeTypes => {
-    const employee: EmployeeTypes = {
+  const addEmployee = (values: { [key: string]: any }): EmployeeType => {
+    const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
@@ -64,8 +64,8 @@ export const PageEmployees: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateEmployee = (values: { [key: string]: any }): EmployeeTypes => {
-    const employee: EmployeeTypes = {
+  const updateEmployee = (values: { [key: string]: any }): EmployeeType => {
+    const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,

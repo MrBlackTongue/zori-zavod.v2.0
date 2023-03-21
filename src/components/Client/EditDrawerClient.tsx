@@ -1,9 +1,9 @@
 import {Button, Drawer, Form, Input, Space} from "antd";
 import React, {useEffect} from "react";
-import {EditItemProps, ClientTypes} from "../../types";
+import {EditItemProps, ClientType} from "../../types";
 import {getClientById} from "../../services";
 
-export const EditDrawerClient: React.FC<EditItemProps<ClientTypes>> = ({
+export const EditDrawerClient: React.FC<EditItemProps<ClientType>> = ({
                                                                          isOpen,
                                                                          selectedItemId,
                                                                          closeDrawer,

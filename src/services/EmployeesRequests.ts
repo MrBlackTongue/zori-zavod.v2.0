@@ -1,16 +1,16 @@
-import {EmployeeTypes} from "../types";
+import {EmployeeType} from "../types";
 import {message} from "antd";
 import {URL, EMPLOYEE} from "./Routes";
 
 // Получить список всех сотрудников
-export async function getAllEmployees(): Promise<EmployeeTypes[]> {
+export async function getAllEmployees(): Promise<EmployeeType[]> {
   try {
     const res = await fetch(URL + EMPLOYEE);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as EmployeeTypes[];
+    return await res.json() as EmployeeType[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllEmployees(): Promise<EmployeeTypes[]> {
 }
 
 // Получить данные сотрудника по id
-export async function getEmployeeById(id: number): Promise<EmployeeTypes | undefined> {
+export async function getEmployeeById(id: number): Promise<EmployeeType | undefined> {
   try {
     const response = await fetch(URL + EMPLOYEE + `/${id}`);
     if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getEmployeeById(id: number): Promise<EmployeeTypes | undef
 }
 
 // Добавить нового сотрудника
-export function postNewEmployee(data: EmployeeTypes) {
+export function postNewEmployee(data: EmployeeType) {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteEmployeeById(id: number) {
 }
 
 // Редактировать сотрудника
-export function putChangeEmployee(data: EmployeeTypes) {
+export function putChangeEmployee(data: EmployeeType) {
   try {
     const config = {
       method: 'PUT',

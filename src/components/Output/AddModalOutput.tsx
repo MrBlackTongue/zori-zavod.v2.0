@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, OutputTypes, ProductTypes} from "../../types";
+import {AddItemProps, OutputType, ProductType} from "../../types";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllProducts} from "../../services";
 
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalOutput: React.FC<AddItemProps<OutputTypes>> = ({
+export const AddModalOutput: React.FC<AddItemProps<OutputType>> = ({
                                                                       isOpen,
                                                                       addItem,
                                                                       onCancel,
                                                                     }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductTypes[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
+  const [products, setProducts] = useState<ProductType[]>();
+  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
 
-  const onChangeProduct = (values: string, option: any): ProductTypes => {
-    const product: ProductTypes = {
+  const onChangeProduct = (values: string, option: any): ProductType => {
+    const product: ProductType = {
       id: option.id,
       title: values,
     };

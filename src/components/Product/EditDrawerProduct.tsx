@@ -1,11 +1,11 @@
 import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditItemProps, ProductTypes, UnitTypes} from "../../types";
+import {EditItemProps, ProductType, UnitType} from "../../types";
 import {getAllProductGroups, getProductById, getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProduct: React.FC<EditItemProps<ProductTypes>> = ({
+export const EditDrawerProduct: React.FC<EditItemProps<ProductType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,
@@ -14,17 +14,17 @@ export const EditDrawerProduct: React.FC<EditItemProps<ProductTypes>> = ({
   const [form] = Form.useForm();
 
   // Единицы измерения
-  const [units, setUnits] = useState<UnitTypes[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitTypes>();
-  const [unit, setUnit] = useState<UnitTypes>()
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  const [unit, setUnit] = useState<UnitType>()
 
   // Товарные группы
-  const [productGroups, setProductGroups] = useState<ProductTypes[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductTypes>();
-  const [productGroup, setProductGroup] = useState<ProductTypes>()
+  const [productGroups, setProductGroups] = useState<ProductType[]>();
+  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
+  const [productGroup, setProductGroup] = useState<ProductType>()
 
-  const onChangeUnit = (values: string, option: any): UnitTypes => {
-    const unit: UnitTypes = {
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
       id: option.id,
       name: values,
     };
@@ -35,8 +35,8 @@ export const EditDrawerProduct: React.FC<EditItemProps<ProductTypes>> = ({
     return unit
   };
 
-  const onChangeProductGroup = (values: string, option: any): ProductTypes => {
-    const productGroup: ProductTypes = {
+  const onChangeProductGroup = (values: string, option: any): ProductType => {
+    const productGroup: ProductType = {
       id: option.id,
       title: values,
     };
