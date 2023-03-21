@@ -24,10 +24,6 @@ export const PageClients: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Обновить лоудер, обновить тект кнопки "Обновить" todo: сделать анимационную кнопку обновления
-  const [loading] = useState(false);
-  const [updateButton] = useState('Обновить')
-
   // Клиент в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
 
@@ -81,10 +77,10 @@ export const PageClients: React.FC = () => {
         <Space>
           <Button
             type="dashed"
-            icon={<SyncOutlined spin={loading}/>}
+            icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
             className='greenButton'>
-            {updateButton}
+            Обновить
           </Button>
           <Button
             type="primary"
