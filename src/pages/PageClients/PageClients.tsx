@@ -21,7 +21,7 @@ import {ClientTypes} from "../../types";
 
 const {Title} = Typography;
 
-const PageClients: React.FC = () => {
+export const PageClients: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -120,4 +120,3 @@ const PageClients: React.FC = () => {
     </div>
   );
 };
-export default PageClients;

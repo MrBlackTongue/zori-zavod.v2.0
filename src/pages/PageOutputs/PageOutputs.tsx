@@ -17,7 +17,7 @@ import {AddModalOutput, TableOutputs, EditDrawerOutput} from "../../components";
 
 const {Title} = Typography;
 
-const PageOutputs: React.FC = () => {
+export const PageOutputs: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -122,5 +122,3 @@ const PageOutputs: React.FC = () => {
     </div>
   );
 };
-
-export default PageOutputs;

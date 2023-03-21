@@ -17,7 +17,7 @@ import {AddModalUnit, TableUnits, EditDrawerUnit} from "../../components";
 
 const {Title} = Typography;
 
-const PageUnits: React.FC = () => {
+export const PageUnits: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -116,5 +116,3 @@ const PageUnits: React.FC = () => {
     </div>
   );
 };
-
-export default PageUnits;

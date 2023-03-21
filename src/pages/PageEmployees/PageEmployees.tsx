@@ -17,7 +17,7 @@ import {AddModalEmployee, EditDrawerEmployee, TableEmployees} from "../../compon
 
 const {Title} = Typography;
 
-const PageEmployees: React.FC = () => {
+export const PageEmployees: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -124,5 +124,3 @@ const PageEmployees: React.FC = () => {
     </div>
   );
 };
-
-export default PageEmployees;

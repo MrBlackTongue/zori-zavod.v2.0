@@ -9,7 +9,7 @@ import {AddModalPurchase, TablePurchases, EditDrawerPurchase} from '../../compon
 
 const {Title} = Typography;
 
-const PagePurchases: React.FC = () => {
+export const PagePurchases: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -127,5 +127,3 @@ const PagePurchases: React.FC = () => {
     </div>
   );
 };
-
-export default PagePurchases;

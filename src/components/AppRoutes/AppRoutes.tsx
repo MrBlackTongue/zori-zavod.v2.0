@@ -1,15 +1,17 @@
 import React from 'react';
 import {Route, Routes} from 'react-router-dom';
-import PageHome from '../../pages/PageHome/PageHome';
-import PageEmployees from '../../pages/PageEmployees/PageEmployees';
-import PageOperations from '../../pages/PageOperations/PageOperations';
-import PageProducts from '../../pages/PageProducts/PageProducts';
-import PageOutputs from '../../pages/PageOutputs/PageOutputs';
-import PageUnits from '../../pages/PageUnits/PageUnits';
-import PagePurchases from "../../pages/PagePurchases/PagePurchases";
-import PageClients from "../../pages/PageClients/PageClients";
+import {
+  PageClients,
+  PageEmployees,
+  PageHome,
+  PageOperations,
+  PageOutputs,
+  PageProducts,
+  PagePurchases,
+  PageUnits
+} from '../../pages';
 
-const AppRoutes: React.FC = () => {
+export const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<PageHome/>}/>
@@ -23,5 +25,3 @@ const AppRoutes: React.FC = () => {
     </Routes>
   );
 };
-
-export default AppRoutes;

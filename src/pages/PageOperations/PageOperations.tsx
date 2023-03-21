@@ -17,7 +17,7 @@ import {AddModalOperation, TableOperations, EditDrawerOperation} from "../../com
 
 const {Title} = Typography;
 
-const PageOperations: React.FC = () => {
+export const PageOperations: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -126,5 +126,3 @@ const PageOperations: React.FC = () => {
     </div>
   );
 }
-
-export default PageOperations;

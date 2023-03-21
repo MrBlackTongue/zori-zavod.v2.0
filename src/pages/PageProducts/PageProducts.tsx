@@ -9,7 +9,7 @@ import {AddModalProduct, TableProducts, EditDrawerProduct} from "../../component
 
 const {Title} = Typography;
 
-const PageProducts: React.FC = () => {
+export const PageProducts: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -138,5 +138,3 @@ const PageProducts: React.FC = () => {
     </div>
   );
 }
-
-export default PageProducts;
