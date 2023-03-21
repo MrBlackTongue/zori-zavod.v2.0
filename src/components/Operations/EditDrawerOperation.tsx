@@ -88,7 +88,7 @@ export const EditDrawerOperation: React.FC<EditOperationProps> = ({
         <Form.Item
           label="Название операции"
           name="title"
-          rules={[{required: true, message: 'Пожалуйста введите название'}]}
+          rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
@@ -115,7 +115,7 @@ export const EditDrawerOperation: React.FC<EditOperationProps> = ({
           name="rate"
           rules={[{
             type: 'number',
-            message: 'Пожалуйста напишите ставку цифрами больше 1',
+            message: 'напишите норму цифрами больше 1',
             warningOnly: true,
             // pattern: /[1-9]/,
           }]}

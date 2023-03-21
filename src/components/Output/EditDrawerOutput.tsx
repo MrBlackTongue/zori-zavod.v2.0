@@ -99,7 +99,7 @@ export const EditDrawerOutput: React.FC<EditOutputProps> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста введите дату'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}
@@ -112,9 +112,7 @@ export const EditDrawerOutput: React.FC<EditOutputProps> = ({
         <Form.Item
           label="Продукт"
           name="product"
-          rules={[
-            { required: true, message: 'Пожалуйста выберите продукт' },
-          ]}
+          rules={[{ required: true, message: 'Выберите продукт' }]}
         >
           <div>
             <Select

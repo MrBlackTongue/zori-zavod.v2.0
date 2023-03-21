@@ -70,7 +70,7 @@ export const AddModalOperation: React.FC<AddOperationProps> = ({
         <Form.Item
           label="Название операции"
           name="title"
-          rules={[{required: true, message: 'Пожалуйста введите название'}]}
+          rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
@@ -97,7 +97,7 @@ export const AddModalOperation: React.FC<AddOperationProps> = ({
           name="rate"
           rules={[{
             type: 'number',
-            message: 'Пожалуйста напишите ставку цифрами больше 1',
+            message: 'напишите норму цифрами больше 1',
             warningOnly: true,
             // pattern: /[1-9]/,
           }]}
