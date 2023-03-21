@@ -95,20 +95,20 @@ const PageUnits: React.FC = () => {
         </Space>
       </div>
       <TableUnits
-        updateTable={updateTable}
+        isUpdateTable={updateTable}
         openDrawer={openDrawer}
       />
       <AddModalUnit
         isOpen={isModalOpen}
-        addUnit={addUnit}
+        addItem={addUnit}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
       <EditDrawerUnit
         isOpen={isDrawerOpen}
-        selectedUnitId={selectedUnitId}
-        updateUnit={updateUnit}
+        selectedItemId={selectedUnitId}
+        updateItem={updateUnit}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}

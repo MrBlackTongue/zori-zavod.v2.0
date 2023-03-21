@@ -17,11 +17,11 @@ import {
   getAllOutputs,
   deleteOutputById,
 } from "../../services";
-import {OutputsTableProps, OutputTypes, TableParams} from "../../types";
+import {ItemTableProps, OutputTypes, TableParams} from "../../types";
 import dayjs from 'dayjs';
 
-export const TableOutputs: React.FC<OutputsTableProps> = ({
-                                                                updateTable,
+export const TableOutputs: React.FC<ItemTableProps<OutputTypes>> = ({
+                                                                isUpdateTable,
                                                                 openDrawer,
                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -41,7 +41,7 @@ export const TableOutputs: React.FC<OutputsTableProps> = ({
 
   const columns: ColumnsType<OutputTypes> = [
     {
-      title: 'Идентификатор',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
       defaultSortOrder: 'ascend',
@@ -52,8 +52,6 @@ export const TableOutputs: React.FC<OutputsTableProps> = ({
       key: 'date',
       render: ((date: any) =>
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
-      // sorter: (a, b) => a.name < b.name ? -1 : 1,
-      // defaultSortOrder: 'ascend',
     },
     {
       title: 'Продукт',
@@ -122,14 +120,13 @@ export const TableOutputs: React.FC<OutputsTableProps> = ({
       setAllOutputs(allOutputs);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }, [!isUpdateTable]);
 
   return (
     <Table
       columns={columns}
       dataSource={allOutputs}
       pagination={{position: [bottom]}}
-      // pagination={tableParams.pagination}
       loading={loading}
       onChange={handleTableChange}
     />

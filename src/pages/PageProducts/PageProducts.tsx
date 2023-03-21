@@ -122,15 +122,15 @@ const PageProducts: React.FC = () => {
       />
       <AddModalProduct
         isOpen={isModalOpen}
-        addProduct={addProduct}
+        addItem={addProduct}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
       <EditDrawerProduct
         isOpen={isDrawerOpen}
-        selectedProductId={selectedProductId}
-        updateProduct={updateProduct}
+        selectedItemId={selectedProductId}
+        updateItem={updateProduct}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}

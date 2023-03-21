@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {AddProductProps, ProductTypes, UnitTypes} from "../../types";
+import {AddItemProps, ProductTypes, UnitTypes} from "../../types";
 import {Form, Input, Modal, Select} from "antd";
 import {getAllUnits, getAllProductGroups} from "../../services";
 
 const {Option} = Select;
 
-export const AddModalProduct: React.FC<AddProductProps> = ({
+export const AddModalProduct: React.FC<AddItemProps<ProductTypes>> = ({
                                                             isOpen,
-                                                            addProduct,
+                                                            addItem,
                                                             onCancel,
                                                           }) => {
   const [form] = Form.useForm();
@@ -75,7 +75,7 @@ export const AddModalProduct: React.FC<AddProductProps> = ({
             form.resetFields();
             setSelectedUnit(undefined);
             setSelectedProductGroup(undefined);
-            addProduct(values);
+            addItem(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);

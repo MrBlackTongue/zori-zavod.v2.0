@@ -1,15 +1,15 @@
 import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditProductProps, ProductTypes, UnitTypes} from "../../types";
+import {EditItemProps, ProductTypes, UnitTypes} from "../../types";
 import {getAllProductGroups, getProductById, getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProduct: React.FC<EditProductProps> = ({
+export const EditDrawerProduct: React.FC<EditItemProps<ProductTypes>> = ({
                                                             isOpen,
-                                                            selectedProductId,
+                                                            selectedItemId,
                                                             closeDrawer,
-                                                            updateProduct,
+                                                            updateItem,
                                                           }) => {
   const [form] = Form.useForm();
 
@@ -60,8 +60,8 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
   }, []);
 
   useEffect(() => {
-    if (selectedProductId) {
-      getProductById(selectedProductId).then((product) => {
+    if (selectedItemId) {
+      getProductById(selectedItemId).then((product) => {
         form.setFieldsValue(product)
         setSelectedUnit(product?.unit)
         setUnit(product?.unit)
@@ -69,7 +69,7 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
         setProductGroup(product?.productGroup)
       })
     }
-  }, [selectedProductId, getProductById]);
+  }, [selectedItemId, getProductById]);
 
   return (
     <Drawer
@@ -94,7 +94,7 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
             form
               .validateFields()
               .then((values) => {
-                updateProduct(values);
+                updateItem(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)

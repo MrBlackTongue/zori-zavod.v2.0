@@ -1,15 +1,15 @@
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditOperationProps, UnitTypes} from "../../types";
+import {EditItemProps, OperationTypes, UnitTypes} from "../../types";
 import {getOperationById, getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const EditDrawerOperation: React.FC<EditOperationProps> = ({
+export const EditDrawerOperation: React.FC<EditItemProps<OperationTypes>> = ({
                                                             isOpen,
-                                                            selectedOperationId,
+                                                            selectedItemId,
                                                             closeDrawer,
-                                                            updateOperation,
+                                                            updateItem,
                                                           }) => {
   const [form] = Form.useForm();
 
@@ -36,14 +36,14 @@ export const EditDrawerOperation: React.FC<EditOperationProps> = ({
   }, []);
 
   useEffect(() => {
-    if (selectedOperationId) {
-      getOperationById(selectedOperationId).then((operation) => {
+    if (selectedItemId) {
+      getOperationById(selectedItemId).then((operation) => {
         form.setFieldsValue(operation)
         setSelectedUnit(operation?.unit)
         setUnit(operation?.unit)
       })
     }
-  }, [selectedOperationId, getOperationById]);
+  }, [selectedItemId, getOperationById]);
 
   return (
     <Drawer
@@ -67,7 +67,7 @@ export const EditDrawerOperation: React.FC<EditOperationProps> = ({
               .validateFields()
               .then((values) => {
                 // form.resetFields()
-                updateOperation(values);
+                updateItem(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)

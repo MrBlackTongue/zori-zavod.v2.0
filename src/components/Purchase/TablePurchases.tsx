@@ -28,7 +28,7 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
 
   const columns: ColumnsType<PurchaseType> = [
     {
-      title: 'Идентификатор',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
     },

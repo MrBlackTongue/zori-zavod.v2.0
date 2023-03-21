@@ -17,10 +17,10 @@ import {
   getAllOperations,
   deleteOperationById,
 } from "../../services";
-import {OperationsTableProps, OperationTypes, TableParams} from "../../types";
+import {ItemTableProps, OperationTypes, TableParams} from "../../types";
 
-export const TableOperations: React.FC<OperationsTableProps> = ({
-                                                                  updateTable,
+export const TableOperations: React.FC<ItemTableProps<OperationTypes>> = ({
+                                                                  isUpdateTable,
                                                                   openDrawer,
                                                                 }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -119,14 +119,13 @@ export const TableOperations: React.FC<OperationsTableProps> = ({
       setAllOperations(allOperations);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }, [!isUpdateTable]);
 
   return (
     <Table
       columns={columns}
       dataSource={allOperations}
       pagination={{position: [bottom]}}
-      // pagination={tableParams.pagination}
       loading={loading}
       onChange={handleTableChange}
     />

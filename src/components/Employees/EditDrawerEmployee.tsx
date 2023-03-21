@@ -1,14 +1,14 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditEmployeeProps, EmployeeTypes} from "../../types";
+import {EditItemProps, EmployeeTypes} from "../../types";
 import {getEmployeeById} from "../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
-export const EditDrawerEmployee: React.FC<EditEmployeeProps> = ({
+export const EditDrawerEmployee: React.FC<EditItemProps<EmployeeTypes>> = ({
                                                             isOpen,
-                                                            selectedEmployeeId,
+                                                            selectedItemId,
                                                             closeDrawer,
-                                                            updateEmployee,
+                                                            updateItem,
                                                           }) => {
   const [form] = Form.useForm();
 
@@ -22,12 +22,12 @@ export const EditDrawerEmployee: React.FC<EditEmployeeProps> = ({
   }
 
   useEffect(() => {
-    if (selectedEmployeeId) {
-      getEmployeeById(selectedEmployeeId).then((employee) => {
+    if (selectedItemId) {
+      getEmployeeById(selectedItemId).then((employee) => {
         form.setFieldsValue(employee);
       })
     }
-  }, [selectedEmployeeId, getEmployeeById]);
+  }, [selectedItemId, getEmployeeById]);
 
   return (
     <Drawer
@@ -44,7 +44,7 @@ export const EditDrawerEmployee: React.FC<EditEmployeeProps> = ({
             form
               .validateFields()
               .then((values) => {
-                updateEmployee(values);
+                updateItem(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)

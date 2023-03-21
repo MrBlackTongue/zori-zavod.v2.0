@@ -1,23 +1,23 @@
 import {Button, Drawer, Form, Input, Space} from "antd";
 import React, {useEffect} from "react";
-import {EditUnitProps} from "../../types";
+import {EditItemProps, UnitTypes} from "../../types";
 import {getUnitById} from "../../services";
 
-export const EditDrawerUnit: React.FC<EditUnitProps> = ({
+export const EditDrawerUnit: React.FC<EditItemProps<UnitTypes>> = ({
                                                             isOpen,
-                                                            selectedUnitId,
+                                                            selectedItemId,
                                                             closeDrawer,
-                                                            updateUnit,
+                                                            updateItem,
                                                           }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (selectedUnitId) {
-      getUnitById(selectedUnitId).then((unit) => {
+    if (selectedItemId) {
+      getUnitById(selectedItemId).then((unit) => {
         form.setFieldsValue(unit);
       })
     }
-  }, [selectedUnitId, getUnitById]);
+  }, [selectedItemId, getUnitById]);
 
   return (
     <Drawer
@@ -35,7 +35,7 @@ export const EditDrawerUnit: React.FC<EditUnitProps> = ({
               .validateFields()
               .then((values) => {
                 // form.resetFields()
-                updateUnit(values);
+                updateItem(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)

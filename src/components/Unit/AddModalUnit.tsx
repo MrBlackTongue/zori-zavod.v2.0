@@ -1,10 +1,10 @@
 import React from "react";
-import {AddUnitProps} from "../../types";
+import {AddItemProps, UnitTypes} from "../../types";
 import {Form, Input, Modal} from "antd";
 
-export const AddModalUnit: React.FC<AddUnitProps> = ({
+export const AddModalUnit: React.FC<AddItemProps<UnitTypes>> = ({
                                                           isOpen,
-                                                          addUnit,
+                                                          addItem,
                                                           onCancel,
                                                         }) => {
   const [form] = Form.useForm();
@@ -22,7 +22,7 @@ export const AddModalUnit: React.FC<AddUnitProps> = ({
           .validateFields()
           .then((values) => {
             form.resetFields();
-            addUnit(values);
+            addItem(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);

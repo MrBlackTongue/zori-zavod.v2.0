@@ -17,10 +17,10 @@ import {
   getAllUnits,
   deleteUnitById,
 } from "../../services";
-import {UnitsTableProps, UnitTypes, TableParams} from "../../types";
+import {ItemTableProps, UnitTypes, TableParams} from "../../types";
 
-export const TableUnits: React.FC<UnitsTableProps> = ({
-                                                        updateTable,
+export const TableUnits: React.FC<ItemTableProps<UnitTypes>> = ({
+                                                        isUpdateTable,
                                                         openDrawer,
                                                       }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -107,14 +107,13 @@ export const TableUnits: React.FC<UnitsTableProps> = ({
       setAllUnits(allUnits);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }, [!isUpdateTable]);
 
   return (
     <Table
       columns={columns}
       dataSource={allUnits}
       pagination={{position: [bottom]}}
-      // pagination={tableParams.pagination}
       loading={loading}
       onChange={handleTableChange}
     />

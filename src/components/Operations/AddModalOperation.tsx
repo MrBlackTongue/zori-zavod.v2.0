@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {AddOperationProps, UnitTypes} from "../../types";
+import {AddItemProps, OperationTypes, UnitTypes} from "../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const AddModalOperation: React.FC<AddOperationProps> = ({
+export const AddModalOperation: React.FC<AddItemProps<OperationTypes>> = ({
                                                             isOpen,
-                                                            addOperation,
+                                                            addItem,
                                                             onCancel,
                                                           }) => {
   const [form] = Form.useForm();
@@ -50,7 +50,7 @@ export const AddModalOperation: React.FC<AddOperationProps> = ({
           .then((values) => {
             form.resetFields();
             setSelectedUnit(undefined);
-            addOperation(values);
+            addItem(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);

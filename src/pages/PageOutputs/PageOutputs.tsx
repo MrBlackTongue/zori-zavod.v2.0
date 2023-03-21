@@ -101,20 +101,20 @@ const PageOutputs: React.FC = () => {
         </Space>
       </div>
       <TableOutputs
-        updateTable={updateTable}
+        isUpdateTable={updateTable}
         openDrawer={openDrawer}
       />
       <AddModalOutput
         isOpen={isModalOpen}
-        addOutput={addOutput}
+        addItem={addOutput}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
       <EditDrawerOutput
         isOpen={isDrawerOpen}
-        selectedOutputId={selectedOutputId}
-        updateOutput={updateOutput}
+        selectedItemId={selectedOutputId}
+        updateItem={updateOutput}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}

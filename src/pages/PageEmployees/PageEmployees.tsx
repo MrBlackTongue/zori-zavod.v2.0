@@ -103,20 +103,20 @@ const PageEmployees: React.FC = () => {
         </Space>
       </div>
       <TableEmployees
-        updateTable={updateTable}
+        isUpdateTable={updateTable}
         openDrawer={openDrawer}
       />
       <AddModalEmployee
         isOpen={isModalOpen}
-        addEmployee={addEmployee}
+        addItem={addEmployee}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
       <EditDrawerEmployee
         isOpen={isDrawerOpen}
-        selectedEmployeeId={selectedEmployeeId}
-        updateEmployee={updateEmployee}
+        selectedItemId={selectedEmployeeId}
+        updateItem={updateEmployee}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}

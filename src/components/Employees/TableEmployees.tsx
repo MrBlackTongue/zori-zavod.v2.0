@@ -17,10 +17,10 @@ import {
   getAllEmployees,
   deleteEmployeeById,
 } from "../../services";
-import {EmployeesTableProps, EmployeeTypes, TableParams} from "../../types";
+import {ItemTableProps, EmployeeTypes, TableParams} from "../../types";
 
-export const TableEmployees: React.FC<EmployeesTableProps> = ({
-                                                                updateTable,
+export const TableEmployees: React.FC<ItemTableProps<EmployeeTypes>> = ({
+                                                                isUpdateTable,
                                                                 openDrawer,
                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -133,7 +133,7 @@ export const TableEmployees: React.FC<EmployeesTableProps> = ({
       setAllEmployees(allEmployees);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }, [!isUpdateTable]);
 
   return (
     <Table
