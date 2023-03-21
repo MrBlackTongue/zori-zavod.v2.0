@@ -13,8 +13,7 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> 
                                                                           }) => {
   const [form] = Form.useForm();
 
-  //const [productBatch] = useState<ProductBatchTypes | null>(null);
-
+  // Выбранный продукт
   const [products, setProducts] = useState<ProductTypes[]>();
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
   const [product, setProduct] = useState<ProductTypes>();

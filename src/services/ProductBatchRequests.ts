@@ -1,9 +1,8 @@
 import {message} from "antd";
-import {BATCH, PRODUCT, URL} from "./Routes";
+import {URL, PRODUCT, BATCH} from "./Routes";
 import {ProductBatchTypes} from "../types";
 
 // Получить все партии товаров
-
 export async function getAllProductBatch(): Promise<ProductBatchTypes[]> {
   try {
     const res = await fetch(URL + PRODUCT + BATCH);
