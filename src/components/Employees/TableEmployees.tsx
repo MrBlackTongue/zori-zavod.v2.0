@@ -12,7 +12,6 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import '../../pages/PageEmployees/PageEmployees.css';
 import {
   getAllEmployees,
   deleteEmployeeById,

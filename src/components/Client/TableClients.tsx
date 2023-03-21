@@ -12,7 +12,6 @@ import {
     EditOutlined,
     DeleteOutlined,
 } from '@ant-design/icons';
-import '../../pages/PageClients/PageClients.css';
 import {getAllClients, deleteClientById} from "../../services";
 import {ClientTableProps, ClientTypes, TableParams} from "../../types";
 

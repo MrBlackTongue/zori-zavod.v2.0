@@ -12,7 +12,6 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import '../../pages/PageUnits/PageUnits.css';
 import {
   getAllUnits,
   deleteUnitById,

@@ -10,7 +10,6 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageEmployees.css';
 import {postNewEmployee, putChangeEmployee} from "../../services";
 import {EmployeeType} from "../../types";
 import {AddModalEmployee, EditDrawerEmployee, TableEmployees} from "../../components";

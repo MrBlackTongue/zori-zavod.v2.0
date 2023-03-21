@@ -10,7 +10,6 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageOutputs.css';
 import {postNewOutput, putChangeOutput} from "../../services";
 import {OutputType} from "../../types";
 import {AddModalOutput, TableOutputs, EditDrawerOutput} from "../../components";

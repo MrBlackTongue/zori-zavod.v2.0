@@ -13,7 +13,6 @@ import {
   CalendarOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageOperations.css';
 import {postNewOperation, putChangeOperation} from "../../services";
 import {OperationTypes} from "../../types";
 import {AddModalOperation, TableOperations, EditDrawerOperation} from "../../components";

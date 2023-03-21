@@ -10,7 +10,6 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageUnits.css';
 import {postNewUnit, putChangeUnit} from "../../services";
 import {UnitType} from "../../types";
 import {AddModalUnit, TableUnits, EditDrawerUnit} from "../../components";
