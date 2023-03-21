@@ -47,14 +47,14 @@ export const AddModalEmployee: React.FC<AddItemProps<EmployeeType>> = ({
         <Form.Item
           label="Имя"
           name="firstName"
-          rules={[{required: true, message: 'Пожалуйста введите имя'}]}
+          rules={[{required: true, message: 'введите имя'}]}
         >
           <Input/>
         </Form.Item>
         <Form.Item
           label="Фамилия"
           name="lastName"
-          rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
+          rules={[{required: true, message: 'введите фамилию'}]}
         >
           <Input/>
         </Form.Item>
@@ -69,7 +69,7 @@ export const AddModalEmployee: React.FC<AddItemProps<EmployeeType>> = ({
           name="salaryRate"
           rules={[{
             type: 'number',
-            message: 'Пожалуйста напишите ставку цифрами больше 1',
+            message: 'напишите ставку цифрами больше 1',
             warningOnly: true,
             // pattern: /[1-9]/,
           }]}

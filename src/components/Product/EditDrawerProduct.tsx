@@ -115,14 +115,14 @@ export const EditDrawerProduct: React.FC<EditItemProps<ProductType>> = ({
         <Form.Item
           label="Название товара"
           name="title"
-          rules={[{required: true, message: 'Пожалуйста введите название'}]}
+          rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
         <Form.Item
           label="Единица измерения"
           name="unit"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста выберите ед. изм.'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите ед. изм.'}]}
         >
           <div>
             <Select
@@ -141,7 +141,7 @@ export const EditDrawerProduct: React.FC<EditItemProps<ProductType>> = ({
         <Form.Item
           label="Товарная группа"
           name="productGroup"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста выберите тов. группу'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
         >
           <div>
             <Select

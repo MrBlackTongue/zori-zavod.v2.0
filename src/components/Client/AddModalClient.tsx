@@ -42,7 +42,7 @@ export const AddModalClient: React.FC<AddItemProps<ClientType>> = ({
         <Form.Item
           label="Имя"
           name="title"
-          rules={[{required: true, message: 'Пожалуйста введите имя'}]}
+          rules={[{required: true, message: 'введите имя'}]}
         >
           <Input/>
         </Form.Item>

@@ -78,7 +78,7 @@ export const AddModalPurchase: React.FC<AddItemProps<PurchaseType>> = ({
         <Form.Item
           label="Товар"
           name="product"
-          rules={[{required: true, message: 'Пожалуйста выберите товар'}]}
+          rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
             <Select
@@ -97,21 +97,21 @@ export const AddModalPurchase: React.FC<AddItemProps<PurchaseType>> = ({
         <Form.Item
           label="Цена"
           name="cost"
-          rules={[{required: true, message: "Пожалуйста введите цену"}]}
+          rules={[{required: true, message: "введите цену"}]}
         >
           <InputNumber style={{width: "100%"}}/>
         </Form.Item>
         <Form.Item
           label="Количество"
           name="amount"
-          rules={[{required: true, message: "Пожалуйста введите количество"}]}
+          rules={[{required: true, message: "введите количество"}]}
         >
           <InputNumber style={{width: "100%"}}/>
         </Form.Item>
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста введите дату'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

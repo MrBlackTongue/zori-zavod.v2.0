@@ -57,7 +57,7 @@ export const EditDrawerUnit: React.FC<EditItemProps<UnitType>> = ({
         <Form.Item
           label="Имя"
           name="name"
-          rules={[{required: true, message: 'Пожалуйста введите имя'}]}
+          rules={[{required: true, message: 'введите имя'}]}
         >
           <Input/>
         </Form.Item>
