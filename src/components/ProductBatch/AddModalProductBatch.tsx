@@ -12,6 +12,7 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
                                                                                 }) => {
   const [form] = Form.useForm();
 
+  // Функция для изменения выбранного продукта
   const [products, setProducts] = useState<ProductTypes[]>();
   const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
 
@@ -27,12 +28,7 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
     return product
   };
 
-  useEffect(() => {
-    getAllProducts().then((products) => {
-      setProducts(products);
-    });
-  }, []);
-
+  // Функция подтверждения добавления новой партии товара
   const handleOk = () => {
     form
       .validateFields()
@@ -45,6 +41,12 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
         console.log("Validate Failed:", error);
       });
   };
+
+  useEffect(() => {
+    getAllProducts().then((products) => {
+      setProducts(products);
+    });
+  }, []);
 
   return (
     <Modal
