@@ -2,26 +2,21 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form, Input,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import './PageProducts.css';
 import {postNewProduct, putChangeProduct} from "../../services";
-import {ProductTypes} from "../../types";
+import {ProductType} from "../../types";
 import {AddModalProduct, TableProducts, EditDrawerProduct} from "../../components";
 
 const {Title} = Typography;
 
-const PageProducts: React.FC = () => {
+export const PageProducts: React.FC = () => {
 
   const [form] = Form.useForm();
-
-  // Обновить лоудер, обновить тект кнопки "Обновить" todo: сделать анимационную кнопку обновления
-  const [loading] = useState(false);
-  const [updateButton] = useState('Обновить')
 
   // Товары в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать новый товар
-  const [product] = useState<ProductTypes | null>(null);
+  const [product] = useState<ProductType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,8 +25,8 @@ const PageProducts: React.FC = () => {
   // Открыть товар по id
   const [selectedProductId, setSelectedProductId] = useState<number>();
 
-  const addProduct = (values: { [key: string]: any }): ProductTypes => {
-    const product: ProductTypes = {
+  const addProduct = (values: { [key: string]: any }): ProductType => {
+    const product: ProductType = {
       title: values.title,
       productGroup: {
         id: values.productGroup.id,
@@ -66,8 +61,8 @@ const PageProducts: React.FC = () => {
     setSearchText(value);
   }
 
-  const updateProduct = (values: { [key: string]: any }): ProductTypes => {
-    const product: ProductTypes = {
+  const updateProduct = (values: { [key: string]: any }): ProductType => {
+    const product: ProductType = {
       title: values.title,
       productGroup: {
         id: values.productGroup.id,
@@ -99,10 +94,10 @@ const PageProducts: React.FC = () => {
           />
           <Button
             type="dashed"
-            icon={<SyncOutlined spin={loading}/>}
+            icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
             className='greenButton'>
-            {updateButton}
+            Обновить
           </Button>
           <Button
             type="primary"
@@ -122,15 +117,15 @@ const PageProducts: React.FC = () => {
       />
       <AddModalProduct
         isOpen={isModalOpen}
-        addProduct={addProduct}
+        addItem={addProduct}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
       <EditDrawerProduct
         isOpen={isDrawerOpen}
-        selectedProductId={selectedProductId}
-        updateProduct={updateProduct}
+        selectedItemId={selectedProductId}
+        updateItem={updateProduct}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}
@@ -138,5 +133,3 @@ const PageProducts: React.FC = () => {
     </div>
   );
 }
-
-export default PageProducts;

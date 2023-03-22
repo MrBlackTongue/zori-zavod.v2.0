@@ -12,22 +12,21 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import '../../pages/PageUnits/PageUnits.css';
 import {
   getAllUnits,
   deleteUnitById,
 } from "../../services";
-import {UnitsTableProps, UnitTypes, TableParams} from "../../types";
+import {ItemTableProps, UnitType, TableParams} from "../../types";
 
-export const TableUnits: React.FC<UnitsTableProps> = ({
-                                                        updateTable,
+export const TableUnits: React.FC<ItemTableProps<UnitType>> = ({
+                                                        isUpdateTable,
                                                         openDrawer,
                                                       }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех единиц измерения
   const [loading, setLoading] = useState(false);
-  const [allUnits, setAllUnits] = useState<UnitTypes[]>();
+  const [allUnits, setAllUnits] = useState<UnitType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -38,7 +37,7 @@ export const TableUnits: React.FC<UnitsTableProps> = ({
     },
   });
 
-  const columns: ColumnsType<UnitTypes> = [
+  const columns: ColumnsType<UnitType> = [
     {
       title: 'Имя',
       dataIndex: 'name',
@@ -90,7 +89,7 @@ export const TableUnits: React.FC<UnitsTableProps> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<UnitTypes>,
+    sorter: SorterResult<UnitType>,
   ) => {
     setTableParams({
       pagination,
@@ -107,14 +106,13 @@ export const TableUnits: React.FC<UnitsTableProps> = ({
       setAllUnits(allUnits);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }, [!isUpdateTable]);
 
   return (
     <Table
       columns={columns}
       dataSource={allUnits}
       pagination={{position: [bottom]}}
-      // pagination={tableParams.pagination}
       loading={loading}
       onChange={handleTableChange}
     />

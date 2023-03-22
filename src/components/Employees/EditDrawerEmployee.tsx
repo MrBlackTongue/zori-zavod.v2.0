@@ -1,18 +1,18 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditEmployeeProps, EmployeeTypes} from "../../types";
+import {EditItemProps, EmployeeType} from "../../types";
 import {getEmployeeById} from "../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
-export const EditDrawerEmployee: React.FC<EditEmployeeProps> = ({
+export const EditDrawerEmployee: React.FC<EditItemProps<EmployeeType>> = ({
                                                             isOpen,
-                                                            selectedEmployeeId,
+                                                            selectedItemId,
                                                             closeDrawer,
-                                                            updateEmployee,
+                                                            updateItem,
                                                           }) => {
   const [form] = Form.useForm();
 
-  const [employee] = useState<EmployeeTypes | null>(null);
+  const [employee] = useState<EmployeeType | null>(null);
 
   const [hired, setHired] = useState(employee?.hired)
 
@@ -22,12 +22,12 @@ export const EditDrawerEmployee: React.FC<EditEmployeeProps> = ({
   }
 
   useEffect(() => {
-    if (selectedEmployeeId) {
-      getEmployeeById(selectedEmployeeId).then((employee) => {
+    if (selectedItemId) {
+      getEmployeeById(selectedItemId).then((employee) => {
         form.setFieldsValue(employee);
       })
     }
-  }, [selectedEmployeeId, getEmployeeById]);
+  }, [selectedItemId, getEmployeeById]);
 
   return (
     <Drawer
@@ -44,7 +44,7 @@ export const EditDrawerEmployee: React.FC<EditEmployeeProps> = ({
             form
               .validateFields()
               .then((values) => {
-                updateEmployee(values);
+                updateItem(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)
@@ -66,14 +66,14 @@ export const EditDrawerEmployee: React.FC<EditEmployeeProps> = ({
         <Form.Item
           label="Имя"
           name="firstName"
-          rules={[{required: true, message: 'Пожалуйста введите имя'}]}
+          rules={[{required: true, message: 'введите имя'}]}
         >
           <Input/>
         </Form.Item>
         <Form.Item
           label="Фамилия"
           name="lastName"
-          rules={[{required: true, message: 'Пожалуйста введите фамилию'}]}
+          rules={[{required: true, message: 'введите фамилию'}]}
         >
           <Input/>
         </Form.Item>
@@ -88,7 +88,7 @@ export const EditDrawerEmployee: React.FC<EditEmployeeProps> = ({
           name="salaryRate"
           rules={[{
             type: 'number',
-            message: 'Пожалуйста напишите ставку цифрами больше 1',
+            message: 'напишите ставку цифрами больше 1',
             warningOnly: true,
             // pattern: /[1-9]/,
           }]}

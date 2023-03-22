@@ -1,42 +1,30 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
 import {
   Typography,
   Space,
   Button,
   Form,
-  Tabs,
 } from 'antd';
 import {
   SyncOutlined,
   PlusOutlined,
-  CalendarOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageOperations.css';
 import {postNewOperation, putChangeOperation} from "../../services";
-import {OperationTypes} from "../../types";
+import {OperationType} from "../../types";
 import {AddModalOperation, TableOperations, EditDrawerOperation} from "../../components";
-import {Link} from 'react-router-dom';
 
 const {Title} = Typography;
-const {TabPane} = Tabs;
 
-const PageOperations: React.FC = () => {
+export const PageOperations: React.FC = () => {
 
   const [form] = Form.useForm();
-
-  const navigate = useNavigate();
-
-  // Обновить лоудер, обновить тект кнопки "Обновить" todo: сделать анимационную кнопку обновления
-  const [loading] = useState(false);
-  const [updateButton] = useState('Обновить')
 
   // Типы операций в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать новый тип операции
-  const [operation] = useState<OperationTypes | null>(null);
+  const [operation] = useState<OperationType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,21 +33,8 @@ const PageOperations: React.FC = () => {
   // Открыть тип операции по id
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
-  const handleTabClick = (key: string) => {
-    switch (key) {
-      case 'employees':
-        navigate('/employees');
-        break;
-      case 'operations':
-        navigate('/operations');
-        break;
-      default:
-        break;
-    }
-  };
-
-  const addOperation = (values: { [key: string]: any }): OperationTypes => {
-    const operation: OperationTypes = {
+  const addOperation = (values: { [key: string]: any }): OperationType => {
+    const operation: OperationType = {
       title: values.title,
       unit: {
         id: values.unit.id,
@@ -85,8 +60,8 @@ const PageOperations: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateOperation = (values: { [key: string]: any }): OperationTypes => {
-    const operation: OperationTypes = {
+  const updateOperation = (values: { [key: string]: any }): OperationType => {
+    const operation: OperationType = {
       title: values.title,
       unit: {
         id: values.unit.id,
@@ -102,71 +77,47 @@ const PageOperations: React.FC = () => {
   };
 
   return (
-    // <Tabs onTabClick={handleTabClick}>
-    //   <TabPane
-    //     tab={
-    //       <span>
-    //             <CalendarOutlined/>
-    //             Учет операций
-    //           </span>
-    //     }
-    //     key="employees">
-    //   </TabPane>
-    //   <TabPane
-    //     tab={
-    //       <span>
-    //             <CalendarOutlined/>
-    //             Типы операций
-    //           </span>
-    //     }
-    //     key="operations">
-        <div style={{display: 'grid'}}>
-          <div className='centerTitle'>
-            <Title level={3}>Типы операций</Title>
-            <Space>
-              <Button
-                type="dashed"
-                icon={<SyncOutlined spin={loading}/>}
-                onClick={() => setUpdateTable(!updateTable)}
-                className='greenButton'>
-                {updateButton}
-              </Button>
-              <Button
-                type="primary"
-                icon={<PlusOutlined/>}
-                onClick={() => {
-                  setIsModalOpen(true)
-                }}
-              >
-                Добавить
-              </Button>
-            </Space>
-          </div>
-          <TableOperations
-            updateTable={updateTable}
-            openDrawer={openDrawer}
-          />
-          <AddModalOperation
-            isOpen={isModalOpen}
-            addOperation={addOperation}
-            onCancel={() => {
-              setIsModalOpen(false)
+    <div style={{display: 'grid'}}>
+      <div className='centerTitle'>
+        <Title level={3}>Типы операций</Title>
+        <Space>
+          <Button
+            type="dashed"
+            icon={<SyncOutlined/>}
+            onClick={() => setUpdateTable(!updateTable)}
+            className='greenButton'>
+            Обновить
+          </Button>
+          <Button
+            type="primary"
+            icon={<PlusOutlined/>}
+            onClick={() => {
+              setIsModalOpen(true)
             }}
-          />
-          <EditDrawerOperation
-            isOpen={isDrawerOpen}
-            selectedOperationId={selectedOperationId}
-            updateOperation={updateOperation}
-            closeDrawer={() => {
-              setIsDrawerOpen(false);
-            }}
-          />
-        </div>
-        // <Link to="/operations">Типы операций</Link>
-      // </TabPane>
-    // </Tabs>
-
+          >
+            Добавить
+          </Button>
+        </Space>
+      </div>
+      <TableOperations
+        isUpdateTable={updateTable}
+        openDrawer={openDrawer}
+      />
+      <AddModalOperation
+        isOpen={isModalOpen}
+        addItem={addOperation}
+        onCancel={() => {
+          setIsModalOpen(false)
+        }}
+      />
+      <EditDrawerOperation
+        isOpen={isDrawerOpen}
+        selectedItemId={selectedOperationId}
+        updateItem={updateOperation}
+        closeDrawer={() => {
+          setIsDrawerOpen(false);
+        }}
+      />
+    </div>
   );
 }
-
-export default PageOperations;

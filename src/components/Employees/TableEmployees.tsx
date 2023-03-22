@@ -12,22 +12,21 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import '../../pages/PageEmployees/PageEmployees.css';
 import {
   getAllEmployees,
   deleteEmployeeById,
 } from "../../services";
-import {EmployeesTableProps, EmployeeTypes, TableParams} from "../../types";
+import {ItemTableProps, EmployeeType, TableParams} from "../../types";
 
-export const TableEmployees: React.FC<EmployeesTableProps> = ({
-                                                                updateTable,
+export const TableEmployees: React.FC<ItemTableProps<EmployeeType>> = ({
+                                                                isUpdateTable,
                                                                 openDrawer,
                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех сотрудников
   const [loading, setLoading] = useState(false);
-  const [allEmployees, setAllEmployees] = useState<EmployeeTypes[]>();
+  const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -38,7 +37,7 @@ export const TableEmployees: React.FC<EmployeesTableProps> = ({
     },
   });
 
-  const columns: ColumnsType<EmployeeTypes> = [
+  const columns: ColumnsType<EmployeeType> = [
     {
       title: 'Имя',
       dataIndex: 'firstName',
@@ -116,7 +115,7 @@ export const TableEmployees: React.FC<EmployeesTableProps> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<EmployeeTypes>,
+    sorter: SorterResult<EmployeeType>,
   ) => {
     setTableParams({
       pagination,
@@ -133,7 +132,7 @@ export const TableEmployees: React.FC<EmployeesTableProps> = ({
       setAllEmployees(allEmployees);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }, [!isUpdateTable]);
 
   return (
     <Table

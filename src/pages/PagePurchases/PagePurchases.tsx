@@ -2,14 +2,13 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form, Input} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import './PagePurchases.css';
 import {postNewPurchase, putChangePurchase} from '../../services';
 import {PurchaseType} from '../../types';
 import {AddModalPurchase, TablePurchases, EditDrawerPurchase} from '../../components';
 
 const {Title} = Typography;
 
-const PagePurchases: React.FC = () => {
+export const PagePurchases: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -127,5 +126,3 @@ const PagePurchases: React.FC = () => {
     </div>
   );
 };
-
-export default PagePurchases;

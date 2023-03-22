@@ -1,30 +1,30 @@
 import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditProductProps, ProductTypes, UnitTypes} from "../../types";
+import {EditItemProps, ProductType, UnitType} from "../../types";
 import {getAllProductGroups, getProductById, getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProduct: React.FC<EditProductProps> = ({
+export const EditDrawerProduct: React.FC<EditItemProps<ProductType>> = ({
                                                             isOpen,
-                                                            selectedProductId,
+                                                            selectedItemId,
                                                             closeDrawer,
-                                                            updateProduct,
+                                                            updateItem,
                                                           }) => {
   const [form] = Form.useForm();
 
   // Единицы измерения
-  const [units, setUnits] = useState<UnitTypes[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitTypes>();
-  const [unit, setUnit] = useState<UnitTypes>()
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  const [unit, setUnit] = useState<UnitType>()
 
   // Товарные группы
-  const [productGroups, setProductGroups] = useState<ProductTypes[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductTypes>();
-  const [productGroup, setProductGroup] = useState<ProductTypes>()
+  const [productGroups, setProductGroups] = useState<ProductType[]>();
+  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
+  const [productGroup, setProductGroup] = useState<ProductType>()
 
-  const onChangeUnit = (values: string, option: any): UnitTypes => {
-    const unit: UnitTypes = {
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
       id: option.id,
       name: values,
     };
@@ -35,8 +35,8 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
     return unit
   };
 
-  const onChangeProductGroup = (values: string, option: any): ProductTypes => {
-    const productGroup: ProductTypes = {
+  const onChangeProductGroup = (values: string, option: any): ProductType => {
+    const productGroup: ProductType = {
       id: option.id,
       title: values,
     };
@@ -60,8 +60,8 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
   }, []);
 
   useEffect(() => {
-    if (selectedProductId) {
-      getProductById(selectedProductId).then((product) => {
+    if (selectedItemId) {
+      getProductById(selectedItemId).then((product) => {
         form.setFieldsValue(product)
         setSelectedUnit(product?.unit)
         setUnit(product?.unit)
@@ -69,7 +69,7 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
         setProductGroup(product?.productGroup)
       })
     }
-  }, [selectedProductId, getProductById]);
+  }, [selectedItemId, getProductById]);
 
   return (
     <Drawer
@@ -94,7 +94,7 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
             form
               .validateFields()
               .then((values) => {
-                updateProduct(values);
+                updateItem(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)
@@ -115,14 +115,14 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
         <Form.Item
           label="Название товара"
           name="title"
-          rules={[{required: true, message: 'Пожалуйста введите название'}]}
+          rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
         <Form.Item
           label="Единица измерения"
           name="unit"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста выберите ед. изм.'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите ед. изм.'}]}
         >
           <div>
             <Select
@@ -141,7 +141,7 @@ export const EditDrawerProduct: React.FC<EditProductProps> = ({
         <Form.Item
           label="Товарная группа"
           name="productGroup"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста выберите тов. группу'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
         >
           <div>
             <Select
