@@ -1,20 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import {
-  getAllEmployees,
-  deleteEmployeeById,
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {getAllEmployees, deleteEmployeeById,
 } from "../../services";
 import {ItemTableProps, EmployeeType, TableParams} from "../../types";
 

@@ -1,6 +1,6 @@
 import {Dayjs} from 'dayjs';
 
-export type ProductMovementHistoryTypes = {
+export type ProductMovementHistoryType = {
     date?: Dayjs,
     id: number,
     title: string,

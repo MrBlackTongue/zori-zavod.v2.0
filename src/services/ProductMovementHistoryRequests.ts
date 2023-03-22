@@ -1,16 +1,15 @@
-import {ProductMovementHistoryTypes} from "../types";
-import {message} from "antd";
+import {ProductMovementHistoryType} from "../types";
 import {MOVEMENT, HISTORY, URL} from "./Routes";
 
 // Получить всю историю движения товаров
-export async function getAllProductMovementHistories(): Promise<ProductMovementHistoryTypes[]> {
+export async function getAllProductMovementHistories(): Promise<ProductMovementHistoryType[]> {
     try {
         const res = await fetch(URL + MOVEMENT + HISTORY);
         if (!res.ok) {
             console.error(res.statusText);
             return Promise.reject();
         }
-        return await res.json() as ProductMovementHistoryTypes[];
+        return await res.json() as ProductMovementHistoryType[];
     } catch (error) {
         console.error(error);
         return Promise.reject(error);
@@ -18,7 +17,7 @@ export async function getAllProductMovementHistories(): Promise<ProductMovementH
 }
 
 // Получить всю историю движения товаров по id ячейки товара на складе
-export async function getProductMovementHistoryById(id: number): Promise<ProductMovementHistoryTypes | undefined> {
+export async function getProductMovementHistoryById(id: number): Promise<ProductMovementHistoryType | undefined> {
     try {
         const response = await fetch(URL + MOVEMENT + HISTORY + `/${id}`);
         if (!response.ok) {

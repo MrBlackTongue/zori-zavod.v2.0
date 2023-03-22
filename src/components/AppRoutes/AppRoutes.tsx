@@ -8,7 +8,8 @@ import {
   PageOutputs,
   PageProducts,
   PagePurchases,
-  PageUnits
+  PageUnits,
+  PageProductMovementHistory,
 } from '../../pages';
 
 export const AppRoutes: React.FC = () => {
@@ -22,6 +23,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/units" element={<PageUnits/>}/>
       <Route path="/purchases" element={<PagePurchases/>}/>
       <Route path="/clients" element={<PageClients/>}/>
+      <Route path="/product-movement-history" element={<PageProductMovementHistory/>}/>
     </Routes>
   );
 };
