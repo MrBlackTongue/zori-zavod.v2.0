@@ -110,6 +110,11 @@ export const MenuMain: React.FC = () => {
         icon: <Link to='/purchases'><FunctionOutlined/></Link>,
         label: 'Закупки',
       },
+      {
+        key: '20',
+        icon: <Link to='/product-batch'><FunctionOutlined/></Link>,
+        label: 'Партии товаров',
+      },
     ]}
   >
   </Menu>
