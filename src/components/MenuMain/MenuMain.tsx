@@ -15,7 +15,7 @@ import {
   UploadOutlined
 } from "@ant-design/icons";
 
-const MenuMain: React.FC = () => {
+export const MenuMain: React.FC = () => {
   return <Menu
     theme="light"
     mode="inline"
@@ -119,5 +119,3 @@ const MenuMain: React.FC = () => {
   >
   </Menu>
 }
-
-export default MenuMain;

@@ -1,24 +1,24 @@
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditOperationProps, UnitTypes} from "../../types";
+import {EditItemProps, OperationType, UnitType} from "../../types";
 import {getOperationById, getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const EditDrawerOperation: React.FC<EditOperationProps> = ({
+export const EditDrawerOperation: React.FC<EditItemProps<OperationType>> = ({
                                                             isOpen,
-                                                            selectedOperationId,
+                                                            selectedItemId,
                                                             closeDrawer,
-                                                            updateOperation,
+                                                            updateItem,
                                                           }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<UnitTypes[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitTypes>();
-  const [unit, setUnit] = useState<UnitTypes>()
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  const [unit, setUnit] = useState<UnitType>()
 
-  const onChangeUnit = (values: string, option: any): UnitTypes => {
-    const unit: UnitTypes = {
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
       id: option.id,
       name: values,
     };
@@ -36,14 +36,14 @@ export const EditDrawerOperation: React.FC<EditOperationProps> = ({
   }, []);
 
   useEffect(() => {
-    if (selectedOperationId) {
-      getOperationById(selectedOperationId).then((operation) => {
+    if (selectedItemId) {
+      getOperationById(selectedItemId).then((operation) => {
         form.setFieldsValue(operation)
         setSelectedUnit(operation?.unit)
         setUnit(operation?.unit)
       })
     }
-  }, [selectedOperationId, getOperationById]);
+  }, [selectedItemId, getOperationById]);
 
   return (
     <Drawer
@@ -67,7 +67,7 @@ export const EditDrawerOperation: React.FC<EditOperationProps> = ({
               .validateFields()
               .then((values) => {
                 // form.resetFields()
-                updateOperation(values);
+                updateItem(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)
@@ -88,7 +88,7 @@ export const EditDrawerOperation: React.FC<EditOperationProps> = ({
         <Form.Item
           label="Название операции"
           name="title"
-          rules={[{required: true, message: 'Пожалуйста введите название'}]}
+          rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
@@ -115,7 +115,7 @@ export const EditDrawerOperation: React.FC<EditOperationProps> = ({
           name="rate"
           rules={[{
             type: 'number',
-            message: 'Пожалуйста напишите ставку цифрами больше 1',
+            message: 'напишите норму цифрами больше 1',
             warningOnly: true,
             // pattern: /[1-9]/,
           }]}

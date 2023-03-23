@@ -12,22 +12,21 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import '../../pages/PageOperations/PageOperations.css';
 import {
   getAllOperations,
   deleteOperationById,
 } from "../../services";
-import {OperationsTableProps, OperationTypes, TableParams} from "../../types";
+import {ItemTableProps, OperationType, TableParams} from "../../types";
 
-export const TableOperations: React.FC<OperationsTableProps> = ({
-                                                                  updateTable,
+export const TableOperations: React.FC<ItemTableProps<OperationType>> = ({
+                                                                  isUpdateTable,
                                                                   openDrawer,
                                                                 }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех операций
   const [loading, setLoading] = useState(false);
-  const [allOperations, setAllOperations] = useState<OperationTypes[]>();
+  const [allOperations, setAllOperations] = useState<OperationType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -38,7 +37,7 @@ export const TableOperations: React.FC<OperationsTableProps> = ({
     },
   });
 
-  const columns: ColumnsType<OperationTypes> = [
+  const columns: ColumnsType<OperationType> = [
     {
       title: 'Операция',
       dataIndex: 'title',
@@ -102,7 +101,7 @@ export const TableOperations: React.FC<OperationsTableProps> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<OperationTypes>,
+    sorter: SorterResult<OperationType>,
   ) => {
     setTableParams({
       pagination,
@@ -119,14 +118,13 @@ export const TableOperations: React.FC<OperationsTableProps> = ({
       setAllOperations(allOperations);
       setLoading(false);
     });
-  }, [!updateTable]);
+  }, [!isUpdateTable]);
 
   return (
     <Table
       columns={columns}
       dataSource={allOperations}
       pagination={{position: [bottom]}}
-      // pagination={tableParams.pagination}
       loading={loading}
       onChange={handleTableChange}
     />

@@ -1,27 +1,27 @@
 import React, {useEffect, useState} from "react";
-import {AddProductProps, ProductTypes, UnitTypes} from "../../types";
+import {AddItemProps, ProductType, UnitType} from "../../types";
 import {Form, Input, Modal, Select} from "antd";
 import {getAllUnits, getAllProductGroups} from "../../services";
 
 const {Option} = Select;
 
-export const AddModalProduct: React.FC<AddProductProps> = ({
+export const AddModalProduct: React.FC<AddItemProps<ProductType>> = ({
                                                             isOpen,
-                                                            addProduct,
+                                                            addItem,
                                                             onCancel,
                                                           }) => {
   const [form] = Form.useForm();
 
   // Единицы измерения
-  const [units, setUnits] = useState<UnitTypes[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitTypes>();
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
 
   // Товарные группы
-  const [productGroups, setProductGroups] = useState<ProductTypes[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductTypes>();
+  const [productGroups, setProductGroups] = useState<ProductType[]>();
+  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
 
-  const onChangeUnit = (values: string, option: any): UnitTypes => {
-    const unit: UnitTypes = {
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
       id: option.id,
       name: values,
     };
@@ -32,8 +32,8 @@ export const AddModalProduct: React.FC<AddProductProps> = ({
     return unit
   };
 
-  const onChangeProductGroup = (values: string, option: any): ProductTypes => {
-    const productGroup: ProductTypes = {
+  const onChangeProductGroup = (values: string, option: any): ProductType => {
+    const productGroup: ProductType = {
       id: option.id,
       title: values,
     };
@@ -75,7 +75,7 @@ export const AddModalProduct: React.FC<AddProductProps> = ({
             form.resetFields();
             setSelectedUnit(undefined);
             setSelectedProductGroup(undefined);
-            addProduct(values);
+            addItem(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);
@@ -95,15 +95,14 @@ export const AddModalProduct: React.FC<AddProductProps> = ({
         <Form.Item
           label="Название товара"
           name="title"
-          rules={[{required: true, message: 'Пожалуйста введите название'}]}
+          rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
         <Form.Item
           label="Единица измерения"
           name="unit"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста выберите ед. изм.'}]}
-
+          rules={[{type: 'object' as const, required: true, message: 'выберите ед. изм.'}]}
         >
           <div>
             <Select
@@ -122,7 +121,7 @@ export const AddModalProduct: React.FC<AddProductProps> = ({
         <Form.Item
           label="Товарная группа"
           name="productGroup"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста выберите тов. группу'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
         >
           <div>
             <Select

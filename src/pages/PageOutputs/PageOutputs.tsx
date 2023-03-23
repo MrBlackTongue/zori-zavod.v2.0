@@ -10,26 +10,21 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageOutputs.css';
 import {postNewOutput, putChangeOutput} from "../../services";
-import {OutputTypes} from "../../types";
+import {OutputType} from "../../types";
 import {AddModalOutput, TableOutputs, EditDrawerOutput} from "../../components";
 
 const {Title} = Typography;
 
-const PageOutputs: React.FC = () => {
+export const PageOutputs: React.FC = () => {
 
   const [form] = Form.useForm();
-
-  // Обновить лоудер, обновить тект кнопки "Обновить" todo: сделать анимационную кнопку обновления
-  const [loading] = useState(false);
-  const [updateButton] = useState('Обновить')
 
   // Выпуски продукции в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать новый выпуск продукции
-  const [output] = useState<OutputTypes | null>(null);
+  const [output] = useState<OutputType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,8 +33,8 @@ const PageOutputs: React.FC = () => {
   // Открыть выпуск продукции по id
   const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
-  const addOutput = (values: { [key: string]: any }): OutputTypes => {
-    const output: OutputTypes = {
+  const addOutput = (values: { [key: string]: any }): OutputType => {
+    const output: OutputType = {
       date: values['date'].format('YYYY-MM-DD'),
       product: {
         id: values.product,
@@ -63,8 +58,8 @@ const PageOutputs: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateOutput = (values: { [key: string]: any }): OutputTypes => {
-    const output: OutputTypes = {
+  const updateOutput = (values: { [key: string]: any }): OutputType => {
+    const output: OutputType = {
       date: values['date'].format('YYYY-MM-DD'),
       product: {
         id: values.product,
@@ -84,10 +79,10 @@ const PageOutputs: React.FC = () => {
         <Space>
           <Button
             type="dashed"
-            icon={<SyncOutlined spin={loading}/>}
+            icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
             className='greenButton'>
-            {updateButton}
+            Обновить
           </Button>
           <Button
             type="primary"
@@ -101,20 +96,20 @@ const PageOutputs: React.FC = () => {
         </Space>
       </div>
       <TableOutputs
-        updateTable={updateTable}
+        isUpdateTable={updateTable}
         openDrawer={openDrawer}
       />
       <AddModalOutput
         isOpen={isModalOpen}
-        addOutput={addOutput}
+        addItem={addOutput}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
       <EditDrawerOutput
         isOpen={isDrawerOpen}
-        selectedOutputId={selectedOutputId}
-        updateOutput={updateOutput}
+        selectedItemId={selectedOutputId}
+        updateItem={updateOutput}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}
@@ -122,5 +117,3 @@ const PageOutputs: React.FC = () => {
     </div>
   );
 };
-
-export default PageOutputs;

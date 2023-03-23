@@ -1,26 +1,28 @@
 import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
-import {EditOutputProps, ProductTypes} from "../../types";
+import {EditItemProps, OutputType, ProductType} from "../../types";
 import {getOutputById, getAllProducts} from "../../services";
 import dayjs from 'dayjs';
 
 const {Option} = Select;
 
-export const EditDrawerOutput: React.FC<EditOutputProps> = ({
+export const EditDrawerOutput: React.FC<EditItemProps<OutputType>> = ({
                                                         isOpen,
-                                                        selectedOutputId,
+                                                        selectedItemId,
                                                         closeDrawer,
-                                                        updateOutput,
+                                                        updateItem,
                                                       }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductTypes[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
-  const [product, setProduct] = useState<ProductTypes>();
+  const [products, setProducts] = useState<ProductType[]>();
+
+  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  const [product, setProduct] = useState<ProductType>();
+
   const [date, setDate] = useState<any>();
 
-  const onChangeProduct = (values: string, option: any): ProductTypes => {
-    const product: ProductTypes = {
+  const onChangeProduct = (values: string, option: any): ProductType => {
+    const product: ProductType = {
       id: option.id,
       title: values,
     };
@@ -32,8 +34,8 @@ export const EditDrawerOutput: React.FC<EditOutputProps> = ({
   };
 
   const handleGetOutputById = useCallback(() => {
-    if (selectedOutputId) {
-      getOutputById(selectedOutputId).then((output) => {
+    if (selectedItemId) {
+      getOutputById(selectedItemId).then((output) => {
         form.setFieldsValue({
           date: dayjs(output?.date),
           product: output?.product?.id,
@@ -43,7 +45,7 @@ export const EditDrawerOutput: React.FC<EditOutputProps> = ({
         setDate(dayjs(output?.date));
       })
     }
-  }, [selectedOutputId]);
+  }, [selectedItemId]);
 
   useEffect(() => {
     getAllProducts().then((products) => {
@@ -53,11 +55,11 @@ export const EditDrawerOutput: React.FC<EditOutputProps> = ({
 
   useEffect(() => {
     handleGetOutputById();
-  }, [selectedOutputId, handleGetOutputById]);
+  }, [selectedItemId, handleGetOutputById]);
 
   return (
     <Drawer
-      title="Редактирование выпуск продукции"
+      title="Редактирование выпуска продукции"
       width={600}
       open={isOpen}
       onClose={() => {
@@ -76,7 +78,7 @@ export const EditDrawerOutput: React.FC<EditOutputProps> = ({
             form
               .validateFields()
               .then((values) => {
-                updateOutput(values);
+                updateItem(values);
               })
               .catch((info) => {
                 console.log('Validate Failed:', info)
@@ -99,7 +101,7 @@ export const EditDrawerOutput: React.FC<EditOutputProps> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'Пожалуйста введите дату'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}
@@ -112,9 +114,7 @@ export const EditDrawerOutput: React.FC<EditOutputProps> = ({
         <Form.Item
           label="Продукт"
           name="product"
-          rules={[
-            { required: true, message: 'Пожалуйста выберите продукт' },
-          ]}
+          rules={[{ required: true, message: 'Выберите продукт' }]}
         >
           <div>
             <Select

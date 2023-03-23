@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from "react";
-import {AddOperationProps, UnitTypes} from "../../types";
+import {AddItemProps, OperationType, UnitType} from "../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnits} from "../../services";
 
 const {Option} = Select;
 
-export const AddModalOperation: React.FC<AddOperationProps> = ({
+export const AddModalOperation: React.FC<AddItemProps<OperationType>> = ({
                                                             isOpen,
-                                                            addOperation,
+                                                            addItem,
                                                             onCancel,
                                                           }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<UnitTypes[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitTypes>();
+  const [units, setUnits] = useState<UnitType[]>();
+  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
 
-  const onChangeUnit = (values: string, option: any): UnitTypes => {
-    const unit: UnitTypes = {
+  const onChangeUnit = (values: string, option: any): UnitType => {
+    const unit: UnitType = {
       id: option.id,
       name: values,
     };
@@ -50,7 +50,7 @@ export const AddModalOperation: React.FC<AddOperationProps> = ({
           .then((values) => {
             form.resetFields();
             setSelectedUnit(undefined);
-            addOperation(values);
+            addItem(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);
@@ -70,7 +70,7 @@ export const AddModalOperation: React.FC<AddOperationProps> = ({
         <Form.Item
           label="Название операции"
           name="title"
-          rules={[{required: true, message: 'Пожалуйста введите название'}]}
+          rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
@@ -97,7 +97,7 @@ export const AddModalOperation: React.FC<AddOperationProps> = ({
           name="rate"
           rules={[{
             type: 'number',
-            message: 'Пожалуйста напишите ставку цифрами больше 1',
+            message: 'напишите норму цифрами больше 1',
             warningOnly: true,
             // pattern: /[1-9]/,
           }]}

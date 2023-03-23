@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {ItemTableProps, PurchaseType, TableParams, UnitTypes} from "../../types";
+import {ItemTableProps, PurchaseType, TableParams, UnitType} from "../../types";
 import {deletePurchaseById, getAllPurchases, getPurchaseByTitle} from "../../services";
 import dayjs from "dayjs";
 
@@ -28,7 +28,7 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
 
   const columns: ColumnsType<PurchaseType> = [
     {
-      title: 'Идентификатор',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
     },
@@ -65,7 +65,7 @@ export const TablePurchases: React.FC<ItemTableProps<PurchaseType>> = ({
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: UnitTypes) =>
+      render: ((unit: UnitType) =>
         unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
     },
     {

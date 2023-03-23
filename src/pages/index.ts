@@ -5,4 +5,5 @@ export * from './PageOutputs';
 export * from './PageProducts';
 export * from './PageUnits';
 export * from './PageClients';
+export * from './PagePurchases';
 export * from './PageProductBatch';

@@ -10,26 +10,21 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import '../../App.css'
-import './PageEmployees.css';
 import {postNewEmployee, putChangeEmployee} from "../../services";
-import {EmployeeTypes} from "../../types";
+import {EmployeeType} from "../../types";
 import {AddModalEmployee, EditDrawerEmployee, TableEmployees} from "../../components";
 
 const {Title} = Typography;
 
-const PageEmployees: React.FC = () => {
+export const PageEmployees: React.FC = () => {
 
   const [form] = Form.useForm();
-
-  // Обновить лоудер, обновить тект кнопки "Обновить" todo: сделать анимационную кнопку обновления
-  const [loading] = useState(false);
-  const [updateButton] = useState('Обновить')
 
   // Сотрудники в таблице, обновить сотрудников
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать нового сотрудника
-  const [employee] = useState<EmployeeTypes | null>(null);
+  const [employee] = useState<EmployeeType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,8 +33,8 @@ const PageEmployees: React.FC = () => {
   // Открыть сотрудника по id
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
-  const addEmployee = (values: { [key: string]: any }): EmployeeTypes => {
-    const employee: EmployeeTypes = {
+  const addEmployee = (values: { [key: string]: any }): EmployeeType => {
+    const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
@@ -64,8 +59,8 @@ const PageEmployees: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  const updateEmployee = (values: { [key: string]: any }): EmployeeTypes => {
-    const employee: EmployeeTypes = {
+  const updateEmployee = (values: { [key: string]: any }): EmployeeType => {
+    const employee: EmployeeType = {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
@@ -86,10 +81,10 @@ const PageEmployees: React.FC = () => {
         <Space>
           <Button
             type="dashed"
-            icon={<SyncOutlined spin={loading}/>}
+            icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
             className='greenButton'>
-            {updateButton}
+            Обновить
           </Button>
           <Button
             type="primary"
@@ -103,20 +98,20 @@ const PageEmployees: React.FC = () => {
         </Space>
       </div>
       <TableEmployees
-        updateTable={updateTable}
+        isUpdateTable={updateTable}
         openDrawer={openDrawer}
       />
       <AddModalEmployee
         isOpen={isModalOpen}
-        addEmployee={addEmployee}
+        addItem={addEmployee}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
       <EditDrawerEmployee
         isOpen={isDrawerOpen}
-        selectedEmployeeId={selectedEmployeeId}
-        updateEmployee={updateEmployee}
+        selectedItemId={selectedEmployeeId}
+        updateItem={updateEmployee}
         closeDrawer={() => {
           setIsDrawerOpen(false);
         }}
@@ -124,5 +119,3 @@ const PageEmployees: React.FC = () => {
     </div>
   );
 };
-
-export default PageEmployees;

@@ -1,16 +1,16 @@
-import {ClientTypes} from "../types";
+import {ClientType} from "../types";
 import {message} from "antd";
 import {URL, CLIENT} from "./Routes";
 
 // Получить список всех клиентов
-export async function getAllClients(): Promise<ClientTypes[]> {
+export async function getAllClients(): Promise<ClientType[]> {
     try {
         const response = await fetch(URL + CLIENT);
         if (!response.ok) {
             console.error(response.statusText);
             return Promise.reject();
         }
-        return await response.json() as ClientTypes[];
+        return await response.json() as ClientType[];
     } catch (error) {
         console.error(error);
         return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllClients(): Promise<ClientTypes[]> {
 }
 
 // Получить данные клиента по id
-export async function getClientById(id: number): Promise<ClientTypes | undefined> {
+export async function getClientById(id: number): Promise<ClientType | undefined> {
     try {
         const response = await fetch(URL + CLIENT + `/${id}`);
         if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getClientById(id: number): Promise<ClientTypes | undefined
 }
 
 // Добавить нового клиента
-export function postNewClient(data: ClientTypes) {
+export function postNewClient(data: ClientType) {
     try {
         const config = {
             method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteClientById(id: number) {
 }
 
 // Редактировать клиента
-export function putChangeClient(data: ClientTypes) {
+export function putChangeClient(data: ClientType) {
     try {
         const config = {
             method: 'PUT',

@@ -5,8 +5,7 @@ import {
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import {Layout, theme} from 'antd';
-import MenuMain from "./components/MenuMain/MenuMain";
-import AppRoutes from "./components/AppRoutes/AppRoutes";
+import {AppRoutes, MenuMain} from "./components";
 
 const {Header, Sider, Content} = Layout;
 
