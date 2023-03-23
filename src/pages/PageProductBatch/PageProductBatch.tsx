@@ -2,28 +2,21 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import './PageProductBatch.css'
 import {postNewProductBatch, putChangeProductBatch} from "../../services";
-import {ProductBatchTypes} from '../../types';
-import {
-  AddModalProductBatch, EditDrawerProductBatch, TableProductBatch
-} from "../../components";
+import {ProductBatchType} from '../../types';
+import {AddModalProductBatch, EditDrawerProductBatch, TableProductBatch} from "../../components";
 
 const {Title} = Typography;
 
-const PageProductBatch: React.FC = () => {
+export const PageProductBatch: React.FC = () => {
 
   const [form] = Form.useForm();
-
-  // Обновить лоудер, обновить тект кнопки "Обновить" todo: сделать анимационную кнопку обновления
-  const [loading] = useState(false);
-  const [updateButton] = useState('Обновить')
 
   // Партия товара в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новоую партию товара
-  const [productBatch] = useState<ProductBatchTypes | null>(null);
+  // Создать новую партию товара
+  const [productBatch] = useState<ProductBatchType | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,8 +25,9 @@ const PageProductBatch: React.FC = () => {
   // Открыть партию товара по id
   const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
-  const addProductBatch = (values: { [key: string]: any }): ProductBatchTypes => {
-    const productBatch: ProductBatchTypes = {
+  // Функция для добавления новой партии товара
+  const addProductBatch = (values: { [key: string]: any }): ProductBatchType => {
+    const productBatch: ProductBatchType = {
       product: {
         id: values.product,
       },
@@ -45,12 +39,6 @@ const PageProductBatch: React.FC = () => {
     return productBatch;
   };
 
-  useEffect(() => {
-    if (productBatch) {
-      form.setFieldsValue(productBatch);
-    }
-  }, [productBatch, form]);
-
   // Функция для открытия дравера и передачи id выбранной партии товара
   const openDrawer = (productBatchId: number) => {
     setSelectedProductBatchId(productBatchId)
@@ -58,8 +46,8 @@ const PageProductBatch: React.FC = () => {
   };
 
   // Функция для обновления партии товара
-  const updateProductBatch = (values: { [key: string]: any }): ProductBatchTypes => {
-    const productBatch: ProductBatchTypes = {
+  const updateProductBatch = (values: { [key: string]: any }): ProductBatchType => {
+    const productBatch: ProductBatchType = {
       id: selectedProductBatchId,
       product: {
         id: values.product,
@@ -72,6 +60,12 @@ const PageProductBatch: React.FC = () => {
     return productBatch
   };
 
+  useEffect(() => {
+    if (productBatch) {
+      form.setFieldsValue(productBatch);
+    }
+  }, [productBatch, form]);
+
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -79,10 +73,10 @@ const PageProductBatch: React.FC = () => {
         <Space>
           <Button
             type="dashed"
-            icon={<SyncOutlined spin={loading}/>}
+            icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
             className='greenButton'>
-            {updateButton}
+            Обновить
           </Button>
           <Button
             type="primary"
@@ -117,4 +111,3 @@ const PageProductBatch: React.FC = () => {
     </div>
   );
 };
-export default PageProductBatch;
