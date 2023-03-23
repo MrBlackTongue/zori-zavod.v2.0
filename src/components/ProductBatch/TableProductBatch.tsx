@@ -2,11 +2,10 @@ import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {ItemTableProps, ProductBatchTypes, TableParams, UnitTypes} from "../../types";
+import {ItemTableProps, ProductBatchType, TableParams, UnitType} from "../../types";
 import {getAllProductBatch, deleteProductBatchById} from "../../services";
 
-
-export const TableProductBatch: React.FC<ItemTableProps<ProductBatchTypes>> = ({
+export const TableProductBatch: React.FC<ItemTableProps<ProductBatchType>> = ({
                                                                          isUpdateTable,
                                                                          openDrawer,
                                                                        }) => {
@@ -14,7 +13,7 @@ export const TableProductBatch: React.FC<ItemTableProps<ProductBatchTypes>> = ({
 
   // Лоудер и список всех партий товаров
   const [loading, setLoading] = useState(false);
-  const [allProductBatch, setAllProductBatch] = useState<ProductBatchTypes[]>();
+  const [allProductBatch, setAllProductBatch] = useState<ProductBatchType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -25,11 +24,12 @@ export const TableProductBatch: React.FC<ItemTableProps<ProductBatchTypes>> = ({
     },
   });
 
-  const columns: ColumnsType<ProductBatchTypes> = [
+  const columns: ColumnsType<ProductBatchType> = [
     {
-      title: 'Идентификатор',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
     },
     {
       title: 'Товар',
@@ -43,21 +43,12 @@ export const TableProductBatch: React.FC<ItemTableProps<ProductBatchTypes>> = ({
       dataIndex: 'amount',
       key: 'amount',
       sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
-      // render: ((amount: number | null) =>
-      //   // amount !== null ? (
-      //   //   <div>
-      //   //     {amount.toLocaleString('ru-RU', {
-      //   //       currency: 'RUB',
-      //   //       maximumFractionDigits: 2,
-      //   //     })}
-      //   //   </div>
-      //   // ) : null)
     },
     {
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: UnitTypes) =>
+      render: ((unit: UnitType) =>
         unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
     },
     {
@@ -104,7 +95,7 @@ export const TableProductBatch: React.FC<ItemTableProps<ProductBatchTypes>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<ProductBatchTypes>,
+    sorter: SorterResult<ProductBatchType>,
   ) => {
     setTableParams({
       pagination,

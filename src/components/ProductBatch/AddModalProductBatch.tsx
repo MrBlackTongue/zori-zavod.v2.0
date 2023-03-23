@@ -1,23 +1,24 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, ProductTypes, ProductBatchTypes} from "../../types";
+import {AddItemProps, ProductType, ProductBatchType} from "../../types";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllProducts} from "../../services";
 
 const {Option} = Select;
 
-export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = ({
+export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchType>> = ({
                                                                                   isOpen,
                                                                                   addItem,
                                                                                   onCancel,
                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Функция для изменения выбранного продукта
-  const [products, setProducts] = useState<ProductTypes[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
+  // Все продукты, выбранный продукт
+  const [products, setProducts] = useState<ProductType[]>();
+  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
 
-  const onChangeProductBatch = (values: string, option: any): ProductBatchTypes => {
-    const product: ProductTypes = {
+  // Функция для изменения выбранного продукта
+  const onChangeProductBatch = (values: string, option: any): ProductBatchType => {
+    const product: ProductType = {
       id: option.id,
       title: values,
     };
@@ -74,7 +75,7 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
         <Form.Item
           label="Товар"
           name="product"
-          rules={[{required: true, message: 'Пожалуйста выберите товар'}]}
+          rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
             <Select
@@ -93,7 +94,7 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchTypes>> = (
         <Form.Item
           label="Количество"
           name="amount"
-          rules={[{required: true, message: 'Пожалуйста укажите количество'}]}
+          rules={[{required: true, message: 'введите количество'}]}
         >
           <InputNumber style={{width: "100%"}}/>
         </Form.Item>

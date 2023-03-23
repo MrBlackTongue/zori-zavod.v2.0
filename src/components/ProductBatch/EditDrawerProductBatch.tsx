@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
-import {EditItemProps, ProductTypes, ProductBatchTypes} from "../../types";
+import {EditItemProps, ProductType, ProductBatchType} from "../../types";
 import {getAllProducts, getProductBatchById} from "../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> = ({
+export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchType>> = ({
                                                                             isOpen,
                                                                             selectedItemId,
                                                                             closeDrawer,
@@ -13,13 +13,16 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> 
                                                                           }) => {
   const [form] = Form.useForm();
 
+  // Все продукты
+  const [products, setProducts] = useState<ProductType[]>();
+
   // Выбранный продукт
-  const [products, setProducts] = useState<ProductTypes[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductTypes>();
-  const [product, setProduct] = useState<ProductTypes>();
-  
-  const onChangeProduct = (values: string, option: any): ProductTypes => {
-    const product: ProductTypes = {
+  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  const [product, setProduct] = useState<ProductType>();
+
+  // Функция для изменения выбранного продукта
+  const onChangeProduct = (values: string, option: any): ProductType => {
+    const product: ProductType = {
       id: option.id,
       title: values,
     };
@@ -30,6 +33,7 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> 
     return product
   };
 
+  // Функция для получения данных о партии товаров по id
   const handleGetProductBatchById = useCallback(() => {
     if (selectedItemId) {
       getProductBatchById(selectedItemId).then((productBatch) => {
@@ -96,7 +100,7 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> 
         <Form.Item
           label="Товар"
           name="product"
-          rules={[{required: true, message: "Выберите товар"}]}
+          rules={[{required: true, message: "выберите товар"}]}
         >
           <div>
             <Select
@@ -115,7 +119,7 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchTypes>> 
         <Form.Item
           label="Количество"
           name="amount"
-          rules={[{required: true, message: 'Пожалуйста укажите количество'}]}
+          rules={[{required: true, message: 'введите количество'}]}
         >
           <InputNumber style={{width: '100%'}}/>
         </Form.Item>
