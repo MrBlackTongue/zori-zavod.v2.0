@@ -10,11 +10,11 @@ export const TableProductMovementHistory: React.FC<ItemTableProps<ProductMovemen
                                                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
 
-  // Лоудер и список всех закупок
+  // Р›РѕСѓРґРµСЂ Рё СЃРїРёСЃРѕРє РІСЃРµС… Р·Р°РєСѓРїРѕРє
   const [loading, setLoading] = useState(false);
   const [allProductMovementHistories, setAllProductMovementHistories] = useState<ProductMovementHistoryType[]>();
 
-  // Параментры для пагинации
+  // РџР°СЂР°РјРµРЅС‚СЂС‹ РґР»СЏ РїР°РіРёРЅР°С†РёРё
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -30,40 +30,40 @@ export const TableProductMovementHistory: React.FC<ItemTableProps<ProductMovemen
       key: 'id'
     },
     {
-      title: 'Дата',
+      title: 'Р”Р°С‚Р°',
       dataIndex: 'date',
       key: 'date',
       render: ((date: any) =>
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
-      title: 'Название',
+      title: 'РќР°Р·РІР°РЅРёРµ',
       dataIndex: 'title',
       key: 'title',
     },
     {
-      title: 'Приход',
+      title: 'РџСЂРёС…РѕРґ',
       dataIndex: 'income',
       key: 'income',
     },
     {
-      title: 'Расход',
+      title: 'Р Р°СЃС…РѕРґ',
       dataIndex: 'outcome',
       key: 'outcome',
     },
     {
-      title: 'Остатки',
+      title: 'РћСЃС‚Р°С‚РєРё',
       dataIndex: 'leftovers',
       key: 'leftovers',
     },
     {
-      title: 'Ед.изм',
+      title: 'Р•Рґ.РёР·Рј',
       dataIndex: 'unit',
       key: 'unit',
     },
   ];
 
-  // Параметры изменения таблицы
+  // РџР°СЂР°РјРµС‚СЂС‹ РёР·РјРµРЅРµРЅРёСЏ С‚Р°Р±Р»РёС†С‹
   const handleTableChange = (
     pagination: TablePaginationConfig,
     sorter: SorterResult<ProductType>,
@@ -77,7 +77,7 @@ export const TableProductMovementHistory: React.FC<ItemTableProps<ProductMovemen
     }
   };
 
-  // Функция для обновления таблицы товаров
+  // Р¤СѓРЅРєС†РёСЏ РґР»СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ С‚Р°Р±Р»РёС†С‹ С‚РѕРІР°СЂРѕРІ
   const updateTable = () => {
     setLoading(true);
     getAllProductMovementHistories().then((allProductMovementHistories) => {
@@ -86,7 +86,7 @@ export const TableProductMovementHistory: React.FC<ItemTableProps<ProductMovemen
     });
   }
 
-  // Обновление таблицы товаров
+  // РћР±РЅРѕРІР»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ С‚РѕРІР°СЂРѕРІ
   useEffect(() => {
     updateTable();
   }, [!isUpdateTable]);
