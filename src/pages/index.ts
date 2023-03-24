@@ -7,3 +7,4 @@ export * from './PageUnits';
 export * from './PageClients';
 export * from './PagePurchases';
 export * from './PageProductMovementHistory';
+export * from './PageProductBatch';

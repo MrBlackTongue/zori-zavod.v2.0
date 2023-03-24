@@ -8,3 +8,4 @@ export * from './ClientType';
 export * from './PurchaseType';
 export * from './PropsInterface';
 export * from './ProductMovementHistoryType';
+export * from './ProductBatchType';

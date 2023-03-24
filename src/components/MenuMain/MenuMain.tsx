@@ -111,6 +111,11 @@ export const MenuMain: React.FC = () => {
         label: 'Закупки',
       },
       {
+        key: '20',
+        icon: <Link to='/product-batch'><FunctionOutlined/></Link>,
+        label: 'Партии товаров',
+      },
+      {
         key: '21',
         icon: <Link to='/product-movement-history'><FunctionOutlined/></Link>,
         label: 'История',
