@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button} from 'antd';
 import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
+import {TableProductMovementHistory} from "../../components/ProductMovementHistory";
 
 const {Title} = Typography;
 
@@ -24,6 +25,10 @@ export const PageProductMovementHistory: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <TableProductMovementHistory
+        openDrawer={() => {}}
+        isUpdateTable={updateTable}
+      />
     </div>
   );
 }
