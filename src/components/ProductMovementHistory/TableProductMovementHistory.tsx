@@ -45,11 +45,13 @@ export const TableProductMovementHistory: React.FC<ItemTableProps<ProductMovemen
       title: 'Приход',
       dataIndex: 'income',
       key: 'income',
+      render: ((income: number | null) => income !== null ? income : 0)
     },
     {
       title: 'Расход',
       dataIndex: 'outcome',
       key: 'outcome',
+      render: ((income: number | null) => income !== null ? income : 0)
     },
     {
       title: 'Остатки',

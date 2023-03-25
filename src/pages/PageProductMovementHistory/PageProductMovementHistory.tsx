@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button} from 'antd';
 import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
-import {TableProductMovementHistory} from "../../components/ProductMovementHistory";
+import {TableProductMovementHistory} from "../../components";
 
 const {Title} = Typography;
 
