@@ -99,7 +99,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<ProductType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-product' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -107,7 +107,6 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<ProductType>> = ({
     >
       <Form
         form={form}
-        name="change-product"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

@@ -49,16 +49,14 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<EmployeeType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-employee' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-employee'
         form={form}
-        name="change-employee"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

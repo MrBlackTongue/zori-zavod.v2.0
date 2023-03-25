@@ -40,16 +40,14 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<UnitType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-unit' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-unit'
         form={form}
-        name="change-unit"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

@@ -22,13 +22,13 @@ export const MenuMain: React.FC = () => {
         theme="light"
         mode="inline">
         <Menu.Item key="1" icon={<TeamOutlined/>}>
-          <Link to="/employees">Сотрудники</Link>
+          <Link to="/employee">Сотрудники</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<UnorderedListOutlined/>}>
           <Link to="/operation_accounting">Учет операций</Link>
         </Menu.Item>
         <Menu.Item key="3" icon={<UnorderedListOutlined/>}>
-          <Link to="/operations">Типы операций</Link>
+          <Link to="/operation">Типы операций</Link>
         </Menu.Item>
         <Menu.Item key="4" icon={<CopyOutlined/>}>
           <Link to="/operation-report">По операциям</Link>
@@ -43,13 +43,13 @@ export const MenuMain: React.FC = () => {
           <Link to="/employee-report">По сотрудникам</Link>
         </Menu.Item>
         <Menu.Item key="8" icon={<TrophyOutlined/>}>
-          <Link to="/products">Товары</Link>
+          <Link to="/product">Товары</Link>
         </Menu.Item>
         <Menu.Item key="9" icon={<FormOutlined/>}>
           <Link to="/product-group">Группы товаров</Link>
         </Menu.Item>
         <Menu.Item key="10" icon={<TrophyOutlined/>}>
-          <Link to="/meter-records">Записи счетчиков</Link>
+          <Link to="/meter-record">Записи счетчиков</Link>
         </Menu.Item>
         <Menu.Item key="11" icon={<PicLeftOutlined/>}>
           <Link to="/meter">Счетчики</Link>
@@ -58,7 +58,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/meter-type">Типы счетчиков</Link>
         </Menu.Item>
         <Menu.Item key="13" icon={<FunctionOutlined/>}>
-          <Link to="/clients">Клиенты</Link>
+          <Link to="/client">Клиенты</Link>
         </Menu.Item>
         <Menu.Item key="14" icon={<DollarCircleOutlined/>}>
           <Link to="/stock">Склад</Link>
@@ -67,7 +67,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/shipment">Отгрузки</Link>
         </Menu.Item>
         <Menu.Item key="16" icon={<FunctionOutlined/>}>
-          <Link to="/purchases">Заказы на закупки</Link>
+          <Link to="/purchase">Заказы на закупки</Link>
         </Menu.Item>
         <Menu.Item key="17" icon={<FunctionOutlined/>}>
           <Link to="/product-batch">Партии товаров</Link>
@@ -82,10 +82,10 @@ export const MenuMain: React.FC = () => {
           <Link to="/product-movement-history">История</Link>
         </Menu.Item>
         <Menu.Item key="21" icon={<AccountBookOutlined/>}>
-          <Link to="/outputs">Выпуски продукции</Link>
+          <Link to="/output">Выпуски продукции</Link>
         </Menu.Item>
         <Menu.Item key="22" icon={<FunctionOutlined/>}>
-          <Link to="/units">Единицы измерения</Link>
+          <Link to="/unit">Единицы измерения</Link>
         </Menu.Item>
         <Menu.Item key="23" icon={<FunctionOutlined/>}>
           <Link to="/transformation-record">Записи трансформаций</Link>

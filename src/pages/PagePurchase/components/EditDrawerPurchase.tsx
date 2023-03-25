@@ -95,16 +95,14 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<PurchaseType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-purchase' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-purchase'
         form={form}
-        name="change-purchase"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

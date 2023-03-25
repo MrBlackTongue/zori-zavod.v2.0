@@ -64,7 +64,6 @@ export const AddModalProductBatch: React.FC<AddModalProps<ProductBatchType>> = (
     >
       <Form
         form={form}
-        name="add-new-product-batch"
         initialValues={{
           modifier: "public",
         }}

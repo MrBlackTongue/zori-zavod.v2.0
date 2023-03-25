@@ -72,7 +72,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-operation' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -80,7 +80,6 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
     >
       <Form
         form={form}
-        name="change-operation"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

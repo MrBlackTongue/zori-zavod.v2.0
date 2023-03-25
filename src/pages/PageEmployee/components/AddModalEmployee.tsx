@@ -36,7 +36,6 @@ export const AddModalEmployee: React.FC<AddModalProps<EmployeeType>> = ({
     >
       <Form
         form={form}
-        name="add-new-employee"
         initialValues={{
           modifier: 'public'
         }}

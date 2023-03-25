@@ -31,7 +31,6 @@ export const AddModalUnit: React.FC<AddModalProps<UnitType>> = ({
     >
       <Form
         form={form}
-        name="add-new-unit"
         initialValues={{
           modifier: 'public'
         }}

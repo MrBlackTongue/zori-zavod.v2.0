@@ -31,7 +31,6 @@ export const AddModalClient: React.FC<AddModalProps<ClientType>> = ({
     >
       <Form
         form={form}
-        name="add-new-client"
         initialValues={{
           modifier: 'public'
         }}

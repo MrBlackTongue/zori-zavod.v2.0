@@ -14,13 +14,13 @@ export const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<PageHome/>}/>
-      <Route path="/employees" element={<PageEmployee/>}/>
-      <Route path="/operations" element={<PageOperation/>}/>
-      <Route path="/products" element={<PageProduct/>}/>
-      <Route path="/outputs" element={<PageOutput/>}/>
-      <Route path="/units" element={<PageUnit/>}/>
-      <Route path="/purchases" element={<PagePurchase/>}/>
-      <Route path="/clients" element={<PageClient/>}/>
+      <Route path="/employee" element={<PageEmployee/>}/>
+      <Route path="/operation" element={<PageOperation/>}/>
+      <Route path="/product" element={<PageProduct/>}/>
+      <Route path="/output" element={<PageOutput/>}/>
+      <Route path="/unit" element={<PageUnit/>}/>
+      <Route path="/purchase" element={<PagePurchase/>}/>
+      <Route path="/client" element={<PageClient/>}/>
       <Route path="/product-batch" element={<PageProductBatch/>}/>
     </Routes>
   );

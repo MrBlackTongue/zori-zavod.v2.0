@@ -83,16 +83,14 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>>
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-productBatch' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-productBatch'
         form={form}
-        name="change-productBatch"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

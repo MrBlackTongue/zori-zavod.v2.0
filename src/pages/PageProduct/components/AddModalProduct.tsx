@@ -84,7 +84,6 @@ export const AddModalProduct: React.FC<AddModalProps<ProductType>> = ({
     >
       <Form
         form={form}
-        name="add-new-product"
         initialValues={{
           modifier: 'public'
         }}

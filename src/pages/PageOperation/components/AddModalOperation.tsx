@@ -59,7 +59,6 @@ export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
     >
       <Form
         form={form}
-        name="add-new-operation"
         initialValues={{
           modifier: 'public'
         }}

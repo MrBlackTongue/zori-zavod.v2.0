@@ -67,7 +67,6 @@ export const AddModalPurchase: React.FC<AddModalProps<PurchaseType>> = ({
     >
       <Form
         form={form}
-        name="add-new-purchase"
         initialValues={{
           modifier: "public",
         }}

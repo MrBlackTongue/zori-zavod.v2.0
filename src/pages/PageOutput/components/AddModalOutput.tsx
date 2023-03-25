@@ -60,7 +60,6 @@ export const AddModalOutput: React.FC<AddModalProps<OutputType>> = ({
     >
       <Form
         form={form}
-        name="add-new-output"
         initialValues={{
           modifier: 'public'
         }}
