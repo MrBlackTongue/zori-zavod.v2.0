@@ -4,7 +4,9 @@ import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProductBatch, putChangeProductBatch} from "../../services";
 import {ProductBatchType} from '../../types';
-import {AddModalProductBatch, EditDrawerProductBatch, TableProductBatch} from "../../components";
+import {TableProductBatch} from "./components/TableProductBatch";
+import {AddModalProductBatch} from "./components/AddModalProductBatch";
+import {EditDrawerProductBatch} from "./components/EditDrawerProductBatch";
 
 const {Title} = Typography;
 
