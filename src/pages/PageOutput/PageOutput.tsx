@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewOutput, putChangeOutput} from "../../services";
-import {OutputType} from "../../types";
+import {OutputType} from "../../types/_index";
 import {TableOutput} from "./components/TableOutput";
 import {AddModalOutput} from "./components/AddModalOutput";
 import {EditDrawerOutput} from "./components/EditDrawerOutput";

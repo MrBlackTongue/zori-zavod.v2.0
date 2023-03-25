@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewEmployee, putChangeEmployee} from "../../services";
-import {EmployeeType} from "../../types";
+import {EmployeeType} from "../../types/_index";
 import {TableEmployee} from "./components/TableEmployee";
 import {AddModalEmployee} from "./components/AddModalEmployee";
 import {EditDrawerEmployee} from "./components/EditDrawerEmployee";

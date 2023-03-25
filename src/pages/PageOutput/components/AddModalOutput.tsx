@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, OutputType, ProductType} from "../../../types";
+import {AddModalProps, OutputType, ProductType} from "../../../types/_index";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllProducts} from "../../../services";
 
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalOutput: React.FC<AddItemProps<OutputType>> = ({
+export const AddModalOutput: React.FC<AddModalProps<OutputType>> = ({
                                                                       isOpen,
                                                                       addItem,
                                                                       onCancel,

@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
-import {EditItemProps, ProductType, ProductBatchType} from "../../../types";
+import {EditDrawerProps, ProductType, ProductBatchType} from "../../../types/_index";
 import {getAllProducts, getProductBatchById} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchType>> = ({
+export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>> = ({
                                                                             isOpen,
                                                                             selectedItemId,
                                                                             closeDrawer,

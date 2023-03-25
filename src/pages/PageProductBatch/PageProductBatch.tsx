@@ -3,7 +3,7 @@ import {Typography, Space, Button, Form,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProductBatch, putChangeProductBatch} from "../../services";
-import {ProductBatchType} from '../../types';
+import {ProductBatchType} from '../../types/_index';
 import {TableProductBatch} from "./components/TableProductBatch";
 import {AddModalProductBatch} from "./components/AddModalProductBatch";
 import {EditDrawerProductBatch} from "./components/EditDrawerProductBatch";

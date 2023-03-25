@@ -16,10 +16,10 @@ import {
   getAllOutputs,
   deleteOutputById,
 } from "../../../services";
-import {ItemTableProps, OutputType, TableParams} from "../../../types";
+import {TableProps, OutputType, TableParams} from "../../../types/_index";
 import dayjs from 'dayjs';
 
-export const TableOutput: React.FC<ItemTableProps<OutputType>> = ({
+export const TableOutput: React.FC<TableProps<OutputType>> = ({
                                                                 isUpdateTable,
                                                                 openDrawer,
                                                               }) => {

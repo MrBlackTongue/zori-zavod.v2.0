@@ -1,4 +1,4 @@
-import {PurchaseType} from "../types";
+import {PurchaseType} from "../types/_index";
 import {message} from "antd";
 import {PRODUCT, PURCHASE, URL} from "./apiEndpoints";
 

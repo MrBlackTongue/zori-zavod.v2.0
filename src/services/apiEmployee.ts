@@ -1,4 +1,4 @@
-import {EmployeeType} from "../types";
+import {EmployeeType} from "../types/_index";
 import {message} from "antd";
 import {URL, EMPLOYEE} from "./apiEndpoints";
 

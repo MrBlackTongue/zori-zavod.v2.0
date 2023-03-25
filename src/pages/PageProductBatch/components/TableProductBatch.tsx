@@ -2,10 +2,10 @@ import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {ItemTableProps, ProductBatchType, TableParams, UnitType} from "../../../types";
+import {TableProps, ProductBatchType, TableParams, UnitType} from "../../../types/_index";
 import {getAllProductBatch, deleteProductBatchById} from "../../../services";
 
-export const TableProductBatch: React.FC<ItemTableProps<ProductBatchType>> = ({
+export const TableProductBatch: React.FC<TableProps<ProductBatchType>> = ({
                                                                          isUpdateTable,
                                                                          openDrawer,
                                                                        }) => {

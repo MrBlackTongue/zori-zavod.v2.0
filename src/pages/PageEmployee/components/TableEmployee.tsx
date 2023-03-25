@@ -16,9 +16,9 @@ import {
   getAllEmployees,
   deleteEmployeeById,
 } from "../../../services";
-import {ItemTableProps, EmployeeType, TableParams} from "../../../types";
+import {TableProps, EmployeeType, TableParams} from "../../../types/_index";
 
-export const TableEmployee: React.FC<ItemTableProps<EmployeeType>> = ({
+export const TableEmployee: React.FC<TableProps<EmployeeType>> = ({
                                                                 isUpdateTable,
                                                                 openDrawer,
                                                               }) => {

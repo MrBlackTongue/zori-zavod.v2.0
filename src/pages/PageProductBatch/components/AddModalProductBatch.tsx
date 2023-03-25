@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, ProductType, ProductBatchType} from "../../../types";
+import {AddModalProps, ProductType, ProductBatchType} from "../../../types/_index";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllProducts} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchType>> = ({
+export const AddModalProductBatch: React.FC<AddModalProps<ProductBatchType>> = ({
                                                                                   isOpen,
                                                                                   addItem,
                                                                                   onCancel,

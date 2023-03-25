@@ -1,4 +1,4 @@
-import {OutputType} from "../types";
+import {OutputType} from "../types/_index";
 import {message} from "antd";
 import {URL, OUTPUT} from "./apiEndpoints";
 

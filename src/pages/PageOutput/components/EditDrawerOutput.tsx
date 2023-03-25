@@ -1,12 +1,12 @@
 import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
-import {EditItemProps, OutputType, ProductType} from "../../../types";
+import {EditDrawerProps, OutputType, ProductType} from "../../../types/_index";
 import {getOutputById, getAllProducts} from "../../../services";
 import dayjs from 'dayjs';
 
 const {Option} = Select;
 
-export const EditDrawerOutput: React.FC<EditItemProps<OutputType>> = ({
+export const EditDrawerOutput: React.FC<EditDrawerProps<OutputType>> = ({
                                                         isOpen,
                                                         selectedItemId,
                                                         closeDrawer,

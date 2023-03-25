@@ -16,9 +16,9 @@ import {
   getAllOperations,
   deleteOperationById,
 } from "../../../services";
-import {ItemTableProps, OperationType, TableParams} from "../../../types";
+import {TableProps, OperationType, TableParams} from "../../../types/_index";
 
-export const TableOperation: React.FC<ItemTableProps<OperationType>> = ({
+export const TableOperation: React.FC<TableProps<OperationType>> = ({
                                                                   isUpdateTable,
                                                                   openDrawer,
                                                                 }) => {

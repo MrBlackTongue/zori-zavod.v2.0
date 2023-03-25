@@ -16,9 +16,9 @@ import {
   getAllUnits,
   deleteUnitById,
 } from "../../../services";
-import {ItemTableProps, UnitType, TableParams} from "../../../types";
+import {TableProps, UnitType, TableParams} from "../../../types/_index";
 
-export const TableUnit: React.FC<ItemTableProps<UnitType>> = ({
+export const TableUnit: React.FC<TableProps<UnitType>> = ({
                                                         isUpdateTable,
                                                         openDrawer,
                                                       }) => {

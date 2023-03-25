@@ -1,11 +1,11 @@
 import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditItemProps, ProductType, UnitType} from "../../../types";
+import {EditDrawerProps, ProductType, UnitType} from "../../../types/_index";
 import {getAllProductGroups, getProductById, getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProduct: React.FC<EditItemProps<ProductType>> = ({
+export const EditDrawerProduct: React.FC<EditDrawerProps<ProductType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,

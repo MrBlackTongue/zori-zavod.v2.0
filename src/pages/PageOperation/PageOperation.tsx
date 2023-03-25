@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewOperation, putChangeOperation} from "../../services";
-import {OperationType} from "../../types";
+import {OperationType} from "../../types/_index";
 import {TableOperation} from "./components/TableOperation";
 import {AddModalOperation} from "./components/AddModalOperation";
 import {EditDrawerOperation} from "./components/EditDrawerOperation";

@@ -6,5 +6,5 @@ export * from './UnitType';
 export * from './TableParamsType';
 export * from './ClientType';
 export * from './PurchaseType';
-export * from './PropsInterface';
+export * from './CommonComponentProps';
 export * from './ProductBatchType';

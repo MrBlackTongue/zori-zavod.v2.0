@@ -1,4 +1,4 @@
-import {OperationType} from "../types";
+import {OperationType} from "../types/_index";
 import {message} from "antd";
 import {URL, OPERATION} from "./apiEndpoints";
 

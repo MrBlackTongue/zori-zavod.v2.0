@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewUnit, putChangeUnit} from "../../services";
-import {UnitType} from "../../types";
+import {UnitType} from "../../types/_index";
 import {TableUnit} from "./components/TableUnit";
 import {AddModalUnit} from "./components/AddModalUnit";
 import {EditDrawerUnit} from "./components/EditDrawerUnit";
