@@ -12,11 +12,11 @@ export const AddModalProductBatch: React.FC<AddModalProps<ProductBatchType>> = (
                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Все продукты, выбранный продукт
+  // Все продукты, выбранный товар
   const [products, setProducts] = useState<ProductType[]>();
   const [selectedProduct, setSelectedProduct] = useState<ProductType>();
 
-  // Функция для изменения выбранного продукта
+  // Функция для изменения выбранного товара
   const onChangeProductBatch = (values: string, option: any): ProductBatchType => {
     const product: ProductType = {
       id: option.id,

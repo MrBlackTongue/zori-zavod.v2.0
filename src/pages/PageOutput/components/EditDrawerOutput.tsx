@@ -110,9 +110,9 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<OutputType>> = ({
           />
         </Form.Item>
         <Form.Item
-          label="Продукт"
+          label="Товар"
           name="product"
-          rules={[{ required: true, message: 'Выберите продукт' }]}
+          rules={[{ required: true, message: 'Выберите товар' }]}
         >
           <div>
             <Select

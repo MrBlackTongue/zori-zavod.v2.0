@@ -13,14 +13,14 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>>
                                                                           }) => {
   const [form] = Form.useForm();
 
-  // Все продукты
+  // Все товары
   const [products, setProducts] = useState<ProductType[]>();
 
-  // Выбранный продукт
+  // Выбранный товар
   const [selectedProduct, setSelectedProduct] = useState<ProductType>();
   const [product, setProduct] = useState<ProductType>();
 
-  // Функция для изменения выбранного продукта
+  // Функция для изменения выбранного товара
   const onChangeProduct = (values: string, option: any): ProductType => {
     const product: ProductType = {
       id: option.id,
@@ -59,7 +59,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>>
 
   return (
     <Drawer
-      title="Редактирование партии товара"
+      title="Редактирование партии товаров"
       width={600}
       open={isOpen}
       onClose={() => {

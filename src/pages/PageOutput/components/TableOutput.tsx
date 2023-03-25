@@ -53,7 +53,7 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
-      title: 'Продукт',
+      title: 'Товар',
       dataIndex: 'product',
       key: 'product',
       render: ((product: any) =>

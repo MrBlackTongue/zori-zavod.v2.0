@@ -78,9 +78,9 @@ export const AddModalOutput: React.FC<AddModalProps<OutputType>> = ({
           />
         </Form.Item>
         <Form.Item
-          label="Продукт"
+          label="Товар"
           name="product"
-          rules={[{required: true, message: 'выберите продукт'}]}
+          rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
             <Select
