@@ -30,10 +30,6 @@ export const PagePurchases: React.FC = () => {
 
   const [searchText, setSearchText] = useState("");
 
-  const searchTable = (value: string) => {
-    setSearchText(value);
-  }
-
   const addPurchase = (values: { [key: string]: any }): PurchaseType => {
     const purchase: PurchaseType = {
       amount: values.amount,
@@ -85,7 +81,7 @@ export const PagePurchases: React.FC = () => {
         <Space>
           <Input
             placeholder="Поиск по товарам"
-            onChange={(event) => searchTable(event.target.value)}
+            onChange={(event) => setSearchText(event.target.value)}
             style={{width: '210px'}}
             allowClear
             prefix={<SearchOutlined/>}
