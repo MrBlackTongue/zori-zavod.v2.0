@@ -79,6 +79,7 @@ export const TableOperation: React.FC<TableProps<OperationType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить эту операцию?"
               onConfirm={() => {
                 deleteOperationById(id).then(() => {

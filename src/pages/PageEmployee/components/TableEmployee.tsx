@@ -93,6 +93,7 @@ export const TableEmployee: React.FC<TableProps<EmployeeType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить этого сотрудника?"
               onConfirm={() => {
                 deleteEmployeeById(id).then(() => {

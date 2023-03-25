@@ -123,6 +123,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить эту закупку?"
               onConfirm={() => {
                 deletePurchaseById(id).then(() => {

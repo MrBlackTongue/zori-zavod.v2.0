@@ -62,6 +62,7 @@ export const TableClient: React.FC<TableProps<ClientType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить этого клиента?"
               onConfirm={() => {
                 deleteClientById(id).then(() => {

@@ -78,6 +78,7 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить этот товар?"
               onConfirm={() => {
                 deleteProductById(id).then(() => {

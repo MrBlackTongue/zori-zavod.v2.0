@@ -80,6 +80,7 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить этот выпуск продукции?"
               onConfirm={() => {
                 deleteOutputById(id).then(() => {

@@ -72,6 +72,7 @@ export const TableProductBatch: React.FC<TableProps<ProductBatchType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить эту партию товара?"
               onConfirm={() => {
                 deleteProductBatchById(id).then(() => {

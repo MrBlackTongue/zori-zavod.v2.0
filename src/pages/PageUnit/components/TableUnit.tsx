@@ -66,6 +66,7 @@ export const TableUnit: React.FC<TableProps<UnitType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить эту единицу измерения?"
               onConfirm={() => {
                 deleteUnitById(id).then(() => {
