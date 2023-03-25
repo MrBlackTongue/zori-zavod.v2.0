@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input} from 'antd';
 import {SearchOutlined, SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
-import {TableProductMovementHistory} from "../../components";
+import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
 
 const {Title} = Typography;
 
@@ -36,8 +36,7 @@ export const PageProductMovementHistory: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <TableProductMovementHistory
-        openDrawer={() => {}}
+      <TableProductMovementHistory        openDrawer={() => {}}
         isUpdateTable={updateTable}
       />
     </div>

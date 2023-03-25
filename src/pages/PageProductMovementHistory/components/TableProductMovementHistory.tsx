@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {ProductMovementHistoryType, TableParams, ItemTableProps, ProductType} from "../../types";
 import dayjs from "dayjs";
-import {getAllProductMovementHistories} from "../../services";
+import {getAllProductMovementHistories} from "../../../services";
+import {ProductMovementHistoryType} from "../../../types/ProductMovementHistoryType";
+import {ProductType, TableParams, TableProps} from "../../../types/_index";
 
-export const TableProductMovementHistory: React.FC<ItemTableProps<ProductMovementHistoryType>> = ({
-                                                                                    isUpdateTable,
-                                                                                  }) => {
+export const TableProductMovementHistory: React.FC<TableProps<ProductMovementHistoryType>> = ({
+                                                                                                isUpdateTable,
+                                                                                              }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех закупок

@@ -1,5 +1,5 @@
-import {ProductMovementHistoryType} from "../types";
-import {PRODUCT_MOVEMENT, HISTORY, URL} from "./Routes";
+import {ProductMovementHistoryType} from "../types/ProductMovementHistoryType";
+import {URL, HISTORY, PRODUCT_MOVEMENT} from "./apiEndpoints";
 
 // Получить всю историю движения товаров
 export async function getAllProductMovementHistories(): Promise<ProductMovementHistoryType[]> {

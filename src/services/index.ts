@@ -7,4 +7,4 @@ export * from './apiPurchase'
 export * from './apiEndpoints';
 export * from './apiClient';
 export * from './apiProductBatch';
-export * from './ProductMovementHistoryRequests';
+export * from './apiProductMovementHistory';
