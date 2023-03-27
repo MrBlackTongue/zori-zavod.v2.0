@@ -1,9 +1,9 @@
 import {Button, Drawer, Form, Input, Space} from "antd";
 import React, {useEffect} from "react";
-import {EditItemProps, UnitType} from "../../../types";
+import {EditDrawerProps, UnitType} from "../../../types/_index";
 import {getUnitById} from "../../../services";
 
-export const EditDrawerUnit: React.FC<EditItemProps<UnitType>> = ({
+export const EditDrawerUnit: React.FC<EditDrawerProps<UnitType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,
@@ -40,16 +40,14 @@ export const EditDrawerUnit: React.FC<EditItemProps<UnitType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-unit' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-unit'
         form={form}
-        name="change-unit"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

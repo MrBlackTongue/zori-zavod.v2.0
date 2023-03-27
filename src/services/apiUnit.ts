@@ -1,4 +1,4 @@
-import {UnitType} from "../types";
+import {UnitType} from "../types/_index";
 import {message} from "antd";
 import {URL, UNIT} from "./apiEndpoints";
 

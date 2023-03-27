@@ -1,8 +1,8 @@
 import React from "react";
-import {AddItemProps, UnitType} from "../../../types";
+import {AddModalProps, UnitType} from "../../../types/_index";
 import {Form, Input, Modal} from "antd";
 
-export const AddModalUnit: React.FC<AddItemProps<UnitType>> = ({
+export const AddModalUnit: React.FC<AddModalProps<UnitType>> = ({
                                                           isOpen,
                                                           addItem,
                                                           onCancel,
@@ -31,7 +31,6 @@ export const AddModalUnit: React.FC<AddItemProps<UnitType>> = ({
     >
       <Form
         form={form}
-        name="add-new-unit"
         initialValues={{
           modifier: 'public'
         }}

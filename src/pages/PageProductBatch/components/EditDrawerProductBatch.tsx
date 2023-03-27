@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
-import {EditItemProps, ProductType, ProductBatchType} from "../../../types";
+import {EditDrawerProps, ProductType, ProductBatchType} from "../../../types/_index";
 import {getAllProducts, getProductBatchById} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchType>> = ({
+export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>> = ({
                                                                             isOpen,
                                                                             selectedItemId,
                                                                             closeDrawer,
@@ -13,14 +13,14 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchType>> =
                                                                           }) => {
   const [form] = Form.useForm();
 
-  // Все продукты
+  // Все товары
   const [products, setProducts] = useState<ProductType[]>();
 
-  // Выбранный продукт
+  // Выбранный товар
   const [selectedProduct, setSelectedProduct] = useState<ProductType>();
   const [product, setProduct] = useState<ProductType>();
 
-  // Функция для изменения выбранного продукта
+  // Функция для изменения выбранного товара
   const onChangeProduct = (values: string, option: any): ProductType => {
     const product: ProductType = {
       id: option.id,
@@ -59,7 +59,7 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchType>> =
 
   return (
     <Drawer
-      title="Редактирование партии товара"
+      title="Редактирование партии товаров"
       width={600}
       open={isOpen}
       onClose={() => {
@@ -83,16 +83,14 @@ export const EditDrawerProductBatch: React.FC<EditItemProps<ProductBatchType>> =
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-productBatch' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-productBatch'
         form={form}
-        name="change-productBatch"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

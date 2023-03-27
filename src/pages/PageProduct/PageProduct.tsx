@@ -3,7 +3,7 @@ import {Typography, Space, Button, Form, Input,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProduct, putChangeProduct} from "../../services";
-import {ProductType} from "../../types";
+import {ProductType} from "../../types/_index";
 import {TableProduct} from "./components/TableProduct";
 import {AddModalProduct} from "./components/AddModalProduct";
 import {EditDrawerProduct} from "./components/EditDrawerProduct";

@@ -1,9 +1,9 @@
 import React from "react";
-import {AddItemProps, EmployeeType} from "../../../types";
+import {AddModalProps, EmployeeType} from "../../../types/_index";
 import {Checkbox, Form, Input, InputNumber, Modal} from "antd";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
-export const AddModalEmployee: React.FC<AddItemProps<EmployeeType>> = ({
+export const AddModalEmployee: React.FC<AddModalProps<EmployeeType>> = ({
                                                           isOpen,
                                                           addItem,
                                                           onCancel,
@@ -36,7 +36,6 @@ export const AddModalEmployee: React.FC<AddItemProps<EmployeeType>> = ({
     >
       <Form
         form={form}
-        name="add-new-employee"
         initialValues={{
           modifier: 'public'
         }}

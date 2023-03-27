@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, InputNumber, DatePicker, Checkbox, Space, Button} from "antd";
-import {EditItemProps, ProductType, PurchaseType} from "../../../types";
+import {EditDrawerProps, ProductType, PurchaseType} from "../../../types/_index";
 import {getAllProducts, getPurchaseById} from "../../../services";
 import dayjs, {Dayjs} from 'dayjs';
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 const {Option} = Select;
 
-export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
+export const EditDrawerPurchase: React.FC<EditDrawerProps<PurchaseType>> = ({
                                                                             isOpen,
                                                                             selectedItemId,
                                                                             closeDrawer,
@@ -95,16 +95,14 @@ export const EditDrawerPurchase: React.FC<EditItemProps<PurchaseType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-purchase' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-purchase'
         form={form}
-        name="change-purchase"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, ProductType, ProductBatchType} from "../../../types";
+import {AddModalProps, ProductType, ProductBatchType} from "../../../types/_index";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllProducts} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchType>> = ({
+export const AddModalProductBatch: React.FC<AddModalProps<ProductBatchType>> = ({
                                                                                   isOpen,
                                                                                   addItem,
                                                                                   onCancel,
                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Все продукты, выбранный продукт
+  // Все продукты, выбранный товар
   const [products, setProducts] = useState<ProductType[]>();
   const [selectedProduct, setSelectedProduct] = useState<ProductType>();
 
-  // Функция для изменения выбранного продукта
+  // Функция для изменения выбранного товара
   const onChangeProductBatch = (values: string, option: any): ProductBatchType => {
     const product: ProductType = {
       id: option.id,
@@ -64,7 +64,6 @@ export const AddModalProductBatch: React.FC<AddItemProps<ProductBatchType>> = ({
     >
       <Form
         form={form}
-        name="add-new-product-batch"
         initialValues={{
           modifier: "public",
         }}

@@ -4,9 +4,9 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProducts, deleteProductById, getProductsByTitle, getAllProductGroups,} from "../../../services";
-import {ItemTableProps, ProductType, TableParams} from "../../../types";
+import {TableProps, ProductType, TableParams} from "../../../types/_index";
 
-export const TableProduct: React.FC<ItemTableProps<ProductType>> = ({
+export const TableProduct: React.FC<TableProps<ProductType>> = ({
                                                                         isUpdateTable,
                                                                         openDrawer,
                                                                         searchText
@@ -78,6 +78,7 @@ export const TableProduct: React.FC<ItemTableProps<ProductType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить этот товар?"
               onConfirm={() => {
                 deleteProductById(id).then(() => {

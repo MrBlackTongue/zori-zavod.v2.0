@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, OutputType, ProductType} from "../../../types";
+import {AddModalProps, OutputType, ProductType} from "../../../types/_index";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllProducts} from "../../../services";
 
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalOutput: React.FC<AddItemProps<OutputType>> = ({
+export const AddModalOutput: React.FC<AddModalProps<OutputType>> = ({
                                                                       isOpen,
                                                                       addItem,
                                                                       onCancel,
@@ -60,7 +60,6 @@ export const AddModalOutput: React.FC<AddItemProps<OutputType>> = ({
     >
       <Form
         form={form}
-        name="add-new-output"
         initialValues={{
           modifier: 'public'
         }}
@@ -79,9 +78,9 @@ export const AddModalOutput: React.FC<AddItemProps<OutputType>> = ({
           />
         </Form.Item>
         <Form.Item
-          label="Продукт"
+          label="Товар"
           name="product"
-          rules={[{required: true, message: 'выберите продукт'}]}
+          rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
             <Select

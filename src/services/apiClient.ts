@@ -1,4 +1,4 @@
-import {ClientType} from "../types";
+import {ClientType} from "../types/_index";
 import {message} from "antd";
 import {URL, CLIENT} from "./apiEndpoints";
 

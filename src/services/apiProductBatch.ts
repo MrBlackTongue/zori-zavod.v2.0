@@ -1,6 +1,6 @@
 import {message} from "antd";
 import {URL, PRODUCT, BATCH} from "./apiEndpoints";
-import {ProductBatchType} from "../types";
+import {ProductBatchType} from "../types/_index";
 
 // Получить все партии товаров
 export async function getAllProductBatch(): Promise<ProductBatchType[]> {

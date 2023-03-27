@@ -1,9 +1,9 @@
 import {Button, Drawer, Form, Input, Space} from "antd";
 import React, {useEffect} from "react";
-import {EditItemProps, ClientType} from "../../../types";
+import {EditDrawerProps, ClientType} from "../../../types/_index";
 import {getClientById} from "../../../services";
 
-export const EditDrawerClient: React.FC<EditItemProps<ClientType>> = ({
+export const EditDrawerClient: React.FC<EditDrawerProps<ClientType>> = ({
                                                                          isOpen,
                                                                          selectedItemId,
                                                                          closeDrawer,
@@ -40,16 +40,14 @@ export const EditDrawerClient: React.FC<EditItemProps<ClientType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-client' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-client'
         form={form}
-        name="change-client"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

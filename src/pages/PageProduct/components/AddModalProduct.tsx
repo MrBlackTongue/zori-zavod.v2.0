@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, ProductType, UnitType} from "../../../types";
+import {AddModalProps, ProductType, UnitType} from "../../../types/_index";
 import {Form, Input, Modal, Select} from "antd";
 import {getAllUnits, getAllProductGroups} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalProduct: React.FC<AddItemProps<ProductType>> = ({
+export const AddModalProduct: React.FC<AddModalProps<ProductType>> = ({
                                                             isOpen,
                                                             addItem,
                                                             onCancel,
@@ -84,7 +84,6 @@ export const AddModalProduct: React.FC<AddItemProps<ProductType>> = ({
     >
       <Form
         form={form}
-        name="add-new-product"
         initialValues={{
           modifier: 'public'
         }}

@@ -1,16 +1,16 @@
-export interface ItemTableProps<T> {
+export interface TableProps<T> {
   isUpdateTable: boolean;
   openDrawer: (id: number) => void;
   searchText?: string | undefined;
 }
 
-export interface AddItemProps<T> {
+export interface AddModalProps<T> {
   isOpen: boolean;
   onCancel: () => void;
   addItem: (values: T) => void;
 }
 
-export interface EditItemProps<T> {
+export interface EditDrawerProps<T> {
   isOpen: boolean;
   closeDrawer: () => void;
   selectedItemId: number | undefined;

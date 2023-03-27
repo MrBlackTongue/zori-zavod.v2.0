@@ -1,11 +1,11 @@
 import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditItemProps, ProductType, UnitType} from "../../../types";
+import {EditDrawerProps, ProductType, UnitType} from "../../../types/_index";
 import {getAllProductGroups, getProductById, getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProduct: React.FC<EditItemProps<ProductType>> = ({
+export const EditDrawerProduct: React.FC<EditDrawerProps<ProductType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,
@@ -99,7 +99,7 @@ export const EditDrawerProduct: React.FC<EditItemProps<ProductType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-product' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -107,7 +107,6 @@ export const EditDrawerProduct: React.FC<EditItemProps<ProductType>> = ({
     >
       <Form
         form={form}
-        name="change-product"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

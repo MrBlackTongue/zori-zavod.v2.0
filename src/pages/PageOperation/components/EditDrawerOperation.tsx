@@ -1,11 +1,11 @@
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditItemProps, OperationType, UnitType} from "../../../types";
+import {EditDrawerProps, OperationType, UnitType} from "../../../types/_index";
 import {getOperationById, getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerOperation: React.FC<EditItemProps<OperationType>> = ({
+export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,
@@ -72,7 +72,7 @@ export const EditDrawerOperation: React.FC<EditItemProps<OperationType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-operation' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -80,7 +80,6 @@ export const EditDrawerOperation: React.FC<EditItemProps<OperationType>> = ({
     >
       <Form
         form={form}
-        name="change-operation"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

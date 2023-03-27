@@ -16,10 +16,10 @@ import {
   getAllOutputs,
   deleteOutputById,
 } from "../../../services";
-import {ItemTableProps, OutputType, TableParams} from "../../../types";
+import {TableProps, OutputType, TableParams} from "../../../types/_index";
 import dayjs from 'dayjs';
 
-export const TableOutput: React.FC<ItemTableProps<OutputType>> = ({
+export const TableOutput: React.FC<TableProps<OutputType>> = ({
                                                                 isUpdateTable,
                                                                 openDrawer,
                                                               }) => {
@@ -53,7 +53,7 @@ export const TableOutput: React.FC<ItemTableProps<OutputType>> = ({
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
-      title: 'Продукт',
+      title: 'Товар',
       dataIndex: 'product',
       key: 'product',
       render: ((product: any) =>
@@ -80,6 +80,7 @@ export const TableOutput: React.FC<ItemTableProps<OutputType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить этот выпуск продукции?"
               onConfirm={() => {
                 deleteOutputById(id).then(() => {

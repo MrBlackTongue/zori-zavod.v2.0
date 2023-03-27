@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewClient, putChangeClient} from "../../services";
-import {ClientType} from "../../types";
+import {ClientType} from "../../types/_index";
 import {TableClient} from "./components/TableClient";
 import {AddModalClient} from "./components/AddModalClient";
 import {EditDrawerClient} from "./components/EditDrawerClient";

@@ -16,9 +16,9 @@ import {
   getAllOperations,
   deleteOperationById,
 } from "../../../services";
-import {ItemTableProps, OperationType, TableParams} from "../../../types";
+import {TableProps, OperationType, TableParams} from "../../../types/_index";
 
-export const TableOperation: React.FC<ItemTableProps<OperationType>> = ({
+export const TableOperation: React.FC<TableProps<OperationType>> = ({
                                                                   isUpdateTable,
                                                                   openDrawer,
                                                                 }) => {
@@ -79,6 +79,7 @@ export const TableOperation: React.FC<ItemTableProps<OperationType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить эту операцию?"
               onConfirm={() => {
                 deleteOperationById(id).then(() => {

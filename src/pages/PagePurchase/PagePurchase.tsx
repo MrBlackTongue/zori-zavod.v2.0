@@ -3,7 +3,7 @@ import {Typography, Space, Button, Form, Input} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {postNewPurchase, putChangePurchase} from '../../services';
-import {PurchaseType} from '../../types';
+import {PurchaseType} from '../../types/_index';
 import {TablePurchase} from "./components/TablePurchase";
 import {AddModalPurchase} from "./components/AddModalPurchase";
 import {EditDrawerPurchase} from "./components/EditDrawerPurchase";
@@ -13,9 +13,6 @@ const {Title} = Typography;
 export const PagePurchase: React.FC = () => {
 
   const [form] = Form.useForm();
-
-  const [loading] = useState(false);
-  const [updateButton] = useState('Обновить');
 
   // Закупки в таблице, обновить закупки
   const [updateTable, setUpdateTable] = useState(false);
@@ -94,11 +91,11 @@ export const PagePurchase: React.FC = () => {
           />
           <Button
             type="dashed"
-            icon={<SyncOutlined spin={loading}/>}
+            icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
             className="greenButton"
           >
-            {updateButton}
+            Обновить
           </Button>
           <Button
             type="primary"

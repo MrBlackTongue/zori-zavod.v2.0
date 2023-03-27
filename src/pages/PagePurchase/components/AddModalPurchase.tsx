@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, PurchaseType, ProductType} from "../../../types";
+import {AddModalProps, PurchaseType, ProductType} from "../../../types/_index";
 import {Form, Modal, Select, InputNumber, DatePicker, Checkbox} from "antd";
 import {getAllProducts} from "../../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
@@ -7,7 +7,7 @@ import {CheckboxChangeEvent} from "antd/es/checkbox";
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalPurchase: React.FC<AddItemProps<PurchaseType>> = ({
+export const AddModalPurchase: React.FC<AddModalProps<PurchaseType>> = ({
                                                                          isOpen,
                                                                          addItem,
                                                                          onCancel,
@@ -67,7 +67,6 @@ export const AddModalPurchase: React.FC<AddItemProps<PurchaseType>> = ({
     >
       <Form
         form={form}
-        name="add-new-purchase"
         initialValues={{
           modifier: "public",
         }}

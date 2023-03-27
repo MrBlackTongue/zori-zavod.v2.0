@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {AddItemProps, OperationType, UnitType} from "../../../types";
+import {AddModalProps, OperationType, UnitType} from "../../../types/_index";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalOperation: React.FC<AddItemProps<OperationType>> = ({
+export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
                                                             isOpen,
                                                             addItem,
                                                             onCancel,
@@ -59,7 +59,6 @@ export const AddModalOperation: React.FC<AddItemProps<OperationType>> = ({
     >
       <Form
         form={form}
-        name="add-new-operation"
         initialValues={{
           modifier: 'public'
         }}

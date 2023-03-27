@@ -13,9 +13,9 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import {getAllClients, deleteClientById} from "../../../services";
-import {ItemTableProps, ClientType, TableParams} from "../../../types";
+import {TableProps, ClientType, TableParams} from "../../../types/_index";
 
-export const TableClient: React.FC<ItemTableProps<ClientType>> = ({
+export const TableClient: React.FC<TableProps<ClientType>> = ({
                                                                       isUpdateTable,
                                                                       openDrawer,
                                                                     }) => {
@@ -62,6 +62,7 @@ export const TableClient: React.FC<ItemTableProps<ClientType>> = ({
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы действительно хотите удалить этого клиента?"
               onConfirm={() => {
                 deleteClientById(id).then(() => {

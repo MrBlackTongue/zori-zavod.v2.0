@@ -1,10 +1,10 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditItemProps, EmployeeType} from "../../../types";
+import {EditDrawerProps, EmployeeType} from "../../../types/_index";
 import {getEmployeeById} from "../../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
-export const EditDrawerEmployee: React.FC<EditItemProps<EmployeeType>> = ({
+export const EditDrawerEmployee: React.FC<EditDrawerProps<EmployeeType>> = ({
                                                             isOpen,
                                                             selectedItemId,
                                                             closeDrawer,
@@ -49,16 +49,14 @@ export const EditDrawerEmployee: React.FC<EditItemProps<EmployeeType>> = ({
               .catch((info) => {
                 console.log('Validate Failed:', info)
               })
-          }} type="primary" form='change-employee' htmlType="submit">
+          }} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
       <Form
-        id='change-employee'
         form={form}
-        name="change-employee"
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
