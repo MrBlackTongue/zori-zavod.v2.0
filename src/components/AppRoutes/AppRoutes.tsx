@@ -1,29 +1,27 @@
 import React from 'react';
 import {Route, Routes} from 'react-router-dom';
-import PageHome from '../../pages/PageHome/PageHome';
-import PageEmployees from '../../pages/PageEmployees/PageEmployees';
-import PageOperations from '../../pages/PageOperations/PageOperations';
-import PageProducts from '../../pages/PageProducts/PageProducts';
-import PageOutputs from '../../pages/PageOutputs/PageOutputs';
-import PageUnits from '../../pages/PageUnits/PageUnits';
-import PagePurchases from "../../pages/PagePurchases/PagePurchases";
-import PageClients from "../../pages/PageClients/PageClients";
-import PageProductBatch from "../../pages/PageProductBatch/PageProductBatch";
+import {PageHome} from "../../pages/PageHome/PageHome";
+import {PageEmployee} from "../../pages/PageEmployee/PageEmployee";
+import {PageOperation} from "../../pages/PageOperation/PageOperation";
+import {PageProduct} from "../../pages/PageProduct/PageProduct";
+import {PageOutput} from "../../pages/PageOutput/PageOutput";
+import {PageUnit} from "../../pages/PageUnit/PageUnit";
+import {PagePurchase} from "../../pages/PagePurchase/PagePurchase";
+import {PageClient} from "../../pages/PageClient/PageClient";
+import {PageProductBatch} from "../../pages/PageProductBatch/PageProductBatch";
 
-const AppRoutes: React.FC = () => {
+export const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<PageHome/>}/>
-      <Route path="/employees" element={<PageEmployees/>}/>
-      <Route path="/operations" element={<PageOperations/>}/>
-      <Route path="/products" element={<PageProducts/>}/>
-      <Route path="/outputs" element={<PageOutputs/>}/>
-      <Route path="/units" element={<PageUnits/>}/>
-      <Route path="/purchases" element={<PagePurchases/>}/>
-      <Route path="/clients" element={<PageClients/>}/>
+      <Route path="/employee" element={<PageEmployee/>}/>
+      <Route path="/operation" element={<PageOperation/>}/>
+      <Route path="/product" element={<PageProduct/>}/>
+      <Route path="/output" element={<PageOutput/>}/>
+      <Route path="/unit" element={<PageUnit/>}/>
+      <Route path="/purchase" element={<PagePurchase/>}/>
+      <Route path="/client" element={<PageClient/>}/>
       <Route path="/product-batch" element={<PageProductBatch/>}/>
     </Routes>
   );
 };
-
-export default AppRoutes;
