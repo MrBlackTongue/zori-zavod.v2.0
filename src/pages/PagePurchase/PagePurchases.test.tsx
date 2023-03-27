@@ -1,12 +1,12 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { PagePurchases } from './PagePurchases';
+import { PagePurchase } from './PagePurchase';
 
-describe('PagePurchases component', () => {
-  // Тест проверяет, что компонент PagePurchases отображается с определенными текстами
-  test('renders PagePurchases component', () => {
-    render(<PagePurchases />);
+describe('PagePurchase component', () => {
+  // Тест проверяет, что компонент PagePurchase отображается с определенными текстами
+  test('renders PagePurchase component', () => {
+    render(<PagePurchase />);
 
     // Проверяет, что текст "Закупки" присутствует на странице
     expect(screen.getByText('Закупки')).toBeInTheDocument();
@@ -18,7 +18,7 @@ describe('PagePurchases component', () => {
 
   // Тест проверяет, что при нажатии на кнопку "Добавить" открывается модальное окно AddModalPurchase
   test('opens AddModalPurchase when clicking the Add button', async () => {
-    render(<PagePurchases />);
+    render(<PagePurchase />);
     fireEvent.click(screen.getByText('Добавить'));
 
     // Ожидает появления текста "Добавление новой закупки" (текст в модальном окне AddModalPurchase)
@@ -29,7 +29,7 @@ describe('PagePurchases component', () => {
 
   // Тест проверяет, что пользователь может вводить текст в поле поиска
   test('search input works', () => {
-    render(<PagePurchases />);
+    render(<PagePurchase />);
     const searchInput = screen.getByPlaceholderText('Поиск по товарам');
 
     // Вводит текст "test" в поле поиска
