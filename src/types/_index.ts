@@ -9,3 +9,4 @@ export * from './PurchaseType';
 export * from './CommonComponentProps';
 export * from './ProductMovementHistoryType';
 export * from './ProductBatchType';
+export * from './StockType';
