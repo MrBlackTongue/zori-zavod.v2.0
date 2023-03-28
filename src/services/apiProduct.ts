@@ -1,6 +1,6 @@
 import {ProductType} from "../types/_index";
 import {message} from "antd";
-import {URL, PRODUCT, GROUP, TITLE} from "./apiEndpoints";
+import {URL, PRODUCT, PRODUCT_GROUP, TITLE} from "./apiEndpoints";
 
 // Получить список всех товаров
 export async function getAllProducts(): Promise<ProductType[]> {
@@ -99,7 +99,7 @@ export function putChangeProduct(data: ProductType) {
 // Получить список всех товарных групп
 export async function getAllProductGroups(): Promise<ProductType[]> {
   try {
-    const res = await fetch(URL + PRODUCT + GROUP);
+    const res = await fetch(URL + PRODUCT + PRODUCT_GROUP);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -114,7 +114,7 @@ export async function getAllProductGroups(): Promise<ProductType[]> {
 // Получить данные товарной группы по id
 export async function getProductGroupById(id: number): Promise<ProductType | undefined> {
   try {
-    const response = await fetch(URL + PRODUCT + GROUP + `/${id}`);
+    const response = await fetch(URL + PRODUCT + PRODUCT_GROUP + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -134,7 +134,7 @@ export function postNewProductGroup(data: ProductType) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCT + GROUP, config)
+    fetch(URL + PRODUCT + PRODUCT_GROUP, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -152,7 +152,7 @@ export function postNewProductGroup(data: ProductType) {
 // Удалить товарную группу по id
 export async function deleteProductGroupById(id: number) {
   try {
-    const response = await fetch(URL + PRODUCT + GROUP + `/${id}`, {
+    const response = await fetch(URL + PRODUCT + PRODUCT_GROUP + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -175,7 +175,7 @@ export function putChangeProductGroup(data: ProductType) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCT + GROUP, config)
+    fetch(URL + PRODUCT + PRODUCT_GROUP, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');
