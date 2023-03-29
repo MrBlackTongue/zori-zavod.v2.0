@@ -8,3 +8,4 @@ export * from './ClientType';
 export * from './PurchaseType';
 export * from './CommonComponentProps';
 export * from './ProductBatchType';
+export * from './AcceptanceType';

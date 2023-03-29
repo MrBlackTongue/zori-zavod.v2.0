@@ -96,6 +96,9 @@ export const MenuMain: React.FC = () => {
         <Menu.Item key="25" icon={<FunctionOutlined/>}>
           <Link to="/transformation-step">Шаги трансформаций</Link>
         </Menu.Item>
+        <Menu.Item key="26" icon={<FunctionOutlined/>}>
+          <Link to="/transformation-step">Приемка товаров</Link>
+        </Menu.Item>
       </Menu>
     </div>
   )
