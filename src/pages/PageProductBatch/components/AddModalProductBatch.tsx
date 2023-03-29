@@ -1,24 +1,24 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, ProductType, ProductBatchType} from "../../../types/_index";
+import {AddModalProps, TypeProduct, TypeProductBatch} from "../../../types";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllProducts} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalProductBatch: React.FC<AddModalProps<ProductBatchType>> = ({
+export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = ({
                                                                                   isOpen,
                                                                                   addItem,
                                                                                   onCancel,
                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Все продукты, выбранный товар
-  const [products, setProducts] = useState<ProductType[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  // Все товары, выбранный товар
+  const [products, setProducts] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
-  // Функция для изменения выбранного товара
-  const onChangeProductBatch = (values: string, option: any): ProductBatchType => {
-    const product: ProductType = {
+  // Изменить выбранный товар
+  const onChangeProductBatch = (values: string, option: any): TypeProductBatch => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };

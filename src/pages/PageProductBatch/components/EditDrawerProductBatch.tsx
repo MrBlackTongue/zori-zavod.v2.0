@@ -1,28 +1,28 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
-import {EditDrawerProps, ProductType, ProductBatchType} from "../../../types/_index";
+import {EditDrawerProps, TypeProduct, TypeProductBatch} from "../../../types";
 import {getAllProducts, getProductBatchById} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>> = ({
-                                                                            isOpen,
-                                                                            selectedItemId,
-                                                                            closeDrawer,
-                                                                            updateItem,
-                                                                          }) => {
+export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>> = ({
+                                                                                      isOpen,
+                                                                                      selectedItemId,
+                                                                                      closeDrawer,
+                                                                                      updateItem,
+                                                                                    }) => {
   const [form] = Form.useForm();
 
   // Все товары
-  const [products, setProducts] = useState<ProductType[]>();
+  const [products, setProducts] = useState<TypeProduct[]>();
 
   // Выбранный товар
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
-  const [product, setProduct] = useState<ProductType>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
+  const [product, setProduct] = useState<TypeProduct>();
 
   // Функция для изменения выбранного товара
-  const onChangeProduct = (values: string, option: any): ProductType => {
-    const product: ProductType = {
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };

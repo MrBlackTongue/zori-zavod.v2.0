@@ -1,16 +1,16 @@
-import {ClientType} from "../types/_index";
+import {TypeClient} from "../types";
 import {message} from "antd";
 import {URL, CLIENT} from "./apiEndpoints";
 
 // Получить список всех клиентов
-export async function getAllClients(): Promise<ClientType[]> {
+export async function getAllClients(): Promise<TypeClient[]> {
     try {
         const response = await fetch(URL + CLIENT);
         if (!response.ok) {
             console.error(response.statusText);
             return Promise.reject();
         }
-        return await response.json() as ClientType[];
+        return await response.json() as TypeClient[];
     } catch (error) {
         console.error(error);
         return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllClients(): Promise<ClientType[]> {
 }
 
 // Получить данные клиента по id
-export async function getClientById(id: number): Promise<ClientType | undefined> {
+export async function getClientById(id: number): Promise<TypeClient | undefined> {
     try {
         const response = await fetch(URL + CLIENT + `/${id}`);
         if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getClientById(id: number): Promise<ClientType | undefined>
 }
 
 // Добавить нового клиента
-export function postNewClient(data: ClientType) {
+export function postNewClient(data: TypeClient) {
     try {
         const config = {
             method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteClientById(id: number) {
 }
 
 // Редактировать клиента
-export function putChangeClient(data: ClientType) {
+export function putChangeClient(data: TypeClient) {
     try {
         const config = {
             method: 'PUT',

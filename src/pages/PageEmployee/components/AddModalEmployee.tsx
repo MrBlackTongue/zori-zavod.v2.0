@@ -1,15 +1,16 @@
 import React from "react";
-import {AddModalProps, EmployeeType} from "../../../types/_index";
+import {AddModalProps, TypeEmployee} from "../../../types";
 import {Checkbox, Form, Input, InputNumber, Modal} from "antd";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
-export const AddModalEmployee: React.FC<AddModalProps<EmployeeType>> = ({
-                                                          isOpen,
-                                                          addItem,
-                                                          onCancel,
-                                                        }) => {
+export const AddModalEmployee: React.FC<AddModalProps<TypeEmployee>> = ({
+                                                                          isOpen,
+                                                                          addItem,
+                                                                          onCancel,
+                                                                        }) => {
   const [form] = Form.useForm();
 
+  // Изменить состояние чекбокса
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
     form.setFieldsValue({hired: e.target.checked});
   }

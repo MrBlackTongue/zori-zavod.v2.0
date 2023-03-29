@@ -1,16 +1,16 @@
-import {PurchaseType} from "../types/_index";
+import {TypePurchase} from "../types";
 import {message} from "antd";
-import {PRODUCT, PURCHASE, URL} from "./apiEndpoints";
+import {URL, PRODUCT, PURCHASE} from "./apiEndpoints";
 
 // Получить все закупки
-export async function getAllPurchases(): Promise<PurchaseType[]> {
+export async function getAllPurchases(): Promise<TypePurchase[]> {
   try {
     const res = await fetch(URL + PURCHASE);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as PurchaseType[];
+    return await res.json() as TypePurchase[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllPurchases(): Promise<PurchaseType[]> {
 }
 
 // Получить данные закупки по id
-export async function getPurchaseById(id: number): Promise<PurchaseType | undefined> {
+export async function getPurchaseById(id: number): Promise<TypePurchase | undefined> {
   try {
     const response = await fetch(URL + PURCHASE + `/${id}`);
     if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getPurchaseById(id: number): Promise<PurchaseType | undefi
 }
 
 // Добавить новую закупку
-export function postNewPurchase(data: PurchaseType) {
+export function postNewPurchase(data: TypePurchase) {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deletePurchaseById(id: number) {
 }
 
 // Редактировать закупку
-export function putChangePurchase(data: PurchaseType) {
+export function putChangePurchase(data: TypePurchase) {
   try {
     const config = {
       method: 'PUT',
@@ -97,7 +97,7 @@ export function putChangePurchase(data: PurchaseType) {
 }
 
 // Поиск по товару
-export async function getPurchaseByTitle(title: string): Promise<PurchaseType[]> {
+export async function getPurchaseByTitle(title: string): Promise<TypePurchase[]> {
   try {
     const response = await fetch(URL + PURCHASE + PRODUCT + `/${title}`);
     if (!response.ok) {

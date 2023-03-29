@@ -12,21 +12,18 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {
-  getAllUnits,
-  deleteUnitById,
-} from "../../../services";
-import {TableProps, UnitType, TableParams} from "../../../types/_index";
+import {getAllUnits, deleteUnitById} from "../../../services";
+import {TableProps, TypeUnit, TableParams} from "../../../types";
 
-export const TableUnit: React.FC<TableProps<UnitType>> = ({
-                                                        isUpdateTable,
-                                                        openDrawer,
-                                                      }) => {
+export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
+                                                            isUpdateTable,
+                                                            openDrawer,
+                                                          }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех единиц измерения
   const [loading, setLoading] = useState(false);
-  const [allUnits, setAllUnits] = useState<UnitType[]>();
+  const [allUnits, setAllUnits] = useState<TypeUnit[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -37,7 +34,7 @@ export const TableUnit: React.FC<TableProps<UnitType>> = ({
     },
   });
 
-  const columns: ColumnsType<UnitType> = [
+  const columns: ColumnsType<TypeUnit> = [
     {
       title: 'Имя',
       dataIndex: 'name',
@@ -90,7 +87,7 @@ export const TableUnit: React.FC<TableProps<UnitType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<UnitType>,
+    sorter: SorterResult<TypeUnit>,
   ) => {
     setTableParams({
       pagination,

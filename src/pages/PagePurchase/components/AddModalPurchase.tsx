@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, PurchaseType, ProductType} from "../../../types/_index";
+import {AddModalProps, TypePurchase, TypeProduct} from "../../../types";
 import {Form, Modal, Select, InputNumber, DatePicker, Checkbox} from "antd";
 import {getAllProducts} from "../../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
@@ -7,22 +7,25 @@ import {CheckboxChangeEvent} from "antd/es/checkbox";
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalPurchase: React.FC<AddModalProps<PurchaseType>> = ({
-                                                                         isOpen,
-                                                                         addItem,
-                                                                         onCancel,
-                                                                       }) => {
+export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
+                                                                          isOpen,
+                                                                          addItem,
+                                                                          onCancel,
+                                                                        }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductType[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  // Все товары, выбранный товар
+  const [products, setProducts] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
+  // Изменить состояние чекбокса
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
     form.setFieldsValue({paid: e.target.checked});
   }
 
-  const onChangeProduct = (values: string, option: any): ProductType => {
-    const product: ProductType = {
+  // Изменить выбранный товар
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };
@@ -33,12 +36,8 @@ export const AddModalPurchase: React.FC<AddModalProps<PurchaseType>> = ({
     return product
   };
 
-  useEffect(() => {
-    getAllProducts().then((products) => {
-      setProducts(products);
-    });
-  }, []);
 
+  // Функция подтверждения добавления новой закупки
   const handleOk = () => {
     form
       .validateFields()
@@ -51,6 +50,12 @@ export const AddModalPurchase: React.FC<AddModalProps<PurchaseType>> = ({
         console.log("Validate Failed:", error);
       });
   };
+
+  useEffect(() => {
+    getAllProducts().then((products) => {
+      setProducts(products);
+    });
+  }, []);
 
   return (
     <Modal

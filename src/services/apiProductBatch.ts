@@ -1,16 +1,16 @@
 import {message} from "antd";
 import {URL, PRODUCT, BATCH} from "./apiEndpoints";
-import {ProductBatchType} from "../types/_index";
+import {TypeProductBatch} from "../types";
 
 // Получить все партии товаров
-export async function getAllProductBatch(): Promise<ProductBatchType[]> {
+export async function getAllProductBatch(): Promise<TypeProductBatch[]> {
   try {
     const res = await fetch(URL + PRODUCT + BATCH);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as ProductBatchType[];
+    return await res.json() as TypeProductBatch[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllProductBatch(): Promise<ProductBatchType[]> {
 }
 
 // Редактировать партию товара
-export function putChangeProductBatch(data: ProductBatchType) {
+export function putChangeProductBatch(data: TypeProductBatch) {
   try {
     const config = {
       method: 'PUT',
@@ -41,7 +41,7 @@ export function putChangeProductBatch(data: ProductBatchType) {
 }
 
 // Добавить новую партию товара
-export function postNewProductBatch(data: ProductBatchType) {
+export function postNewProductBatch(data: TypeProductBatch) {
   try {
     const config = {
       method: 'POST',
@@ -64,7 +64,7 @@ export function postNewProductBatch(data: ProductBatchType) {
 }
 
 // Получить данные партии товара по id
-export async function getProductBatchById(id: number): Promise<ProductBatchType | undefined> {
+export async function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
   try {
     const response = await fetch(URL + PRODUCT + BATCH + `/${id}`);
     if (!response.ok) {

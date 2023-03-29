@@ -1,30 +1,30 @@
 import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditDrawerProps, ProductType, UnitType} from "../../../types/_index";
+import {EditDrawerProps, TypeProduct, TypeUnit} from "../../../types";
 import {getAllProductGroups, getProductById, getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProduct: React.FC<EditDrawerProps<ProductType>> = ({
-                                                            isOpen,
-                                                            selectedItemId,
-                                                            closeDrawer,
-                                                            updateItem,
-                                                          }) => {
+export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
+                                                                            isOpen,
+                                                                            selectedItemId,
+                                                                            closeDrawer,
+                                                                            updateItem,
+                                                                          }) => {
   const [form] = Form.useForm();
 
   // Единицы измерения
-  const [units, setUnits] = useState<UnitType[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
-  const [unit, setUnit] = useState<UnitType>()
+  const [units, setUnits] = useState<TypeUnit[]>();
+  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
+  const [unit, setUnit] = useState<TypeUnit>()
 
   // Товарные группы
-  const [productGroups, setProductGroups] = useState<ProductType[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
-  const [productGroup, setProductGroup] = useState<ProductType>()
+  const [productGroups, setProductGroups] = useState<TypeProduct[]>();
+  const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
+  const [productGroup, setProductGroup] = useState<TypeProduct>()
 
-  const onChangeUnit = (values: string, option: any): UnitType => {
-    const unit: UnitType = {
+  const onChangeUnit = (values: string, option: any): TypeUnit => {
+    const unit: TypeUnit = {
       id: option.id,
       name: values,
     };
@@ -35,8 +35,8 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<ProductType>> = ({
     return unit
   };
 
-  const onChangeProductGroup = (values: string, option: any): ProductType => {
-    const productGroup: ProductType = {
+  const onChangeProductGroup = (values: string, option: any): TypeProduct => {
+    const productGroup: TypeProduct = {
       id: option.id,
       title: values,
     };
@@ -76,7 +76,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<ProductType>> = ({
       title="Редактирование товара"
       width={700}
       open={isOpen}
-      onClose={()=> {
+      onClose={() => {
         setSelectedUnit(unit);
         setSelectedProductGroup(productGroup);
         closeDrawer()
@@ -84,7 +84,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<ProductType>> = ({
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={()=> {
+          <Button onClick={() => {
             setSelectedUnit(unit);
             setSelectedProductGroup(productGroup);
             closeDrawer()

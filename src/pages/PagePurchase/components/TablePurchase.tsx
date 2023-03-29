@@ -2,20 +2,20 @@ import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, PurchaseType, TableParams, UnitType} from "../../../types/_index";
+import {TableProps, TypePurchase, TableParams, TypeUnit} from "../../../types";
 import {deletePurchaseById, getAllPurchases, getPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
 
-export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
-                                                                         isUpdateTable,
-                                                                         openDrawer,
-                                                                         searchText,
-                                                                       }) => {
+export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
+                                                                    isUpdateTable,
+                                                                    openDrawer,
+                                                                    searchText,
+                                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех закупок
   const [loading, setLoading] = useState(false);
-  const [allPurchases, setAllPurchases] = useState<PurchaseType[]>();
+  const [allPurchases, setAllPurchases] = useState<TypePurchase[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -26,7 +26,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
     },
   });
 
-  const columns: ColumnsType<PurchaseType> = [
+  const columns: ColumnsType<TypePurchase> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -65,7 +65,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: UnitType) =>
+      render: ((unit: TypeUnit) =>
         unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
     },
     {
@@ -147,7 +147,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<PurchaseType>,
+    sorter: SorterResult<TypePurchase>,
   ) => {
     setTableParams({
       pagination,

@@ -1,4 +1,4 @@
-export type EmployeeType = {
+export type TypeEmployee = {
   id?: number;
   firstName: string;
   lastName: string;

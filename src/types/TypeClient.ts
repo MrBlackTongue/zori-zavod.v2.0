@@ -1,4 +1,4 @@
-export type ClientType = {
+export type TypeClient = {
    id?: number;
    title: string;
 }

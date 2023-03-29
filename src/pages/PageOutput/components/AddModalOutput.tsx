@@ -1,23 +1,25 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, OutputType, ProductType} from "../../../types/_index";
+import {AddModalProps, TypeOutput, TypeProduct} from "../../../types";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllProducts} from "../../../services";
 
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalOutput: React.FC<AddModalProps<OutputType>> = ({
+export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
                                                                       isOpen,
                                                                       addItem,
                                                                       onCancel,
                                                                     }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductType[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  // Все товары, выбранный товар
+  const [products, setProducts] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
-  const onChangeProduct = (values: string, option: any): ProductType => {
-    const product: ProductType = {
+  // Изменить выбранный товар
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };

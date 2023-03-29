@@ -1,22 +1,24 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, OperationType, UnitType} from "../../../types/_index";
+import {AddModalProps, TypeOperation, TypeUnit} from "../../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
-                                                            isOpen,
-                                                            addItem,
-                                                            onCancel,
-                                                          }) => {
+export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
+                                                                            isOpen,
+                                                                            addItem,
+                                                                            onCancel,
+                                                                          }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<UnitType[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  // Все единицы измерения, выбранная единица измерения
+  const [units, setUnits] = useState<TypeUnit[]>();
+  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
-  const onChangeUnit = (values: string, option: any): UnitType => {
-    const unit: UnitType = {
+  // Изменить выбранную единицу измерения
+  const onChangeUnit = (values: string, option: any): TypeUnit => {
+    const unit: TypeUnit = {
       id: option.id,
       name: values,
     };
@@ -37,7 +39,7 @@ export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
     <Modal
       title={`Добавление новой операции`}
       open={isOpen}
-      onCancel={()=> {
+      onCancel={() => {
         setSelectedUnit(undefined);
         onCancel()
       }}
@@ -98,7 +100,6 @@ export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
             type: 'number',
             message: 'напишите норму цифрами больше 1',
             warningOnly: true,
-            // pattern: /[1-9]/,
           }]}
         >
           <InputNumber/>

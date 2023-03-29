@@ -12,14 +12,11 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {
-  getAllOutputs,
-  deleteOutputById,
-} from "../../../services";
-import {TableProps, OutputType, TableParams} from "../../../types/_index";
+import {getAllOutputs, deleteOutputById} from "../../../services";
+import {TableProps, TypeOutput, TableParams} from "../../../types";
 import dayjs from 'dayjs';
 
-export const TableOutput: React.FC<TableProps<OutputType>> = ({
+export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
                                                                 isUpdateTable,
                                                                 openDrawer,
                                                               }) => {
@@ -27,7 +24,7 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
 
   // Лоудер и список всех единиц измерения
   const [loading, setLoading] = useState(false);
-  const [allOutputs, setAllOutputs] = useState<OutputType[]>();
+  const [allOutputs, setAllOutputs] = useState<TypeOutput[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -38,7 +35,7 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
     },
   });
 
-  const columns: ColumnsType<OutputType> = [
+  const columns: ColumnsType<TypeOutput> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -57,7 +54,7 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
       dataIndex: 'product',
       key: 'product',
       render: ((product: any) =>
-      product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
     },
     {
       title: 'Действия',
@@ -89,8 +86,9 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
+                      onClick={() => {
+                      }}>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -103,7 +101,7 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<OutputType>,
+    sorter: SorterResult<TypeOutput>,
   ) => {
     setTableParams({
       pagination,

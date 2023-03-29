@@ -1,25 +1,25 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, InputNumber, DatePicker, Checkbox, Space, Button} from "antd";
-import {EditDrawerProps, ProductType, PurchaseType} from "../../../types/_index";
+import {EditDrawerProps, TypeProduct, TypePurchase} from "../../../types";
 import {getAllProducts, getPurchaseById} from "../../../services";
 import dayjs, {Dayjs} from 'dayjs';
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 const {Option} = Select;
 
-export const EditDrawerPurchase: React.FC<EditDrawerProps<PurchaseType>> = ({
-                                                                            isOpen,
-                                                                            selectedItemId,
-                                                                            closeDrawer,
-                                                                            updateItem,
-                                                                          }) => {
+export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
+                                                                              isOpen,
+                                                                              selectedItemId,
+                                                                              closeDrawer,
+                                                                              updateItem,
+                                                                            }) => {
   const [form] = Form.useForm();
 
-  const [purchase] = useState<PurchaseType | null>(null);
+  const [purchase] = useState<TypePurchase | null>(null);
 
-  const [products, setProducts] = useState<ProductType[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
-  const [product, setProduct] = useState<ProductType>();
+  const [products, setProducts] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
+  const [product, setProduct] = useState<TypeProduct>();
 
   const [selectedDate, setSelectedDate] = useState<Dayjs | null | undefined>();
 
@@ -30,8 +30,8 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<PurchaseType>> = ({
     form.setFieldsValue({paid: e.target.checked});
   }
 
-  const onChangeProduct = (values: string, option: any): ProductType => {
-    const product: ProductType = {
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };

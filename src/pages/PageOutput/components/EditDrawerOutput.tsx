@@ -1,28 +1,28 @@
 import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
-import {EditDrawerProps, OutputType, ProductType} from "../../../types/_index";
+import {EditDrawerProps, TypeOutput, TypeProduct} from "../../../types";
 import {getOutputById, getAllProducts} from "../../../services";
 import dayjs from 'dayjs';
 
 const {Option} = Select;
 
-export const EditDrawerOutput: React.FC<EditDrawerProps<OutputType>> = ({
-                                                        isOpen,
-                                                        selectedItemId,
-                                                        closeDrawer,
-                                                        updateItem,
-                                                      }) => {
+export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
+                                                                          isOpen,
+                                                                          selectedItemId,
+                                                                          closeDrawer,
+                                                                          updateItem,
+                                                                        }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductType[]>();
+  const [products, setProducts] = useState<TypeProduct[]>();
 
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
-  const [product, setProduct] = useState<ProductType>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
+  const [product, setProduct] = useState<TypeProduct>();
 
   const [date, setDate] = useState<any>();
 
-  const onChangeProduct = (values: string, option: any): ProductType => {
-    const product: ProductType = {
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };
@@ -112,7 +112,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<OutputType>> = ({
         <Form.Item
           label="Товар"
           name="product"
-          rules={[{ required: true, message: 'Выберите товар' }]}
+          rules={[{required: true, message: 'Выберите товар'}]}
         >
           <div>
             <Select

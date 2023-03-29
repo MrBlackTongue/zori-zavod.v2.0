@@ -1,12 +1,12 @@
 import React from "react";
-import {AddModalProps, UnitType} from "../../../types/_index";
+import {AddModalProps, TypeUnit} from "../../../types";
 import {Form, Input, Modal} from "antd";
 
-export const AddModalUnit: React.FC<AddModalProps<UnitType>> = ({
-                                                          isOpen,
-                                                          addItem,
-                                                          onCancel,
-                                                        }) => {
+export const AddModalUnit: React.FC<AddModalProps<TypeUnit>> = ({
+                                                                  isOpen,
+                                                                  addItem,
+                                                                  onCancel,
+                                                                }) => {
   const [form] = Form.useForm();
 
   return (

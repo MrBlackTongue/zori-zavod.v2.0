@@ -12,21 +12,18 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {
-  getAllEmployees,
-  deleteEmployeeById,
-} from "../../../services";
-import {TableProps, EmployeeType, TableParams} from "../../../types/_index";
+import {getAllEmployees, deleteEmployeeById} from "../../../services";
+import {TableProps, TypeEmployee, TableParams} from "../../../types";
 
-export const TableEmployee: React.FC<TableProps<EmployeeType>> = ({
-                                                                isUpdateTable,
-                                                                openDrawer,
-                                                              }) => {
+export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
+                                                                    isUpdateTable,
+                                                                    openDrawer,
+                                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех сотрудников
   const [loading, setLoading] = useState(false);
-  const [allEmployees, setAllEmployees] = useState<EmployeeType[]>();
+  const [allEmployees, setAllEmployees] = useState<TypeEmployee[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -37,7 +34,7 @@ export const TableEmployee: React.FC<TableProps<EmployeeType>> = ({
     },
   });
 
-  const columns: ColumnsType<EmployeeType> = [
+  const columns: ColumnsType<TypeEmployee> = [
     {
       title: 'Имя',
       dataIndex: 'firstName',
@@ -102,8 +99,9 @@ export const TableEmployee: React.FC<TableProps<EmployeeType>> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
+                      onClick={() => {
+                      }}>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -116,7 +114,7 @@ export const TableEmployee: React.FC<TableProps<EmployeeType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<EmployeeType>,
+    sorter: SorterResult<TypeEmployee>,
   ) => {
     setTableParams({
       pagination,

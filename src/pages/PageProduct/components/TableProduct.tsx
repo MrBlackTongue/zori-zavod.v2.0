@@ -4,21 +4,21 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProducts, deleteProductById, getProductsByTitle, getAllProductGroups,} from "../../../services";
-import {TableProps, ProductType, TableParams} from "../../../types/_index";
+import {TableProps, TypeProduct, TableParams} from "../../../types";
 
-export const TableProduct: React.FC<TableProps<ProductType>> = ({
-                                                                        isUpdateTable,
-                                                                        openDrawer,
-                                                                        searchText
-                                                                      }) => {
+export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
+                                                                  isUpdateTable,
+                                                                  openDrawer,
+                                                                  searchText
+                                                                }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех товаров
   const [loading, setLoading] = useState(false);
-  const [allProducts, setAllProducts] = useState<ProductType[]>();
+  const [allProducts, setAllProducts] = useState<TypeProduct[]>();
 
   // Товарная группа
-  const [productGroups, setProductGroups] = useState<ProductType[]>();
+  const [productGroups, setProductGroups] = useState<TypeProduct[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -29,7 +29,7 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
     },
   });
 
-  const columns: ColumnsType<ProductType> = [
+  const columns: ColumnsType<TypeProduct> = [
     {
       title: 'Название',
       dataIndex: 'title',
@@ -102,7 +102,7 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<ProductType>,
+    sorter: SorterResult<TypeProduct>,
   ) => {
     setTableParams({
       pagination,

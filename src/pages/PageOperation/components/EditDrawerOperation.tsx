@@ -1,24 +1,24 @@
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditDrawerProps, OperationType, UnitType} from "../../../types/_index";
+import {EditDrawerProps, TypeOperation, TypeUnit} from "../../../types";
 import {getOperationById, getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
-                                                            isOpen,
-                                                            selectedItemId,
-                                                            closeDrawer,
-                                                            updateItem,
-                                                          }) => {
+export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
+                                                                                isOpen,
+                                                                                selectedItemId,
+                                                                                closeDrawer,
+                                                                                updateItem,
+                                                                              }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<UnitType[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
-  const [unit, setUnit] = useState<UnitType>()
+  const [units, setUnits] = useState<TypeUnit[]>();
+  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
+  const [unit, setUnit] = useState<TypeUnit>()
 
-  const onChangeUnit = (values: string, option: any): UnitType => {
-    const unit: UnitType = {
+  const onChangeUnit = (values: string, option: any): TypeUnit => {
+    const unit: TypeUnit = {
       id: option.id,
       name: values,
     };
@@ -50,14 +50,14 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
       title="Редактирование операции"
       width={700}
       open={isOpen}
-      onClose={()=> {
+      onClose={() => {
         setSelectedUnit(unit);
         closeDrawer()
       }}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={()=> {
+          <Button onClick={() => {
             setSelectedUnit(unit);
             closeDrawer()
           }}>Отмена</Button>

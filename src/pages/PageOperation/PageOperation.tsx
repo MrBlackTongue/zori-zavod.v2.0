@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewOperation, putChangeOperation} from "../../services";
-import {OperationType} from "../../types/_index";
+import {TypeOperation} from "../../types";
 import {TableOperation} from "./components/TableOperation";
 import {AddModalOperation} from "./components/AddModalOperation";
 import {EditDrawerOperation} from "./components/EditDrawerOperation";
@@ -22,21 +22,22 @@ export const PageOperation: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Типы операций в таблице, обновить таблицу
+  // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новый тип операции
-  const [operation] = useState<OperationType | null>(null);
+  // Операция
+  const [operation] = useState<TypeOperation | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть тип операции по id
+  // Выбрана операция по id
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
-  const addOperation = (values: { [key: string]: any }): OperationType => {
-    const operation: OperationType = {
+  // Добавить новую операцию
+  const addOperation = (values: { [key: string]: any }): TypeOperation => {
+    const operation: TypeOperation = {
       title: values.title,
       unit: {
         id: values.unit.id,
@@ -50,20 +51,16 @@ export const PageOperation: React.FC = () => {
     return operation;
   };
 
-  useEffect(() => {
-    if (operation) {
-      form.setFieldsValue(operation);
-    }
-  }, [operation, form]);
 
-  // Drawer
+  // Открыть дравер
   const openDrawer = (operationId: number) => {
     setSelectedOperationId(operationId)
     setIsDrawerOpen(true);
   };
 
-  const updateOperation = (values: { [key: string]: any }): OperationType => {
-    const operation: OperationType = {
+  // Обновить операцию
+  const updateOperation = (values: { [key: string]: any }): TypeOperation => {
+    const operation: TypeOperation = {
       title: values.title,
       unit: {
         id: values.unit.id,
@@ -77,6 +74,12 @@ export const PageOperation: React.FC = () => {
     setUpdateTable(!updateTable)
     return operation
   };
+
+  useEffect(() => {
+    if (operation) {
+      form.setFieldsValue(operation);
+    }
+  }, [operation, form]);
 
   return (
     <div style={{display: 'grid'}}>
