@@ -1,0 +1,187 @@
+import React, {useEffect, useState} from 'react';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
+import type {SorterResult} from 'antd/es/table/interface';
+import {getAllOperationAccounting, deleteOperationAccountingById,} from "../../../services";
+import {TableProps, TypeOperationAccounting, TableParams, TypeOperationTimesheet} from "../../../types";
+import dayjs from "dayjs";
+
+export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounting>> = ({
+                                                                                          isUpdateTable,
+                                                                                          openDrawer,
+                                                                                          searchText
+                                                                                        }) => {
+    type TablePaginationPosition = 'bottomCenter'
+
+    // Лоудер и список всех товаров
+    const [loading, setLoading] = useState(false);
+    const [allOperationAccounting, setAllOperationAccounting] = useState<TypeOperationAccounting[]>();
+
+    // Параментры для пагинации
+    const [bottom] = useState<TablePaginationPosition>('bottomCenter');
+    const [tableParams, setTableParams] = useState<TableParams>({
+      pagination: {
+        current: 1,
+        pageSize: 10,
+      },
+    });
+
+    // Колонки в таблице
+    const columns: ColumnsType<TypeOperationAccounting> = [
+      {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        sorter: (a, b) => (a.id || 0) < (b.id || 0) ? -1 : 1,
+      },
+      {
+        title: 'Дата',
+        dataIndex: 'date',
+        key: 'date',
+        render: ((date: any) =>
+          date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+      },
+      {
+        title: 'ID выпуска',
+        dataIndex: ['operation', 'id'],
+        key: 'operationId',
+      },
+      {
+        title: 'Операция',
+        dataIndex: ['operation', 'title'],
+        key: 'operationTitle',
+      },
+      {
+        title: 'Ед. изм.',
+        dataIndex: ['operation', 'unit', 'name'],
+        key: 'unit',
+        render: (unitName: string, record: TypeOperationAccounting) =>
+          record.operation?.unit ? (
+            <div key={record.operation?.unit.id}>{record.operation?.unit.name}</div>
+          ) : null,
+      },
+      {
+        title: 'Факт',
+        dataIndex: 'fact',
+        key: 'fact',
+        sorter: (a, b) => (a.fact || 0) < (b.fact || 0) ? -1 : 1,
+
+      },
+      {
+        title: 'Среднее',
+        dataIndex: 'average',
+        key: 'average',
+      },
+      {
+        title: 'Часы',
+        dataIndex: 'timeSheets',
+        key: 'timeSheets',
+        render: (timeSheets: TypeOperationTimesheet) =>
+          timeSheets
+            ? (
+              <div>
+                {timeSheets.reduce((acc, timeSheet) => acc + (timeSheet.hours || 0), 0)}
+              </div>
+            ) : null,
+      },
+      {
+        title: 'Действия',
+        dataIndex: 'id',
+        key: 'id',
+        width: 100,
+        render: ((id: number) => (
+          <Space>
+            <Tooltip title="Изменить" placement="bottomRight">
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                ghost
+                onClick={() => {
+                  openDrawer(id)
+                }}>
+                <EditOutlined/>
+              </Button>
+            </Tooltip>
+            <Tooltip title="Удалить" placement="bottomRight">
+              <Popconfirm
+                placement="topRight"
+                title="Вы действительно хотите удалить этот товар?"
+                onConfirm={() => {
+                  deleteOperationAccountingById(id).then(() => {
+                    getAllOperationAccounting()
+                      .then((allOperationAccounting) => setAllOperationAccounting(allOperationAccounting))
+                  })
+                }}
+                okText="Да"
+                cancelText="Отмена">
+                <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
+                        onClick={() => {
+                        }}>
+                  <DeleteOutlined/>
+                </Button>
+              </Popconfirm>
+            </Tooltip>
+          </Space>
+        ))
+      },
+    ];
+
+    // Параметры изменения таблицы
+    const handleTableChange = (
+      pagination: TablePaginationConfig,
+      sorter: SorterResult<TypeOperationAccounting>,
+    ) => {
+      setTableParams({
+        pagination,
+        ...sorter,
+      });
+      if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+        setAllOperationAccounting([]);
+      }
+    };
+
+    // Функция для обновления таблицы товаров
+    const updateTable = () => {
+      setLoading(true);
+      getAllOperationAccounting().then((allOperationAccounting) => {
+        setAllOperationAccounting(allOperationAccounting);
+        setLoading(false);
+      });
+    }
+
+    // Функция для поиска по таблице товаров
+    const searchTable = () => {
+      // setLoading(true);
+      // getOperationAccountingsByTitle(searchText ?? '').then((allOperationAccountings) => {
+      //   setAllOperationAccounting(allOperationAccountings);
+      //   setLoading(false);
+      // });
+    }
+
+    // Обновление таблицы товаров
+    useEffect(() => {
+      updateTable();
+    }, [!isUpdateTable]);
+
+    // Поиск по таблице товаров
+    useEffect(() => {
+      if (searchText) {
+        searchTable();
+      } else {
+        updateTable();
+      }
+    }, [searchText]);
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={allOperationAccounting}
+        pagination={{position: [bottom]}}
+        loading={loading}
+        onChange={handleTableChange}
+      />
+    );
+  }
+;
