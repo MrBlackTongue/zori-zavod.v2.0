@@ -13,16 +13,17 @@ import {
   DeleteOutlined,
 } from '@ant-design/icons';
 import {getAllClients, deleteClientById} from "../../../services";
-import {TableProps, ClientType, TableParams} from "../../../types/_index";
+import {TableProps, TypeClient, TableParams} from "../../../types";
 
-export const TableClient: React.FC<TableProps<ClientType>> = ({
-                                                                      isUpdateTable,
-                                                                      openDrawer,
-                                                                    }) => {
+export const TableClient: React.FC<TableProps<TypeClient>> = ({
+                                                                isUpdateTable,
+                                                                openDrawer,
+                                                              }) => {
   type TablePaginationPosition = 'bottomCenter'
+
   // Лоудер и список всех клиентов
   const [loading, setLoading] = useState(false);
-  const [allClients, setAllClients] = useState<ClientType[]>();
+  const [allClient, setAllClient] = useState<TypeClient[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -33,7 +34,8 @@ export const TableClient: React.FC<TableProps<ClientType>> = ({
     },
   });
 
-  const columns: ColumnsType<ClientType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeClient> = [
     {
       title: 'Имя',
       dataIndex: 'title',
@@ -66,7 +68,7 @@ export const TableClient: React.FC<TableProps<ClientType>> = ({
               title="Вы действительно хотите удалить этого клиента?"
               onConfirm={() => {
                 deleteClientById(id).then(() => {
-                  getAllClients().then((allClients) => setAllClients(allClients))
+                  getAllClients().then((allClients) => setAllClient(allClients))
                 })
               }}
               okText="Да"
@@ -86,21 +88,21 @@ export const TableClient: React.FC<TableProps<ClientType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<ClientType>,
+    sorter: SorterResult<TypeClient>,
   ) => {
     setTableParams({
       pagination,
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllClients([]);
+      setAllClient([]);
     }
   };
 
   useEffect(() => {
     setLoading(true);
     getAllClients().then((allClients) => {
-      setAllClients(allClients);
+      setAllClient(allClients);
       setLoading(false);
     });
   }, [!isUpdateTable]);
@@ -108,7 +110,7 @@ export const TableClient: React.FC<TableProps<ClientType>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allClients}
+      dataSource={allClient}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

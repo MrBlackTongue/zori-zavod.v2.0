@@ -1,11 +1,11 @@
-import {ProductType} from "./ProductType";
+import {TypeProduct} from "./TypeProduct";
 import {Dayjs} from 'dayjs';
 
-export type PurchaseType = {
+export type TypePurchase = {
     id?: number,
     amount?: number,
     cost?: number,
     date?: Dayjs,
-    product?: ProductType,
+    product?: TypeProduct,
     paid?: boolean
 }

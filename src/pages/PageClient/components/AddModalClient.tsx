@@ -1,8 +1,8 @@
 import React from "react";
-import {AddModalProps, ClientType} from "../../../types/_index";
+import {AddModalProps, TypeClient} from "../../../types";
 import {Form, Input, Modal} from "antd";
 
-export const AddModalClient: React.FC<AddModalProps<ClientType>> = ({
+export const AddModalClient: React.FC<AddModalProps<TypeClient>> = ({
                                                                       isOpen,
                                                                       addItem,
                                                                       onCancel,

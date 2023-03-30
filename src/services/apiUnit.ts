@@ -1,16 +1,16 @@
-import {UnitType} from "../types/_index";
+import {TypeUnit} from "../types";
 import {message} from "antd";
 import {URL, UNIT} from "./apiEndpoints";
 
 // Получить список всех единиц измерения
-export async function getAllUnits(): Promise<UnitType[]> {
+export async function getAllUnits(): Promise<TypeUnit[]> {
   try {
     const response = await fetch(URL + UNIT);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
     }
-    return await response.json() as UnitType[];
+    return await response.json() as TypeUnit[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllUnits(): Promise<UnitType[]> {
 }
 
 // Получить данные единицы измерения по id
-export async function getUnitById(id: number): Promise<UnitType | undefined> {
+export async function getUnitById(id: number): Promise<TypeUnit | undefined> {
   try {
     const response = await fetch(URL + UNIT + `/${id}`);
     if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getUnitById(id: number): Promise<UnitType | undefined> {
 }
 
 // Добавить новую единицу измерения
-export function postNewUnit(data: UnitType) {
+export function postNewUnit(data: TypeUnit) {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteUnitById(id: number) {
 }
 
 // Редактировать единицу измерения
-export function putChangeUnit(data: UnitType) {
+export function putChangeUnit(data: TypeUnit) {
   try {
     const config = {
       method: 'PUT',

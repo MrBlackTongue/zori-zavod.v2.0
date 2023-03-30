@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewOutput, putChangeOutput} from "../../services";
-import {OutputType} from "../../types/_index";
+import {TypeOutput} from "../../types";
 import {TableOutput} from "./components/TableOutput";
 import {AddModalOutput} from "./components/AddModalOutput";
 import {EditDrawerOutput} from "./components/EditDrawerOutput";
@@ -22,21 +22,22 @@ export const PageOutput: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Выпуски продукции в таблице, обновить таблицу
+  // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новый выпуск продукции
-  const [output] = useState<OutputType | null>(null);
+  // Выпуск продукции
+  const [output] = useState<TypeOutput | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть выпуск продукции по id
+  // Выбран выпуск продукции по id
   const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
-  const addOutput = (values: { [key: string]: any }): OutputType => {
-    const output: OutputType = {
+  // Добавить новый выпуск продукции
+  const addOutput = (values: { [key: string]: any }): TypeOutput => {
+    const output: TypeOutput = {
       date: values['date'].format('YYYY-MM-DD'),
       product: {
         id: values.product,
@@ -48,20 +49,15 @@ export const PageOutput: React.FC = () => {
     return output;
   };
 
-  useEffect(() => {
-    if (output) {
-      form.setFieldsValue(output);
-    }
-  }, [output, form]);
-
-  // Drawer
+  // Открыть дравер
   const openDrawer = (outputId: number) => {
     setSelectedOutputId(outputId)
     setIsDrawerOpen(true);
   };
 
-  const updateOutput = (values: { [key: string]: any }): OutputType => {
-    const output: OutputType = {
+  // Обновить выпуск продукции
+  const updateOutput = (values: { [key: string]: any }): TypeOutput => {
+    const output: TypeOutput = {
       date: values['date'].format('YYYY-MM-DD'),
       product: {
         id: values.product,
@@ -73,6 +69,12 @@ export const PageOutput: React.FC = () => {
     setUpdateTable(!updateTable)
     return output
   };
+
+  useEffect(() => {
+    if (output) {
+      form.setFieldsValue(output);
+    }
+  }, [output, form]);
 
   return (
     <div style={{display: 'grid'}}>

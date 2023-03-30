@@ -4,21 +4,21 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProducts, deleteProductById, getProductsByTitle, getAllProductGroups,} from "../../../services";
-import {TableProps, ProductType, TableParams} from "../../../types/_index";
+import {TableProps, TypeProduct, TableParams} from "../../../types";
 
-export const TableProduct: React.FC<TableProps<ProductType>> = ({
-                                                                        isUpdateTable,
-                                                                        openDrawer,
-                                                                        searchText
-                                                                      }) => {
+export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
+                                                                  isUpdateTable,
+                                                                  openDrawer,
+                                                                  searchText
+                                                                }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех товаров
   const [loading, setLoading] = useState(false);
-  const [allProducts, setAllProducts] = useState<ProductType[]>();
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
-  // Товарная группа
-  const [productGroups, setProductGroups] = useState<ProductType[]>();
+  // Все товарные группы
+  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -29,7 +29,8 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
     },
   });
 
-  const columns: ColumnsType<ProductType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeProduct> = [
     {
       title: 'Название',
       dataIndex: 'title',
@@ -49,7 +50,7 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
       title: 'Товарная группа',
       dataIndex: 'productGroup',
       key: 'productGroup',
-      filters: productGroups?.map((productGroup): ColumnFilterItem => ({
+      filters: allProductGroup?.map((productGroup): ColumnFilterItem => ({
         text: productGroup.title,
         value: productGroup.title!
       })),
@@ -82,7 +83,7 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
               title="Вы действительно хотите удалить этот товар?"
               onConfirm={() => {
                 deleteProductById(id).then(() => {
-                  getAllProducts().then((allProducts) => setAllProducts(allProducts))
+                  getAllProducts().then((allProducts) => setAllProduct(allProducts))
                 })
               }}
               okText="Да"
@@ -102,14 +103,14 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<ProductType>,
+    sorter: SorterResult<TypeProduct>,
   ) => {
     setTableParams({
       pagination,
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProducts([]);
+      setAllProduct([]);
     }
   };
 
@@ -117,7 +118,7 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
   const updateTable = () => {
     setLoading(true);
     getAllProducts().then((allProducts) => {
-      setAllProducts(allProducts);
+      setAllProduct(allProducts);
       setLoading(false);
     });
   }
@@ -126,14 +127,14 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
   const searchTable = () => {
     setLoading(true);
     getProductsByTitle(searchText ?? '').then((allProducts) => {
-      setAllProducts(allProducts);
+      setAllProduct(allProducts);
       setLoading(false);
     });
   }
 
   useEffect(() => {
     getAllProductGroups().then((productGroups) => {
-      setProductGroups(productGroups);
+      setAllProductGroup(productGroups);
     });
   }, []);
 
@@ -154,7 +155,7 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allProducts}
+      dataSource={allProduct}
       pagination={{position: [bottom]}}
       // pagination={tableParams.pagination}
       loading={loading}

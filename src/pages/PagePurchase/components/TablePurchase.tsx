@@ -2,20 +2,20 @@ import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, PurchaseType, TableParams, UnitType} from "../../../types/_index";
+import {TableProps, TypePurchase, TableParams, TypeUnit} from "../../../types";
 import {deletePurchaseById, getAllPurchases, getPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
 
-export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
-                                                                         isUpdateTable,
-                                                                         openDrawer,
-                                                                         searchText,
-                                                                       }) => {
+export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
+                                                                    isUpdateTable,
+                                                                    openDrawer,
+                                                                    searchText,
+                                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех закупок
   const [loading, setLoading] = useState(false);
-  const [allPurchases, setAllPurchases] = useState<PurchaseType[]>();
+  const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -26,7 +26,8 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
     },
   });
 
-  const columns: ColumnsType<PurchaseType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypePurchase> = [
     {
       title: 'Идентификатор',
       dataIndex: 'id',
@@ -65,7 +66,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: UnitType) =>
+      render: ((unit: TypeUnit) =>
         unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
     },
     {
@@ -127,7 +128,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
               title="Вы действительно хотите удалить эту закупку?"
               onConfirm={() => {
                 deletePurchaseById(id).then(() => {
-                  getAllPurchases().then((allPurchases) => setAllPurchases(allPurchases))
+                  getAllPurchases().then((allPurchases) => setAllPurchase(allPurchases))
                 })
               }}
               okText="Да"
@@ -147,14 +148,14 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<PurchaseType>,
+    sorter: SorterResult<TypePurchase>,
   ) => {
     setTableParams({
       pagination,
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllPurchases([]);
+      setAllPurchase([]);
     }
   };
 
@@ -162,7 +163,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
   const updateTable = () => {
     setLoading(true);
     getAllPurchases().then((allPurchases) => {
-      setAllPurchases(allPurchases);
+      setAllPurchase(allPurchases);
       setLoading(false);
     });
   }
@@ -171,7 +172,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
   const searchTable = () => {
     setLoading(true);
     getPurchaseByTitle(searchText ?? '').then((allPurchases) => {
-      setAllPurchases(allPurchases);
+      setAllPurchase(allPurchases);
       setLoading(false);
     });
   }
@@ -193,7 +194,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allPurchases}
+      dataSource={allPurchase}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

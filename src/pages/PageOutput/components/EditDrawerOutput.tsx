@@ -1,28 +1,28 @@
 import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
-import {EditDrawerProps, OutputType, ProductType} from "../../../types/_index";
+import {EditDrawerProps, TypeOutput, TypeProduct} from "../../../types";
 import {getOutputById, getAllProducts} from "../../../services";
 import dayjs from 'dayjs';
 
 const {Option} = Select;
 
-export const EditDrawerOutput: React.FC<EditDrawerProps<OutputType>> = ({
-                                                        isOpen,
-                                                        selectedItemId,
-                                                        closeDrawer,
-                                                        updateItem,
-                                                      }) => {
+export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
+                                                                          isOpen,
+                                                                          selectedItemId,
+                                                                          closeDrawer,
+                                                                          updateItem,
+                                                                        }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductType[]>();
-
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
-  const [product, setProduct] = useState<ProductType>();
-
+  // Все товары, выбранный товар, товар, дата
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
+  const [product, setProduct] = useState<TypeProduct>();
   const [date, setDate] = useState<any>();
 
-  const onChangeProduct = (values: string, option: any): ProductType => {
-    const product: ProductType = {
+  // Изменить выбранный товар
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };
@@ -33,6 +33,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<OutputType>> = ({
     return product
   };
 
+  // Функция для получения данных о выпуске продукции по id и обновления формы
   const handleGetOutputById = useCallback(() => {
     if (selectedItemId) {
       getOutputById(selectedItemId).then((output) => {
@@ -49,7 +50,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<OutputType>> = ({
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -112,15 +113,15 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<OutputType>> = ({
         <Form.Item
           label="Товар"
           name="product"
-          rules={[{ required: true, message: 'Выберите товар' }]}
+          rules={[{required: true, message: 'Выберите товар'}]}
         >
           <div>
             <Select
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>
