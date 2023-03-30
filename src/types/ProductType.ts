@@ -1,6 +1,6 @@
-import {UnitTypes} from "./UnitTypes";
+import {UnitType} from "./UnitType";
 
-export type ProductTypes = {
+export type ProductType = {
   id?: number,
   title?: string,
   productGroup?: {
@@ -11,23 +11,5 @@ export type ProductTypes = {
       title?: string,
     },
   },
-  unit?: UnitTypes;
-}
-
-export interface ProductsTableProps {
-  updateTable: boolean;
-  openDrawer: (productId: number) => void;
-}
-
-export interface AddProductProps {
-  isOpen: boolean;
-  onCancel: () => void;
-  addProduct: (values: ProductTypes) => void;
-}
-
-export interface EditProductProps {
-  isOpen: boolean,
-  closeDrawer: () => void,
-  selectedProductId: number | undefined;
-  updateProduct: (values: ProductTypes) => void,
+  unit?: UnitType;
 }
