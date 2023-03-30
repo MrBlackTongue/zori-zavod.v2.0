@@ -13,11 +13,11 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
   const [form] = Form.useForm();
 
   // Единицы измерения, выбранная единица измерения
-  const [units, setUnits] = useState<TypeUnit[]>();
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
   const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
   // Товарные группы, выбранная товарная группа
-  const [productGroups, setProductGroups] = useState<TypeProduct[]>();
+  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
   const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
 
   // Изменить выбранную единицу измерения
@@ -48,13 +48,13 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
 
   useEffect(() => {
     getAllUnits().then((units) => {
-      setUnits(units);
+      setAllUnit(units);
     });
   }, []);
 
   useEffect(() => {
     getAllProductGroups().then((productGroups) => {
-      setProductGroups(productGroups);
+      setAllProductGroup(productGroups);
     });
   }, []);
 
@@ -110,8 +110,8 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
               value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
-              {units && units.length > 0 ?
-                units.map(unit => (
+              {allUnit && allUnit.length > 0 ?
+                allUnit.map(unit => (
                   <Option id={unit.id} key={unit.id} value={unit.name}>
                     {unit.name}
                   </Option>
@@ -129,8 +129,8 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
               value={selectedProductGroup ? selectedProductGroup.title : undefined}
               onChange={onChangeProductGroup}
             >
-              {productGroups && productGroups.length > 0 ?
-                productGroups.map(productGroup => (
+              {allProductGroup && allProductGroup.length > 0 ?
+                allProductGroup.map(productGroup => (
                   <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
                     {productGroup.title}
                   </Option>

@@ -23,7 +23,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
 
   // Лоудер и список всех единиц измерения
   const [loading, setLoading] = useState(false);
-  const [allUnits, setAllUnits] = useState<TypeUnit[]>();
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -34,6 +34,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeUnit> = [
     {
       title: 'Имя',
@@ -67,7 +68,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
               title="Вы действительно хотите удалить эту единицу измерения?"
               onConfirm={() => {
                 deleteUnitById(id).then(() => {
-                  getAllUnits().then((allUnits) => setAllUnits(allUnits))
+                  getAllUnits().then((allUnits) => setAllUnit(allUnits))
                 })
               }}
               okText="Да"
@@ -94,14 +95,14 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllUnits([]);
+      setAllUnit([]);
     }
   };
 
   useEffect(() => {
     setLoading(true);
     getAllUnits().then((allUnits) => {
-      setAllUnits(allUnits);
+      setAllUnit(allUnits);
       setLoading(false);
     });
   }, [!isUpdateTable]);
@@ -109,7 +110,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allUnits}
+      dataSource={allUnit}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

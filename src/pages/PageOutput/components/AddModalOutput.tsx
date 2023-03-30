@@ -14,7 +14,7 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
   const [form] = Form.useForm();
 
   // Все товары, выбранный товар
-  const [products, setProducts] = useState<TypeProduct[]>();
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар
@@ -32,7 +32,7 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -89,8 +89,8 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>

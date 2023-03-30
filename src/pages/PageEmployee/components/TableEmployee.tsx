@@ -23,7 +23,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
 
   // Лоудер и список всех сотрудников
   const [loading, setLoading] = useState(false);
-  const [allEmployees, setAllEmployees] = useState<TypeEmployee[]>();
+  const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -34,6 +34,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeEmployee> = [
     {
       title: 'Имя',
@@ -94,7 +95,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
               title="Вы действительно хотите удалить этого сотрудника?"
               onConfirm={() => {
                 deleteEmployeeById(id).then(() => {
-                  getAllEmployees().then((allEmployees) => setAllEmployees(allEmployees))
+                  getAllEmployees().then((allEmployees) => setAllEmployee(allEmployees))
                 })
               }}
               okText="Да"
@@ -121,14 +122,14 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllEmployees([]);
+      setAllEmployee([]);
     }
   };
 
   useEffect(() => {
     setLoading(true);
     getAllEmployees().then((allEmployees) => {
-      setAllEmployees(allEmployees);
+      setAllEmployee(allEmployees);
       setLoading(false);
     });
   }, [!isUpdateTable]);
@@ -136,7 +137,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allEmployees}
+      dataSource={allEmployee}
       pagination={{position: [bottom]}}
       // pagination={tableParams.pagination}
       loading={loading}

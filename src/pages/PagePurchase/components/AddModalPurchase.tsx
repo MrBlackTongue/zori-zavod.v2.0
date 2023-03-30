@@ -15,7 +15,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
   const [form] = Form.useForm();
 
   // Все товары, выбранный товар
-  const [products, setProducts] = useState<TypeProduct[]>();
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
   // Изменить состояние чекбокса
@@ -53,7 +53,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -89,8 +89,8 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>

@@ -15,10 +15,10 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
 
   // Лоудер и список всех товаров
   const [loading, setLoading] = useState(false);
-  const [allProducts, setAllProducts] = useState<TypeProduct[]>();
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
-  // Товарная группа
-  const [productGroups, setProductGroups] = useState<TypeProduct[]>();
+  // Все товарные группы
+  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -29,6 +29,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeProduct> = [
     {
       title: 'Название',
@@ -49,7 +50,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
       title: 'Товарная группа',
       dataIndex: 'productGroup',
       key: 'productGroup',
-      filters: productGroups?.map((productGroup): ColumnFilterItem => ({
+      filters: allProductGroup?.map((productGroup): ColumnFilterItem => ({
         text: productGroup.title,
         value: productGroup.title!
       })),
@@ -82,7 +83,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
               title="Вы действительно хотите удалить этот товар?"
               onConfirm={() => {
                 deleteProductById(id).then(() => {
-                  getAllProducts().then((allProducts) => setAllProducts(allProducts))
+                  getAllProducts().then((allProducts) => setAllProduct(allProducts))
                 })
               }}
               okText="Да"
@@ -109,7 +110,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProducts([]);
+      setAllProduct([]);
     }
   };
 
@@ -117,7 +118,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
   const updateTable = () => {
     setLoading(true);
     getAllProducts().then((allProducts) => {
-      setAllProducts(allProducts);
+      setAllProduct(allProducts);
       setLoading(false);
     });
   }
@@ -126,14 +127,14 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
   const searchTable = () => {
     setLoading(true);
     getProductsByTitle(searchText ?? '').then((allProducts) => {
-      setAllProducts(allProducts);
+      setAllProduct(allProducts);
       setLoading(false);
     });
   }
 
   useEffect(() => {
     getAllProductGroups().then((productGroups) => {
-      setProductGroups(productGroups);
+      setAllProductGroup(productGroups);
     });
   }, []);
 
@@ -154,7 +155,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allProducts}
+      dataSource={allProduct}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

@@ -20,9 +20,10 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
                                                                 openDrawer,
                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
+
   // Лоудер и список всех клиентов
   const [loading, setLoading] = useState(false);
-  const [allClients, setAllClients] = useState<TypeClient[]>();
+  const [allClient, setAllClient] = useState<TypeClient[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -33,6 +34,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeClient> = [
     {
       title: 'Имя',
@@ -66,7 +68,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
               title="Вы действительно хотите удалить этого клиента?"
               onConfirm={() => {
                 deleteClientById(id).then(() => {
-                  getAllClients().then((allClients) => setAllClients(allClients))
+                  getAllClients().then((allClients) => setAllClient(allClients))
                 })
               }}
               okText="Да"
@@ -93,14 +95,14 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllClients([]);
+      setAllClient([]);
     }
   };
 
   useEffect(() => {
     setLoading(true);
     getAllClients().then((allClients) => {
-      setAllClients(allClients);
+      setAllClient(allClients);
       setLoading(false);
     });
   }, [!isUpdateTable]);
@@ -108,7 +110,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allClients}
+      dataSource={allClient}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

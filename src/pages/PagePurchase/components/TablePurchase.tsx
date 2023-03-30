@@ -15,7 +15,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
 
   // Лоудер и список всех закупок
   const [loading, setLoading] = useState(false);
-  const [allPurchases, setAllPurchases] = useState<TypePurchase[]>();
+  const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -26,6 +26,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypePurchase> = [
     {
       title: 'ID',
@@ -127,7 +128,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
               title="Вы действительно хотите удалить эту закупку?"
               onConfirm={() => {
                 deletePurchaseById(id).then(() => {
-                  getAllPurchases().then((allPurchases) => setAllPurchases(allPurchases))
+                  getAllPurchases().then((allPurchases) => setAllPurchase(allPurchases))
                 })
               }}
               okText="Да"
@@ -154,7 +155,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllPurchases([]);
+      setAllPurchase([]);
     }
   };
 
@@ -162,7 +163,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
   const updateTable = () => {
     setLoading(true);
     getAllPurchases().then((allPurchases) => {
-      setAllPurchases(allPurchases);
+      setAllPurchase(allPurchases);
       setLoading(false);
     });
   }
@@ -171,7 +172,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
   const searchTable = () => {
     setLoading(true);
     getPurchaseByTitle(searchText ?? '').then((allPurchases) => {
-      setAllPurchases(allPurchases);
+      setAllPurchase(allPurchases);
       setLoading(false);
     });
   }
@@ -193,7 +194,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allPurchases}
+      dataSource={allPurchase}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

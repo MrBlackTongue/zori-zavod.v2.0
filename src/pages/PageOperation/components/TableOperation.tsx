@@ -23,7 +23,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
 
   // Лоудер и список всех операций
   const [loading, setLoading] = useState(false);
-  const [allOperations, setAllOperations] = useState<TypeOperation[]>();
+  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -34,6 +34,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeOperation> = [
     {
       title: 'Операция',
@@ -80,7 +81,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
               title="Вы действительно хотите удалить эту операцию?"
               onConfirm={() => {
                 deleteOperationById(id).then(() => {
-                  getAllOperations().then((allOperations) => setAllOperations(allOperations))
+                  getAllOperations().then((allOperations) => setAllOperation(allOperations))
                 })
               }}
               okText="Да"
@@ -107,14 +108,14 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperations([]);
+      setAllOperation([]);
     }
   };
 
   useEffect(() => {
     setLoading(true);
     getAllOperations().then((allOperations) => {
-      setAllOperations(allOperations);
+      setAllOperation(allOperations);
       setLoading(false);
     });
   }, [!isUpdateTable]);
@@ -122,7 +123,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allOperations}
+      dataSource={allOperation}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

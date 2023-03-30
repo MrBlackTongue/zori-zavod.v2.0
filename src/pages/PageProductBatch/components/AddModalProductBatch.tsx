@@ -13,7 +13,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
   const [form] = Form.useForm();
 
   // Все товары, выбранный товар
-  const [products, setProducts] = useState<TypeProduct[]>();
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар
@@ -45,7 +45,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -81,8 +81,8 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProductBatch}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>

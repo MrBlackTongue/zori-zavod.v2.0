@@ -22,10 +22,8 @@ export const PageClient: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Обновление таблицы
+  // Обновление таблицы, клиент
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Клиент
   const [client] = useState<TypeClient | null>(null);
 
   // Открыть закрыть модальное окно, дравер

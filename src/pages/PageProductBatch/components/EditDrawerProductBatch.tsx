@@ -13,14 +13,12 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
                                                                                     }) => {
   const [form] = Form.useForm();
 
-  // Все товары
-  const [products, setProducts] = useState<TypeProduct[]>();
-
-  // Выбранный товар
+  // Все товары, выбранный товар, товар
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
   const [product, setProduct] = useState<TypeProduct>();
 
-  // Функция для изменения выбранного товара
+  // Изменить выбранный товар
   const onChangeProduct = (values: string, option: any): TypeProduct => {
     const product: TypeProduct = {
       id: option.id,
@@ -33,7 +31,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
     return product
   };
 
-  // Функция для получения данных о партии товаров по id
+  // Функция для получения данных о партии товаров по id и обновления формы
   const handleGetProductBatchById = useCallback(() => {
     if (selectedItemId) {
       getProductBatchById(selectedItemId).then((productBatch) => {
@@ -49,7 +47,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -105,8 +103,8 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>

@@ -13,7 +13,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
   const [form] = Form.useForm();
 
   // Все единицы измерения, выбранная единица измерения
-  const [units, setUnits] = useState<TypeUnit[]>();
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
   const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
   // Изменить выбранную единицу измерения
@@ -31,7 +31,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
 
   useEffect(() => {
     getAllUnits().then((units) => {
-      setUnits(units);
+      setAllUnit(units);
     });
   }, []);
 
@@ -84,8 +84,8 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
               value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
-              {units && units.length > 0 ?
-                units.map(unit => (
+              {allUnit && allUnit.length > 0 ?
+                allUnit.map(unit => (
                   <Option id={unit.id} key={unit.id} value={unit.name}>
                     {unit.name}
                   </Option>

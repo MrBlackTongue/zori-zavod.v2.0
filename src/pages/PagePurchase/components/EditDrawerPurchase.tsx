@@ -15,21 +15,27 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
                                                                             }) => {
   const [form] = Form.useForm();
 
+  // Закупка
   const [purchase] = useState<TypePurchase | null>(null);
 
-  const [products, setProducts] = useState<TypeProduct[]>();
+  // Все товары, выбранный товар, товар
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
   const [product, setProduct] = useState<TypeProduct>();
 
+  // Выбранная дата
   const [selectedDate, setSelectedDate] = useState<Dayjs | null | undefined>();
 
+  // Флажок оплачено
   const [paid, setPaid] = useState(purchase?.paid)
 
+  // Изменить состояние чекбокса
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
     setPaid(e.target.checked);
     form.setFieldsValue({paid: e.target.checked});
   }
 
+  // Изменить выбранный товар
   const onChangeProduct = (values: string, option: any): TypeProduct => {
     const product: TypeProduct = {
       id: option.id,
@@ -42,6 +48,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
     return product
   };
 
+  // Функция для получения данных о закупке по id и обновления формы
   const handleGetPurchaseById = useCallback(() => {
     if (selectedItemId) {
       getPurchaseById(selectedItemId).then((purchase) => {
@@ -61,7 +68,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -118,8 +125,8 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>

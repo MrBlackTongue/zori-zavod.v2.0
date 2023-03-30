@@ -14,13 +14,13 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
                                                                         }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<TypeProduct[]>();
-
+  // Все товары, выбранный товар, товар, дата
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
   const [product, setProduct] = useState<TypeProduct>();
-
   const [date, setDate] = useState<any>();
 
+  // Изменить выбранный товар
   const onChangeProduct = (values: string, option: any): TypeProduct => {
     const product: TypeProduct = {
       id: option.id,
@@ -33,6 +33,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
     return product
   };
 
+  // Функция для получения данных о выпуске продукции по id и обновления формы
   const handleGetOutputById = useCallback(() => {
     if (selectedItemId) {
       getOutputById(selectedItemId).then((output) => {
@@ -49,7 +50,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -119,8 +120,8 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>

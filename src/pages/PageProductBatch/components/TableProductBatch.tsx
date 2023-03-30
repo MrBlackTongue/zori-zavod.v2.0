@@ -24,6 +24,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeProductBatch> = [
     {
       title: 'ID',

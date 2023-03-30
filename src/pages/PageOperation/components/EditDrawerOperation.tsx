@@ -13,10 +13,12 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
                                                                               }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<TypeUnit[]>();
+  // Все единицы измерения, выбранная единица измерения, единица измерения
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
   const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
   const [unit, setUnit] = useState<TypeUnit>()
 
+  // Изменить выбранную единицу измерения
   const onChangeUnit = (values: string, option: any): TypeUnit => {
     const unit: TypeUnit = {
       id: option.id,
@@ -31,7 +33,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
 
   useEffect(() => {
     getAllUnits().then((units) => {
-      setUnits(units);
+      setAllUnit(units);
     });
   }, []);
 
@@ -100,8 +102,8 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
               value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
-              {units && units.length > 0 ?
-                units.map(unit => (
+              {allUnit && allUnit.length > 0 ?
+                allUnit.map(unit => (
                   <Option id={unit.id} key={unit.id} value={unit.name}>
                     {unit.name}
                   </Option>

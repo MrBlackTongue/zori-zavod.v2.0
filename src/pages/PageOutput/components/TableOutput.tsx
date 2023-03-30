@@ -24,7 +24,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
 
   // Лоудер и список всех единиц измерения
   const [loading, setLoading] = useState(false);
-  const [allOutputs, setAllOutputs] = useState<TypeOutput[]>();
+  const [allOutput, setAllOutput] = useState<TypeOutput[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -35,6 +35,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeOutput> = [
     {
       title: 'ID',
@@ -81,7 +82,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
               title="Вы действительно хотите удалить этот выпуск продукции?"
               onConfirm={() => {
                 deleteOutputById(id).then(() => {
-                  getAllOutputs().then((allOutputs) => setAllOutputs(allOutputs))
+                  getAllOutputs().then((allOutputs) => setAllOutput(allOutputs))
                 })
               }}
               okText="Да"
@@ -108,14 +109,14 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOutputs([]);
+      setAllOutput([]);
     }
   };
 
   useEffect(() => {
     setLoading(true);
     getAllOutputs().then((allOutputs) => {
-      setAllOutputs(allOutputs);
+      setAllOutput(allOutputs);
       setLoading(false);
     });
   }, [!isUpdateTable]);
@@ -123,7 +124,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allOutputs}
+      dataSource={allOutput}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

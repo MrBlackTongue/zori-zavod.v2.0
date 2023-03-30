@@ -13,16 +13,17 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
                                                                           }) => {
   const [form] = Form.useForm();
 
-  // Единицы измерения
-  const [units, setUnits] = useState<TypeUnit[]>();
+  // Единицы измерения, выбранная единица измерения, единица измерения
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
   const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
   const [unit, setUnit] = useState<TypeUnit>()
 
-  // Товарные группы
-  const [productGroups, setProductGroups] = useState<TypeProduct[]>();
+  // Все товарные группы, выбранная товарная группа, товарная группа
+  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
   const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
   const [productGroup, setProductGroup] = useState<TypeProduct>()
 
+  // Изменить выбранную единицу измерения
   const onChangeUnit = (values: string, option: any): TypeUnit => {
     const unit: TypeUnit = {
       id: option.id,
@@ -35,6 +36,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
     return unit
   };
 
+  // Изменить выбранную товарную группу
   const onChangeProductGroup = (values: string, option: any): TypeProduct => {
     const productGroup: TypeProduct = {
       id: option.id,
@@ -49,13 +51,13 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
 
   useEffect(() => {
     getAllUnits().then((units) => {
-      setUnits(units);
+      setAllUnit(units);
     });
   }, []);
 
   useEffect(() => {
     getAllProductGroups().then((productGroups) => {
-      setProductGroups(productGroups);
+      setAllProductGroup(productGroups);
     });
   }, []);
 
@@ -128,8 +130,8 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
               value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
-              {units && units.length > 0 ?
-                units.map(unit => (
+              {allUnit && allUnit.length > 0 ?
+                allUnit.map(unit => (
                   <Option id={unit.id} key={unit.id} value={unit.name}>
                     {unit.name}
                   </Option>
@@ -147,8 +149,8 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
               value={selectedProductGroup ? selectedProductGroup.title : undefined}
               onChange={onChangeProductGroup}
             >
-              {productGroups && productGroups.length > 0 ?
-                productGroups.map(productGroup => (
+              {allProductGroup && allProductGroup.length > 0 ?
+                allProductGroup.map(productGroup => (
                   <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
                     {productGroup.title}
                   </Option>
