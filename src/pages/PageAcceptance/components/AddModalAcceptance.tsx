@@ -1,20 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps} from "../../../types/CommonComponentProps";
-import {AcceptanceType} from "../../../types/AcceptanceType";
+import {AddModalProps} from "../../../types";
+import {TypeAcceptance} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
 import {getAllAcceptances} from "../../../services";
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalAcceptance: React.FC<AddModalProps<AcceptanceType>> = ({
+export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
                                                                     isOpen,
                                                                     addItem,
                                                                     onCancel,
                                                                           }) => {
   const [form] = Form.useForm();
 
-  const [acceptance, setAcceptance] = useState<AcceptanceType[]>();
-  const [selectedAcceptance, setSelectedAcceptance] = useState<AcceptanceType>();
+  const [acceptance, setAcceptance] = useState<TypeAcceptance[]>();
+  const [selectedAcceptance, setSelectedAcceptance] = useState<TypeAcceptance>();
 
   useEffect(() => {
     getAllAcceptances().then((acceptance) => {

@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input,} from 'antd';
-import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
+import {Typography, Space, Button, Form,} from 'antd';
+import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {postNewAcceptance} from "../../services";
-import {AcceptanceType} from "../../types/_index";
+import {TypeAcceptance} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
 import {AddModalAcceptance} from "./components/AddModalAcceptance";
 //import {EditDrawerAcceptance} from "../PageAcceptance/components/EditDrawerAcceptance";
@@ -20,7 +20,7 @@ export const PageAcceptance: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Создать новыую приемку
-  const [acceptance] = useState<AcceptanceType | null>(null);
+  const [acceptance] = useState<TypeAcceptance | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,8 +29,8 @@ export const PageAcceptance: React.FC = () => {
   // Открыть приемку по id
   const [selectedAcceptanceId, setSelectedAcceptanceId] = useState<number>();
 
-  const addAcceptance = (values: { [key: string]: any }): AcceptanceType => {
-    const acceptance: AcceptanceType = {
+  const addAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
+    const acceptance: TypeAcceptance = {
       amount: values.amount,
       stock: {
         id: values.stock.id,

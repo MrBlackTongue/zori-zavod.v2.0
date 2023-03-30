@@ -1,16 +1,16 @@
 import {URL, MOVEMENT, ACCEPTANCE} from "./apiEndpoints";
-import {AcceptanceType} from "../types/AcceptanceType";
+import {TypeAcceptance} from "../types";
 import {message} from "antd";
 
 // Получение всех приемок товаров
-export async function getAllAcceptances(): Promise<AcceptanceType[]> {
+export async function getAllAcceptances(): Promise<TypeAcceptance[]> {
   try {
     const res = await fetch(URL + MOVEMENT + ACCEPTANCE);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as AcceptanceType[];
+    return await res.json() as TypeAcceptance[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllAcceptances(): Promise<AcceptanceType[]> {
 }
 
 // Создание приемки
-export function postNewAcceptance(data: AcceptanceType) {
+export function postNewAcceptance(data: TypeAcceptance) {
   try {
     const config = {
       method: 'POST',
@@ -41,7 +41,7 @@ export function postNewAcceptance(data: AcceptanceType) {
 }
 
 // Получение приемки по id
-export async function getAcceptanceById(id: number): Promise<AcceptanceType | undefined> {
+export async function getAcceptanceById(id: number): Promise<TypeAcceptance | undefined> {
   try {
     const response = await fetch(URL + MOVEMENT + ACCEPTANCE + `/${id}`);
     if (!response.ok) {
@@ -74,7 +74,7 @@ export async function deleteAcceptanceById(id: number) {
 }
 
 // Получение приемок по названию продукта
-export async function getAcceptanceByTitle(title: string): Promise<AcceptanceType[]> {
+export async function getAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
   try {
     const response = await fetch(URL + MOVEMENT + ACCEPTANCE + `/${title}`);
     if (!response.ok) {

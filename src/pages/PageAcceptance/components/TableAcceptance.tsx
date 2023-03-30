@@ -3,11 +3,11 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {getAllAcceptances, deleteAcceptanceById, getAcceptanceByTitle} from "../../../services";
-import {TableProps, AcceptanceType, TableParams, UnitType, PurchaseType} from "../../../types/_index";
+import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
 
-export const TableAcceptance: React.FC<TableProps<AcceptanceType>> = ({
+export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
                                                                         isUpdateTable,
                                                                         openDrawer,
                                                                         searchText
@@ -16,7 +16,7 @@ export const TableAcceptance: React.FC<TableProps<AcceptanceType>> = ({
 
   // Лоудер и список всех приемок
   const [loading, setLoading] = useState(false);
-  const [allAcceptances, setAllAcceptances] = useState<AcceptanceType[]>();
+  const [allAcceptances, setAllAcceptances] = useState<TypeAcceptance[]>();
 
   // Параметры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -27,7 +27,7 @@ export const TableAcceptance: React.FC<TableProps<AcceptanceType>> = ({
     },
   });
 
-  const columns: ColumnsType<AcceptanceType> = [
+  const columns: ColumnsType<TypeAcceptance> = [
     {
       title: 'Дата',
       dataIndex: 'date',
@@ -56,7 +56,7 @@ export const TableAcceptance: React.FC<TableProps<AcceptanceType>> = ({
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: UnitType) =>
+      render: ((unit: TypeUnit) =>
         unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
     },
     {
@@ -92,7 +92,7 @@ export const TableAcceptance: React.FC<TableProps<AcceptanceType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<PurchaseType>,
+    sorter: SorterResult<TypePurchase>,
   ) => {
     setTableParams({
       pagination,
