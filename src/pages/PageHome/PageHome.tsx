@@ -4,6 +4,8 @@ import '../../App.css'
 
 const { Title } = Typography;
 
-export const PageHome = () => (
+const PageHome = () => (
   <Title>Привет</Title>
 );
+
+export default PageHome;

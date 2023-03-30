@@ -156,8 +156,11 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
       columns={columns}
       dataSource={allProducts}
       pagination={{position: [bottom]}}
+      // pagination={tableParams.pagination}
       loading={loading}
       onChange={handleTableChange}
     />
   );
 };
+
+
