@@ -1,27 +1,28 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, ProductType, UnitType} from "../../../types/_index";
+import {AddModalProps, TypeProduct, TypeUnit} from "../../../types";
 import {Form, Input, Modal, Select} from "antd";
 import {getAllUnits, getAllProductGroups} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalProduct: React.FC<AddModalProps<ProductType>> = ({
-                                                            isOpen,
-                                                            addItem,
-                                                            onCancel,
-                                                          }) => {
+export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
+                                                                        isOpen,
+                                                                        addItem,
+                                                                        onCancel,
+                                                                      }) => {
   const [form] = Form.useForm();
 
-  // Единицы измерения
-  const [units, setUnits] = useState<UnitType[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  // Единицы измерения, выбранная единица измерения
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
+  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
-  // Товарные группы
-  const [productGroups, setProductGroups] = useState<ProductType[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<ProductType>();
+  // Товарные группы, выбранная товарная группа
+  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
+  const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
 
-  const onChangeUnit = (values: string, option: any): UnitType => {
-    const unit: UnitType = {
+  // Изменить выбранную единицу измерения
+  const onChangeUnit = (values: string, option: any): TypeUnit => {
+    const unit: TypeUnit = {
       id: option.id,
       name: values,
     };
@@ -32,8 +33,9 @@ export const AddModalProduct: React.FC<AddModalProps<ProductType>> = ({
     return unit
   };
 
-  const onChangeProductGroup = (values: string, option: any): ProductType => {
-    const productGroup: ProductType = {
+  // Изменить выбранную товарную группу
+  const onChangeProductGroup = (values: string, option: any): TypeProduct => {
+    const productGroup: TypeProduct = {
       id: option.id,
       title: values,
     };
@@ -46,13 +48,13 @@ export const AddModalProduct: React.FC<AddModalProps<ProductType>> = ({
 
   useEffect(() => {
     getAllUnits().then((units) => {
-      setUnits(units);
+      setAllUnit(units);
     });
   }, []);
 
   useEffect(() => {
     getAllProductGroups().then((productGroups) => {
-      setProductGroups(productGroups);
+      setAllProductGroup(productGroups);
     });
   }, []);
 
@@ -60,7 +62,7 @@ export const AddModalProduct: React.FC<AddModalProps<ProductType>> = ({
     <Modal
       title={`Добавление нового товара`}
       open={isOpen}
-      onCancel={()=> {
+      onCancel={() => {
         setSelectedUnit(undefined);
         setSelectedProductGroup(undefined);
         onCancel()
@@ -108,8 +110,8 @@ export const AddModalProduct: React.FC<AddModalProps<ProductType>> = ({
               value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
-              {units && units.length > 0 ?
-                units.map(unit => (
+              {allUnit && allUnit.length > 0 ?
+                allUnit.map(unit => (
                   <Option id={unit.id} key={unit.id} value={unit.name}>
                     {unit.name}
                   </Option>
@@ -127,8 +129,8 @@ export const AddModalProduct: React.FC<AddModalProps<ProductType>> = ({
               value={selectedProductGroup ? selectedProductGroup.title : undefined}
               onChange={onChangeProductGroup}
             >
-              {productGroups && productGroups.length > 0 ?
-                productGroups.map(productGroup => (
+              {allProductGroup && allProductGroup.length > 0 ?
+                allProductGroup.map(productGroup => (
                   <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
                     {productGroup.title}
                   </Option>

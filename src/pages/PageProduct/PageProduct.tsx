@@ -3,7 +3,7 @@ import {Typography, Space, Button, Form, Input,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProduct, putChangeProduct} from "../../services";
-import {ProductType} from "../../types/_index";
+import {TypeProduct} from "../../types";
 import {TableProduct} from "./components/TableProduct";
 import {AddModalProduct} from "./components/AddModalProduct";
 import {EditDrawerProduct} from "./components/EditDrawerProduct";
@@ -14,21 +14,25 @@ export const PageProduct: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Товары в таблице, обновить таблицу
+  // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новый товар
-  const [product] = useState<ProductType | null>(null);
+  // Товар
+  const [product] = useState<TypeProduct | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть товар по id
+  // Выбран товар по id
   const [selectedProductId, setSelectedProductId] = useState<number>();
 
-  const addProduct = (values: { [key: string]: any }): ProductType => {
-    const product: ProductType = {
+  // Текст поиска
+  const [searchText, setSearchText] = useState("");
+
+  // Добавить новый товар
+  const addProduct = (values: { [key: string]: any }): TypeProduct => {
+    const product: TypeProduct = {
       title: values.title,
       productGroup: {
         id: values.productGroup.id,
@@ -45,26 +49,15 @@ export const PageProduct: React.FC = () => {
     return product;
   };
 
-  useEffect(() => {
-    if (product) {
-      form.setFieldsValue(product);
-    }
-  }, [product, form]);
-
-  // Drawer
+  // Открыть дравер
   const openDrawer = (productId: number) => {
     setSelectedProductId(productId)
     setIsDrawerOpen(true);
   };
 
-  const [searchText, setSearchText] = useState("");
-
-  const searchTable = (value: string) => {
-    setSearchText(value);
-  }
-
-  const updateProduct = (values: { [key: string]: any }): ProductType => {
-    const product: ProductType = {
+  // Обновить товар
+  const updateProduct = (values: { [key: string]: any }): TypeProduct => {
+    const product: TypeProduct = {
       title: values.title,
       productGroup: {
         id: values.productGroup.id,
@@ -82,6 +75,12 @@ export const PageProduct: React.FC = () => {
     return product
   };
 
+  useEffect(() => {
+    if (product) {
+      form.setFieldsValue(product);
+    }
+  }, [product, form]);
+
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -89,7 +88,7 @@ export const PageProduct: React.FC = () => {
         <Space>
           <Input
             placeholder="Поиск по товарам"
-            onChange={(event) => searchTable(event.target.value)}
+            onChange={(event) => setSearchText(event.target.value)}
             style={{width: '210px'}}
             allowClear
             prefix={<SearchOutlined/>}

@@ -1,16 +1,16 @@
-import {OperationType} from "../types/_index";
+import {TypeOperation} from "../types";
 import {message} from "antd";
 import {URL, OPERATION} from "./apiEndpoints";
 
 // Получить список всех типов операций
-export async function getAllOperations(): Promise<OperationType[]> {
+export async function getAllOperations(): Promise<TypeOperation[]> {
   try {
     const res = await fetch(URL + OPERATION);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as OperationType[];
+    return await res.json() as TypeOperation[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,7 +18,7 @@ export async function getAllOperations(): Promise<OperationType[]> {
 }
 
 // Получить данные типа операции по id
-export async function getOperationById(id: number): Promise<OperationType | undefined> {
+export async function getOperationById(id: number): Promise<TypeOperation | undefined> {
   try {
     const response = await fetch(URL + OPERATION + `/${id}`);
     if (!response.ok) {
@@ -33,7 +33,7 @@ export async function getOperationById(id: number): Promise<OperationType | unde
 }
 
 // Добавить новый тип операции
-export function postNewOperation(data: OperationType) {
+export function postNewOperation(data: TypeOperation) {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteOperationById(id: number) {
 }
 
 // Редактировать тип операции
-export function putChangeOperation(data: OperationType) {
+export function putChangeOperation(data: TypeOperation) {
   try {
     const config = {
       method: 'PUT',

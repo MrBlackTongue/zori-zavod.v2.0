@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewClient, putChangeClient} from "../../services";
-import {ClientType} from "../../types/_index";
+import {TypeClient} from "../../types";
 import {TableClient} from "./components/TableClient";
 import {AddModalClient} from "./components/AddModalClient";
 import {EditDrawerClient} from "./components/EditDrawerClient";
@@ -22,21 +22,20 @@ export const PageClient: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Клиент в таблице, обновить таблицу
+  // Обновление таблицы, клиент
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Создать нового клиента
-  const [client] = useState<ClientType | null>(null);
+  const [client] = useState<TypeClient | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть клиента по id
+  // Выбран клиент по id
   const [selectedClientId, setSelectedClientId] = useState<number>();
 
-  const addClient = (values: { [key: string]: any }): ClientType => {
-    const client: ClientType = {
+  // Добавить нового клиента
+  const addClient = (values: { [key: string]: any }): TypeClient => {
+    const client: TypeClient = {
       title: values.title,
     };
     setIsModalOpen(false)
@@ -45,20 +44,15 @@ export const PageClient: React.FC = () => {
     return client;
   };
 
-  useEffect(() => {
-    if (client) {
-      form.setFieldsValue(client);
-    }
-  }, [client, form]);
-
-  // Drawer
+  // Открыть дравер
   const openDrawer = (clientId: number) => {
     setSelectedClientId(clientId)
     setIsDrawerOpen(true);
   };
 
-  const updateClient = (values: { [key: string]: any }): ClientType => {
-    const client: ClientType = {
+  // Обновить клиента
+  const updateClient = (values: { [key: string]: any }): TypeClient => {
+    const client: TypeClient = {
       id: selectedClientId,
       title: values.title,
     };
@@ -67,6 +61,12 @@ export const PageClient: React.FC = () => {
     setUpdateTable(!updateTable)
     return client
   };
+
+  useEffect(() => {
+    if (client) {
+      form.setFieldsValue(client);
+    }
+  }, [client, form]);
 
   return (
     <div style={{display: 'grid'}}>

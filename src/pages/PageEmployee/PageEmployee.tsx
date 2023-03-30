@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewEmployee, putChangeEmployee} from "../../services";
-import {EmployeeType} from "../../types/_index";
+import {TypeEmployee} from "../../types";
 import {TableEmployee} from "./components/TableEmployee";
 import {AddModalEmployee} from "./components/AddModalEmployee";
 import {EditDrawerEmployee} from "./components/EditDrawerEmployee";
@@ -22,21 +22,22 @@ export const PageEmployee: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Сотрудники в таблице, обновить сотрудников
+  // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать нового сотрудника
-  const [employee] = useState<EmployeeType | null>(null);
+  // Сотрудник
+  const [employee] = useState<TypeEmployee | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть сотрудника по id
+  // Выбран сотрудник по id
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
-  const addEmployee = (values: { [key: string]: any }): EmployeeType => {
-    const employee: EmployeeType = {
+  // Добавить нового сотрудника
+  const addEmployee = (values: { [key: string]: any }): TypeEmployee => {
+    const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
@@ -49,20 +50,15 @@ export const PageEmployee: React.FC = () => {
     return employee;
   };
 
-  useEffect(() => {
-    if (employee) {
-      form.setFieldsValue(employee);
-    }
-  }, [employee, form]);
-
-  // Drawer
+  // Открыть дравер
   const openDrawer = (employeeId: number) => {
     setSelectedEmployeeId(employeeId)
     setIsDrawerOpen(true);
   };
 
-  const updateEmployee = (values: { [key: string]: any }): EmployeeType => {
-    const employee: EmployeeType = {
+  // Обновить сотрудника
+  const updateEmployee = (values: { [key: string]: any }): TypeEmployee => {
+    const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
@@ -75,6 +71,12 @@ export const PageEmployee: React.FC = () => {
     setUpdateTable(!updateTable)
     return employee
   };
+
+  useEffect(() => {
+    if (employee) {
+      form.setFieldsValue(employee);
+    }
+  }, [employee, form]);
 
   return (
     <div style={{display: 'grid'}}>

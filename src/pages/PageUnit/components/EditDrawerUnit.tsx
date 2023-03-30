@@ -1,14 +1,14 @@
 import {Button, Drawer, Form, Input, Space} from "antd";
 import React, {useEffect} from "react";
-import {EditDrawerProps, UnitType} from "../../../types/_index";
+import {EditDrawerProps, TypeUnit} from "../../../types";
 import {getUnitById} from "../../../services";
 
-export const EditDrawerUnit: React.FC<EditDrawerProps<UnitType>> = ({
-                                                            isOpen,
-                                                            selectedItemId,
-                                                            closeDrawer,
-                                                            updateItem,
-                                                          }) => {
+export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
+                                                                      isOpen,
+                                                                      selectedItemId,
+                                                                      closeDrawer,
+                                                                      updateItem,
+                                                                    }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {

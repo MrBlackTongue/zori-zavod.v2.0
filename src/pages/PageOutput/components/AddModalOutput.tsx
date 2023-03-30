@@ -1,23 +1,25 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, OutputType, ProductType} from "../../../types/_index";
+import {AddModalProps, TypeOutput, TypeProduct} from "../../../types";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllProducts} from "../../../services";
 
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalOutput: React.FC<AddModalProps<OutputType>> = ({
+export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
                                                                       isOpen,
                                                                       addItem,
                                                                       onCancel,
                                                                     }) => {
   const [form] = Form.useForm();
 
-  const [products, setProducts] = useState<ProductType[]>();
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+  // Все товары, выбранный товар
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
-  const onChangeProduct = (values: string, option: any): ProductType => {
-    const product: ProductType = {
+  // Изменить выбранный товар
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };
@@ -30,7 +32,7 @@ export const AddModalOutput: React.FC<AddModalProps<OutputType>> = ({
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -87,8 +89,8 @@ export const AddModalOutput: React.FC<AddModalProps<OutputType>> = ({
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>

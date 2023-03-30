@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import '../../App.css'
 import {postNewUnit, putChangeUnit} from "../../services";
-import {UnitType} from "../../types/_index";
+import {TypeUnit} from "../../types";
 import {TableUnit} from "./components/TableUnit";
 import {AddModalUnit} from "./components/AddModalUnit";
 import {EditDrawerUnit} from "./components/EditDrawerUnit";
@@ -22,21 +22,22 @@ export const PageUnit: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Ед измерения в таблице, обновить таблицу
+  // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новую единицу измерения
-  const [unit] = useState<UnitType | null>(null);
+  // Единица измерения
+  const [unit] = useState<TypeUnit | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть ед измерения по id
+  // Выбрана единица измерения по id
   const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
-  const addUnit = (values: { [key: string]: any }): UnitType => {
-    const unit: UnitType = {
+  // Добавить новую единицу измерения
+  const addUnit = (values: { [key: string]: any }): TypeUnit => {
+    const unit: TypeUnit = {
       name: values.name,
     };
     setIsModalOpen(false)
@@ -45,20 +46,15 @@ export const PageUnit: React.FC = () => {
     return unit;
   };
 
-  useEffect(() => {
-    if (unit) {
-      form.setFieldsValue(unit);
-    }
-  }, [unit, form]);
-
-  // Drawer
+  // Открыть дравер
   const openDrawer = (unitId: number) => {
     setSelectedUnitId(unitId)
     setIsDrawerOpen(true);
   };
 
-  const updateUnit = (values: { [key: string]: any }): UnitType => {
-    const unit: UnitType = {
+  // Обновить единицу измерения
+  const updateUnit = (values: { [key: string]: any }): TypeUnit => {
+    const unit: TypeUnit = {
       name: values.name,
       id: selectedUnitId,
     };
@@ -67,6 +63,12 @@ export const PageUnit: React.FC = () => {
     setUpdateTable(!updateTable)
     return unit
   };
+
+  useEffect(() => {
+    if (unit) {
+      form.setFieldsValue(unit);
+    }
+  }, [unit, form]);
 
   return (
     <div style={{display: 'grid'}}>

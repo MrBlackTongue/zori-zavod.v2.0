@@ -1,28 +1,26 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
-import {EditDrawerProps, ProductType, ProductBatchType} from "../../../types/_index";
+import {EditDrawerProps, TypeProduct, TypeProductBatch} from "../../../types";
 import {getAllProducts, getProductBatchById} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>> = ({
-                                                                            isOpen,
-                                                                            selectedItemId,
-                                                                            closeDrawer,
-                                                                            updateItem,
-                                                                          }) => {
+export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>> = ({
+                                                                                      isOpen,
+                                                                                      selectedItemId,
+                                                                                      closeDrawer,
+                                                                                      updateItem,
+                                                                                    }) => {
   const [form] = Form.useForm();
 
-  // Все товары
-  const [products, setProducts] = useState<ProductType[]>();
+  // Все товары, выбранный товар, товар
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
+  const [product, setProduct] = useState<TypeProduct>();
 
-  // Выбранный товар
-  const [selectedProduct, setSelectedProduct] = useState<ProductType>();
-  const [product, setProduct] = useState<ProductType>();
-
-  // Функция для изменения выбранного товара
-  const onChangeProduct = (values: string, option: any): ProductType => {
-    const product: ProductType = {
+  // Изменить выбранный товар
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
+    const product: TypeProduct = {
       id: option.id,
       title: values,
     };
@@ -33,7 +31,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>>
     return product
   };
 
-  // Функция для получения данных о партии товаров по id
+  // Функция для получения данных о партии товаров по id и обновления формы
   const handleGetProductBatchById = useCallback(() => {
     if (selectedItemId) {
       getProductBatchById(selectedItemId).then((productBatch) => {
@@ -49,7 +47,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>>
 
   useEffect(() => {
     getAllProducts().then((products) => {
-      setProducts(products);
+      setAllProduct(products);
     });
   }, []);
 
@@ -105,8 +103,8 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<ProductBatchType>>
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >
-              {products && products.length > 0 ?
-                products.map(product => (
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.title}>
                     {product.title}
                   </Option>

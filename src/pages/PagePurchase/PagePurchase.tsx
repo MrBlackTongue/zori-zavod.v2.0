@@ -3,7 +3,7 @@ import {Typography, Space, Button, Form, Input} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {postNewPurchase, putChangePurchase} from '../../services';
-import {PurchaseType} from '../../types/_index';
+import {TypePurchase} from '../../types';
 import {TablePurchase} from "./components/TablePurchase";
 import {AddModalPurchase} from "./components/AddModalPurchase";
 import {EditDrawerPurchase} from "./components/EditDrawerPurchase";
@@ -14,23 +14,25 @@ export const PagePurchase: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Закупки в таблице, обновить закупки
+  // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новую закупку.
-  const [purchase] = useState<PurchaseType | null>(null);
+  // Закупка
+  const [purchase] = useState<TypePurchase | null>(null);
 
-  // Открыть закрыть модальное окно, drawer
+  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  //  Открыть закупку по id
+  // Выбрана закупка по id
   const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
+  // Текст поиска
   const [searchText, setSearchText] = useState("");
 
-  const addPurchase = (values: { [key: string]: any }): PurchaseType => {
-    const purchase: PurchaseType = {
+  // Добавить новую закупку
+  const addPurchase = (values: { [key: string]: any }): TypePurchase => {
+    const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
       date: values['date'].format('YYYY-MM-DD'),
@@ -45,19 +47,15 @@ export const PagePurchase: React.FC = () => {
     return purchase;
   };
 
-  useEffect(() => {
-    if (purchase) {
-      form.setFieldsValue(purchase);
-    }
-  }, [purchase, form]);
-
+  // Открыть дравер
   const openDrawer = (purchaseId: number) => {
     setSelectedPurchaseId(purchaseId);
     setIsDrawerOpen(true);
   };
 
-  const updatePurchase = (values: { [key: string]: any }): PurchaseType => {
-    const purchase: PurchaseType = {
+  // Обновить закупку
+  const updatePurchase = (values: { [key: string]: any }): TypePurchase => {
+    const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
       cost: values.cost,
@@ -72,6 +70,12 @@ export const PagePurchase: React.FC = () => {
     setUpdateTable(!updateTable);
     return purchase;
   };
+
+  useEffect(() => {
+    if (purchase) {
+      form.setFieldsValue(purchase);
+    }
+  }, [purchase, form]);
 
   return (
     <div style={{display: 'grid'}}>

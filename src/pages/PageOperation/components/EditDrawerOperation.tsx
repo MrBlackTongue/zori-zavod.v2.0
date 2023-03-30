@@ -1,24 +1,26 @@
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
-import {EditDrawerProps, OperationType, UnitType} from "../../../types/_index";
+import {EditDrawerProps, TypeOperation, TypeUnit} from "../../../types";
 import {getOperationById, getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
-                                                            isOpen,
-                                                            selectedItemId,
-                                                            closeDrawer,
-                                                            updateItem,
-                                                          }) => {
+export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
+                                                                                isOpen,
+                                                                                selectedItemId,
+                                                                                closeDrawer,
+                                                                                updateItem,
+                                                                              }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<UnitType[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
-  const [unit, setUnit] = useState<UnitType>()
+  // Все единицы измерения, выбранная единица измерения, единица измерения
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
+  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
+  const [unit, setUnit] = useState<TypeUnit>()
 
-  const onChangeUnit = (values: string, option: any): UnitType => {
-    const unit: UnitType = {
+  // Изменить выбранную единицу измерения
+  const onChangeUnit = (values: string, option: any): TypeUnit => {
+    const unit: TypeUnit = {
       id: option.id,
       name: values,
     };
@@ -31,7 +33,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
 
   useEffect(() => {
     getAllUnits().then((units) => {
-      setUnits(units);
+      setAllUnit(units);
     });
   }, []);
 
@@ -50,14 +52,14 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
       title="Редактирование операции"
       width={700}
       open={isOpen}
-      onClose={()=> {
+      onClose={() => {
         setSelectedUnit(unit);
         closeDrawer()
       }}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={()=> {
+          <Button onClick={() => {
             setSelectedUnit(unit);
             closeDrawer()
           }}>Отмена</Button>
@@ -100,8 +102,8 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<OperationType>> = ({
               value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
-              {units && units.length > 0 ?
-                units.map(unit => (
+              {allUnit && allUnit.length > 0 ?
+                allUnit.map(unit => (
                   <Option id={unit.id} key={unit.id} value={unit.name}>
                     {unit.name}
                   </Option>

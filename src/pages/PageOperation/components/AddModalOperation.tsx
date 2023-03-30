@@ -1,22 +1,24 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, OperationType, UnitType} from "../../../types/_index";
+import {AddModalProps, TypeOperation, TypeUnit} from "../../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnits} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
-                                                            isOpen,
-                                                            addItem,
-                                                            onCancel,
-                                                          }) => {
+export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
+                                                                            isOpen,
+                                                                            addItem,
+                                                                            onCancel,
+                                                                          }) => {
   const [form] = Form.useForm();
 
-  const [units, setUnits] = useState<UnitType[]>();
-  const [selectedUnit, setSelectedUnit] = useState<UnitType>();
+  // Все единицы измерения, выбранная единица измерения
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
+  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
-  const onChangeUnit = (values: string, option: any): UnitType => {
-    const unit: UnitType = {
+  // Изменить выбранную единицу измерения
+  const onChangeUnit = (values: string, option: any): TypeUnit => {
+    const unit: TypeUnit = {
       id: option.id,
       name: values,
     };
@@ -29,7 +31,7 @@ export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
 
   useEffect(() => {
     getAllUnits().then((units) => {
-      setUnits(units);
+      setAllUnit(units);
     });
   }, []);
 
@@ -37,7 +39,7 @@ export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
     <Modal
       title={`Добавление новой операции`}
       open={isOpen}
-      onCancel={()=> {
+      onCancel={() => {
         setSelectedUnit(undefined);
         onCancel()
       }}
@@ -82,8 +84,8 @@ export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
               value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
-              {units && units.length > 0 ?
-                units.map(unit => (
+              {allUnit && allUnit.length > 0 ?
+                allUnit.map(unit => (
                   <Option id={unit.id} key={unit.id} value={unit.name}>
                     {unit.name}
                   </Option>
@@ -98,7 +100,6 @@ export const AddModalOperation: React.FC<AddModalProps<OperationType>> = ({
             type: 'number',
             message: 'напишите норму цифрами больше 1',
             warningOnly: true,
-            // pattern: /[1-9]/,
           }]}
         >
           <InputNumber/>

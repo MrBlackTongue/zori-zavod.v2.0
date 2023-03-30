@@ -3,7 +3,7 @@ import {Typography, Space, Button, Form,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProductBatch, putChangeProductBatch} from "../../services";
-import {ProductBatchType} from '../../types/_index';
+import {TypeProductBatch} from '../../types';
 import {TableProductBatch} from "./components/TableProductBatch";
 import {AddModalProductBatch} from "./components/AddModalProductBatch";
 import {EditDrawerProductBatch} from "./components/EditDrawerProductBatch";
@@ -14,26 +14,26 @@ export const PageProductBatch: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Партия товара в таблице, обновить таблицу
+  // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новую партию товара
-  const [productBatch] = useState<ProductBatchType | null>(null);
+  // Партия товара
+  const [productBatch] = useState<TypeProductBatch | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Открыть партию товара по id
+  // Выбрана партия товара по id
   const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
-  // Функция для добавления новой партии товара
-  const addProductBatch = (values: { [key: string]: any }): ProductBatchType => {
-    const productBatch: ProductBatchType = {
+  // Добавить новую партии товара
+  const addProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
+    const productBatch: TypeProductBatch = {
       product: {
         id: values.product,
       },
-        amount: values.amount,
+      amount: values.amount,
     };
     setIsModalOpen(false)
     postNewProductBatch(productBatch)
@@ -41,15 +41,15 @@ export const PageProductBatch: React.FC = () => {
     return productBatch;
   };
 
-  // Функция для открытия дравера и передачи id выбранной партии товара
+  // Открыть дравер
   const openDrawer = (productBatchId: number) => {
     setSelectedProductBatchId(productBatchId)
     setIsDrawerOpen(true);
   };
 
-  // Функция для обновления партии товара
-  const updateProductBatch = (values: { [key: string]: any }): ProductBatchType => {
-    const productBatch: ProductBatchType = {
+  // Обновление партии товара
+  const updateProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
+    const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,
       product: {
         id: values.product,

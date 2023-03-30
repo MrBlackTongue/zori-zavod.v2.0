@@ -2,18 +2,18 @@ import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, ProductBatchType, TableParams, UnitType} from "../../../types/_index";
+import {TableProps, TypeProductBatch, TableParams, TypeUnit} from "../../../types";
 import {getAllProductBatch, deleteProductBatchById} from "../../../services";
 
-export const TableProductBatch: React.FC<TableProps<ProductBatchType>> = ({
-                                                                         isUpdateTable,
-                                                                         openDrawer,
-                                                                       }) => {
+export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
+                                                                            isUpdateTable,
+                                                                            openDrawer,
+                                                                          }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех партий товаров
   const [loading, setLoading] = useState(false);
-  const [allProductBatch, setAllProductBatch] = useState<ProductBatchType[]>();
+  const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -24,7 +24,8 @@ export const TableProductBatch: React.FC<TableProps<ProductBatchType>> = ({
     },
   });
 
-  const columns: ColumnsType<ProductBatchType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeProductBatch> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -48,7 +49,7 @@ export const TableProductBatch: React.FC<TableProps<ProductBatchType>> = ({
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: UnitType) =>
+      render: ((unit: TypeUnit) =>
         unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
     },
     {
@@ -96,7 +97,7 @@ export const TableProductBatch: React.FC<TableProps<ProductBatchType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<ProductBatchType>,
+    sorter: SorterResult<TypeProductBatch>,
   ) => {
     setTableParams({
       pagination,
@@ -115,12 +116,12 @@ export const TableProductBatch: React.FC<TableProps<ProductBatchType>> = ({
       setLoading(false);
     });
   }
-  
+
   // Обновление таблицы партии товаров
   useEffect(() => {
     updateTable();
   }, [!isUpdateTable]);
-  
+
   return (
     <Table
       columns={columns}

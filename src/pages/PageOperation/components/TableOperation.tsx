@@ -12,21 +12,18 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {
-  getAllOperations,
-  deleteOperationById,
-} from "../../../services";
-import {TableProps, OperationType, TableParams} from "../../../types/_index";
+import {getAllOperations, deleteOperationById} from "../../../services";
+import {TableProps, TypeOperation, TableParams} from "../../../types";
 
-export const TableOperation: React.FC<TableProps<OperationType>> = ({
-                                                                  isUpdateTable,
-                                                                  openDrawer,
-                                                                }) => {
+export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
+                                                                      isUpdateTable,
+                                                                      openDrawer,
+                                                                    }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех операций
   const [loading, setLoading] = useState(false);
-  const [allOperations, setAllOperations] = useState<OperationType[]>();
+  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -37,7 +34,8 @@ export const TableOperation: React.FC<TableProps<OperationType>> = ({
     },
   });
 
-  const columns: ColumnsType<OperationType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeOperation> = [
     {
       title: 'Операция',
       dataIndex: 'title',
@@ -83,13 +81,14 @@ export const TableOperation: React.FC<TableProps<OperationType>> = ({
               title="Вы действительно хотите удалить эту операцию?"
               onConfirm={() => {
                 deleteOperationById(id).then(() => {
-                  getAllOperations().then((allOperations) => setAllOperations(allOperations))
+                  getAllOperations().then((allOperations) => setAllOperation(allOperations))
                 })
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
+                      onClick={() => {
+                      }}>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -102,21 +101,21 @@ export const TableOperation: React.FC<TableProps<OperationType>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<OperationType>,
+    sorter: SorterResult<TypeOperation>,
   ) => {
     setTableParams({
       pagination,
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperations([]);
+      setAllOperation([]);
     }
   };
 
   useEffect(() => {
     setLoading(true);
     getAllOperations().then((allOperations) => {
-      setAllOperations(allOperations);
+      setAllOperation(allOperations);
       setLoading(false);
     });
   }, [!isUpdateTable]);
@@ -124,7 +123,7 @@ export const TableOperation: React.FC<TableProps<OperationType>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allOperations}
+      dataSource={allOperation}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}
