@@ -8,3 +8,4 @@ export * from './TypeClient';
 export * from './TypePurchase';
 export * from './CommonComponentProps';
 export * from './TypeProductBatch';
+export * from './TypeStock';

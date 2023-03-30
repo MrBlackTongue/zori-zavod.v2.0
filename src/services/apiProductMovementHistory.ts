@@ -1,15 +1,15 @@
-import {ProductMovementHistoryType} from "../types/ProductMovementHistoryType";
+import {TypeProductMovementHistory} from "../types/TypeProductMovementHistory";
 import {URL, HISTORY, PRODUCT_MOVEMENT} from "./apiEndpoints";
 
 // Получить всю историю движения товаров
-export async function getAllProductMovementHistories(): Promise<ProductMovementHistoryType[]> {
+export async function getAllProductMovementHistories(): Promise<TypeProductMovementHistory[]> {
     try {
         const res = await fetch(URL + PRODUCT_MOVEMENT + HISTORY);
         if (!res.ok) {
             console.error(res.statusText);
             return Promise.reject();
         }
-        return await res.json() as ProductMovementHistoryType[];
+        return await res.json() as TypeProductMovementHistory[];
     } catch (error) {
         console.error(error);
         return Promise.reject(error);
@@ -17,7 +17,7 @@ export async function getAllProductMovementHistories(): Promise<ProductMovementH
 }
 
 // Получить всю историю движения товаров по id ячейки товара на складе
-export async function getProductMovementHistoryById(id: number): Promise<ProductMovementHistoryType | undefined> {
+export async function getProductMovementHistoryById(id: number): Promise<TypeProductMovementHistory | undefined> {
     try {
         const response = await fetch(URL + PRODUCT_MOVEMENT + HISTORY + `/${id}`);
         if (!response.ok) {

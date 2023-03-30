@@ -2,6 +2,7 @@ export interface TableProps<T> {
   isUpdateTable: boolean;
   openDrawer: (id: number) => void;
   searchText?: string | undefined;
+  filterById?: number;
 }
 
 export interface AddModalProps<T> {

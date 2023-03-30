@@ -3,17 +3,17 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import dayjs from "dayjs";
 import {getAllProductMovementHistories} from "../../../services";
-import {ProductMovementHistoryType} from "../../../types/ProductMovementHistoryType";
-import {ProductType, TableParams, TableProps} from "../../../types/_index";
+import {TypeProductMovementHistory} from "../../../types/TypeProductMovementHistory";
+import {TypeProduct, TableParams, TableProps} from "../../../types";
 
-export const TableProductMovementHistory: React.FC<TableProps<ProductMovementHistoryType>> = ({
+export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovementHistory>> = ({
                                                                                                 isUpdateTable,
                                                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех закупок
   const [loading, setLoading] = useState(false);
-  const [allProductMovementHistories, setAllProductMovementHistories] = useState<ProductMovementHistoryType[]>();
+  const [allProductMovementHistories, setAllProductMovementHistories] = useState<TypeProductMovementHistory[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -24,7 +24,7 @@ export const TableProductMovementHistory: React.FC<TableProps<ProductMovementHis
     },
   });
 
-  const columns: ColumnsType<ProductMovementHistoryType> = [
+  const columns: ColumnsType<TypeProductMovementHistory> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -69,7 +69,7 @@ export const TableProductMovementHistory: React.FC<TableProps<ProductMovementHis
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<ProductType>,
+    sorter: SorterResult<TypeProduct>,
   ) => {
     setTableParams({
       pagination,

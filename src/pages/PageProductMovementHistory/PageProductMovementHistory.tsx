@@ -3,10 +3,10 @@ import {Typography, Space, Button, Input, Select} from 'antd';
 import {SearchOutlined, SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
-import {StockType} from "../../types/StockType";
+import {TypeStock} from "../../types/TypeStock";
 import {getAllProducts, PRODUCT} from "../../services";
-import {ProductType} from "../../types/ProductType";
-import {getAllStocks} from "../../services/apiStock";
+import {TypeProduct} from "../../types/TypeProduct";
+import {getAllStocks, getStockById} from "../../services/apiStock";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -14,8 +14,8 @@ const {Option} = Select;
 export const PageProductMovementHistory: React.FC = () => {
 
   // Все остатки, выбрать остаток
-  const [stocks, setStocks] = useState<StockType[]>();
-  const [selectedStock, setSelectedStock] = useState<StockType>();
+  const [stocks, setStocks] = useState<TypeStock[]>();
+  const [selectedStock, setSelectedStock] = useState<TypeStock>();
 
   // Товары в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
@@ -23,11 +23,16 @@ export const PageProductMovementHistory: React.FC = () => {
     //setSearchText(value);
   }
 
+  // Изменить выбранную единицу измерения
+    const onChangeStock = (values: string, option: any): TypeStock => {
+      setSelectedStock(option.id)
+      return option.id;
+    };
+
   useEffect(() => {
     getAllStocks().then((stocks) => {
       setStocks(stocks);
     });
-    console.log('stocks', stocks);
   }, []);
 
   return (
@@ -39,6 +44,7 @@ export const PageProductMovementHistory: React.FC = () => {
             <Select
               style={{'width': '360px'}}
               value={selectedStock ? selectedStock?.product?.title : undefined}
+              onChange={onChangeStock}
             >
               {stocks && stocks.length > 0 ?
                 stocks.map(stock => (
