@@ -17,7 +17,7 @@ export async function getAllOperationAccounting(): Promise<TypeOperationAccounti
   }
 }
 
-// Получить данные по учетной операции по id
+// Получить данные учетной операции по id
 export async function getOperationAccountingById(id: number): Promise<TypeOperationAccounting | undefined> {
   try {
     const response = await fetch(URL + OPERATION_ACCOUNTING + `/${id}`);

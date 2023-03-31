@@ -15,28 +15,24 @@ export const PageOperationAccounting: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Обновление таблицы
+  // Обновление таблицы, учетная операция, выбрана учетная операция по id
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Товар
   const [operationAccounting] = useState<TypeOperationAccounting | null>(null);
+  const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Выбран товар по id
-  const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
-
   // Текст поиска, дата
   const [searchText, setSearchText] = useState("");
   const [date, setDate] = useState<any>();
 
-  // Все единицы измерения, выбранная единица измерения
+  // Все операции, выбранная операция
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
 
-  // Добавить новый товар
+  // // Добавить новую учетную операцию
   // const addOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
   //   const operationAccounting: TypeOperationAccounting = {
   //     title: values.title,
@@ -61,13 +57,13 @@ export const PageOperationAccounting: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Изменить выбранную единицу измерения
+  // Изменить выбранную операцию
   const onChangeOperation = (values: string, option: any): TypeOperation => {
     setSelectedOperation(option.id)
     return option.id
   };
 
-  // Обновить товар
+  // Обновить учетную операцию
   // const updateOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
   //   const operationAccounting: TypeOperationAccounting = {
   //     title: values.title,
