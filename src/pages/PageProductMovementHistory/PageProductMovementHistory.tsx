@@ -23,7 +23,7 @@ export const PageProductMovementHistory: React.FC = () => {
     //setSearchText(value);
   }
 
-  // Изменить выбранную единицу измерения
+  // Изменить выбраный остаток
     const onChangeStock = (values: string, option: any): TypeStock => {
       setSelectedStock(option.id)
       return option.id;
@@ -63,8 +63,10 @@ export const PageProductMovementHistory: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <TableProductMovementHistory        openDrawer={() => {}}
+      <TableProductMovementHistory
+        openDrawer={() => {}}
         isUpdateTable={updateTable}
+        filterById={selectedStock?.id}
       />
     </div>
   );
