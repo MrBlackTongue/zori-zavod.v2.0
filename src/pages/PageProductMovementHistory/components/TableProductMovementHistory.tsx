@@ -2,18 +2,22 @@ import React, {useState, useEffect} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import dayjs from "dayjs";
-import {getAllProductMovementHistories} from "../../../services";
+import {getAllProductMovementHistory, getProductMovementHistoryById} from "../../../services";
 import {TypeProductMovementHistory} from "../../../types/TypeProductMovementHistory";
 import {TypeProduct, TableParams, TableProps} from "../../../types";
 
 export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovementHistory>> = ({
                                                                                                 isUpdateTable,
+                                                                                                filterById,
                                                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех закупок
   const [loading, setLoading] = useState(false);
-  const [allProductMovementHistories, setAllProductMovementHistories] = useState<TypeProductMovementHistory[]>();
+  const [allProductMovementHistory, setAllProductMovementHistory] = useState<TypeProductMovementHistory[]>();
+
+  //const [productMovementHistoryById, setProductMovementHistoryById] = useState<TypeProductMovementHistory[]>();
+
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -76,15 +80,27 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductMovementHistories([]);
+      setAllProductMovementHistory([]);
     }
   };
+
+  // Функция для поиска по таблице истории движения товаров
+  const filterTable = () => {
+    if (filterById) {
+      setLoading(true);
+      getProductMovementHistoryById(filterById).then((allProductMovementHistory) => {
+        setAllProductMovementHistory(allProductMovementHistory);
+        console.log('filterById', filterById);
+        setLoading(false);
+      });
+    }
+  }
 
   // Функция для обновления таблицы товаров
   const updateTable = () => {
     setLoading(true);
-    getAllProductMovementHistories().then((allProductMovementHistories) => {
-      setAllProductMovementHistories(allProductMovementHistories);
+    getAllProductMovementHistory().then((allProductMovementHistory) => {
+      setAllProductMovementHistory(allProductMovementHistory);
       setLoading(false);
     });
   }
@@ -94,10 +110,18 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
     updateTable();
   }, [!isUpdateTable]);
 
+  useEffect(() => {
+    if (filterById) {
+      filterTable();
+    } else {
+      updateTable();
+    }
+  }, [filterById]);
+
   return (
     <Table
       columns={columns}
-      dataSource={allProductMovementHistories}
+      dataSource={allProductMovementHistory}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}

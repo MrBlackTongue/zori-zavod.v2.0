@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Typography, Space, Button, Input, Select} from 'antd';
-import {SearchOutlined, SyncOutlined} from '@ant-design/icons';
+import {Typography, Space, Button, Select} from 'antd';
+import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
-import {TypeStock} from "../../types/TypeStock";
-import {getAllProducts, PRODUCT} from "../../services";
-import {TypeProduct} from "../../types/TypeProduct";
-import {getAllStocks, getStockById} from "../../services/apiStock";
+import {TypeStock} from "../../types";
+import {getAllStocks} from "../../services";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -15,17 +13,14 @@ export const PageProductMovementHistory: React.FC = () => {
 
   // Все остатки, выбрать остаток
   const [stocks, setStocks] = useState<TypeStock[]>();
-  const [selectedStock, setSelectedStock] = useState<TypeStock>();
+  const [selectedStockById, setSelectedStockById] = useState<number>();
 
   // Товары в таблице, обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
-  const searchTable = (value: string) => {
-    //setSearchText(value);
-  }
 
   // Изменить выбраный остаток
     const onChangeStock = (values: string, option: any): TypeStock => {
-      setSelectedStock(option.id)
+      setSelectedStockById(option.id)
       return option.id;
     };
 
@@ -42,8 +37,8 @@ export const PageProductMovementHistory: React.FC = () => {
         <Space>
           <div>
             <Select
+              allowClear
               style={{'width': '360px'}}
-              value={selectedStock ? selectedStock?.product?.title : undefined}
               onChange={onChangeStock}
             >
               {stocks && stocks.length > 0 ?
@@ -66,7 +61,7 @@ export const PageProductMovementHistory: React.FC = () => {
       <TableProductMovementHistory
         openDrawer={() => {}}
         isUpdateTable={updateTable}
-        filterById={selectedStock?.id}
+        filterById={selectedStockById}
       />
     </div>
   );
