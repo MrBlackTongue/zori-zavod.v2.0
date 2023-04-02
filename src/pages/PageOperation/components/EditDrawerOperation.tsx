@@ -1,7 +1,7 @@
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
 import {EditDrawerProps, TypeOperation, TypeUnit} from "../../../types";
-import {getOperationById, getAllUnits} from "../../../services";
+import {getOperationById, getAllUnit} from "../../../services";
 
 const {Option} = Select;
 
@@ -32,7 +32,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   };
 
   useEffect(() => {
-    getAllUnits().then((units) => {
+    getAllUnit().then((units) => {
       setAllUnit(units);
     });
   }, []);
