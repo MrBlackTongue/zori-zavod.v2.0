@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeProduct, TypeUnit} from "../../../types";
 import {Form, Input, Modal, Select} from "antd";
-import {getAllUnits, getAllProductGroups} from "../../../services";
+import {getAllUnit, getAllProductGroup} from "../../../services";
 
 const {Option} = Select;
 
@@ -47,14 +47,14 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeProduct>> =
   };
 
   useEffect(() => {
-    getAllUnits().then((units) => {
-      setAllUnit(units);
+    getAllUnit().then((allUnit) => {
+      setAllUnit(allUnit);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductGroups().then((productGroups) => {
-      setAllProductGroup(productGroups);
+    getAllProductGroup().then((allProductGroup) => {
+      setAllProductGroup(allProductGroup);
     });
   }, []);
 

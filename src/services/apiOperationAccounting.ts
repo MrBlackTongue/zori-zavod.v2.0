@@ -95,3 +95,30 @@ export function putChangeOperationAccounting(data: TypeOperationAccounting) {
     console.error(error);
   }
 }
+
+// Фильтр по таблице
+export function postFilterByTable(data: { date?: string; operationId?: number }) {
+  try {
+    const config = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    };
+    return fetch(URL + OPERATION_ACCOUNTING + FILTER, config)
+      .then((response) => {
+        if (response.ok) {
+          return response.json().then((data) => Promise.resolve(data));
+        } else {
+          console.error(response.statusText);
+          return Promise.reject(response.statusText);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return Promise.reject(error);
+      });
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}

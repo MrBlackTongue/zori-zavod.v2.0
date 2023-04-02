@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form, Input, Select, DatePicker,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {getAllOperations, getAllUnits, postNewOperationAccounting, putChangeOperationAccounting} from "../../services";
-import {TypeOperation, TypeOperationAccounting, TypeUnit} from "../../types";
+import {getAllOperation, getAllUnit, postNewOperationAccounting, putChangeOperationAccounting} from "../../services";
+import {TableProps, TypeOperation, TypeOperationAccounting, TypeUnit} from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
 import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
 import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
+import dayjs from "dayjs";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -30,7 +31,7 @@ export const PageOperationAccounting: React.FC = () => {
 
   // Все операции, выбранная операция
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
-  const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
+  const [selectedOperationById, setSelectedOperationById] = useState<number>();
 
   // // Добавить новую учетную операцию
   // const addOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
@@ -59,7 +60,8 @@ export const PageOperationAccounting: React.FC = () => {
 
   // Изменить выбранную операцию
   const onChangeOperation = (values: string, option: any): TypeOperation => {
-    setSelectedOperation(option.id)
+    setSelectedOperationById(option.id)
+    console.log('selectedOperationById', selectedOperationById)
     return option.id
   };
 
@@ -84,7 +86,7 @@ export const PageOperationAccounting: React.FC = () => {
   // };
 
   useEffect(() => {
-    getAllOperations().then((allOperation) => {
+    getAllOperation().then((allOperation) => {
       setAllOperation(allOperation);
     });
   }, []);
@@ -104,13 +106,13 @@ export const PageOperationAccounting: React.FC = () => {
             style={{width: '150px'}}
             format='DD.MM.YYYY'
             onChange={(value) => {
-              setDate(value);
+              setDate(dayjs(value).format('YYYY-MM-DD'));
             }}
           />
           <Select
             allowClear
             placeholder='Операция'
-            value={selectedOperation ? selectedOperation.title : undefined}
+            // value={selectedOperationById ? selectedOperationById.title : undefined}
             onChange={onChangeOperation}
             style={{'width': '300px'}}
           >
@@ -143,6 +145,10 @@ export const PageOperationAccounting: React.FC = () => {
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
         searchText={searchText}
+        filterByTable={{
+          date: date,
+          operationId: selectedOperationById,
+        }}
       />
       {/*<AddModalOperationAccounting*/}
       {/*  isOpen={isModalOpen}*/}

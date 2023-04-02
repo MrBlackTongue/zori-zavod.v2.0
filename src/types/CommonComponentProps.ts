@@ -2,6 +2,10 @@ export interface TableProps<T> {
   isUpdateTable: boolean;
   openDrawer: (id: number) => void;
   searchText?: string | undefined;
+  filterByTable?: {
+    date?: string,
+    operationId?: number,
+  }
 }
 
 export interface AddModalProps<T> {
