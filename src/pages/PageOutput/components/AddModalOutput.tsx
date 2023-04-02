@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeOutput, TypeProduct} from "../../../types";
 import {Form, Modal, DatePicker, Select} from "antd";
-import {getAllProducts} from "../../../services";
+import {getAllProduct} from "../../../services";
 
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
@@ -31,7 +31,7 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
   };
 
   useEffect(() => {
-    getAllProducts().then((products) => {
+    getAllProduct().then((products) => {
       setAllProduct(products);
     });
   }, []);

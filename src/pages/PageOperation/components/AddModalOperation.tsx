@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeOperation, TypeUnit} from "../../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
-import {getAllUnits} from "../../../services";
+import {getAllUnit} from "../../../services";
 
 const {Option} = Select;
 
@@ -30,7 +30,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
   };
 
   useEffect(() => {
-    getAllUnits().then((units) => {
+    getAllUnit().then((units) => {
       setAllUnit(units);
     });
   }, []);

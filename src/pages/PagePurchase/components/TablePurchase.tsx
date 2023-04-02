@@ -3,7 +3,7 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import {TableProps, TypePurchase, TableParams, TypeUnit} from "../../../types";
-import {deletePurchaseById, getAllPurchases, getPurchaseByTitle} from "../../../services";
+import {deletePurchaseById, getAllPurchase, getPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
 
 export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
@@ -128,7 +128,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
               title="Вы действительно хотите удалить эту закупку?"
               onConfirm={() => {
                 deletePurchaseById(id).then(() => {
-                  getAllPurchases().then((allPurchases) => setAllPurchase(allPurchases))
+                  getAllPurchase().then((allPurchases) => setAllPurchase(allPurchases))
                 })
               }}
               okText="Да"
@@ -162,7 +162,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
   // Функция для обновления таблицы закупок
   const updateTable = () => {
     setLoading(true);
-    getAllPurchases().then((allPurchases) => {
+    getAllPurchase().then((allPurchases) => {
       setAllPurchase(allPurchases);
       setLoading(false);
     });

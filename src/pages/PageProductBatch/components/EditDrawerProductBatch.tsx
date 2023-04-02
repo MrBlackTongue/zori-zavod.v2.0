@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
 import {EditDrawerProps, TypeProduct, TypeProductBatch} from "../../../types";
-import {getAllProducts, getProductBatchById} from "../../../services";
+import {getAllProduct, getProductBatchById} from "../../../services";
 
 const {Option} = Select;
 
@@ -46,7 +46,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
   }, [selectedItemId]);
 
   useEffect(() => {
-    getAllProducts().then((products) => {
+    getAllProduct().then((products) => {
       setAllProduct(products);
     });
   }, []);

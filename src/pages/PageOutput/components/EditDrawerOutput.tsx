@@ -1,7 +1,7 @@
 import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
 import {EditDrawerProps, TypeOutput, TypeProduct} from "../../../types";
-import {getOutputById, getAllProducts} from "../../../services";
+import {getOutputById, getAllProduct} from "../../../services";
 import dayjs from 'dayjs';
 
 const {Option} = Select;
@@ -49,7 +49,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
   }, [selectedItemId]);
 
   useEffect(() => {
-    getAllProducts().then((products) => {
+    getAllProduct().then((products) => {
       setAllProduct(products);
     });
   }, []);

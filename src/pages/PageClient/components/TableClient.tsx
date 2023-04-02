@@ -12,7 +12,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {getAllClients, deleteClientById} from "../../../services";
+import {getAllClient, deleteClientById} from "../../../services";
 import {TableProps, TypeClient, TableParams} from "../../../types";
 
 export const TableClient: React.FC<TableProps<TypeClient>> = ({
@@ -68,7 +68,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
               title="Вы действительно хотите удалить этого клиента?"
               onConfirm={() => {
                 deleteClientById(id).then(() => {
-                  getAllClients().then((allClients) => setAllClient(allClients))
+                  getAllClient().then((allClients) => setAllClient(allClients))
                 })
               }}
               okText="Да"
@@ -101,7 +101,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
 
   useEffect(() => {
     setLoading(true);
-    getAllClients().then((allClients) => {
+    getAllClient().then((allClients) => {
       setAllClient(allClients);
       setLoading(false);
     });
