@@ -3,7 +3,7 @@ import {message} from "antd";
 import {URL, PRODUCT, PRODUCT_GROUP, TITLE} from "./apiEndpoints";
 
 // Получить список всех товаров
-export async function getAllProducts(): Promise<TypeProduct[]> {
+export async function getAllProduct(): Promise<TypeProduct[]> {
   try {
     const res = await fetch(URL + PRODUCT);
     if (!res.ok) {
@@ -97,7 +97,7 @@ export function putChangeProduct(data: TypeProduct) {
 }
 
 // Получить список всех товарных групп
-export async function getAllProductGroups(): Promise<TypeProduct[]> {
+export async function getAllProductGroup(): Promise<TypeProduct[]> {
   try {
     const res = await fetch(URL + PRODUCT + PRODUCT_GROUP);
     if (!res.ok) {
@@ -191,7 +191,7 @@ export function putChangeProductGroup(data: TypeProduct) {
 }
 
 // Поиск по товару
-export async function getProductsByTitle(title: string): Promise<TypeProduct[]> {
+export async function getProductByTitle(title: string): Promise<TypeProduct[]> {
   try {
     const response = await fetch(URL + PRODUCT + TITLE + `/${title}`);
     if (!response.ok) {

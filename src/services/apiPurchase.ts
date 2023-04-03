@@ -3,7 +3,7 @@ import {message} from "antd";
 import {URL, PRODUCT, PURCHASE} from "./apiEndpoints";
 
 // Получить все закупки
-export async function getAllPurchases(): Promise<TypePurchase[]> {
+export async function getAllPurchase(): Promise<TypePurchase[]> {
   try {
     const res = await fetch(URL + PURCHASE);
     if (!res.ok) {

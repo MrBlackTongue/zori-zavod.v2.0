@@ -12,7 +12,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {getAllOutputs, deleteOutputById} from "../../../services";
+import {getAllOutput, deleteOutputById} from "../../../services";
 import {TableProps, TypeOutput, TableParams} from "../../../types";
 import dayjs from 'dayjs';
 
@@ -82,7 +82,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
               title="Вы действительно хотите удалить этот выпуск продукции?"
               onConfirm={() => {
                 deleteOutputById(id).then(() => {
-                  getAllOutputs().then((allOutputs) => setAllOutput(allOutputs))
+                  getAllOutput().then((allOutputs) => setAllOutput(allOutputs))
                 })
               }}
               okText="Да"
@@ -115,7 +115,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
 
   useEffect(() => {
     setLoading(true);
-    getAllOutputs().then((allOutputs) => {
+    getAllOutput().then((allOutputs) => {
       setAllOutput(allOutputs);
       setLoading(false);
     });

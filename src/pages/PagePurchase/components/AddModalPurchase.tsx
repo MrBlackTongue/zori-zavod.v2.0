@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypePurchase, TypeProduct} from "../../../types";
 import {Form, Modal, Select, InputNumber, DatePicker, Checkbox} from "antd";
-import {getAllProducts} from "../../../services";
+import {getAllProduct} from "../../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
 const {Option} = Select;
@@ -52,7 +52,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
   };
 
   useEffect(() => {
-    getAllProducts().then((products) => {
+    getAllProduct().then((products) => {
       setAllProduct(products);
     });
   }, []);

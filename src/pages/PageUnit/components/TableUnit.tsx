@@ -12,7 +12,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {getAllUnits, deleteUnitById} from "../../../services";
+import {getAllUnit, deleteUnitById} from "../../../services";
 import {TableProps, TypeUnit, TableParams} from "../../../types";
 
 export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
@@ -68,7 +68,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
               title="Вы действительно хотите удалить эту единицу измерения?"
               onConfirm={() => {
                 deleteUnitById(id).then(() => {
-                  getAllUnits().then((allUnits) => setAllUnit(allUnits))
+                  getAllUnit().then((allUnits) => setAllUnit(allUnits))
                 })
               }}
               okText="Да"
@@ -101,7 +101,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
 
   useEffect(() => {
     setLoading(true);
-    getAllUnits().then((allUnits) => {
+    getAllUnit().then((allUnits) => {
       setAllUnit(allUnits);
       setLoading(false);
     });

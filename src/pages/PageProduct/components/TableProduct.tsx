@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
-import {getAllProducts, deleteProductById, getProductsByTitle, getAllProductGroups,} from "../../../services";
+import {getAllProduct, deleteProductById, getProductByTitle, getAllProductGroup,} from "../../../services";
 import {TableProps, TypeProduct, TableParams} from "../../../types";
 
 export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
@@ -83,7 +83,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
               title="Вы действительно хотите удалить этот товар?"
               onConfirm={() => {
                 deleteProductById(id).then(() => {
-                  getAllProducts().then((allProducts) => setAllProduct(allProducts))
+                  getAllProduct().then((allProducts) => setAllProduct(allProducts))
                 })
               }}
               okText="Да"
@@ -117,7 +117,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
   // Функция для обновления таблицы товаров
   const updateTable = () => {
     setLoading(true);
-    getAllProducts().then((allProducts) => {
+    getAllProduct().then((allProducts) => {
       setAllProduct(allProducts);
       setLoading(false);
     });
@@ -126,14 +126,14 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
   // Функция для поиска по таблице товаров
   const searchTable = () => {
     setLoading(true);
-    getProductsByTitle(searchText ?? '').then((allProducts) => {
+    getProductByTitle(searchText ?? '').then((allProducts) => {
       setAllProduct(allProducts);
       setLoading(false);
     });
   }
 
   useEffect(() => {
-    getAllProductGroups().then((productGroups) => {
+    getAllProductGroup().then((productGroups) => {
       setAllProductGroup(productGroups);
     });
   }, []);

@@ -12,7 +12,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {getAllOperations, deleteOperationById} from "../../../services";
+import {getAllOperation, deleteOperationById} from "../../../services";
 import {TableProps, TypeOperation, TableParams} from "../../../types";
 
 export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
@@ -81,7 +81,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
               title="Вы действительно хотите удалить эту операцию?"
               onConfirm={() => {
                 deleteOperationById(id).then(() => {
-                  getAllOperations().then((allOperations) => setAllOperation(allOperations))
+                  getAllOperation().then((allOperations) => setAllOperation(allOperations))
                 })
               }}
               okText="Да"
@@ -114,7 +114,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
 
   useEffect(() => {
     setLoading(true);
-    getAllOperations().then((allOperations) => {
+    getAllOperation().then((allOperations) => {
       setAllOperation(allOperations);
       setLoading(false);
     });
