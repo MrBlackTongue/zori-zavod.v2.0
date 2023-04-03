@@ -30,3 +30,17 @@ export async function getStockById(id: number): Promise<TypeStock | undefined> {
     return Promise.reject(error);
   }
 }
+
+export async function getStockByTitle(title: string): Promise<TypeStock[]> {
+  try {
+    const response = await fetch(URL + STOCK + `/${title}`);
+    if (!response.ok) {
+      console.error(response.statusText);
+      return Promise.reject();
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}

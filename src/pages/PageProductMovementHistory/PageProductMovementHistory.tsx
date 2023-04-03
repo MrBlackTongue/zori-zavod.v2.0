@@ -19,10 +19,16 @@ export const PageProductMovementHistory: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Изменить выбраный остаток
-    const onChangeStock = (values: string, option: any): TypeStock => {
-      setSelectedStockById(option.id)
-      return option.id;
-    };
+  const onChangeStock = (values: string, option: any): TypeStock => {
+    setSelectedStockById(option.id)
+    return option.id;
+  };
+
+  // Обновить таблицу при очистке выбора
+    const onClearStock = (): void => {
+      setSelectedStockById(undefined);
+      setUpdateTable(!updateTable);
+    }
 
   useEffect(() => {
     getAllStocks().then((stocks) => {
@@ -37,9 +43,12 @@ export const PageProductMovementHistory: React.FC = () => {
         <Space>
           <div>
             <Select
+              showSearch
               allowClear
+              placeholder="Поиск по остаткам"
               style={{'width': '360px'}}
               onChange={onChangeStock}
+              onClear={onClearStock}
             >
               {stocks && stocks.length > 0 ?
                 stocks.map(stock => (
@@ -59,7 +68,8 @@ export const PageProductMovementHistory: React.FC = () => {
         </Space>
       </div>
       <TableProductMovementHistory
-        openDrawer={() => {}}
+        openDrawer={() => {
+        }}
         isUpdateTable={updateTable}
         filterById={selectedStockById}
       />
