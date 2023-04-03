@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeProduct, TypeProductBatch} from "../../../types";
 import {Form, InputNumber, Modal, Select} from "antd";
-import {getAllProducts} from "../../../services";
+import {getAllProduct} from "../../../services";
 
 const {Option} = Select;
 
@@ -44,7 +44,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
   };
 
   useEffect(() => {
-    getAllProducts().then((products) => {
+    getAllProduct().then((products) => {
       setAllProduct(products);
     });
   }, []);

@@ -3,7 +3,7 @@ import {message} from "antd";
 import {URL, UNIT} from "./apiEndpoints";
 
 // Получить список всех единиц измерения
-export async function getAllUnits(): Promise<TypeUnit[]> {
+export async function getAllUnit(): Promise<TypeUnit[]> {
   try {
     const response = await fetch(URL + UNIT);
     if (!response.ok) {

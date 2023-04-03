@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, InputNumber, DatePicker, Checkbox, Space, Button} from "antd";
 import {EditDrawerProps, TypeProduct, TypePurchase} from "../../../types";
-import {getAllProducts, getPurchaseById} from "../../../services";
+import {getAllProduct, getPurchaseById} from "../../../services";
 import dayjs, {Dayjs} from 'dayjs';
 import {CheckboxChangeEvent} from "antd/es/checkbox";
 
@@ -67,7 +67,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
   }, [selectedItemId]);
 
   useEffect(() => {
-    getAllProducts().then((products) => {
+    getAllProduct().then((products) => {
       setAllProduct(products);
     });
   }, []);

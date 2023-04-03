@@ -12,7 +12,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
-import {getAllEmployees, deleteEmployeeById} from "../../../services";
+import {getAllEmployee, deleteEmployeeById} from "../../../services";
 import {TableProps, TypeEmployee, TableParams} from "../../../types";
 
 export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
@@ -95,7 +95,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
               title="Вы действительно хотите удалить этого сотрудника?"
               onConfirm={() => {
                 deleteEmployeeById(id).then(() => {
-                  getAllEmployees().then((allEmployees) => setAllEmployee(allEmployees))
+                  getAllEmployee().then((allEmployees) => setAllEmployee(allEmployees))
                 })
               }}
               okText="Да"
@@ -128,7 +128,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
 
   useEffect(() => {
     setLoading(true);
-    getAllEmployees().then((allEmployees) => {
+    getAllEmployee().then((allEmployees) => {
       setAllEmployee(allEmployees);
       setLoading(false);
     });

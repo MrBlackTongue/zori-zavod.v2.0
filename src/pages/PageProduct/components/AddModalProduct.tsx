@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeProduct, TypeUnit} from "../../../types";
 import {Form, Input, Modal, Select} from "antd";
-import {getAllUnits, getAllProductGroups} from "../../../services";
+import {getAllUnit, getAllProductGroup} from "../../../services";
 
 const {Option} = Select;
 
@@ -47,13 +47,13 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
   };
 
   useEffect(() => {
-    getAllUnits().then((units) => {
+    getAllUnit().then((units) => {
       setAllUnit(units);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductGroups().then((productGroups) => {
+    getAllProductGroup().then((productGroups) => {
       setAllProductGroup(productGroups);
     });
   }, []);

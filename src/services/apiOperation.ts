@@ -3,7 +3,7 @@ import {message} from "antd";
 import {URL, OPERATION} from "./apiEndpoints";
 
 // Получить список всех типов операций
-export async function getAllOperations(): Promise<TypeOperation[]> {
+export async function getAllOperation(): Promise<TypeOperation[]> {
   try {
     const res = await fetch(URL + OPERATION);
     if (!res.ok) {

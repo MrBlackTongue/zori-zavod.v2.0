@@ -1,7 +1,7 @@
 import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import React, {useEffect, useState} from "react";
 import {EditDrawerProps, TypeProduct, TypeUnit} from "../../../types";
-import {getAllProductGroups, getProductById, getAllUnits} from "../../../services";
+import {getAllProductGroup, getProductById, getAllUnit} from "../../../services";
 
 const {Option} = Select;
 
@@ -50,13 +50,13 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
   };
 
   useEffect(() => {
-    getAllUnits().then((units) => {
+    getAllUnit().then((units) => {
       setAllUnit(units);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductGroups().then((productGroups) => {
+    getAllProductGroup().then((productGroups) => {
       setAllProductGroup(productGroups);
     });
   }, []);

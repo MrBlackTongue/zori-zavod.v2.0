@@ -3,7 +3,7 @@ import {message} from "antd";
 import {URL, EMPLOYEE} from "./apiEndpoints";
 
 // Получить список всех сотрудников
-export async function getAllEmployees(): Promise<TypeEmployee[]> {
+export async function getAllEmployee(): Promise<TypeEmployee[]> {
   try {
     const res = await fetch(URL + EMPLOYEE);
     if (!res.ok) {
