@@ -45,15 +45,15 @@ export const PageProductMovementHistory: React.FC = () => {
             <Select
               showSearch
               allowClear
-              placeholder="Поиск по остаткам"
-              style={{'width': '360px'}}
+              placeholder="Поиск по названию товара"
+              style={{'width': '350px'}}
               onChange={onChangeStock}
               onClear={onClearStock}
             >
               {stocks && stocks.length > 0 ?
                 stocks.map(stock => (
                   <Option id={stock.id} key={stock.id} value={stock?.product?.title}>
-                    {`ID: ${stock.id}, товар: ${stock?.product?.title}`}
+                    {`ID: ${stock.id}, ${stock?.product?.title}`}
                   </Option>
                 )) : null}
             </Select>
