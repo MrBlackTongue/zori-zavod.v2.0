@@ -1,88 +1,90 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, TypeProduct, TypeUnit} from "../../../types";
-import {Form, Input, Modal, Select} from "antd";
-import {getAllUnit, getAllProductGroup} from "../../../services";
+import {AddModalProps, TypeOperation, TypeOperationAccounting, TypeOutput} from "../../../types";
+import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
+import {getAllOperation, getAllOutput} from "../../../services";
+import dayjs from "dayjs";
 
 const {Option} = Select;
+const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalOperationAccounting: React.FC<AddModalProps<TypeProduct>> = ({
-                                                                        isOpen,
-                                                                        addItem,
-                                                                        onCancel,
-                                                                      }) => {
+export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAccounting>> = ({
+                                                                                                isOpen,
+                                                                                                addItem,
+                                                                                                onCancel,
+                                                                                              }) => {
   const [form] = Form.useForm();
 
-  // Единицы измерения, выбранная единица измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
+  // Все операции, выбранная операция
+  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
+  const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
 
-  // Товарные группы, выбранная товарная группа
-  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
+  // Все выпуски продукции, выбранный выпуск продукции
+  const [allOutput, setAllOutput] = useState<TypeOutput[]>();
+  const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
 
-  // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
-    const unit: TypeUnit = {
-      id: option.id,
-      name: values,
-    };
-    form.setFieldsValue({
-      unit: unit
-    });
-    setSelectedUnit(unit)
-    return unit
-  };
-
-  // Изменить выбранную товарную группу
-  const onChangeProductGroup = (values: string, option: any): TypeProduct => {
-    const productGroup: TypeProduct = {
+  // Изменить выбранную операцию
+  const onChangeOperation = (values: string, option: any): TypeOperation => {
+    const operation: TypeOperation = {
       id: option.id,
       title: values,
     };
     form.setFieldsValue({
-      productGroup: productGroup
+      operation: operation
     });
-    setSelectedProductGroup(productGroup)
-    return productGroup
+    setSelectedOperation(operation)
+    return operation
   };
 
+  // Изменить выбранный выпуск продукции
+  const onChangeOutput = (value: string): TypeOutput | undefined => {
+    const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
+    form.setFieldsValue({
+      output: selectedOutput
+    });
+    setSelectedOutput(selectedOutput);
+    return selectedOutput;
+  };
+
+  // Функция подтверждения добавления новой учетной операции
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        setSelectedOperation(undefined);
+        setSelectedOutput(undefined);
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  }
+
   useEffect(() => {
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
+    getAllOperation().then((allOperation) => {
+      setAllOperation(allOperation);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductGroup().then((allProductGroup) => {
-      setAllProductGroup(allProductGroup);
+    getAllOutput().then((allOutput) => {
+      setAllOutput(allOutput);
     });
   }, []);
 
   return (
     <Modal
-      title={`Добавление нового товара`}
+      title={`Добавление новой учетной операции`}
       open={isOpen}
       onCancel={() => {
-        setSelectedUnit(undefined);
-        setSelectedProductGroup(undefined);
+        setSelectedOperation(undefined);
+        setSelectedOutput(undefined);
         onCancel()
       }}
       width={700}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            setSelectedUnit(undefined);
-            setSelectedProductGroup(undefined);
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}
@@ -94,49 +96,59 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeProduct>> =
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Название товара"
-          name="title"
-          rules={[{required: true, message: 'введите название'}]}
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Единица измерения"
-          name="unit"
-          rules={[{type: 'object' as const, required: true, message: 'выберите ед. изм.'}]}
+          label="Операция"
+          name="operation"
+          rules={[{type: 'object' as const, required: true, message: 'выберите операцию'}]}
         >
           <div>
             <Select
-              value={selectedUnit ? selectedUnit.name : undefined}
-              onChange={onChangeUnit}
+              value={selectedOperation ? selectedOperation?.title : undefined}
+              onChange={onChangeOperation}
             >
-              {allUnit && allUnit.length > 0 ?
-                allUnit.map(unit => (
-                  <Option id={unit.id} key={unit.id} value={unit.name}>
-                    {unit.name}
+              {allOperation && allOperation.length > 0 ?
+                allOperation.map(operation => (
+                  <Option id={operation.id} key={operation.id} value={operation.title}>
+                    {operation.title}
                   </Option>
                 )) : null}
             </Select>
           </div>
         </Form.Item>
         <Form.Item
-          label="Товарная группа"
-          name="productGroup"
-          rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
+          label="Выпуск продукции"
+          name="output"
+          rules={[{type: 'object' as const, required: true, message: 'выберите выпуск продукции'}]}
         >
           <div>
             <Select
-              value={selectedProductGroup ? selectedProductGroup.title : undefined}
-              onChange={onChangeProductGroup}
+              value={selectedOutput ? (`${dayjs(selectedOutput?.date).format('DD.MM.')}, ${selectedOutput?.product?.title}, ID: ${selectedOutput.id}`) : undefined}
+              onChange={onChangeOutput}
             >
-              {allProductGroup && allProductGroup.length > 0 ?
-                allProductGroup.map(productGroup => (
-                  <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
-                    {productGroup.title}
+              {allOutput && allOutput.length > 0 ?
+                allOutput.map(output => (
+                  <Option id={output.id} key={output.id} value={output.id} date={output?.date}>
+                    {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product?.title}, ID: ${output.id}`}
                   </Option>
                 )) : null}
             </Select>
           </div>
+        </Form.Item>
+        <Form.Item
+          label="Факт"
+          name="fact"
+          rules={[{required: true, message: "введите факт"}]}
+        >
+          <InputNumber style={{width: "100%"}}/>
+        </Form.Item>
+        <Form.Item
+          label="Дата"
+          name="date"
+          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+        >
+          <DatePicker
+            style={{width: '100%'}}
+            format={dateFormatUser}
+          />
         </Form.Item>
       </Form>
     </Modal>

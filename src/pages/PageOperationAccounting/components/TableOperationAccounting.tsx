@@ -67,12 +67,27 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       dataIndex: 'fact',
       key: 'fact',
       sorter: (a, b) => (a.fact || 0) < (b.fact || 0) ? -1 : 1,
-
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : null)
     },
     {
       title: 'Среднее',
       dataIndex: 'average',
       key: 'average',
+      render: ((average: number | null) =>
+        average !== null ? (
+          <div>
+            {average.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : null)
     },
     {
       title: 'Часы',
@@ -108,7 +123,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот товар?"
+              title="Вы действительно хотите удалить этот учет операции?"
               onConfirm={() => {
                 deleteOperationAccountingById(id).then(() => {
                   getAllOperationAccounting()

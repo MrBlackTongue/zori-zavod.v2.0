@@ -33,24 +33,31 @@ export const PageOperationAccounting: React.FC = () => {
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperationById, setSelectedOperationById] = useState<number>();
 
-  // // Добавить новую учетную операцию
-  // const addOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
-  //   const operationAccounting: TypeOperationAccounting = {
-  //     title: values.title,
-  //     operationAccountingGroup: {
-  //       id: values.operationAccountingGroup.id,
-  //       title: values.operationAccountingGroup.title,
-  //     },
-  //     operation: {
-  //       id: values.operation.id,
-  //       name: values.operation.name,
-  //     },
-  //   };
-  //   setIsModalOpen(false)
-  //   postNewOperationAccounting(operationAccounting)
-  //   setUpdateTable(!updateTable)
-  //   return operationAccounting;
-  // };
+  // Добавить новую учетную операцию
+  const addOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
+    const operationAccounting: TypeOperationAccounting = {
+      date: values['date'].format('YYYY-MM-DD'),
+      fact: values.fact,
+      operation: {
+        id: values.operation.id,
+        title: values.operation.title,
+      },
+      output: {
+        id: values.output.id,
+        date: values.output.date,
+        product: {
+          id: values.output.product.id,
+          productGroup: values.output.product.productGroup,
+          title: values.output.product.title,
+          unit: values.output.product.unit,
+        }
+      },
+    };
+    setIsModalOpen(false)
+    postNewOperationAccounting(operationAccounting)
+    setUpdateTable(!updateTable)
+    return values;
+  };
 
   // Открыть дравер
   const openDrawer = (operationAccountingId: number) => {
@@ -150,13 +157,14 @@ export const PageOperationAccounting: React.FC = () => {
           operationId: selectedOperationById,
         }}
       />
-      {/*<AddModalOperationAccounting*/}
-      {/*  isOpen={isModalOpen}*/}
-      {/*  addItem={addOperationAccounting}*/}
-      {/*  onCancel={() => {*/}
-      {/*    setIsModalOpen(false)*/}
-      {/*  }}*/}
-      {/*/>*/}
+      <AddModalOperationAccounting
+        isOpen={isModalOpen}
+        addItem={addOperationAccounting}
+        // addItem={()=> {}}
+        onCancel={() => {
+          setIsModalOpen(false)
+        }}
+      />
       {/*<EditDrawerOperationAccounting*/}
       {/*  isOpen={isDrawerOpen}*/}
       {/*  selectedItemId={selectedOperationAccountingId}*/}
