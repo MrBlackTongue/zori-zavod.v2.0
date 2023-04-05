@@ -128,7 +128,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
               title="Вы действительно хотите удалить эту закупку?"
               onConfirm={() => {
                 deletePurchaseById(id).then(() => {
-                  getAllPurchase().then((allPurchases) => setAllPurchase(allPurchases))
+                  getAllPurchase().then((allPurchase) => setAllPurchase(allPurchase))
                 })
               }}
               okText="Да"

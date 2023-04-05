@@ -1,26 +1,44 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps} from "../../../types";
+import {AddModalProps, TypePurchase} from "../../../types";
 import {TypeAcceptance} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
-import {getAllAcceptances} from "../../../services";
+import {getAllAcceptances, getAllPurchase} from "../../../services";
+
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
 export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
-                                                                    isOpen,
-                                                                    addItem,
-                                                                    onCancel,
-                                                                          }) => {
+                                                                              isOpen,
+                                                                              addItem,
+                                                                              onCancel,
+                                                                            }) => {
   const [form] = Form.useForm();
 
-  const [acceptance, setAcceptance] = useState<TypeAcceptance[]>();
+  // Товар со склада, выбрать товар со склада
+  const [allAcceptance, setAcceptance] = useState<TypeAcceptance[]>();
   const [selectedAcceptance, setSelectedAcceptance] = useState<TypeAcceptance>();
 
-  useEffect(() => {
-    getAllAcceptances().then((acceptance) => {
-      setAcceptance(acceptance);
+  // Закупка, выбрать закупку
+  const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
+  const [selectedPurchase, setSelectedPurchase] = useState<TypePurchase>();
+
+  // Изменить выбранный товар
+  const onChangeAcceptance = (value: number): void => {
+    const acceptance = allAcceptance?.find((acceptance) => acceptance.id === value);
+    setSelectedAcceptance(acceptance);
+    form.setFieldsValue({
+      product: acceptance?.stock?.product?.title,
     });
-  }, []);
+  };
+
+  // Изменить выбранную закупку
+  const onChangePurchase = (value: number): void => {
+    const purchase = allPurchase?.find((purchase) => purchase.id === value);
+    setSelectedPurchase(purchase);
+    form.setFieldsValue({
+      purchase: purchase?.product?.title,
+    });
+  };
 
   const handleOk = () => {
     form
@@ -34,6 +52,18 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         console.log("Validate Failed:", error);
       });
   };
+
+  useEffect(() => {
+    getAllAcceptances().then((acceptance) => {
+      setAcceptance(acceptance);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllPurchase().then((purchase) => {
+      setAllPurchase(purchase);
+    });
+  }, []);
 
   return (
     <Modal
@@ -58,42 +88,63 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Товар"
-          name="product"
-          rules={[{required: true, message: 'выберите товар'}]}
+          label="Закупка"
+          name="purchase"
+          rules={[{required: true, message: 'выберите закупку'}]}
         >
           <div>
             <Select
-              value={selectedAcceptance ? selectedAcceptance.id : undefined}
-            //  onChange={onChangeAcceptance}
+              value={selectedPurchase?.id}
+              onChange={onChangePurchase}
             >
-              {acceptance && acceptance.length > 0 ?
-                acceptance.map(acceptance => (
-                  <Option id={acceptance.id} key={acceptance.id} value={acceptance.id}>
-                    {acceptance.id}
+              {allPurchase && allPurchase.length > 0
+                ? allPurchase.map((purchase) => (
+                  <Option key={purchase.id} value={purchase.id}>
+                    {purchase.product?.title}
                   </Option>
-                )) : null}
+                ))
+                : null}
             </Select>
           </div>
         </Form.Item>
-        <Form.Item
-          label="Количество"
-          name="amount"
-          rules={[{required: true, message: "введите количество"}]}
-        >
-          <InputNumber style={{width: "100%"}}/>
-        </Form.Item>
-        <Form.Item
-          label="Дата"
-          name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
-        >
-          <DatePicker
-            style={{width: '100%'}}
-            format={dateFormatUser}
-          />
-        </Form.Item>
+          <Form.Item
+            label="Товар"
+            name="stock"
+            rules={[{required: true, message: 'выберите товар'}]}
+          >
+            <div>
+              <Select
+                value={selectedAcceptance?.id}
+                onChange={onChangeAcceptance}
+              >
+                {allAcceptance && allAcceptance.length > 0
+                  ? allAcceptance.map((acceptance) => (
+                    <Option key={acceptance.id} value={acceptance.id}>
+                      {acceptance.stock?.product?.title}
+                    </Option>
+                  ))
+                  : null}
+              </Select>
+            </div>
+          </Form.Item>
+          <Form.Item
+            label="Количество"
+            name="amount"
+            rules={[{required: true, message: "введите количество"}]}
+          >
+            <InputNumber style={{width: "100%"}}/>
+          </Form.Item>
+          <Form.Item
+            label="Дата"
+            name="date"
+            rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          >
+            <DatePicker
+              style={{width: '100%'}}
+              format={dateFormatUser}
+            />
+          </Form.Item>
       </Form>
     </Modal>
-  );
+);
 };

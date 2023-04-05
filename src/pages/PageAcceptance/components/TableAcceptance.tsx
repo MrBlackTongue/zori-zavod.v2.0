@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllAcceptances, deleteAcceptanceById, getAcceptanceByTitle} from "../../../services";
-import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from "../../../types";
+import {getAllAcceptances, deleteAcceptanceById} from "../../../services";
+import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase, TypeStock} from "../../../types";
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
+import {logDOM} from "@testing-library/react";
 
 export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
                                                                         isUpdateTable,
@@ -27,6 +28,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeAcceptance> = [
     {
       title: 'Дата',
@@ -36,16 +38,18 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
-      title: 'ID на складе',
-      dataIndex: 'id',
-      key: 'id',
+      title: 'ID ячейки',
+      dataIndex: 'stock',
+      key: 'stock',
+      render: ((stock: any) =>
+        stock !== null ? (<div key={stock.id}>{stock.id}</div>) : null)
     },
     {
       title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: ((product: any) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+      dataIndex: 'stock',
+      key: 'stock',
+      render: ((stock: any) =>
+        stock !== null ? (<div key={stock?.id}>{stock?.product?.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -54,10 +58,17 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     },
     {
       title: 'Ед. изм',
-      dataIndex: ['product', 'unit'],
+      dataIndex: ['stock', 'product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+          unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+    },
+    {
+      title: 'ID закупки',
+      dataIndex: 'purchase',
+      key: 'purchase',
+      render: ((stock: any) =>
+        stock !== null ? (<div key={stock.id}>{stock.id}</div>) : null)
     },
     {
       title: 'Действия',

@@ -9,3 +9,4 @@ export * from './TypePurchase';
 export * from './CommonComponentProps';
 export * from './TypeProductBatch';
 export * from './TypeAcceptance';
+export * from './TypeStock';

@@ -7,8 +7,6 @@ import {TypeAcceptance} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
 import {AddModalAcceptance} from "./components/AddModalAcceptance";
 //import {EditDrawerAcceptance} from "../PageAcceptance/components/EditDrawerAcceptance";
-import {EditDrawerProductBatch} from "../PageProductBatch/components/EditDrawerProductBatch";
-
 
 const {Title} = Typography;
 
@@ -29,6 +27,7 @@ export const PageAcceptance: React.FC = () => {
   // Открыть приемку по id
   const [selectedAcceptanceId, setSelectedAcceptanceId] = useState<number>();
 
+  // Добавить новую приемку
   const addAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
     const acceptance: TypeAcceptance = {
       amount: values.amount,
@@ -72,7 +71,7 @@ export const PageAcceptance: React.FC = () => {
 return (
   <div style={{display: 'grid'}}>
     <div className='centerTitle'>
-      <Title level={3}>Товары</Title>
+      <Title level={3}>Приемка товаров</Title>
       <Space>
         {/*<Input*/}
         {/*  placeholder="Поиск по товарам"*/}

@@ -8,3 +8,4 @@ export * from './apiEndpoints';
 export * from './apiClient';
 export * from './apiProductBatch';
 export * from './apiAcceptance';
+export * from './apiStocks';

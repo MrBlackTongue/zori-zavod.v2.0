@@ -23,7 +23,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/purchase" element={<PagePurchase/>}/>
       <Route path="/client" element={<PageClient/>}/>
       <Route path="/product-batch" element={<PageProductBatch/>}/>
-      <Route path="/acceptance" element={<PageAcceptance/>}/>
+      <Route path="/product-acceptance" element={<PageAcceptance/>}/>
     </Routes>
   );
 };
