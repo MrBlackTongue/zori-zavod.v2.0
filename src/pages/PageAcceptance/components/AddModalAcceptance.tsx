@@ -46,6 +46,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
       .then((values) => {
         form.resetFields();
         setSelectedAcceptance(undefined)
+        setSelectedPurchase(undefined)
         addItem(values);
       })
       .catch((error) => {
@@ -72,6 +73,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
       onCancel={() => {
         onCancel()
         setSelectedAcceptance(undefined)
+        setSelectedPurchase(undefined)
       }}
       width={500}
       okText={"Сохранить"}
@@ -87,6 +89,26 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
       >
+        <Form.Item
+          label="Товар на складе"
+          name="title"
+          rules={[{required: true, message: 'выберите товар'}]}
+        >
+          <div>
+            <Select
+              value={selectedAcceptance?.id}
+              onChange={onChangeAcceptance}
+            >
+              {allAcceptance && allAcceptance.length > 0
+                ? allAcceptance.map((acceptance) => (
+                  <Option key={acceptance.id} value={acceptance.id}>
+                    {acceptance.stock?.product?.title}
+                  </Option>
+                ))
+                : null}
+            </Select>
+          </div>
+        </Form.Item>
         <Form.Item
           label="Закупка"
           name="purchase"
@@ -107,44 +129,24 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
             </Select>
           </div>
         </Form.Item>
-          <Form.Item
-            label="Товар"
-            name="stock"
-            rules={[{required: true, message: 'выберите товар'}]}
-          >
-            <div>
-              <Select
-                value={selectedAcceptance?.id}
-                onChange={onChangeAcceptance}
-              >
-                {allAcceptance && allAcceptance.length > 0
-                  ? allAcceptance.map((acceptance) => (
-                    <Option key={acceptance.id} value={acceptance.id}>
-                      {acceptance.stock?.product?.title}
-                    </Option>
-                  ))
-                  : null}
-              </Select>
-            </div>
-          </Form.Item>
-          <Form.Item
-            label="Количество"
-            name="amount"
-            rules={[{required: true, message: "введите количество"}]}
-          >
-            <InputNumber style={{width: "100%"}}/>
-          </Form.Item>
-          <Form.Item
-            label="Дата"
-            name="date"
-            rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
-          >
-            <DatePicker
-              style={{width: '100%'}}
-              format={dateFormatUser}
-            />
-          </Form.Item>
+        <Form.Item
+          label="Количество"
+          name="amount"
+          rules={[{required: true, message: "введите количество"}]}
+        >
+          <InputNumber style={{width: "100%"}}/>
+        </Form.Item>
+        <Form.Item
+          label="Дата"
+          name="date"
+          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+        >
+          <DatePicker
+            style={{width: '100%'}}
+            format={dateFormatUser}
+          />
+        </Form.Item>
       </Form>
     </Modal>
-);
+  );
 };
