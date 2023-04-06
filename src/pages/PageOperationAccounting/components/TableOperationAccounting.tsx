@@ -74,7 +74,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               maximumFractionDigits: 2,
             })}
           </div>
-        ) : null)
+        ) : 0)
     },
     {
       title: 'Среднее',
@@ -87,7 +87,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               maximumFractionDigits: 2,
             })}
           </div>
-        ) : null)
+        ) : 0)
     },
     {
       title: 'Часы',
@@ -99,7 +99,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
             <div>
               {timeSheets.reduce((acc, timeSheet) => acc + (timeSheet.hours || 0), 0)}
             </div>
-          ) : null,
+          ) : 0,
     },
     {
       title: 'Действия',

@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input, Select, DatePicker,} from 'antd';
-import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
+import {Typography, Space, Button, Form, Select, DatePicker,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {getAllOperation, getAllUnit, postNewOperationAccounting, putChangeOperationAccounting} from "../../services";
-import {TableProps, TypeOperation, TypeOperationAccounting, TypeUnit} from "../../types";
+import {getAllOperation, postNewOperationAccounting, putChangeOperationAccounting} from "../../services";
+import {TypeOperation, TypeOperationAccounting} from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
 import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
 import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
@@ -73,24 +73,32 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Обновить учетную операцию
-  // const updateOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
-  //   const operationAccounting: TypeOperationAccounting = {
-  //     title: values.title,
-  //     operationAccountingGroup: {
-  //       id: values.operationAccountingGroup.id,
-  //       title: values.operationAccountingGroup.title,
-  //     },
-  //     operation: {
-  //       id: values.operation.id,
-  //       name: values.operation.name,
-  //     },
-  //     id: selectedOperationAccountingId,
-  //   };
-  //   setIsDrawerOpen(false)
-  //   putChangeOperationAccounting(operationAccounting)
-  //   setUpdateTable(!updateTable)
-  //   return operationAccounting
-  // };
+  const updateOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
+    const operationAccounting: TypeOperationAccounting = {
+      date: values['date'].format('YYYY-MM-DD'),
+      fact: values.fact,
+      operation: {
+        id: values.operation.id,
+        // title: values.operation.title,
+      },
+      output: {
+        id: values.output.id,
+        // date: values.output.date,
+        // product: {
+        //   id: values.output.product.id,
+        //   productGroup: values.output.product.productGroup,
+        //   title: values.output.product.title,
+        //   unit: values.output.product.unit,
+        // }
+      },
+    };
+    console.log('parent', operationAccounting)
+
+    setIsModalOpen(false)
+    putChangeOperationAccounting(operationAccounting)
+    setUpdateTable(!updateTable)
+    return values;
+  };
 
   useEffect(() => {
     getAllOperation().then((allOperation) => {
@@ -160,19 +168,18 @@ export const PageOperationAccounting: React.FC = () => {
       <AddModalOperationAccounting
         isOpen={isModalOpen}
         addItem={addOperationAccounting}
-        // addItem={()=> {}}
         onCancel={() => {
           setIsModalOpen(false)
         }}
       />
-      {/*<EditDrawerOperationAccounting*/}
-      {/*  isOpen={isDrawerOpen}*/}
-      {/*  selectedItemId={selectedOperationAccountingId}*/}
-      {/*  updateItem={updateOperationAccounting}*/}
-      {/*  closeDrawer={() => {*/}
-      {/*    setIsDrawerOpen(false);*/}
-      {/*  }}*/}
-      {/*/>*/}
+      <EditDrawerOperationAccounting
+        isOpen={isDrawerOpen}
+        selectedItemId={selectedOperationAccountingId}
+        updateItem={updateOperationAccounting}
+        closeDrawer={() => {
+          setIsDrawerOpen(false);
+        }}
+      />
     </div>
   );
 }

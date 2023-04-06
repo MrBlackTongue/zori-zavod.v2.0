@@ -1,106 +1,115 @@
-import {Button, Drawer, Form, Input, Select, Space} from "antd";
-import React, {useEffect, useState} from "react";
-import {EditDrawerProps, TypeProduct, TypeUnit} from "../../../types";
-import {getAllProductGroup, getProductById, getAllUnit} from "../../../services";
+import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
+import React, {useState, useEffect} from "react";
+import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting} from "../../../types";
+import {getAllOutput, getAllOperation, getOperationAccountingById} from "../../../services";
+import dayjs from "dayjs";
 
 const {Option} = Select;
+const dateFormatUser = 'DD.MM.YYYY';
 
-export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeProduct>> = ({
-                                                                            isOpen,
-                                                                            selectedItemId,
-                                                                            closeDrawer,
-                                                                            updateItem,
-                                                                          }) => {
+export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperationAccounting>> = ({
+                                                                                                    isOpen,
+                                                                                                    selectedItemId,
+                                                                                                    closeDrawer,
+                                                                                                    updateItem,
+                                                                                                  }) => {
   const [form] = Form.useForm();
 
   // Единицы измерения, выбранная единица измерения, единица измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
-  const [unit, setUnit] = useState<TypeUnit>()
+  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
+  const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
+  const [operation, setOperation] = useState<TypeOperation>()
+  const [date, setDate] = useState<any>();
 
   // Все товарные группы, выбранная товарная группа, товарная группа
-  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
-  const [productGroup, setProductGroup] = useState<TypeProduct>()
+  const [allOutput, setAllOutput] = useState<TypeOutput[]>();
+  const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
+  const [output, setOutput] = useState<TypeOutput>()
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
-    const unit: TypeUnit = {
-      id: option.id,
-      name: values,
-    };
-    form.setFieldsValue({
-      unit: unit
-    });
-    setSelectedUnit(unit)
-    return unit
-  };
-
-  // Изменить выбранную товарную группу
-  const onChangeProductGroup = (values: string, option: any): TypeProduct => {
-    const productGroup: TypeProduct = {
+  const onChangeOperation = (values: string, option: any): TypeOperation => {
+    const operation: TypeOperation = {
       id: option.id,
       title: values,
     };
     form.setFieldsValue({
-      productGroup: productGroup
+      operation: operation
     });
-    setSelectedProductGroup(productGroup)
-    return productGroup
+    setSelectedOperation(operation)
+    return operation
   };
 
+  // Изменить выбранную товарную группу
+  const onChangeOutput = (value: string): TypeOutput | undefined => {
+    const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
+    form.setFieldsValue({
+      output: selectedOutput
+    });
+    setSelectedOutput(selectedOutput);
+    return selectedOutput;
+  };
+
+  // Функция подтверждения добавления новой учетной операции
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        updateItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info)
+      })
+  }
+
   useEffect(() => {
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
+    getAllOperation().then((allOperation) => {
+      setAllOperation(allOperation);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductGroup().then((allProductGroup) => {
-      setAllProductGroup(allProductGroup);
+    getAllOutput().then((allOutput) => {
+      setAllOutput(allOutput);
     });
   }, []);
 
   useEffect(() => {
     if (selectedItemId) {
-      getProductById(selectedItemId).then((product) => {
-        form.setFieldsValue(product)
-        setSelectedUnit(product?.unit)
-        setUnit(product?.unit)
-        setSelectedProductGroup(product?.productGroup)
-        setProductGroup(product?.productGroup)
+      getOperationAccountingById(selectedItemId).then((operationAccounting) => {
+        form.setFieldsValue({
+          date: dayjs(operationAccounting?.date),
+          fact: operationAccounting?.fact,
+        })
+        setSelectedOperation(operationAccounting?.operation)
+        setOperation(operationAccounting?.operation)
+        setSelectedOutput(operationAccounting?.output)
+        setOutput(operationAccounting?.output)
+        setDate(dayjs(operationAccounting?.date));
       })
     }
-  }, [selectedItemId, getProductById]);
+  }, [selectedItemId, getOperationAccountingById]);
 
   return (
     <Drawer
-      title="Редактирование товара"
+      title="Редактирование учетной записи"
       width={700}
       open={isOpen}
       onClose={() => {
-        setSelectedUnit(unit);
-        setSelectedProductGroup(productGroup);
+        setSelectedOperation(operation);
+        setSelectedOutput(output);
         closeDrawer()
       }}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={() => {
-            setSelectedUnit(unit);
-            setSelectedProductGroup(productGroup);
+            setSelectedOperation(operation);
+            setSelectedOutput(output);
             closeDrawer()
           }}>Отмена</Button>
           <Button onClick={() => {
             closeDrawer()
-            form
-              .validateFields()
-              .then((values) => {
-                updateItem(values);
-              })
-              .catch((info) => {
-                console.log('Validate Failed:', info)
-              })
+            handleOk()
           }} type="primary" htmlType="submit">
             Сохранить
           </Button>
@@ -112,51 +121,69 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeProduct
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
+        initialValues={{
+          date: date,
+          output: output,
+          operation: operation,
+        }}
       >
         <Form.Item
-          label="Название товара"
-          name="title"
-          rules={[{required: true, message: 'введите название'}]}
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Единица измерения"
-          name="unit"
-          rules={[{type: 'object' as const, required: true, message: 'выберите ед. изм.'}]}
+          label="Операция"
+          name="operation"
+          rules={[{type: 'object' as const, required: true, message: 'выберите операцию'}]}
         >
           <div>
             <Select
-              value={selectedUnit ? selectedUnit.name : undefined}
-              onChange={onChangeUnit}
+              value={selectedOperation ? selectedOperation?.title : undefined}
+              onChange={onChangeOperation}
             >
-              {allUnit && allUnit.length > 0 ?
-                allUnit.map(unit => (
-                  <Option id={unit.id} key={unit.id} value={unit.name}>
-                    {unit.name}
+              {allOperation && allOperation.length > 0 ?
+                allOperation.map(operation => (
+                  <Option id={operation.id} key={operation.id} value={operation.title}>
+                    {operation.title}
                   </Option>
                 )) : null}
             </Select>
           </div>
         </Form.Item>
         <Form.Item
-          label="Товарная группа"
-          name="productGroup"
-          rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
+          label="Выпуск продукции"
+          name="output"
+          rules={[{type: 'object' as const, required: true, message: 'выберите выпуск продукции'}]}
         >
           <div>
             <Select
-              value={selectedProductGroup ? selectedProductGroup.title : undefined}
-              onChange={onChangeProductGroup}
+              value={selectedOutput ? (`${dayjs(selectedOutput?.date).format('DD.MM.')}, ${selectedOutput?.product?.title}, ID: ${selectedOutput.id}`) : undefined}
+              onChange={onChangeOutput}
             >
-              {allProductGroup && allProductGroup.length > 0 ?
-                allProductGroup.map(productGroup => (
-                  <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
-                    {productGroup.title}
+              {allOutput && allOutput.length > 0 ?
+                allOutput.map(output => (
+                  <Option id={output.id} key={output.id} value={output.id} date={output?.date}>
+                    {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product?.title}, ID: ${output.id}`}
                   </Option>
                 )) : null}
             </Select>
           </div>
+        </Form.Item>
+        <Form.Item
+          label="Факт"
+          name="fact"
+          rules={[{required: true, message: "введите факт"}]}
+        >
+          <InputNumber style={{width: "100%"}}/>
+        </Form.Item>
+        <Form.Item
+          label="Дата"
+          name="date"
+          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+        >
+          <DatePicker
+            style={{width: '100%'}}
+            format={dateFormatUser}
+            onChange={(value) => {
+              setDate(value);
+            }}
+          />
         </Form.Item>
       </Form>
     </Drawer>
