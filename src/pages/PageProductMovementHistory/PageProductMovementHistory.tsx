@@ -11,11 +11,11 @@ const {Option} = Select;
 
 export const PageProductMovementHistory: React.FC = () => {
 
-  // Все остатки, выбрать остаток
+  // Все остатки, выбрать остаток по id
   const [stocks, setStocks] = useState<TypeStock[]>();
   const [selectedStockById, setSelectedStockById] = useState<number>();
 
-  // Товары в таблице, обновить таблицу
+  // Товары в таблице, Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
   // Изменить выбраный остаток
@@ -45,7 +45,7 @@ export const PageProductMovementHistory: React.FC = () => {
             <Select
               showSearch
               allowClear
-              placeholder="Поиск по названию товара"
+              placeholder="Ячейка на складе"
               style={{'width': '350px'}}
               onChange={onChangeStock}
               onClear={onClearStock}
@@ -68,8 +68,7 @@ export const PageProductMovementHistory: React.FC = () => {
         </Space>
       </div>
       <TableProductMovementHistory
-        openDrawer={() => {
-        }}
+        openDrawer={() => {}}
         isUpdateTable={updateTable}
         filterById={selectedStockById}
       />

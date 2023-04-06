@@ -31,6 +31,7 @@ export async function getStockById(id: number): Promise<TypeStock | undefined> {
   }
 }
 
+// Получить список товаров на складе по названию
 export async function getStockByTitle(title: string): Promise<TypeStock[]> {
   try {
     const response = await fetch(URL + STOCK + `/${title}`);

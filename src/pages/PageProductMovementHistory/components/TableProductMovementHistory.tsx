@@ -12,12 +12,9 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
                                                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
 
-  // Лоудер и список всех закупок
+  // Лоудер и список всей истории движения товаров
   const [loading, setLoading] = useState(false);
   const [allProductMovementHistory, setAllProductMovementHistory] = useState<TypeProductMovementHistory[]>();
-
-  //const [productMovementHistoryById, setProductMovementHistoryById] = useState<TypeProductMovementHistory[]>();
-
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -28,6 +25,7 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeProductMovementHistory> = [
     {
       title: 'ID',
@@ -50,18 +48,29 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
       title: 'Приход',
       dataIndex: 'income',
       key: 'income',
-      render: ((income: number | null) => income !== null ? income : 0)
+      render: ((income: number | null) => income !== null ?
+        <div>
+          {income.toLocaleString('ru-RU')}
+        </div> : null)
     },
     {
       title: 'Расход',
       dataIndex: 'outcome',
       key: 'outcome',
-      render: ((income: number | null) => income !== null ? income : 0)
+      render: ((outcome: number | null) => outcome !== null ?
+        <div>
+          {outcome.toLocaleString('ru-RU')}
+        </div> : null)
     },
     {
       title: 'Остатки',
       dataIndex: 'leftovers',
       key: 'leftovers',
+      sorter: (a, b) => (a.leftovers ?? '') < (b.leftovers ?? '') ? -1 : 1,
+      render: ((leftovers: number | null) => leftovers !== null ?
+        <div>
+          {leftovers.toLocaleString('ru-RU')}
+        </div> : null)
     },
     {
       title: 'Ед.изм',
@@ -90,7 +99,6 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
       setLoading(true);
       getProductMovementHistoryById(filterById).then((allProductMovementHistory) => {
         setAllProductMovementHistory(allProductMovementHistory);
-        console.log('filterById', filterById);
         setLoading(false);
       });
     }
