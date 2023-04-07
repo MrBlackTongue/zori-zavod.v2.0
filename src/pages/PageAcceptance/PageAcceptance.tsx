@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form,} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
+import dayjs, { Dayjs } from "dayjs";
 import {postNewAcceptance} from "../../services";
 import {TypeAcceptance} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
@@ -24,17 +25,22 @@ export const PageAcceptance: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const date = dayjs('2023-04-06');
+  const formattedDate = date.format('DD.MM.YYYY');
+
   // Открыть приемку по id
-  const [selectedAcceptanceId, setSelectedAcceptanceId] = useState<number>();
+  //const [selectedAcceptanceId, setSelectedAcceptanceId] = useState<number>();
 
   // Добавить новую приемку
   const addAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
     const acceptance: TypeAcceptance = {
       amount: values.amount,
+      income: true,
       stock: {
         id: values.stock.id,
         amount: values.stock.amount,
       },
+      date: dayjs(values.date),
       productBatch: {
         id: values.productBatch.id,
         amount: values.amount,
@@ -52,7 +58,7 @@ export const PageAcceptance: React.FC = () => {
 
   // Функция для открытия дравера и передачи id выбранной партии товара
   const openDrawer = (acceptanceId: number) => {
-    setSelectedAcceptanceId(acceptanceId)
+   // setSelectedAcceptanceId(acceptanceId)
     setIsDrawerOpen(true);
   };
 
@@ -100,7 +106,7 @@ return (
     </div>
     <TableAcceptance
       isUpdateTable={updateTable}
-      openDrawer={openDrawer}
+      openDrawer={() => {}}
     //  searchText={searchText}
     />
     <AddModalAcceptance
@@ -110,14 +116,6 @@ return (
         setIsModalOpen(false)
       }}
     />
-    {/*<EditDrawerAcceptance*/}
-    {/*  isOpen={isDrawerOpen}*/}
-    {/*  selectedItemId={selectedAcceptanceId}*/}
-    {/*  updateItem={updateAcceptance}*/}
-    {/*  closeDrawer={() => {*/}
-    {/*    setIsDrawerOpen(false);*/}
-    {/*  }}*/}
-    {/*/>*/}
   </div>
   );
 }

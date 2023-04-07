@@ -6,11 +6,9 @@ import {getAllAcceptances, deleteAcceptanceById} from "../../../services";
 import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase, TypeStock} from "../../../types";
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
-import {logDOM} from "@testing-library/react";
 
 export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
                                                                         isUpdateTable,
-                                                                        openDrawer,
                                                                         searchText
                                                                       }) => {
   type TablePaginationPosition = "bottomCenter"

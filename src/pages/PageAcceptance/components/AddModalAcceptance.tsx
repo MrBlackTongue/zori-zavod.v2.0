@@ -91,7 +91,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
       >
         <Form.Item
           label="Товар на складе"
-          name="title"
+          name="product"
           rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
