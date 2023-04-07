@@ -15,7 +15,7 @@ export const PageProductMovementHistory: React.FC = () => {
   const [stocks, setStocks] = useState<TypeStock[]>();
   const [selectedStockById, setSelectedStockById] = useState<number>();
 
-  // Товары в таблице, Обновление таблицы
+  // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
   // Изменить выбраный остаток
@@ -25,10 +25,10 @@ export const PageProductMovementHistory: React.FC = () => {
   };
 
   // Обновить таблицу при очистке выбора
-    const onClearStock = (): void => {
-      setSelectedStockById(undefined);
-      setUpdateTable(!updateTable);
-    }
+  const onClearStock = (): void => {
+    setSelectedStockById(undefined);
+    setUpdateTable(!updateTable);
+  }
 
   useEffect(() => {
     getAllStocks().then((stocks) => {
@@ -41,7 +41,6 @@ export const PageProductMovementHistory: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>История движения товаров</Title>
         <Space>
-          <div>
             <Select
               showSearch
               allowClear
@@ -57,7 +56,6 @@ export const PageProductMovementHistory: React.FC = () => {
                   </Option>
                 )) : null}
             </Select>
-          </div>
           <Button
             type="dashed"
             icon={<SyncOutlined/>}

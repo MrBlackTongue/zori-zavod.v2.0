@@ -3,8 +3,7 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import dayjs from "dayjs";
 import {getAllProductMovementHistory, getProductMovementHistoryById} from "../../../services";
-import {TypeProductMovementHistory} from "../../../types/TypeProductMovementHistory";
-import {TypeProduct, TableParams, TableProps} from "../../../types";
+import {TypeProduct, TableParams, TableProps, TypeProductMovementHistory} from "../../../types";
 
 export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovementHistory>> = ({
                                                                                                 isUpdateTable,
@@ -51,7 +50,7 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
       render: ((income: number | null) => income !== null ?
         <div>
           {income.toLocaleString('ru-RU')}
-        </div> : null)
+        </div> : 0)
     },
     {
       title: 'Расход',
@@ -60,7 +59,7 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
       render: ((outcome: number | null) => outcome !== null ?
         <div>
           {outcome.toLocaleString('ru-RU')}
-        </div> : null)
+        </div> : 0)
     },
     {
       title: 'Остатки',
