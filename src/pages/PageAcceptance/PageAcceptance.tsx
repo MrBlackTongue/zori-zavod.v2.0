@@ -107,13 +107,12 @@ return (
     <TableAcceptance
       isUpdateTable={updateTable}
       openDrawer={() => {}}
-    //  searchText={searchText}
+    // searchText={searchText}
     />
     <AddModalAcceptance
       isOpen={isModalOpen}
       addItem={addAcceptance}
-      onCancel={() => {
-        setIsModalOpen(false)
+      onCancel={() => {setIsModalOpen(false)
       }}
     />
   </div>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypePurchase} from "../../../types";
 import {TypeAcceptance} from "../../../types";
-import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
+import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
 import {getAllAcceptances, getAllPurchase} from "../../../services";
 
 const {Option} = Select;
@@ -27,16 +27,18 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     const acceptance = allAcceptance?.find((acceptance) => acceptance.id === value);
     setSelectedAcceptance(acceptance);
     form.setFieldsValue({
-      product: acceptance?.stock?.product?.title,
+      stock: acceptance?.stock,
+      productBatch: acceptance?.productBatch,
     });
   };
 
   // Изменить выбранную закупку
   const onChangePurchase = (value: number): void => {
     const purchase = allPurchase?.find((purchase) => purchase.id === value);
+    console.log('Selected purchase:', purchase);
     setSelectedPurchase(purchase);
     form.setFieldsValue({
-      purchase: purchase?.product?.title,
+      productBatch: purchase,
     });
   };
 
@@ -44,15 +46,34 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     form
       .validateFields()
       .then((values) => {
+        if (!selectedAcceptance || !selectedPurchase) {
+          message.error('Выберите товар и закупку');
+          return;
+        }
         form.resetFields();
-        setSelectedAcceptance(undefined)
-        setSelectedPurchase(undefined)
-        addItem(values);
+        setSelectedAcceptance(undefined);
+        setSelectedPurchase(undefined);
+        addItem({
+          ...values,
+          stock: {
+            id: selectedAcceptance?.stock?.id,
+            amount: selectedAcceptance?.stock?.amount,
+          },
+          productBatch: {
+            id: selectedAcceptance?.productBatch?.id,
+            amount: values.amount,
+          },
+          purchase: {
+            id: selectedPurchase.id,
+            amount: values.amount,
+          },
+        });
       })
       .catch((error) => {
         console.log("Validate Failed:", error);
       });
   };
+
 
   useEffect(() => {
     getAllAcceptances().then((acceptance) => {
@@ -91,7 +112,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
       >
         <Form.Item
           label="Товар на складе"
-          name="product"
+          name="stock"
           rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
@@ -111,7 +132,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         </Form.Item>
         <Form.Item
           label="Закупка"
-          name="purchase"
+          name="productBatch"
           rules={[{required: true, message: 'выберите закупку'}]}
         >
           <div>
