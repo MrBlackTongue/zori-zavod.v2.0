@@ -55,6 +55,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         setSelectedPurchase(undefined);
         addItem({
           ...values,
+          date: values.date.toISOString(),
           stock: {
             id: selectedAcceptance?.stock?.product?.id,
             amount: selectedAcceptance?.stock?.amount,
