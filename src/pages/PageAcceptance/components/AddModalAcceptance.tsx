@@ -56,15 +56,16 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         addItem({
           ...values,
           stock: {
-            id: selectedAcceptance?.stock?.id,
+            id: selectedAcceptance?.stock?.product?.id,
             amount: selectedAcceptance?.stock?.amount,
+            product: selectedAcceptance?.stock?.product?.id,
           },
           productBatch: {
             id: selectedAcceptance?.productBatch?.id,
             amount: values.amount,
           },
           purchase: {
-            id: selectedPurchase.id,
+            id: selectedPurchase?.product?.id,
             amount: values.amount,
           },
         });
