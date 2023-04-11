@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, TypePurchase} from "../../../types";
-import {TypeAcceptance} from "../../../types";
+import {AddModalProps, TypePurchase, TypeAcceptance} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
 import {getAllAcceptances, getAllPurchase} from "../../../services";
 
@@ -25,6 +24,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   // Изменить выбранный товар
   const onChangeAcceptance = (value: number): void => {
     const acceptance = allAcceptance?.find((acceptance) => acceptance.id === value);
+    console.log('Selected acceptance:', acceptance);
     setSelectedAcceptance(acceptance);
     form.setFieldsValue({
       stock: acceptance?.stock,
@@ -38,7 +38,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     console.log('Selected purchase:', purchase);
     setSelectedPurchase(purchase);
     form.setFieldsValue({
-      productBatch: purchase,
+      productBatch: purchase?.productBatch?.id,
     });
   };
 
@@ -53,23 +53,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         form.resetFields();
         setSelectedAcceptance(undefined);
         setSelectedPurchase(undefined);
-        addItem({
-          ...values,
-          date: values.date.toISOString(),
-          stock: {
-            id: selectedAcceptance?.stock?.product?.id,
-            amount: selectedAcceptance?.stock?.amount,
-            product: selectedAcceptance?.stock?.product?.id,
-          },
-          productBatch: {
-            id: selectedAcceptance?.productBatch?.id,
-            amount: values.amount,
-          },
-          purchase: {
-            id: selectedPurchase?.product?.id,
-            amount: values.amount,
-          },
-        });
+        addItem(values);
       })
       .catch((error) => {
         console.log("Validate Failed:", error);
