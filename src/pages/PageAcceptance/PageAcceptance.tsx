@@ -2,12 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form,} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
-import dayjs, {Dayjs} from "dayjs";
 import {postNewAcceptance} from "../../services";
 import {TypeAcceptance} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
 import {AddModalAcceptance} from "./components/AddModalAcceptance";
-//import {EditDrawerAcceptance} from "../PageAcceptance/components/EditDrawerAcceptance";
 
 const {Title} = Typography;
 
@@ -21,15 +19,8 @@ export const PageAcceptance: React.FC = () => {
   // Создать новыую приемку
   const [acceptance] = useState<TypeAcceptance | null>(null);
 
-  // Открыть закрыть модальное окно, дравер
+  // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const date = dayjs('2023-04-06');
-  const formattedDate = date.format('DD.MM.YYYY');
-
-  // Открыть приемку по id
-  //const [selectedAcceptanceId, setSelectedAcceptanceId] = useState<number>();
 
   // Добавить новую приемку
   const addAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
@@ -41,18 +32,13 @@ export const PageAcceptance: React.FC = () => {
       stock: {
         id: values?.stock?.id,
         amount: values?.stock?.amount,
-        product: {
-          id: values.product,
-        },
-      },
-      productBatch: {
-        id: values?.productBatch?.id || null,
-        amount: values?.amount,
+        product: values?.stock?.product,
       },
       purchase: {
         id: values?.purchase?.id,
         amount: values?.amount,
         date: values['date'].format('YYYY-MM-DD'),
+        product: values?.purchase?.product,
       },
     };
     console.log('acceptance', acceptance);
@@ -60,12 +46,6 @@ export const PageAcceptance: React.FC = () => {
     postNewAcceptance(acceptance)
     setUpdateTable(!updateTable)
     return acceptance;
-  };
-
-  // Функция для открытия дравера и передачи id выбранной партии товара
-  const openDrawer = (acceptanceId: number) => {
-    // setSelectedAcceptanceId(acceptanceId)
-    setIsDrawerOpen(true);
   };
 
   useEffect(() => {
@@ -79,13 +59,6 @@ export const PageAcceptance: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Приемка товаров</Title>
         <Space>
-          {/*<Input*/}
-          {/*  placeholder="Поиск по товарам"*/}
-          {/*  onChange={(event) => searchTable(event.target.value)}*/}
-          {/*  style={{width: '210px'}}*/}
-          {/*  allowClear*/}
-          {/*  prefix={<SearchOutlined/>}*/}
-          {/*/>*/}
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
@@ -108,7 +81,6 @@ export const PageAcceptance: React.FC = () => {
         isUpdateTable={updateTable}
         openDrawer={() => {
         }}
-        // searchText={searchText}
       />
       <AddModalAcceptance
         isOpen={isModalOpen}

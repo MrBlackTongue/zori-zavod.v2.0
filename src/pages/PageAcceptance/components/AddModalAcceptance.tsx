@@ -28,7 +28,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     setSelectedAcceptance(acceptance);
     form.setFieldsValue({
       stock: acceptance?.stock,
-      productBatch: acceptance?.productBatch,
+      purchase: acceptance?.purchase,
     });
   };
 
@@ -38,10 +38,11 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     console.log('Selected purchase:', purchase);
     setSelectedPurchase(purchase);
     form.setFieldsValue({
-      productBatch: purchase?.productBatch?.id,
+      purchase: purchase,
     });
   };
 
+  // Функция валидации добавления новой приемки
   const handleOk = () => {
     form
       .validateFields()
@@ -50,6 +51,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
           message.error('Выберите товар и закупку');
           return;
         }
+        console.log('дочерний values', values)
         form.resetFields();
         setSelectedAcceptance(undefined);
         setSelectedPurchase(undefined);
@@ -59,7 +61,6 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         console.log("Validate Failed:", error);
       });
   };
-
 
   useEffect(() => {
     getAllAcceptances().then((acceptance) => {
@@ -118,7 +119,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         </Form.Item>
         <Form.Item
           label="Закупка"
-          name="productBatch"
+          name="purchase"
           rules={[{required: true, message: 'выберите закупку'}]}
         >
           <div>
