@@ -83,7 +83,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         setSelectedAcceptance(undefined)
         setSelectedPurchase(undefined)
       }}
-      width={500}
+      width={550}
       okText={"Сохранить"}
       cancelText={"Отмена"}
       onOk={handleOk}
