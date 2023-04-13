@@ -125,9 +125,9 @@ export const PageOperationAccounting: React.FC = () => {
             }}
           />
           <Select
+            showSearch
             allowClear
             placeholder='Операция'
-            // value={selectedOperationById ? selectedOperationById.title : undefined}
             onChange={onChangeOperation}
             style={{'width': '300px'}}
           >

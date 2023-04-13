@@ -18,9 +18,12 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
 
-  // Все выпуски продукции, выбранный выпуск продукции
+  // Все выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
+
+  // Выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
+  const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
   // Изменить выбранную операцию
   const onChangeOperation = (values: string, option: any): TypeOperation => {
@@ -43,6 +46,19 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     });
     setSelectedOutput(selectedOutput);
     return selectedOutput;
+  };
+
+  const onSearchOutput = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredOutput(allOutput || []);
+    } else {
+      const filtered = allOutput?.filter((output) => {
+        return output?.product && output.product.title
+          ? output.product.title.toLowerCase().includes(searchText.toLowerCase())
+          : false;
+      });
+      setFilteredOutput(filtered || []);
+    }
   };
 
   // Функция подтверждения добавления новой учетной операции
@@ -69,6 +85,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   useEffect(() => {
     getAllOutput().then((allOutput) => {
       setAllOutput(allOutput);
+      setFilteredOutput(allOutput);
     });
   }, []);
 
@@ -81,7 +98,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         setSelectedOutput(undefined);
         onCancel()
       }}
-      width={700}
+      width={650}
       okText={'Сохранить'}
       cancelText={'Отмена'}
       onOk={handleOk}
@@ -102,6 +119,8 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         >
           <div>
             <Select
+              showSearch
+              allowClear
               value={selectedOperation ? selectedOperation?.title : undefined}
               onChange={onChangeOperation}
             >
@@ -121,15 +140,26 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         >
           <div>
             <Select
-              value={selectedOutput ? (`${dayjs(selectedOutput?.date).format('DD.MM.')}, ${selectedOutput?.product?.title}, ID: ${selectedOutput.id}`) : undefined}
+              showSearch
+              allowClear
+              filterOption={false}
+              value={
+                selectedOutput
+                  ? `${dayjs(selectedOutput?.date).format('DD.MM.')}, ${
+                    selectedOutput?.product?.title
+                  }, ID: ${selectedOutput.id}`
+                  : undefined
+              }
               onChange={onChangeOutput}
+              onSearch={onSearchOutput}
             >
-              {allOutput && allOutput.length > 0 ?
-                allOutput.map(output => (
+              {filteredOutput && filteredOutput.length > 0
+                ? filteredOutput.map((output) => (
                   <Option id={output.id} key={output.id} value={output.id} date={output?.date}>
                     {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product?.title}, ID: ${output.id}`}
                   </Option>
-                )) : null}
+                ))
+                : null}
             </Select>
           </div>
         </Form.Item>
