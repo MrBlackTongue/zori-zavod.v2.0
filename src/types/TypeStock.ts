@@ -1,7 +1,7 @@
 import {TypeProduct} from "./TypeProduct";
 
-export type  TypeStock = {
+export type TypeStock = {
   id?: number,
   product?: TypeProduct,
-  amount?: number;
+  amount?: number,
 }

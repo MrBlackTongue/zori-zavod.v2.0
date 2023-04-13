@@ -7,5 +7,6 @@ export * from './apiPurchase'
 export * from './apiEndpoints';
 export * from './apiClient';
 export * from './apiProductBatch';
+export * from './apiProductMovementHistory';
+export * from './apiStock';
 export * from './apiAcceptance';
-export * from './apiStocks';
