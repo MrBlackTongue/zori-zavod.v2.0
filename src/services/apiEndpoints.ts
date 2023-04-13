@@ -10,3 +10,6 @@ export const CLIENT = '/client'
 export const PURCHASE = '/purchase'
 export const TITLE = '/title'
 export const BATCH = '/batch'
+export const PRODUCT_MOVEMENT = '/product-movement';
+export const HISTORY = '/history';
+export const STOCK = '/stock';

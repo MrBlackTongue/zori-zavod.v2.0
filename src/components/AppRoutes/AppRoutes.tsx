@@ -9,6 +9,7 @@ import {PageUnit} from "../../pages/PageUnit/PageUnit";
 import {PagePurchase} from "../../pages/PagePurchase/PagePurchase";
 import {PageClient} from "../../pages/PageClient/PageClient";
 import {PageProductBatch} from "../../pages/PageProductBatch/PageProductBatch";
+import {PageProductMovementHistory} from "../../pages/PageProductMovementHistory/PageProductMovementHistory";
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/purchase" element={<PagePurchase/>}/>
       <Route path="/client" element={<PageClient/>}/>
       <Route path="/product-batch" element={<PageProductBatch/>}/>
+      <Route path="/product-movement-history" element={<PageProductMovementHistory/>}/>
     </Routes>
   );
 };
