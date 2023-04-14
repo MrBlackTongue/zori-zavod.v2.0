@@ -22,6 +22,9 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
   const [selectedPurchase, setSelectedPurchase] = useState<TypePurchase>();
 
+  const [filteredPurchase, setFilteredPurchase] = useState<TypePurchase[]>([]);
+  const [filteredAcceptance, setFilteredAcceptance] = useState<TypePurchase[]>([]);
+
   // Изменить выбранный товар
   const onChangeAcceptance = (value: number): void => {
     const acceptance = allAcceptance?.find((acceptance) => acceptance.id === value);
@@ -42,6 +45,28 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
       purchase: purchase,
     });
   };
+
+// Функция фильтрации закупок
+  const onSearchPurchase = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredPurchase(allPurchase || []);
+    } else {
+      const filtered = allPurchase?.filter((purchase) => {
+        const matchesTitle = purchase.product && purchase.product.title
+          ? purchase.product.title.toLowerCase().includes(searchText.toLowerCase())
+          : false;
+
+        const matchesId = purchase.id ? purchase.id.toString().includes(searchText) : false;
+
+        const purchaseDate = purchase.date ? dayjs(purchase.date).format('DD.MM.YYYY') : '';
+        const matchesDate = purchaseDate.toLowerCase().includes(searchText.toLowerCase());
+
+        return matchesTitle || matchesId || matchesDate;
+      });
+      setFilteredPurchase(filtered || []);
+    }
+  };
+
 
   // Функция валидации добавления новой приемки
   const handleOk = () => {
@@ -68,6 +93,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   useEffect(() => {
     getAllPurchase().then((purchase) => {
       setAllPurchase(purchase);
+      setFilteredPurchase(purchase);
     });
   }, []);
 
@@ -97,12 +123,13 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         <Form.Item
           label="Товар на складе"
           name="stock"
-         // rules={[{required: true, message: 'выберите товар'}]}
+          // rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
             <Select
               showSearch
               allowClear
+              filterOption={false}
               value={selectedAcceptance?.id}
               onChange={onChangeAcceptance}
             >
@@ -119,17 +146,19 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         <Form.Item
           label="Закупка"
           name="purchase"
-       //   rules={[{required: true, message: 'выберите закупку'}]}
+          //   rules={[{required: true, message: 'выберите закупку'}]}
         >
           <div>
             <Select
               showSearch
               allowClear
+              filterOption={false}
               value={selectedPurchase?.id}
               onChange={onChangePurchase}
+              onSearch={onSearchPurchase}
             >
-              {allPurchase && allPurchase.length > 0
-                ? allPurchase.map((purchase) => (
+              {filteredPurchase && filteredPurchase.length > 0
+                ? filteredPurchase.map((purchase) => (
                   <Option key={purchase.id} value={purchase?.id}>
                     {`${dayjs(purchase.date).format(dateFormatUser)} ID: ${purchase.id} ${purchase.product?.title}`}
                   </Option>
