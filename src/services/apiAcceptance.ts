@@ -1,4 +1,4 @@
-import {URL, MOVEMENT, ACCEPTANCE} from "./apiEndpoints";
+import {URL, MOVEMENT, ACCEPTANCE, PRODUCT} from "./apiEndpoints";
 import {TypeAcceptance} from "../types";
 import {message} from "antd";
 
@@ -76,7 +76,7 @@ export async function deleteAcceptanceById(id: number) {
 // Получение приемок по названию продукта
 export async function getAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
   try {
-    const response = await fetch(URL + MOVEMENT + ACCEPTANCE + `/${title}`);
+    const response = await fetch(URL + MOVEMENT + ACCEPTANCE + PRODUCT + `/${title}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();

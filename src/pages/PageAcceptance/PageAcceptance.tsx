@@ -27,7 +27,6 @@ export const PageAcceptance: React.FC = () => {
 
   // Добавить новую приемку
   const addAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
-    console.log('values', values);
     const acceptance: TypeAcceptance = {
       amount: values.amount,
       income: true,
@@ -44,7 +43,6 @@ export const PageAcceptance: React.FC = () => {
         product: values?.purchase?.product,
       },
     };
-    console.log('acceptance', acceptance);
     setIsModalOpen(false)
     postNewAcceptance(acceptance)
     setUpdateTable(!updateTable)

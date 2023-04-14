@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
+import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllAcceptances, deleteAcceptanceById, getProductByTitle, getAcceptanceByTitle} from "../../../services";
-import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase, TypeStock} from "../../../types";
+import {getAllAcceptances, deleteAcceptanceById, getAcceptanceByTitle} from "../../../services";
+import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
 
@@ -59,7 +59,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
       dataIndex: ['stock', 'product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-          unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
     },
     {
       title: 'ID закупки',
@@ -121,7 +121,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     });
   }
 
-  // Функция для поиска
+  // Функция для поиска приёмки
   const searchTable = () => {
     setLoading(true);
     getAcceptanceByTitle(searchText ?? '').then((allAcceptances) => {

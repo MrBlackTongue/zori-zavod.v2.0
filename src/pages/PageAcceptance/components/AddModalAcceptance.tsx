@@ -22,13 +22,15 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
   const [selectedPurchase, setSelectedPurchase] = useState<TypePurchase>();
 
+  // Поиск по закупкам
   const [filteredPurchase, setFilteredPurchase] = useState<TypePurchase[]>([]);
+
+  // Поиск по товару на складе
   const [filteredAcceptance, setFilteredAcceptance] = useState<TypeAcceptance[]>([]);
 
   // Изменить выбранный товар
   const onChangeAcceptance = (value: number): void => {
     const acceptance = allAcceptance?.find((acceptance) => acceptance.id === value);
-    console.log('Selected acceptance:', acceptance);
     setSelectedAcceptance(acceptance);
     form.setFieldsValue({
       stock: acceptance?.stock,
@@ -39,7 +41,6 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   // Изменить выбранную закупку
   const onChangePurchase = (value: number): void => {
     const purchase = allPurchase?.find((purchase) => purchase.id === value);
-    console.log('Selected purchase:', purchase);
     setSelectedPurchase(purchase);
     form.setFieldsValue({
       purchase: purchase,
@@ -91,7 +92,6 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     form
       .validateFields()
       .then((values) => {
-        console.log('дочерний values', values)
         form.resetFields();
         setSelectedAcceptance(undefined);
         setSelectedPurchase(undefined);
@@ -144,7 +144,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         <Form.Item
           label="Товар на складе"
           name="stock"
-           rules={[{required: true, message: 'выберите товар'}]}
+          rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
             <Select
@@ -168,7 +168,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         <Form.Item
           label="Закупка"
           name="purchase"
-             rules={[{required: true, message: 'выберите закупку'}]}
+          rules={[{required: true, message: 'выберите закупку'}]}
         >
           <div>
             <Select
