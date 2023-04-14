@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form,} from 'antd';
-import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
+import {Typography, Space, Button, Form, Input,} from 'antd';
+import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {postNewAcceptance} from "../../services";
 import {TypeAcceptance} from "../../types";
@@ -21,6 +21,9 @@ export const PageAcceptance: React.FC = () => {
 
   // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Текст поиска
+  const [searchText, setSearchText] = useState("");
 
   // Добавить новую приемку
   const addAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
@@ -59,6 +62,13 @@ export const PageAcceptance: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Приемка товаров</Title>
         <Space>
+          <Input
+            placeholder="Поиск по товарам"
+            onChange={(event) => setSearchText(event.target.value)}
+            style={{width: '210px'}}
+            allowClear
+            prefix={<SearchOutlined/>}
+          />
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
@@ -78,6 +88,7 @@ export const PageAcceptance: React.FC = () => {
         </Space>
       </div>
       <TableAcceptance
+        searchText={searchText}
         isUpdateTable={updateTable}
         openDrawer={() => {
         }}

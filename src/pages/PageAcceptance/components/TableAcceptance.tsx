@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllAcceptances, deleteAcceptanceById} from "../../../services";
+import {getAllAcceptances, deleteAcceptanceById, getProductByTitle, getAcceptanceByTitle} from "../../../services";
 import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase, TypeStock} from "../../../types";
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
@@ -121,10 +121,28 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     });
   }
 
+  // Функция для поиска
+  const searchTable = () => {
+    setLoading(true);
+    getAcceptanceByTitle(searchText ?? '').then((allAcceptances) => {
+      setAllAcceptances(allAcceptances);
+      setLoading(false);
+    });
+  }
+
   // Обновление таблицы приемок
   useEffect(() => {
     updateTable();
   }, [!isUpdateTable]);
+
+  // Поиск по таблице приемок
+  useEffect(() => {
+    if (searchText) {
+      searchTable();
+    } else {
+      updateTable();
+    }
+  }, [searchText]);
 
   return (
     <Table
