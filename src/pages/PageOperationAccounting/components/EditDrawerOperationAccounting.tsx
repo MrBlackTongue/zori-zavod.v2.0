@@ -39,6 +39,11 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     return operation
   };
 
+  // Очистить поле операция
+  const onClearOperation = (): void => {
+    setSelectedOperation(undefined);
+  }
+
   // Изменить выбранную товарную группу
   const onChangeOutput = (value: string): TypeOutput | undefined => {
     const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
@@ -130,12 +135,15 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
         <Form.Item
           label="Операция"
           name="operation"
-          rules={[{type: 'object' as const, required: true, message: 'выберите операцию'}]}
+          rules={[{required: true, message: 'выберите операцию'}]}
         >
           <div>
             <Select
+              showSearch
+              allowClear
               value={selectedOperation ? selectedOperation?.title : undefined}
               onChange={onChangeOperation}
+              onClear={onClearOperation}
             >
               {allOperation && allOperation.length > 0 ?
                 allOperation.map(operation => (
@@ -149,7 +157,6 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
         <Form.Item
           label="Выпуск продукции"
           name="output"
-          rules={[{type: 'object' as const, required: true, message: 'выберите выпуск продукции'}]}
         >
           <div>
             <Select
@@ -168,7 +175,6 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
         <Form.Item
           label="Факт"
           name="fact"
-          rules={[{required: true, message: "введите факт"}]}
         >
           <InputNumber style={{width: "100%"}}/>
         </Form.Item>

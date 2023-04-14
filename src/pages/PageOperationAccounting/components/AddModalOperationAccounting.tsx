@@ -38,6 +38,11 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     return operation
   };
 
+  // Очистить поле операция
+  const onClearOperation = (): void => {
+    setSelectedOperation(undefined);
+  }
+
   // Изменить выбранный выпуск продукции
   const onChangeOutput = (value: string): TypeOutput | undefined => {
     const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
@@ -48,14 +53,24 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     return selectedOutput;
   };
 
+  // Поиск по выпускам продукции
   const onSearchOutput = (searchText: string) => {
     if (searchText === '') {
       setFilteredOutput(allOutput || []);
     } else {
+      const searchLowerCase = searchText.toLowerCase();
       const filtered = allOutput?.filter((output) => {
-        return output?.product && output.product.title
-          ? output.product.title.toLowerCase().includes(searchText.toLowerCase())
+        const titleMatch = output?.product && output.product.title
+          ? output.product.title.toLowerCase().includes(searchLowerCase)
           : false;
+
+        const idMatch = output.id?.toString().includes(searchText);
+
+        const dateMatch = output?.date
+          ? dayjs(output.date).format('DD.MM.YYYY').includes(searchText)
+          : false;
+
+        return titleMatch || idMatch || dateMatch;
       });
       setFilteredOutput(filtered || []);
     }
@@ -123,6 +138,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
               allowClear
               value={selectedOperation ? selectedOperation?.title : undefined}
               onChange={onChangeOperation}
+              onClear={onClearOperation}
             >
               {allOperation && allOperation.length > 0 ?
                 allOperation.map(operation => (
@@ -136,7 +152,6 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         <Form.Item
           label="Выпуск продукции"
           name="output"
-          rules={[{type: 'object' as const, required: true, message: 'выберите выпуск продукции'}]}
         >
           <div>
             <Select
@@ -166,7 +181,6 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         <Form.Item
           label="Факт"
           name="fact"
-          rules={[{required: true, message: "введите факт"}]}
         >
           <InputNumber style={{width: "100%"}}/>
         </Form.Item>
