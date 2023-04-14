@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypePurchase, TypeAcceptance} from "../../../types";
-import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
+import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
 import {getAllAcceptances, getAllPurchase} from "../../../services";
+import dayjs from "dayjs";
 
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
@@ -47,10 +48,6 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     form
       .validateFields()
       .then((values) => {
-        if (!selectedAcceptance || !selectedPurchase) {
-          message.error('Выберите товар и закупку');
-          return;
-        }
         console.log('дочерний values', values)
         form.resetFields();
         setSelectedAcceptance(undefined);
@@ -100,17 +97,19 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         <Form.Item
           label="Товар на складе"
           name="stock"
-          rules={[{required: true, message: 'выберите товар'}]}
+         // rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
             <Select
+              showSearch
+              allowClear
               value={selectedAcceptance?.id}
               onChange={onChangeAcceptance}
             >
               {allAcceptance && allAcceptance.length > 0
                 ? allAcceptance.map((acceptance) => (
-                  <Option key={acceptance.id} value={acceptance.id}>
-                    {acceptance.stock?.product?.title}
+                  <Option key={acceptance.id} value={acceptance?.id}>
+                    {acceptance.stock?.product?.title} {`ID: ${acceptance.id}, ${acceptance?.id}`}
                   </Option>
                 ))
                 : null}
@@ -120,17 +119,19 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         <Form.Item
           label="Закупка"
           name="purchase"
-          rules={[{required: true, message: 'выберите закупку'}]}
+       //   rules={[{required: true, message: 'выберите закупку'}]}
         >
           <div>
             <Select
+              showSearch
+              allowClear
               value={selectedPurchase?.id}
               onChange={onChangePurchase}
             >
               {allPurchase && allPurchase.length > 0
                 ? allPurchase.map((purchase) => (
-                  <Option key={purchase.id} value={purchase.id}>
-                    {purchase.product?.title}
+                  <Option key={purchase.id} value={purchase?.id}>
+                    {`${dayjs(purchase.date).format(dateFormatUser)} ID: ${purchase.id} ${purchase.product?.title}`}
                   </Option>
                 ))
                 : null}
