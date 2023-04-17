@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, TypePurchase, TypeAcceptance} from "../../../types";
+import {AddModalProps, TypePurchase, TypeAcceptance, TypeStock} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
-import {getAllAcceptances, getAllPurchase} from "../../../services";
+import {getAllStocks, getAllPurchase, getAllAcceptances} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
@@ -15,8 +15,8 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   const [form] = Form.useForm();
 
   // Товар со склада, выбрать товар со склада
-  const [allAcceptance, setAcceptance] = useState<TypeAcceptance[]>();
-  const [selectedAcceptance, setSelectedAcceptance] = useState<TypeAcceptance>();
+  const [allStocks, setAllStocks] = useState<TypeAcceptance[]>();
+  const [selectedStock, setSelectedStock] = useState<TypeAcceptance>();
 
   // Закупка, выбрать закупку
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
@@ -26,15 +26,15 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   const [filteredPurchase, setFilteredPurchase] = useState<TypePurchase[]>([]);
 
   // Поиск по товару на складе
-  const [filteredAcceptance, setFilteredAcceptance] = useState<TypeAcceptance[]>([]);
+  const [filteredStocks, setFilteredStocks] = useState<TypeAcceptance[]>([]);
 
   // Изменить выбранный товар
-  const onChangeAcceptance = (value: number): void => {
-    const acceptance = allAcceptance?.find((acceptance) => acceptance.id === value);
-    setSelectedAcceptance(acceptance);
+  const onChangeStock = (value: number): void => {
+    const stocks = allStocks?.find((stocks) => stocks.id === value);
+    setSelectedStock(stocks);
     form.setFieldsValue({
-      stock: acceptance?.stock,
-      purchase: acceptance?.purchase,
+      stock: stocks?.stock,
+      purchase: stocks?.purchase,
     });
   };
 
@@ -48,20 +48,20 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   // Функция фильтрации товара на складе
-  const onSearchAcceptance = (searchText: string) => {
+  const onSearchStocks = (searchText: string) => {
     if (searchText === '') {
-      setFilteredAcceptance(allAcceptance || []);
+      setFilteredStocks(allStocks || []);
     } else {
-      const filtered = allAcceptance?.filter((acceptance) => {
-        const matchesTitle = acceptance.stock && acceptance.stock.product && acceptance.stock.product.title
-          ? acceptance.stock.product.title.toLowerCase().includes(searchText.toLowerCase())
+      const filtered = allStocks?.filter((stocks) => {
+        const matchesTitle = stocks.stock && stocks.stock.product && stocks.stock.product.title
+          ? stocks.stock.product.title.toLowerCase().includes(searchText.toLowerCase())
           : false;
 
-        const matchesId = acceptance.id ? acceptance.id.toString().includes(searchText) : false;
+        const matchesId = stocks.id ? stocks.id.toString().includes(searchText) : false;
 
         return matchesTitle || matchesId;
       });
-      setFilteredAcceptance(filtered || []);
+      setFilteredStocks(filtered || []);
     }
   };
 
@@ -86,14 +86,13 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     }
   };
 
-
   // Функция валидации добавления новой приемки
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
-        setSelectedAcceptance(undefined);
+        setSelectedStock(undefined);
         setSelectedPurchase(undefined);
         addItem(values);
       })
@@ -103,9 +102,9 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   useEffect(() => {
-    getAllAcceptances().then((acceptance) => {
-      setAcceptance(acceptance);
-      setFilteredAcceptance(acceptance);
+    getAllStocks().then((stocks) => {
+     // setSelectedStock(stocks);
+      setFilteredStocks(stocks);
     });
   }, []);
 
@@ -123,7 +122,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
       onCancel={() => {
         form.resetFields();
         onCancel()
-        setSelectedAcceptance(undefined)
+        setSelectedStock(undefined)
         setSelectedPurchase(undefined)
       }}
       width={550}
@@ -151,14 +150,14 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
               showSearch
               allowClear
               filterOption={false}
-              value={selectedAcceptance?.id}
-              onChange={onChangeAcceptance}
-              onSearch={onSearchAcceptance}
+              value={selectedStock?.id}
+              onChange={onChangeStock}
+              onSearch={onSearchStocks}
             >
-              {filteredAcceptance && filteredAcceptance.length > 0
-                ? filteredAcceptance.map((acceptance) => (
-                  <Option key={acceptance.id} value={acceptance?.id}>
-                    {acceptance.stock?.product?.title} {`ID: ${acceptance.id}, ${acceptance?.amount}`}
+              {filteredStocks && filteredStocks.length > 0
+                ? filteredStocks.map((stock) => (
+                  <Option key={stock.id} value={stock?.id}>
+                    {stock.stock?.product?.title} {`ID: ${stock.id}, ${stock?.amount}`}
                   </Option>
                 ))
                 : null}

@@ -13,10 +13,10 @@ export const PageAcceptance: React.FC = () => {
 
   const [form] = Form.useForm();
 
-  // Товары в таблице, обновить таблицу
+  // Обновить таблицу
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Создать новыую приемку
+  // Приёмка товаров
   const [acceptance] = useState<TypeAcceptance | null>(null);
 
   // Открыть закрыть модальное окно
@@ -88,8 +88,7 @@ export const PageAcceptance: React.FC = () => {
       <TableAcceptance
         searchText={searchText}
         isUpdateTable={updateTable}
-        openDrawer={() => {
-        }}
+        openDrawer={() => {}}
       />
       <AddModalAcceptance
         isOpen={isModalOpen}
