@@ -25,7 +25,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/client" element={<PageClient/>}/>
       <Route path="/product-batch" element={<PageProductBatch/>}/>
       <Route path="/product-movement-history" element={<PageProductMovementHistory/>}/>
-      <Route path="/product-acceptance" element={<PageAcceptance/>}/>
+      <Route path="/acceptance" element={<PageAcceptance/>}/>
     </Routes>
   );
 };

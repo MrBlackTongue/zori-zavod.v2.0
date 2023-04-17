@@ -40,20 +40,6 @@ export function postNewAcceptance(data: TypeAcceptance) {
   }
 }
 
-// Получение приемки по id
-export async function getAcceptanceById(id: number): Promise<TypeAcceptance | undefined> {
-  try {
-    const response = await fetch(URL + MOVEMENT + ACCEPTANCE + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-}
 
 // Удаление приемки по id
 export async function deleteAcceptanceById(id: number) {

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypePurchase, TypeAcceptance, TypeStock} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
-import {getAllStocks, getAllPurchase, getAllAcceptances} from "../../../services";
+import {getAllStock, getAllPurchase, getAllAcceptances} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
@@ -15,26 +15,25 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   const [form] = Form.useForm();
 
   // Товар со склада, выбрать товар со склада
-  const [allStocks, setAllStocks] = useState<TypeAcceptance[]>();
-  const [selectedStock, setSelectedStock] = useState<TypeAcceptance>();
+  const [allStock, setAllStock] = useState<TypeStock[]>();
+  const [selectedStock, setSelectedStock] = useState<TypeStock>();
 
-  // Закупка, выбрать закупку
+  // Поиск по товару на складе
+  const [filteredStocks, setFilteredStock] = useState<TypeStock[]>([]);
+
+  // Все закупки, выбранная закупка
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
   const [selectedPurchase, setSelectedPurchase] = useState<TypePurchase>();
 
   // Поиск по закупкам
   const [filteredPurchase, setFilteredPurchase] = useState<TypePurchase[]>([]);
 
-  // Поиск по товару на складе
-  const [filteredStocks, setFilteredStocks] = useState<TypeAcceptance[]>([]);
-
   // Изменить выбранный товар
   const onChangeStock = (value: number): void => {
-    const stocks = allStocks?.find((stocks) => stocks.id === value);
-    setSelectedStock(stocks);
+    const stock = allStock?.find((stock) => stock.id === value);
+    setSelectedStock(stock);
     form.setFieldsValue({
-      stock: stocks?.stock,
-      purchase: stocks?.purchase,
+      stock: stock,
     });
   };
 
@@ -50,18 +49,18 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   // Функция фильтрации товара на складе
   const onSearchStocks = (searchText: string) => {
     if (searchText === '') {
-      setFilteredStocks(allStocks || []);
+      setFilteredStock(allStock || []);
     } else {
-      const filtered = allStocks?.filter((stocks) => {
-        const matchesTitle = stocks.stock && stocks.stock.product && stocks.stock.product.title
-          ? stocks.stock.product.title.toLowerCase().includes(searchText.toLowerCase())
+      const filtered = allStock?.filter((stock) => {
+        const matchesTitle = stock && stock.product && stock.product.title
+          ? stock.product.title.toLowerCase().includes(searchText.toLowerCase())
           : false;
 
-        const matchesId = stocks.id ? stocks.id.toString().includes(searchText) : false;
+        const matchesId = stock.id ? stock.id.toString().includes(searchText) : false;
 
         return matchesTitle || matchesId;
       });
-      setFilteredStocks(filtered || []);
+      setFilteredStock(filtered || []);
     }
   };
 
@@ -102,9 +101,9 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   useEffect(() => {
-    getAllStocks().then((stocks) => {
-     // setSelectedStock(stocks);
-      setFilteredStocks(stocks);
+    getAllStock().then((stock) => {
+      setAllStock(stock);
+      setFilteredStock(stock);
     });
   }, []);
 
@@ -125,7 +124,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         setSelectedStock(undefined)
         setSelectedPurchase(undefined)
       }}
-      width={550}
+      width={600}
       okText={"Сохранить"}
       cancelText={"Отмена"}
       onOk={handleOk}
@@ -157,7 +156,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
               {filteredStocks && filteredStocks.length > 0
                 ? filteredStocks.map((stock) => (
                   <Option key={stock.id} value={stock?.id}>
-                    {stock.stock?.product?.title} {`ID: ${stock.id}, ${stock?.amount}`}
+                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
                   </Option>
                 ))
                 : null}
