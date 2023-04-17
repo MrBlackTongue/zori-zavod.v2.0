@@ -21,12 +21,9 @@ export const PageOperationAccounting: React.FC = () => {
   const [operationAccounting] = useState<TypeOperationAccounting | null>(null);
   const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
 
-  // Открыть закрыть модальное окно, дравер
+  // Открыть закрыть модальное окно, дравер, дата
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Текст поиска, дата
-  const [searchText, setSearchText] = useState("");
   const [date, setDate] = useState<any>();
 
   // Все операции, выбранная операция
@@ -37,21 +34,23 @@ export const PageOperationAccounting: React.FC = () => {
   const addOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
     const operationAccounting: TypeOperationAccounting = {
       date: values['date'].format('YYYY-MM-DD'),
-      fact: values.fact,
+      fact: values.fact || undefined,
       operation: {
         id: values.operation.id,
         title: values.operation.title,
       },
-      output: {
-        id: values.output.id,
-        date: values.output.date,
-        product: {
-          id: values.output.product.id,
-          productGroup: values.output.product.productGroup,
-          title: values.output.product.title,
-          unit: values.output.product.unit,
+      output: values.output
+        ? {
+          id: values.output.id,
+          date: values.output.date,
+          product: {
+            id: values.output.product.id,
+            productGroup: values.output.product.productGroup,
+            title: values.output.product.title,
+            unit: values.output.product.unit,
+          }
         }
-      },
+        : undefined,
     };
     setIsModalOpen(false)
     postNewOperationAccounting(operationAccounting)
@@ -68,32 +67,24 @@ export const PageOperationAccounting: React.FC = () => {
   // Изменить выбранную операцию
   const onChangeOperation = (values: string, option: any): TypeOperation => {
     setSelectedOperationById(option.id)
-    console.log('selectedOperationById', selectedOperationById)
     return option.id
   };
 
   // Обновить учетную операцию
   const updateOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
     const operationAccounting: TypeOperationAccounting = {
+      id: selectedOperationAccountingId,
       date: values['date'].format('YYYY-MM-DD'),
-      fact: values.fact,
+      fact: values.fact || undefined,
       operation: {
         id: values.operation.id,
-        // title: values.operation.title,
       },
-      output: {
-        id: values.output.id,
-        // date: values.output.date,
-        // product: {
-        //   id: values.output.product.id,
-        //   productGroup: values.output.product.productGroup,
-        //   title: values.output.product.title,
-        //   unit: values.output.product.unit,
-        // }
-      },
+      output: values.output
+        ? {
+          id: values.output.id,
+        }
+        : undefined,
     };
-    console.log('parent', operationAccounting)
-
     setIsModalOpen(false)
     putChangeOperationAccounting(operationAccounting)
     setUpdateTable(!updateTable)
@@ -159,7 +150,6 @@ export const PageOperationAccounting: React.FC = () => {
       <TableOperationAccounting
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
-        searchText={searchText}
         filterByTable={{
           date: date,
           operationId: selectedOperationById,

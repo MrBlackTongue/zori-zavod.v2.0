@@ -15,7 +15,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
                                                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
 
-  // Лоудер и список всех товаров
+  // Лоудер и список всех учетных операций
   const [loading, setLoading] = useState(false);
   const [allOperationAccounting, setAllOperationAccounting] = useState<TypeOperationAccounting[]>();
 
@@ -97,7 +97,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
         timeSheets
           ? (
             <div>
-              {timeSheets.reduce((acc, timeSheet) => acc + (timeSheet.hours || 0), 0)}
+              {timeSheets.reduce((acc, timeSheet) => acc + (timeSheet.hours || 0), 0).toLocaleString('ru-RU')}
             </div>
           ) : 0,
     },
@@ -106,6 +106,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -114,9 +115,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -132,9 +131,8 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
-                      onClick={() => {
-                      }}>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -167,15 +165,6 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
     });
   }
 
-  // Функция для поиска по таблице товаров
-  const searchTable = () => {
-    // setLoading(true);
-    // getOperationAccountingsByTitle(searchText ?? '').then((allOperationAccountings) => {
-    //   setAllOperationAccounting(allOperationAccountings);
-    //   setLoading(false);
-    // });
-  }
-
   // Функция для фильтрации таблицы
   const filterTable = () => {
     if (filterByTable) {
@@ -194,9 +183,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
 
   // Поиск по таблице товаров
   useEffect(() => {
-    if (searchText) {
-      searchTable();
-    } else if (filterByTable && (filterByTable.date || filterByTable.operationId)) {
+    if (filterByTable && (filterByTable.date || filterByTable.operationId)) {
       filterTable();
     } else {
       updateTable();

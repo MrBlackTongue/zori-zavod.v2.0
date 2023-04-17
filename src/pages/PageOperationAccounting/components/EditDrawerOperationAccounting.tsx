@@ -1,5 +1,5 @@
 import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting} from "../../../types";
 import {getAllOutput, getAllOperation, getOperationAccountingById} from "../../../services";
 import dayjs from "dayjs";
@@ -15,19 +15,27 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
                                                                                                   }) => {
   const [form] = Form.useForm();
 
-  // Единицы измерения, выбранная единица измерения, единица измерения
+  // Все операции, выбранная операция, операция, дата
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
   const [operation, setOperation] = useState<TypeOperation>()
   const [date, setDate] = useState<any>();
 
-  // Все товарные группы, выбранная товарная группа, товарная группа
+  // Все выпуски продукции, выпуск продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
-  const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
   const [output, setOutput] = useState<TypeOutput>()
 
-  // Изменить выбранную единицу измерения
-  const onChangeOperation = (values: string, option: any): TypeOperation => {
+  // Выбранный выпуск продукции, отфильтрованные выпуски продукции
+  const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
+  const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
+
+  // Изменить выбранную операцию
+  const onChangeOperation = (values: string, option: any): TypeOperation | undefined => {
+    if (values === undefined) {
+      setSelectedOperation(undefined);
+      form.setFieldsValue({operation: undefined});
+      return undefined;
+    }
     const operation: TypeOperation = {
       id: option.id,
       title: values,
@@ -39,12 +47,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     return operation
   };
 
-  // Очистить поле операция
-  const onClearOperation = (): void => {
-    setSelectedOperation(undefined);
-  }
-
-  // Изменить выбранную товарную группу
+  // Изменить выбранный выпуск продукции
   const onChangeOutput = (value: string): TypeOutput | undefined => {
     const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
     form.setFieldsValue({
@@ -54,17 +57,80 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     return selectedOutput;
   };
 
+  // Поиск по выпускам продукции
+  const onSearchOutput = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredOutput(allOutput || []);
+    } else {
+      const searchLowerCase = searchText.toLowerCase();
+      const filtered = allOutput?.filter((output) => {
+        const titleMatch = output?.product && output.product.title
+          ? output.product.title.toLowerCase().includes(searchLowerCase)
+          : false;
+
+        const idMatch = output.id?.toString().includes(searchText);
+        const dateMatch = output?.date
+          ? dayjs(output.date).format('DD.MM.YYYY').includes(searchText)
+          : false;
+
+        return titleMatch || idMatch || dateMatch;
+      });
+      setFilteredOutput(filtered || []);
+    }
+  };
+
   // Функция подтверждения добавления новой учетной операции
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
         updateItem(values);
+        closeDrawer()
       })
       .catch((info) => {
         console.log('Validate Failed:', info)
       })
   }
+
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    form.resetFields();
+    if (selectedItemId) {
+      getOperationAccounting(selectedItemId).catch((error) => {
+        console.error("Ошибка при получении данных об учетной операции: ", error)
+      });
+    }
+    setSelectedOperation(operation);
+    setSelectedOutput(output);
+    closeDrawer();
+  };
+
+  // Функция получает информацию об учетной записи и устанавливает значения полей формы
+  const getOperationAccounting = useCallback(async (itemId: number) => {
+    const operationAccounting = await getOperationAccountingById(itemId);
+    form.setFieldsValue({
+      date: dayjs(operationAccounting?.date),
+      fact: operationAccounting?.fact,
+      operation: operationAccounting?.operation,
+      output: operationAccounting?.output,
+    });
+    setSelectedOperation(operationAccounting?.operation);
+    setOperation(operationAccounting?.operation);
+    setSelectedOutput(operationAccounting?.output);
+    setOutput(operationAccounting?.output);
+    setDate(dayjs(operationAccounting?.date));
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (selectedItemId) {
+        await getOperationAccounting(selectedItemId);
+      }
+    };
+    fetchData().catch((error) => {
+      console.error("Ошибка при получении данных об учетной операции: ", error)
+    });
+  }, [selectedItemId, getOperationAccounting]);
 
   useEffect(() => {
     getAllOperation().then((allOperation) => {
@@ -75,47 +141,27 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   useEffect(() => {
     getAllOutput().then((allOutput) => {
       setAllOutput(allOutput);
+      setFilteredOutput(allOutput);
     });
   }, []);
 
   useEffect(() => {
-    if (selectedItemId) {
-      getOperationAccountingById(selectedItemId).then((operationAccounting) => {
-        form.setFieldsValue({
-          date: dayjs(operationAccounting?.date),
-          fact: operationAccounting?.fact,
-        })
-        setSelectedOperation(operationAccounting?.operation)
-        setOperation(operationAccounting?.operation)
-        setSelectedOutput(operationAccounting?.output)
-        setOutput(operationAccounting?.output)
-        setDate(dayjs(operationAccounting?.date));
-      })
+    if (!isOpen) {
+      setFilteredOutput(allOutput || []);
     }
-  }, [selectedItemId, getOperationAccountingById]);
+  }, [isOpen]);
 
   return (
     <Drawer
-      title="Редактирование учетной записи"
+      title="Редактирование учетной операции"
       width={700}
       open={isOpen}
-      onClose={() => {
-        setSelectedOperation(operation);
-        setSelectedOutput(output);
-        closeDrawer()
-      }}
+      onClose={handleClose}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={() => {
-            setSelectedOperation(operation);
-            setSelectedOutput(output);
-            closeDrawer()
-          }}>Отмена</Button>
-          <Button onClick={() => {
-            closeDrawer()
-            handleOk()
-          }} type="primary" htmlType="submit">
+          <Button onClick={handleClose}>Отмена</Button>
+          <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -135,7 +181,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
         <Form.Item
           label="Операция"
           name="operation"
-          rules={[{required: true, message: 'выберите операцию'}]}
+          rules={[{type: 'object' as const, required: true, message: 'выберите операцию'}]}
         >
           <div>
             <Select
@@ -143,7 +189,6 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
               allowClear
               value={selectedOperation ? selectedOperation?.title : undefined}
               onChange={onChangeOperation}
-              onClear={onClearOperation}
             >
               {allOperation && allOperation.length > 0 ?
                 allOperation.map(operation => (
@@ -160,11 +205,19 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
         >
           <div>
             <Select
-              value={selectedOutput ? (`${dayjs(selectedOutput?.date).format('DD.MM.')}, ${selectedOutput?.product?.title}, ID: ${selectedOutput.id}`) : undefined}
+              showSearch
+              allowClear
+              filterOption={false}
+              value={selectedOutput
+                ? (
+                  `${dayjs(selectedOutput?.date).format('DD.MM.')}, 
+                  ${selectedOutput?.product?.title}, ID: ${selectedOutput.id}`
+                ) : undefined}
               onChange={onChangeOutput}
+              onSearch={onSearchOutput}
             >
-              {allOutput && allOutput.length > 0 ?
-                allOutput.map(output => (
+              {filteredOutput && filteredOutput.length > 0 ?
+                filteredOutput.map(output => (
                   <Option id={output.id} key={output.id} value={output.id} date={output?.date}>
                     {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product?.title}, ID: ${output.id}`}
                   </Option>
@@ -186,9 +239,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
           <DatePicker
             style={{width: '100%'}}
             format={dateFormatUser}
-            onChange={(value) => {
-              setDate(value);
-            }}
+            onChange={(value) => setDate(value)}
           />
         </Form.Item>
       </Form>

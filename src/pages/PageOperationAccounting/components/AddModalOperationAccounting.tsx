@@ -18,10 +18,8 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
 
-  // Все выпуски продукции
+  // Все выпуски продукции, выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
-
-  // Выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
@@ -40,6 +38,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
 
   // Очистить поле операция
   const onClearOperation = (): void => {
+    form.setFieldsValue({operation: undefined});
     setSelectedOperation(undefined);
   }
 
@@ -65,7 +64,6 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
           : false;
 
         const idMatch = output.id?.toString().includes(searchText);
-
         const dateMatch = output?.date
           ? dayjs(output.date).format('DD.MM.YYYY').includes(searchText)
           : false;
@@ -84,12 +82,20 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         form.resetFields();
         setSelectedOperation(undefined);
         setSelectedOutput(undefined);
-        addItem(values);
+        addItem({...values, output: values.output || null, fact: values.fact || null});
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
       });
   }
+
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    form.resetFields();
+    setSelectedOperation(undefined);
+    setSelectedOutput(undefined);
+    onCancel()
+  };
 
   useEffect(() => {
     getAllOperation().then((allOperation) => {
@@ -104,15 +110,17 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     });
   }, []);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setFilteredOutput(allOutput || []);
+    }
+  }, [isOpen]);
+
   return (
     <Modal
       title={`Добавление новой учетной операции`}
       open={isOpen}
-      onCancel={() => {
-        setSelectedOperation(undefined);
-        setSelectedOutput(undefined);
-        onCancel()
-      }}
+      onCancel={handleClose}
       width={650}
       okText={'Сохранить'}
       cancelText={'Отмена'}
@@ -121,7 +129,9 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
       <Form
         form={form}
         initialValues={{
-          modifier: 'public'
+          modifier: 'public',
+          output: null,
+          fact: null,
         }}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
