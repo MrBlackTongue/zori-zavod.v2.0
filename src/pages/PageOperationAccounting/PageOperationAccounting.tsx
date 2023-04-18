@@ -65,7 +65,11 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): TypeOperation => {
+  const onChangeOperation = (values: string, option: any): TypeOperation | undefined => {
+    if (values === undefined) {
+      setSelectedOperationById(undefined);
+      return undefined;
+    }
     setSelectedOperationById(option.id)
     return option.id
   };
@@ -112,7 +116,7 @@ export const PageOperationAccounting: React.FC = () => {
             style={{width: '150px'}}
             format='DD.MM.YYYY'
             onChange={(value) => {
-              setDate(dayjs(value).format('YYYY-MM-DD'));
+              setDate(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
             }}
           />
           <Select
@@ -139,9 +143,7 @@ export const PageOperationAccounting: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
@@ -150,25 +152,21 @@ export const PageOperationAccounting: React.FC = () => {
       <TableOperationAccounting
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
-        filterByTable={{
-          date: date,
-          operationId: selectedOperationById,
+        filter={{
+          dateFilter: date,
+          idFilter: selectedOperationById,
         }}
       />
       <AddModalOperationAccounting
         isOpen={isModalOpen}
         addItem={addOperationAccounting}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerOperationAccounting
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationAccountingId}
         updateItem={updateOperationAccounting}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
   );

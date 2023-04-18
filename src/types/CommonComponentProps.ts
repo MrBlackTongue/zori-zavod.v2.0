@@ -3,9 +3,9 @@ export interface TableProps<T> {
   openDrawer: (id: number) => void;
   searchText?: string | undefined;
   filterById?: number | undefined;
-  filterByTable?: {
-    date?: string,
-    operationId?: number,
+  filter?: {
+    dateFilter?: string| undefined,
+    idFilter?: number| undefined,
   }
 }
 

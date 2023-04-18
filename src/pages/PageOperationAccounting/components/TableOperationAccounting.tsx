@@ -11,7 +11,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
                                                                                           isUpdateTable,
                                                                                           openDrawer,
                                                                                           searchText,
-                                                                                          filterByTable,
+                                                                                          filter,
                                                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -34,7 +34,6 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      sorter: (a, b) => (a.id || 0) < (b.id || 0) ? -1 : 1,
     },
     {
       title: 'Дата',
@@ -66,7 +65,6 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       title: 'Факт',
       dataIndex: 'fact',
       key: 'fact',
-      sorter: (a, b) => (a.fact || 0) < (b.fact || 0) ? -1 : 1,
       render: ((fact: number | null) =>
         fact !== null ? (
           <div>
@@ -97,7 +95,9 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
         timeSheets
           ? (
             <div>
-              {timeSheets.reduce((acc, timeSheet) => acc + (timeSheet.hours || 0), 0).toLocaleString('ru-RU')}
+              {timeSheets
+                .reduce((acc, timeSheet) => acc + (timeSheet.hours || 0), 0)
+                .toLocaleString('ru-RU')}
             </div>
           ) : 0,
     },
@@ -126,7 +126,8 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               onConfirm={() => {
                 deleteOperationAccountingById(id).then(() => {
                   getAllOperationAccounting()
-                    .then((allOperationAccounting) => setAllOperationAccounting(allOperationAccounting))
+                    .then((allOperationAccounting) =>
+                      setAllOperationAccounting(allOperationAccounting))
                 })
               }}
               okText="Да"
@@ -167,9 +168,12 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
 
   // Функция для фильтрации таблицы
   const filterTable = () => {
-    if (filterByTable) {
+    if (filter) {
       setLoading(true);
-      postFilterByTable(filterByTable).then((allOperationAccounting) => {
+      postFilterByTable({
+        date: filter.dateFilter || undefined,
+        operationId: filter.idFilter || undefined,
+      }).then((allOperationAccounting) => {
         setAllOperationAccounting(allOperationAccounting);
         setLoading(false);
       });
@@ -183,12 +187,12 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
 
   // Поиск по таблице товаров
   useEffect(() => {
-    if (filterByTable && (filterByTable.date || filterByTable.operationId)) {
+    if (filter && (filter.dateFilter || filter.idFilter)) {
       filterTable();
     } else {
       updateTable();
     }
-  }, [searchText, filterByTable]);
+  }, [searchText, filter]);
 
   return (
     <Table
