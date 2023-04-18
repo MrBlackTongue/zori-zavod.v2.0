@@ -29,7 +29,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
   // Колонки в таблице
   const columns: ColumnsType<TypePurchase> = [
     {
-      title: 'Идентификатор',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
     },

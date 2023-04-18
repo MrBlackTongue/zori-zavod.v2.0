@@ -163,5 +163,3 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
     />
   );
 };
-
-

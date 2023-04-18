@@ -3,7 +3,7 @@ import {TypeAcceptance} from "../types";
 import {message} from "antd";
 
 // Получение всех приемок товаров
-export async function getAllAcceptances(): Promise<TypeAcceptance[]> {
+export async function getAllAcceptance(): Promise<TypeAcceptance[]> {
   try {
     const res = await fetch(URL + MOVEMENT + ACCEPTANCE);
     if (!res.ok) {
@@ -39,7 +39,6 @@ export function postNewAcceptance(data: TypeAcceptance) {
     console.error(error);
   }
 }
-
 
 // Удаление приемки по id
 export async function deleteAcceptanceById(id: number) {

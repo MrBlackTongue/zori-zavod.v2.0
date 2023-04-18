@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypePurchase, TypeAcceptance, TypeStock} from "../../../types";
-import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
-import {getAllStock, getAllPurchase, getAllAcceptances} from "../../../services";
+import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
+import {getAllStock, getAllPurchase} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
@@ -19,7 +19,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
 
   // Поиск по товару на складе
-  const [filteredStocks, setFilteredStock] = useState<TypeStock[]>([]);
+  const [filteredStock, setFilteredStock] = useState<TypeStock[]>([]);
 
   // Все закупки, выбранная закупка
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
@@ -28,7 +28,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   // Поиск по закупкам
   const [filteredPurchase, setFilteredPurchase] = useState<TypePurchase[]>([]);
 
-  // Изменить выбранный товар
+  // Изменить выбранный товар на складе
   const onChangeStock = (value: number): void => {
     const stock = allStock?.find((stock) => stock.id === value);
     setSelectedStock(stock);
@@ -47,7 +47,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   // Функция фильтрации товара на складе
-  const onSearchStocks = (searchText: string) => {
+  const onSearchStock = (searchText: string) => {
     if (searchText === '') {
       setFilteredStock(allStock || []);
     } else {
@@ -87,6 +87,14 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
 
   // Функция валидации добавления новой приемки
   const handleOk = () => {
+    if (
+      selectedPurchase &&
+      selectedStock &&
+      selectedPurchase?.product?.id !== selectedStock?.product?.id
+    ) {
+      message.error("Товар в закупке и на складе отличается");
+      return;
+    }
     form
       .validateFields()
       .then((values) => {
@@ -151,10 +159,10 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
               filterOption={false}
               value={selectedStock?.id}
               onChange={onChangeStock}
-              onSearch={onSearchStocks}
+              onSearch={onSearchStock}
             >
-              {filteredStocks && filteredStocks.length > 0
-                ? filteredStocks.map((stock) => (
+              {filteredStock && filteredStock.length > 0
+                ? filteredStock.map((stock) => (
                   <Option key={stock.id} value={stock?.id}>
                     {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
                   </Option>

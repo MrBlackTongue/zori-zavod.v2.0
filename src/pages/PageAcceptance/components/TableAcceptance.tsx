@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllAcceptances, deleteAcceptanceById, getAcceptanceByTitle} from "../../../services";
+import {getAllAcceptance, deleteAcceptanceById, getAcceptanceByTitle} from "../../../services";
 import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
@@ -15,7 +15,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
 
   // Лоудер и список всех приемок
   const [loading, setLoading] = useState(false);
-  const [allAcceptances, setAllAcceptances] = useState<TypeAcceptance[]>();
+  const [allAcceptance, setAllAcceptance] = useState<TypeAcceptance[]>();
 
   // Параметры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -44,8 +44,8 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     },
     {
       title: 'Товар',
-      dataIndex: 'stock',
-      key: 'stock',
+      dataIndex: 'product',
+      key: 'product',
       render: ((stock: any) =>
         stock !== null ? (<div key={stock?.id}>{stock?.product?.title}</div>) : null)
     },
@@ -73,6 +73,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -81,7 +82,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
               title="Вы действительно хотите удалить эту приемку?"
               onConfirm={() => {
                 deleteAcceptanceById(id).then(() => {
-                  getAllAcceptances().then((allAcceptances) => setAllAcceptances(allAcceptances))
+                  getAllAcceptance().then((allAcceptance) => setAllAcceptance(allAcceptance))
                 })
               }}
               okText="Да"
@@ -108,15 +109,15 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllAcceptances([]);
+      setAllAcceptance([]);
     }
   };
 
   // Функция для обновления таблицы приемок
   const updateTable = () => {
     setLoading(true);
-    getAllAcceptances().then((allAcceptances) => {
-      setAllAcceptances(allAcceptances);
+    getAllAcceptance().then((allAcceptance) => {
+      setAllAcceptance(allAcceptance);
       setLoading(false);
     });
   }
@@ -125,7 +126,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
   const searchTable = () => {
     setLoading(true);
     getAcceptanceByTitle(searchText ?? '').then((allAcceptances) => {
-      setAllAcceptances(allAcceptances);
+      setAllAcceptance(allAcceptances);
       setLoading(false);
     });
   }
@@ -147,7 +148,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
   return (
     <Table
       columns={columns}
-      dataSource={allAcceptances}
+      dataSource={allAcceptance}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}
