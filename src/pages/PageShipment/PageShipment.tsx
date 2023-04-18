@@ -13,6 +13,7 @@ import '../../App.css'
 import {postNewShipment, putChangeShipment} from "../../services";
 import {TypeShipment} from "../../types";
 import {TableShipment} from "./components/TableShipment";
+import {AddModalShipment} from "./components/AddModalShipment";
 
 const {Title} = Typography;
 
@@ -37,7 +38,7 @@ export const PageShipment: React.FC = () => {
   const addShipment = (values: { [key: string]: any }): TypeShipment => {
     const Shipment: TypeShipment = {
       date: values['date'].format('YYYY-MM-DD'),
-
+      client: values['client'],
     };
     setIsModalOpen(false)
     postNewShipment(Shipment)
@@ -95,6 +96,13 @@ export const PageShipment: React.FC = () => {
       <TableShipment
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+      />
+      <AddModalShipment
+        isOpen={isModalOpen}
+        addItem={addShipment}
+        onCancel={() => {
+          setIsModalOpen(false)
+        }}
       />
     </div>
   );
