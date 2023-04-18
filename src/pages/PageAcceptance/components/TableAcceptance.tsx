@@ -44,7 +44,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     },
     {
       title: 'Товар',
-      dataIndex: 'product',
+      dataIndex: 'stock',
       key: 'product',
       render: ((stock: any) =>
         stock !== null ? (<div key={stock?.id}>{stock?.product?.title}</div>) : null)
