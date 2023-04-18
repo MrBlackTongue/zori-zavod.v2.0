@@ -11,6 +11,7 @@ import type {SorterResult} from 'antd/es/table/interface';
 import {
   EditOutlined,
   DeleteOutlined,
+  DownOutlined,
 } from '@ant-design/icons';
 import {getAllShipment, deleteShipmentById} from "../../../services";
 import {TableProps, TypeShipment, TableParams} from "../../../types";
@@ -62,8 +63,21 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
+          <Tooltip title="Подробнее" placement="bottomRight">
+            <Button
+              type="primary"
+              size="small"
+              shape="circle"
+              ghost
+              onClick={() => {
+                openDrawer(id)
+              }}>
+              <DownOutlined />
+            </Button>
+          </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
               type="primary"

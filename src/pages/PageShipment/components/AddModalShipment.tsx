@@ -24,7 +24,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
       title: values,
     };
     form.setFieldsValue({
-      client
+      client: client
     });
     setSelectedClient(client)
     return client

@@ -14,6 +14,7 @@ import {postNewShipment, putChangeShipment} from "../../services";
 import {TypeShipment} from "../../types";
 import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
+import {EditDrawerShipment} from "./components/EditDrawerShipment";
 
 const {Title} = Typography;
 
@@ -57,6 +58,7 @@ export const PageShipment: React.FC = () => {
     const Shipment: TypeShipment = {
       date: values['date'].format('YYYY-MM-DD'),
       id: selectedShipmentId,
+      client: values.client,
     };
     setIsDrawerOpen(false)
     putChangeShipment(Shipment)
@@ -102,6 +104,14 @@ export const PageShipment: React.FC = () => {
         addItem={addShipment}
         onCancel={() => {
           setIsModalOpen(false)
+        }}
+      />
+      <EditDrawerShipment
+        isOpen={isDrawerOpen}
+        selectedItemId={selectedShipmentId}
+        updateItem={updateShipment}
+        closeDrawer={() => {
+          setIsDrawerOpen(false);
         }}
       />
     </div>
