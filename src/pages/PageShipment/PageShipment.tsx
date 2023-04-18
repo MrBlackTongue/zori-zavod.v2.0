@@ -12,6 +12,7 @@ import {
 import '../../App.css'
 import {postNewShipment, putChangeShipment} from "../../services";
 import {TypeShipment} from "../../types";
+import {TableShipment} from "./components/TableShipment";
 
 const {Title} = Typography;
 
@@ -91,6 +92,10 @@ export const PageShipment: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <TableShipment
+        isUpdateTable={updateTable}
+        openDrawer={openDrawer}
+      />
     </div>
   );
 };
