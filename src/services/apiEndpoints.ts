@@ -14,3 +14,4 @@ export const PRODUCT_MOVEMENT = '/product-movement';
 export const HISTORY = '/history';
 export const STOCK = '/stock';
 export const SHIPMENT = '/shipment';
+export const MOVEMENT_SHIPMENT = '/movement/shipment';

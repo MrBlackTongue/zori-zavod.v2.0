@@ -10,3 +10,4 @@ export * from './apiProductBatch';
 export * from './apiProductMovementHistory';
 export * from './apiStock';
 export * from './apiShipment';
+export * from './apiShipmentProductMovement'
