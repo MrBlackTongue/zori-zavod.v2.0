@@ -4,7 +4,7 @@ import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
 import {TypeStock} from "../../types";
-import {getAllStocks} from "../../services";
+import {getAllStock} from "../../services";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -31,7 +31,7 @@ export const PageProductMovementHistory: React.FC = () => {
   }
 
   useEffect(() => {
-    getAllStocks().then((stocks) => {
+    getAllStock().then((stocks) => {
       setStocks(stocks);
     });
   }, []);

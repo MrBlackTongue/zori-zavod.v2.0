@@ -3,7 +3,7 @@ import {URL, STOCK, GROUP} from "./apiEndpoints";
 import {message} from "antd";
 
 // Получить список всех остатков со склада
-export async function getAllStocks(): Promise<TypeStock[]> {
+export async function getAllStock(): Promise<TypeStock[]> {
   try {
     const response = await fetch(URL + STOCK);
     if (!response.ok) {
