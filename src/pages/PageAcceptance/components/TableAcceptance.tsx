@@ -125,8 +125,8 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
   // Функция для поиска приёмки
   const searchTable = () => {
     setLoading(true);
-    getAcceptanceByTitle(searchText ?? '').then((allAcceptances) => {
-      setAllAcceptance(allAcceptances);
+    getAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
+      setAllAcceptance(allAcceptance);
       setLoading(false);
     });
   }

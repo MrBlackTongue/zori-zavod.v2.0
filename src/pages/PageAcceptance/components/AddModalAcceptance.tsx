@@ -64,7 +64,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     }
   };
 
-// Функция фильтрации закупок
+   // Функция фильтрации закупок
   const onSearchPurchase = (searchText: string) => {
     if (searchText === '') {
       setFilteredPurchase(allPurchase || []);
@@ -92,7 +92,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
       selectedStock &&
       selectedPurchase?.product?.id !== selectedStock?.product?.id
     ) {
-      message.error("Товар в закупке и на складе отличается");
+      message.warning("Товар в закупке и на складе отличается");
       return;
     }
     form
@@ -103,8 +103,8 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         setSelectedPurchase(undefined);
         addItem(values);
       })
-      .catch((error) => {
-        console.log("Validate Failed:", error);
+      .catch((warning) => {
+        console.log("Validate Failed:", warning);
       });
   };
 
