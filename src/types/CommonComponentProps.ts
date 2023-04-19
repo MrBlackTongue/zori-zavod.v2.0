@@ -1,6 +1,7 @@
 export interface TableProps<T> {
   isUpdateTable: boolean;
   openDrawer: (id: number) => void;
+  detail?: (id: number) => void;
   searchText?: string | undefined;
   filterById?: number | undefined;
 }

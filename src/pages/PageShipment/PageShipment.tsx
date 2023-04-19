@@ -15,6 +15,7 @@ import {TypeShipment} from "../../types";
 import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
 import {EditDrawerShipment} from "./components/EditDrawerShipment";
+import {DetailShipment} from "./components/DetailShipment";
 
 const {Title} = Typography;
 
@@ -31,6 +32,7 @@ export const PageShipment: React.FC = () => {
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isBottomDrawerOpen, setIsBottomDrawerOpen] = useState(false);
 
   // Выбрана отгрузка по id
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
@@ -51,6 +53,11 @@ export const PageShipment: React.FC = () => {
   const openDrawer = (ShipmentId: number) => {
     setSelectedShipmentId(ShipmentId)
     setIsDrawerOpen(true);
+  };
+
+  const openDetailShipment = (shipmentId: number) => {
+    setSelectedShipmentId(shipmentId);
+    setIsBottomDrawerOpen(true)
   };
 
   // Обновить отгрузку
@@ -98,6 +105,7 @@ export const PageShipment: React.FC = () => {
       <TableShipment
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        detail={openDetailShipment}
       />
       <AddModalShipment
         isOpen={isModalOpen}
@@ -114,6 +122,15 @@ export const PageShipment: React.FC = () => {
           setIsDrawerOpen(false);
         }}
       />
+      {selectedShipmentId !== undefined && (
+        <DetailShipment
+          shipmentId={selectedShipmentId}
+          isOpen={isBottomDrawerOpen}
+          closeDrawer={() => {
+            setIsBottomDrawerOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 };

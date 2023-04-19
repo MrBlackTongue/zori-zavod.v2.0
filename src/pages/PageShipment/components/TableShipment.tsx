@@ -18,9 +18,10 @@ import {TableProps, TypeShipment, TableParams} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
-                                                                isUpdateTable,
-                                                                openDrawer,
-                                                              }) => {
+                                                                    isUpdateTable,
+                                                                    openDrawer,
+                                                                    detail
+                                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех отгрузок
@@ -73,9 +74,11 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               shape="circle"
               ghost
               onClick={() => {
-                openDrawer(id)
+                if (detail) {
+                  detail(id)
+                }
               }}>
-              <DownOutlined />
+              <DownOutlined/>
             </Button>
           </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
