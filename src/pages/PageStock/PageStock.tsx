@@ -31,7 +31,7 @@ export const PageStock: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую ячейку на складе
-  const addStock = (values: { [key: string]: any }): TypeStock => {
+  const addStock =  (values: { [key: string]: any }): TypeStock => {
     const stock: TypeStock = {
       amount: values.amount,
       product: {

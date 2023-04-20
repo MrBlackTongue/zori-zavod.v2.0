@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, TypePurchase, TableParams, TypeUnit, TypeStock} from "../../../types";
-import {getAllStock, putChangeStock, postNewStock, deleteStockById, getStockById, getStockByTitle} from "../../../services";
+import {TableProps, TableParams, TypeUnit, TypeStock} from "../../../types";
+import {getAllStock, deleteStockById, getStockByTitle} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStock>> = ({
                                                                     isUpdateTable,
@@ -31,11 +31,14 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
     },
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
+      sorter: (a, b) => (a.product?.title ?? '') < (b.product?.title ?? '') ? -1 : 1,
       render: ((product: any) =>
         product !== null ? (<div key={product.id}>{product.title}</div>) : null)
     },
@@ -66,6 +69,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -106,7 +110,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<TypePurchase>,
+    sorter: SorterResult<TypeStock>,
   ) => {
     setTableParams({
       pagination,
@@ -151,6 +155,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allStock}
       pagination={{position: [bottom]}}
