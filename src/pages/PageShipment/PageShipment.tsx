@@ -15,7 +15,7 @@ import {TypeShipment} from "../../types";
 import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
 import {EditDrawerShipment} from "./components/EditDrawerShipment";
-import {DetailShipment} from "./components/DetailShipment";
+import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
 
 const {Title} = Typography;
 
@@ -105,7 +105,7 @@ export const PageShipment: React.FC = () => {
       <TableShipment
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
-        detail={openDetailShipment}
+        openDetailDrawer={openDetailShipment}
       />
       <AddModalShipment
         isOpen={isModalOpen}
@@ -122,15 +122,13 @@ export const PageShipment: React.FC = () => {
           setIsDrawerOpen(false);
         }}
       />
-      {selectedShipmentId !== undefined && (
-        <DetailShipment
-          shipmentId={selectedShipmentId}
-          isOpen={isBottomDrawerOpen}
-          closeDrawer={() => {
-            setIsBottomDrawerOpen(false);
-          }}
-        />
-      )}
+      <DetailDrawerShipment
+        selectedItemId={selectedShipmentId}
+        isOpen={isBottomDrawerOpen}
+        closeDrawer={() => {
+          setIsBottomDrawerOpen(false);
+        }}
+      />
     </div>
   );
 };

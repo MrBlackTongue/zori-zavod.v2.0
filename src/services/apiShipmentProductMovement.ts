@@ -3,7 +3,7 @@ import {URL, SHIPMENT, MOVEMENT_SHIPMENT} from "./apiEndpoints";
 import {TypeShipmentProductMovement} from "../types/TypeShipmentProductMovement";
 
 // Получить все движения товаров по id отгрузки
-export async function getProductMovementsByShipmentId(id: number): Promise<TypeShipmentProductMovement[] | undefined> {
+export async function getAllProductMovementsByShipmentId(id: number): Promise<TypeShipmentProductMovement[] | undefined> {
   try {
     const response = await fetch(URL + MOVEMENT_SHIPMENT + SHIPMENT + `/${id}`);
     if (!response.ok) {

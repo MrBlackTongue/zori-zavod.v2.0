@@ -1,15 +1,12 @@
 import React from "react";
 import {Button, Drawer, Space} from "antd";
+import {DetailProps, TypeShipment} from "../../../types";
 
-interface ShipmentDetailsProps {
-  shipmentId: number;
-  isOpen: boolean;
-  closeDrawer: () => void;
-}
 
-export const DetailShipment: React.FC<ShipmentDetailsProps> = ({
+export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
                                                                  isOpen,
-                                                                 closeDrawer
+                                                                 closeDrawer,
+                                                                 selectedItemId
                                                                }) => {
 
   const handleClose = () => {

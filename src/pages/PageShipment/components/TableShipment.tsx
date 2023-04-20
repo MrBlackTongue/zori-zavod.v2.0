@@ -20,7 +20,7 @@ import dayjs from 'dayjs';
 export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
                                                                     isUpdateTable,
                                                                     openDrawer,
-                                                                    detail
+                                                                    openDetailDrawer
                                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -74,8 +74,8 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               shape="circle"
               ghost
               onClick={() => {
-                if (detail) {
-                  detail(id)
+                if (openDetailDrawer) {
+                  openDetailDrawer(id)
                 }
               }}>
               <DownOutlined/>
