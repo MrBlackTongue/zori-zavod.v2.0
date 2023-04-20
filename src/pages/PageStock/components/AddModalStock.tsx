@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeProduct, TypeStock} from "../../../types";
 import {Form, Modal, Select, InputNumber} from "antd";
-import {getAllStock} from "../../../services";
+import {getAllProduct} from "../../../services";
 
 const {Option} = Select;
 
 export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
-                                                                          isOpen,
-                                                                          addItem,
-                                                                          onCancel,
-                                                                        }) => {
+                                                                    isOpen,
+                                                                    addItem,
+                                                                    onCancel,
+                                                                  }) => {
   const [form] = Form.useForm();
 
   // Все товары, выбранный товар
-  const [allStock, setAllStock] = useState<TypeStock[]>();
-  const [selectedStock, setSelectedStock] = useState<TypeStock>();
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар
-  const onChangeStock = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
     const product: TypeProduct = {
       id: option.id,
       title: values,
@@ -25,17 +25,17 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
     form.setFieldsValue({
       product: product.id
     });
-    setSelectedStock(product)
+    setSelectedProduct(product)
     return product
   };
 
-  // Функция подтверждения добавления новой закупки
+  // Функция подтверждения добавления новой ячейки на склад
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
-        setSelectedStock(undefined)
+        setSelectedProduct(undefined)
         addItem(values);
       })
       .catch((error) => {
@@ -44,8 +44,8 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   };
 
   useEffect(() => {
-    getAllStock().then((stock) => {
-      setAllStock(stock);
+    getAllProduct().then((products) => {
+      setAllProduct(products);
     });
   }, []);
 
@@ -55,7 +55,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
       open={isOpen}
       onCancel={() => {
         onCancel()
-        setSelectedStock(undefined)
+        setSelectedProduct(undefined)
       }}
       width={500}
       okText={"Сохранить"}
@@ -78,13 +78,13 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
         >
           <div>
             <Select
-              value={selectedStock ? selectedStock?.product?.title : undefined}
-              onChange={onChangeStock}
+              value={selectedProduct ? selectedProduct.title : undefined}
+              onChange={onChangeProduct}
             >
-              {allStock && allStock.length > 0 ?
-                allStock.map(stock => (
-                  <Option id={stock?.product?.id} key={stock?.product?.id} value={stock?.product?.title}>
-                    {stock?.product?.title}
+              {allProduct && allProduct.length > 0 ?
+                allProduct.map(product => (
+                  <Option id={product.id} key={product.id} value={product.title}>
+                    {product.title}
                   </Option>
                 )) : null}
             </Select>
