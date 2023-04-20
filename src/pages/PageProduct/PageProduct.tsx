@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input,} from 'antd';
+import {Typography, Space, Button, Form, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProduct, putChangeProduct} from "../../services";
@@ -111,6 +111,7 @@ export const PageProduct: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop />
       <TableProduct
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
