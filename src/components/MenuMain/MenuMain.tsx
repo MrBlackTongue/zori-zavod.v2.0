@@ -73,7 +73,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/product-batch">Партии товаров</Link>
         </Menu.Item>
         <Menu.Item key="18" icon={<AccountBookOutlined/>}>
-          <Link to="/product-acceptance">Приемка товаров</Link>
+          <Link to="/acceptance">Приемка товаров</Link>
         </Menu.Item>
         <Menu.Item key="19" icon={<AccountBookOutlined/>}>
           <Link to="/product-movement">На производстве</Link>

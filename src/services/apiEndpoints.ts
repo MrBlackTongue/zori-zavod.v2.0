@@ -13,3 +13,5 @@ export const BATCH = '/batch'
 export const PRODUCT_MOVEMENT = '/product-movement';
 export const HISTORY = '/history';
 export const STOCK = '/stock';
+export const ACCEPTANCE = '/acceptance'
+export const MOVEMENT = '/movement'
