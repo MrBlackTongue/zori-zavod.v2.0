@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Table,
-} from 'antd';
+import {Button, Popconfirm, Space, Table, Tooltip,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {getAllProductMovementsByShipmentId} from "../../../services";
+import {
+  deleteShipmentProductMovementById,
+  getAllProductMovementsByShipmentId
+} from "../../../services";
 import {TableProps, TypeShipment, TableParams, TypeStock} from "../../../types";
 import dayjs from 'dayjs';
 import {TypeShipmentProductMovement} from "../../../types/TypeShipmentProductMovement";
+import {DeleteOutlined} from "@ant-design/icons";
 
 export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
                                                                           filterById
@@ -54,6 +56,37 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
       dataIndex: 'amount',
       key: 'amount',
       sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
+    },
+    {
+      title: 'Действия',
+      dataIndex: 'id',
+      key: 'id',
+      width: 100,
+      align: 'center',
+      render: ((id: number) => (
+        <Space>
+          <Tooltip title="Удалить" placement="bottomRight">
+            <Popconfirm
+              placement="topRight"
+              title="Вы действительно хотите удалить этот товар?"
+              onConfirm={() => {
+                deleteShipmentProductMovementById(id).then(() => {
+                  if (filterById)
+                    getAllProductMovementsByShipmentId(filterById)
+                      .then((allShipmentMovements) => setAllShipmentMovements(allShipmentMovements))
+                })
+              }}
+              okText="Да"
+              cancelText="Отмена">
+              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
+                      onClick={() => {
+                      }}>
+                <DeleteOutlined/>
+              </Button>
+            </Popconfirm>
+          </Tooltip>
+        </Space>
+      ))
     },
   ];
 
