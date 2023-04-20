@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Select, DatePicker,} from 'antd';
+import {Typography, Space, Button, Form, Select, DatePicker, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {getAllOperation, postNewOperationAccounting, putChangeOperationAccounting} from "../../services";
@@ -19,14 +19,14 @@ export const PageOperationAccounting: React.FC = () => {
   // Обновление таблицы, учетная операция, выбрана учетная операция по id
   const [updateTable, setUpdateTable] = useState(false);
   const [operationAccounting] = useState<TypeOperationAccounting | null>(null);
-  const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
+  const [selectedOperationAccountingById, setSelectedOperationAccountingById] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер, дата
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [date, setDate] = useState<any>();
 
-  // Все операции, выбранная операция
+  // Все операции, выбранная операция по id
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperationById, setSelectedOperationById] = useState<number>();
 
@@ -55,14 +55,14 @@ export const PageOperationAccounting: React.FC = () => {
     setIsModalOpen(false)
     postNewOperationAccounting(operationAccounting)
     setDate(date)
-    setSelectedOperationAccountingId(selectedOperationAccountingId)
+    setSelectedOperationAccountingById(selectedOperationAccountingById)
     setUpdateTable(!updateTable)
     return values;
   };
 
   // Открыть дравер
   const openDrawer = (operationAccountingId: number) => {
-    setSelectedOperationAccountingId(operationAccountingId)
+    setSelectedOperationAccountingById(operationAccountingId)
     setIsDrawerOpen(true);
   };
 
@@ -79,7 +79,7 @@ export const PageOperationAccounting: React.FC = () => {
   // Обновить учетную операцию
   const updateOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
     const operationAccounting: TypeOperationAccounting = {
-      id: selectedOperationAccountingId,
+      id: selectedOperationAccountingById,
       date: values['date'].format('YYYY-MM-DD'),
       fact: values.fact || undefined,
       operation: {
@@ -93,6 +93,8 @@ export const PageOperationAccounting: React.FC = () => {
     };
     setIsModalOpen(false)
     putChangeOperationAccounting(operationAccounting)
+    setDate(date)
+    setSelectedOperationAccountingById(selectedOperationAccountingById)
     setUpdateTable(!updateTable)
     return values;
   };
@@ -151,6 +153,7 @@ export const PageOperationAccounting: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop />
       <TableOperationAccounting
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
@@ -166,7 +169,7 @@ export const PageOperationAccounting: React.FC = () => {
       />
       <EditDrawerOperationAccounting
         isOpen={isDrawerOpen}
-        selectedItemId={selectedOperationAccountingId}
+        selectedItemId={selectedOperationAccountingById}
         updateItem={updateOperationAccounting}
         closeDrawer={() => setIsDrawerOpen(false)}
       />

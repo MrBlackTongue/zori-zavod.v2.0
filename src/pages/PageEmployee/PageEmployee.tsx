@@ -3,7 +3,7 @@ import {
   Typography,
   Space,
   Button,
-  Form,
+  Form, FloatButton,
 } from 'antd';
 import {
   SyncOutlined,
@@ -101,6 +101,7 @@ export const PageEmployee: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop />
       <TableEmployee
         isUpdateTable={updateTable}
         openDrawer={openDrawer}

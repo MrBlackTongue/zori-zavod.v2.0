@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form,} from 'antd';
+import {Typography, Space, Button, Form, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProductBatch, putChangeProductBatch} from "../../services";
@@ -91,6 +91,7 @@ export const PageProductBatch: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop />
       <TableProductBatch
         isUpdateTable={updateTable}
         openDrawer={openDrawer}

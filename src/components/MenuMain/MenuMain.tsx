@@ -25,7 +25,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/employee">Сотрудники</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<UnorderedListOutlined/>}>
-          <Link to="/operation_accounting">Учет операций</Link>
+          <Link to="/operation-accounting">Учет операций</Link>
         </Menu.Item>
         <Menu.Item key="3" icon={<UnorderedListOutlined/>}>
           <Link to="/operation">Типы операций</Link>

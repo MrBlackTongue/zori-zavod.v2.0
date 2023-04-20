@@ -105,7 +105,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     closeDrawer();
   };
 
-  // Функция получает информацию об учетной записи и устанавливает значения полей формы
+  // Функция для получения информации об учетной записи и установления значений полей формы
   const getOperationAccounting = useCallback(async (itemId: number) => {
     const operationAccounting = await getOperationAccountingById(itemId);
     form.setFieldsValue({

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Typography, Space, Button, Select} from 'antd';
+import {Typography, Space, Button, Select, FloatButton} from 'antd';
 import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
@@ -65,6 +65,7 @@ export const PageProductMovementHistory: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop />
       <TableProductMovementHistory
         openDrawer={() => {}}
         isUpdateTable={updateTable}

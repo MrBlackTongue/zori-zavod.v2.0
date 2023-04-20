@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input,} from 'antd';
+import {Typography, Space, Button, Form, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {postNewAcceptance} from "../../services";
@@ -85,6 +85,7 @@ export const PageAcceptance: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop />
       <TableAcceptance
         searchText={searchText}
         isUpdateTable={updateTable}
