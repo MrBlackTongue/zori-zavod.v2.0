@@ -4,7 +4,7 @@ import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
 import {TypeStock} from "../../types";
-import {getAllStocks} from "../../services";
+import {getAllStock} from "../../services";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -12,7 +12,7 @@ const {Option} = Select;
 export const PageProductMovementHistory: React.FC = () => {
 
   // Все остатки, выбрать остаток по id
-  const [stocks, setStocks] = useState<TypeStock[]>();
+  const [stock, setStock] = useState<TypeStock[]>();
   const [selectedStockById, setSelectedStockById] = useState<number>();
 
   // Обновление таблицы
@@ -31,8 +31,8 @@ export const PageProductMovementHistory: React.FC = () => {
   }
 
   useEffect(() => {
-    getAllStocks().then((stocks) => {
-      setStocks(stocks);
+    getAllStock().then((stock) => {
+      setStock(stock);
     });
   }, []);
 
@@ -49,8 +49,8 @@ export const PageProductMovementHistory: React.FC = () => {
               onChange={onChangeStock}
               onClear={onClearStock}
             >
-              {stocks && stocks.length > 0 ?
-                stocks.map(stock => (
+              {stock && stock.length > 0 ?
+                stock.map(stock => (
                   <Option id={stock.id} key={stock.id} value={stock?.product?.title}>
                     {`ID: ${stock.id}, ${stock?.product?.title}`}
                   </Option>

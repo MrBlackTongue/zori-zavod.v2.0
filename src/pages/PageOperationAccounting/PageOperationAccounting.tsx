@@ -54,6 +54,8 @@ export const PageOperationAccounting: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewOperationAccounting(operationAccounting)
+    setDate(date)
+    setSelectedOperationAccountingId(selectedOperationAccountingId)
     setUpdateTable(!updateTable)
     return values;
   };

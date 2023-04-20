@@ -91,7 +91,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       title: 'Часы',
       dataIndex: 'timeSheets',
       key: 'timeSheets',
-      render: (timeSheets: TypeOperationTimesheet) =>
+      render: (timeSheets: TypeOperationTimesheet[]) =>
         timeSheets
           ? (
             <div>
@@ -124,11 +124,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               placement="topRight"
               title="Вы действительно хотите удалить этот учет операции?"
               onConfirm={() => {
-                deleteOperationAccountingById(id).then(() => {
-                  getAllOperationAccounting()
-                    .then((allOperationAccounting) =>
-                      setAllOperationAccounting(allOperationAccounting))
-                })
+                deleteOperationAccountingById(id).then(() => filterTable())
               }}
               okText="Да"
               cancelText="Отмена">
@@ -158,15 +154,21 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
   };
 
   // Функция для расчета итоговых значений
-  const renderSummaryRow = (pageData: readonly TypeOperationAccounting[]) => {
+  const renderSummaryRow = () => {
+    if (!allOperationAccounting) return null
     let totalFact = 0;
     let totalTimeSheets = 0;
+    let totalAverage = 0
 
-    pageData.forEach(({ fact, timeSheets }: TypeOperationAccounting) => {
+    allOperationAccounting.forEach(({fact, average, timeSheets}: TypeOperationAccounting) => {
       totalFact += fact || 0;
-      // totalTimeSheets += timeSheets
-      //   ? timeSheets.reduce((acc: number, timeSheet: TypeOperationTimesheet) => acc + (timeSheet.hours || 0), 0)
-      //   : 0;
+      totalAverage += average || 0
+
+      if (timeSheets) {
+        timeSheets.forEach((timeSheet: TypeOperationTimesheet) => {
+          totalTimeSheets += timeSheet.hours || 0;
+        });
+      }
     });
 
     return (
@@ -177,15 +179,20 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
           <Table.Summary.Cell index={2}></Table.Summary.Cell>
           <Table.Summary.Cell index={3}></Table.Summary.Cell>
           <Table.Summary.Cell index={4}></Table.Summary.Cell>
-          <Table.Summary.Cell index={5}><strong>{totalFact.toFixed(2)}</strong></Table.Summary.Cell>
-          <Table.Summary.Cell index={6}></Table.Summary.Cell>
-          <Table.Summary.Cell index={7}><strong>{totalTimeSheets.toFixed(2)}</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={5}><strong>{
+            totalFact.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
+          }</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={6}><strong>{
+            totalAverage.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
+          }</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={7}><strong>{
+            totalTimeSheets.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
+          }</strong></Table.Summary.Cell>
           <Table.Summary.Cell index={8}></Table.Summary.Cell>
         </Table.Summary.Row>
       </>
     );
   };
-
 
   // Функция для обновления таблицы товаров
   const updateTable = () => {
@@ -210,19 +217,13 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
     }
   }
 
-  // Обновление таблицы товаров
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
-
-  // Поиск по таблице товаров
   useEffect(() => {
     if (filter && (filter.dateFilter || filter.idFilter)) {
       filterTable();
     } else {
       updateTable();
     }
-  }, [searchText, filter]);
+  }, [searchText, filter, isUpdateTable]);
 
   return (
     <Table

@@ -9,8 +9,9 @@ export type TypeOperationAccounting = {
   date? : Dayjs,
   plan?: number,
   fact?: number,
+  average?: number,
   operation?: TypeOperation
   output? : TypeOutput,
   unit?: TypeUnit,
-  timeSheets?: TypeOperationTimesheet,
+  timeSheets?: TypeOperationTimesheet[],
 }

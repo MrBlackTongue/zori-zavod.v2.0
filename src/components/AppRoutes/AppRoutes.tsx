@@ -10,6 +10,7 @@ import {PagePurchase} from "../../pages/PagePurchase/PagePurchase";
 import {PageClient} from "../../pages/PageClient/PageClient";
 import {PageProductBatch} from "../../pages/PageProductBatch/PageProductBatch";
 import {PageProductMovementHistory} from "../../pages/PageProductMovementHistory/PageProductMovementHistory";
+import {PageAcceptance} from "../../pages/PageAcceptance/PageAcceptance";
 import {PageOperationAccounting} from "../../pages/PageOperationAccounting/PageOperationAccounting";
 
 export const AppRoutes: React.FC = () => {
@@ -25,6 +26,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/client" element={<PageClient/>}/>
       <Route path="/product-batch" element={<PageProductBatch/>}/>
       <Route path="/product-movement-history" element={<PageProductMovementHistory/>}/>
+      <Route path="/acceptance" element={<PageAcceptance/>}/>
       <Route path="/operation_accounting" element={<PageOperationAccounting/>}/>
     </Routes>
   );
