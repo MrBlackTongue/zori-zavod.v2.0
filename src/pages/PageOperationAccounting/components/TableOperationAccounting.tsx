@@ -157,6 +157,36 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
     }
   };
 
+  // Функция для расчета итоговых значений
+  const renderSummaryRow = (pageData: readonly TypeOperationAccounting[]) => {
+    let totalFact = 0;
+    let totalTimeSheets = 0;
+
+    pageData.forEach(({ fact, timeSheets }: TypeOperationAccounting) => {
+      totalFact += fact || 0;
+      // totalTimeSheets += timeSheets
+      //   ? timeSheets.reduce((acc: number, timeSheet: TypeOperationTimesheet) => acc + (timeSheet.hours || 0), 0)
+      //   : 0;
+    });
+
+    return (
+      <>
+        <Table.Summary.Row>
+          <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={1}></Table.Summary.Cell>
+          <Table.Summary.Cell index={2}></Table.Summary.Cell>
+          <Table.Summary.Cell index={3}></Table.Summary.Cell>
+          <Table.Summary.Cell index={4}></Table.Summary.Cell>
+          <Table.Summary.Cell index={5}><strong>{totalFact.toFixed(2)}</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={6}></Table.Summary.Cell>
+          <Table.Summary.Cell index={7}><strong>{totalTimeSheets.toFixed(2)}</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={8}></Table.Summary.Cell>
+        </Table.Summary.Row>
+      </>
+    );
+  };
+
+
   // Функция для обновления таблицы товаров
   const updateTable = () => {
     setLoading(true);
@@ -196,11 +226,13 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allOperationAccounting}
       pagination={{position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}
+      summary={renderSummaryRow}
     />
   );
 }
