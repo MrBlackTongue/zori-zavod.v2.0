@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Typography, Space, Button, Select} from 'antd';
+import {Typography, Space, Button, Select, FloatButton} from 'antd';
 import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
@@ -12,7 +12,7 @@ const {Option} = Select;
 export const PageProductMovementHistory: React.FC = () => {
 
   // Все остатки, выбрать остаток по id
-  const [stocks, setStocks] = useState<TypeStock[]>();
+  const [stock, setStock] = useState<TypeStock[]>();
   const [selectedStockById, setSelectedStockById] = useState<number>();
 
   // Обновление таблицы
@@ -31,8 +31,8 @@ export const PageProductMovementHistory: React.FC = () => {
   }
 
   useEffect(() => {
-    getAllStock().then((stocks) => {
-      setStocks(stocks);
+    getAllStock().then((stock) => {
+      setStock(stock);
     });
   }, []);
 
@@ -49,8 +49,8 @@ export const PageProductMovementHistory: React.FC = () => {
               onChange={onChangeStock}
               onClear={onClearStock}
             >
-              {stocks && stocks.length > 0 ?
-                stocks.map(stock => (
+              {stock && stock.length > 0 ?
+                stock.map(stock => (
                   <Option id={stock.id} key={stock.id} value={stock?.product?.title}>
                     {`ID: ${stock.id}, ${stock?.product?.title}`}
                   </Option>
@@ -65,6 +65,7 @@ export const PageProductMovementHistory: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop />
       <TableProductMovementHistory
         openDrawer={() => {}}
         isUpdateTable={updateTable}

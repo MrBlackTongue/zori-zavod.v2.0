@@ -25,7 +25,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/employee">Сотрудники</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<UnorderedListOutlined/>}>
-          <Link to="/operation_accounting">Учет операций</Link>
+          <Link to="/operation-accounting">Учет операций</Link>
         </Menu.Item>
         <Menu.Item key="3" icon={<UnorderedListOutlined/>}>
           <Link to="/operation">Типы операций</Link>
@@ -73,7 +73,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/product-batch">Партии товаров</Link>
         </Menu.Item>
         <Menu.Item key="18" icon={<AccountBookOutlined/>}>
-          <Link to="/product-acceptance">Приемка товаров</Link>
+          <Link to="/acceptance">Приемка товаров</Link>
         </Menu.Item>
         <Menu.Item key="19" icon={<AccountBookOutlined/>}>
           <Link to="/product-movement">На производстве</Link>
