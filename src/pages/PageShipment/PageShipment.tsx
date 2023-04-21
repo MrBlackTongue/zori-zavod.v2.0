@@ -15,7 +15,7 @@ import {TypeShipment} from "../../types";
 import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
 import {EditDrawerShipment} from "./components/EditDrawerShipment";
-import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
+import {DetailDrawerShipment} from "./detail/DetailDrawerShipment";
 
 const {Title} = Typography;
 
@@ -39,14 +39,14 @@ export const PageShipment: React.FC = () => {
 
   // Добавить новую отгрузку
   const addShipment = (values: { [key: string]: any }): TypeShipment => {
-    const Shipment: TypeShipment = {
+    const shipment: TypeShipment = {
       date: values['date'].format('YYYY-MM-DD'),
       client: values['client'],
     };
     setIsModalOpen(false)
-    postNewShipment(Shipment)
+    postNewShipment(shipment)
     setUpdateTable(!updateTable)
-    return Shipment;
+    return shipment;
   };
 
   // Открыть дравер
