@@ -99,7 +99,7 @@ export async function deleteStockById(id: number) {
 // Получение всех остатков по название товара
 export async function getStockByTitle(title: string): Promise<TypeStock[]> {
   try {
-    const response = await fetch(URL + STOCK + TITLE + '?title=' + `${title}`);
+    const response = await fetch(URL + STOCK + TITLE + `${title}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();

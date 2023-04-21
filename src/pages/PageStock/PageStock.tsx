@@ -104,6 +104,9 @@ export const PageStock: React.FC = () => {
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
         searchText={searchText}
+        filter={{
+          //idFilter: selectedOperationById,
+        }}
       />
       <AddModalStock
         isOpen={isModalOpen}
