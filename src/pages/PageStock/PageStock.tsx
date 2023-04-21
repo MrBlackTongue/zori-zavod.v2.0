@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input} from 'antd';
+import {Typography, Space, Button, Form, Input, Select} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {postNewStock, putChangeStock} from '../../services';
+import {getStockByGroupId, postNewStock, putChangeStock} from '../../services';
 import {TypeStock} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
@@ -20,9 +20,15 @@ export const PageStock: React.FC = () => {
   // Склад
   const [stock] = useState<TypeStock | null>(null);
 
+  const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
+
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Все группы стоков, выбранная группа стоков по id
+  const [allStockByGroupId, setStockByGroupId] = useState<TypeStock[]>();
+  const [selectedStockByGroupId, setSelectedStockByGroupId] = useState<number>();
 
   // Выбрана ячейка на складе по id
   const [selectedStockId, setSelectedStockId] = useState<number>();
@@ -31,7 +37,7 @@ export const PageStock: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую ячейку на складе
-  const addStock =  (values: { [key: string]: any }): TypeStock => {
+  const addStock = (values: { [key: string]: any }): TypeStock => {
     const stock: TypeStock = {
       amount: values.amount,
       product: {
@@ -50,6 +56,15 @@ export const PageStock: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
+  // Изменить выбранную операцию
+  const onChangeStockGroup = (values: string, option: any): void => {
+    if (!values) {
+      setSelectedGroupId(null);
+    } else {
+      setSelectedGroupId(option.id);
+    }
+  };
+
   // Обновить товар на складе
   const updateStock = (values: { [key: string]: any }): TypeStock => {
     const stock: TypeStock = {
@@ -64,6 +79,14 @@ export const PageStock: React.FC = () => {
     setUpdateTable(!updateTable);
     return stock;
   };
+
+  useEffect(() => {
+    if (selectedGroupId !== null) {
+      getStockByGroupId(selectedGroupId).then((allStockByGroupId) => {
+        setStockByGroupId(allStockByGroupId);
+      });
+    }
+  }, [selectedGroupId]);
 
   useEffect(() => {
     if (stock) {
@@ -83,6 +106,23 @@ export const PageStock: React.FC = () => {
             allowClear
             prefix={<SearchOutlined/>}
           />
+         <Select
+           showSearch
+           allowClear
+           placeholder='Операция'
+           onChange={onChangeStockGroup}
+           style={{'width': '300px'}}
+         >
+           {/*{allStockByGroupId && allStockByGroupId.length > 0 ?
+             allStockByGroupId.map(stock => (
+               <Option
+                 key={stock?.product?.productGroup?.id}
+                 value={{id: stock?.product?.productGroup?.id, title: stock?.product?.productGroup?.title}}
+               >
+                 {stock?.product?.productGroup?.title}
+               </Option>
+             )) : null}*/}
+         </Select>
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
@@ -105,7 +145,7 @@ export const PageStock: React.FC = () => {
         openDrawer={openDrawer}
         searchText={searchText}
         filter={{
-          //idFilter: selectedOperationById,
+          idFilter: selectedStockByGroupId,
         }}
       />
       <AddModalStock

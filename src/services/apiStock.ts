@@ -99,7 +99,7 @@ export async function deleteStockById(id: number) {
 // Получение всех остатков по название товара
 export async function getStockByTitle(title: string): Promise<TypeStock[]> {
   try {
-    const response = await fetch(URL + STOCK + TITLE + `${title}`);
+    const response = await fetch(URL + STOCK + TITLE + `/${title}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -112,7 +112,7 @@ export async function getStockByTitle(title: string): Promise<TypeStock[]> {
 }
 
 // Получение всех остаков на складе по id группы товаров
-export async function getStockByGroupId(id: number): Promise<TypeStock | undefined> {
+export async function getStockByGroupId(id: number): Promise<TypeStock[] | undefined> {
   try {
     const response = await fetch(URL + STOCK + GROUP + `/${id}`);
     if (!response.ok) {
