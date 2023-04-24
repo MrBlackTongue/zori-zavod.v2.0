@@ -1,11 +1,12 @@
-import {TypeProduct} from "../types";
-import {message} from "antd";
-import {URL, PRODUCT, GROUP, TITLE} from "./apiEndpoints";
 
-// Получить список всех товаров
-export async function getAllProduct(): Promise<TypeProduct[]> {
+import {TypeProduct} from "../types";
+import {URL, PRODUCT_GROUP, GROUP} from "./apiEndpoints";
+import {message} from "antd";
+
+// Получить список всех товарных групп
+export async function getAllProductGroup(): Promise<TypeProduct[]> {
   try {
-    const res = await fetch(URL + PRODUCT);
+    const res = await fetch(URL + PRODUCT_GROUP + GROUP);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
@@ -17,10 +18,10 @@ export async function getAllProduct(): Promise<TypeProduct[]> {
   }
 }
 
-// Получить данные товара по id
-export async function getProductById(id: number): Promise<TypeProduct | undefined> {
+// Получить данные товарной группы по id
+export async function getProductGroupById(id: number): Promise<TypeProduct | undefined> {
   try {
-    const response = await fetch(URL + PRODUCT + `/${id}`);
+    const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -32,15 +33,15 @@ export async function getProductById(id: number): Promise<TypeProduct | undefine
   }
 }
 
-// Добавить новый товар
-export function postNewProduct(data: TypeProduct) {
+// Добавить новую товарную группу
+export function postNewProductGroup(data: TypeProduct) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCT, config)
+    fetch(URL + PRODUCT_GROUP + GROUP, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -55,10 +56,10 @@ export function postNewProduct(data: TypeProduct) {
   }
 }
 
-// Удалить товар по id
-export async function deleteProductById(id: number) {
+// Удалить товарную группу по id
+export async function deleteProductGroupById(id: number) {
   try {
-    const response = await fetch(URL + PRODUCT + `/${id}`, {
+    const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -73,15 +74,15 @@ export async function deleteProductById(id: number) {
   }
 }
 
-// Редактировать товар
-export function putChangeProduct(data: TypeProduct) {
+// Редактировать товарную группу
+export function putChangeProductGroup(data: TypeProduct) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCT, config)
+    fetch(URL + PRODUCT_GROUP + GROUP, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');
@@ -93,20 +94,5 @@ export function putChangeProduct(data: TypeProduct) {
       .catch(error => console.error(error))
   } catch (error) {
     console.error(error);
-  }
-}
-
-// Поиск по товару
-export async function getProductByTitle(title: string): Promise<TypeProduct[]> {
-  try {
-    const response = await fetch(URL + PRODUCT + TITLE + `/${title}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
   }
 }

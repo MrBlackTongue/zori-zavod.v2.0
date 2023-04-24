@@ -2,13 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form, Input, Select} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getStockByGroupId, postNewStock, putChangeStock} from '../../services';
-import {TypeStock} from '../../types';
+import {getAllProductGroup, postNewStock, putChangeStock} from '../../services';
+import {TypeProductGroup, TypeStock} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
 import {EditDrawerStock} from "./components/EditDrawerStock";
 
 const {Title} = Typography;
+const { Option } = Select;
 
 export const PageStock: React.FC = () => {
 
@@ -27,8 +28,8 @@ export const PageStock: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Все группы стоков, выбранная группа стоков по id
-  const [allStockByGroupId, setStockByGroupId] = useState<TypeStock[]>();
-  const [selectedStockByGroupId, setSelectedStockByGroupId] = useState<number>();
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
+  const [setSelectedProductGroupById, setAllProductGroupById] = useState<number>();
 
   // Выбрана ячейка на складе по id
   const [selectedStockId, setSelectedStockId] = useState<number>();
@@ -59,9 +60,9 @@ export const PageStock: React.FC = () => {
   // Изменить выбранную операцию
   const onChangeStockGroup = (values: string, option: any): void => {
     if (!values) {
-      setSelectedGroupId(null);
+      setAllProductGroupById(option.id);
     } else {
-      setSelectedGroupId(option.id);
+      setAllProductGroupById(option.id);
     }
   };
 
@@ -81,12 +82,10 @@ export const PageStock: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedGroupId !== null) {
-      getStockByGroupId(selectedGroupId).then((allStockByGroupId) => {
-        setStockByGroupId(allStockByGroupId);
-      });
-    }
-  }, [selectedGroupId]);
+    getAllProductGroup().then((allStockGroup) => {
+      setAllProductGroup(allStockGroup);
+    });
+  }, []);
 
   useEffect(() => {
     if (stock) {
@@ -94,7 +93,7 @@ export const PageStock: React.FC = () => {
     }
   }, [stock, form]);
 
-  return (
+  let div = <>
     <div style={{display: 'grid'}}>
       <div className="centerTitle">
         <Title level={3}>Склад</Title>
@@ -106,23 +105,20 @@ export const PageStock: React.FC = () => {
             allowClear
             prefix={<SearchOutlined/>}
           />
-         <Select
-           showSearch
-           allowClear
-           placeholder='Операция'
-           onChange={onChangeStockGroup}
-           style={{'width': '300px'}}
-         >
-           {/*{allStockByGroupId && allStockByGroupId.length > 0 ?
-             allStockByGroupId.map(stock => (
-               <Option
-                 key={stock?.product?.productGroup?.id}
-                 value={{id: stock?.product?.productGroup?.id, title: stock?.product?.productGroup?.title}}
-               >
-                 {stock?.product?.productGroup?.title}
-               </Option>
-             )) : null}*/}
-         </Select>
+          <Select
+            showSearch
+            allowClear
+            placeholder='Товарная группа'
+            onChange={onChangeStockGroup}
+            style={{'width': '300px'}}
+          >
+            {allProductGroup && allProductGroup.length > 0 ?
+              allProductGroup.map(productGroup => (
+                <Option id={productGroup.id} key={productGroup.id} value={productGroup.id}>
+                  {productGroup.title}
+                </Option>
+              )) : null}
+          </Select>
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
@@ -145,7 +141,7 @@ export const PageStock: React.FC = () => {
         openDrawer={openDrawer}
         searchText={searchText}
         filter={{
-          idFilter: selectedStockByGroupId,
+          idFilter: setSelectedProductGroupById,
         }}
       />
       <AddModalStock
@@ -160,5 +156,6 @@ export const PageStock: React.FC = () => {
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
-  );
+  </>;
+  return div;
 };
