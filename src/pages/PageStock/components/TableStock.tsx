@@ -3,13 +3,14 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import {TableProps, TableParams, TypeUnit, TypeStock} from "../../../types";
-import {getAllStock, deleteStockById, getStockByTitle} from "../../../services";
+import {getAllStock, deleteStockById, getStockByTitle, postFilterByTable, getStockByGroupId} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStock>> = ({
-                                                                    isUpdateTable,
-                                                                    openDrawer,
-                                                                    searchText,
-                                                                  }) => {
+                                                              isUpdateTable,
+                                                              openDrawer,
+                                                              searchText,
+                                                              filter
+                                                            }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех остатков
@@ -130,6 +131,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
     });
   }
 
+
   // Функция для поиска по таблице склада
   const searchTable = () => {
     setLoading(true);
@@ -139,19 +141,27 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
     });
   }
 
-  // Обновление таблицы склада
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
+  // Функция для фильтрации таблицы
+  const filterTable = () => {
+    console.log(filter?.idFilter)
+    if (filter && filter.idFilter) {
+      setLoading(true);
+      getStockByGroupId(filter.idFilter).then((allStock) => {
+        setAllStock(allStock);
+        setLoading(false);
+      });
+    }
+  };
 
-  // Поиск по таблице склада
   useEffect(() => {
-    if (searchText) {
+    if (filter && filter.idFilter) {
+      filterTable();
+    } else if (searchText) {
       searchTable();
     } else {
       updateTable();
     }
-  }, [searchText]);
+  }, [searchText, filter, isUpdateTable]);
 
   return (
     <Table

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form, Input, Select} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getAllProductGroup, postNewStock, putChangeStock} from '../../services';
+import {getAllProductGroup, postNewStock, putChangeStock, getStockByGroupId} from '../../services';
 import {TypeProductGroup, TypeStock} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
@@ -21,7 +21,7 @@ export const PageStock: React.FC = () => {
   // Склад
   const [stock] = useState<TypeStock | null>(null);
 
-  const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
+  const [selectedGroupId, setSelectedGroupId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +36,10 @@ export const PageStock: React.FC = () => {
 
   // Текст поиска
   const [searchText, setSearchText] = useState("");
+
+  const loadStockByGroupId = async (groupId: number) => {
+    const stocks = await getStockByGroupId(groupId);
+  };
 
   // Добавить новую ячейку на складе
   const addStock = (values: { [key: string]: any }): TypeStock => {
@@ -58,12 +62,13 @@ export const PageStock: React.FC = () => {
   };
 
   // Изменить выбранную операцию
-  const onChangeStockGroup = (values: string, option: any): void => {
-    if (!values) {
-      setAllProductGroupById(option.id);
-    } else {
-      setAllProductGroupById(option.id);
+  const onChangeProductGroup = (values: string, option: any): TypeProductGroup | undefined => {
+    if (values === undefined) {
+      setSelectedGroupId(undefined);
+      return undefined;
     }
+      setSelectedGroupId(option.id);
+    return option.id
   };
 
   // Обновить товар на складе
@@ -109,12 +114,15 @@ export const PageStock: React.FC = () => {
             showSearch
             allowClear
             placeholder='Товарная группа'
-            onChange={onChangeStockGroup}
+            onChange={onChangeProductGroup}
             style={{'width': '300px'}}
           >
             {allProductGroup && allProductGroup.length > 0 ?
-              allProductGroup.map(productGroup => (
-                <Option id={productGroup.id} key={productGroup.id} value={productGroup.id}>
+              allProductGroup
+                .slice()
+                .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
+                .map(productGroup => (
+                <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
                   {productGroup.title}
                 </Option>
               )) : null}
@@ -141,7 +149,7 @@ export const PageStock: React.FC = () => {
         openDrawer={openDrawer}
         searchText={searchText}
         filter={{
-          idFilter: setSelectedProductGroupById,
+          idFilter: selectedGroupId,
         }}
       />
       <AddModalStock
