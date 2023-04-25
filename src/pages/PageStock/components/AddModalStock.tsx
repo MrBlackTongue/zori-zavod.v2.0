@@ -43,6 +43,13 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
       });
   };
 
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    form.resetFields();
+    setSelectedProduct(undefined);
+    onCancel()
+  };
+
   useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
@@ -53,10 +60,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
     <Modal
       title={`Добавление новой ячейки на склад`}
       open={isOpen}
-      onCancel={() => {
-        onCancel()
-        setSelectedProduct(undefined)
-      }}
+      onCancel={handleClose}
       width={500}
       okText={"Сохранить"}
       cancelText={"Отмена"}
@@ -78,6 +82,8 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
         >
           <div>
             <Select
+              showSearch
+              allowClear
               value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
             >

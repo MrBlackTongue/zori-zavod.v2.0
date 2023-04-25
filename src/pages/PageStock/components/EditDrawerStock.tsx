@@ -1,52 +1,47 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {Form, Drawer, Select, InputNumber, Space, Button} from "antd";
-import {EditDrawerProps, TypeProduct, TypeStock} from "../../../types";
-import {getAllStock, getPurchaseById} from "../../../services";
+import React, { useCallback, useEffect, useState } from "react";
+import { Form, Drawer, Select, InputNumber, Space, Button } from "antd";
+import { EditDrawerProps, TypeProduct, TypeStock } from "../../../types";
+import { getAllStock, getStockById } from "../../../services";
 
-const {Option} = Select;
+const { Option } = Select;
 
 export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
-                                                                              isOpen,
-                                                                              selectedItemId,
-                                                                              closeDrawer,
-                                                                              updateItem,
-                                                                            }) => {
+                                                                        isOpen,
+                                                                        selectedItemId,
+                                                                        closeDrawer,
+                                                                        updateItem,
+                                                                      }) => {
   const [form] = Form.useForm();
 
-  // товар на складе
-  const [product] = useState<TypeStock | null>(null);
-
-  // Все товары, выбранный товар, товар
+  // Все товары, выбранный товар
   const [allStock, setAllStock] = useState<TypeStock[]>();
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
-  const [stock, setStock] = useState<TypeStock>();
 
   // Изменить выбранный товар со склада
   const onChangeStock = (values: string, option: any): TypeStock => {
     const product: TypeProduct = {
-      id: option.id,
+      id: option.key, // Изменено с option.id на option.key, так как мы используем key в Option
       title: values,
     };
     form.setFieldsValue({
       product: product.id,
     });
-    setSelectedStock(product)
-    return product
+    setSelectedStock(product);
+    return product;
   };
 
   // Функция для получения данных об остатках по id и обновления формы
-  const handleGetPurchaseById = useCallback(() => {
+  const handleGetStockById = useCallback(() => {
     if (selectedItemId) {
-      getPurchaseById(selectedItemId).then((stock) => {
+      getStockById(selectedItemId).then((stock) => {
         form.setFieldsValue({
-          stock: stock?.product?.id,
-          amount: product?.amount,
+          product: stock?.product?.id, // Используем id продукта, а не сам продукт
+          amount: stock?.amount, // Изменено с product?.amount на stock?.amount
         });
-        setSelectedStock(stock?.product)
-        setStock(stock?.product)
-      })
+        setSelectedStock(stock);
+      });
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form]);
 
   useEffect(() => {
     getAllStock().then((stock) => {
@@ -55,36 +50,42 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   }, []);
 
   useEffect(() => {
-    handleGetPurchaseById();
-  }, [selectedItemId, handleGetPurchaseById]);
+    handleGetStockById();
+  }, [selectedItemId, handleGetStockById]);
 
   return (
     <Drawer
       title="Редактирование ячейки на складе"
       width={600}
-      open={isOpen}
+      visible={isOpen} // Используйте "visible" вместо "open"
       onClose={() => {
-        closeDrawer()
-        setSelectedStock(stock)
+        closeDrawer();
       }}
-      bodyStyle={{paddingBottom: 80}}
+      bodyStyle={{ paddingBottom: 80 }}
       extra={
         <Space>
-          <Button onClick={() => {
-            closeDrawer()
-            setSelectedStock(stock)
-          }}>Отмена</Button>
-          <Button onClick={() => {
-            closeDrawer()
-            form
-              .validateFields()
-              .then((values) => {
-                updateItem(values);
-              })
-              .catch((info) => {
-                console.log('Validate Failed:', info)
-              })
-          }} type="primary" htmlType="submit">
+          <Button
+            onClick={() => {
+              closeDrawer();
+            }}
+          >
+            Отмена
+          </Button>
+          <Button
+            onClick={() => {
+              closeDrawer();
+              form
+                .validateFields()
+                .then((values) => {
+                  updateItem(values);
+                })
+                .catch((info) => {
+                  console.log("Validate Failed:", info);
+                });
+            }}
+            type="primary"
+            htmlType="submit"
+          >
             Сохранить
           </Button>
         </Space>
@@ -92,37 +93,43 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     >
       <Form
         form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        style={{ marginTop: 30 }}
       >
         <Form.Item
           label="Товар"
           name="product"
-          rules={[{required: true, message: "выберите товар"}]}
+          rules={[{ required: true, message: "выберите товар" }]}
         >
           <div>
             <Select
-              value={selectedStock ? selectedStock?.product?.title : undefined}
+              showSearch
+              allowClear
+              value={selectedStock ? selectedStock.product?.title : undefined}
               onChange={onChangeStock}
             >
-              {allStock && allStock.length > 0 ?
-                allStock.map(stock => (
-                  <Option id={stock?.product?.id} key={stock?.product?.id} value={stock?.product?.title}>
+              {allStock && allStock.length > 0
+                ? allStock.map((stock) => (
+                  <Option
+                    key={stock?.product?.id}
+                    value={stock?.product?.title}
+                  >
                     {stock?.product?.title}
                   </Option>
-                )) : null}
+                ))
+                : null}
             </Select>
           </div>
         </Form.Item>
         <Form.Item
           label="Количество"
           name="amount"
-          rules={[{required: true, message: "введите количество"}]}
+          rules={[{ required: true, message: "введите количество" }]}
         >
-          <InputNumber style={{width: '100%'}}/>
+          <InputNumber style={{ width: "100%" }} />
         </Form.Item>
       </Form>
     </Drawer>
-  )
-}
+  );
+};
