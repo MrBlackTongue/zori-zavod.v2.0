@@ -65,7 +65,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: ((_, record) => (
         <Space>
           <Tooltip title="Подробнее" placement="bottomRight">
             <Button
@@ -74,8 +74,8 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               shape="circle"
               ghost
               onClick={() => {
-                if (openDetailDrawer) {
-                  openDetailDrawer(id)
+                if (openDetailDrawer && record.id !== undefined) {
+                  openDetailDrawer(record)
                 }
               }}>
               <DownOutlined/>
@@ -88,7 +88,9 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               shape="circle"
               ghost
               onClick={() => {
-                openDrawer(id)
+                if (record.id !== undefined) {
+                  openDrawer(record.id)
+                }
               }}>
               <EditOutlined/>
             </Button>
@@ -98,9 +100,11 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               placement="topRight"
               title="Вы действительно хотите удалить эту отгрузку?"
               onConfirm={() => {
-                deleteShipmentById(id).then(() => {
-                  getAllShipment().then((allShipments) => setAllShipment(allShipments))
-                })
+                if (record.id !== undefined) {
+                  deleteShipmentById(record.id).then(() => {
+                    getAllShipment().then((allShipments) => setAllShipment(allShipments))
+                  })
+                }
               }}
               okText="Да"
               cancelText="Отмена">

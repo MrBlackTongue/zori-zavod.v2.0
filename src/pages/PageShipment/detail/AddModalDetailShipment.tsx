@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeStock} from "../../../types";
-import {Form, Modal, Select} from "antd";
-import {getAllStocks} from "../../../services";
+import {Form, InputNumber, Modal, Select} from "antd";
+import {getAllStock} from "../../../services";
 import {TypeShipmentProductMovement} from "../../../types/TypeShipmentProductMovement";
 
-const dateFormatUser = 'DD.MM.YYYY';
 const {Option} = Select;
 
 
@@ -15,8 +14,9 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
                                                                                              }) => {
   const [form] = Form.useForm();
 
-  // Все товары, выбранный товар
+  // Все товары на складе
   const [allStock, setAllStock] = useState<TypeStock[]>();
+
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
 
   // Изменить выбранный товар
@@ -32,7 +32,7 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   };
 
   useEffect(() => {
-    getAllStocks().then((stocks) => {
+    getAllStock().then((stocks) => {
       setAllStock(stocks);
     });
   }, []);
@@ -62,9 +62,17 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
           });
       }}
     >
-
+      <Form
+        form={form}
+        initialValues={{
+          modifier: 'public'
+        }}
+        labelCol={{span: 6}}
+        wrapperCol={{span: 16}}
+        style={{marginTop: 30}}
+      >
       <Form.Item
-        label="Склад"
+        label="Товар"
         name="stock"
         rules={[{required: true, message: 'выберите клиента'}]}
       >
@@ -84,6 +92,14 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
         </div>
       </Form.Item>
 
+      <Form.Item
+        label="Количество"
+        name="amount"
+        rules={[{required: true, message: 'введите количество'}]}
+      >
+        <InputNumber style={{width: "100%"}}/>
+      </Form.Item>
+      </Form>
     </Modal>
   )
 }

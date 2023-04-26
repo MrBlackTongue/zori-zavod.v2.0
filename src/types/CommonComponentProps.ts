@@ -1,7 +1,7 @@
 export interface TableProps<T> {
   isUpdateTable: boolean;
   openDrawer: (id: number) => void;
-  openDetailDrawer?: (id: number) => void;
+  openDetailDrawer?: (selectedItem: T) => void;
   searchText?: string | undefined;
   filterById?: number | undefined;
   filter?: {
@@ -26,5 +26,5 @@ export interface EditDrawerProps<T> {
 export interface DetailProps<T> {
   isOpen: boolean;
   closeDrawer: () => void;
-  selectedItemId: number | undefined;
+  selectedItem: T | undefined;
 }

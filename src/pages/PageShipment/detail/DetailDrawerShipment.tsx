@@ -11,7 +11,7 @@ import {AddModalDetailShipment} from "./AddModalDetailShipment";
 export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
                                                                  isOpen,
                                                                  closeDrawer,
-                                                                 selectedItemId
+                                                                 selectedItem
                                                                }) => {
 
   // Обновление таблицы
@@ -70,7 +70,7 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
       <TableDetailShipment
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
-        filterById={selectedItemId}
+        filterById={selectedItem?.id}
       />
       <AddModalDetailShipment
         isOpen={isModalOpen}

@@ -27,7 +27,7 @@ export const PageShipment: React.FC = () => {
   const [updateTable, setUpdateTable] = useState(false);
 
   // Отгрузки
-  const [Shipment] = useState<TypeShipment | null>(null);
+  const [shipment] = useState<TypeShipment | null>(null);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +36,7 @@ export const PageShipment: React.FC = () => {
 
   // Выбрана отгрузка по id
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
+  const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Добавить новую отгрузку
   const addShipment = (values: { [key: string]: any }): TypeShipment => {
@@ -50,34 +51,34 @@ export const PageShipment: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (ShipmentId: number) => {
-    setSelectedShipmentId(ShipmentId)
+  const openDrawer = (shipmentId: number) => {
+    setSelectedShipmentId(shipmentId)
     setIsDrawerOpen(true);
   };
 
-  const openDetailShipment = (shipmentId: number) => {
-    setSelectedShipmentId(shipmentId);
+  const openDetailShipment = (shipment: TypeShipment) => {
+    setSelectedShipment(shipment);
     setIsBottomDrawerOpen(true)
   };
 
   // Обновить отгрузку
   const updateShipment = (values: { [key: string]: any }): TypeShipment => {
-    const Shipment: TypeShipment = {
+    const shipment: TypeShipment = {
       date: values['date'].format('YYYY-MM-DD'),
       id: selectedShipmentId,
       client: values.client,
     };
     setIsDrawerOpen(false)
-    putChangeShipment(Shipment)
+    putChangeShipment(shipment)
     setUpdateTable(!updateTable)
-    return Shipment
+    return shipment
   };
 
   useEffect(() => {
-    if (Shipment) {
-      form.setFieldsValue(Shipment);
+    if (shipment) {
+      form.setFieldsValue(shipment);
     }
-  }, [Shipment, form]);
+  }, [shipment, form]);
 
   return (
     <div style={{display: 'grid'}}>
@@ -123,7 +124,7 @@ export const PageShipment: React.FC = () => {
         }}
       />
       <DetailDrawerShipment
-        selectedItemId={selectedShipmentId}
+        selectedItem={selectedShipment}
         isOpen={isBottomDrawerOpen}
         closeDrawer={() => {
           setIsBottomDrawerOpen(false);
