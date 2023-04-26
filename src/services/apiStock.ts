@@ -2,7 +2,7 @@ import {TypeStock} from "../types";
 import {URL,STOCK} from "./apiEndpoints";
 
 // Получить список всех остатков со склада
-export async function getAllStocks(): Promise<TypeStock[]> {
+export async function getAllStock(): Promise<TypeStock[]> {
   try {
     const response = await fetch(URL + STOCK);
     if (!response.ok) {

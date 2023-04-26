@@ -9,5 +9,7 @@ export * from './apiClient';
 export * from './apiProductBatch';
 export * from './apiProductMovementHistory';
 export * from './apiStock';
+export * from './apiAcceptance';
+export * from './apiOperationAccounting';
 export * from './apiShipment';
 export * from './apiShipmentProductMovement'

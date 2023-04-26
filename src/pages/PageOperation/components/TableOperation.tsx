@@ -41,7 +41,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.title < b.title ? -1 : 1,
+      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
     },
     {
       title: 'Единица измерения',
@@ -54,7 +54,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       title: 'Норма',
       dataIndex: 'rate',
       key: 'rate',
-      sorter: (a, b) => a.rate - b.rate,
+      sorter: (a, b) => (a.rate ?? 0) < (b.rate ?? 0) ? -1 : 1,
     },
     {
       title: 'Действия',

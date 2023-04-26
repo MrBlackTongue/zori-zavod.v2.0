@@ -125,7 +125,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
           rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
         >
           <div>
-            <Select
+            <Select 
               value={selectedProductGroup ? selectedProductGroup.title : undefined}
               onChange={onChangeProductGroup}
             >
