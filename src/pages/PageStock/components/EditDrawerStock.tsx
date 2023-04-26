@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Form, Drawer, Select, InputNumber, Space, Button } from "antd";
-import { EditDrawerProps, TypeProduct, TypeStock } from "../../../types";
-import { getAllStock, getStockById } from "../../../services";
+import React, {useCallback, useEffect, useState} from "react";
+import {Form, Drawer, Select, InputNumber, Space, Button} from "antd";
+import {EditDrawerProps, TypeProduct, TypeStock} from "../../../types";
+import {getAllStock, getStockById} from "../../../services";
 
-const { Option } = Select;
+const {Option} = Select;
 
 export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
                                                                         isOpen,
@@ -43,6 +43,28 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     }
   }, [selectedItemId, form]);
 
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    form.resetFields();
+    if (selectedItemId) {
+      getStock(selectedItemId).catch((error) => {
+        console.error("Ошибка при получении данных об остатках на складе: ", error)
+      });
+    }
+    setSelectedStock(selectedStock);
+    closeDrawer();
+  };
+
+  //
+  const getStock = useCallback(async (itemId: number) => {
+    const stock = await getStockById(itemId);
+    form.setFieldsValue({
+      product: stock?.product?.id,
+      amount: stock?.amount,
+    });
+    setSelectedStock(selectedStock?.product);
+  },[]);
+
   useEffect(() => {
     getAllStock().then((stock) => {
       setAllStock(stock);
@@ -59,18 +81,15 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
       width={600}
       visible={isOpen} // Используйте "visible" вместо "open"
       onClose={() => {
-        closeDrawer();
+        handleClose();
       }}
-      bodyStyle={{ paddingBottom: 80 }}
+      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button
             onClick={() => {
-              closeDrawer();
-            }}
-          >
-            Отмена
-          </Button>
+              handleClose();
+            }}>Отмена</Button>
           <Button
             onClick={() => {
               closeDrawer();
@@ -93,14 +112,14 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     >
       <Form
         form={form}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
-        style={{ marginTop: 30 }}
+        labelCol={{span: 6}}
+        wrapperCol={{span: 16}}
+        style={{marginTop: 30}}
       >
         <Form.Item
           label="Товар"
           name="product"
-          rules={[{ required: true, message: "выберите товар" }]}
+          rules={[{required: true, message: "выберите товар"}]}
         >
           <div>
             <Select
@@ -125,9 +144,9 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
         <Form.Item
           label="Количество"
           name="amount"
-          rules={[{ required: true, message: "введите количество" }]}
+          rules={[{required: true, message: "введите количество"}]}
         >
-          <InputNumber style={{ width: "100%" }} />
+          <InputNumber style={{width: "100%"}}/>
         </Form.Item>
       </Form>
     </Drawer>
