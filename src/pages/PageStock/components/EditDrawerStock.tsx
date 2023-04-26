@@ -16,17 +16,18 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   // Все товары, выбранный товар
   const [allStock, setAllStock] = useState<TypeStock[]>();
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
+  const [product, setProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар со склада
-  const onChangeStock = (values: string, option: any): TypeStock => {
+  const onChangeProduct = (values: string, option: any): TypeProduct => {
     const product: TypeProduct = {
-      id: option.key, // Изменено с option.id на option.key, так как мы используем key в Option
+      id: option.id,
       title: values,
     };
     form.setFieldsValue({
       product: product.id,
     });
-    setSelectedStock(product);
+    setProduct(product);
     return product;
   };
 
@@ -35,8 +36,8 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     if (selectedItemId) {
       getStockById(selectedItemId).then((stock) => {
         form.setFieldsValue({
-          product: stock?.product?.id, // Используем id продукта, а не сам продукт
-          amount: stock?.amount, // Изменено с product?.amount на stock?.amount
+          product: stock?.product?.id,
+          amount: stock?.amount,
         });
         setSelectedStock(stock);
       });
@@ -48,22 +49,21 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     form.resetFields();
     if (selectedItemId) {
       getStock(selectedItemId).catch((error) => {
-        console.error("Ошибка при получении данных об остатках на складе: ", error)
+        console.error("Ошибка при получении данных об остатках на складе: ", error);
       });
     }
-    setSelectedStock(selectedStock);
     closeDrawer();
   };
 
-  //
   const getStock = useCallback(async (itemId: number) => {
     const stock = await getStockById(itemId);
     form.setFieldsValue({
       product: stock?.product?.id,
       amount: stock?.amount,
     });
-    setSelectedStock(selectedStock?.product);
-  },[]);
+    setSelectedStock(stock);
+    setProduct(stock?.product);
+  }, []);
 
   useEffect(() => {
     getAllStock().then((stock) => {
@@ -79,17 +79,12 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     <Drawer
       title="Редактирование ячейки на складе"
       width={600}
-      visible={isOpen} // Используйте "visible" вместо "open"
-      onClose={() => {
-        handleClose();
-      }}
+      open={isOpen}
+      onClose={handleClose}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button
-            onClick={() => {
-              handleClose();
-            }}>Отмена</Button>
+          <Button onClick={handleClose}>Отмена</Button>
           <Button
             onClick={() => {
               closeDrawer();
@@ -125,8 +120,8 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
             <Select
               showSearch
               allowClear
-              value={selectedStock ? selectedStock.product?.title : undefined}
-              onChange={onChangeStock}
+              value={product ? product.title : undefined}
+              onChange={onChangeProduct}
             >
               {allStock && allStock.length > 0
                 ? allStock.map((stock) => (
