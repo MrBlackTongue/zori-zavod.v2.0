@@ -24,6 +24,7 @@ export const PageOperationAccounting: React.FC = () => {
   // Открыть закрыть модальное окно, дравер, дата
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isTableDetailOpen, setIsTableDetailOpen] = useState(false);
   const [date, setDate] = useState<any>();
 
   // Все операции, выбранная операция по id
@@ -64,6 +65,12 @@ export const PageOperationAccounting: React.FC = () => {
   const openDrawer = (operationAccountingId: number) => {
     setSelectedOperationAccountingById(operationAccountingId)
     setIsDrawerOpen(true);
+  };
+
+  // Открыть дравер
+  const openTableDrawer = (operationAccountingId: number) => {
+    setSelectedOperationAccountingById(operationAccountingId)
+    setIsTableDetailOpen(true);
   };
 
   // Изменить выбранную операцию
@@ -161,6 +168,7 @@ export const PageOperationAccounting: React.FC = () => {
           dateFilter: date,
           idFilter: selectedOperationById,
         }}
+        openTableDetail={openTableDrawer}
       />
       <AddModalOperationAccounting
         isOpen={isModalOpen}

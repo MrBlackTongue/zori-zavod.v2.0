@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, DownOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {getAllOperationAccounting, deleteOperationAccountingById, postFilterByTable,} from "../../../services";
@@ -10,7 +10,6 @@ import dayjs from "dayjs";
 export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounting>> = ({
                                                                                           isUpdateTable,
                                                                                           openDrawer,
-                                                                                          searchText,
                                                                                           filter,
                                                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -109,6 +108,17 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       align: 'center',
       render: ((id: number) => (
         <Space>
+          <Tooltip title="Подробнее" placement="bottomRight">
+            <Button
+              type="primary"
+              size="small"
+              shape="circle"
+              ghost
+              // onClick={}
+            >
+              <DownOutlined/>
+            </Button>
+          </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
               type="primary"
@@ -223,7 +233,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
     } else {
       updateTable();
     }
-  }, [searchText, filter, isUpdateTable]);
+  }, [filter, isUpdateTable]);
 
   return (
     <Table
