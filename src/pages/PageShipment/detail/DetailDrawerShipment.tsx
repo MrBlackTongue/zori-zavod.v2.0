@@ -21,9 +21,11 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
   // Добавить новый товар в отгрузку
   const addShipmentMovement = (values: { [key: string]: any }): TypeShipment => {
     const productMovement: TypeShipmentProductMovement = {
-      date: values['date'].format('YYYY-MM-DD'),
+      date: selectedItem?.date,
       stock: values['stock'],
       amount: values['amount'],
+      shipment: selectedItem,
+      income: false
     };
     setIsModalOpen(false)
     postNewShipmentProductMovement(productMovement)

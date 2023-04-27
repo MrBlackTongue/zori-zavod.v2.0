@@ -12,6 +12,7 @@ import {TypeShipmentProductMovement} from "../../../types/TypeShipmentProductMov
 import {DeleteOutlined} from "@ant-design/icons";
 
 export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
+                                                                          isUpdateTable,
                                                                           filterById
                                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -113,7 +114,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
         setLoading(false);
       });
     }
-  }, [filterById]);
+  }, [filterById, !isUpdateTable]);
 
   return (
     <Table
