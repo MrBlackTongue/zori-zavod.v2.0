@@ -12,6 +12,7 @@ import {PageProductBatch} from "../../pages/PageProductBatch/PageProductBatch";
 import {PageProductMovementHistory} from "../../pages/PageProductMovementHistory/PageProductMovementHistory";
 import {PageAcceptance} from "../../pages/PageAcceptance/PageAcceptance";
 import {PageOperationAccounting} from "../../pages/PageOperationAccounting/PageOperationAccounting";
+import {PageOperationAccountingDetail} from "../../pages/PageOperationAccountingDetail/PageOperationAccountingDetail";
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/product-movement-history" element={<PageProductMovementHistory/>}/>
       <Route path="/acceptance" element={<PageAcceptance/>}/>
       <Route path="/operation-accounting" element={<PageOperationAccounting/>}/>
+      <Route path="/operation-accounting/:id/detail" element={<PageOperationAccountingDetail/>}/>
     </Routes>
   );
 };

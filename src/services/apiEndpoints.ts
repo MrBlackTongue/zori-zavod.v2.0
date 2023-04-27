@@ -16,4 +16,5 @@ export const STOCK = '/stock';
 export const ACCEPTANCE = '/acceptance'
 export const MOVEMENT = '/movement'
 export const OPERATION_ACCOUNTING = '/operation-accounting'
+export const OPERATION_TIMESHEET = '/operation-timesheet'
 export const FILTER = '/filter'
