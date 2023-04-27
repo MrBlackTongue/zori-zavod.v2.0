@@ -14,11 +14,11 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
                                                                  selectedItem
                                                                }) => {
 
-  // Обновление таблицы
+  // Состояния для обновления таблицы и модального окна
   const [updateTable, setUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Добавить новый товар в отгрузку
+  // Функция добавления нового товара в отгрузку
   const addShipmentMovement = (values: { [key: string]: any }): TypeShipment => {
     const productMovement: TypeShipmentProductMovement = {
       date: selectedItem?.date,
@@ -33,9 +33,10 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
     return productMovement;
   };
 
-  // Пока заглушка
+  // Заглушка для функции открытия дравера
   const openDrawer = () => {};
 
+  // Функция закрытия детального дравера
   const handleClose = () => {
     closeDrawer()
   }

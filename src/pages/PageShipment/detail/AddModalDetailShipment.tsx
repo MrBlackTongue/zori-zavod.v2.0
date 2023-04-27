@@ -14,12 +14,11 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
                                                                                              }) => {
   const [form] = Form.useForm();
 
-  // Все товары на складе
+  // Состояния для всех товаров на складе и выбранного товара
   const [allStock, setAllStock] = useState<TypeStock[]>();
-
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
 
-  // Изменить выбранный товар
+  // Функция изменения выбранного товара
   const onChangeStock = (values: string, option: any): TypeStock => {
     const stock: TypeStock = {
       id: option.id,
@@ -31,12 +30,13 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
     return stock
   };
 
-  // Очистить поле сток
+  // Функция очистки выбранного товара
   const onClearStock = (): void => {
     form.setFieldsValue({operation: undefined});
     setSelectedStock(undefined);
   }
 
+  // Получение списка всех товаров на складе
   useEffect(() => {
     getAllStock().then((stocks) => {
       setAllStock(stocks);

@@ -13,11 +13,11 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
                                                                     }) => {
   const [form] = Form.useForm();
 
-  // Все товары, выбранный товар
+  // Состояния для всех клиентов и выбранного клиента
   const [allClient, setAllClient] = useState<TypeClient[]>();
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
 
-  // Изменить выбранный товар
+  // Функция для изменения выбранного клиента
   const onChangeClient = (values: string, option: any): TypeClient => {
     const client: TypeClient = {
       id: option.id,
@@ -30,12 +30,13 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
     return client
   };
 
-  // Очистить поле клиент
+  // Функция для очистки поля клиента
   const onClearClient = (): void => {
     form.setFieldsValue({operation: undefined});
     setSelectedClient(undefined);
   }
 
+  // Эффект для получения всех клиентов и установки их в состояние allClient
   useEffect(() => {
     getAllClient().then((clients) => {
       setAllClient(clients);

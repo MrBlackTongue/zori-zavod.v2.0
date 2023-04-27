@@ -24,11 +24,11 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
                                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
 
-  // Лоудер и список всех отгрузок
+  // Состояния для загрузки данных и списка всех отгрузок
   const [loading, setLoading] = useState(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
-  // Параментры для пагинации
+  // Состояние для параметров пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -37,7 +37,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
     },
   });
 
-  // Колонки в таблице
+  // Определение колонок для таблицы отгрузок
   const columns: ColumnsType<TypeShipment> = [
     {
       title: 'ID',
@@ -72,7 +72,6 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               type="primary"
               size="small"
               shape="circle"
-              ghost
               onClick={() => {
                 if (openDetailDrawer && record.id !== undefined) {
                   openDetailDrawer(record)
@@ -120,7 +119,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
     },
   ];
 
-  // Параметры изменения таблицы
+  // Функция обработки изменений в таблице, таких как пагинация и сортировка
   const handleTableChange = (
     pagination: TablePaginationConfig,
     sorter: SorterResult<TypeShipment>,
@@ -134,6 +133,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
     }
   };
 
+  // Получение списка всех отгрузок и установка состояний загрузки и списка отгрузок
   useEffect(() => {
     setLoading(true);
     getAllShipment().then((allShipments) => {

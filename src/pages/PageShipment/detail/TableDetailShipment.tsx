@@ -18,11 +18,11 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
 
-  // Лоудер и список всех отгрузок
+  // Состояния для лоадера и списка всех товаров в отгрузке
   const [loading, setLoading] = useState(false);
   const [allShipmentMovements, setAllShipmentMovements] = useState<TypeShipmentProductMovement[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -91,7 +91,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
     },
   ];
 
-  // Параметры изменения таблицы
+  // Функция обработки изменений таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
     sorter: SorterResult<TypeShipmentProductMovement>,
@@ -105,6 +105,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
     }
   };
 
+  // Получение данных по всем товарам в отгрузке с использованием filterById
   useEffect(() => {
     setLoading(true);
     if (filterById) {

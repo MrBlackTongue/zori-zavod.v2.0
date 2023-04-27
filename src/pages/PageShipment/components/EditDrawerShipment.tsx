@@ -14,13 +14,12 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
                                                                         }) => {
   const [form] = Form.useForm();
 
-  // Все товары, выбранный товар, товар, дата
+  // Состояния для всех клиентов, выбранного клиента и даты
   const [allClient, setAllClient] = useState<TypeClient[]>();
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
-  const [client, setClient] = useState<TypeClient>();
   const [date, setDate] = useState<any>();
 
-  // Изменить выбранный товар
+  // Функция для изменения выбранного клиента
   const onChangeClient = (values: string, option: any): TypeClient => {
     const client: TypeClient = {
       id: option.id,
@@ -33,7 +32,7 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
     return client
   };
 
-  // Функция для получения данных об отгрузке по id и обновления формы
+  // Функция для получения данных об отгрузке по ID и обновления формы
   const handleGetShipmentById = useCallback(() => {
     if (selectedItemId) {
       getShipmentById(selectedItemId).then((shipment) => {
@@ -42,12 +41,12 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
           client: shipment?.client?.id,
         });
         setSelectedClient(shipment?.client)
-        setClient(shipment?.client)
         setDate(dayjs(shipment?.date));
       })
     }
   }, [selectedItemId]);
 
+  // Функция для обработки нажатия кнопки "Сохранить"
   const handleOk = () => {
     closeDrawer()
     form
@@ -60,18 +59,21 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
       })
   }
 
+  // Функция для обработки закрытия дравера
   const handleClose = () => {
     handleGetShipmentById();
     closeDrawer()
-    setSelectedClient(client)
+    setSelectedClient(selectedClient)
   }
 
+  // Эффект для получения всех клиентов и установки их в состояние allClient
   useEffect(() => {
     getAllClient().then((clients) => {
       setAllClient(clients);
     });
   }, []);
 
+  // Эффект для вызова handleGetShipmentById при изменении selectedItemId
   useEffect(() => {
     handleGetShipmentById();
   }, [selectedItemId, handleGetShipmentById]);
