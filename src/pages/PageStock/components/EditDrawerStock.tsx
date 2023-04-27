@@ -6,11 +6,11 @@ import {getAllStock, getStockById} from "../../../services";
 const {Option} = Select;
 
 export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
-                                                                        isOpen,
-                                                                        selectedItemId,
-                                                                        closeDrawer,
-                                                                        updateItem,
-                                                                      }) => {
+                                                                 isOpen,
+                                                                 selectedItemId,
+                                                                 closeDrawer,
+                                                                 updateItem,
+                                                               }) => {
   const [form] = Form.useForm();
 
   // Все товары, выбранный товар
@@ -18,7 +18,11 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
   const [product, setProduct] = useState<TypeProduct>();
 
-  // Изменить выбранный товар со склада
+  // Добавьте состояние loading
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Остальной код компонента
+
   const onChangeProduct = (values: string, option: any): TypeProduct => {
     const product: TypeProduct = {
       id: option.id,
@@ -31,39 +35,25 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     return product;
   };
 
-  // Функция для получения данных об остатках по id и обновления формы
   const handleGetStockById = useCallback(() => {
     if (selectedItemId) {
+      setLoading(true);
       getStockById(selectedItemId).then((stock) => {
         form.setFieldsValue({
           product: stock?.product?.id,
           amount: stock?.amount,
         });
         setSelectedStock(stock);
+        setProduct(stock?.product);
+        setLoading(false);
       });
     }
   }, [selectedItemId, form]);
 
-  // Функция закрытия модального окна
   const handleClose = () => {
     form.resetFields();
-    if (selectedItemId) {
-      getStock(selectedItemId).catch((error) => {
-        console.error("Ошибка при получении данных об остатках на складе: ", error);
-      });
-    }
     closeDrawer();
   };
-
-  const getStock = useCallback(async (itemId: number) => {
-    const stock = await getStockById(itemId);
-    form.setFieldsValue({
-      product: stock?.product?.id,
-      amount: stock?.amount,
-    });
-    setSelectedStock(stock);
-    setProduct(stock?.product);
-  }, []);
 
   useEffect(() => {
     getAllStock().then((stock) => {
@@ -105,45 +95,50 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
         </Space>
       }
     >
-      <Form
-        form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Товар"
-          name="product"
-          rules={[{required: true, message: "выберите товар"}]}
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <Form
+          form={form}
+          labelCol={{span: 6}}
+          wrapperCol={{span: 16}}
+          style={{marginTop: 30}}
         >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              value={product ? product.title : undefined}
-              onChange={onChangeProduct}
-            >
-              {allStock && allStock.length > 0
-                ? allStock.map((stock) => (
-                  <Option
-                    key={stock?.product?.id}
-                    value={stock?.product?.title}
-                  >
-                    {stock?.product?.title}
-                  </Option>
-                ))
-                : null}
-            </Select>
-          </div>
-        </Form.Item>
-        <Form.Item
-          label="Количество"
-          name="amount"
-          rules={[{required: true, message: "введите количество"}]}
-        >
-          <InputNumber style={{width: "100%"}}/>
-        </Form.Item>
-      </Form>
+          <Form.Item
+            label="Товар"
+            name="product"
+            rules={[{required: true, message: "выберите товар"}]}
+          >
+            <div>
+              <Select
+                showSearch
+                allowClear
+                value={product ? product.title : undefined}
+                onChange={onChangeProduct}
+              >
+                {allStock && allStock.length > 0
+                  ? allStock.map((stock) => (
+
+                    <Option
+                      key={stock?.product?.id}
+                      value={stock?.product?.title}
+                    >
+                      {stock?.product?.title}
+                    </Option>
+                  ))
+                  : null}
+              </Select>
+            </div>
+          </Form.Item>
+          <Form.Item
+            label="Количество"
+            name="amount"
+            rules={[{required: true, message: "введите количество"}]}
+          >
+            <InputNumber style={{width: "100%"}}/>
+          </Form.Item>
+        </Form>
+      )}
     </Drawer>
   );
 };
