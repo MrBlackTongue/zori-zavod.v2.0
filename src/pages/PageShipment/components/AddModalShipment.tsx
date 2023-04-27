@@ -30,6 +30,12 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
     return client
   };
 
+  // Очистить поле клиент
+  const onClearClient = (): void => {
+    form.setFieldsValue({operation: undefined});
+    setSelectedClient(undefined);
+  }
+
   useEffect(() => {
     getAllClient().then((clients) => {
       setAllClient(clients);
@@ -87,8 +93,11 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
         >
           <div>
             <Select
+              showSearch
+              allowClear
               value={selectedClient ? selectedClient.title : undefined}
               onChange={onChangeClient}
+              onClear={onClearClient}
             >
               {allClient && allClient.length > 0 ?
                 allClient.map(client => (

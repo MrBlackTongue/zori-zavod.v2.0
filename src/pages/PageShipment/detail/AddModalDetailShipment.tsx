@@ -31,6 +31,12 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
     return stock
   };
 
+  // Очистить поле сток
+  const onClearStock = (): void => {
+    form.setFieldsValue({operation: undefined});
+    setSelectedStock(undefined);
+  }
+
   useEffect(() => {
     getAllStock().then((stocks) => {
       setAllStock(stocks);
@@ -78,8 +84,11 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
       >
         <div>
           <Select
+            showSearch
+            allowClear
             value={selectedStock ? selectedStock.product?.title : undefined}
             onChange={onChangeStock}
+            onClear={onClearStock}
           >
             {allStock && allStock.length > 0
               ? allStock.map((stock) => (
