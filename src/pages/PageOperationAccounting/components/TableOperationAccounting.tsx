@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {EditOutlined, DeleteOutlined, DownOutlined,} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, SearchOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {getAllOperationAccounting, deleteOperationAccountingById, postFilterByTable,} from "../../../services";
@@ -13,6 +14,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
                                                                                           filter,
                                                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
+  const navigate = useNavigate();
 
   // Лоудер и список всех учетных операций
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,11 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       pageSize: 10,
     },
   });
+
+  // Переход на другую страницу по адресу
+  const handleMoreDetails = (id: number) => {
+    navigate(`/operation-accounting/${id}/detail`);
+  };
 
   // Колонки в таблице
   const columns: ColumnsType<TypeOperationAccounting> = [
@@ -113,10 +120,9 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               type="primary"
               size="small"
               shape="circle"
-              ghost
-              // onClick={}
+              onClick={() => handleMoreDetails(id)}
             >
-              <DownOutlined/>
+              <SearchOutlined/>
             </Button>
           </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -134,7 +140,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               placement="topRight"
               title="Вы действительно хотите удалить этот учет операции?"
               onConfirm={() => {
-                deleteOperationAccountingById(id).then(() => filterTable())
+                deleteOperationAccountingById(id).then(filterTable)
               }}
               okText="Да"
               cancelText="Отмена">

@@ -6,7 +6,7 @@ export interface TableProps<T> {
     dateFilter?: string| undefined,
     idFilter?: number| undefined,
   }
-  openTableDetail?: (id: number) => void;
+  idDetail?: number| undefined;
 }
 
 export interface AddModalProps<T> {
