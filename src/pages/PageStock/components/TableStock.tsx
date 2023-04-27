@@ -3,7 +3,7 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import {TableProps, TableParams, TypeUnit, TypeStock} from "../../../types";
-import {getAllStock, deleteStockById, getStockByTitle, postFilterByTable, getStockByGroupId} from "../../../services";
+import {getAllStock, deleteStockById, getStockByTitle, getStockByGroupId} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStock>> = ({
                                                               isUpdateTable,
@@ -91,7 +91,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
               title="Вы действительно хотите удалить эту ячейку на складе?"
               onConfirm={() => {
                 deleteStockById(id).then(() => {
-                  getAllStock().then((allStock) => setAllStock(allStock))
+                  filterTable();
                 })
               }}
               okText="Да"
