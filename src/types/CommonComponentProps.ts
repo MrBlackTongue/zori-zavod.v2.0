@@ -4,10 +4,10 @@ export interface TableProps<T> {
   searchText?: string | undefined;
   filterById?: number | undefined;
   filter?: {
-    dateFilter?: string| undefined,
-    idFilter?: number| undefined,
+    dateFilter?: string | undefined,
+    idFilter?: number | undefined,
   }
-  idDetail?: number| undefined;
+  idDetail?: number | undefined;
 }
 
 export interface AddModalProps<T> {
