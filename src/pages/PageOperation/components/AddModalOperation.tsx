@@ -29,6 +29,26 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
     return unit
   };
 
+  // Функция подтверждения добавления
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        setSelectedUnit(undefined);
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  }
+
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    setSelectedUnit(undefined);
+    onCancel()
+  };
+
   useEffect(() => {
     getAllUnit().then((units) => {
       setAllUnit(units);
@@ -39,25 +59,11 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
     <Modal
       title={`Добавление новой операции`}
       open={isOpen}
-      onCancel={() => {
-        setSelectedUnit(undefined);
-        onCancel()
-      }}
+      onCancel={handleClose}
       width={700}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            setSelectedUnit(undefined);
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}

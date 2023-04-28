@@ -112,21 +112,17 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
     });
   }
 
-  // Обновление таблицы товаров
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
-
   useEffect(() => {
     if (filterById) {
       filterTable();
     } else {
       updateTable();
     }
-  }, [filterById]);
+  }, [filterById, isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allProductMovementHistory}
       pagination={{position: [bottom]}}

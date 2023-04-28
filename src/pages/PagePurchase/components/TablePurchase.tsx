@@ -108,6 +108,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -116,9 +117,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -134,8 +133,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -177,22 +175,17 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
     });
   }
 
-  // Обновление таблицы покупок
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
-
-  // Поиск по таблице закупок
   useEffect(() => {
     if (searchText) {
       searchTable();
     } else {
       updateTable();
     }
-  }, [searchText]);
+  }, [searchText, isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allPurchase}
       pagination={{position: [bottom]}}

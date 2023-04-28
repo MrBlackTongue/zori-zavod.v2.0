@@ -46,6 +46,28 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
     return productGroup
   };
 
+  // Функция подтверждения добавления
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        setSelectedUnit(undefined);
+        setSelectedProductGroup(undefined);
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  }
+
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    setSelectedUnit(undefined);
+    setSelectedProductGroup(undefined);
+    onCancel()
+  };
+
   useEffect(() => {
     getAllUnit().then((units) => {
       setAllUnit(units);
@@ -62,27 +84,11 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
     <Modal
       title={`Добавление нового товара`}
       open={isOpen}
-      onCancel={() => {
-        setSelectedUnit(undefined);
-        setSelectedProductGroup(undefined);
-        onCancel()
-      }}
+      onCancel={handleClose}
       width={700}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            setSelectedUnit(undefined);
-            setSelectedProductGroup(undefined);
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}
@@ -125,7 +131,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
           rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
         >
           <div>
-            <Select 
+            <Select
               value={selectedProductGroup ? selectedProductGroup.title : undefined}
               onChange={onChangeProductGroup}
             >

@@ -15,9 +15,6 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
                                                                             }) => {
   const [form] = Form.useForm();
 
-  // Закупка
-  const [purchase] = useState<TypePurchase | null>(null);
-
   // Все товары, выбранный товар, товар
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
@@ -26,12 +23,9 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
   // Выбранная дата
   const [selectedDate, setSelectedDate] = useState<Dayjs | null | undefined>();
 
-  // Флажок оплачено
-  const [paid, setPaid] = useState(purchase?.paid)
-
   // Изменить состояние чекбокса
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-    setPaid(e.target.checked);
+    // setPaid(e.target.checked);
     form.setFieldsValue({paid: e.target.checked});
   }
 
@@ -66,6 +60,25 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
     }
   }, [selectedItemId]);
 
+  // Функция подтверждения редактирования
+  const handleOk = () => {
+    closeDrawer()
+    form
+      .validateFields()
+      .then((values) => {
+        updateItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info)
+      })
+  }
+
+  // Функция закрытия дравера
+  const handleClose = () => {
+    closeDrawer()
+    setSelectedProduct(product)
+  };
+
   useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
@@ -81,28 +94,12 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
       title="Редактирование закупки"
       width={600}
       open={isOpen}
-      onClose={() => {
-        closeDrawer()
-        setSelectedProduct(product)
-      }}
+      onClose={handleClose}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={() => {
-            closeDrawer()
-            setSelectedProduct(product)
-          }}>Отмена</Button>
-          <Button onClick={() => {
-            closeDrawer()
-            form
-              .validateFields()
-              .then((values) => {
-                updateItem(values);
-              })
-              .catch((info) => {
-                console.log('Validate Failed:', info)
-              })
-          }} type="primary" htmlType="submit">
+          <Button onClick={handleClose}>Отмена</Button>
+          <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -156,9 +153,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
           <DatePicker
             style={{width: '100%'}}
             format='DD.MM.YYYY'
-            onChange={(value) => {
-              setSelectedDate(value);
-            }}
+            onChange={(value) => setSelectedDate(value)}
           />
         </Form.Item>
         <Form.Item

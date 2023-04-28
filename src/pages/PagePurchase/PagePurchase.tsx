@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input, FloatButton} from 'antd';
+import React, {useState} from 'react';
+import {Typography, Space, Button, Input, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {postNewPurchase, putChangePurchase} from '../../services';
@@ -12,20 +12,13 @@ const {Title} = Typography;
 
 export const PagePurchase: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновление таблицы
+  // Обновление таблицы, выбрана закупка по id
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Закупка
-  const [purchase] = useState<TypePurchase | null>(null);
+  const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Выбрана закупка по id
-  const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState("");
@@ -71,29 +64,23 @@ export const PagePurchase: React.FC = () => {
     return purchase;
   };
 
-  useEffect(() => {
-    if (purchase) {
-      form.setFieldsValue(purchase);
-    }
-  }, [purchase, form]);
-
   return (
     <div style={{display: 'grid'}}>
       <div className="centerTitle">
         <Title level={3}>Закупки</Title>
         <Space>
           <Input
-            placeholder="Поиск по товарам"
-            onChange={(event) => setSearchText(event.target.value)}
-            style={{width: '210px'}}
             allowClear
+            placeholder="Поиск по товарам"
+            style={{width: '210px'}}
+            onChange={(event) => setSearchText(event.target.value)}
             prefix={<SearchOutlined/>}
           />
           <Button
             type="dashed"
+            className="greenButton"
             icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
-            className="greenButton"
           >
             Обновить
           </Button>
@@ -106,7 +93,7 @@ export const PagePurchase: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TablePurchase
         isUpdateTable={updateTable}
         openDrawer={openDrawer}

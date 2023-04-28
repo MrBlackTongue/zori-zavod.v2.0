@@ -79,7 +79,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     }
   };
 
-  // Функция подтверждения добавления новой учетной операции
+  // Функция подтверждения редактирования
   const handleOk = () => {
     form
       .validateFields()
@@ -92,7 +92,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
       })
   }
 
-  // Функция закрытия модального окна
+  // Функция закрытия дравера
   const handleClose = () => {
     form.resetFields();
     if (selectedItemId) {
