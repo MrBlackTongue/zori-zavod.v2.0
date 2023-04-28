@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form} from 'antd';
+import React, {useState, useCallback} from 'react';
+import {Typography, Space, Button} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {postNewShipment, putChangeShipment} from "../../services";
@@ -13,66 +13,56 @@ const {Title} = Typography;
 
 export const PageShipment: React.FC = () => {
 
-  const [form] = Form.useForm();
-
   // Состояние для обновления таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Состояние для хранения отгрузки
-  const [shipment] = useState<TypeShipment | null>(null);
-
-  // Состояния для открытия/закрытия модального окна и драверов
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isBottomDrawerOpen, setIsBottomDrawerOpen] = useState(false);
-
-  // Состояния для хранения выбранной отгрузки по ID и самой отгрузки
+  // Состояния для хранения выбранной отгрузки и её ID
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
-  // Функция для добавления новой отгрузки
-  const addShipment = (values: { [key: string]: any }): TypeShipment => {
+  // Состояния для контроля открытия/закрытия модалки и драверов
+  const [openStates, setOpenStates] = useState({
+    isModalOpen: false,
+    isDrawerOpen: false,
+    isBottomDrawerOpen: false,
+  });
+
+  // Функция добавления новой отгрузки с использованием useCallback для предотвращения ненужных рендеров
+  const addShipment = useCallback((values: { [key: string]: any }): void => {
+    const {date, client} = values;
     const shipment: TypeShipment = {
-      date: values['date'].format('YYYY-MM-DD'),
-      client: values['client'],
+      date: date.format('YYYY-MM-DD'),
+      client,
     };
-    setIsModalOpen(false)
-    postNewShipment(shipment)
-    setUpdateTable(!updateTable)
-    return shipment;
-  };
+    setOpenStates({...openStates, isModalOpen: false});
+    postNewShipment(shipment);
+    setUpdateTable(!updateTable);
+  }, [openStates]);
 
-  // Функция для открытия дравера редактирования отгрузки
-  const openDrawer = (shipmentId: number) => {
-    setSelectedShipmentId(shipmentId)
-    setIsDrawerOpen(true);
-  };
+  // Функция открытия дравера редактирования отгрузки с использованием useCallback
+  const openDrawer = useCallback((shipmentId: number) => {
+    setSelectedShipmentId(shipmentId);
+    setOpenStates({...openStates, isDrawerOpen: true});
+  }, [openStates]);
 
-  // Функция для открытия детального дравера отгрузки
-  const openDetailShipment = (shipment: TypeShipment) => {
+  // Функция открытия детального дравера отгрузки с использованием useCallback
+  const openDetailShipment = useCallback((shipment: TypeShipment) => {
     setSelectedShipment(shipment);
-    setIsBottomDrawerOpen(true)
-  };
+    setOpenStates({...openStates, isBottomDrawerOpen: true});
+  }, [openStates]);
 
-  // Функция для обновления отгрузки
-  const updateShipment = (values: { [key: string]: any }): TypeShipment => {
+  // Функция обновления отгрузки с использованием useCallback для предотвращения ненужных рендеров
+  const updateShipment = useCallback((values: { [key: string]: any }): void => {
+    const {date, client} = values;
     const shipment: TypeShipment = {
-      date: values['date'].format('YYYY-MM-DD'),
+      date: date.format('YYYY-MM-DD'),
       id: selectedShipmentId,
-      client: values.client,
+      client,
     };
-    setIsDrawerOpen(false)
-    putChangeShipment(shipment)
-    setUpdateTable(!updateTable)
-    return shipment
-  };
-
-  // Эффект для установки значений формы при наличии отгрузки
-  useEffect(() => {
-    if (shipment) {
-      form.setFieldsValue(shipment);
-    }
-  }, [shipment, form]);
+    setOpenStates({...openStates, isDrawerOpen: false});
+    putChangeShipment(shipment);
+    setUpdateTable(!updateTable);
+  }, [openStates, selectedShipmentId]);
 
   return (
     <div style={{display: 'grid'}}>
@@ -90,7 +80,7 @@ export const PageShipment: React.FC = () => {
             type="primary"
             icon={<PlusOutlined/>}
             onClick={() => {
-              setIsModalOpen(true)
+              setOpenStates({...openStates, isModalOpen: true});
             }}
           >
             Добавить
@@ -103,25 +93,25 @@ export const PageShipment: React.FC = () => {
         openDetailDrawer={openDetailShipment}
       />
       <AddModalShipment
-        isOpen={isModalOpen}
+        isOpen={openStates.isModalOpen}
         addItem={addShipment}
         onCancel={() => {
-          setIsModalOpen(false)
+          setOpenStates({...openStates, isModalOpen: false});
         }}
       />
       <EditDrawerShipment
-        isOpen={isDrawerOpen}
+        isOpen={openStates.isDrawerOpen}
         selectedItemId={selectedShipmentId}
         updateItem={updateShipment}
         closeDrawer={() => {
-          setIsDrawerOpen(false);
+          setOpenStates({...openStates, isDrawerOpen: false});
         }}
       />
       <DetailDrawerShipment
         selectedItem={selectedShipment}
-        isOpen={isBottomDrawerOpen}
+        isOpen={openStates.isBottomDrawerOpen}
         closeDrawer={() => {
-          setIsBottomDrawerOpen(false);
+          setOpenStates({...openStates, isBottomDrawerOpen: false});
         }}
       />
     </div>

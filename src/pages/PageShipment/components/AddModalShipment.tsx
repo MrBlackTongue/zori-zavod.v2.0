@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {AddModalProps, TypeShipment, TypeClient} from "../../../types";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllClient} from "../../../services";
@@ -18,7 +18,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
 
   // Функция для изменения выбранного клиента
-  const onChangeClient = (values: string, option: any): TypeClient => {
+  const onChangeClient = useCallback((values: string, option: any): TypeClient => {
     const client: TypeClient = {
       id: option.id,
       title: values,
@@ -28,13 +28,13 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
     });
     setSelectedClient(client)
     return client
-  };
+  }, [form]);
 
   // Функция для очистки поля клиента
-  const onClearClient = (): void => {
+  const onClearClient = useCallback((): void => {
     form.setFieldsValue({operation: undefined});
     setSelectedClient(undefined);
-  }
+  }, [form]);
 
   // Эффект для получения всех клиентов и установки их в состояние allClient
   useEffect(() => {
@@ -54,18 +54,15 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
       width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            console.log(values)
-            form.resetFields();
-            setSelectedClient(undefined)
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
+      onOk={async () => {
+        try {
+          const values = await form.validateFields();
+          form.resetFields();
+          setSelectedClient(undefined);
+          addItem(values);
+        } catch (info) {
+          console.log('Validate Failed:', info);
+        }
       }}
     >
       <Form

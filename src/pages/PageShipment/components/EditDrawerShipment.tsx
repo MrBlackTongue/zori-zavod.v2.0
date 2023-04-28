@@ -48,7 +48,6 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
 
   // Функция для обработки нажатия кнопки "Сохранить"
   const handleOk = () => {
-    closeDrawer()
     form
       .validateFields()
       .then((values) => {
@@ -56,8 +55,9 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
       })
       .catch((info) => {
         console.log('Validate Failed:', info)
-      })
-  }
+      });
+    closeDrawer();
+  };
 
   // Функция для обработки закрытия дравера
   const handleClose = () => {

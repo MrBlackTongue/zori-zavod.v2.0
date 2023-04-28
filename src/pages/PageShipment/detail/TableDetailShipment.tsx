@@ -79,9 +79,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
-                      onClick={() => {
-                      }}>
+              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>

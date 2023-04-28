@@ -33,9 +33,6 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
     return productMovement;
   };
 
-  // Заглушка для функции открытия дравера
-  const openDrawer = () => {};
-
   // Функция закрытия детального дравера
   const handleClose = () => {
     closeDrawer()
@@ -72,15 +69,13 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
     >
       <TableDetailShipment
         isUpdateTable={updateTable}
-        openDrawer={openDrawer}
+        openDrawer={() => {}}
         filterById={selectedItem?.id}
       />
       <AddModalDetailShipment
         isOpen={isModalOpen}
         addItem={addShipmentMovement}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
     </Drawer>
   );

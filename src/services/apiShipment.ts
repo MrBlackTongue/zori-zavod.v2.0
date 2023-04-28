@@ -33,14 +33,14 @@ export async function getShipmentById(id: number): Promise<TypeShipment | undefi
 }
 
 // Добавить новую отгрузку
-export function postNewShipment(data: TypeShipment) {
+export async function postNewShipment(data: TypeShipment) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + SHIPMENT, config)
+    await fetch(URL + SHIPMENT, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
