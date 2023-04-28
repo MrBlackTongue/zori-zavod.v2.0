@@ -91,7 +91,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
               title="Вы действительно хотите удалить эту ячейку на складе?"
               onConfirm={() => {
                 deleteStockById(id).then(() => {
-                  filterTable();
+                  updateTable();
                 })
               }}
               okText="Да"
@@ -162,6 +162,11 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       updateTable();
     }
   }, [searchText, filter, isUpdateTable]);
+
+  // Обновление таблицы покупок
+  useEffect(() => {
+    updateTable();
+  }, [!isUpdateTable]);
 
   return (
     <Table
