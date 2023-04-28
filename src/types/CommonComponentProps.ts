@@ -3,10 +3,10 @@ export interface TableProps<T> {
   openDrawer?: (id: number) => void;
   searchText?: string | undefined;
   filter?: {
-    dateFilter?: string| undefined,
-    idFilter?: number| undefined,
+    dateFilter?: string | undefined,
+    idFilter?: number | undefined,
   }
-  idDetail?: number| undefined;
+  idDetail?: number | undefined;
 }
 
 export interface AddModalProps<T> {

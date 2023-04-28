@@ -91,7 +91,7 @@ export const PageOperationAccounting: React.FC = () => {
         }
         : undefined,
     };
-    setIsModalOpen(false)
+    setIsDrawerOpen(false)
     putChangeOperationAccounting(operationAccounting)
     setDate(date)
     setSelectedOperationAccountingById(selectedOperationAccountingById)
