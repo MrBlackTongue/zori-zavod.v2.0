@@ -85,11 +85,7 @@ export const PageOperationAccounting: React.FC = () => {
       operation: {
         id: values.operation.id,
       },
-      output: values.output
-        ? {
-          id: values.output.id,
-        }
-        : undefined,
+      output: values.output ? {id: values.output.id} : undefined,
     };
     setIsDrawerOpen(false)
     putChangeOperationAccounting(operationAccounting)
@@ -153,7 +149,7 @@ export const PageOperationAccounting: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TableOperationAccounting
         isUpdateTable={updateTable}
         openDrawer={openDrawer}

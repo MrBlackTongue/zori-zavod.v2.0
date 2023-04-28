@@ -40,14 +40,14 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       title: 'Имя',
       dataIndex: 'firstName',
       key: 'firstName',
-      sorter: (a, b) => a.firstName < b.firstName ? -1 : 1,
+      sorter: (a, b) => (a.firstName ?? '') < (b.firstName ?? '') ? -1 : 1,
     },
     {
       title: 'Фамилия',
       dataIndex: 'lastName',
       key: 'lastName',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.lastName < b.lastName ? -1 : 1,
+      sorter: (a, b) => (a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1,
     },
     {
       title: 'Телефон',
@@ -58,7 +58,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       title: 'Ставка',
       dataIndex: 'salaryRate',
       key: 'salaryRate',
-      sorter: (a, b) => a.salaryRate - b.salaryRate,
+      sorter: (a, b) => (a.salaryRate ?? 0) - (b.salaryRate ?? 0),
     },
     {
       title: 'Нанят',
@@ -68,7 +68,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
         if (hired) return 'Да'
         else return 'Нет'
       }),
-      sorter: (a, b) => a.hired < b.hired ? -1 : 1,
+      sorter: (a, b) => (a.hired ?? false) < (b.hired ?? false) ? -1 : 1,
     },
     {
       title: 'Действия',

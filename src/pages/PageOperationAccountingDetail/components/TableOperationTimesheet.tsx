@@ -2,12 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
-import {deleteOperationAccountingById,} from "../../../services";
 import {TableProps, TypeOperationTimesheet, TypeEmployee} from "../../../types";
 import {
   deleteOperationTimesheetById,
   getOperationTimesheetByIdOperationAccounting
-} from "../../../services/apiOperationTimesheet";
+} from "../../../services";
 
 export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet>> = ({
                                                                                         isUpdateTable,
@@ -69,7 +68,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот учет операции?"
+              title="Вы действительно хотите удалить этого сотрудника из табеля учета рабочего времени?"
               onConfirm={() => {
                 deleteOperationTimesheetById(id).then(getOperationTimesheet)
               }}
@@ -110,6 +109,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
       dataSource={allOperationTimesheet}
       pagination={false}
       loading={loading}
+      size="middle"
     />
   );
 }
