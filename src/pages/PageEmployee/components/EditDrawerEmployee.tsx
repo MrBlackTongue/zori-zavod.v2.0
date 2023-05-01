@@ -1,5 +1,5 @@
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {EditDrawerProps, TypeEmployee} from "../../../types";
 import {getEmployeeById} from "../../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
@@ -12,16 +12,22 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
                                                                             }) => {
   const [form] = Form.useForm();
 
-  // Сотрудник
-  const [employee] = useState<TypeEmployee | null>(null);
-
-  // Флажок нанят
-  const [hired, setHired] = useState(employee?.hired)
-
   // Изменить состояние чекбокса
   const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-    setHired(e.target.checked);
     form.setFieldsValue({hired: e.target.checked});
+  }
+
+  // Функция подтверждения редактирования
+  const handleOk = () => {
+    closeDrawer()
+    form
+      .validateFields()
+      .then((values) => {
+        updateItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info)
+      })
   }
 
   useEffect(() => {
@@ -30,7 +36,7 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
         form.setFieldsValue(employee);
       })
     }
-  }, [selectedItemId, getEmployeeById]);
+  }, [selectedItemId]);
 
   return (
     <Drawer
@@ -42,17 +48,7 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
       extra={
         <Space>
           <Button onClick={closeDrawer}>Отмена</Button>
-          <Button onClick={() => {
-            closeDrawer()
-            form
-              .validateFields()
-              .then((values) => {
-                updateItem(values);
-              })
-              .catch((info) => {
-                console.log('Validate Failed:', info)
-              })
-          }} type="primary" htmlType="submit">
+          <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -91,10 +87,9 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
             type: 'number',
             message: 'напишите ставку цифрами больше 1',
             warningOnly: true,
-            // pattern: /[1-9]/,
           }]}
         >
-          <InputNumber/>
+          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
         <Form.Item
           name="hired"

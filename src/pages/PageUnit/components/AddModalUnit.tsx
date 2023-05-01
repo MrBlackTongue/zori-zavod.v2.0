@@ -9,6 +9,19 @@ export const AddModalUnit: React.FC<AddModalProps<TypeUnit>> = ({
                                                                 }) => {
   const [form] = Form.useForm();
 
+  // Функция подтверждения добавления
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  }
+
   return (
     <Modal
       title={`Добавление новой единицы измерения`}
@@ -17,17 +30,7 @@ export const AddModalUnit: React.FC<AddModalProps<TypeUnit>> = ({
       width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}

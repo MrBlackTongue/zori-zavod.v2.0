@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, FloatButton,} from 'antd';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProductBatch, putChangeProductBatch} from "../../services";
@@ -12,20 +12,13 @@ const {Title} = Typography;
 
 export const PageProductBatch: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновление таблицы
+  // Обновление таблицы, выбрана партия товара по id
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Партия товара
-  const [productBatch] = useState<TypeProductBatch | null>(null);
+  const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Выбрана партия товара по id
-  const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
   // Добавить новую партии товара
   const addProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
@@ -62,12 +55,6 @@ export const PageProductBatch: React.FC = () => {
     return productBatch
   };
 
-  useEffect(() => {
-    if (productBatch) {
-      form.setFieldsValue(productBatch);
-    }
-  }, [productBatch, form]);
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -83,15 +70,13 @@ export const PageProductBatch: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TableProductBatch
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
@@ -99,17 +84,13 @@ export const PageProductBatch: React.FC = () => {
       <AddModalProductBatch
         isOpen={isModalOpen}
         addItem={addProductBatch}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerProductBatch
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductBatchId}
         updateItem={updateProductBatch}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
   );

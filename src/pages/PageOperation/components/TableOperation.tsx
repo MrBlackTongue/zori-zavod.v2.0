@@ -1,17 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllOperation, deleteOperationById} from "../../../services";
 import {TableProps, TypeOperation, TableParams} from "../../../types";
 
@@ -61,6 +52,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -69,9 +61,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -86,9 +76,8 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
-                      onClick={() => {
-                      }}>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -118,10 +107,11 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       setAllOperation(allOperations);
       setLoading(false);
     });
-  }, [!isUpdateTable]);
+  }, [isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allOperation}
       pagination={{position: [bottom]}}

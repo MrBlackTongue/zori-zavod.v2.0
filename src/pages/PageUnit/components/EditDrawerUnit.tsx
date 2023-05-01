@@ -11,13 +11,27 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
                                                                     }) => {
   const [form] = Form.useForm();
 
+  // Функция подтверждения редактирования
+  const handleOk = () => {
+    closeDrawer()
+    form
+      .validateFields()
+      .then((values) => {
+        // form.resetFields()
+        updateItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info)
+      })
+  }
+
   useEffect(() => {
     if (selectedItemId) {
       getUnitById(selectedItemId).then((unit) => {
         form.setFieldsValue(unit);
       })
     }
-  }, [selectedItemId, getUnitById]);
+  }, [selectedItemId]);
 
   return (
     <Drawer
@@ -29,18 +43,7 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
       extra={
         <Space>
           <Button onClick={closeDrawer}>Отмена</Button>
-          <Button onClick={() => {
-            closeDrawer()
-            form
-              .validateFields()
-              .then((values) => {
-                // form.resetFields()
-                updateItem(values);
-              })
-              .catch((info) => {
-                console.log('Validate Failed:', info)
-              })
-          }} type="primary" htmlType="submit">
+          <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>

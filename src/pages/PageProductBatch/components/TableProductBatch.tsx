@@ -57,6 +57,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -65,9 +66,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -83,8 +82,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -120,10 +118,11 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
   // Обновление таблицы партии товаров
   useEffect(() => {
     updateTable();
-  }, [!isUpdateTable]);
+  }, [isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allProductBatch}
       pagination={{position: [bottom]}}

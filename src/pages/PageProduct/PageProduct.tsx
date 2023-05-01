@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input, FloatButton,} from 'antd';
+import React, {useState} from 'react';
+import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewProduct, putChangeProduct} from "../../services";
@@ -12,20 +12,13 @@ const {Title} = Typography;
 
 export const PageProduct: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновление таблицы
+  // Обновление таблицы, выбран товар по id
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Товар
-  const [product] = useState<TypeProduct | null>(null);
+  const [selectedProductId, setSelectedProductId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Выбран товар по id
-  const [selectedProductId, setSelectedProductId] = useState<number>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState("");
@@ -75,43 +68,36 @@ export const PageProduct: React.FC = () => {
     return product
   };
 
-  useEffect(() => {
-    if (product) {
-      form.setFieldsValue(product);
-    }
-  }, [product, form]);
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
         <Title level={3}>Товары</Title>
         <Space>
           <Input
+            allowClear
+            style={{width: '210px'}}
             placeholder="Поиск по товарам"
             onChange={(event) => setSearchText(event.target.value)}
-            style={{width: '210px'}}
-            allowClear
             prefix={<SearchOutlined/>}
           />
           <Button
             type="dashed"
+            className='greenButton'
             icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+          >
             Обновить
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TableProduct
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
@@ -120,17 +106,13 @@ export const PageProduct: React.FC = () => {
       <AddModalProduct
         isOpen={isModalOpen}
         addItem={addProduct}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerProduct
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductId}
         updateItem={updateProduct}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
   );
