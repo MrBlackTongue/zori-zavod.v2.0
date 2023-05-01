@@ -18,7 +18,6 @@ export const PageShipment: React.FC = () => {
 
   // Состояния для хранения выбранной отгрузки и её ID
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
-  const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Состояния для контроля открытия/закрытия модалки и драверов
   const [openStates, setOpenStates] = useState({
@@ -46,8 +45,8 @@ export const PageShipment: React.FC = () => {
   }, [openStates]);
 
   // Функция открытия детального дравера отгрузки с использованием useCallback
-  const openDetailShipment = useCallback((shipment: TypeShipment) => {
-    setSelectedShipment(shipment);
+  const openDetailShipment = useCallback((shipmentId: number) => {
+    setSelectedShipmentId(shipmentId);
     setOpenStates({...openStates, isBottomDrawerOpen: true});
   }, [openStates]);
 
@@ -108,7 +107,7 @@ export const PageShipment: React.FC = () => {
         }}
       />
       <DetailDrawerShipment
-        selectedItem={selectedShipment}
+        selectedItemId={selectedShipmentId}
         isOpen={openStates.isBottomDrawerOpen}
         closeDrawer={() => {
           setOpenStates({...openStates, isBottomDrawerOpen: false});

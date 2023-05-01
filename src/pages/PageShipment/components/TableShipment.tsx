@@ -74,7 +74,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               shape="circle"
               onClick={() => {
                 if (openDetailDrawer && record.id !== undefined) {
-                  openDetailDrawer(record)
+                  openDetailDrawer(record.id)
                 }
               }}>
               <DownOutlined/>
