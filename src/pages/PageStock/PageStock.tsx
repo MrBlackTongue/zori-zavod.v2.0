@@ -67,7 +67,7 @@ export const PageStock: React.FC = () => {
       setSelectedGroupId(undefined);
       return undefined;
     }
-      setSelectedGroupId(option.id);
+    setSelectedGroupId(option.id);
     return option.id
   };
 
@@ -122,10 +122,10 @@ export const PageStock: React.FC = () => {
                 .slice()
                 .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
                 .map(productGroup => (
-                <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
-                  {productGroup.title}
-                </Option>
-              )) : null}
+                  <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
+                    {productGroup.title}
+                  </Option>
+                )) : null}
           </Select>
           <Button
             type="dashed"

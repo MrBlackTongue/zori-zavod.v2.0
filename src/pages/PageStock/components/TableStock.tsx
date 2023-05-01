@@ -91,8 +91,13 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
               title="Вы действительно хотите удалить эту ячейку на складе?"
               onConfirm={() => {
                 deleteStockById(id).then(() => {
-                  updateTable();
-                })
+                  filterTable();
+                  if (searchText || filter) {
+                    searchTable();
+                  } else {
+                    updateTable();
+                  }
+                });
               }}
               okText="Да"
               cancelText="Отмена">
@@ -135,7 +140,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
   // Функция для поиска по таблице склада
   const searchTable = () => {
     setLoading(true);
-    getStockByTitle(searchText ?? '').then((allStock) => {
+    getStockByTitle(searchText ?? "").then((allStock) => {
       setAllStock(allStock);
       setLoading(false);
     });
@@ -162,11 +167,6 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       updateTable();
     }
   }, [searchText, filter, isUpdateTable]);
-
-  // Обновление таблицы покупок
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
 
   return (
     <Table

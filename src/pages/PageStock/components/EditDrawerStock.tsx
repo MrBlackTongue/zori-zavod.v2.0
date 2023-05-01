@@ -6,11 +6,11 @@ import {getAllStock, getStockById} from "../../../services";
 const {Option} = Select;
 
 export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
-                                                                 isOpen,
-                                                                 selectedItemId,
-                                                                 closeDrawer,
-                                                                 updateItem,
-                                                               }) => {
+                                                                        isOpen,
+                                                                        selectedItemId,
+                                                                        closeDrawer,
+                                                                        updateItem,
+                                                                      }) => {
   const [form] = Form.useForm();
 
   // Все товары, выбранный товар
