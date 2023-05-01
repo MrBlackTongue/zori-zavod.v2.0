@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Form, Input, Select} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getAllProductGroup, postNewStock, putChangeStock, getStockByGroupId} from '../../services';
+import {getAllProductGroup, postNewStock, putChangeStock} from '../../services';
 import {TypeProductGroup, TypeStock} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
@@ -29,17 +29,12 @@ export const PageStock: React.FC = () => {
 
   // Все группы стоков, выбранная группа стоков по id
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
-  const [setSelectedProductGroupById, setAllProductGroupById] = useState<number>();
 
   // Выбрана ячейка на складе по id
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState("");
-
-  const loadStockByGroupId = async (groupId: number) => {
-    const stocks = await getStockByGroupId(groupId);
-  };
 
   // Добавить новую ячейку на складе
   const addStock = (values: { [key: string]: any }): TypeStock => {
