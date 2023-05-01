@@ -1,14 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form, FloatButton,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewOutput, putChangeOutput} from "../../services";
 import {TypeOutput} from "../../types";
@@ -20,20 +12,13 @@ const {Title} = Typography;
 
 export const PageOutput: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновление таблицы
+  // Обновление таблицы, выбран выпуск продукции по id
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Выпуск продукции
-  const [output] = useState<TypeOutput | null>(null);
+  const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Выбран выпуск продукции по id
-  const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
   // Добавить новый выпуск продукции
   const addOutput = (values: { [key: string]: any }): TypeOutput => {
@@ -70,12 +55,6 @@ export const PageOutput: React.FC = () => {
     return output
   };
 
-  useEffect(() => {
-    if (output) {
-      form.setFieldsValue(output);
-    }
-  }, [output, form]);
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -91,15 +70,13 @@ export const PageOutput: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TableOutput
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
@@ -107,17 +84,13 @@ export const PageOutput: React.FC = () => {
       <AddModalOutput
         isOpen={isModalOpen}
         addItem={addOutput}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerOutput
         isOpen={isDrawerOpen}
         selectedItemId={selectedOutputId}
         updateItem={updateOutput}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
   );

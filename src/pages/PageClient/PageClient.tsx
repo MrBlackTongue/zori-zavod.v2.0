@@ -1,14 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form, FloatButton,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewClient, putChangeClient} from "../../services";
 import {TypeClient} from "../../types";
@@ -20,18 +12,13 @@ const {Title} = Typography;
 
 export const PageClient: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновление таблицы, клиент
+  // Обновление таблицы, выбран клиент по id
   const [updateTable, setUpdateTable] = useState(false);
-  const [client] = useState<TypeClient | null>(null);
+  const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Выбран клиент по id
-  const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // Добавить нового клиента
   const addClient = (values: { [key: string]: any }): TypeClient => {
@@ -62,12 +49,6 @@ export const PageClient: React.FC = () => {
     return client
   };
 
-  useEffect(() => {
-    if (client) {
-      form.setFieldsValue(client);
-    }
-  }, [client, form]);
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -83,15 +64,13 @@ export const PageClient: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TableClient
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
@@ -99,17 +78,13 @@ export const PageClient: React.FC = () => {
       <AddModalClient
         isOpen={isModalOpen}
         addItem={addClient}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerClient
         isOpen={isDrawerOpen}
         selectedItemId={selectedClientId}
         updateItem={updateClient}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
   );
