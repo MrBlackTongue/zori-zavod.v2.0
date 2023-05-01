@@ -1,14 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form, FloatButton,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewUnit, putChangeUnit} from "../../services";
 import {TypeUnit} from "../../types";
@@ -20,20 +12,13 @@ const {Title} = Typography;
 
 export const PageUnit: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновление таблицы
+  // Обновление таблицы, выбрана единица измерения по id
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Единица измерения
-  const [unit] = useState<TypeUnit | null>(null);
+  const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Выбрана единица измерения по id
-  const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
   // Добавить новую единицу измерения
   const addUnit = (values: { [key: string]: any }): TypeUnit => {
@@ -64,12 +49,6 @@ export const PageUnit: React.FC = () => {
     return unit
   };
 
-  useEffect(() => {
-    if (unit) {
-      form.setFieldsValue(unit);
-    }
-  }, [unit, form]);
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -85,15 +64,13 @@ export const PageUnit: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TableUnit
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
@@ -101,17 +78,13 @@ export const PageUnit: React.FC = () => {
       <AddModalUnit
         isOpen={isModalOpen}
         addItem={addUnit}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerUnit
         isOpen={isDrawerOpen}
         selectedItemId={selectedUnitId}
         updateItem={updateUnit}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
   );

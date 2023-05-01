@@ -9,6 +9,19 @@ export const AddModalClient: React.FC<AddModalProps<TypeClient>> = ({
                                                                     }) => {
   const [form] = Form.useForm();
 
+  // Функция подтверждения добавления
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate failed:', info);
+      });
+  }
+
   return (
     <Modal
       title={`Добавление нового клиента`}
@@ -17,17 +30,7 @@ export const AddModalClient: React.FC<AddModalProps<TypeClient>> = ({
       width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}
