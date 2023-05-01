@@ -82,19 +82,21 @@ export async function getStockById(id: number): Promise<TypeStock | undefined> {
 export async function deleteStockById(id: number) {
   try {
     const response = await fetch(URL + STOCK + `/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
-    const data = await response.json();
-    if (data.success) {
-      return message.success('Запись удалена');
+
+    if (response.ok) {
+      message.success("Ячейка склада успешно удалена");
     } else {
       console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
+      message.error("Ошибка при удалении ячейки склада");
     }
   } catch (err) {
     console.error(err);
+    message.error("Ошибка при удалении ячейки склада");
   }
 }
+
 
 // Получение всех остатков по название товара
 export async function getStockByTitle(title: string): Promise<TypeStock[]> {
