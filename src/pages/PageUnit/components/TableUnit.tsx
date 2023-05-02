@@ -84,7 +84,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllUnit([]);
+      setAllUnit(allUnit);
     }
   };
 
@@ -106,7 +106,11 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
       bordered
       columns={columns}
       dataSource={allUnit}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

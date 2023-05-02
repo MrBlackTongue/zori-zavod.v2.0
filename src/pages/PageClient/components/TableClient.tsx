@@ -84,7 +84,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllClient([]);
+      setAllClient(allClient);
     }
   };
 
@@ -106,7 +106,11 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
       bordered
       columns={columns}
       dataSource={allClient}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

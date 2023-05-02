@@ -108,7 +108,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllAcceptance([]);
+      setAllAcceptance(allAcceptance);
     }
   };
 
@@ -143,7 +143,11 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
       bordered
       columns={columns}
       dataSource={allAcceptance}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

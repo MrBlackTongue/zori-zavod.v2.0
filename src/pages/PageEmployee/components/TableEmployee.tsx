@@ -111,7 +111,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllEmployee([]);
+      setAllEmployee(allEmployee);
     }
   };
 
@@ -133,7 +133,11 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       bordered
       columns={columns}
       dataSource={allEmployee}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

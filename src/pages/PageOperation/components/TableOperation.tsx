@@ -97,7 +97,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperation([]);
+      setAllOperation(allOperation);
     }
   };
 
@@ -119,7 +119,11 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       bordered
       columns={columns}
       dataSource={allOperation}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

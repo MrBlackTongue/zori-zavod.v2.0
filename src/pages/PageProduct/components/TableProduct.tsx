@@ -108,7 +108,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProduct([]);
+      setAllProduct(allProduct);
     }
   };
 
@@ -149,7 +149,11 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
       bordered
       columns={columns}
       dataSource={allProduct}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

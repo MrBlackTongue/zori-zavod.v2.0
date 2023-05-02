@@ -88,7 +88,7 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductMovementHistory([]);
+      setAllProductMovementHistory(allProductMovementHistory);
     }
   };
 
@@ -125,7 +125,11 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
       bordered
       columns={columns}
       dataSource={allProductMovementHistory}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

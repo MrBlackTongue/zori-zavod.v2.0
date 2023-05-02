@@ -149,7 +149,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperationAccounting([]);
+      setAllOperationAccounting(allOperationAccounting);
     }
   };
 
@@ -230,7 +230,11 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       bordered
       columns={columns}
       dataSource={allOperationAccounting}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
       summary={renderSummaryRow}
