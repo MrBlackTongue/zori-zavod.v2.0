@@ -115,12 +115,17 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllEmployee().then((allEmployees) => {
       setAllEmployee(allEmployees);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (

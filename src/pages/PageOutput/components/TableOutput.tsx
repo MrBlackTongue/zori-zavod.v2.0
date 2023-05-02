@@ -102,12 +102,17 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllOutput().then((allOutputs) => {
       setAllOutput(allOutputs);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (

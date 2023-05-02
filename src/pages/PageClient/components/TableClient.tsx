@@ -88,12 +88,17 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllClient().then((allClients) => {
       setAllClient(allClients);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (

@@ -101,12 +101,17 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllOperation().then((allOperations) => {
       setAllOperation(allOperations);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (

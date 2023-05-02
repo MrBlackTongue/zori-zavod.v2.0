@@ -88,12 +88,17 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllUnit().then((allUnits) => {
       setAllUnit(allUnits);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (
