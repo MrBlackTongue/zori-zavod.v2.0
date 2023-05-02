@@ -115,7 +115,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>

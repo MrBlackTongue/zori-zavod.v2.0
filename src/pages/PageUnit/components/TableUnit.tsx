@@ -48,7 +48,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>

@@ -138,9 +138,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: "public",
-        }}
+        initialValues={{modifier: "public"}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -155,7 +153,6 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
               showSearch
               allowClear
               filterOption={false}
-              value={selectedStock?.id}
               onChange={onChangeStock}
               onSearch={onSearchStock}
             >
@@ -179,7 +176,6 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
               showSearch
               allowClear
               filterOption={false}
-              value={selectedPurchase?.id}
               onChange={onChangePurchase}
               onSearch={onSearchPurchase}
             >

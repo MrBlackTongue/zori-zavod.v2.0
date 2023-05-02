@@ -121,10 +121,9 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
             type: 'number',
             message: 'напишите норму цифрами больше 1',
             warningOnly: true,
-            // pattern: /[1-9]/,
           }]}
         >
-          <InputNumber/>
+          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Form>
     </Drawer>

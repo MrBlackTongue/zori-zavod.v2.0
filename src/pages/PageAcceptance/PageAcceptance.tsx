@@ -72,7 +72,6 @@ export const PageAcceptance: React.FC = () => {
       <TableAcceptance
         searchText={searchText}
         isUpdateTable={updateTable}
-        openDrawer={() => {}}
       />
       <AddModalAcceptance
         isOpen={isModalOpen}

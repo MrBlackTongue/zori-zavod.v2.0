@@ -61,7 +61,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>

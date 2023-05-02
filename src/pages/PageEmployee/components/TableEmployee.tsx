@@ -75,7 +75,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>

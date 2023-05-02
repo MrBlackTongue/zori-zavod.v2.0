@@ -34,9 +34,7 @@ export const AddModalUnit: React.FC<AddModalProps<TypeUnit>> = ({
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public'
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
