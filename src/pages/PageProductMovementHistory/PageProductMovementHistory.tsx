@@ -68,7 +68,7 @@ export const PageProductMovementHistory: React.FC = () => {
       <FloatButton.BackTop/>
       <TableProductMovementHistory
         isUpdateTable={updateTable}
-        filterById={selectedStockById}
+        filter={{idFilter: selectedStockById}}
       />
     </div>
   );
