@@ -89,21 +89,11 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту ячейку на складе?"
-              onConfirm={() => {
-                deleteStockById(id).then(() => {
-                  filterTable();
-                  if (searchText || filter) {
-                    searchTable();
-                  } else {
-                    updateTable();
-                  }
-                });
-              }}
+              onConfirm={async () => await handleDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {}}>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -145,6 +135,22 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       setLoading(false);
     });
   }
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteStockById(id); // Удаляет ячейку
+      if (searchText) {
+        searchTable(); // Обновляет данные таблицы с учетом поиска
+      } else if (filter && filter.idFilter) {
+        filterTable(); // Обновляет данные таблицы с учетом фильтра
+      } else {
+        updateTable(); // Обновляет данные таблицы без учета поиска и фильтра
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+
 
   // Функция для фильтрации таблицы
   const filterTable = () => {
