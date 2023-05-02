@@ -1,5 +1,5 @@
-import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
+import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import {EditDrawerProps, TypeShipment, TypeClient} from "../../../types";
 import {getShipmentById, getAllClient} from "../../../services";
 import dayjs from 'dayjs';
@@ -7,11 +7,11 @@ import dayjs from 'dayjs';
 const {Option} = Select;
 
 export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
-                                                                          isOpen,
-                                                                          selectedItemId,
-                                                                          closeDrawer,
-                                                                          updateItem,
-                                                                        }) => {
+                                                                              isOpen,
+                                                                              selectedItemId,
+                                                                              closeDrawer,
+                                                                              updateItem,
+                                                                            }) => {
   const [form] = Form.useForm();
 
   // Состояния для всех клиентов, выбранного клиента и даты
@@ -66,6 +66,11 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
     setSelectedClient(selectedClient)
   }
 
+  const onClearClient = (): void => {
+    form.setFieldsValue({client: undefined});
+    setSelectedClient(undefined);
+  }
+
   // Эффект для получения всех клиентов и установки их в состояние allClient
   useEffect(() => {
     getAllClient().then((clients) => {
@@ -109,9 +114,7 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
           <DatePicker
             style={{width: '100%'}}
             format='DD.MM.YYYY'
-            onChange={(value) => {
-              setDate(value);
-            }}
+            onChange={(value) => setDate(value)}
           />
         </Form.Item>
         <Form.Item
@@ -121,8 +124,11 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
         >
           <div>
             <Select
+              showSearch
+              allowClear
               value={selectedClient ? selectedClient.title : undefined}
               onChange={onChangeClient}
+              onClear={onClearClient}
             >
               {allClient && allClient.length > 0 ?
                 allClient.map(client => (

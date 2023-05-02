@@ -7,10 +7,10 @@ const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
 export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
-                                                                      isOpen,
-                                                                      addItem,
-                                                                      onCancel,
-                                                                    }) => {
+                                                                          isOpen,
+                                                                          addItem,
+                                                                          onCancel,
+                                                                        }) => {
   const [form] = Form.useForm();
 
   // Состояния для всех клиентов и выбранного клиента
@@ -36,6 +36,28 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
     setSelectedClient(undefined);
   }, [form]);
 
+  // Функция подтверждения добавления
+  const handleOk = () => () => {
+    form
+      .validateFields()
+      .then((values) => {
+        console.log(values)
+        form.resetFields();
+        setSelectedClient(undefined)
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  }
+
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    form.resetFields()
+    onCancel()
+    setSelectedClient(undefined)
+  }
+
   // Эффект для получения всех клиентов и установки их в состояние allClient
   useEffect(() => {
     getAllClient().then((clients) => {
@@ -47,23 +69,11 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
     <Modal
       title={`Добавление новой отгрузки`}
       open={isOpen}
-      onCancel={() => {
-        onCancel()
-        setSelectedClient(undefined)
-      }}
+      onCancel={handleClose}
       width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={async () => {
-        try {
-          const values = await form.validateFields();
-          form.resetFields();
-          setSelectedClient(undefined);
-          addItem(values);
-        } catch (info) {
-          console.log('Validate Failed:', info);
-        }
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}

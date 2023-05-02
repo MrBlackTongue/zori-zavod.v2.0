@@ -1,35 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Popconfirm, Space, Table, Tooltip,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
-import {
-  deleteShipmentProductMovementById,
-  getAllProductMovementsByShipmentId
-} from "../../../services";
-import {TableProps, TypeShipment, TableParams, TypeStock} from "../../../types";
+import type {ColumnsType} from 'antd/es/table';
+import {deleteShipmentProductMovementById, getAllProductMovementsByShipmentId} from "../../../services";
+import {TableProps, TypeShipment, TypeStock, TypeShipmentProductMovement} from "../../../types";
 import dayjs from 'dayjs';
-import {TypeShipmentProductMovement} from "../../../types/TypeShipmentProductMovement";
 import {DeleteOutlined} from "@ant-design/icons";
 
 export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
                                                                           isUpdateTable,
                                                                           filterById
                                                                         }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
-
   // Состояния для лоадера и списка всех товаров в отгрузке
   const [loading, setLoading] = useState(false);
-  const [allShipmentMovements, setAllShipmentMovements] = useState<TypeShipmentProductMovement[]>();
+  const [allShipmentMovement, setAllShipmentMovement] = useState<TypeShipmentProductMovement[]>();
 
-  // Параметры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
+  // Функция получения всех движений товаров отгрузки
+  const getAllProductMovements = () => {
+    setLoading(true);
+    if (filterById) {
+      getAllProductMovementsByShipmentId(filterById).then((allShipmentMovements) => {
+        setAllShipmentMovement(allShipmentMovements);
+        setLoading(false);
+      });
+    }
+  };
 
   // Колонки в таблице
   const columns: ColumnsType<TypeShipmentProductMovement> = [
@@ -74,12 +68,13 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
                 deleteShipmentProductMovementById(id).then(() => {
                   if (filterById)
                     getAllProductMovementsByShipmentId(filterById)
-                      .then((allShipmentMovements) => setAllShipmentMovements(allShipmentMovements))
+                      .then((allShipmentMovements) => setAllShipmentMovement(allShipmentMovements))
                 })
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -89,39 +84,19 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
     },
   ];
 
-  // Функция обработки изменений таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeShipmentProductMovement>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllShipmentMovements([]);
-    }
-  };
-
-  // Получение данных по всем товарам в отгрузке с использованием filterById
+  // Получение данных по всем товарам в отгрузке
   useEffect(() => {
-    setLoading(true);
-    if (filterById) {
-      getAllProductMovementsByShipmentId(filterById).then((allShipmentMovements) => {
-        console.log("movements", allShipmentMovements);
-        setAllShipmentMovements(allShipmentMovements);
-        setLoading(false);
-      });
-    }
-  }, [filterById, !isUpdateTable]);
+    getAllProductMovements()
+  }, [filterById, isUpdateTable]);
 
   return (
     <Table
+      bordered
+      size={"small"}
       columns={columns}
-      dataSource={allShipmentMovements}
-      pagination={{position: [bottom]}}
+      dataSource={allShipmentMovement}
+      pagination={false}
       loading={loading}
-      onChange={handleTableChange}
     />
   );
 };

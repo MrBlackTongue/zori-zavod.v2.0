@@ -1,18 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-  DownOutlined,
-} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, DownOutlined} from '@ant-design/icons';
 import {getAllShipment, deleteShipmentById} from "../../../services";
 import {TableProps, TypeShipment, TableParams} from "../../../types";
 import dayjs from 'dayjs';
@@ -37,13 +27,21 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
     },
   });
 
+  // Функция получения всех загрузок
+  const getAllShipments = () => {
+    setLoading(true);
+    getAllShipment().then((allShipments) => {
+      setAllShipment(allShipments);
+      setLoading(false);
+    });
+  };
+
   // Определение колонок для таблицы отгрузок
   const columns: ColumnsType<TypeShipment> = [
     {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      defaultSortOrder: 'ascend',
     },
     {
       title: 'Дата',
@@ -56,6 +54,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       title: 'Клиент',
       dataIndex: 'client',
       key: 'client',
+      sorter: (a: any, b: any) => a.client.title < b.client.title ? -1 : 1,
       render: ((client: any) =>
         client !== null ? (<div key={client.id}>{client.title}</div>) : null)
     },
@@ -65,7 +64,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((_, record) => (
+      render: (id => (
         <Space>
           <Tooltip title="Подробнее" placement="bottomRight">
             <Button
@@ -73,8 +72,8 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               size="small"
               shape="circle"
               onClick={() => {
-                if (openDetailDrawer && record.id !== undefined) {
-                  openDetailDrawer(record.id)
+                if (openDetailDrawer && id !== undefined) {
+                  openDetailDrawer(id)
                 }
               }}>
               <DownOutlined/>
@@ -87,9 +86,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               shape="circle"
               ghost
               onClick={() => {
-                if (record.id !== undefined) {
-                  openDrawer(record.id)
-                }
+                openDrawer(id)
               }}>
               <EditOutlined/>
             </Button>
@@ -99,15 +96,12 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               placement="topRight"
               title="Вы действительно хотите удалить эту отгрузку?"
               onConfirm={() => {
-                if (record.id !== undefined) {
-                  deleteShipmentById(record.id).then(() => {
-                    getAllShipment().then((allShipments) => setAllShipment(allShipments))
-                  })
-                }
+                deleteShipmentById(id).then(() => getAllShipments())
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -133,15 +127,12 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
 
   // Получение списка всех отгрузок и установка состояний загрузки и списка отгрузок
   useEffect(() => {
-    setLoading(true);
-    getAllShipment().then((allShipments) => {
-      setAllShipment(allShipments);
-      setLoading(false);
-    });
+    getAllShipments()
   }, [isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allShipment}
       pagination={{position: [bottom]}}

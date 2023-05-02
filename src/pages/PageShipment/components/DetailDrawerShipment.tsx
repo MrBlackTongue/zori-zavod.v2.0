@@ -1,10 +1,9 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Button, Drawer, Space} from "antd";
-import {DetailProps, TypeShipment} from "../../../types";
+import {DetailProps, TypeShipment, TypeShipmentProductMovement} from "../../../types";
 import {TableDetailShipment} from "./TableDetailShipment";
 import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
 import {getShipmentById, postNewShipmentProductMovement} from "../../../services";
-import {TypeShipmentProductMovement} from "../../../types/TypeShipmentProductMovement";
 import {AddModalDetailShipment} from "./AddModalDetailShipment";
 
 
@@ -36,10 +35,7 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
   // Функция для получения данных об отгрузке по ID и обновления формы
   const handleGetShipmentById = useCallback(() => {
     if (selectedItemId) {
-      getShipmentById(selectedItemId)
-        .then((shipment) => {
-          setSelectedShipment(shipment)
-        })
+      getShipmentById(selectedItemId).then((shipment) => setSelectedShipment(shipment))
     }
   }, [selectedItemId]);
 
@@ -57,7 +53,7 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
     <Drawer
       title="Отгруженные товары"
       placement={"bottom"}
-      height={500}
+      height={400}
       open={isOpen}
       onClose={handleClose}
       bodyStyle={{paddingBottom: 80}}
@@ -67,15 +63,14 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>

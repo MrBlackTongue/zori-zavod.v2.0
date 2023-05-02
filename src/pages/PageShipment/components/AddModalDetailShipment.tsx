@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {AddModalProps, TypeStock} from "../../../types";
+import {AddModalProps, TypeStock, TypeShipmentProductMovement} from "../../../types";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllStock} from "../../../services";
-import {TypeShipmentProductMovement} from "../../../types/TypeShipmentProductMovement";
-
 const {Option} = Select;
 
 
@@ -36,6 +34,28 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
     setSelectedStock(undefined);
   }
 
+  // Функция подтверждения добавления нового товара
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        console.log(values)
+        form.resetFields();
+        setSelectedStock(undefined)
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  };
+
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    form.resetFields()
+    onCancel()
+    setSelectedStock(undefined)
+  }
+
   // Получение списка всех товаров на складе
   useEffect(() => {
     getAllStock().then((stocks) => {
@@ -45,28 +65,13 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
 
   return (
     <Modal
-      title={`Добавление нового товара`}
+      title={`Добавление отгруженного товара`}
       open={isOpen}
-      onCancel={() => {
-        onCancel()
-        setSelectedStock(undefined)
-      }}
+      onCancel={handleClose}
       width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            console.log(values)
-            form.resetFields();
-            setSelectedStock(undefined)
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}
@@ -77,37 +82,36 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
       >
-      <Form.Item
-        label="Товар"
-        name="stock"
-        rules={[{required: true, message: 'выберите клиента'}]}
-      >
-        <div>
-          <Select
-            showSearch
-            allowClear
-            value={selectedStock ? selectedStock.product?.title : undefined}
-            onChange={onChangeStock}
-            onClear={onClearStock}
-          >
-            {allStock && allStock.length > 0
-              ? allStock.map((stock) => (
-                <Option id={stock.id} key={stock.id} value={stock.product?.title}>
-                  {stock.product?.title}
-                </Option>
-              ))
-              : null}
-          </Select>
-        </div>
-      </Form.Item>
-
-      <Form.Item
-        label="Количество"
-        name="amount"
-        rules={[{required: true, message: 'введите количество'}]}
-      >
-        <InputNumber style={{width: "100%"}}/>
-      </Form.Item>
+        <Form.Item
+          label="Выберите товар"
+          name="stock"
+          rules={[{required: true, message: 'выберите клиента'}]}
+        >
+          <div>
+            <Select
+              showSearch
+              allowClear
+              value={selectedStock ? selectedStock.product?.title : undefined}
+              onChange={onChangeStock}
+              onClear={onClearStock}
+            >
+              {allStock && allStock.length > 0
+                ? allStock.map((stock) => (
+                  <Option id={stock.id} key={stock.id} value={stock.id}>
+                    {stock.product?.title}
+                  </Option>
+                ))
+                : null}
+            </Select>
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Количество"
+          name="amount"
+          rules={[{required: true, message: 'введите количество'}]}
+        >
+          <InputNumber style={{width: "100%"}}/>
+        </Form.Item>
       </Form>
     </Modal>
   )

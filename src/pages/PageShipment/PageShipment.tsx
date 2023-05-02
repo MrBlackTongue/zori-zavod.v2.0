@@ -7,7 +7,7 @@ import {TypeShipment} from "../../types";
 import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
 import {EditDrawerShipment} from "./components/EditDrawerShipment";
-import {DetailDrawerShipment} from "./detail/DetailDrawerShipment";
+import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
 
 const {Title} = Typography;
 
@@ -16,7 +16,7 @@ export const PageShipment: React.FC = () => {
   // Состояние для обновления таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Состояния для хранения выбранной отгрузки и её ID
+  // Состояния для хранения ID отгрузки
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 
   // Состояния для контроля открытия/закрытия модалки и драверов
@@ -28,10 +28,9 @@ export const PageShipment: React.FC = () => {
 
   // Функция добавления новой отгрузки с использованием useCallback для предотвращения ненужных рендеров
   const addShipment = useCallback((values: { [key: string]: any }): void => {
-    const {date, client} = values;
     const shipment: TypeShipment = {
-      date: date.format('YYYY-MM-DD'),
-      client,
+      date: values['date'].format('YYYY-MM-DD'),
+      client: values.client,
     };
     setOpenStates({...openStates, isModalOpen: false});
     postNewShipment(shipment);
@@ -52,11 +51,10 @@ export const PageShipment: React.FC = () => {
 
   // Функция обновления отгрузки с использованием useCallback для предотвращения ненужных рендеров
   const updateShipment = useCallback((values: { [key: string]: any }): void => {
-    const {date, client} = values;
     const shipment: TypeShipment = {
-      date: date.format('YYYY-MM-DD'),
+      date: values['date'].format('YYYY-MM-DD'),
       id: selectedShipmentId,
-      client,
+      client: values.client,
     };
     setOpenStates({...openStates, isDrawerOpen: false});
     putChangeShipment(shipment);
@@ -78,9 +76,7 @@ export const PageShipment: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setOpenStates({...openStates, isModalOpen: true});
-            }}
+            onClick={() => setOpenStates({...openStates, isModalOpen: true})}
           >
             Добавить
           </Button>
@@ -94,24 +90,18 @@ export const PageShipment: React.FC = () => {
       <AddModalShipment
         isOpen={openStates.isModalOpen}
         addItem={addShipment}
-        onCancel={() => {
-          setOpenStates({...openStates, isModalOpen: false});
-        }}
+        onCancel={() => setOpenStates({...openStates, isModalOpen: false})}
       />
       <EditDrawerShipment
         isOpen={openStates.isDrawerOpen}
         selectedItemId={selectedShipmentId}
         updateItem={updateShipment}
-        closeDrawer={() => {
-          setOpenStates({...openStates, isDrawerOpen: false});
-        }}
+        closeDrawer={() => setOpenStates({...openStates, isDrawerOpen: false})}
       />
       <DetailDrawerShipment
         selectedItemId={selectedShipmentId}
         isOpen={openStates.isBottomDrawerOpen}
-        closeDrawer={() => {
-          setOpenStates({...openStates, isBottomDrawerOpen: false});
-        }}
+        closeDrawer={() => setOpenStates({...openStates, isBottomDrawerOpen: false})}
       />
     </div>
   );
