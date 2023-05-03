@@ -1,18 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
 import {TableProps, TypeOperationTimesheet, TypeEmployee} from "../../../types";
-import {
-  deleteOperationTimesheetById,
-  getOperationTimesheetByIdOperationAccounting
-} from "../../../services";
+import {getOperationTimesheetByIdOperationAccounting} from "../../../services";
 
-export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet>> = ({
-                                                                                        isUpdateTable,
-                                                                                        openDrawer,
-                                                                                        idDetail,
-                                                                                      }) => {
+export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet>> = React.memo(({
+                                                                                                   isUpdateTable,
+                                                                                                   openDrawer,
+                                                                                                   onDelete,
+                                                                                                   idDetail,
+                                                                                                 }) => {
   // Лоудер и весь табель учета рабочего времени
   const [loading, setLoading] = useState(false);
   const [allOperationTimesheet, setAllOperationTimesheet] = useState<TypeOperationTimesheet[]>();
@@ -61,7 +59,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -69,9 +67,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этого сотрудника из табеля учета рабочего времени?"
-              onConfirm={() => {
-                deleteOperationTimesheetById(id).then(getOperationTimesheet)
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
@@ -86,7 +82,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
   ];
 
   // Получить табель учета рабочего времени по всем сотрудникам
-  const getOperationTimesheet = () => {
+  const updateOperationTimesheet = useCallback(() => {
     if (idDetail) {
       setLoading(true);
       getOperationTimesheetByIdOperationAccounting(idDetail).then((allOperationTimesheet) => {
@@ -94,13 +90,13 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
         setLoading(false);
       });
     }
-  }
+  }, [idDetail]);
 
   useEffect(() => {
     if (idDetail || isUpdateTable) {
-      getOperationTimesheet();
+      updateOperationTimesheet();
     }
-  }, [idDetail, isUpdateTable]);
+  }, [idDetail, isUpdateTable, updateOperationTimesheet]);
 
   return (
     <Table
@@ -112,4 +108,4 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
       size="middle"
     />
   );
-}
+})

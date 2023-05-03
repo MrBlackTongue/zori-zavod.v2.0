@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {AddModalProps, TypeEmployee, TypeOperationTimesheet} from "../../../types";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllEmployee} from "../../../services";
@@ -17,23 +17,21 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   const [filteredEmployee, setFilteredEmployee] = useState<TypeEmployee[]>([]);
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = (values: string, option: any): TypeEmployee => {
+  const onChangeEmployee = useCallback((values: string, option: any): TypeEmployee => {
     const employee: TypeEmployee = {
       id: option.id,
     };
-    form.setFieldsValue({
-      employee: employee
-    });
+    form.setFieldsValue({employee: employee});
     return employee
-  };
+  }, [form]);
 
   // Очистить поле сотрудника
-  const onClearEmployee = (): void => {
+  const onClearEmployee = useCallback((): void => {
     form.setFieldsValue({employee: undefined});
-  }
+  }, [form]);
 
   // Поиск по сотрудникам
-  const onSearchEmployee = (searchText: string) => {
+  const onSearchEmployee = useCallback((searchText: string) => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {
@@ -50,28 +48,29 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
 
         return lastNameMatch || firstNameMatch;
       });
-      setFilteredEmployee(filtered || []);
+      setFilteredEmployee(prevState => filtered || prevState);
     }
-  };
+  }, [allEmployee]);
 
   // Функция подтверждения добавления сотрудника в табель учета рабочего времени
-  const handleOk = () => {
+  const handleOk = useCallback(() => {
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
         addItem(values);
+        onSearchEmployee('');
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
       });
-  }
+  }, [form, addItem, onSearchEmployee]);
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     form.resetFields();
     onCancel()
-  };
+  }, [form, onCancel])
 
   useEffect(() => {
     getAllEmployee().then((allEmployee) => {
@@ -92,9 +91,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public',
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

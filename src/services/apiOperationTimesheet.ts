@@ -1,4 +1,4 @@
-import {TypeOperationTimesheet} from "../types";
+import {TypeEmployee, TypeOperationTimesheet} from "../types";
 import {message} from "antd";
 import {URL, OPERATION_ACCOUNTING, OPERATION_TIMESHEET} from "./apiEndpoints";
 
@@ -6,6 +6,21 @@ import {URL, OPERATION_ACCOUNTING, OPERATION_TIMESHEET} from "./apiEndpoints";
 export async function getOperationTimesheetByIdOperationAccounting(id: number): Promise<TypeOperationTimesheet[] | undefined> {
   try {
     const response = await fetch(URL + OPERATION_TIMESHEET + OPERATION_ACCOUNTING + `/${id}`);
+    if (!response.ok) {
+      console.error(response.statusText);
+      return Promise.reject();
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+// Получить данные сотрудника из табеля учета рабочего времени по id
+export async function getOperationTimesheetById(id: number): Promise<TypeEmployee | undefined> {
+  try {
+    const response = await fetch(URL + OPERATION_TIMESHEET + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();

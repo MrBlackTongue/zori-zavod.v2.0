@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypePurchase, TypeAcceptance, TypeStock} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
 import {getAllStock, getAllPurchase} from "../../../services";
