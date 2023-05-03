@@ -7,7 +7,7 @@ import {TypeProduct, TableParams, TableProps, TypeProductMovementHistory} from "
 
 export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovementHistory>> = ({
                                                                                                 isUpdateTable,
-                                                                                                filterById,
+                                                                                                filter,
                                                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -88,15 +88,15 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductMovementHistory([]);
+      setAllProductMovementHistory(allProductMovementHistory);
     }
   };
 
   // Функция для поиска по таблице истории движения товаров
   const filterTable = () => {
-    if (filterById) {
+    if (filter?.idFilter) {
       setLoading(true);
-      getProductMovementHistoryById(filterById).then((allProductMovementHistory) => {
+      getProductMovementHistoryById(filter?.idFilter).then((allProductMovementHistory) => {
         setAllProductMovementHistory(allProductMovementHistory);
         setLoading(false);
       });
@@ -113,19 +113,23 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
   }
 
   useEffect(() => {
-    if (filterById) {
+    if (filter?.idFilter) {
       filterTable();
     } else {
       updateTable();
     }
-  }, [filterById, isUpdateTable]);
+  }, [filter, isUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allProductMovementHistory}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

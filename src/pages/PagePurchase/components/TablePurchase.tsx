@@ -117,7 +117,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -153,7 +153,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllPurchase([]);
+      setAllPurchase(allPurchase);
     }
   };
 
@@ -188,7 +188,11 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
       bordered
       columns={columns}
       dataSource={allPurchase}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

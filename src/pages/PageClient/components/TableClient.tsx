@@ -48,7 +48,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -84,16 +84,21 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllClient([]);
+      setAllClient(allClient);
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllClient().then((allClients) => {
       setAllClient(allClients);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (
@@ -101,7 +106,11 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
       bordered
       columns={columns}
       dataSource={allClient}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

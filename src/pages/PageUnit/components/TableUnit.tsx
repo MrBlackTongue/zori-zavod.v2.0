@@ -48,7 +48,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -84,16 +84,21 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllUnit([]);
+      setAllUnit(allUnit);
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllUnit().then((allUnits) => {
       setAllUnit(allUnits);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (
@@ -101,7 +106,11 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
       bordered
       columns={columns}
       dataSource={allUnit}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

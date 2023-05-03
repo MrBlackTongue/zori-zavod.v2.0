@@ -62,7 +62,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -98,16 +98,21 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOutput([]);
+      setAllOutput(allOutput);
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllOutput().then((allOutputs) => {
       setAllOutput(allOutputs);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (
@@ -115,7 +120,11 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
       bordered
       columns={columns}
       dataSource={allOutput}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

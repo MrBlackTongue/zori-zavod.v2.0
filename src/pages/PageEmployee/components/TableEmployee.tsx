@@ -75,7 +75,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -111,16 +111,21 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllEmployee([]);
+      setAllEmployee(allEmployee);
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllEmployee().then((allEmployees) => {
       setAllEmployee(allEmployees);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (
@@ -128,7 +133,11 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       bordered
       columns={columns}
       dataSource={allEmployee}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />
