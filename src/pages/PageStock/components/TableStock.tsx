@@ -115,7 +115,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllStock([]);
+      setAllStock(allStock);
     }
   };
 
@@ -127,7 +127,6 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       setLoading(false);
     });
   }
-
 
   // Функция для поиска по таблице склада
   const searchTable = () => {
@@ -152,7 +151,6 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       console.error("Error deleting item:", error);
     }
   };
-
 
   // Функция для фильтрации таблицы
   const filterTable = () => {

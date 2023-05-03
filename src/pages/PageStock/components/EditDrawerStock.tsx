@@ -19,10 +19,8 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   const [product, setProduct] = useState<TypeProduct>();
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
-  // Добавьте состояние loading
+  // состояние loading
   const [loading, setLoading] = useState<boolean>(true);
-
-  // Остальной код компонента
 
   const onChangeProduct = (value: number): TypeProduct | undefined => {
     const selectedProduct = allStock?.find((stock) => stock?.product?.id === value);
@@ -35,11 +33,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     }
     return undefined;
   };
-
-
-
-
-
 
   const handleGetStockById = useCallback(() => {
     if (selectedItemId) {
@@ -57,7 +50,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   }, [selectedItemId, form]);
 
   const handleClose = () => {
-    form.resetFields();
     closeDrawer();
   };
 
@@ -69,7 +61,9 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
 
   useEffect(() => {
     handleGetStockById();
-  }, [selectedItemId, handleGetStockById]);
+    form.resetFields();
+  }, [selectedItemId, handleGetStockById, form]);
+
 
   useEffect(() => {
     getAllProduct().then((product) => {

@@ -97,7 +97,6 @@ export async function deleteStockById(id: number) {
   }
 }
 
-
 // Получение всех остатков по название товара
 export async function getStockByTitle(title: string): Promise<TypeStock[]> {
   try {
