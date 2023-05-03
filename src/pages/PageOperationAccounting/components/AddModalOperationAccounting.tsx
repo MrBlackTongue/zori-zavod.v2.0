@@ -74,7 +74,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     }
   };
 
-  // Функция подтверждения добавления новой учетной операции
+  // Функция подтверждения добавления
   const handleOk = () => {
     form
       .validateFields()

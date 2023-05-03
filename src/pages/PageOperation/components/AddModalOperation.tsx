@@ -12,9 +12,8 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
                                                                           }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения, выбранная единица измерения
+  // Все единицы измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
   // Изменить выбранную единицу измерения
   const onChangeUnit = (values: string, option: any): TypeUnit => {
@@ -25,8 +24,25 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
     form.setFieldsValue({
       unit: unit
     });
-    setSelectedUnit(unit)
     return unit
+  };
+
+  // Функция подтверждения добавления
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  }
+
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    onCancel()
   };
 
   useEffect(() => {
@@ -39,31 +55,15 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
     <Modal
       title={`Добавление новой операции`}
       open={isOpen}
-      onCancel={() => {
-        setSelectedUnit(undefined);
-        onCancel()
-      }}
+      onCancel={handleClose}
       width={700}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            setSelectedUnit(undefined);
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public'
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -81,7 +81,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
         >
           <div>
             <Select
-              value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
               {allUnit && allUnit.length > 0 ?
@@ -102,7 +101,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
             warningOnly: true,
           }]}
         >
-          <InputNumber/>
+          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Form>
     </Modal>

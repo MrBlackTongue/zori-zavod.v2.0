@@ -29,7 +29,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
     return product
   };
 
-  // Функция подтверждения добавления новой партии товара
+  // Функция подтверждения добавления
   const handleOk = () => {
     form
       .validateFields()
@@ -43,6 +43,12 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
       });
   };
 
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    onCancel()
+    setSelectedProduct(undefined)
+  };
+
   useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
@@ -53,10 +59,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
     <Modal
       title={`Добавление новой партии товара`}
       open={isOpen}
-      onCancel={() => {
-        onCancel()
-        setSelectedProduct(undefined)
-      }}
+      onCancel={handleClose}
       width={500}
       okText={"Сохранить"}
       cancelText={"Отмена"}
@@ -64,9 +67,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: "public",
-        }}
+        initialValues={{modifier: "public"}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

@@ -45,6 +45,25 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
     }
   }, [selectedItemId]);
 
+  // Функция подтверждения редактирования
+  const handleOk = () => {
+    closeDrawer()
+    form
+      .validateFields()
+      .then((values) => {
+        updateItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info)
+      })
+  }
+
+  // Функция закрытия дравера
+  const handleClose = () => {
+    closeDrawer()
+    setSelectedProduct(product)
+  };
+
   useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
@@ -60,28 +79,12 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
       title="Редактирование партии товаров"
       width={600}
       open={isOpen}
-      onClose={() => {
-        closeDrawer()
-        setSelectedProduct(product)
-      }}
+      onClose={handleClose}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={() => {
-            closeDrawer()
-            setSelectedProduct(product)
-          }}>Отмена</Button>
-          <Button onClick={() => {
-            closeDrawer()
-            form
-              .validateFields()
-              .then((values) => {
-                updateItem(values);
-              })
-              .catch((info) => {
-                console.log('Validate Failed:', info)
-              })
-          }} type="primary" htmlType="submit">
+          <Button onClick={handleClose}>Отмена</Button>
+          <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>

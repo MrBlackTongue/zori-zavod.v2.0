@@ -51,6 +51,12 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
       });
   };
 
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    onCancel()
+    setSelectedProduct(undefined)
+  };
+
   useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
@@ -61,10 +67,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
     <Modal
       title={`Добавление новой закупки`}
       open={isOpen}
-      onCancel={() => {
-        onCancel()
-        setSelectedProduct(undefined)
-      }}
+      onCancel={handleClose}
       width={500}
       okText={"Сохранить"}
       cancelText={"Отмена"}
@@ -72,9 +75,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: "public",
-        }}
+        initialValues={{modifier: "public"}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

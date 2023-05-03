@@ -1,17 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllEmployee, deleteEmployeeById} from "../../../services";
 import {TableProps, TypeEmployee, TableParams} from "../../../types";
 
@@ -75,6 +66,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -83,9 +75,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -100,9 +90,8 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
-                      onClick={() => {
-                      }}>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -122,24 +111,33 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllEmployee([]);
+      setAllEmployee(allEmployee);
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllEmployee().then((allEmployees) => {
       setAllEmployee(allEmployees);
       setLoading(false);
     });
-  }, [!isUpdateTable]);
+  }
+
+  useEffect(() => {
+    updateTable()
+  }, [isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allEmployee}
-      pagination={{position: [bottom]}}
-      // pagination={tableParams.pagination}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

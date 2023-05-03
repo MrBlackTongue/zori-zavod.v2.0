@@ -30,6 +30,26 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
     return product
   };
 
+  // Функция подтверждения добавления
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        setSelectedProduct(undefined)
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  }
+
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    onCancel()
+    setSelectedProduct(undefined)
+  };
+
   useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
@@ -40,31 +60,15 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
     <Modal
       title={`Добавление нового выпуска продукции`}
       open={isOpen}
-      onCancel={() => {
-        onCancel()
-        setSelectedProduct(undefined)
-      }}
+      onCancel={handleClose}
       width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            setSelectedProduct(undefined)
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public'
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

@@ -31,6 +31,26 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
     return unit
   };
 
+  // Функция подтверждения редактирования
+  const handleOk = () => {
+    closeDrawer()
+    form
+      .validateFields()
+      .then((values) => {
+        // form.resetFields()
+        updateItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info)
+      })
+  }
+
+  // Функция закрытия дравера
+  const handleClose = () => {
+    setSelectedUnit(unit);
+    closeDrawer()
+  };
+
   useEffect(() => {
     getAllUnit().then((units) => {
       setAllUnit(units);
@@ -45,36 +65,19 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
         setUnit(operation?.unit)
       })
     }
-  }, [selectedItemId, getOperationById]);
+  }, [selectedItemId]);
 
   return (
     <Drawer
       title="Редактирование операции"
       width={700}
       open={isOpen}
-      onClose={() => {
-        setSelectedUnit(unit);
-        closeDrawer()
-      }}
+      onClose={handleClose}
       bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
-          <Button onClick={() => {
-            setSelectedUnit(unit);
-            closeDrawer()
-          }}>Отмена</Button>
-          <Button onClick={() => {
-            closeDrawer()
-            form
-              .validateFields()
-              .then((values) => {
-                // form.resetFields()
-                updateItem(values);
-              })
-              .catch((info) => {
-                console.log('Validate Failed:', info)
-              })
-          }} type="primary" htmlType="submit">
+          <Button onClick={handleClose}>Отмена</Button>
+          <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
@@ -118,10 +121,9 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
             type: 'number',
             message: 'напишите норму цифрами больше 1',
             warningOnly: true,
-            // pattern: /[1-9]/,
           }]}
         >
-          <InputNumber/>
+          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Form>
     </Drawer>

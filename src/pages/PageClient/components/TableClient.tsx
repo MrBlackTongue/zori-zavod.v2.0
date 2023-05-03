@@ -1,17 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllClient, deleteClientById} from "../../../services";
 import {TableProps, TypeClient, TableParams} from "../../../types";
 
@@ -48,6 +39,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -56,9 +48,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -74,8 +64,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -95,23 +84,33 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllClient([]);
+      setAllClient(allClient);
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllClient().then((allClients) => {
       setAllClient(allClients);
       setLoading(false);
     });
-  }, [!isUpdateTable]);
+  }
+
+  useEffect(() => {
+    updateTable()
+  }, [isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allClient}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

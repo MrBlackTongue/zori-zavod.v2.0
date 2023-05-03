@@ -63,6 +63,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -71,9 +72,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -88,9 +87,8 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
               }}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
-                      onClick={() => {
-                      }}>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -110,7 +108,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProduct([]);
+      setAllProduct(allProduct);
     }
   };
 
@@ -138,26 +136,24 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
     });
   }, []);
 
-  // Обновление таблицы товаров
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
-
-  // Поиск по таблице товаров
   useEffect(() => {
     if (searchText) {
       searchTable();
     } else {
       updateTable();
     }
-  }, [searchText]);
+  }, [searchText, isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allProduct}
-      pagination={{position: [bottom]}}
-      // pagination={tableParams.pagination}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

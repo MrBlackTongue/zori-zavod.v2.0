@@ -88,8 +88,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -109,7 +108,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllAcceptance([]);
+      setAllAcceptance(allAcceptance);
     }
   };
 
@@ -131,25 +130,24 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     });
   }
 
-  // Обновление таблицы приемок
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
-
-  // Поиск по таблице приемок
   useEffect(() => {
     if (searchText) {
       searchTable();
     } else {
       updateTable();
     }
-  }, [searchText]);
+  }, [searchText, isUpdateTable]);
 
   return (
     <Table
+      bordered
       columns={columns}
       dataSource={allAcceptance}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

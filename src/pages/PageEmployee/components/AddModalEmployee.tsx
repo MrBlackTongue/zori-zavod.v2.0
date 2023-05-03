@@ -15,6 +15,19 @@ export const AddModalEmployee: React.FC<AddModalProps<TypeEmployee>> = ({
     form.setFieldsValue({hired: e.target.checked});
   }
 
+  // Функция подтверждения добавления
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        addItem(values);
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+      });
+  }
+
   return (
     <Modal
       title={`Добавление нового сотрудника`}
@@ -23,23 +36,11 @@ export const AddModalEmployee: React.FC<AddModalProps<TypeEmployee>> = ({
       width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            addItem(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-      }}
+      onOk={handleOk}
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public'
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -71,10 +72,9 @@ export const AddModalEmployee: React.FC<AddModalProps<TypeEmployee>> = ({
             type: 'number',
             message: 'напишите ставку цифрами больше 1',
             warningOnly: true,
-            // pattern: /[1-9]/,
           }]}
         >
-          <InputNumber/>
+          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
         <Form.Item
           name="hired"

@@ -14,18 +14,14 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
                                                                             }) => {
   const [form] = Form.useForm();
 
-  // Товар со склада, выбрать товар со склада
+  // Товар со склада, выбраный товар со склада, поиск по товару на складе
   const [allStock, setAllStock] = useState<TypeStock[]>();
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
-
-  // Поиск по товару на складе
   const [filteredStock, setFilteredStock] = useState<TypeStock[]>([]);
 
-  // Все закупки, выбранная закупка
+  // Все закупки, выбранная закупка, поиск по закупкам
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
   const [selectedPurchase, setSelectedPurchase] = useState<TypePurchase>();
-
-  // Поиск по закупкам
   const [filteredPurchase, setFilteredPurchase] = useState<TypePurchase[]>([]);
 
   // Изменить выбранный товар на складе
@@ -85,7 +81,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     }
   };
 
-  // Функция валидации добавления новой приемки
+  // Функция подтверждения добавления
   const handleOk = () => {
     if (
       selectedPurchase &&
@@ -108,6 +104,14 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
       });
   };
 
+  // Функция закрытия модального окна
+  const handleClose = () => {
+    form.resetFields();
+    onCancel()
+    setSelectedStock(undefined)
+    setSelectedPurchase(undefined)
+  }
+
   useEffect(() => {
     getAllStock().then((stock) => {
       setAllStock(stock);
@@ -126,12 +130,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     <Modal
       title={`Добавление новой приемки`}
       open={isOpen}
-      onCancel={() => {
-        form.resetFields();
-        onCancel()
-        setSelectedStock(undefined)
-        setSelectedPurchase(undefined)
-      }}
+      onCancel={handleClose}
       width={600}
       okText={"Сохранить"}
       cancelText={"Отмена"}
@@ -139,10 +138,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: "public",
-          amount: 0,
-        }}
+        initialValues={{modifier: "public"}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -157,7 +153,6 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
               showSearch
               allowClear
               filterOption={false}
-              value={selectedStock?.id}
               onChange={onChangeStock}
               onSearch={onSearchStock}
             >
@@ -181,7 +176,6 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
               showSearch
               allowClear
               filterOption={false}
-              value={selectedPurchase?.id}
               onChange={onChangePurchase}
               onSearch={onSearchPurchase}
             >

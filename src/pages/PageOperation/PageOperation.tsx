@@ -1,14 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form, FloatButton,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {postNewOperation, putChangeOperation} from "../../services";
 import {TypeOperation} from "../../types";
@@ -20,20 +12,13 @@ const {Title} = Typography;
 
 export const PageOperation: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновление таблицы
+  // Обновление таблицы, выбрана операция по id
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Операция
-  const [operation] = useState<TypeOperation | null>(null);
+  const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Выбрана операция по id
-  const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
   // Добавить новую операцию
   const addOperation = (values: { [key: string]: any }): TypeOperation => {
@@ -50,7 +35,6 @@ export const PageOperation: React.FC = () => {
     setUpdateTable(!updateTable)
     return operation;
   };
-
 
   // Открыть дравер
   const openDrawer = (operationId: number) => {
@@ -75,12 +59,6 @@ export const PageOperation: React.FC = () => {
     return operation
   };
 
-  useEffect(() => {
-    if (operation) {
-      form.setFieldsValue(operation);
-    }
-  }, [operation, form]);
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -96,15 +74,13 @@ export const PageOperation: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TableOperation
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
@@ -112,17 +88,13 @@ export const PageOperation: React.FC = () => {
       <AddModalOperation
         isOpen={isModalOpen}
         addItem={addOperation}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerOperation
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationId}
         updateItem={updateOperation}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
   );

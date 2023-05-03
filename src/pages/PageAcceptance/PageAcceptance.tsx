@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input, FloatButton,} from 'antd';
+import React, {useState} from 'react';
+import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {postNewAcceptance} from "../../services";
@@ -11,24 +11,15 @@ const {Title} = Typography;
 
 export const PageAcceptance: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновить таблицу
+  // Обновить таблицу, открыть закрыть модальное окно, текст поиска
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Приёмка товаров
-  const [acceptance] = useState<TypeAcceptance | null>(null);
-
-  // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Текст поиска
   const [searchText, setSearchText] = useState("");
 
-  // Добавить новую приемку
+  // Добавить новую приемку товаров
   const addAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
     const acceptance: TypeAcceptance = {
-      amount: values.amount,
+      amount: values.amount || 0,
       income: true,
       date: values['date'].format('YYYY-MM-DD'),
       stock: {
@@ -48,12 +39,6 @@ export const PageAcceptance: React.FC = () => {
     setUpdateTable(!updateTable)
     return acceptance;
   };
-
-  useEffect(() => {
-    if (acceptance) {
-      form.setFieldsValue(acceptance);
-    }
-  }, [acceptance, form]);
 
   return (
     <div style={{display: 'grid'}}>
@@ -77,26 +62,21 @@ export const PageAcceptance: React.FC = () => {
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
+      <FloatButton.BackTop/>
       <TableAcceptance
         searchText={searchText}
         isUpdateTable={updateTable}
-        openDrawer={() => {}}
       />
       <AddModalAcceptance
         isOpen={isModalOpen}
         addItem={addAcceptance}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        onCancel={() => setIsModalOpen(false)}
       />
     </div>
   );
