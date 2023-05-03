@@ -13,13 +13,8 @@ const { Option } = Select;
 
 export const PageStock: React.FC = () => {
 
-  const [form] = Form.useForm();
-
   // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Склад
-  const [stock] = useState<TypeStock | null>(null);
 
   const [selectedGroupId, setSelectedGroupId] = useState<number>();
 
@@ -57,7 +52,7 @@ export const PageStock: React.FC = () => {
   };
 
   // Изменить выбранную операцию
-  const onChangeProductGroup = (values: string, option: any): TypeProductGroup | undefined => {
+  const onChangeProductGroup = (values: string, option: any): number | undefined => {
     if (values === undefined) {
       setSelectedGroupId(undefined);
       return undefined;
@@ -86,12 +81,6 @@ export const PageStock: React.FC = () => {
       setAllProductGroup(allStockGroup);
     });
   }, []);
-
-  useEffect(() => {
-    if (stock) {
-      form.setFieldsValue(stock);
-    }
-  }, [stock, form]);
 
   let div = <>
     <div style={{display: 'grid'}}>

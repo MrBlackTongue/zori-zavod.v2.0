@@ -1,6 +1,6 @@
 import {TypeProduct} from "../types";
 import {message} from "antd";
-import {URL, PRODUCT, GROUP, TITLE} from "./apiEndpoints";
+import {URL, PRODUCT, TITLE} from "./apiEndpoints";
 
 // Получить список всех товаров
 export async function getAllProduct(): Promise<TypeProduct[]> {

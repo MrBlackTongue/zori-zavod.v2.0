@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
@@ -120,22 +120,22 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
   };
 
   // Функция для обновления таблицы склада
-  const updateTable = () => {
+  const updateTable = useCallback(() => {
     setLoading(true);
     getAllStock().then((allStock) => {
       setAllStock(allStock);
       setLoading(false);
     });
-  }
+  }, []);
 
   // Функция для поиска по таблице склада
-  const searchTable = () => {
+  const searchTable = useCallback(() => {
     setLoading(true);
-    getStockByTitle(searchText ?? "").then((allStock) => {
+    getStockByTitle(searchText || "").then((allStock) => {
       setAllStock(allStock);
       setLoading(false);
     });
-  }
+  }, [searchText]);
 
   const handleDelete = async (id: number) => {
     try {
@@ -153,8 +153,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
   };
 
   // Функция для фильтрации таблицы
-  const filterTable = () => {
-    console.log(filter?.idFilter)
+  const filterTable = useCallback(() => {
     if (filter && filter.idFilter) {
       setLoading(true);
       getStockByGroupId(filter.idFilter).then((allStock) => {
@@ -162,7 +161,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
         setLoading(false);
       });
     }
-  };
+  }, [filter]);
 
   useEffect(() => {
     if (filter && filter.idFilter) {
@@ -172,7 +171,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
     } else {
       updateTable();
     }
-  }, [searchText, filter, isUpdateTable]);
+  }, [searchText, filter, isUpdateTable, filterTable, searchTable, updateTable]);
 
   return (
     <Table
