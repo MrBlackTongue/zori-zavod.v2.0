@@ -127,15 +127,22 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
                 allowClear
                 value={product ? product.id : undefined}
                 onChange={onChangeProduct}
+                filterOption={(input, option) =>
+                  option?.label
+                    ? typeof option.label === "string" &&
+                    option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    : false
+                }
               >
                 {allProduct && allProduct.length > 0
                   ? allProduct.map((product) => (
-                    <Option key={product.id} value={product.id}>
+                    <Option key={product.id} value={product.id} label={product.title}>
                       {product.title}
                     </Option>
                   ))
                   : null}
               </Select>
+
             </div>
           </Form.Item>
           <Form.Item
