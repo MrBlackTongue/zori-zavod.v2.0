@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined, SearchOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {getAllOperationAccounting, deleteOperationAccountingById, postFilterByTable,} from "../../../services";
+import {getAllOperationAccounting, postFilterByTable,} from "../../../services";
 import {TableProps, TypeOperationAccounting, TableParams, TypeOperationTimesheet} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounting>> = ({
                                                                                           isUpdateTable,
                                                                                           openDrawer,
+                                                                                          onDelete,
                                                                                           filter,
                                                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -139,9 +140,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этот учет операции?"
-              onConfirm={() => {
-                deleteOperationAccountingById(id).then(filterTable)
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

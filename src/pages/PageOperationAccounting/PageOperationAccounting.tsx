@@ -1,8 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Select, DatePicker, FloatButton} from 'antd';
+import {Typography, Space, Button, Select, DatePicker, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {getAllOperation, postNewOperationAccounting, putChangeOperationAccounting} from "../../services";
+import {
+  getAllOperation,
+  postNewOperationAccounting,
+  putChangeOperationAccounting,
+  deleteOperationAccountingById,
+} from "../../services";
 import {TypeOperation, TypeOperationAccounting} from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
 import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
@@ -14,11 +19,8 @@ const {Option} = Select;
 
 export const PageOperationAccounting: React.FC = () => {
 
-  const [form] = Form.useForm();
-
-  // Обновление таблицы, учетная операция, выбрана учетная операция по id
+  // Обновление таблицы, выбрана учетная операция по id
   const [updateTable, setUpdateTable] = useState(false);
-  const [operationAccounting] = useState<TypeOperationAccounting | null>(null);
   const [selectedOperationAccountingById, setSelectedOperationAccountingById] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер, дата
@@ -31,7 +33,7 @@ export const PageOperationAccounting: React.FC = () => {
   const [selectedOperationById, setSelectedOperationById] = useState<number>();
 
   // Добавить новую учетную операцию
-  const addOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
+  const handleAddOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
     const operationAccounting: TypeOperationAccounting = {
       date: values['date'].format('YYYY-MM-DD'),
       fact: values.fact || undefined,
@@ -77,7 +79,7 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Обновить учетную операцию
-  const updateOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
+  const handleUpdateOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingById,
       date: values['date'].format('YYYY-MM-DD'),
@@ -95,17 +97,17 @@ export const PageOperationAccounting: React.FC = () => {
     return values;
   };
 
+  // Удалить строку из таблицы
+  const handleDeleteOperationAccounting = async (id: number) => {
+    await deleteOperationAccountingById(id)
+    setUpdateTable(!updateTable)
+  };
+
   useEffect(() => {
     getAllOperation().then((allOperation) => {
       setAllOperation(allOperation);
     });
   }, []);
-
-  useEffect(() => {
-    if (operationAccounting) {
-      form.setFieldsValue(operationAccounting);
-    }
-  }, [operationAccounting, form]);
 
   return (
     <div style={{display: 'grid'}}>
@@ -137,7 +139,8 @@ export const PageOperationAccounting: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -153,6 +156,7 @@ export const PageOperationAccounting: React.FC = () => {
       <TableOperationAccounting
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteOperationAccounting}
         filter={{
           dateFilter: date,
           idFilter: selectedOperationById,
@@ -160,13 +164,13 @@ export const PageOperationAccounting: React.FC = () => {
       />
       <AddModalOperationAccounting
         isOpen={isModalOpen}
-        addItem={addOperationAccounting}
+        addItem={handleAddOperationAccounting}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerOperationAccounting
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationAccountingById}
-        updateItem={updateOperationAccounting}
+        updateItem={handleUpdateOperationAccounting}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

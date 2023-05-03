@@ -1,10 +1,7 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeEmployee, TypeOperationTimesheet} from "../../../types";
-import {
-  getAllEmployee,
-  getOperationTimesheetByIdOperationAccounting
-} from "../../../services";
+import {getAllEmployee, getOperationTimesheetById} from "../../../services";
 
 const {Option} = Select;
 
@@ -88,7 +85,7 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
 
   // Функция для получения информации о табеле учета рабочего времени и установления значений полей формы
   const getOperationTimesheet = useCallback(async (itemId: number) => {
-    const operationTimesheet = await getOperationTimesheetByIdOperationAccounting(itemId);
+    const operationTimesheet = await getOperationTimesheetById(itemId);
     console.log('operationTimesheet', operationTimesheet)
     // form.setFieldsValue({
     //   fact: operationTimesheet?.fact,
@@ -123,7 +120,6 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
       width={600}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>

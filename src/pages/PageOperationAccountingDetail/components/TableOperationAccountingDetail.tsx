@@ -1,20 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
-import {
-  getOperationAccountingById,
-  deleteOperationAccountingById,
-} from "../../../services";
+import {getOperationAccountingById, deleteOperationAccountingById} from "../../../services";
 import {TableProps, TypeOperationAccounting, TypeOperationTimesheet} from "../../../types";
 import dayjs from "dayjs";
 
-export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAccounting>> = ({
-                                                                                                isUpdateTable,
-                                                                                                openDrawer,
-                                                                                                idDetail,
-                                                                                              }) => {
+export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAccounting>> = React.memo(({
+                                                                                                           isUpdateTable,
+                                                                                                           openDrawer,
+                                                                                                           idDetail,
+                                                                                                         }) => {
   const navigate = useNavigate();
 
   // Лоудер и учетная операция
@@ -108,7 +105,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -116,9 +113,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту учетную операцию?"
-              onConfirm={() => {
-                deleteOperationAccountingById(id).then(handleBack)
-              }}
+              onConfirm={() => deleteOperationAccountingById(id).then(handleBack)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
@@ -132,26 +127,27 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
     },
   ];
 
-  // Получить учетную операцию
-  const getOperationAccounting = () => {
+  // Обновить учетную операцию
+  const updateOperationAccounting = useCallback(() => {
     if (idDetail) {
       setLoading(true);
-      getOperationAccountingById(idDetail)
-        .then((operationAccounting) => setOperationAccounting(operationAccounting))
-      setLoading(false);
+      getOperationAccountingById(idDetail).then((operationAccounting) => {
+        setOperationAccounting(operationAccounting)
+        setLoading(false);
+      })
     }
-  }
+  }, [idDetail]);
 
   // Переход на другую страницу по адресу
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     navigate(`/operation-accounting`);
-  };
+  }, [navigate]);
 
   useEffect(() => {
     if (idDetail || isUpdateTable) {
-      getOperationAccounting()
+      updateOperationAccounting()
     }
-  }, [idDetail, isUpdateTable]);
+  }, [idDetail, isUpdateTable, updateOperationAccounting]);
 
   return (
     <Table
@@ -162,4 +158,4 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
       loading={loading}
     />
   );
-}
+})

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
@@ -53,7 +53,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
-      align:'center',
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
