@@ -80,7 +80,9 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
               shape="circle"
               ghost
               onClick={() => {
-                openDrawer(id)
+                if (openDrawer) {
+                  openDrawer(id)
+                }
               }}>
               <EditOutlined/>
             </Button>

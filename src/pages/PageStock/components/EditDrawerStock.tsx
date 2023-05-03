@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, InputNumber, Space, Button} from "antd";
 import {EditDrawerProps, TypeProduct, TypeStock} from "../../../types";
-import {getAllStock, getStockById} from "../../../services";
+import {getAllStock, getStockById, getAllProduct} from "../../../services";
 
 const {Option} = Select;
 
@@ -17,23 +17,29 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   const [allStock, setAllStock] = useState<TypeStock[]>();
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
   const [product, setProduct] = useState<TypeProduct>();
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
   // Добавьте состояние loading
   const [loading, setLoading] = useState<boolean>(true);
 
   // Остальной код компонента
 
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
-    const product: TypeProduct = {
-      id: option.id,
-      title: values,
-    };
-    form.setFieldsValue({
-      product: product.id,
-    });
-    setProduct(product);
-    return product;
+  const onChangeProduct = (value: number): TypeProduct | undefined => {
+    const selectedProduct = allStock?.find((stock) => stock?.product?.id === value);
+    if (selectedProduct) {
+      form.setFieldsValue({
+        product: selectedProduct?.product?.id,
+      });
+      setProduct(selectedProduct.product);
+      return selectedProduct.product;
+    }
+    return undefined;
   };
+
+
+
+
+
 
   const handleGetStockById = useCallback(() => {
     if (selectedItemId) {
@@ -65,6 +71,12 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     handleGetStockById();
   }, [selectedItemId, handleGetStockById]);
 
+  useEffect(() => {
+    getAllProduct().then((product) => {
+      setAllProduct(product);
+    });
+  }, []);
+
   return (
     <Drawer
       title="Редактирование ячейки на складе"
@@ -77,11 +89,11 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
           <Button onClick={handleClose}>Отмена</Button>
           <Button
             onClick={() => {
-              closeDrawer();
               form
                 .validateFields()
                 .then((values) => {
                   updateItem(values);
+                  closeDrawer();
                 })
                 .catch((info) => {
                   console.log("Validate Failed:", info);
@@ -113,21 +125,18 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
               <Select
                 showSearch
                 allowClear
-                value={product ? product.title : undefined}
+                value={product ? product.id : undefined}
                 onChange={onChangeProduct}
               >
-                {allStock && allStock.length > 0
-                  ? allStock.map((stock) => (
-
-                    <Option
-                      key={stock?.product?.id}
-                      value={stock?.product?.title}
-                    >
-                      {stock?.product?.title}
+                {allProduct && allProduct.length > 0
+                  ? allProduct.map((product) => (
+                    <Option key={product.id} value={product.id}>
+                      {product.title}
                     </Option>
                   ))
                   : null}
               </Select>
+
             </div>
           </Form.Item>
           <Form.Item
