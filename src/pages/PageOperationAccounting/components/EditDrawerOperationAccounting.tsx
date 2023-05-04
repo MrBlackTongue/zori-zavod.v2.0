@@ -19,7 +19,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
 
-  // Все выпуски продукции,Выбранный выпуск продукции, отфильтрованные выпуски продукции
+  // Все выпуски продукции, Выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
   const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
@@ -66,7 +66,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
 
         return titleMatch || idMatch || dateMatch;
       });
-      setFilteredOutput(filtered || []);
+      setFilteredOutput(prevState => filtered || prevState);
     }
   };
 
@@ -77,6 +77,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
       .then((values) => {
         updateItem(values);
         closeDrawer()
+        onSearchOutput('')
       })
       .catch((info) => {
         console.log('Validate Failed:', info)
@@ -207,7 +208,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
           label="Факт"
           name="fact"
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber style={{width: "100%"}} min={0}/>
         </Form.Item>
         <Form.Item
           label="Дата"

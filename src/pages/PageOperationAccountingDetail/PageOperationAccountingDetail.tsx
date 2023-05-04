@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {Typography, Space, Button, FloatButton, Divider, Tooltip} from 'antd';
 import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
@@ -6,7 +6,7 @@ import '../../App.css'
 import {
   putChangeOperationAccounting,
   postNewOperationTimesheet,
-  deleteOperationTimesheetById,
+  deleteOperationTimesheetById, putChangeOperationTimesheet,
 } from "../../services";
 import {TypeOperationAccounting, TypeOperationTimesheet} from "../../types";
 import {TableOperationAccountingDetail} from "./components/TableOperationAccountingDetail";
@@ -47,9 +47,9 @@ export const PageOperationAccountingDetail: React.FC = () => {
     putChangeOperationAccounting(operationAccounting)
     setUpdateTableOperationAccountingDetail(prevState => !prevState)
     return values;
-  }, []);
+  }, [id]);
 
-  // Добавить человека в табель учета рабочего времени
+  // Добавить сотрудника в табель учета рабочего времени
   const handleAddOperationTimesheet = useCallback((values: { [key: string]: any }): TypeOperationTimesheet => {
     const operationTimesheet: TypeOperationTimesheet = {
       hours: values.hours,
@@ -62,14 +62,32 @@ export const PageOperationAccountingDetail: React.FC = () => {
     setUpdateTableOperationTimesheet(prevState => !prevState)
     setUpdateTableOperationAccountingDetail(prevState => !prevState)
     return values;
-  }, []);
+  }, [id]);
+
+  // Обновить сотрудника в табеле учета рабочего времени
+  const handleUpdateOperationTimesheet = useCallback((values: { [key: string]: any }): TypeOperationTimesheet => {
+    const operationTimesheet: TypeOperationTimesheet = {
+      id: selectedOperationTimesheetId,
+      hours: values.hours,
+      employee: {
+        id: values.employee?.id,
+      },
+      operationAccountingId: id ? +id : undefined,
+      fact: values.fact || 0,
+    };
+    setIsDrawerOperationTimesheetOpen(false)
+    putChangeOperationTimesheet(operationTimesheet)
+    setUpdateTableOperationTimesheet(prevState => !prevState)
+    setUpdateTableOperationAccountingDetail(prevState => !prevState)
+    return values;
+  }, [selectedOperationTimesheetId]);
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
   const handleDeleteOperationTimesheet = useCallback(async (id: number) => {
     await deleteOperationTimesheetById(id)
     setUpdateTableOperationTimesheet(prevState => !prevState)
     setUpdateTableOperationAccountingDetail(prevState => !prevState)
-  }, []);
+  }, [id]);
 
   // Открыть дравер табеля учета рабочего времени
   const openDrawerOperationTimesheet = useCallback((operationTimesheetId: number) => {
@@ -155,9 +173,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         isOpen={isDrawerOperationTimesheetOpen}
         closeDrawer={() => setIsDrawerOperationTimesheetOpen(false)}
         selectedItemId={selectedOperationTimesheetId}
-        updateItem={() => {
-        }}
-        // updateItem={updateOperationAccounting}
+        updateItem={handleUpdateOperationTimesheet}
       />
       <Divider/>
     </div>

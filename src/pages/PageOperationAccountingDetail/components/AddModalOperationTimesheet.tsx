@@ -123,14 +123,14 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
           label="Результат"
           name="fact"
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber style={{width: "100%"}} min={0}/>
         </Form.Item>
         <Form.Item
           label="Часы"
           name="hours"
           rules={[{required: true, message: 'напишите часы'}]}
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber style={{width: "100%"}} min={0}/>
         </Form.Item>
       </Form>
     </Modal>

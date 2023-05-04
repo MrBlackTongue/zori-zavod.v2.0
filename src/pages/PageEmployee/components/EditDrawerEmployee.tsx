@@ -1,5 +1,5 @@
-import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import React, {useEffect} from "react";
+import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import {EditDrawerProps, TypeEmployee} from "../../../types";
 import {getEmployeeById} from "../../../services";
 import {CheckboxChangeEvent} from "antd/es/checkbox";
