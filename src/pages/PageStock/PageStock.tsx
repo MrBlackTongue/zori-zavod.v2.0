@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input, Select} from 'antd';
+import {Typography, Space, Button, Input, Select} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {getAllProductGroup, postNewStock, putChangeStock} from '../../services';
@@ -16,14 +16,13 @@ export const PageStock: React.FC = () => {
   // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  const [selectedGroupId, setSelectedGroupId] = useState<number>();
-
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Все группы стоков, выбранная группа стоков по id
+  // Все группы продуктов, выбранная группа продуктов по id
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
+  const [selectedGroupId, setSelectedGroupId] = useState<number>();
 
   // Выбрана ячейка на складе по id
   const [selectedStockId, setSelectedStockId] = useState<number>();
@@ -51,7 +50,7 @@ export const PageStock: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Изменить выбранную операцию
+  // Изменить выбранную группу товаров
   const onChangeProductGroup = (values: string, option: any): number | undefined => {
     if (values === undefined) {
       setSelectedGroupId(undefined);

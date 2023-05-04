@@ -136,7 +136,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
                   ))
                   : null}
               </Select>
-
             </div>
           </Form.Item>
           <Form.Item

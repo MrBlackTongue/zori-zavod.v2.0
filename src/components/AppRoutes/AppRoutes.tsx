@@ -30,7 +30,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/product-movement-history" element={<PageProductMovementHistory/>}/>
       <Route path="/acceptance" element={<PageAcceptance/>}/>
       <Route path="/operation-accounting" element={<PageOperationAccounting/>}/>
-      <Route path="/Stock" element={<PageStock/>}/>
+      <Route path="/stock" element={<PageStock/>}/>
       <Route path="/operation-accounting/:id/detail" element={<PageOperationAccountingDetail/>}/>
     </Routes>
   );
