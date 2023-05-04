@@ -178,7 +178,11 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       bordered
       columns={columns}
       dataSource={allStock}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

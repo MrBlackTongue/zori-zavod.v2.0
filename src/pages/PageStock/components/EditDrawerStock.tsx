@@ -13,15 +13,12 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
                                                                       }) => {
   const [form] = Form.useForm();
 
-  // Все товары, выбранный товар
+  // Все остатки, все товары, выбранный товар
   const [allStock, setAllStock] = useState<TypeStock[]>();
-  const [selectedStock, setSelectedStock] = useState<TypeStock>();
-  const [product, setProduct] = useState<TypeProduct>();
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
+  const [product, setProduct] = useState<TypeProduct>();
 
-  // состояние loading
-  const [loading, setLoading] = useState<boolean>(true);
-
+  // Изменить выбранный остаток на складе
   const onChangeProduct = (value: number): TypeProduct | undefined => {
     const selectedProduct = allStock?.find((stock) => stock?.product?.id === value);
     if (selectedProduct) {
@@ -34,17 +31,15 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     return undefined;
   };
 
+  // Функция для получения данных об остатке по id и обновление формы
   const handleGetStockById = useCallback(() => {
     if (selectedItemId) {
-      setLoading(true);
       getStockById(selectedItemId).then((stock) => {
         form.setFieldsValue({
           product: stock?.product?.id,
           amount: stock?.amount,
         });
-        setSelectedStock(stock);
         setProduct(stock?.product);
-        setLoading(false);
       });
     }
   }, [selectedItemId, form]);
@@ -77,7 +72,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
       width={600}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>
@@ -101,9 +95,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
         </Space>
       }
     >
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
         <Form
           form={form}
           labelCol={{span: 6}}
@@ -146,7 +137,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
             <InputNumber style={{width: "100%"}} min={0} />
           </Form.Item>
         </Form>
-      )}
     </Drawer>
   );
 };

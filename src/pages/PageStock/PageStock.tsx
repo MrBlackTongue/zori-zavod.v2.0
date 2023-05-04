@@ -9,7 +9,7 @@ import {AddModalStock} from "./components/AddModalStock";
 import {EditDrawerStock} from "./components/EditDrawerStock";
 
 const {Title} = Typography;
-const { Option } = Select;
+const {Option} = Select;
 
 export const PageStock: React.FC = () => {
 
@@ -81,7 +81,7 @@ export const PageStock: React.FC = () => {
     });
   }, []);
 
-  let div = <>
+  return (
     <div style={{display: 'grid'}}>
       <div className="centerTitle">
         <Title level={3}>Склад</Title>
@@ -102,7 +102,6 @@ export const PageStock: React.FC = () => {
           >
             {allProductGroup && allProductGroup.length > 0 ?
               allProductGroup
-                .slice()
                 .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
                 .map(productGroup => (
                   <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
@@ -147,6 +146,5 @@ export const PageStock: React.FC = () => {
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
-  </>;
-  return div;
+  );
 };
