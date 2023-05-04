@@ -1,5 +1,5 @@
 import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting} from "../../../types";
 import {getAllOutput, getAllOperation, getOperationAccountingById} from "../../../services";
 import dayjs from "dayjs";
@@ -15,17 +15,12 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
                                                                                                   }) => {
   const [form] = Form.useForm();
 
-  // Все операции, выбранная операция, операция, дата
+  // Все операции, выбранная операция
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
-  const [operation, setOperation] = useState<TypeOperation>()
-  const [date, setDate] = useState<any>();
 
-  // Все выпуски продукции, выпуск продукции
+  // Все выпуски продукции,Выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
-  const [output, setOutput] = useState<TypeOutput>()
-
-  // Выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
@@ -40,9 +35,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
       id: option.id,
       title: values,
     };
-    form.setFieldsValue({
-      operation: operation
-    });
+    form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
     return operation
   };
@@ -50,9 +43,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   // Изменить выбранный выпуск продукции
   const onChangeOutput = (value: string): TypeOutput | undefined => {
     const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
-    form.setFieldsValue({
-      output: selectedOutput
-    });
+    form.setFieldsValue({output: selectedOutput});
     setSelectedOutput(selectedOutput);
     return selectedOutput;
   };
@@ -96,17 +87,13 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   const handleClose = () => {
     form.resetFields();
     if (selectedItemId) {
-      getOperationAccounting(selectedItemId).catch((error) => {
-        console.error("Ошибка при получении данных об учетной операции: ", error)
-      });
+      getOperationAccounting(selectedItemId).catch((error) => console.error(error));
     }
-    setSelectedOperation(operation);
-    setSelectedOutput(output);
     closeDrawer();
   };
 
   // Функция для получения информации об учетной записи и установления значений полей формы
-  const getOperationAccounting = useCallback(async (itemId: number) => {
+  const getOperationAccounting = async (itemId: number) => {
     const operationAccounting = await getOperationAccountingById(itemId);
     form.setFieldsValue({
       date: dayjs(operationAccounting?.date),
@@ -115,22 +102,17 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
       output: operationAccounting?.output,
     });
     setSelectedOperation(operationAccounting?.operation);
-    setOperation(operationAccounting?.operation);
     setSelectedOutput(operationAccounting?.output);
-    setOutput(operationAccounting?.output);
-    setDate(dayjs(operationAccounting?.date));
-  }, []);
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (selectedItemId) {
-        await getOperationAccounting(selectedItemId);
-      }
-    };
-    fetchData().catch((error) => {
-      console.error("Ошибка при получении данных об учетной операции: ", error)
-    });
-  }, [selectedItemId, getOperationAccounting]);
+    if (selectedItemId) {
+      getOperationAccounting(selectedItemId).catch((error) => console.error(error));
+    } else {
+      setSelectedOperation(undefined);
+      setSelectedOutput(undefined);
+    }
+  }, [selectedItemId]);
 
   useEffect(() => {
     getAllOperation().then((allOperation) => {
@@ -145,6 +127,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     });
   }, []);
 
+  // Для очистки фильтров выпуска продукции
   useEffect(() => {
     if (!isOpen) {
       setFilteredOutput(allOutput || []);
@@ -172,11 +155,6 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
-        initialValues={{
-          date: date,
-          output: output,
-          operation: operation,
-        }}
       >
         <Form.Item
           label="Операция"
@@ -239,7 +217,6 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
           <DatePicker
             style={{width: '100%'}}
             format={dateFormatUser}
-            onChange={(value) => setDate(value)}
           />
         </Form.Item>
       </Form>

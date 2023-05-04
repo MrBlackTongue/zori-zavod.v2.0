@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeOutput, TypeProduct} from "../../../types";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllProduct} from "../../../services";

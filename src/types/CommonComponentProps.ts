@@ -1,11 +1,13 @@
 export interface TableProps<T> {
   isUpdateTable: boolean;
   openDrawer?: (id: number) => void;
+  onDelete?: (id: number) => void;
   searchText?: string | undefined;
   filter?: {
-    dateFilter?: string| undefined,
-    idFilter?: number| undefined,
+    dateFilter?: string | undefined,
+    idFilter?: number | undefined,
   }
+  idDetail?: number | undefined;
 }
 
 export interface AddModalProps<T> {
