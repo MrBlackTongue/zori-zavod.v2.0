@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
@@ -61,7 +61,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -97,16 +97,21 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperation([]);
+      setAllOperation(allOperation);
     }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllOperation().then((allOperations) => {
       setAllOperation(allOperations);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable()
   }, [isUpdateTable]);
 
   return (
@@ -114,7 +119,11 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
       bordered
       columns={columns}
       dataSource={allOperation}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

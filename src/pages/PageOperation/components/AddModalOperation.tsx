@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeOperation, TypeUnit} from "../../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnit} from "../../../services";
@@ -12,9 +12,8 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
                                                                           }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения, выбранная единица измерения
+  // Все единицы измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
   // Изменить выбранную единицу измерения
   const onChangeUnit = (values: string, option: any): TypeUnit => {
@@ -25,7 +24,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
     form.setFieldsValue({
       unit: unit
     });
-    setSelectedUnit(unit)
     return unit
   };
 
@@ -35,7 +33,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
       .validateFields()
       .then((values) => {
         form.resetFields();
-        setSelectedUnit(undefined);
         addItem(values);
       })
       .catch((info) => {
@@ -45,7 +42,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
 
   // Функция закрытия модального окна
   const handleClose = () => {
-    setSelectedUnit(undefined);
     onCancel()
   };
 
@@ -67,9 +63,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public'
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -87,7 +81,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
         >
           <div>
             <Select
-              value={selectedUnit ? selectedUnit.name : undefined}
               onChange={onChangeUnit}
             >
               {allUnit && allUnit.length > 0 ?
@@ -108,7 +101,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
             warningOnly: true,
           }]}
         >
-          <InputNumber/>
+          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Form>
     </Modal>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
@@ -108,7 +108,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllAcceptance([]);
+      setAllAcceptance(allAcceptance);
     }
   };
 
@@ -143,7 +143,11 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
       bordered
       columns={columns}
       dataSource={allAcceptance}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

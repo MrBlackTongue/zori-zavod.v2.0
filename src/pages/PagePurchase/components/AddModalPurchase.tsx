@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypePurchase, TypeProduct} from "../../../types";
 import {Form, Modal, Select, InputNumber, DatePicker, Checkbox} from "antd";
 import {getAllProduct} from "../../../services";
@@ -75,9 +75,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: "public",
-        }}
+        initialValues={{modifier: "public"}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

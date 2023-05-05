@@ -1,5 +1,5 @@
+import React, {useState, useEffect} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
-import React, {useEffect, useState} from "react";
 import {EditDrawerProps, TypeOperation, TypeUnit} from "../../../types";
 import {getOperationById, getAllUnit} from "../../../services";
 
@@ -121,10 +121,9 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
             type: 'number',
             message: 'напишите норму цифрами больше 1',
             warningOnly: true,
-            // pattern: /[1-9]/,
           }]}
         >
-          <InputNumber/>
+          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Form>
     </Drawer>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeProduct, TypeUnit} from "../../../types";
 import {Form, Input, Modal, Select} from "antd";
 import {getAllUnit, getAllProductGroup} from "../../../services";
@@ -92,9 +92,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public'
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

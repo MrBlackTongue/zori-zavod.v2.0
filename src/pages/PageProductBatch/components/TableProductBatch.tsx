@@ -66,7 +66,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -102,7 +102,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductBatch([]);
+      setAllProductBatch(allProductBatch);
     }
   };
 
@@ -125,7 +125,11 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
       bordered
       columns={columns}
       dataSource={allProductBatch}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

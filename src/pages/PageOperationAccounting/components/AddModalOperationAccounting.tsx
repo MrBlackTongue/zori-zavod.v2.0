@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeOperation, TypeOperationAccounting, TypeOutput} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
 import {getAllOperation, getAllOutput} from "../../../services";
@@ -109,12 +109,6 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
       setFilteredOutput(allOutput);
     });
   }, []);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setFilteredOutput(allOutput || []);
-    }
-  }, [isOpen]);
 
   return (
     <Modal

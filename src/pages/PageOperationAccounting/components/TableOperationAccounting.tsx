@@ -1,19 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, SearchOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {getAllOperationAccounting, deleteOperationAccountingById, postFilterByTable,} from "../../../services";
+import {getAllOperationAccounting, postFilterByTable,} from "../../../services";
 import {TableProps, TypeOperationAccounting, TableParams, TypeOperationTimesheet} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounting>> = ({
                                                                                           isUpdateTable,
                                                                                           openDrawer,
-                                                                                          searchText,
+                                                                                          onDelete,
                                                                                           filter,
                                                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
+  const navigate = useNavigate();
 
   // Лоудер и список всех учетных операций
   const [loading, setLoading] = useState(false);
@@ -27,6 +29,11 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       pageSize: 10,
     },
   });
+
+  // Переход на другую страницу по адресу
+  const handleMoreDetails = (id: number) => {
+    navigate(`/operation-accounting/${id}/detail`);
+  };
 
   // Колонки в таблице
   const columns: ColumnsType<TypeOperationAccounting> = [
@@ -109,13 +116,23 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       align: 'center',
       render: ((id: number) => (
         <Space>
+          <Tooltip title="Подробнее" placement="bottomRight">
+            <Button
+              type="primary"
+              size="small"
+              shape="circle"
+              onClick={() => handleMoreDetails(id)}
+            >
+              <SearchOutlined/>
+            </Button>
+          </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
               type="primary"
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -123,9 +140,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этот учет операции?"
-              onConfirm={() => {
-                deleteOperationAccountingById(id).then(() => filterTable())
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
@@ -149,7 +164,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperationAccounting([]);
+      setAllOperationAccounting(allOperationAccounting);
     }
   };
 
@@ -223,14 +238,18 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
     } else {
       updateTable();
     }
-  }, [searchText, filter, isUpdateTable]);
+  }, [filter, isUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allOperationAccounting}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
       summary={renderSummaryRow}
