@@ -17,16 +17,28 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (value: string | number | undefined, option: any): TypeProduct | undefined => {
+    if (value === undefined) {
+      form.setFieldsValue({
+        product: undefined,
+      });
+      setSelectedProduct(undefined);
+      return undefined;
+    }
     const product: TypeProduct = {
-      id: option.id,
-      title: values,
+      id: value as number, // приведение типа к числу
+      title: option.title,
     };
     form.setFieldsValue({
       product: product.id
     });
     setSelectedProduct(product)
-    return product
+    return product;
+  };
+
+  // Функция для поиска остаков по названию
+  const searchFilter = (input: string, option: any) => {
+    return option.title.toLowerCase().indexOf(input.toLowerCase()) >= 0;
   };
 
   // Функция подтверждения добавления новой ячейки на склад
@@ -84,12 +96,13 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
             <Select
               showSearch
               allowClear
-              value={selectedProduct ? selectedProduct.title : undefined}
+              value={selectedProduct ? selectedProduct.id : undefined}
               onChange={onChangeProduct}
+              filterOption={searchFilter} 
             >
               {allProduct && allProduct.length > 0 ?
                 allProduct.map(product => (
-                  <Option id={product.id} key={product.id} value={product.title}>
+                  <Option id={product.id} key={product.id} value={product.id} title={product.title}>
                     {product.title}
                   </Option>
                 )) : null}
@@ -101,7 +114,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
           name="amount"
           rules={[{required: true, message: "введите количество"}]}
         >
-          <InputNumber style={{width: "100%"}} min={0} />
+          <InputNumber style={{width: "100%"}} min={0}/>
         </Form.Item>
       </Form>
     </Modal>

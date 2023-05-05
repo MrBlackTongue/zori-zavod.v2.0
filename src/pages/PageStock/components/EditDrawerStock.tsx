@@ -19,7 +19,15 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   const [product, setProduct] = useState<TypeProduct>();
 
   // Изменить выбранный остаток на складе
-  const onChangeProduct = (value: number): TypeProduct | undefined => {
+  const onChangeProduct = (value: number | undefined): TypeProduct | undefined => {
+    if (value === undefined) {
+      form.setFieldsValue({
+        product: undefined,
+      });
+      setProduct(undefined);
+      return undefined;
+    }
+
     const selectedProduct = allStock?.find((stock) => stock?.product?.id === value);
     if (selectedProduct) {
       form.setFieldsValue({
@@ -30,6 +38,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     }
     return undefined;
   };
+
 
   // Функция для получения данных об остатке по id и обновление формы
   const handleGetStockById = useCallback(() => {
@@ -46,6 +55,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
 
   const handleClose = () => {
     closeDrawer();
+    setProduct(undefined);
   };
 
   useEffect(() => {
