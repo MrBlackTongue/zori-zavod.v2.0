@@ -80,7 +80,7 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
       <TableDetailShipment
         isUpdateTable={updateTable}
         openDrawer={() => {}}
-        filterById={selectedShipment?.id}
+        idDetail={selectedShipment?.id}
       />
       <AddModalDetailShipment
         isOpen={isModalOpen}

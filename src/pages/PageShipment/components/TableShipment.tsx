@@ -3,13 +3,14 @@ import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined, DownOutlined} from '@ant-design/icons';
-import {getAllShipment, deleteShipmentById} from "../../../services";
+import {getAllShipment} from "../../../services";
 import {TableProps, TypeShipment, TableParams} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
                                                                     isUpdateTable,
                                                                     openDrawer,
+                                                                    onDelete,
                                                                     openDetailDrawer
                                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -85,9 +86,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -95,9 +94,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту отгрузку?"
-              onConfirm={() => {
-                deleteShipmentById(id).then(() => getAllShipments())
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

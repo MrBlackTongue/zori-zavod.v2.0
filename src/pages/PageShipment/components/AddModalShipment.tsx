@@ -37,7 +37,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   }, [form]);
 
   // Функция подтверждения добавления
-  const handleOk = () => () => {
+  const handleOk = () => {
     form
       .validateFields()
       .then((values) => {

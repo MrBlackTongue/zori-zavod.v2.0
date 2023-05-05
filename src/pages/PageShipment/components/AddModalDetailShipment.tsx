@@ -68,7 +68,7 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
       title={`Добавление отгруженного товара`}
       open={isOpen}
       onCancel={handleClose}
-      width={500}
+      width={600}
       okText={'Сохранить'}
       cancelText={'Отмена'}
       onOk={handleOk}
@@ -97,8 +97,8 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
             >
               {allStock && allStock.length > 0
                 ? allStock.map((stock) => (
-                  <Option id={stock.id} key={stock.id} value={stock.id}>
-                    {stock.product?.title}
+                  <Option id={stock.id} key={stock.id} value={stock.product?.title}>
+                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
                   </Option>
                 ))
                 : null}

@@ -2,7 +2,7 @@ import React, {useState, useCallback} from 'react';
 import {Typography, Space, Button} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
-import {postNewShipment, putChangeShipment} from "../../services";
+import {postNewShipment, putChangeShipment, deleteShipmentById} from "../../services";
 import {TypeShipment} from "../../types";
 import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
@@ -61,6 +61,12 @@ export const PageShipment: React.FC = () => {
     setUpdateTable(!updateTable);
   }, [openStates, selectedShipmentId]);
 
+  // Удалить строку из таблицы
+  const handleDeleteShipment = async (id: number) => {
+    await deleteShipmentById(id)
+    setUpdateTable(!updateTable)
+  };
+
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
@@ -85,6 +91,7 @@ export const PageShipment: React.FC = () => {
       <TableShipment
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteShipment}
         openDetailDrawer={openDetailShipment}
       />
       <AddModalShipment

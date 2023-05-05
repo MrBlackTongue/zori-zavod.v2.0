@@ -8,7 +8,7 @@ import {DeleteOutlined} from "@ant-design/icons";
 
 export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
                                                                           isUpdateTable,
-                                                                          filterById
+                                                                          idDetail
                                                                         }) => {
   // Состояния для лоадера и списка всех товаров в отгрузке
   const [loading, setLoading] = useState(false);
@@ -17,8 +17,8 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
   // Функция получения всех движений товаров отгрузки
   const getAllProductMovements = () => {
     setLoading(true);
-    if (filterById) {
-      getAllProductMovementsByShipmentId(filterById).then((allShipmentMovements) => {
+    if (idDetail) {
+      getAllProductMovementsByShipmentId(idDetail).then((allShipmentMovements) => {
         setAllShipmentMovement(allShipmentMovements);
         setLoading(false);
       });
@@ -66,8 +66,8 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
               title="Вы действительно хотите удалить этот товар?"
               onConfirm={() => {
                 deleteShipmentProductMovementById(id).then(() => {
-                  if (filterById)
-                    getAllProductMovementsByShipmentId(filterById)
+                  if (idDetail)
+                    getAllProductMovementsByShipmentId(idDetail)
                       .then((allShipmentMovements) => setAllShipmentMovement(allShipmentMovements))
                 })
               }}
@@ -87,7 +87,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
   // Получение данных по всем товарам в отгрузке
   useEffect(() => {
     getAllProductMovements()
-  }, [filterById, isUpdateTable]);
+  }, [idDetail, isUpdateTable]);
 
   return (
     <Table
