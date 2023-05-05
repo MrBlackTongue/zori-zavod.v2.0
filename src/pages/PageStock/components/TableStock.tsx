@@ -3,11 +3,12 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import {TableProps, TableParams, TypeUnit, TypeStock} from "../../../types";
-import {getAllStock, deleteStockById, getStockByTitle, getStockByGroupId} from "../../../services";
+import {getAllStock, getStockByTitle, getStockByGroupId} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStock>> = ({
                                                               isUpdateTable,
                                                               openDrawer,
+                                                              onDelete,
                                                               searchText,
                                                               filter
                                                             }) => {
@@ -79,11 +80,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                if (openDrawer) {
-                  openDrawer(id)
-                }
-              }}>
+              onClick={() => {(openDrawer && openDrawer(id))}}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -91,12 +88,23 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту ячейку на складе?"
-              onConfirm={async () => await handleDelete(id)}
+              onConfirm={async () => {
+                if (onDelete) {
+                  await onDelete(id);
+                }
+              }}
               okText="Да"
-              cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {}}>
-                <DeleteOutlined/>
+              cancelText="Отмена"
+            >
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: "tomato", borderColor: "tomato" }}
+                ghost
+                onClick={() => {}}
+              >
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
@@ -136,21 +144,6 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       setLoading(false);
     });
   }, [searchText]);
-
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteStockById(id); // Удаляет ячейку
-      if (searchText) {
-        searchTable(); // Обновляет данные таблицы с учетом поиска
-      } else if (filter && filter.idFilter) {
-        filterTable(); // Обновляет данные таблицы с учетом фильтра
-      } else {
-        updateTable(); // Обновляет данные таблицы без учета поиска и фильтра
-      }
-    } catch (error) {
-      console.error("Error deleting item:", error);
-    }
-  };
 
   // Функция для фильтрации таблицы
   const filterTable = useCallback(() => {

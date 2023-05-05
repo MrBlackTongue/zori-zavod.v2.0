@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Input, Select} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getAllProductGroup, postNewStock, putChangeStock} from '../../services';
+import {getAllProductGroup, postNewStock, putChangeStock, deleteStockById} from '../../services';
 import {TypeProductGroup, TypeStock} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
@@ -75,6 +75,15 @@ export const PageStock: React.FC = () => {
     return stock;
   };
 
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteStockById(id);
+      setUpdateTable(!updateTable);
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+
   useEffect(() => {
     getAllProductGroup().then((allStockGroup) => {
       setAllProductGroup(allStockGroup);
@@ -128,6 +137,7 @@ export const PageStock: React.FC = () => {
       </div>
       <TableStock
         isUpdateTable={updateTable}
+        onDelete={handleDelete}
         openDrawer={openDrawer}
         searchText={searchText}
         filter={{

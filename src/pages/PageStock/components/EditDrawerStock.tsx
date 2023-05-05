@@ -53,9 +53,31 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     }
   }, [selectedItemId, form]);
 
+  // Функция подтверждения редактирования
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        updateItem(values);
+        closeDrawer();
+      })
+      .catch((info) => {
+        console.log("Validate Failed:", info);
+      });
+  };
+
+  // Функция фильтрации продукта по остатку
+  const filterProducts = (input: string, option: any): boolean => {
+    return option?.label
+      ? typeof option.label === "string" &&
+      option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      : false;
+  };
+
+  // Функция закрытия дравера
   const handleClose = () => {
     closeDrawer();
-    setProduct(undefined);
+    form.resetFields(['product']);
   };
 
   useEffect(() => {
@@ -65,10 +87,12 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   }, []);
 
   useEffect(() => {
-    handleGetStockById();
-    form.resetFields();
-  }, [selectedItemId, handleGetStockById, form]);
-
+    if (isOpen) {
+      handleGetStockById();
+    } else {
+      form.resetFields(['product']);
+    }
+  }, [isOpen, handleGetStockById, form]);
 
   useEffect(() => {
     getAllProduct().then((product) => {
@@ -85,68 +109,49 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>
-          <Button
-            onClick={() => {
-              form
-                .validateFields()
-                .then((values) => {
-                  updateItem(values);
-                  closeDrawer();
-                })
-                .catch((info) => {
-                  console.log("Validate Failed:", info);
-                });
-            }}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-        <Form
-          form={form}
-          labelCol={{span: 6}}
-          wrapperCol={{span: 16}}
-          style={{marginTop: 30}}
+      <Form
+        form={form}
+        labelCol={{span: 6}}
+        wrapperCol={{span: 16}}
+        style={{marginTop: 30}}
+      >
+        <Form.Item
+          label="Товар"
+          name="product"
+          rules={[{required: true, message: "выберите товар"}]}
         >
-          <Form.Item
-            label="Товар"
-            name="product"
-            rules={[{required: true, message: "выберите товар"}]}
-          >
-            <div>
-              <Select
-                showSearch
-                allowClear
-                value={product ? product.id : undefined}
-                onChange={onChangeProduct}
-                filterOption={(input, option) =>
-                  option?.label
-                    ? typeof option.label === "string" &&
-                    option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    : false
-                }
-              >
-                {allProduct && allProduct.length > 0
-                  ? allProduct.map((product) => (
-                    <Option key={product.id} value={product.id} label={product.title}>
-                      {product.title}
-                    </Option>
-                  ))
-                  : null}
-              </Select>
-            </div>
-          </Form.Item>
-          <Form.Item
-            label="Количество"
-            name="amount"
-            rules={[{required: true, message: "введите количество"}]}
-          >
-            <InputNumber style={{width: "100%"}} min={0} />
-          </Form.Item>
-        </Form>
+          <div>
+            <Select
+              showSearch
+              allowClear
+              value={product ? product.id : undefined}
+              onChange={onChangeProduct}
+              filterOption={filterProducts}
+            >
+              {allProduct && allProduct.length > 0
+                ? allProduct.map((product) => (
+                  <Option key={product.id} value={product.id} label={product.title}>
+                    {product.title}
+                  </Option>
+                ))
+                : null}
+            </Select>
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Количество"
+          name="amount"
+          rules={[{required: true, message: "введите количество"}]}
+        >
+          <InputNumber style={{width: "100%"}} min={0} />
+        </Form.Item>
+      </Form>
     </Drawer>
   );
 };
