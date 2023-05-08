@@ -70,7 +70,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
 
         return titleMatch || idMatch || dateMatch;
       });
-      setFilteredOutput(filtered || []);
+      setFilteredOutput(prevState => filtered || prevState);
     }
   };
 
@@ -83,6 +83,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         setSelectedOperation(undefined);
         setSelectedOutput(undefined);
         addItem({...values, output: values.output || null, fact: values.fact || null});
+        onSearchOutput('');
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
@@ -186,7 +187,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
           label="Факт"
           name="fact"
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber style={{width: "100%"}} min={0}/>
         </Form.Item>
         <Form.Item
           label="Дата"

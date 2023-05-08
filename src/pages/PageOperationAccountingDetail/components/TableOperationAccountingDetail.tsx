@@ -128,7 +128,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
   ];
 
   // Обновить учетную операцию
-  const updateOperationAccounting = useCallback(() => {
+  const handleUpdateOperationAccounting = useCallback(() => {
     if (idDetail) {
       setLoading(true);
       getOperationAccountingById(idDetail).then((operationAccounting) => {
@@ -145,9 +145,9 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
 
   useEffect(() => {
     if (idDetail || isUpdateTable) {
-      updateOperationAccounting()
+      handleUpdateOperationAccounting()
     }
-  }, [idDetail, isUpdateTable, updateOperationAccounting]);
+  }, [idDetail, isUpdateTable, handleUpdateOperationAccounting]);
 
   return (
     <Table
