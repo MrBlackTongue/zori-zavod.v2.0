@@ -14,7 +14,6 @@ import {PageAcceptance} from "../../pages/PageAcceptance/PageAcceptance";
 import {PageOperationAccounting} from "../../pages/PageOperationAccounting/PageOperationAccounting";
 import {PageOperationAccountingDetail} from "../../pages/PageOperationAccountingDetail/PageOperationAccountingDetail";
 import {PageStock} from "../../pages/PageStock/PageStock";
-import {PageOperationAccountingDetail} from "../../pages/PageOperationAccountingDetail/PageOperationAccountingDetail";
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -33,7 +32,6 @@ export const AppRoutes: React.FC = () => {
       <Route path="/operation-accounting" element={<PageOperationAccounting/>}/>
       <Route path="/operation-accounting/:id/detail" element={<PageOperationAccountingDetail/>}/>
       <Route path="/Stock" element={<PageStock/>}/>
-      <Route path="/operation-accounting/:id/detail" element={<PageOperationAccountingDetail/>}/>
     </Routes>
   );
 };
