@@ -67,9 +67,9 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   };
 
   useEffect(() => {
-    getAllProduct().then((products) => {
-      setAllProduct(products);
-      setFilteredProduct(products);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
+      setFilteredProduct(allProduct);
     });
   }, []);
 

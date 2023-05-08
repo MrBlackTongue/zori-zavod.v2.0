@@ -80,7 +80,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {(openDrawer && openDrawer(id))}}>
+              onClick={() => (openDrawer && openDrawer(id))}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -88,11 +88,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту ячейку на складе?"
-              onConfirm={async () => {
-                if (onDelete) {
-                  await onDelete(id);
-                }
-              }}
+              onConfirm={() => (onDelete && onDelete(id))}
               okText="Да"
               cancelText="Отмена"
             >
@@ -102,7 +98,6 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
                 shape="circle"
                 style={{ color: "tomato", borderColor: "tomato" }}
                 ghost
-                onClick={() => {}}
               >
                 <DeleteOutlined />
               </Button>
@@ -134,7 +129,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       setAllStock(allStock);
       setLoading(false);
     });
-  }, []);
+  }, [isUpdateTable]);
 
   // Функция для поиска по таблице склада
   const searchTable = useCallback(() => {

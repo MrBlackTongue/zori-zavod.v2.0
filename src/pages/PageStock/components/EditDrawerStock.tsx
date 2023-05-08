@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, InputNumber, Space, Button} from "antd";
 import {EditDrawerProps, TypeProduct, TypeStock} from "../../../types";
-import {getAllStock, getStockById, getAllProduct} from "../../../services";
+import {getStockById, getAllProduct} from "../../../services";
 
 const {Option} = Select;
 
@@ -14,7 +14,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   const [form] = Form.useForm();
 
   // Все остатки, все товары, выбранный товар
-  const [allStock, setAllStock] = useState<TypeStock[]>();
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
   const [filteredProduct, setFilteredProduct] = useState<TypeProduct[]>([]);
@@ -49,7 +48,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     if (selectedItemId) {
       getStockById(selectedItemId).then((stock) => {
         form.setFieldsValue({
-          product: stock?.product?.id,
+          product: stock?.product,
           amount: stock?.amount,
         });
         setSelectedProduct(stock?.product);
@@ -74,27 +73,21 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   // Функция закрытия дравера
   const handleClose = () => {
     closeDrawer();
-    form.resetFields(['product']);
+    form.resetFields();
   };
-
-  useEffect(() => {
-    getAllStock().then((stock) => {
-      setAllStock(stock);
-    });
-  }, []);
 
   useEffect(() => {
     if (isOpen) {
       handleGetStockById();
     } else {
-      form.resetFields(['product']);
+      form.resetFields();
     }
   }, [isOpen, handleGetStockById, form]);
 
   useEffect(() => {
-    getAllProduct().then((product) => {
-      setAllProduct(product);
-      setFilteredProduct(product)
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
+      setFilteredProduct(allProduct)
     });
   }, []);
 

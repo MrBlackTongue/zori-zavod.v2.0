@@ -75,6 +75,7 @@ export const PageStock: React.FC = () => {
     return stock;
   };
 
+  // удалть запись из таблицы
   const handleDelete = async (id: number) => {
     try {
       await deleteStockById(id);
