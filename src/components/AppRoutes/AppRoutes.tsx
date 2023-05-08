@@ -31,7 +31,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/acceptance" element={<PageAcceptance/>}/>
       <Route path="/operation-accounting" element={<PageOperationAccounting/>}/>
       <Route path="/operation-accounting/:id/detail" element={<PageOperationAccountingDetail/>}/>
-      <Route path="/Stock" element={<PageStock/>}/>
+      <Route path="/stock" element={<PageStock/>}/>
     </Routes>
   );
 };

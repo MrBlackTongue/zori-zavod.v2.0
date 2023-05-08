@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Form, Drawer, Select, InputNumber, Space, Button} from "antd";
 import {EditDrawerProps, TypeProduct, TypeStock} from "../../../types";
-import {getAllStock, getStockById, getAllProduct} from "../../../services";
+import {getStockById, getAllProduct} from "../../../services";
 
 const {Option} = Select;
 
@@ -13,61 +13,81 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
                                                                       }) => {
   const [form] = Form.useForm();
 
-  // Все товары, выбранный товар
-  const [allStock, setAllStock] = useState<TypeStock[]>();
-  const [selectedStock, setSelectedStock] = useState<TypeStock>();
-  const [product, setProduct] = useState<TypeProduct>();
+  // Все остатки, все товары, выбранный товар
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
+  const [filteredProduct, setFilteredProduct] = useState<TypeProduct[]>([]);
 
-  // состояние loading
-  const [loading, setLoading] = useState<boolean>(true);
+  // Изменить выбранный товар
+  const onChangeProduct = (value: string): TypeProduct | undefined => {
+    const selectedProduct = allProduct?.find(product => product.id === parseInt(value));
+    form.setFieldsValue({product: selectedProduct});
+    setSelectedProduct(selectedProduct);
+    return selectedProduct;
+  }
 
-  const onChangeProduct = (value: number): TypeProduct | undefined => {
-    const selectedProduct = allStock?.find((stock) => stock?.product?.id === value);
-    if (selectedProduct) {
-      form.setFieldsValue({
-        product: selectedProduct?.product?.id,
+  // Поиск по товару
+  const onSearchProduct = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredProduct(allProduct || []);
+    } else {
+      const searchLowerCase = searchText.toLowerCase();
+      const filtered = allProduct?.filter((product) => {
+        const titleMatch = product && product.title
+          ? product.title.toLowerCase().includes(searchLowerCase)
+          : false;
+
+        return titleMatch;
       });
-      setProduct(selectedProduct.product);
-      return selectedProduct.product;
+      setFilteredProduct(prevState => filtered || prevState);
     }
-    return undefined;
   };
 
+  // Функция для получения данных об остатке по id и обновление формы
   const handleGetStockById = useCallback(() => {
     if (selectedItemId) {
-      setLoading(true);
       getStockById(selectedItemId).then((stock) => {
         form.setFieldsValue({
-          product: stock?.product?.id,
+          product: stock?.product,
           amount: stock?.amount,
         });
-        setSelectedStock(stock);
-        setProduct(stock?.product);
-        setLoading(false);
+        setSelectedProduct(stock?.product);
       });
     }
   }, [selectedItemId, form]);
 
+  // Функция подтверждения редактирования
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        updateItem(values);
+        closeDrawer();
+        onSearchProduct('')
+      })
+      .catch((info) => {
+        console.log("Validate Failed:", info);
+      });
+  };
+
+  // Функция закрытия дравера
   const handleClose = () => {
     closeDrawer();
+    form.resetFields();
   };
 
   useEffect(() => {
-    getAllStock().then((stock) => {
-      setAllStock(stock);
-    });
-  }, []);
+    if (isOpen) {
+      handleGetStockById();
+    } else {
+      form.resetFields();
+    }
+  }, [isOpen, handleGetStockById, form]);
 
   useEffect(() => {
-    handleGetStockById();
-    form.resetFields();
-  }, [selectedItemId, handleGetStockById, form]);
-
-
-  useEffect(() => {
-    getAllProduct().then((product) => {
-      setAllProduct(product);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
+      setFilteredProduct(allProduct)
     });
   }, []);
 
@@ -77,77 +97,53 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
       width={600}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>
-          <Button
-            onClick={() => {
-              form
-                .validateFields()
-                .then((values) => {
-                  updateItem(values);
-                  closeDrawer();
-                })
-                .catch((info) => {
-                  console.log("Validate Failed:", info);
-                });
-            }}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <Form
-          form={form}
-          labelCol={{span: 6}}
-          wrapperCol={{span: 16}}
-          style={{marginTop: 30}}
+      <Form
+        form={form}
+        labelCol={{span: 6}}
+        wrapperCol={{span: 16}}
+        style={{marginTop: 30}}
+      >
+        <Form.Item
+          label="Товар"
+          name="product"
+          rules={[{required: true, message: "выберите товар"}]}
         >
-          <Form.Item
-            label="Товар"
-            name="product"
-            rules={[{required: true, message: "выберите товар"}]}
-          >
-            <div>
-              <Select
-                showSearch
-                allowClear
-                value={product ? product.id : undefined}
-                onChange={onChangeProduct}
-                filterOption={(input, option) =>
-                  option?.label
-                    ? typeof option.label === "string" &&
-                    option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                    : false
-                }
-              >
-                {allProduct && allProduct.length > 0
-                  ? allProduct.map((product) => (
-                    <Option key={product.id} value={product.id} label={product.title}>
-                      {product.title}
-                    </Option>
-                  ))
-                  : null}
-              </Select>
-
-            </div>
-          </Form.Item>
-          <Form.Item
-            label="Количество"
-            name="amount"
-            rules={[{required: true, message: "введите количество"}]}
-          >
-            <InputNumber style={{width: "100%"}} min={0} />
-          </Form.Item>
-        </Form>
-      )}
+          <div>
+            <Select
+              showSearch
+              allowClear
+              filterOption={false}
+              value={selectedProduct ? selectedProduct.title : undefined}
+              onChange={onChangeProduct}
+              onSearch={onSearchProduct}
+            >
+              {filteredProduct && filteredProduct.length > 0
+                ? filteredProduct.map((product) => (
+                  <Option key={product.id} value={product.id} label={product.title}>
+                    {product.title}
+                  </Option>
+                ))
+                : null}
+            </Select>
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="Количество"
+          name="amount"
+          rules={[{required: true, message: "введите количество"}]}
+        >
+          <InputNumber style={{width: "100%"}} min={0}/>
+        </Form.Item>
+      </Form>
     </Drawer>
   );
 };

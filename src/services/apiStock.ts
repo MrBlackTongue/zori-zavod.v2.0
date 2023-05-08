@@ -63,7 +63,7 @@ export function postNewStock(data: TypeStock) {
   }
 }
 
-// Получение товара со склада по ID
+// Получить остаток со склада по ID
 export async function getStockById(id: number): Promise<TypeStock | undefined> {
   try {
     const response = await fetch(URL + STOCK + `/${id}`);
@@ -78,7 +78,7 @@ export async function getStockById(id: number): Promise<TypeStock | undefined> {
   }
 }
 
-// Удаление  остатка
+// Удаление  остатка по ID
 export async function deleteStockById(id: number) {
   try {
     const response = await fetch(URL + STOCK + `/${id}`, {
@@ -86,14 +86,14 @@ export async function deleteStockById(id: number) {
     });
 
     if (response.ok) {
-      message.success("Ячейка склада успешно удалена");
+      message.success("Запись удалена");
     } else {
       console.error(response.statusText);
-      message.error("Ошибка при удалении ячейки склада");
+      message.error("Ошибка при удалении записи");
     }
   } catch (err) {
     console.error(err);
-    message.error("Ошибка при удалении ячейки склада");
+    message.error("Ошибка при удалении записи");
   }
 }
 

@@ -1,29 +1,28 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input, Select} from 'antd';
+import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getAllProductGroup, postNewStock, putChangeStock} from '../../services';
+import {getAllProductGroup, postNewStock, putChangeStock, deleteStockById} from '../../services';
 import {TypeProductGroup, TypeStock} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
 import {EditDrawerStock} from "./components/EditDrawerStock";
 
 const {Title} = Typography;
-const { Option } = Select;
+const {Option} = Select;
 
 export const PageStock: React.FC = () => {
 
   // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  const [selectedGroupId, setSelectedGroupId] = useState<number>();
-
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Все группы стоков, выбранная группа стоков по id
+  // Все группы продуктов, выбранная группа продуктов по id
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
+  const [selectedGroupId, setSelectedGroupId] = useState<number>();
 
   // Выбрана ячейка на складе по id
   const [selectedStockId, setSelectedStockId] = useState<number>();
@@ -36,7 +35,7 @@ export const PageStock: React.FC = () => {
     const stock: TypeStock = {
       amount: values.amount,
       product: {
-        id: values.product,
+        id: values.product.id,
       },
     };
     setIsModalOpen(false);
@@ -51,7 +50,7 @@ export const PageStock: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Изменить выбранную операцию
+  // Изменить выбранную группу товаров
   const onChangeProductGroup = (values: string, option: any): number | undefined => {
     if (values === undefined) {
       setSelectedGroupId(undefined);
@@ -67,7 +66,7 @@ export const PageStock: React.FC = () => {
       id: selectedStockId,
       amount: values.amount,
       product: {
-        id: values.product,
+        id: values.product.id,
       },
     };
     setIsDrawerOpen(false);
@@ -76,13 +75,23 @@ export const PageStock: React.FC = () => {
     return stock;
   };
 
+  // удалть запись из таблицы
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteStockById(id);
+      setUpdateTable(!updateTable);
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+
   useEffect(() => {
     getAllProductGroup().then((allStockGroup) => {
       setAllProductGroup(allStockGroup);
     });
   }, []);
 
-  let div = <>
+  return (
     <div style={{display: 'grid'}}>
       <div className="centerTitle">
         <Title level={3}>Склад</Title>
@@ -103,7 +112,6 @@ export const PageStock: React.FC = () => {
           >
             {allProductGroup && allProductGroup.length > 0 ?
               allProductGroup
-                .slice()
                 .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
                 .map(productGroup => (
                   <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
@@ -128,8 +136,10 @@ export const PageStock: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableStock
         isUpdateTable={updateTable}
+        onDelete={handleDelete}
         openDrawer={openDrawer}
         searchText={searchText}
         filter={{
@@ -148,6 +158,5 @@ export const PageStock: React.FC = () => {
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
-  </>;
-  return div;
+  );
 };
