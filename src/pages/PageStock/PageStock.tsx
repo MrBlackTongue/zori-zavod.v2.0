@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Input, Select} from 'antd';
+import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {getAllProductGroup, postNewStock, putChangeStock, deleteStockById} from '../../services';
@@ -35,7 +35,7 @@ export const PageStock: React.FC = () => {
     const stock: TypeStock = {
       amount: values.amount,
       product: {
-        id: values.product,
+        id: values.product.id,
       },
     };
     setIsModalOpen(false);
@@ -66,7 +66,7 @@ export const PageStock: React.FC = () => {
       id: selectedStockId,
       amount: values.amount,
       product: {
-        id: values.product,
+        id: values.product.id,
       },
     };
     setIsDrawerOpen(false);
@@ -135,6 +135,7 @@ export const PageStock: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableStock
         isUpdateTable={updateTable}
         onDelete={handleDelete}

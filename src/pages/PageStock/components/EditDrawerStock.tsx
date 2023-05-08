@@ -16,29 +16,33 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   // Все остатки, все товары, выбранный товар
   const [allStock, setAllStock] = useState<TypeStock[]>();
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
-  const [product, setProduct] = useState<TypeProduct>();
+  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
+  const [filteredProduct, setFilteredProduct] = useState<TypeProduct[]>([]);
 
-  // Изменить выбранный остаток на складе
-  const onChangeProduct = (value: number | undefined): TypeProduct | undefined => {
-    if (value === undefined) {
-      form.setFieldsValue({
-        product: undefined,
-      });
-      setProduct(undefined);
-      return undefined;
-    }
+  // Изменить выбранный товар
+  const onChangeProduct = (value: string): TypeProduct | undefined => {
+    const selectedProduct = allProduct?.find(product => product.id === parseInt(value));
+    form.setFieldsValue({product: selectedProduct});
+    setSelectedProduct(selectedProduct);
+    return selectedProduct;
+  }
 
-    const selectedProduct = allStock?.find((stock) => stock?.product?.id === value);
-    if (selectedProduct) {
-      form.setFieldsValue({
-        product: selectedProduct?.product?.id,
+  // Поиск по товару
+  const onSearchProduct = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredProduct(allProduct || []);
+    } else {
+      const searchLowerCase = searchText.toLowerCase();
+      const filtered = allProduct?.filter((product) => {
+        const titleMatch = product && product.title
+          ? product.title.toLowerCase().includes(searchLowerCase)
+          : false;
+
+        return titleMatch;
       });
-      setProduct(selectedProduct.product);
-      return selectedProduct.product;
+      setFilteredProduct(prevState => filtered || prevState);
     }
-    return undefined;
   };
-
 
   // Функция для получения данных об остатке по id и обновление формы
   const handleGetStockById = useCallback(() => {
@@ -48,7 +52,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
           product: stock?.product?.id,
           amount: stock?.amount,
         });
-        setProduct(stock?.product);
+        setSelectedProduct(stock?.product);
       });
     }
   }, [selectedItemId, form]);
@@ -60,18 +64,11 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
       .then((values) => {
         updateItem(values);
         closeDrawer();
+        onSearchProduct('')
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
       });
-  };
-
-  // Функция фильтрации продукта по остатку
-  const filterProducts = (input: string, option: any): boolean => {
-    return option?.label
-      ? typeof option.label === "string" &&
-      option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-      : false;
   };
 
   // Функция закрытия дравера
@@ -97,6 +94,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   useEffect(() => {
     getAllProduct().then((product) => {
       setAllProduct(product);
+      setFilteredProduct(product)
     });
   }, []);
 
@@ -130,12 +128,13 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
             <Select
               showSearch
               allowClear
-              value={product ? product.id : undefined}
+              filterOption={false}
+              value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
-              filterOption={filterProducts}
+              onSearch={onSearchProduct}
             >
-              {allProduct && allProduct.length > 0
-                ? allProduct.map((product) => (
+              {filteredProduct && filteredProduct.length > 0
+                ? filteredProduct.map((product) => (
                   <Option key={product.id} value={product.id} label={product.title}>
                     {product.title}
                   </Option>
@@ -149,7 +148,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
           name="amount"
           rules={[{required: true, message: "введите количество"}]}
         >
-          <InputNumber style={{width: "100%"}} min={0} />
+          <InputNumber style={{width: "100%"}} min={0}/>
         </Form.Item>
       </Form>
     </Drawer>

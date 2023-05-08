@@ -12,33 +12,36 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
                                                                   }) => {
   const [form] = Form.useForm();
 
-  // Все товары, выбранный товар
+  // Все товары, выбранный товар, отфильтрованные товары
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
+  const [filteredProduct, setFilteredProduct] = useState<TypeProduct[]>([]);
 
   // Изменить выбранный товар
-  const onChangeProduct = (value: string | number | undefined, option: any): TypeProduct | undefined => {
-    if (value === undefined) {
-      form.setFieldsValue({
-        product: undefined,
-      });
-      setSelectedProduct(undefined);
-      return undefined;
-    }
-    const product: TypeProduct = {
-      id: value as number, // приведение типа к числу
-      title: option.title,
-    };
+  const onChangeProduct = (value: string): TypeProduct | undefined => {
+    const selectedProduct = allProduct?.find(product => product.id === parseInt(value));
     form.setFieldsValue({
-      product: product.id
+      product: selectedProduct
     });
-    setSelectedProduct(product)
-    return product;
+    setSelectedProduct(selectedProduct);
+    return selectedProduct;
   };
 
-  // Функция для поиска остаков по названию
-  const searchFilter = (input: string, option: any) => {
-    return option.title.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  // Поиск по товарам
+  const onSearchProduct = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredProduct(allProduct || []);
+    } else {
+      const searchLowerCase = searchText.toLowerCase();
+      const filtered = allProduct?.filter((product) => {
+        const titleMatch = product && product.title
+          ? product.title.toLowerCase().includes(searchLowerCase)
+          : false;
+
+        return titleMatch;
+      });
+      setFilteredProduct(prevState => filtered || prevState);
+    }
   };
 
   // Функция подтверждения добавления новой ячейки на склад
@@ -48,7 +51,8 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
       .then((values) => {
         form.resetFields();
         setSelectedProduct(undefined)
-        addItem(values);
+        addItem({...values, product: values.product});
+        onSearchProduct('')
       })
       .catch((error) => {
         console.log("Validate Failed:", error);
@@ -65,6 +69,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
+      setFilteredProduct(products);
     });
   }, []);
 
@@ -96,12 +101,13 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
             <Select
               showSearch
               allowClear
-              value={selectedProduct ? selectedProduct.id : undefined}
+              filterOption={false}
+              value={selectedProduct ? selectedProduct.title : undefined}
               onChange={onChangeProduct}
-              filterOption={searchFilter} 
+              onSearch={onSearchProduct}
             >
-              {allProduct && allProduct.length > 0 ?
-                allProduct.map(product => (
+              {filteredProduct && filteredProduct.length > 0 ?
+                filteredProduct.map(product => (
                   <Option id={product.id} key={product.id} value={product.id} title={product.title}>
                     {product.title}
                   </Option>
