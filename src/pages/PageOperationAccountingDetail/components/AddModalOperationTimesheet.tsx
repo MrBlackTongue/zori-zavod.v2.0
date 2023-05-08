@@ -123,14 +123,27 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
           label="Результат"
           name="fact"
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber style={{width: "100%"}} min={0}/>
         </Form.Item>
         <Form.Item
           label="Часы"
           name="hours"
-          rules={[{required: true, message: 'напишите часы'}]}
+          rules={[
+            {required: true, message: 'напишите часы'},
+            {type: 'number', min: 0.1, message: 'часы должны быть больше 0,1'}
+          ]}
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber
+            style={{width: "100%"}}
+            min={0.1}
+            formatter={(value) => `${value}`.replace('.', ',')}
+            parser={(displayValue: string | undefined): number => {
+              if (displayValue === undefined) {
+                return 0;
+              }
+              return parseFloat(displayValue.replace(',', '.'));
+            }}
+          />
         </Form.Item>
       </Form>
     </Modal>

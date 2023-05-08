@@ -17,27 +17,17 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
   const [filteredEmployee, setFilteredEmployee] = useState<TypeEmployee[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<TypeEmployee>();
-  const [employee, setEmployee] = useState<TypeEmployee>()
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = (values: string, option: any): TypeEmployee | undefined => {
-    if (values === undefined) {
-      setSelectedEmployee(undefined);
-      form.setFieldsValue({employee: undefined});
-      return undefined;
-    }
-    const employee: TypeEmployee = {
-      id: option.id,
-    };
-    form.setFieldsValue({
-      employee: employee
-    });
-    setSelectedEmployee(employee)
-    return employee
+  const onChangeEmployee = (value: string): TypeEmployee | undefined => {
+    const selectedEmployee = allEmployee?.find(employee => employee.id === parseInt(value));
+    form.setFieldsValue({employee: selectedEmployee});
+    setSelectedEmployee(selectedEmployee)
+    return selectedEmployee
   };
 
   // Поиск по сотрудникам
-  const onSearchEmployee = (searchText: string) => {
+  const onSearchEmployee = useCallback((searchText: string) => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {
@@ -54,9 +44,9 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
 
         return lastNameMatch || firstNameMatch;
       });
-      setFilteredEmployee(filtered || []);
+      setFilteredEmployee(prevState => filtered || prevState);
     }
-  };
+  }, [allEmployee]);
 
   // Функция подтверждения добавления сотрудника в табель учета рабочего времени
   const handleOk = () => {
@@ -65,6 +55,7 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
       .then((values) => {
         updateItem(values);
         closeDrawer()
+        onSearchEmployee('');
       })
       .catch((info) => {
         console.log('Validate Failed:', info)
@@ -79,33 +70,27 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
         console.error("Ошибка при получении данных об учетной операции: ", error)
       });
     }
-    setSelectedEmployee(employee);
     closeDrawer();
   };
 
   // Функция для получения информации о табеле учета рабочего времени и установления значений полей формы
   const getOperationTimesheet = useCallback(async (itemId: number) => {
     const operationTimesheet = await getOperationTimesheetById(itemId);
-    console.log('operationTimesheet', operationTimesheet)
-    // form.setFieldsValue({
-    //   fact: operationTimesheet?.fact,
-    //   operation: operationTimesheet?.operation,
-    //   output: operationTimesheet?.output,
-    // });
-    // setSelectedEmployee(operationTimesheet?.employee);
-    // setEmployee(operationTimesheet?.employee);
+    form.setFieldsValue({
+      hours: operationTimesheet?.hours,
+      employee: operationTimesheet?.employee,
+      fact: operationTimesheet?.fact,
+    });
+    setSelectedEmployee(operationTimesheet?.employee);
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (selectedItemId) {
-        await getOperationTimesheet(selectedItemId);
-      }
-    };
-    fetchData().catch((error) => {
-      console.error("Ошибка при получении данных об учетной операции: ", error)
-    });
-  }, [selectedItemId, getOperationTimesheet]);
+    if (selectedItemId) {
+      getOperationTimesheet(selectedItemId).catch((error) => console.error(error));
+    } else {
+      setSelectedEmployee(undefined);
+    }
+  }, [selectedItemId]);
 
   useEffect(() => {
     getAllEmployee().then((allEmployee) => {
@@ -134,8 +119,6 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
-        // initialValues={{
-        // }}
       >
         <Form.Item
           label="Сотрудник"
@@ -147,8 +130,11 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
               showSearch
               allowClear
               filterOption={false}
+              value={selectedEmployee
+                ? (
+                  `${selectedEmployee?.lastName} ${selectedEmployee?.firstName}`
+                ) : undefined}
               onChange={onChangeEmployee}
-              // onClear={onClearEmployee}
               onSearch={onSearchEmployee}
             >
               {filteredEmployee && filteredEmployee.length > 0 ?
@@ -164,14 +150,27 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
           label="Результат"
           name="fact"
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber style={{width: "100%"}} min={0}/>
         </Form.Item>
         <Form.Item
           label="Часы"
           name="hours"
-          rules={[{required: true, message: 'напишите часы'}]}
+          rules={[
+            {required: true, message: 'напишите часы'},
+            {type: 'number', min: 0.1, message: 'часы должны быть больше 0,1'}
+          ]}
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber
+            style={{width: "100%"}}
+            min={0.1}
+            formatter={(value) => `${value}`.replace('.', ',')}
+            parser={(displayValue: string | undefined): number => {
+              if (displayValue === undefined) {
+                return 0;
+              }
+              return parseFloat(displayValue.replace(',', '.'));
+            }}
+          />
         </Form.Item>
       </Form>
     </Drawer>
