@@ -1,5 +1,5 @@
 import {TypeProduct} from "../types";
-import {URL, PRODUCT_GROUP, GROUP} from "./apiEndpoints";
+import {URL, PRODUCT_GROUP, GROUP, ROOTS, CHILDREN} from "./apiEndpoints";
 import {message} from "antd";
 
 // Получить список всех товарных групп
@@ -93,5 +93,35 @@ export function putChangeProductGroup(data: TypeProduct) {
       .catch(error => console.error(error))
   } catch (error) {
     console.error(error);
+  }
+}
+
+// Получить родительские группы товаров
+export async function getRootsProductGroup(): Promise<TypeProduct[]> {
+  try {
+    const res = await fetch(URL + PRODUCT_GROUP + GROUP + ROOTS);
+    if (!res.ok) {
+      console.error(res.statusText);
+      return Promise.reject();
+    }
+    return await res.json() as TypeProduct[];
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+// Получить дочерние товарные группы по id родителя
+export async function getChildrenProductGroup(parentId: number): Promise<TypeProduct[]> {
+  try {
+    const res = await fetch(URL + PRODUCT_GROUP + GROUP + CHILDREN + '/' + parentId);
+    if (!res.ok) {
+      console.error(res.statusText);
+      return Promise.reject();
+    }
+    return await res.json() as TypeProduct[];
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
   }
 }
