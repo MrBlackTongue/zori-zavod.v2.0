@@ -209,7 +209,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
     );
   };
 
-  // Функция для обновления таблицы товаров
+  // Функция для обновления таблицы
   const updateTable = () => {
     setLoading(true);
     getAllOperationAccounting().then((allOperationAccounting) => {

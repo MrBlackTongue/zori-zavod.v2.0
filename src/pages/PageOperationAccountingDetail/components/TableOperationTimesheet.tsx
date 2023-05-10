@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
@@ -81,7 +81,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
     },
   ];
 
-  // Получить табель учета рабочего времени по всем сотрудникам
+  // Обновить табель учета рабочего времени по всем сотрудникам
   const updateOperationTimesheet = useCallback(() => {
     if (idDetail) {
       setLoading(true);

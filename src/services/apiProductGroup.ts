@@ -1,11 +1,26 @@
-import {TypeOperationTimesheet} from "../types";
+import {TypeProduct} from "../types";
+import {URL, PRODUCT_GROUP, GROUP} from "./apiEndpoints";
 import {message} from "antd";
-import {URL, OPERATION_ACCOUNTING, OPERATION_TIMESHEET} from "./apiEndpoints";
 
-// Получить данные табеля рабочего времени по id учетной операции
-export async function getOperationTimesheetByIdOperationAccounting(id: number): Promise<TypeOperationTimesheet[] | undefined> {
+// Получить список всех товарных групп
+export async function getAllProductGroup(): Promise<TypeProduct[]> {
   try {
-    const response = await fetch(URL + OPERATION_TIMESHEET + OPERATION_ACCOUNTING + `/${id}`);
+    const res = await fetch(URL + PRODUCT_GROUP + GROUP);
+    if (!res.ok) {
+      console.error(res.statusText);
+      return Promise.reject();
+    }
+    return await res.json() as TypeProduct[];
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+// Получить данные товарной группы по id
+export async function getProductGroupById(id: number): Promise<TypeProduct | undefined> {
+  try {
+    const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -17,30 +32,15 @@ export async function getOperationTimesheetByIdOperationAccounting(id: number): 
   }
 }
 
-// Получить данные сотрудника из табеля учета рабочего времени по id
-export async function getOperationTimesheetById(id: number): Promise<TypeOperationTimesheet | undefined> {
-  try {
-    const response = await fetch(URL + OPERATION_TIMESHEET + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-}
-
-// Добавить табель учета рабочего времени
-export function postNewOperationTimesheet(data: TypeOperationTimesheet) {
+// Добавить новую товарную группу
+export function postNewProductGroup(data: TypeProduct) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + OPERATION_TIMESHEET, config)
+    fetch(URL + PRODUCT_GROUP + GROUP, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -49,16 +49,16 @@ export function postNewOperationTimesheet(data: TypeOperationTimesheet) {
           return message.error('Ошибка при добавлении записи');
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
   } catch (error) {
     console.error(error);
   }
 }
 
-// Удалить табель учета рабочего времени по id
-export async function deleteOperationTimesheetById(id: number) {
+// Удалить товарную группу по id
+export async function deleteProductGroupById(id: number) {
   try {
-    const response = await fetch(URL + OPERATION_TIMESHEET + `/${id}`, {
+    const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -73,15 +73,15 @@ export async function deleteOperationTimesheetById(id: number) {
   }
 }
 
-// Редактировать табель учета рабочего времени
-export function putChangeOperationTimesheet(data: TypeOperationTimesheet) {
+// Редактировать товарную группу
+export function putChangeProductGroup(data: TypeProduct) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + OPERATION_TIMESHEET, config)
+    fetch(URL + PRODUCT_GROUP + GROUP, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');

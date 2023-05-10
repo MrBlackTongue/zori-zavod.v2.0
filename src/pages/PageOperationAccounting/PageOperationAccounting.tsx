@@ -58,7 +58,7 @@ export const PageOperationAccounting: React.FC = () => {
     postNewOperationAccounting(operationAccounting)
     setDate(date)
     setSelectedOperationAccountingById(selectedOperationAccountingById)
-    setUpdateTable(!updateTable)
+    setUpdateTable(prevState => !prevState)
     return values;
   };
 
@@ -93,14 +93,14 @@ export const PageOperationAccounting: React.FC = () => {
     putChangeOperationAccounting(operationAccounting)
     setDate(date)
     setSelectedOperationAccountingById(selectedOperationAccountingById)
-    setUpdateTable(!updateTable)
+    setUpdateTable(prevState => !prevState)
     return values;
   };
 
-  // Удалить строку из таблицы
+  // Удалить запись из таблицы
   const handleDeleteOperationAccounting = async (id: number) => {
     await deleteOperationAccountingById(id)
-    setUpdateTable(!updateTable)
+    setUpdateTable(prevState => !prevState)
   };
 
   useEffect(() => {
@@ -138,7 +138,7 @@ export const PageOperationAccounting: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить

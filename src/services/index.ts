@@ -11,6 +11,7 @@ export * from './apiProductMovementHistory';
 export * from './apiStock';
 export * from './apiAcceptance';
 export * from './apiOperationAccounting';
+export * from './apiProductGroup';
 export * from './apiOperationTimesheet';
 export * from './apiShipment';
 export * from './apiShipmentProductMovement'
