@@ -18,14 +18,14 @@ export async function getAllProductMovementByShipmentId(id: number): Promise<Typ
 }
 
 // Добавить новый товар в отгрузку
-export async function postNewShipmentProductMovement(data: TypeShipmentProductMovement) {
+export function postNewShipmentProductMovement(data: TypeShipmentProductMovement) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    await fetch(URL + MOVEMENT + SHIPMENT, config)
+    fetch(URL + MOVEMENT + SHIPMENT, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');

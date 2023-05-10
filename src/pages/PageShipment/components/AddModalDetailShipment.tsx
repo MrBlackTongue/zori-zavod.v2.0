@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeStock, TypeShipmentProductMovement} from "../../../types";
-import {Form, InputNumber, Modal, Select} from "antd";
+import {Form, InputNumber, message, Modal, Select} from "antd";
 import {getAllStock} from "../../../services";
+
 const {Option} = Select;
 
 
@@ -12,36 +13,58 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
                                                                                              }) => {
   const [form] = Form.useForm();
 
-  // Состояния для всех товаров на складе и выбранного товара
+  // Состояния для всех товаров на складе и выбранного товара, отфильтрованные товары
   const [allStock, setAllStock] = useState<TypeStock[]>();
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
+  const [filteredStock, setFilteredStock] = useState<TypeStock[]>([]);
 
-  // Функция изменения выбранного товара
-  const onChangeStock = (values: string, option: any): TypeStock => {
-    const stock: TypeStock = {
-      id: option.id,
-    };
+  // Функция изменения выбранного товара на складе
+  const onChangeStock = (value: string): TypeStock | undefined => {
+    const selectedStock = allStock?.find(stock => stock.id === parseInt(value));
     form.setFieldsValue({
-      stock: stock
+      stock: selectedStock
     });
-    setSelectedStock(stock)
-    return stock
+    setSelectedStock(selectedStock)
+    return selectedStock
   };
 
-  // Функция очистки выбранного товара
-  const onClearStock = (): void => {
-    form.setFieldsValue({operation: undefined});
-    setSelectedStock(undefined);
-  }
+  // Поиск по товарам на складе
+  const onSearchStock = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredStock(allStock || []);
+    } else {
+      const searchLowerCase = searchText.toLowerCase();
+      const filtered = allStock?.filter((stock) => {
+        const titleMatch = stock?.product && stock.product.title
+          ? stock.product.title.toLowerCase().includes(searchLowerCase)
+          : false;
+
+        const idMatch = stock.id?.toString().includes(searchText);
+
+        return titleMatch || idMatch;
+      });
+      setFilteredStock(prevState => filtered || prevState);
+    }
+  };
 
   // Функция подтверждения добавления нового товара
   const handleOk = () => {
+    const enteredAmount = form.getFieldValue("amount");
+    if (selectedStock?.amount === 0) {
+      message.warning("Выбранного товара не осталось на складе");
+      return;
+    }
+    if (enteredAmount && selectedStock?.amount && enteredAmount > selectedStock.amount) {
+      message.warning("Введенное количество превышает количество товара на складе");
+      return;
+    }
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
         setSelectedStock(undefined)
         addItem(values);
+        onSearchStock('');
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
@@ -59,8 +82,9 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   useEffect(() => {
     getAllStock().then((stocks) => {
       setAllStock(stocks);
+      setFilteredStock(stocks);
     });
-  }, []);
+  }, [onCancel]);
 
   return (
     <Modal
@@ -74,15 +98,13 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public'
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Товар"
+          label="Товар на складе"
           name="stock"
           rules={[{required: true, message: 'выберите товар'}]}
         >
@@ -90,13 +112,17 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
             <Select
               showSearch
               allowClear
-              value={selectedStock ? selectedStock.product?.title : undefined}
+              filterOption={false}
+              value={
+              selectedStock
+                ? `${selectedStock.product?.title}, ID: ${selectedStock.id}, ${selectedStock?.amount}`
+                : undefined}
               onChange={onChangeStock}
-              onClear={onClearStock}
+              onSearch={onSearchStock}
             >
-              {allStock && allStock.length > 0
-                ? allStock.map((stock) => (
-                  <Option id={stock.id} key={stock.id} value={stock.product?.title}>
+              {filteredStock && filteredStock.length > 0
+                ? filteredStock.map((stock) => (
+                  <Option id={stock.id} key={stock.id} value={stock.id}>
                     {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
                   </Option>
                 ))
