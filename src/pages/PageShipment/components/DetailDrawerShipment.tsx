@@ -28,8 +28,7 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
       income: false
     };
     setIsModalOpen(false)
-    postNewShipmentProductMovement(productMovement)
-    setUpdateTable(!updateTable)
+    postNewShipmentProductMovement(productMovement).then(() => setUpdateTable(!updateTable))
   };
 
   // Функция для получения данных об отгрузке по ID и обновления формы
