@@ -1,29 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, Popconfirm, Space, Table, Tooltip,} from 'antd';
+import {DeleteOutlined} from "@ant-design/icons";
 import type {ColumnsType} from 'antd/es/table';
-import {deleteShipmentProductMovementById, getAllProductMovementByShipmentId} from "../../../services";
+import {getAllProductMovementByShipmentId} from "../../../services";
 import {TableProps, TypeShipment, TypeStock, TypeShipmentProductMovement} from "../../../types";
 import dayjs from 'dayjs';
-import {DeleteOutlined} from "@ant-design/icons";
 
 export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
                                                                           isUpdateTable,
-                                                                          idDetail
+                                                                          idDetail,
+                                                                          onDelete,
                                                                         }) => {
   // Состояния для лоадера и списка всех товаров в отгрузке
   const [loading, setLoading] = useState(false);
   const [allShipmentMovement, setAllShipmentMovement] = useState<TypeShipmentProductMovement[]>();
-
-  // Функция получения всех движений товаров отгрузки
-  const getAllProductMovement = () => {
-    setLoading(true);
-    if (idDetail) {
-      getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
-        setAllShipmentMovement(allShipmentMovement);
-        setLoading(false);
-      });
-    }
-  };
 
   // Колонки в таблице
   const columns: ColumnsType<TypeShipmentProductMovement> = [
@@ -50,7 +40,8 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
+      sorter: (a, b) =>
+        (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
     },
     {
       title: 'Действия',
@@ -64,15 +55,10 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этот товар?"
-              onConfirm={() => {
-                deleteShipmentProductMovementById(id).then(() => {
-                  if (idDetail)
-                    getAllProductMovementByShipmentId(idDetail)
-                      .then((allShipmentMovement) => setAllShipmentMovement(allShipmentMovement))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
-              cancelText="Отмена">
+              cancelText="Отмена"
+            >
               <Button type="primary" size="small" shape="circle"
                       style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
@@ -84,9 +70,19 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
     },
   ];
 
-  // Получение данных по всем товарам в отгрузке
+  // Функция для обновления таблицы
+  const updateTable = () => {
+    setLoading(true);
+    if (idDetail) {
+      getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
+        setAllShipmentMovement(allShipmentMovement);
+        setLoading(false);
+      });
+    }
+  };
+
   useEffect(() => {
-    getAllProductMovement()
+    updateTable()
   }, [idDetail, isUpdateTable]);
 
   return (

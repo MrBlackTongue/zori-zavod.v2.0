@@ -13,58 +13,56 @@ const {Title} = Typography;
 
 export const PageShipment: React.FC = () => {
 
-  // Состояние для обновления таблицы
+  // Состояние для обновления таблицы, выбранна отгрузка по id
   const [updateTable, setUpdateTable] = useState(false);
-
-  // Состояния для хранения ID отгрузки
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 
   // Состояния для контроля открытия/закрытия модалки и драверов
-  const [openStates, setOpenStates] = useState({
+  const [openState, setOpenState] = useState({
     isModalOpen: false,
     isDrawerOpen: false,
     isBottomDrawerOpen: false,
   });
 
-  // Функция добавления новой отгрузки с использованием useCallback для предотвращения ненужных рендеров
-  const addShipment = useCallback((values: { [key: string]: any }): void => {
+  // Функция добавления новой отгрузки
+  const handleAddShipment = useCallback((values: { [key: string]: any }): void => {
     const shipment: TypeShipment = {
       date: values['date'].format('YYYY-MM-DD'),
       client: values.client,
     };
-    setOpenStates({...openStates, isModalOpen: false});
+    setOpenState({...openState, isModalOpen: false});
     postNewShipment(shipment);
-    setUpdateTable(!updateTable);
-  }, [openStates]);
+    setUpdateTable(prevState => !prevState);
+  }, [openState]);
 
-  // Функция открытия дравера редактирования отгрузки с использованием useCallback
+  // Функция открытия дравера редактирования отгрузки
   const openDrawer = useCallback((shipmentId: number) => {
     setSelectedShipmentId(shipmentId);
-    setOpenStates({...openStates, isDrawerOpen: true});
-  }, [openStates]);
+    setOpenState({...openState, isDrawerOpen: true});
+  }, [openState]);
 
   // Функция открытия детального дравера отгрузки с использованием useCallback
   const openDetailShipment = useCallback((shipmentId: number) => {
     setSelectedShipmentId(shipmentId);
-    setOpenStates({...openStates, isBottomDrawerOpen: true});
-  }, [openStates]);
+    setOpenState({...openState, isBottomDrawerOpen: true});
+  }, [openState]);
 
-  // Функция обновления отгрузки с использованием useCallback для предотвращения ненужных рендеров
-  const updateShipment = useCallback((values: { [key: string]: any }): void => {
+  // Функция обновления отгрузки
+  const handleUpdateShipment = useCallback((values: { [key: string]: any }): void => {
     const shipment: TypeShipment = {
-      date: values['date'].format('YYYY-MM-DD'),
       id: selectedShipmentId,
+      date: values['date'].format('YYYY-MM-DD'),
       client: values.client,
     };
-    setOpenStates({...openStates, isDrawerOpen: false});
+    setOpenState({...openState, isDrawerOpen: false});
     putChangeShipment(shipment);
-    setUpdateTable(!updateTable);
-  }, [openStates, selectedShipmentId]);
+    setUpdateTable(prevState => !prevState);
+  }, [openState, selectedShipmentId]);
 
-  // Удалить строку из таблицы
+  // Удалить запись из таблицы
   const handleDeleteShipment = async (id: number) => {
     await deleteShipmentById(id)
-    setUpdateTable(!updateTable)
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -75,14 +73,14 @@ export const PageShipment: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setUpdateTable(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => setOpenStates({...openStates, isModalOpen: true})}
+            onClick={() => setOpenState({...openState, isModalOpen: true})}
           >
             Добавить
           </Button>
@@ -96,20 +94,20 @@ export const PageShipment: React.FC = () => {
         openDetailDrawer={openDetailShipment}
       />
       <AddModalShipment
-        isOpen={openStates.isModalOpen}
-        addItem={addShipment}
-        onCancel={() => setOpenStates({...openStates, isModalOpen: false})}
+        isOpen={openState.isModalOpen}
+        addItem={handleAddShipment}
+        onCancel={() => setOpenState({...openState, isModalOpen: false})}
       />
       <EditDrawerShipment
-        isOpen={openStates.isDrawerOpen}
+        isOpen={openState.isDrawerOpen}
         selectedItemId={selectedShipmentId}
-        updateItem={updateShipment}
-        closeDrawer={() => setOpenStates({...openStates, isDrawerOpen: false})}
+        updateItem={handleUpdateShipment}
+        closeDrawer={() => setOpenState({...openState, isDrawerOpen: false})}
       />
       <DetailDrawerShipment
         selectedItemId={selectedShipmentId}
-        isOpen={openStates.isBottomDrawerOpen}
-        closeDrawer={() => setOpenStates({...openStates, isBottomDrawerOpen: false})}
+        isOpen={openState.isBottomDrawerOpen}
+        closeDrawer={() => setOpenState({...openState, isBottomDrawerOpen: false})}
       />
     </div>
   );

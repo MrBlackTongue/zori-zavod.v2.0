@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeStock, TypeShipmentProductMovement} from "../../../types";
 import {Form, InputNumber, message, Modal, Select} from "antd";
 import {getAllStock} from "../../../services";
@@ -21,10 +21,9 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   // Функция изменения выбранного товара на складе
   const onChangeStock = (value: string): TypeStock | undefined => {
     const selectedStock = allStock?.find(stock => stock.id === parseInt(value));
-    form.setFieldsValue({
-      stock: selectedStock
-    });
+    form.setFieldsValue({stock: selectedStock});
     setSelectedStock(selectedStock)
+    onSearchStock('')
     return selectedStock
   };
 
@@ -80,9 +79,9 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
 
   // Получение списка всех товаров на складе
   useEffect(() => {
-    getAllStock().then((stocks) => {
-      setAllStock(stocks);
-      setFilteredStock(stocks);
+    getAllStock().then((allStock) => {
+      setAllStock(allStock);
+      setFilteredStock(allStock);
     });
   }, [onCancel]);
 
@@ -114,9 +113,9 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
               allowClear
               filterOption={false}
               value={
-              selectedStock
-                ? `${selectedStock.product?.title}, ID: ${selectedStock.id}, ${selectedStock?.amount}`
-                : undefined}
+                selectedStock
+                  ? `${selectedStock.product?.title}, ID: ${selectedStock.id}, ${selectedStock?.amount}`
+                  : undefined}
               onChange={onChangeStock}
               onSearch={onSearchStock}
             >

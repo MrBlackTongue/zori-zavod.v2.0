@@ -1,9 +1,13 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Space} from "antd";
 import {DetailProps, TypeShipment, TypeShipmentProductMovement} from "../../../types";
 import {TableDetailShipment} from "./TableDetailShipment";
 import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
-import {getShipmentById, postNewShipmentProductMovement} from "../../../services";
+import {
+  deleteShipmentProductMovementById,
+  getShipmentById,
+  postNewShipmentProductMovement
+} from "../../../services";
 import {AddModalDetailShipment} from "./AddModalDetailShipment";
 
 
@@ -13,13 +17,13 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
                                                                             selectedItemId
                                                                           }) => {
 
-  // Состояния для обновления таблицы, модального окна и выбранной отгрузки
+  // Состояния для обновления таблицы, модального окна, выбранная отгрузка
   const [updateTable, setUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Функция добавления нового товара в отгрузку
-  const addShipmentMovement = (values: { [key: string]: any }): void => {
+  const handleAddShipmentMovement = (values: { [key: string]: any }): void => {
     const productMovement: TypeShipmentProductMovement = {
       date: selectedShipment?.date,
       stock: values['stock'],
@@ -32,14 +36,19 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
     setUpdateTable(prevState => !prevState)
   };
 
-  // Функция для получения данных об отгрузке по ID и обновления формы
+  // Удалить запись из таблицы
+  const handleDeleteShipmentMovement = async (id: number) => {
+    await deleteShipmentProductMovementById(id)
+    setUpdateTable(prevState => !prevState)
+  };
+
+  // Функция для получения данных об отгрузке по id и обновления формы
   const handleGetShipmentById = useCallback(() => {
     if (selectedItemId) {
       getShipmentById(selectedItemId).then((shipment) => setSelectedShipment(shipment))
     }
   }, [selectedItemId]);
 
-  // Эффект для вызова handleGetShipmentById при изменении selectedItemId
   useEffect(() => {
     handleGetShipmentById();
   }, [selectedItemId, handleGetShipmentById]);
@@ -56,7 +65,7 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -74,10 +83,11 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
       <TableDetailShipment
         isUpdateTable={updateTable}
         idDetail={selectedShipment?.id}
+        onDelete={handleDeleteShipmentMovement}
       />
       <AddModalDetailShipment
         isOpen={isModalOpen}
-        addItem={addShipmentMovement}
+        addItem={handleAddShipmentMovement}
         onCancel={() => setIsModalOpen(false)}
       />
     </Drawer>

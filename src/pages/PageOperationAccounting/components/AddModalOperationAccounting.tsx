@@ -49,6 +49,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
       output: selectedOutput
     });
     setSelectedOutput(selectedOutput);
+    onSearchOutput('')
     return selectedOutput;
   };
 

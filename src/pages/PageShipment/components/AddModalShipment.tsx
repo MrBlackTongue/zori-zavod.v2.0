@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {AddModalProps, TypeShipment, TypeClient} from "../../../types";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllClient} from "../../../services";
@@ -18,14 +18,12 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
 
   // Функция для изменения выбранного клиента
-  const onChangeClient = useCallback((values: string, option: any): TypeClient => {
+  const onChangeClient = useCallback((value: string, option: any): TypeClient => {
     const client: TypeClient = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      client: client
-    });
+    form.setFieldsValue({client: client});
     setSelectedClient(client)
     return client
   }, [form]);
@@ -57,10 +55,9 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
     setSelectedClient(undefined)
   }
 
-  // Эффект для получения всех клиентов и установки их в состояние allClient
   useEffect(() => {
-    getAllClient().then((clients) => {
-      setAllClient(clients);
+    getAllClient().then((allClient) => {
+      setAllClient(allClient);
     });
   }, []);
 
@@ -76,9 +73,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
     >
       <Form
         form={form}
-        initialValues={{
-          modifier: 'public'
-        }}
+        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}

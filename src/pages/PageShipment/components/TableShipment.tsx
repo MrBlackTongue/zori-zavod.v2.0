@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
@@ -28,16 +28,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
     },
   });
 
-  // Функция получения всех загрузок
-  const findAllShipment = () => {
-    setLoading(true);
-    getAllShipment().then((allShipment) => {
-      setAllShipment(allShipment);
-      setLoading(false);
-    });
-  };
-
-  // Определение колонок для таблицы отгрузок
+  // Колонки в таблице
   const columns: ColumnsType<TypeShipment> = [
     {
       title: 'ID',
@@ -65,18 +56,15 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: (id => (
+      render: ((id: number) => (
         <Space>
           <Tooltip title="Подробнее" placement="bottomRight">
             <Button
               type="primary"
               size="small"
               shape="circle"
-              onClick={() => {
-                if (openDetailDrawer && id !== undefined) {
-                  openDetailDrawer(id)
-                }
-              }}>
+              onClick={() => openDetailDrawer && id && openDetailDrawer(id)}
+            >
               <DownOutlined/>
             </Button>
           </Tooltip>
@@ -86,7 +74,8 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer && openDrawer(id)}>
+              onClick={() => openDrawer && openDrawer(id)}
+            >
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -96,7 +85,8 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
               title="Вы действительно хотите удалить эту отгрузку?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
-              cancelText="Отмена">
+              cancelText="Отмена"
+            >
               <Button type="primary" size="small" shape="circle"
                       style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
@@ -108,7 +98,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
     },
   ];
 
-  // Функция обработки изменений в таблице, таких как пагинация и сортировка
+  // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
     sorter: SorterResult<TypeShipment>,
@@ -122,9 +112,17 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
     }
   };
 
-  // Получение списка всех отгрузок и установка состояний загрузки и списка отгрузок
+  // Функция для обновления таблицы
+  const updateTable = () => {
+    setLoading(true);
+    getAllShipment().then((allShipment) => {
+      setAllShipment(allShipment);
+      setLoading(false);
+    });
+  };
+
   useEffect(() => {
-    findAllShipment()
+    updateTable()
   }, [isUpdateTable]);
 
   return (
