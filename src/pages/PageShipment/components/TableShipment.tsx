@@ -29,10 +29,10 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
   });
 
   // Функция получения всех загрузок
-  const getAllShipments = () => {
+  const findAllShipment = () => {
     setLoading(true);
-    getAllShipment().then((allShipments) => {
-      setAllShipment(allShipments);
+    getAllShipment().then((allShipment) => {
+      setAllShipment(allShipment);
       setLoading(false);
     });
   };
@@ -118,13 +118,13 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllShipment([]);
+      setAllShipment(allShipment);
     }
   };
 
   // Получение списка всех отгрузок и установка состояний загрузки и списка отгрузок
   useEffect(() => {
-    getAllShipments()
+    findAllShipment()
   }, [isUpdateTable]);
 
   return (
@@ -132,7 +132,11 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       bordered
       columns={columns}
       dataSource={allShipment}
-      pagination={{position: [bottom]}}
+      pagination={{
+        position: [bottom],
+        current: tableParams?.pagination?.current,
+        pageSize: tableParams?.pagination?.pageSize,
+      }}
       loading={loading}
       onChange={handleTableChange}
     />

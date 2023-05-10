@@ -39,11 +39,6 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
     }
   }, [selectedItemId]);
 
-  // Функция закрытия детального дравера
-  const handleClose = () => {
-    closeDrawer()
-  }
-
   // Эффект для вызова handleGetShipmentById при изменении selectedItemId
   useEffect(() => {
     handleGetShipmentById();
@@ -55,8 +50,7 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
       placement={"bottom"}
       height={400}
       open={isOpen}
-      onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
+      onClose={closeDrawer}
       extra={
         <Space>
           <Button
@@ -79,7 +73,6 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
     >
       <TableDetailShipment
         isUpdateTable={updateTable}
-        openDrawer={() => {}}
         idDetail={selectedShipment?.id}
       />
       <AddModalDetailShipment

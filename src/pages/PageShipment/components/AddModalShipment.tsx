@@ -41,7 +41,6 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
     form
       .validateFields()
       .then((values) => {
-        console.log(values)
         form.resetFields();
         setSelectedClient(undefined)
         addItem(values);

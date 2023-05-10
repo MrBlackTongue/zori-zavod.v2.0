@@ -66,6 +66,7 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
     setSelectedClient(selectedClient)
   }
 
+  // Функция для сброса выбранного значения клиента в форме
   const onClearClient = (): void => {
     form.setFieldsValue({client: undefined});
     setSelectedClient(undefined);
@@ -73,8 +74,8 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
 
   // Эффект для получения всех клиентов и установки их в состояние allClient
   useEffect(() => {
-    getAllClient().then((clients) => {
-      setAllClient(clients);
+    getAllClient().then((allClient) => {
+      setAllClient(allClient);
     });
   }, []);
 

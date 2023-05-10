@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Popconfirm, Space, Table, Tooltip,} from 'antd';
 import type {ColumnsType} from 'antd/es/table';
-import {deleteShipmentProductMovementById, getAllProductMovementsByShipmentId} from "../../../services";
+import {deleteShipmentProductMovementById, getAllProductMovementByShipmentId} from "../../../services";
 import {TableProps, TypeShipment, TypeStock, TypeShipmentProductMovement} from "../../../types";
 import dayjs from 'dayjs';
 import {DeleteOutlined} from "@ant-design/icons";
@@ -15,11 +15,11 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
   const [allShipmentMovement, setAllShipmentMovement] = useState<TypeShipmentProductMovement[]>();
 
   // Функция получения всех движений товаров отгрузки
-  const getAllProductMovements = () => {
+  const getAllProductMovement = () => {
     setLoading(true);
     if (idDetail) {
-      getAllProductMovementsByShipmentId(idDetail).then((allShipmentMovements) => {
-        setAllShipmentMovement(allShipmentMovements);
+      getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
+        setAllShipmentMovement(allShipmentMovement);
         setLoading(false);
       });
     }
@@ -67,8 +67,8 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
               onConfirm={() => {
                 deleteShipmentProductMovementById(id).then(() => {
                   if (idDetail)
-                    getAllProductMovementsByShipmentId(idDetail)
-                      .then((allShipmentMovements) => setAllShipmentMovement(allShipmentMovements))
+                    getAllProductMovementByShipmentId(idDetail)
+                      .then((allShipmentMovement) => setAllShipmentMovement(allShipmentMovement))
                 })
               }}
               okText="Да"
@@ -86,7 +86,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
 
   // Получение данных по всем товарам в отгрузке
   useEffect(() => {
-    getAllProductMovements()
+    getAllProductMovement()
   }, [idDetail, isUpdateTable]);
 
   return (

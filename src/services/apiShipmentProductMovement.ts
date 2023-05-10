@@ -1,11 +1,11 @@
 import {message} from "antd";
-import {URL, SHIPMENT, MOVEMENT_SHIPMENT} from "./apiEndpoints";
-import {TypeShipmentProductMovement} from "../types/TypeShipmentProductMovement";
+import {URL, SHIPMENT, MOVEMENT} from "./apiEndpoints";
+import {TypeShipmentProductMovement} from "../types";
 
 // Получить все движения товаров по id отгрузки
-export async function getAllProductMovementsByShipmentId(id: number): Promise<TypeShipmentProductMovement[] | undefined> {
+export async function getAllProductMovementByShipmentId(id: number): Promise<TypeShipmentProductMovement[] | undefined> {
   try {
-    const response = await fetch(URL + MOVEMENT_SHIPMENT + SHIPMENT + `/${id}`);
+    const response = await fetch(URL + MOVEMENT + SHIPMENT + SHIPMENT + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -25,7 +25,7 @@ export async function postNewShipmentProductMovement(data: TypeShipmentProductMo
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    await fetch(URL + MOVEMENT_SHIPMENT, config)
+    await fetch(URL + MOVEMENT + SHIPMENT, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -43,7 +43,7 @@ export async function postNewShipmentProductMovement(data: TypeShipmentProductMo
 // Удалить товар из отгрузки по id
 export async function deleteShipmentProductMovementById(id: number) {
   try {
-    const response = await fetch(URL + MOVEMENT_SHIPMENT + `/${id}`, {
+    const response = await fetch(URL + MOVEMENT + SHIPMENT + `/${id}`, {
       method: 'DELETE',
     });
     const data = await response.json();

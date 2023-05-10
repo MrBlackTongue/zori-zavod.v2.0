@@ -19,4 +19,3 @@ export const OPERATION_ACCOUNTING = '/operation-accounting'
 export const OPERATION_TIMESHEET = '/operation-timesheet'
 export const FILTER = '/filter'
 export const SHIPMENT = '/shipment';
-export const MOVEMENT_SHIPMENT = '/movement/shipment';

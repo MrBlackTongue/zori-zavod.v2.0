@@ -39,7 +39,6 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
     form
       .validateFields()
       .then((values) => {
-        console.log(values)
         form.resetFields();
         setSelectedStock(undefined)
         addItem(values);
@@ -83,9 +82,9 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Выберите товар"
+          label="Товар"
           name="stock"
-          rules={[{required: true, message: 'выберите клиента'}]}
+          rules={[{required: true, message: 'выберите товар'}]}
         >
           <div>
             <Select

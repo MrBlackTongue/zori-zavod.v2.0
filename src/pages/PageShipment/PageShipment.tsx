@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {Typography, Space, Button} from 'antd';
+import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {postNewShipment, putChangeShipment, deleteShipmentById} from "../../services";
@@ -88,6 +88,7 @@ export const PageShipment: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableShipment
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
