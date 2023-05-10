@@ -23,6 +23,7 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
     const selectedEmployee = allEmployee?.find(employee => employee.id === parseInt(value));
     form.setFieldsValue({employee: selectedEmployee});
     setSelectedEmployee(selectedEmployee)
+    onSearchEmployee('')
     return selectedEmployee
   };
 

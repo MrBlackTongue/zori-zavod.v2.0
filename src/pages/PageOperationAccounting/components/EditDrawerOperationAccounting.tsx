@@ -45,6 +45,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
     form.setFieldsValue({output: selectedOutput});
     setSelectedOutput(selectedOutput);
+    onSearchOutput('')
     return selectedOutput;
   };
 
