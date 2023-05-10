@@ -1,4 +1,4 @@
-import {TypeProduct} from "../types";
+import {TypeProduct, TypeProductGroup} from "../types";
 import {URL, PRODUCT_GROUP, GROUP, ROOTS, CHILDREN} from "./apiEndpoints";
 import {message} from "antd";
 
@@ -18,19 +18,19 @@ export async function getAllProductGroup(): Promise<TypeProduct[]> {
 }
 
 // Получить данные товарной группы по id
-export async function getProductGroupById(id: number): Promise<TypeProduct | undefined> {
-  try {
-    const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-}
+// export async function getProductGroupById(id: number): Promise<TypeProduct | undefined> {
+//   try {
+//     const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`);
+//     if (!response.ok) {
+//       console.error(response.statusText);
+//       return Promise.reject();
+//     }
+//     return await response.json();
+//   } catch (error) {
+//     console.error(error);
+//     return Promise.reject(error);
+//   }
+// }
 
 // Добавить новую товарную группу
 export function postNewProductGroup(data: TypeProduct) {
@@ -120,6 +120,30 @@ export async function getChildrenProductGroup(parentId: number): Promise<TypePro
       return Promise.reject();
     }
     return await res.json() as TypeProduct[];
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+}
+
+// Получить данные товарной группы по id
+export async function getProductGroupById(id: number): Promise<TypeProductGroup | undefined> {
+  try {
+    const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`);
+    if (!response.ok) {
+      console.error(response.statusText);
+      return Promise.reject();
+    }
+    const productGroup = await response.json();
+    const parentResponse = await fetch(URL + PRODUCT_GROUP + GROUP + `/${productGroup.parent}`);
+
+    if (!parentResponse.ok) {
+      console.error(parentResponse.statusText);
+      return Promise.reject();
+    }
+
+    const parentGroup = await parentResponse.json();
+    return { ...productGroup, parent: parentGroup };
   } catch (error) {
     console.error(error);
     return Promise.reject(error);

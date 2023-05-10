@@ -20,7 +20,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
     form
       .validateFields()
       .then((values) => {
-        updateItem(values);
+        updateItem({ ...values, parentGroup: values.parentGroup });
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
@@ -30,7 +30,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
   useEffect(() => {
     if (selectedItemId) {
       getProductGroupById(selectedItemId).then((productGroup) => {
-        form.setFieldsValue(productGroup);
+        form.setFieldsValue({ ...productGroup, parentGroup: productGroup?.parent?.id });
       });
     }
   }, [selectedItemId]);

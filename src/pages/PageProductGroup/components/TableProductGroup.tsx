@@ -1,118 +1,76 @@
-import React, {useState, useEffect} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllProductGroup, deleteProductGroupById} from "../../../services";
-import {TableProps, TypeProductGroup, TableParams} from "../../../types";
+import React, { useState, useEffect } from 'react';
+import { Tree, Button, Space, Tooltip, Popconfirm } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import {getAllProductGroup, deleteProductGroupById, getChildrenProductGroup} from '../../../services';
+import { TypeProductGroup } from '../../../types';
 
-export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
-                                                                isUpdateTable,
-                                                                openDrawer,
-                                                              }) => {
-  type TablePaginationPosition = 'bottomCenter'
+interface ProductGroupTreeProps {
+  isUpdateTable: boolean;
+  openDrawer: (productGroupId: number) => void;
+}
 
-  // Лоудер и список всех клиентов
-  const [loading, setLoading] = useState(false);
-  const [addProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
+export const TableProductGroup: React.FC<ProductGroupTreeProps> = ({ isUpdateTable, openDrawer }) => {
+  const { TreeNode } = Tree;
 
-  // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
+  const [productGroups, setProductGroups] = useState<TypeProductGroup[]>([]);
 
-  // Колонки в таблице
-  const columns: ColumnsType<TypeProductGroup> = [
-    {
-      title: 'Название',
-      dataIndex: 'title',
-      key: 'title',
-      defaultSortOrder: 'ascend',
-     // sorter: (a, b) => a.title < b.title ? -1 : 1,
-    },
-    {
-      title: 'Действия',
-      dataIndex: 'id',
-      key: 'id',
-      width: 100,
-      align: 'center',
-      render: ((id: number) => (
-        <Space>
-          <Tooltip title="Изменить" placement="bottomRight">
-            <Button
-              type="primary"
-              size="small"
-              shape="circle"
-              ghost
-              onClick={() => openDrawer && openDrawer(id)}>
-              <EditOutlined/>
-            </Button>
-          </Tooltip>
-          <Tooltip title="Удалить" placement="bottomRight">
-            <Popconfirm
-              placement="topRight"
-              title="Вы действительно хотите удалить этого клиента?"
-              onConfirm={() => {
-                deleteProductGroupById(id).then(() => {
-                  setAllProductGroup(addProductGroup?.filter((productGroup) => productGroup.id !== id));
-                });
-              }}
-              okText="Да"
-              cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
-              </Button>
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ))
-    },
-  ];
-
-  // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProductGroup>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductGroup(addProductGroup);
-    }
+  const getChildrenRecursively = async (group: TypeProductGroup): Promise<TypeProductGroup> => {
+    const children = await getChildrenProductGroup(group.id!);
+    const childNodes = await Promise.all(children.map(child => getChildrenRecursively(child)));
+    return { ...group, children: childNodes };
   };
 
-  // Функция для обновления таблицы
-  const updateTable = () => {
-    setLoading(true);
-    getAllProductGroup().then((allClients) => {
-      setAllProductGroup(allClients);
-      setLoading(false);
-    });
-  }
-
   useEffect(() => {
-    updateTable()
+    const fetchProductGroups = async () => {
+      const rootProductGroups = await getAllProductGroup();
+      const productGroupsWithChildren = await Promise.all(
+        rootProductGroups.map(group => getChildrenRecursively(group))
+      );
+      setProductGroups(productGroupsWithChildren);
+    };
+
+    fetchProductGroups();
   }, [isUpdateTable]);
 
+  useEffect(() => {
+    getAllProductGroup().then(setProductGroups);
+  }, [isUpdateTable]);
+
+  const renderTreeNodes = (data: TypeProductGroup[]): React.ReactNode =>
+    data.map((item) => {
+      if (item.children) {
+        return (
+          <TreeNode title={item.title} key={item.id?.toString() || 'unknown'}>
+            {renderTreeNodes(item.children)}
+          </TreeNode>
+        );
+      }
+      return (
+        <TreeNode
+          title={
+            <Space>
+              {item.title}
+              <Tooltip title="Редактировать">
+                <Button
+                  type="link"
+                  icon={<EditOutlined />}
+                  onClick={() => openDrawer(item.id!)}
+                  style={{ padding: 0 }}
+                />
+              </Tooltip>
+              {/* Rest of the code */}
+            </Space>
+          }
+          key={item.id?.toString() || 'unknown'}
+        />
+      );
+    });
+
   return (
-    <Table
-      bordered
-      columns={columns}
-      dataSource={addProductGroup}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
-      onChange={handleTableChange}
-    />
+    <Tree showLine defaultExpandedKeys={productGroups.map(group => group.id?.toString() || 'unknown')}>
+    {renderTreeNodes(productGroups)}
+    </Tree>
   );
 };
+
+export default TableProductGroup;
