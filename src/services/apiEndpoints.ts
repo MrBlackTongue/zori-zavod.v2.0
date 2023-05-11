@@ -19,5 +19,4 @@ export const OPERATION_ACCOUNTING = '/operation-accounting'
 export const OPERATION_TIMESHEET = '/operation-timesheet'
 export const FILTER = '/filter'
 export const PRODUCT_GROUP = '/product-group'
-export const ROOTS = '/roots'
-export const CHILDREN = '/children'
+export const SHIPMENT = '/shipment';
