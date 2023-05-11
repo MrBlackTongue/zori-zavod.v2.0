@@ -63,7 +63,7 @@ export function postNewStock(data: TypeStock) {
   }
 }
 
-// Получить остаток со склада по ID
+// Получить остаток со склада по id
 export async function getStockById(id: number): Promise<TypeStock | undefined> {
   try {
     const response = await fetch(URL + STOCK + `/${id}`);
@@ -78,7 +78,7 @@ export async function getStockById(id: number): Promise<TypeStock | undefined> {
   }
 }
 
-// Удаление  остатка по ID
+// Удаление  остатка по id
 export async function deleteStockById(id: number) {
   try {
     const response = await fetch(URL + STOCK + `/${id}`, {
@@ -93,7 +93,7 @@ export async function deleteStockById(id: number) {
     }
   } catch (err) {
     console.error(err);
-    message.error("Ошибка при удалении записи");
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 

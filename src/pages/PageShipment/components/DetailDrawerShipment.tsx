@@ -37,8 +37,8 @@ export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
   };
 
   // Удалить запись из таблицы
-  const handleDeleteShipmentMovement = async (id: number) => {
-    await deleteShipmentProductMovementById(id)
+  const handleDeleteShipmentMovement = (id: number) => {
+    deleteShipmentProductMovementById(id).catch((error) => console.error(error));
     setUpdateTable(prevState => !prevState)
   };
 

@@ -60,8 +60,8 @@ export const PageShipment: React.FC = () => {
   }, [openState, selectedShipmentId]);
 
   // Удалить запись из таблицы
-  const handleDeleteShipment = async (id: number) => {
-    await deleteShipmentById(id)
+  const handleDeleteShipment = (id: number) => {
+    deleteShipmentById(id).catch((error) => console.error(error));
     setUpdateTable(prevState => !prevState)
   };
 
