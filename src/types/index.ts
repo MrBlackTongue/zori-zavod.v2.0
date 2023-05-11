@@ -14,3 +14,5 @@ export * from './TypeAcceptance';
 export * from './TypeProductGroup';
 export * from './TypeOperationAccounting';
 export * from './TypeOperationTimesheet';
+export * from './TypeShipment';
+export * from './TypeShipmentProductMovement';

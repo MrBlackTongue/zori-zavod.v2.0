@@ -22,6 +22,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
       id: option.id,
     };
     form.setFieldsValue({employee: employee});
+    onSearchEmployee('')
     return employee
   }, [form]);
 
