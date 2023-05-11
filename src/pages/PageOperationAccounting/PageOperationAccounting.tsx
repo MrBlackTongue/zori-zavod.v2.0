@@ -98,8 +98,8 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Удалить запись из таблицы
-  const handleDeleteOperationAccounting = async (id: number) => {
-    await deleteOperationAccountingById(id)
+  const handleDeleteOperationAccounting = (id: number) => {
+    deleteOperationAccountingById(id).catch((error) => console.error(error));
     setUpdateTable(prevState => !prevState)
   };
 

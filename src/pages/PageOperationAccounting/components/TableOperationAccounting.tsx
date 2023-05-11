@@ -139,7 +139,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот учет операции?"
+              title="Вы действительно хотите удалить эту учетную операцию?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">

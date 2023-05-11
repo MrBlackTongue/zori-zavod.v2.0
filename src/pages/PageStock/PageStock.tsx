@@ -75,14 +75,10 @@ export const PageStock: React.FC = () => {
     return stock;
   };
 
-  // удалть запись из таблицы
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteStockById(id);
-      setUpdateTable(!updateTable);
-    } catch (error) {
-      console.error("Error deleting item:", error);
-    }
+  // Удалить запись из таблицы
+  const handleDelete = (id: number) => {
+    deleteStockById(id).catch((error) => console.error(error));
+    setUpdateTable(!updateTable);
   };
 
   useEffect(() => {

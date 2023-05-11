@@ -6,7 +6,8 @@ import '../../App.css'
 import {
   putChangeOperationAccounting,
   postNewOperationTimesheet,
-  deleteOperationTimesheetById, putChangeOperationTimesheet,
+  deleteOperationTimesheetById,
+  putChangeOperationTimesheet,
 } from "../../services";
 import {TypeOperationAccounting, TypeOperationTimesheet} from "../../types";
 import {TableOperationAccountingDetail} from "./components/TableOperationAccountingDetail";
@@ -83,8 +84,8 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }, [selectedOperationTimesheetId]);
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
-  const handleDeleteOperationTimesheet = useCallback(async (id: number) => {
-    await deleteOperationTimesheetById(id)
+  const handleDeleteOperationTimesheet = useCallback( (id: number) => {
+    deleteOperationTimesheetById(id).catch((error) => console.error(error));
     setUpdateTableOperationTimesheet(prevState => !prevState)
     setUpdateTableOperationAccountingDetail(prevState => !prevState)
   }, [id]);
