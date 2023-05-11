@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { AddModalProps, TypeProductGroup } from "../../../types";
-import { Form, Input, Modal, Select } from "antd";
-import { getAllProductGroup } from "../../../services";
-
-const { Option } = Select;
+import { Form, Input, Modal } from "antd";
 
 export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = ({
                                                                                   isOpen,
@@ -11,12 +8,8 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                   onCancel,
                                                                                 }) => {
   const [form] = Form.useForm();
-  const [parentGroups, setParentGroups] = useState<TypeProductGroup[]>([]);
 
-  useEffect(() => {
-    getAllProductGroup().then((allProductGroups) => setParentGroups(allProductGroups));
-  }, []);
-
+  // Функция подтверждения добавления
   const handleOk = () => {
     form
       .validateFields()
@@ -25,23 +18,23 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
         addItem(values);
       })
       .catch((info) => {
-        console.log("Validate failed:", info);
+        console.log('Validate failed:', info);
       });
-  };
+  }
 
   return (
     <Modal
-      title={`Добавить новую группу товаров`}
+      title={`Добавление новой группы товаров`}
       open={isOpen}
       onCancel={onCancel}
-      width={650}
-      okText={"Сохранить"}
-      cancelText={"Отмена"}
+      width={500}
+      okText={'Сохранить'}
+      cancelText={'Отмена'}
       onOk={handleOk}
     >
       <Form
         form={form}
-        initialValues={{ modifier: "public" }}
+        initialValues={{ modifier: 'public' }}
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
         style={{ marginTop: 30 }}
@@ -49,18 +42,9 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
         <Form.Item
           label="Название"
           name="title"
-          rules={[{ required: true, message: "введите название" }]}
+          rules={[{ required: true, message: 'введите название группы' }]}
         >
           <Input />
-        </Form.Item>
-        <Form.Item label="Родительская группа" name="parentId">
-          <Select placeholder="Выберите родительскую группу" allowClear>
-            {parentGroups.map((group) => (
-              <Option key={group.id} value={group.id}>
-                {group.title}
-              </Option>
-            ))}
-          </Select>
         </Form.Item>
       </Form>
     </Modal>

@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Button, Drawer, Form, Input, Space, Select } from "antd";
+import React, { useEffect } from "react";
+import { Button, Drawer, Form, Input, Space } from "antd";
 import { EditDrawerProps, TypeProductGroup } from "../../../types";
-import { getProductGroupById, getAllProductGroup} from "../../../services";
-
-const { Option } = Select;
+import { getProductGroupById } from "../../../services";
 
 export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>> = ({
-  isOpen,
-  selectedItemId,
-  closeDrawer,
-  updateItem,
-}) => {
+                                                                                      isOpen,
+                                                                                      selectedItemId,
+                                                                                      closeDrawer,
+                                                                                      updateItem,
+                                                                                    }) => {
   const [form] = Form.useForm();
-  const [allProductGroups, setAllProductGroups] = useState<TypeProductGroup[]>([]);
 
   // Функция подтверждения редактирования
   const handleOk = () => {
@@ -20,31 +17,25 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
     form
       .validateFields()
       .then((values) => {
-        updateItem({ ...values, parentGroup: values.parentGroup });
+        updateItem(values);
       })
       .catch((info) => {
-        console.log("Validate Failed:", info);
+        console.log('Validate Failed:', info);
       });
   };
 
   useEffect(() => {
     if (selectedItemId) {
       getProductGroupById(selectedItemId).then((productGroup) => {
-        form.setFieldsValue({ ...productGroup, parentGroup: productGroup?.parent?.id });
+        form.setFieldsValue(productGroup);
       });
     }
   }, [selectedItemId]);
 
-  useEffect(() => {
-    getAllProductGroup().then((productGroup) => {
-      setAllProductGroups(productGroup);
-    });
-  }, []);
-
   return (
     <Drawer
-      title="Редактирование товарной группы"
-      width={670}
+      title="Редактирование группы товаров"
+      width={600}
       open={isOpen}
       onClose={closeDrawer}
       bodyStyle={{ paddingBottom: 80 }}
@@ -57,22 +48,18 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
         </Space>
       }
     >
-      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} style={{ marginTop: 30 }}>
-        <Form.Item label="Название" name="title" rules={[{ required: true, message: "введите название" }]}>
-          <Input />
-        </Form.Item>
+      <Form
+        form={form}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        style={{ marginTop: 30 }}
+      >
         <Form.Item
-          label="Родительская группа"
-          name="parentGroup"
-          rules={[{ required: true, message: "выберите родительскую группу" }]}
+          label="Название"
+          name="title"
+          rules={[{ required: true, message: 'введите название группы' }]}
         >
-          <Select placeholder="Выберите родительскую группу">
-            {allProductGroups.map((group) => (
-              <Option key={group.id} value={group.id}>
-                {group.title}
-              </Option>
-            ))}
-          </Select>
+          <Input />
         </Form.Item>
       </Form>
     </Drawer>
