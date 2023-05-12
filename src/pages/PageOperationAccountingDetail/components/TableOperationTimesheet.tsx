@@ -81,7 +81,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
     },
   ];
 
-  // Обновить табель учета рабочего времени по всем сотрудникам
+  // Обновить таблицу
   const updateOperationTimesheet = useCallback(() => {
     if (idDetail) {
       setLoading(true);
@@ -93,9 +93,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
   }, [idDetail]);
 
   useEffect(() => {
-    if (idDetail || isUpdateTable) {
-      updateOperationTimesheet();
-    }
+    updateOperationTimesheet();
   }, [idDetail, isUpdateTable, updateOperationTimesheet]);
 
   return (

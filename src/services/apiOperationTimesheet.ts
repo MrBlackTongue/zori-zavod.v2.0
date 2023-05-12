@@ -61,8 +61,7 @@ export async function deleteOperationTimesheetById(id: number) {
     const response = await fetch(URL + OPERATION_TIMESHEET + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -70,6 +69,7 @@ export async function deleteOperationTimesheetById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
