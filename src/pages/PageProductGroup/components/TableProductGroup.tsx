@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllProductGroup, deleteProductGroupById} from "../../../services";
+import {deleteProductGroupById, getProductGroupTree} from "../../../services";
 import {TableProps, TypeProductGroup, TableParams, TypeProductGroupTree} from "../../../types";
 import type { TableRowSelection } from 'antd/es/table/interface';
 
@@ -59,7 +59,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
               title="Вы действительно хотите удалить эту группу товаров?"
               onConfirm={() => {
                 deleteProductGroupById(id).then(() => {
-                  getAllProductGroup().then((allProductGroup) =>
+                  getProductGroupTree().then((allProductGroup) =>
                     setAllProductGroup(allProductGroup));
                 });
               }}
@@ -106,7 +106,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
   // Функция для обновления таблицы
   const updateTable = () => {
     setLoading(true);
-    getAllProductGroup().then((allProductGroup) => {
+    getProductGroupTree().then((allProductGroup) => {
       setAllProductGroup(allProductGroup);
       setLoading(false);
     });

@@ -23,3 +23,4 @@ export const ROOTS = '/roots'
 export const CHILDREN = '/children'
 export const SHIPMENT = '/shipment';
 export const PRODUCTION = '/production';
+export const TREE = '/tree';
