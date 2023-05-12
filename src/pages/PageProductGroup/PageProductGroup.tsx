@@ -6,7 +6,7 @@ import { TypeProductGroup } from "../../types";
 import { TableProductGroup } from "./components/TableProductGroup";
 import { AddModalProductGroup } from "./components/AddModalProductGroup";
 import { EditDrawerProductGroup } from "./components/EditDrawerProductGroup";
-import { ProductGroupTree } from "./components/ProductGroupTree";
+// import { ProductGroupTree } from "./components/ProductGroupTree";
 
 const { Title } = Typography;
 
