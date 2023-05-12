@@ -22,3 +22,4 @@ export const PRODUCT_GROUP = '/product-group'
 export const ROOTS = '/roots'
 export const CHILDREN = '/children'
 export const SHIPMENT = '/shipment';
+export const PRODUCTION = '/production';
