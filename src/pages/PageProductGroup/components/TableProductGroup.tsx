@@ -4,9 +4,10 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllProductGroup, deleteProductGroupById} from "../../../services";
-import {TableProps, TypeProductGroup, TableParams} from "../../../types";
+import {TableProps, TypeProductGroup, TableParams, TypeProductGroupTree} from "../../../types";
+import type { TableRowSelection } from 'antd/es/table/interface';
 
-export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
+export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
                                                                             isUpdateTable,
                                                                             openDrawer,
                                                                           }) => {
@@ -14,7 +15,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
 
   // Лоудер и список всех групп товаров
   const [loading, setLoading] = useState(false);
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroupTree[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -26,7 +27,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeProductGroup> = [
+  const columns: ColumnsType<TypeProductGroupTree> = [
     {
       title: 'Название',
       dataIndex: 'title',
@@ -58,7 +59,8 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
               title="Вы действительно хотите удалить эту группу товаров?"
               onConfirm={() => {
                 deleteProductGroupById(id).then(() => {
-                  getAllProductGroup().then((allProductGroup) => setAllProductGroup(allProductGroup));
+                  getAllProductGroup().then((allProductGroup) =>
+                    setAllProductGroup(allProductGroup));
                 });
               }}
               okText="Да"
@@ -88,6 +90,19 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
     }
   };
 
+  // rowSelection objects indicates the need for row selection
+  const rowSelection: TableRowSelection<TypeProductGroupTree> = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    onSelect: (record, selected, selectedRows) => {
+      console.log(record, selected, selectedRows);
+    },
+    onSelectAll: (selected, selectedRows, changeRows) => {
+      console.log(selected, selectedRows, changeRows);
+    },
+  };
+
   // Функция для обновления таблицы
   const updateTable = () => {
     setLoading(true);
@@ -103,6 +118,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProductGroup}
@@ -113,7 +129,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
       }}
       loading={loading}
       onChange={handleTableChange}
+      rowSelection={{ ...rowSelection }}
     />
   );
-  
 };
