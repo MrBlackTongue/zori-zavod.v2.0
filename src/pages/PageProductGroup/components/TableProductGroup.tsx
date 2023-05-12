@@ -107,10 +107,18 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
   const updateTable = () => {
     setLoading(true);
     getProductGroupTree().then((allProductGroup) => {
-      setAllProductGroup(allProductGroup);
+      const updatedProductGroup = allProductGroup.map(group => {
+        if (group.children && group.children.length === 0) {
+          const { children, ...rest } = group;
+          return rest;
+        }
+        return group;
+      });
+      console.log(updatedProductGroup);
+      setAllProductGroup(updatedProductGroup);
       setLoading(false);
     });
-  }
+  };
 
   useEffect(() => {
     updateTable()

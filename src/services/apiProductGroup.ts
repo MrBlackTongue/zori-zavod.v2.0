@@ -33,7 +33,7 @@ export async function getAllProductGroup(): Promise<TypeProduct[]> {
 // }
 
 // Добавить новую товарную группу
-export function postNewProductGroup(data: TypeProduct) {
+export function postNewProductGroup(data: TypeProductGroup) {
   try {
     const config = {
       method: 'POST',
@@ -74,12 +74,17 @@ export async function deleteProductGroupById(id: number) {
 }
 
 // Редактировать товарную группу
-export function putChangeProductGroup(data: TypeProduct) {
+export function putChangeProductGroup(data: TypeProductGroup) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        id: data.id,
+        title: data.title,
+        parent: String(data.parent),  // convert to string
+        children: data?.children?.map(child => String(child)),  // convert each child to string
+      }),
     };
     fetch(URL + PRODUCT_GROUP + GROUP, config)
       .then(response => {
@@ -95,6 +100,7 @@ export function putChangeProductGroup(data: TypeProduct) {
     console.error(error);
   }
 }
+
 
 // Получить родительские группы товаров
 export async function getRootsProductGroup(): Promise<TypeProduct[]> {
