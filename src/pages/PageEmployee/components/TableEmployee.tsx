@@ -3,12 +3,13 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllEmployee, deleteEmployeeById} from "../../../services";
+import {getAllEmployee} from "../../../services";
 import {TableProps, TypeEmployee, TableParams} from "../../../types";
 
 export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
                                                                     isUpdateTable,
                                                                     openDrawer,
+                                                                    onDelete,
                                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -83,11 +84,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этого сотрудника?"
-              onConfirm={() => {
-                deleteEmployeeById(id).then(() => {
-                  getAllEmployee().then((allEmployees) => setAllEmployee(allEmployees))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

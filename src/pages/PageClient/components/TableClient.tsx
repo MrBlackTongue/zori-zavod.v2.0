@@ -3,12 +3,13 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllClient, deleteClientById} from "../../../services";
+import {getAllClient} from "../../../services";
 import {TableProps, TypeClient, TableParams} from "../../../types";
 
 export const TableClient: React.FC<TableProps<TypeClient>> = ({
                                                                 isUpdateTable,
                                                                 openDrawer,
+                                                                onDelete,
                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -56,11 +57,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этого клиента?"
-              onConfirm={() => {
-                deleteClientById(id).then(() => {
-                  getAllClient().then((allClients) => setAllClient(allClients))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

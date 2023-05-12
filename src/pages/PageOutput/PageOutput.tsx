@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewOutput, putChangeOutput} from "../../services";
+import {deleteOutputById, postNewOutput, putChangeOutput} from "../../services";
 import {TypeOutput} from "../../types";
 import {TableOutput} from "./components/TableOutput";
 import {AddModalOutput} from "./components/AddModalOutput";
@@ -21,7 +21,7 @@ export const PageOutput: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новый выпуск продукции
-  const addOutput = (values: { [key: string]: any }): TypeOutput => {
+  const handleAddOutput = (values: { [key: string]: any }): TypeOutput => {
     const output: TypeOutput = {
       date: values['date'].format('YYYY-MM-DD'),
       product: {
@@ -41,7 +41,7 @@ export const PageOutput: React.FC = () => {
   };
 
   // Обновить выпуск продукции
-  const updateOutput = (values: { [key: string]: any }): TypeOutput => {
+  const handleUpdateOutput = (values: { [key: string]: any }): TypeOutput => {
     const output: TypeOutput = {
       date: values['date'].format('YYYY-MM-DD'),
       product: {
@@ -53,6 +53,12 @@ export const PageOutput: React.FC = () => {
     putChangeOutput(output)
     setUpdateTable(!updateTable)
     return output
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteOutput = (id: number) => {
+    deleteOutputById(id).catch((error) => console.error(error));
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -80,16 +86,17 @@ export const PageOutput: React.FC = () => {
       <TableOutput
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteOutput}
       />
       <AddModalOutput
         isOpen={isModalOpen}
-        addItem={addOutput}
+        addItem={handleAddOutput}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerOutput
         isOpen={isDrawerOpen}
         selectedItemId={selectedOutputId}
-        updateItem={updateOutput}
+        updateItem={handleUpdateOutput}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

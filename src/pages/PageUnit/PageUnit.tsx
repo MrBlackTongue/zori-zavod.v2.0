@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewUnit, putChangeUnit} from "../../services";
+import {deleteUnitById, postNewUnit, putChangeUnit} from "../../services";
 import {TypeUnit} from "../../types";
 import {TableUnit} from "./components/TableUnit";
 import {AddModalUnit} from "./components/AddModalUnit";
@@ -21,7 +21,7 @@ export const PageUnit: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую единицу измерения
-  const addUnit = (values: { [key: string]: any }): TypeUnit => {
+  const handleAddUnit = (values: { [key: string]: any }): TypeUnit => {
     const unit: TypeUnit = {
       name: values.name,
     };
@@ -38,7 +38,7 @@ export const PageUnit: React.FC = () => {
   };
 
   // Обновить единицу измерения
-  const updateUnit = (values: { [key: string]: any }): TypeUnit => {
+  const handleUpdateUnit = (values: { [key: string]: any }): TypeUnit => {
     const unit: TypeUnit = {
       name: values.name,
       id: selectedUnitId,
@@ -47,6 +47,12 @@ export const PageUnit: React.FC = () => {
     putChangeUnit(unit)
     setUpdateTable(!updateTable)
     return unit
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteUnit = (id: number) => {
+    deleteUnitById(id).catch((error) => console.error(error));
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -74,16 +80,17 @@ export const PageUnit: React.FC = () => {
       <TableUnit
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteUnit}
       />
       <AddModalUnit
         isOpen={isModalOpen}
-        addItem={addUnit}
+        addItem={handleAddUnit}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerUnit
         isOpen={isDrawerOpen}
         selectedItemId={selectedUnitId}
-        updateItem={updateUnit}
+        updateItem={handleUpdateUnit}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

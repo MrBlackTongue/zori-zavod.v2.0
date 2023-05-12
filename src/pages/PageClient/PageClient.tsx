@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewClient, putChangeClient} from "../../services";
+import {deleteClientById, postNewClient, putChangeClient} from "../../services";
 import {TypeClient} from "../../types";
 import {TableClient} from "./components/TableClient";
 import {AddModalClient} from "./components/AddModalClient";
@@ -21,7 +21,7 @@ export const PageClient: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить нового клиента
-  const addClient = (values: { [key: string]: any }): TypeClient => {
+  const handleAddClient = (values: { [key: string]: any }): TypeClient => {
     const client: TypeClient = {
       title: values.title,
     };
@@ -38,7 +38,7 @@ export const PageClient: React.FC = () => {
   };
 
   // Обновить клиента
-  const updateClient = (values: { [key: string]: any }): TypeClient => {
+  const handleUpdateClient = (values: { [key: string]: any }): TypeClient => {
     const client: TypeClient = {
       id: selectedClientId,
       title: values.title,
@@ -47,6 +47,12 @@ export const PageClient: React.FC = () => {
     putChangeClient(client)
     setUpdateTable(!updateTable)
     return client
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteClient = (id: number) => {
+    deleteClientById(id).catch((error) => console.error(error));
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -74,16 +80,17 @@ export const PageClient: React.FC = () => {
       <TableClient
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteClient}
       />
       <AddModalClient
         isOpen={isModalOpen}
-        addItem={addClient}
+        addItem={handleAddClient}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerClient
         isOpen={isDrawerOpen}
         selectedItemId={selectedClientId}
-        updateItem={updateClient}
+        updateItem={handleUpdateClient}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

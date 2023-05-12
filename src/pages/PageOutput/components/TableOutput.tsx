@@ -3,13 +3,14 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllOutput, deleteOutputById} from "../../../services";
+import {getAllOutput} from "../../../services";
 import {TableProps, TypeOutput, TableParams} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
                                                                 isUpdateTable,
                                                                 openDrawer,
+                                                                onDelete,
                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -70,11 +71,7 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этот выпуск продукции?"
-              onConfirm={() => {
-                deleteOutputById(id).then(() => {
-                  getAllOutput().then((allOutputs) => setAllOutput(allOutputs))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

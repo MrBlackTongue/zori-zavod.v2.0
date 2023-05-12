@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewOperation, putChangeOperation} from "../../services";
+import {deleteOperationById, postNewOperation, putChangeOperation} from "../../services";
 import {TypeOperation} from "../../types";
 import {TableOperation} from "./components/TableOperation";
 import {AddModalOperation} from "./components/AddModalOperation";
@@ -21,7 +21,7 @@ export const PageOperation: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую операцию
-  const addOperation = (values: { [key: string]: any }): TypeOperation => {
+  const handleAddOperation = (values: { [key: string]: any }): TypeOperation => {
     const operation: TypeOperation = {
       title: values.title,
       unit: {
@@ -43,7 +43,7 @@ export const PageOperation: React.FC = () => {
   };
 
   // Обновить операцию
-  const updateOperation = (values: { [key: string]: any }): TypeOperation => {
+  const handleUpdateOperation = (values: { [key: string]: any }): TypeOperation => {
     const operation: TypeOperation = {
       title: values.title,
       unit: {
@@ -57,6 +57,12 @@ export const PageOperation: React.FC = () => {
     putChangeOperation(operation)
     setUpdateTable(!updateTable)
     return operation
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteOperation = (id: number) => {
+    deleteOperationById(id).catch((error) => console.error(error));
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -84,16 +90,17 @@ export const PageOperation: React.FC = () => {
       <TableOperation
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteOperation}
       />
       <AddModalOperation
         isOpen={isModalOpen}
-        addItem={addOperation}
+        addItem={handleAddOperation}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerOperation
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationId}
-        updateItem={updateOperation}
+        updateItem={handleUpdateOperation}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

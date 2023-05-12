@@ -3,12 +3,13 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import {TableProps, TypePurchase, TableParams, TypeUnit} from "../../../types";
-import {deletePurchaseById, getAllPurchase, getPurchaseByTitle} from "../../../services";
+import {getAllPurchase, getPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
 
 export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
                                                                     isUpdateTable,
                                                                     openDrawer,
+                                                                    onDelete,
                                                                     searchText,
                                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -125,11 +126,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту закупку?"
-              onConfirm={() => {
-                deletePurchaseById(id).then(() => {
-                  getAllPurchase().then((allPurchase) => setAllPurchase(allPurchase))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
