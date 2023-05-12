@@ -34,8 +34,8 @@ export const AppRoutes: React.FC = () => {
       <Route path="/operation-accounting" element={<PageOperationAccounting/>}/>
       <Route path="/operation-accounting/:id/detail" element={<PageOperationAccountingDetail/>}/>
       <Route path="/stock" element={<PageStock/>}/>
-      <Route path="/product-group" element={<PageProductGroup/>}/>
       <Route path="/shipment" element={<PageShipment/>}/>
+      <Route path="/product-group" element={<PageProductGroup/>}/>
     </Routes>
   );
 };
