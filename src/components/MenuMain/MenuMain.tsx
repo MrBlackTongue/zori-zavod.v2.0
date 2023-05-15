@@ -34,6 +34,9 @@ export const MenuMain: React.FC = () => {
           <Menu.Item key="3" icon={<UnorderedListOutlined/>}>
             <Link to="/operation">Типы операций</Link>
           </Menu.Item>
+          <Menu.Item key="31" icon={<UnorderedListOutlined/>}>
+            <Link to="/production-type">Типы производства</Link>
+          </Menu.Item>
         </SubMenu>
 
         <SubMenu key="report" icon={<TrophyOutlined/>} title="Отчеты">
