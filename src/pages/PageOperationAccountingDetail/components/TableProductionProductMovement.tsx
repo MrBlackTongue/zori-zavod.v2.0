@@ -117,7 +117,7 @@ export const TableProductionProductMovement: React.FC<TableProps<TypeProductionP
         dataSource={allProductionProductMovement}
         pagination={false}
         loading={loading}
-        size="middle"
+        size="small"
       />
     );
   })

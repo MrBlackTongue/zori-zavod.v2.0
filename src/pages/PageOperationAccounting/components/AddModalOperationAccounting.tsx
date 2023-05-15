@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeOperation, TypeOperationAccounting, TypeOutput} from "../../../types";
+import {AddModalProps, TypeOperation, TypeOperationAccounting, TypeOutput, TypeProductionArea} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
-import {getAllOperation, getAllOutput} from "../../../services";
+import {getAllOperation, getAllOutput, getAllProductionArea} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
@@ -17,6 +17,10 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   // Все операции, выбранная операция
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
+
+  // Все типы производства, выбранный тип производства
+  const [allProductionArea, setAllProductionArea] = useState<TypeProductionArea[]>();
+  const [selectedProductionArea, setSelectedProductionArea] = useState<TypeProductionArea>();
 
   // Все выпуски продукции, выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
@@ -40,6 +44,23 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   const onClearOperation = (): void => {
     form.setFieldsValue({operation: undefined});
     setSelectedOperation(undefined);
+  }
+
+  // Изменить выбранный тип производства
+  const onChangeProductionArea = (values: string, option: any): TypeProductionArea => {
+    const productionType: TypeProductionArea = {
+      id: option.id,
+      title: values,
+    };
+    form.setFieldsValue({productionType: productionType});
+    setSelectedProductionArea(productionType)
+    return productionType
+  };
+
+  // Очистить поле
+  const onClearProductionArea = (): void => {
+    form.setFieldsValue({productionType: undefined});
+    setSelectedProductionArea(undefined);
   }
 
   // Изменить выбранный выпуск продукции
@@ -83,6 +104,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         form.resetFields();
         setSelectedOperation(undefined);
         setSelectedOutput(undefined);
+        setSelectedProductionArea(undefined);
         addItem({...values, output: values.output || null, fact: values.fact || null});
         onSearchOutput('');
       })
@@ -96,6 +118,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     form.resetFields();
     setSelectedOperation(undefined);
     setSelectedOutput(undefined);
+    setSelectedProductionArea(undefined);
     onCancel()
   };
 
@@ -109,6 +132,12 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     getAllOutput().then((allOutput) => {
       setAllOutput(allOutput);
       setFilteredOutput(allOutput);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllProductionArea().then((allProductionArea) => {
+      setAllProductionArea(allProductionArea);
     });
   }, []);
 
@@ -199,6 +228,28 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
             style={{width: '100%'}}
             format={dateFormatUser}
           />
+        </Form.Item>
+        <Form.Item
+          label="Тип производства"
+          name="productionType"
+          rules={[{type: 'object' as const, required: true, message: 'выберите тип'}]}
+        >
+          <div>
+            <Select
+              showSearch
+              allowClear
+              value={selectedProductionArea ? selectedProductionArea?.title : undefined}
+              onChange={onChangeProductionArea}
+              onClear={onClearProductionArea}
+            >
+              {allProductionArea && allProductionArea.length > 0 ?
+                allProductionArea.map(productionArea => (
+                  <Option id={productionArea.id} key={productionArea.id} value={productionArea.title}>
+                    {productionArea.title}
+                  </Option>
+                )) : null}
+            </Select>
+          </div>
         </Form.Item>
       </Form>
     </Modal>

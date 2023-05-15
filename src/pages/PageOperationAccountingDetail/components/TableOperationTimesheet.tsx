@@ -103,7 +103,8 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
       dataSource={allOperationTimesheet}
       pagination={false}
       loading={loading}
-      size="middle"
+      size="small"
+      style={{marginBottom: '20px'}}
     />
   );
 })

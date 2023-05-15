@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
-import {Typography, Space, Button, FloatButton, Divider, Tooltip} from 'antd';
+import {Space, Button, FloatButton, Divider, Tooltip} from 'antd';
 import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
@@ -20,8 +20,6 @@ import {TableOperationTimesheet} from "./components/TableOperationTimesheet";
 import {EditDrawerOperationTimesheet} from "./components/EditDrawerOperationTimesheet";
 import {TableProductionProductMovement} from "./components/TableProductionProductMovement";
 import {AddModalProductionProductMovement} from "./components/AddModalProductionProductMovement";
-
-const {Title} = Typography;
 
 export const PageOperationAccountingDetail: React.FC = () => {
 
@@ -143,7 +141,9 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Button>
       </Tooltip>
       <div className='centerTitle'>
-        <Title level={3}>Учетная операция</Title>
+        <div style={{flex: 1}}>
+          <Divider orientation="left">Учетная операция</Divider>
+        </div>
         <Space>
           <Button
             type="dashed"
@@ -167,14 +167,16 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={id ? +id : undefined}
         updateItem={handleUpdateOperationAccounting}
       />
-      <Divider/>
       <div className='centerTitle'>
-        <Title level={3}>Табель учета рабочего времени </Title>
+        <div style={{flex: 1}}>
+          <Divider orientation="left">Табель учета рабочего времени</Divider>
+        </div>
         <Space>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
             onClick={() => setIsModalOperationTimesheetOpen(true)}
+            size={"small"}
           >
             Добавить
           </Button>
@@ -197,14 +199,16 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={selectedOperationTimesheetId}
         updateItem={handleUpdateOperationTimesheet}
       />
-      <Divider/>
       <div className='centerTitle'>
-        <Title level={3}>Движение товаров на производстве</Title>
+        <div style={{flex: 1}}>
+          <Divider orientation="left">Движение товаров на производстве</Divider>
+        </div>
         <Space>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
             onClick={() => setIsModalProductionProductMovementOpen(true)}
+            size={"small"}
           >
             Добавить
           </Button>

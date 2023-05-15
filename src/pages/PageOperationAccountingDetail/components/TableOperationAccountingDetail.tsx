@@ -156,6 +156,8 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
       dataSource={operationAccounting ? [operationAccounting] : []}
       pagination={false}
       loading={loading}
+      size="middle"
+      style={{marginBottom: '20px'}}
     />
   );
 })

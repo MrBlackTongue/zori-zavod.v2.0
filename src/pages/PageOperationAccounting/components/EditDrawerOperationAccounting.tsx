@@ -1,7 +1,7 @@
 import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
 import React, {useState, useEffect} from "react";
-import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting} from "../../../types";
-import {getAllOutput, getAllOperation, getOperationAccountingById} from "../../../services";
+import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting, TypeProductionArea} from "../../../types";
+import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionArea} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
@@ -18,6 +18,10 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   // Все операции, выбранная операция
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
+
+  // Все типы производства, выбранный тип производства
+  const [allProductionArea, setAllProductionArea] = useState<TypeProductionArea[]>();
+  const [selectedProductionArea, setSelectedProductionArea] = useState<TypeProductionArea>();
 
   // Все выпуски продукции, Выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
@@ -38,6 +42,22 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
     return operation
+  };
+
+  // Изменить выбранный тип производства
+  const onChangeProductionArea = (values: string, option: any): TypeProductionArea | undefined => {
+    if (values === undefined) {
+      setSelectedProductionArea(undefined);
+      form.setFieldsValue({productionType: undefined});
+      return undefined;
+    }
+    const productionType: TypeProductionArea = {
+      id: option.id,
+      title: values,
+    };
+    form.setFieldsValue({productionType: productionType});
+    setSelectedProductionArea(productionType)
+    return productionType
   };
 
   // Изменить выбранный выпуск продукции
@@ -102,9 +122,11 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
       fact: operationAccounting?.fact,
       operation: operationAccounting?.operation,
       output: operationAccounting?.output,
+      productionType: operationAccounting?.productionType,
     });
     setSelectedOperation(operationAccounting?.operation);
     setSelectedOutput(operationAccounting?.output);
+    setSelectedProductionArea(operationAccounting?.productionType)
   }
 
   useEffect(() => {
@@ -113,6 +135,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     } else {
       setSelectedOperation(undefined);
       setSelectedOutput(undefined);
+      setSelectedProductionArea(undefined);
     }
   }, [selectedItemId]);
 
@@ -126,6 +149,12 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     getAllOutput().then((allOutput) => {
       setAllOutput(allOutput);
       setFilteredOutput(allOutput);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllProductionArea().then((allProductionArea) => {
+      setAllProductionArea(allProductionArea);
     });
   }, []);
 
@@ -220,6 +249,27 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
             style={{width: '100%'}}
             format={dateFormatUser}
           />
+        </Form.Item>
+        <Form.Item
+          label="Тип производства"
+          name="productionType"
+          rules={[{type: 'object' as const, required: true, message: 'выберите тип'}]}
+        >
+          <div>
+            <Select
+              showSearch
+              allowClear
+              value={selectedProductionArea ? selectedProductionArea?.title : undefined}
+              onChange={onChangeProductionArea}
+            >
+              {allProductionArea && allProductionArea.length > 0 ?
+                allProductionArea.map(productionArea => (
+                  <Option id={productionArea.id} key={productionArea.id} value={productionArea.title}>
+                    {productionArea.title}
+                  </Option>
+                )) : null}
+            </Select>
+          </div>
         </Form.Item>
       </Form>
     </Drawer>
