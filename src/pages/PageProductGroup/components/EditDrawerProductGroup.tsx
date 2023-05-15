@@ -1,22 +1,26 @@
-import React, { useEffect } from "react";
-import { Button, Drawer, Form, Input, Space } from "antd";
+import { Form, Input, Drawer, Select, Button } from "antd";
+import { useEffect, useState } from "react";
 import { EditDrawerProps, TypeProductGroup } from "../../../types";
-import { getProductGroupById } from "../../../services";
+import { getAllProductGroup } from "../../../services";
 
 export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>> = ({
                                                                                       isOpen,
                                                                                       selectedItemId,
-                                                                                      closeDrawer,
                                                                                       updateItem,
+                                                                                      closeDrawer,
                                                                                     }) => {
   const [form] = Form.useForm();
+  const [productGroup, setProductGroup] = useState<TypeProductGroup[]>([]);
 
-  // Функция подтверждения редактирования
+  useEffect(() => {
+    getAllProductGroup().then(setProductGroup);
+  }, []);
+
   const handleOk = () => {
-    closeDrawer();
     form
       .validateFields()
       .then((values) => {
+        form.resetFields();
         updateItem(values);
       })
       .catch((info) => {
@@ -24,29 +28,12 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
       });
   };
 
-  useEffect(() => {
-    if (selectedItemId) {
-      getProductGroupById(selectedItemId).then((productGroup) => {
-        form.setFieldsValue(productGroup);
-      });
-    }
-  }, [selectedItemId]);
-
   return (
     <Drawer
-      title="Редактирование группы товаров"
-      width={600}
+      title={`Редактирование группы товаров`}
       open={isOpen}
       onClose={closeDrawer}
-      bodyStyle={{ paddingBottom: 80 }}
-      extra={
-        <Space>
-          <Button onClick={closeDrawer}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
-            Сохранить
-          </Button>
-        </Space>
-      }
+      width={650}
     >
       <Form
         form={form}
@@ -57,9 +44,24 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
         <Form.Item
           label="Название"
           name="title"
-          rules={[{ required: true, message: 'введите название группы' }]}
+          rules={[{ required: true, message: 'Введите название группы' }]}
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          label="Родительская группа"
+          name="parent"
+        >
+          <Select placeholder="Выберите родительскую группу">
+            {productGroup.map(group => (
+              <Select.Option key={group.id} value={group.id}>{group.title}</Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" onClick={handleOk}>
+            Сохранить
+          </Button>
         </Form.Item>
       </Form>
     </Drawer>

@@ -1,6 +1,7 @@
-import React from "react";
-import { AddModalProps, TypeProductGroup } from "../../../types";
-import { Form, Input, Modal } from "antd";
+import { Form, Input, Modal, Select } from "antd";
+import {useState, useEffect} from "react";
+import {AddModalProps, TypeProductGroup} from "../../../types";
+import {getAllProductGroup} from "../../../services";
 
 export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = ({
                                                                                   isOpen,
@@ -8,26 +9,33 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                   onCancel,
                                                                                 }) => {
   const [form] = Form.useForm();
+  const [productGroup, setProductGroup] = useState<TypeProductGroup[]>([]);
+  const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProductGroup[]>([]);
 
-  // Функция подтверждения добавления
+  useEffect(() => {
+    // Замените эту функцию на вашу функцию для получения всех групп товаров
+    getAllProductGroup().then(setProductGroup);
+  }, []);
+
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
-        addItem(values);
+        const parentGroup = productGroup.find(group => group.id === values.parent);
+        addItem({ ...values, parent: parentGroup }); // parent теперь - это полный объект группы продуктов
       })
       .catch((info) => {
-        console.log('Validate failed:', info);
+        console.log('Validate Failed:', info);
       });
-  }
+  };
 
   return (
     <Modal
       title={`Добавление новой группы товаров`}
       open={isOpen}
       onCancel={onCancel}
-      width={500}
+      width={650}
       okText={'Сохранить'}
       cancelText={'Отмена'}
       onOk={handleOk}
@@ -45,6 +53,16 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
           rules={[{ required: true, message: 'введите название группы' }]}
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          label="Родительская группа"
+          name="parent"
+        >
+          <Select placeholder="Выберите родительскую группу">
+            {productGroup.map(group => (
+              <Select.Option key={group.id} value={group.id}>{group.title}</Select.Option>
+            ))}
+          </Select>
         </Form.Item>
       </Form>
     </Modal>

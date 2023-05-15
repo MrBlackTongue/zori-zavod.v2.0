@@ -23,12 +23,15 @@ export const PageProductGroup: React.FC = () => {
   const addProductGroup = (values: { [key: string]: any }): TypeProductGroup => {
     const productGroup: TypeProductGroup = {
       title: values.title,
+      parent: values.parent, // добавлено
+      children: [], // добавлено
     };
     setIsModalOpen(false)
     postNewProductGroup(productGroup)
     setUpdateTable(!updateTable)
     return productGroup;
   };
+
 
   // Открыть дравер
   const openDrawer = (productGroupId: number) => {
@@ -41,12 +44,15 @@ export const PageProductGroup: React.FC = () => {
     const productGroup: TypeProductGroup = {
       id: selectedProductGroupId,
       title: values.title,
+      parent: values.parent, // added
+      children: [], // added, or you may want to fetch the current children
     };
     setIsDrawerOpen(false)
     putChangeProductGroup(productGroup)
     setUpdateTable(!updateTable)
     return productGroup
   };
+
 
   return (
     <div style={{ display: 'grid' }}>
