@@ -2,7 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewProductBatch, putChangeProductBatch} from "../../services";
+import {
+  deleteProductBatchById,
+  postNewProductBatch,
+  putChangeProductBatch
+} from "../../services";
 import {TypeProductBatch} from '../../types';
 import {TableProductBatch} from "./components/TableProductBatch";
 import {AddModalProductBatch} from "./components/AddModalProductBatch";
@@ -21,7 +25,7 @@ export const PageProductBatch: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую партии товара
-  const addProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
+  const handleAddProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
     const productBatch: TypeProductBatch = {
       product: {
         id: values.product,
@@ -41,7 +45,7 @@ export const PageProductBatch: React.FC = () => {
   };
 
   // Обновление партии товара
-  const updateProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
+  const handleUpdateProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
     const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,
       product: {
@@ -53,6 +57,12 @@ export const PageProductBatch: React.FC = () => {
     putChangeProductBatch(productBatch)
     setUpdateTable(!updateTable)
     return productBatch
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteProductBatch = (id: number) => {
+    deleteProductBatchById(id).catch((error) => console.error(error));
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -80,16 +90,17 @@ export const PageProductBatch: React.FC = () => {
       <TableProductBatch
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteProductBatch}
       />
       <AddModalProductBatch
         isOpen={isModalOpen}
-        addItem={addProductBatch}
+        addItem={handleAddProductBatch}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerProductBatch
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductBatchId}
-        updateItem={updateProductBatch}
+        updateItem={handleUpdateProductBatch}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

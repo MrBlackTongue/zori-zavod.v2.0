@@ -3,12 +3,13 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllOperation, deleteOperationById} from "../../../services";
+import {getAllOperation} from "../../../services";
 import {TableProps, TypeOperation, TableParams} from "../../../types";
 
 export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
                                                                       isUpdateTable,
                                                                       openDrawer,
+                                                                      onDelete,
                                                                     }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -69,11 +70,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту операцию?"
-              onConfirm={() => {
-                deleteOperationById(id).then(() => {
-                  getAllOperation().then((allOperations) => setAllOperation(allOperations))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

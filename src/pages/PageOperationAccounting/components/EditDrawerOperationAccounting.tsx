@@ -142,7 +142,6 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
       width={700}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>

@@ -80,7 +80,6 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
       width={600}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>

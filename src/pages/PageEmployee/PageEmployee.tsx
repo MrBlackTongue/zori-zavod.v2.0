@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewEmployee, putChangeEmployee} from "../../services";
+import {deleteEmployeeById, postNewEmployee, putChangeEmployee} from "../../services";
 import {TypeEmployee} from "../../types";
 import {TableEmployee} from "./components/TableEmployee";
 import {AddModalEmployee} from "./components/AddModalEmployee";
@@ -21,7 +21,7 @@ export const PageEmployee: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить нового сотрудника
-  const addEmployee = (values: { [key: string]: any }): TypeEmployee => {
+  const handleAddEmployee = (values: { [key: string]: any }): TypeEmployee => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -42,7 +42,7 @@ export const PageEmployee: React.FC = () => {
   };
 
   // Обновить сотрудника
-  const updateEmployee = (values: { [key: string]: any }): TypeEmployee => {
+  const handleUpdateEmployee = (values: { [key: string]: any }): TypeEmployee => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -55,6 +55,12 @@ export const PageEmployee: React.FC = () => {
     putChangeEmployee(employee)
     setUpdateTable(!updateTable)
     return employee
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteEmployee = (id: number) => {
+    deleteEmployeeById(id).catch((error) => console.error(error));
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -82,16 +88,17 @@ export const PageEmployee: React.FC = () => {
       <TableEmployee
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteEmployee}
       />
       <AddModalEmployee
         isOpen={isModalOpen}
-        addItem={addEmployee}
+        addItem={handleAddEmployee}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerEmployee
         isOpen={isDrawerOpen}
         selectedItemId={selectedEmployeeId}
-        updateItem={updateEmployee}
+        updateItem={handleUpdateEmployee}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
