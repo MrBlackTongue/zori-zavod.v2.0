@@ -99,7 +99,6 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
       width={700}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>

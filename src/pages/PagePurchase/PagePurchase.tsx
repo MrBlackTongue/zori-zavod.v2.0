@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {postNewPurchase, putChangePurchase} from '../../services';
+import {deletePurchaseById, postNewPurchase, putChangePurchase} from '../../services';
 import {TypePurchase} from '../../types';
 import {TablePurchase} from "./components/TablePurchase";
 import {AddModalPurchase} from "./components/AddModalPurchase";
@@ -24,7 +24,7 @@ export const PagePurchase: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую закупку
-  const addPurchase = (values: { [key: string]: any }): TypePurchase => {
+  const handleAddPurchase = (values: { [key: string]: any }): TypePurchase => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
@@ -47,7 +47,7 @@ export const PagePurchase: React.FC = () => {
   };
 
   // Обновить закупку
-  const updatePurchase = (values: { [key: string]: any }): TypePurchase => {
+  const handleUpdatePurchase = (values: { [key: string]: any }): TypePurchase => {
     const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
@@ -62,6 +62,12 @@ export const PagePurchase: React.FC = () => {
     putChangePurchase(purchase);
     setUpdateTable(!updateTable);
     return purchase;
+  };
+
+  // Удалить запись из таблицы
+  const handleDeletePurchase = (id: number) => {
+    deletePurchaseById(id).catch((error) => console.error(error));
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -97,17 +103,18 @@ export const PagePurchase: React.FC = () => {
       <TablePurchase
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeletePurchase}
         searchText={searchText}
       />
       <AddModalPurchase
         isOpen={isModalOpen}
-        addItem={addPurchase}
+        addItem={handleAddPurchase}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerPurchase
         isOpen={isDrawerOpen}
         selectedItemId={selectedPurchaseId}
-        updateItem={updatePurchase}
+        updateItem={handleUpdatePurchase}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

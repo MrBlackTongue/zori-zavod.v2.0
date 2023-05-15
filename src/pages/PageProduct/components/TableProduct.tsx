@@ -3,12 +3,13 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
-import {getAllProduct, deleteProductById, getProductByTitle, getAllProductGroup,} from "../../../services";
+import {getAllProduct, getProductByTitle, getAllProductGroup,} from "../../../services";
 import {TableProps, TypeProduct, TableParams} from "../../../types";
 
 export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
                                                                   isUpdateTable,
                                                                   openDrawer,
+                                                                  onDelete,
                                                                   searchText
                                                                 }) => {
   type TablePaginationPosition = 'bottomCenter'
@@ -80,11 +81,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этот товар?"
-              onConfirm={() => {
-                deleteProductById(id).then(() => {
-                  getAllProduct().then((allProducts) => setAllProduct(allProducts))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

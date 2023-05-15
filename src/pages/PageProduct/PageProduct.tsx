@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewProduct, putChangeProduct} from "../../services";
+import {deleteProductById, postNewProduct, putChangeProduct} from "../../services";
 import {TypeProduct} from "../../types";
 import {TableProduct} from "./components/TableProduct";
 import {AddModalProduct} from "./components/AddModalProduct";
@@ -24,7 +24,7 @@ export const PageProduct: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новый товар
-  const addProduct = (values: { [key: string]: any }): TypeProduct => {
+  const handleAddProduct = (values: { [key: string]: any }): TypeProduct => {
     const product: TypeProduct = {
       title: values.title,
       productGroup: {
@@ -49,7 +49,7 @@ export const PageProduct: React.FC = () => {
   };
 
   // Обновить товар
-  const updateProduct = (values: { [key: string]: any }): TypeProduct => {
+  const handleUpdateProduct = (values: { [key: string]: any }): TypeProduct => {
     const product: TypeProduct = {
       title: values.title,
       productGroup: {
@@ -66,6 +66,12 @@ export const PageProduct: React.FC = () => {
     putChangeProduct(product)
     setUpdateTable(!updateTable)
     return product
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteProduct = (id: number) => {
+    deleteProductById(id).catch((error) => console.error(error));
+    setUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -101,17 +107,18 @@ export const PageProduct: React.FC = () => {
       <TableProduct
         isUpdateTable={updateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteProduct}
         searchText={searchText}
       />
       <AddModalProduct
         isOpen={isModalOpen}
-        addItem={addProduct}
+        addItem={handleAddProduct}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerProduct
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductId}
-        updateItem={updateProduct}
+        updateItem={handleUpdateProduct}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

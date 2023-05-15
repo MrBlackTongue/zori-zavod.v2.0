@@ -2,14 +2,15 @@ import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllAcceptance, deleteAcceptanceById, getAcceptanceByTitle} from "../../../services";
+import {getAllAcceptance, getAcceptanceByTitle} from "../../../services";
 import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
 
 export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
                                                                         isUpdateTable,
-                                                                        searchText
+                                                                        searchText,
+                                                                        onDelete,
                                                                       }) => {
   type TablePaginationPosition = "bottomCenter"
 
@@ -80,11 +81,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту приемку?"
-              onConfirm={() => {
-                deleteAcceptanceById(id).then(() => {
-                  getAllAcceptance().then((allAcceptance) => setAllAcceptance(allAcceptance))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

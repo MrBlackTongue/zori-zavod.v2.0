@@ -3,11 +3,12 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import {TableProps, TypeProductBatch, TableParams, TypeUnit} from "../../../types";
-import {getAllProductBatch, deleteProductBatchById} from "../../../services";
+import {getAllProductBatch} from "../../../services";
 
 export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
                                                                             isUpdateTable,
                                                                             openDrawer,
+                                                                            onDelete,
                                                                           }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -74,11 +75,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту партию товара?"
-              onConfirm={() => {
-                deleteProductBatchById(id).then(() => {
-                  getAllProductBatch().then((allProductBatch) => setAllProductBatch(allProductBatch))
-                })
-              }}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
