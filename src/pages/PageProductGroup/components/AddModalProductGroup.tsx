@@ -1,7 +1,7 @@
+import React, { useState, useEffect } from "react";
 import { Form, Input, Modal, Select } from "antd";
-import {useState, useEffect} from "react";
-import {AddModalProps, TypeProductGroup} from "../../../types";
-import {getAllProductGroup} from "../../../services";
+import { AddModalProps, TypeProductGroup } from "../../../types";
+import { getAllProductGroup } from "../../../services";
 
 export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = ({
                                                                                   isOpen,
@@ -9,12 +9,10 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                   onCancel,
                                                                                 }) => {
   const [form] = Form.useForm();
-  const [productGroup, setProductGroup] = useState<TypeProductGroup[]>([]);
-  const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProductGroup[]>([]);
+  const [productGroups, setProductGroups] = useState<TypeProductGroup[]>([]);
 
   useEffect(() => {
-    // Замените эту функцию на вашу функцию для получения всех групп товаров
-    getAllProductGroup().then(setProductGroup);
+    getAllProductGroup().then(setProductGroups);
   }, []);
 
   const handleOk = () => {
@@ -22,27 +20,31 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
       .validateFields()
       .then((values) => {
         form.resetFields();
-        const parentGroup = productGroup.find(group => group.id === values.parent);
-        addItem({ ...values, parent: parentGroup }); // parent теперь - это полный объект группы продуктов
+        // Находим выбранную группу в массиве всех групп
+        const parentGroup = productGroups.find(
+          (group) => group.id === values.parent
+        );
+        // Используем эту группу как родительскую
+        addItem({ ...values, parent: parentGroup });
       })
       .catch((info) => {
-        console.log('Validate Failed:', info);
+        console.log("Validate Failed:", info);
       });
   };
 
   return (
     <Modal
-      title={`Добавление новой группы товаров`}
+      title="Добавление новой группы товаров"
       open={isOpen}
       onCancel={onCancel}
       width={650}
-      okText={'Сохранить'}
-      cancelText={'Отмена'}
+      okText="Сохранить"
+      cancelText="Отмена"
       onOk={handleOk}
     >
       <Form
         form={form}
-        initialValues={{ modifier: 'public' }}
+        initialValues={{ modifier: "public" }}
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
         style={{ marginTop: 30 }}
@@ -50,17 +52,16 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
         <Form.Item
           label="Название"
           name="title"
-          rules={[{ required: true, message: 'введите название группы' }]}
+          rules={[{ required: true, message: "введите название группы" }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Родительская группа"
-          name="parent"
-        >
+        <Form.Item label="Родительская группа" name="parent">
           <Select placeholder="Выберите родительскую группу">
-            {productGroup.map(group => (
-              <Select.Option key={group.id} value={group.id}>{group.title}</Select.Option>
+            {productGroups.map((group) => (
+              <Select.Option key={group.id} value={group.id}>
+                {group.title}
+              </Select.Option>
             ))}
           </Select>
         </Form.Item>

@@ -6,7 +6,6 @@ import { TypeProductGroup } from "../../types";
 import { TableProductGroup } from "./components/TableProductGroup";
 import { AddModalProductGroup } from "./components/AddModalProductGroup";
 import { EditDrawerProductGroup } from "./components/EditDrawerProductGroup";
-// import { ProductGroupTree } from "./components/ProductGroupTree";
 
 const { Title } = Typography;
 
@@ -42,10 +41,10 @@ export const PageProductGroup: React.FC = () => {
   // Обновить группу товаров
   const updateProductGroup = (values: { [key: string]: any }): TypeProductGroup => {
     const productGroup: TypeProductGroup = {
-      id: selectedProductGroupId,
+      id: values.id,
       title: values.title,
-      parent: values.parent, // added
-      children: [], // added, or you may want to fetch the current children
+      parent: values.parent,
+      children: [],
     };
     setIsDrawerOpen(false)
     putChangeProductGroup(productGroup)
