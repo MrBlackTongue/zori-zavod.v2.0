@@ -17,4 +17,4 @@ export * from './TypeOperationTimesheet';
 export * from './TypeShipment';
 export * from './TypeShipmentProductMovement';
 export * from './TypeProductionProductMovement';
-export * from './TypeProductionArea';
+export * from './TypeProductionType';

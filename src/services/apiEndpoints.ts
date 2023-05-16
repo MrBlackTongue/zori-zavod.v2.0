@@ -21,4 +21,4 @@ export const FILTER = '/filter'
 export const PRODUCT_GROUP = '/product-group'
 export const SHIPMENT = '/shipment';
 export const PRODUCTION = '/production';
-export const PRODUCTION_AREA = '/production_area';
+export const PRODUCTION_TYPE = '/production-type';

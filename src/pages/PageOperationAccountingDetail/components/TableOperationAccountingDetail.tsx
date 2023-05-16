@@ -1,19 +1,17 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
-import {getOperationAccountingById, deleteOperationAccountingById} from "../../../services";
+import {getOperationAccountingById} from "../../../services";
 import {TableProps, TypeOperationAccounting, TypeOperationTimesheet} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAccounting>> = React.memo(({
                                                                                                            isUpdateTable,
                                                                                                            openDrawer,
+                                                                                                           onDelete,
                                                                                                            idDetail,
                                                                                                          }) => {
-  const navigate = useNavigate();
-
   // Лоудер и учетная операция
   const [loading, setLoading] = useState(false);
   const [operationAccounting, setOperationAccounting] = useState<TypeOperationAccounting>();
@@ -113,7 +111,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту учетную операцию?"
-              onConfirm={() => deleteOperationAccountingById(id).then(handleBack)}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
@@ -137,11 +135,6 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
       })
     }
   }, [idDetail]);
-
-  // Переход на другую страницу по адресу
-  const handleBack = useCallback(() => {
-    navigate(`/operation-accounting`);
-  }, [navigate]);
 
   useEffect(() => {
     if (idDetail || isUpdateTable) {

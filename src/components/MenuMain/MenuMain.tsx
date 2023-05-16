@@ -19,7 +19,7 @@ const {SubMenu} = Menu;
 
 export const MenuMain: React.FC = () => {
   return (
-    <div style={{'height': 'calc(100vh - 10px)', 'overflowY': 'auto'}}>
+    <div style={{'height': 'calc(100vh - 100px)', 'overflowY': 'auto'}}>
       <Menu
         theme="light"
         mode="inline">

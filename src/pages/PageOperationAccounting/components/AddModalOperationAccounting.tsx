@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeOperation, TypeOperationAccounting, TypeOutput, TypeProductionArea} from "../../../types";
+import {AddModalProps, TypeOperation, TypeOperationAccounting, TypeOutput, TypeProductionType} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
-import {getAllOperation, getAllOutput, getAllProductionArea} from "../../../services";
+import {getAllOperation, getAllOutput, getAllProductionType} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
@@ -19,8 +19,8 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
 
   // Все типы производства, выбранный тип производства
-  const [allProductionArea, setAllProductionArea] = useState<TypeProductionArea[]>();
-  const [selectedProductionArea, setSelectedProductionArea] = useState<TypeProductionArea>();
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
+  const [selectedProductionType, setSelectedProductionType] = useState<TypeProductionType>();
 
   // Все выпуски продукции, выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
@@ -33,9 +33,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
       id: option.id,
       title: values,
     };
-    form.setFieldsValue({
-      operation: operation
-    });
+    form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
     return operation
   };
@@ -47,20 +45,20 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   }
 
   // Изменить выбранный тип производства
-  const onChangeProductionArea = (values: string, option: any): TypeProductionArea => {
-    const productionType: TypeProductionArea = {
+  const onChangeProductionType = (values: string, option: any): TypeProductionType => {
+    const productionType: TypeProductionType = {
       id: option.id,
       title: values,
     };
     form.setFieldsValue({productionType: productionType});
-    setSelectedProductionArea(productionType)
+    setSelectedProductionType(productionType)
     return productionType
   };
 
   // Очистить поле
-  const onClearProductionArea = (): void => {
+  const onClearProductionType = (): void => {
     form.setFieldsValue({productionType: undefined});
-    setSelectedProductionArea(undefined);
+    setSelectedProductionType(undefined);
   }
 
   // Изменить выбранный выпуск продукции
@@ -104,7 +102,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         form.resetFields();
         setSelectedOperation(undefined);
         setSelectedOutput(undefined);
-        setSelectedProductionArea(undefined);
+        setSelectedProductionType(undefined);
         addItem({...values, output: values.output || null, fact: values.fact || null});
         onSearchOutput('');
       })
@@ -118,7 +116,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     form.resetFields();
     setSelectedOperation(undefined);
     setSelectedOutput(undefined);
-    setSelectedProductionArea(undefined);
+    setSelectedProductionType(undefined);
     onCancel()
   };
 
@@ -136,8 +134,8 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   }, []);
 
   useEffect(() => {
-    getAllProductionArea().then((allProductionArea) => {
-      setAllProductionArea(allProductionArea);
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
     });
   }, []);
 
@@ -238,14 +236,14 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
             <Select
               showSearch
               allowClear
-              value={selectedProductionArea ? selectedProductionArea?.title : undefined}
-              onChange={onChangeProductionArea}
-              onClear={onClearProductionArea}
+              value={selectedProductionType ? selectedProductionType?.title : undefined}
+              onChange={onChangeProductionType}
+              onClear={onClearProductionType}
             >
-              {allProductionArea && allProductionArea.length > 0 ?
-                allProductionArea.map(productionArea => (
-                  <Option id={productionArea.id} key={productionArea.id} value={productionArea.title}>
-                    {productionArea.title}
+              {allProductionType && allProductionType.length > 0 ?
+                allProductionType.map(productionType => (
+                  <Option id={productionType.id} key={productionType.id} value={productionType.title}>
+                    {productionType.title}
                   </Option>
                 )) : null}
             </Select>

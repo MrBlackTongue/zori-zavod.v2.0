@@ -3,10 +3,10 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
-import {getAllProductionArea,} from "../../../services";
-import {TableProps, TypeProductionArea, TableParams} from "../../../types";
+import {getAllProductionType,} from "../../../services";
+import {TableProps, TypeProductionType, TableParams} from "../../../types";
 
-export const TableProductionArea: React.FC<TableProps<TypeProductionArea>> = ({
+export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
                                                                                 isUpdateTable,
                                                                                 openDrawer,
                                                                                 onDelete,
@@ -15,7 +15,7 @@ export const TableProductionArea: React.FC<TableProps<TypeProductionArea>> = ({
 
   // Лоудер и список типов производства
   const [loading, setLoading] = useState(false);
-  const [allProductionArea, setAllProductionArea] = useState<TypeProductionArea[]>();
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -27,7 +27,7 @@ export const TableProductionArea: React.FC<TableProps<TypeProductionArea>> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeProductionArea> = [
+  const columns: ColumnsType<TypeProductionType> = [
     {
       title: 'Название',
       dataIndex: 'title',
@@ -77,22 +77,22 @@ export const TableProductionArea: React.FC<TableProps<TypeProductionArea>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProductionArea>,
+    sorter: SorterResult<TypeProductionType>,
   ) => {
     setTableParams({
       pagination,
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductionArea(allProductionArea);
+      setAllProductionType(allProductionType);
     }
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
     setLoading(true);
-    getAllProductionArea().then((allProductionArea) => {
-      setAllProductionArea(allProductionArea);
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
       setLoading(false);
     });
   }
@@ -105,7 +105,7 @@ export const TableProductionArea: React.FC<TableProps<TypeProductionArea>> = ({
     <Table
       bordered
       columns={columns}
-      dataSource={allProductionArea}
+      dataSource={allProductionType}
       pagination={{
         position: [bottom],
         current: tableParams?.pagination?.current,

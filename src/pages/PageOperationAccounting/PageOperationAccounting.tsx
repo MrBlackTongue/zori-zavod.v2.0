@@ -7,9 +7,9 @@ import {
   postNewOperationAccounting,
   putChangeOperationAccounting,
   deleteOperationAccountingById,
-  getAllProductionArea,
+  getAllProductionType,
 } from "../../services";
-import {TypeOperation, TypeOperationAccounting, TypeProductionArea} from "../../types";
+import {TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
 import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
 import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
@@ -34,8 +34,8 @@ export const PageOperationAccounting: React.FC = () => {
   const [selectedOperationById, setSelectedOperationById] = useState<number>();
 
   // Все типы производства, выбранный тип по id
-  const [allProductionArea, setAllProductionArea] = useState<TypeProductionArea[]>();
-  const [selectedProductionAreaById, setSelectedProductionAreaById] = useState<number>();
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
+  const [selectedProductionTypeById, setSelectedProductionTypeById] = useState<number>();
 
   // Добавить новую учетную операцию
   const handleAddOperationAccounting = (values: { [key: string]: any }): void => {
@@ -63,7 +63,6 @@ export const PageOperationAccounting: React.FC = () => {
     setIsModalOpen(false)
     postNewOperationAccounting(operationAccounting)
     setDate(date)
-    setSelectedOperationAccountingById(selectedOperationAccountingById)
     setUpdateTable(prevState => !prevState)
   };
 
@@ -84,12 +83,12 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Изменить выбранный тип производства
-  const onChangeProductionArea = (values: string, option: any): TypeProductionArea | undefined => {
+  const onChangeProductionType = (values: string, option: any): TypeProductionType | undefined => {
     if (values === undefined) {
-      setSelectedProductionAreaById(undefined);
+      setSelectedProductionTypeById(undefined);
       return undefined;
     }
-    setSelectedProductionAreaById(option.id)
+    setSelectedProductionTypeById(option.id)
     return option.id
   };
 
@@ -108,7 +107,6 @@ export const PageOperationAccounting: React.FC = () => {
     setIsDrawerOpen(false)
     putChangeOperationAccounting(operationAccounting)
     setDate(date)
-    setSelectedOperationAccountingById(selectedOperationAccountingById)
     setUpdateTable(prevState => !prevState)
   };
 
@@ -125,8 +123,8 @@ export const PageOperationAccounting: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getAllProductionArea().then((allProductionArea) => {
-      setAllProductionArea(allProductionArea);
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
     });
   }, []);
 
@@ -160,13 +158,13 @@ export const PageOperationAccounting: React.FC = () => {
             showSearch
             allowClear
             placeholder='Тип производства'
-            onChange={onChangeProductionArea}
+            onChange={onChangeProductionType}
             style={{'width': '250px'}}
           >
-            {allProductionArea && allProductionArea.length > 0 ?
-              allProductionArea.map(productionArea => (
-                <Option id={productionArea.id} key={productionArea.id} value={productionArea.title}>
-                  {productionArea.title}
+            {allProductionType && allProductionType.length > 0 ?
+              allProductionType.map(productionType => (
+                <Option id={productionType.id} key={productionType.id} value={productionType.title}>
+                  {productionType.title}
                 </Option>
               )) : null}
           </Select>
@@ -195,7 +193,7 @@ export const PageOperationAccounting: React.FC = () => {
         filter={{
           date: date,
           operationId: selectedOperationById,
-          productionTypeId: selectedProductionAreaById,
+          productionTypeId: selectedProductionTypeById,
         }}
       />
       <AddModalOperationAccounting

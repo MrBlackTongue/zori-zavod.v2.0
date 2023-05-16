@@ -1,7 +1,7 @@
 import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
 import React, {useState, useEffect} from "react";
-import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting, TypeProductionArea} from "../../../types";
-import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionArea} from "../../../services";
+import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../../types";
+import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionType} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
@@ -20,8 +20,8 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
 
   // Все типы производства, выбранный тип производства
-  const [allProductionArea, setAllProductionArea] = useState<TypeProductionArea[]>();
-  const [selectedProductionArea, setSelectedProductionArea] = useState<TypeProductionArea>();
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
+  const [selectedProductionType, setSelectedProductionType] = useState<TypeProductionType>();
 
   // Все выпуски продукции, Выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
@@ -29,12 +29,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): TypeOperation | undefined => {
-    if (values === undefined) {
-      setSelectedOperation(undefined);
-      form.setFieldsValue({operation: undefined});
-      return undefined;
-    }
+  const onChangeOperation = (values: string, option: any): TypeOperation => {
     const operation: TypeOperation = {
       id: option.id,
       title: values,
@@ -44,19 +39,25 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     return operation
   };
 
+  // Очистить поле операция
+  const onClearOperation = (): void => {
+    form.setFieldsValue({operation: undefined});
+    setSelectedOperation(undefined);
+  }
+
   // Изменить выбранный тип производства
-  const onChangeProductionArea = (values: string, option: any): TypeProductionArea | undefined => {
+  const onChangeProductionType = (values: string, option: any): TypeProductionType | undefined => {
     if (values === undefined) {
-      setSelectedProductionArea(undefined);
+      setSelectedProductionType(undefined);
       form.setFieldsValue({productionType: undefined});
       return undefined;
     }
-    const productionType: TypeProductionArea = {
+    const productionType: TypeProductionType = {
       id: option.id,
       title: values,
     };
     form.setFieldsValue({productionType: productionType});
-    setSelectedProductionArea(productionType)
+    setSelectedProductionType(productionType)
     return productionType
   };
 
@@ -126,7 +127,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     });
     setSelectedOperation(operationAccounting?.operation);
     setSelectedOutput(operationAccounting?.output);
-    setSelectedProductionArea(operationAccounting?.productionType)
+    setSelectedProductionType(operationAccounting?.productionType)
   }
 
   useEffect(() => {
@@ -135,7 +136,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     } else {
       setSelectedOperation(undefined);
       setSelectedOutput(undefined);
-      setSelectedProductionArea(undefined);
+      setSelectedProductionType(undefined);
     }
   }, [selectedItemId]);
 
@@ -153,8 +154,8 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   }, []);
 
   useEffect(() => {
-    getAllProductionArea().then((allProductionArea) => {
-      setAllProductionArea(allProductionArea);
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
     });
   }, []);
 
@@ -198,6 +199,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
               allowClear
               value={selectedOperation ? selectedOperation?.title : undefined}
               onChange={onChangeOperation}
+              onClear={onClearOperation}
             >
               {allOperation && allOperation.length > 0 ?
                 allOperation.map(operation => (
@@ -259,13 +261,13 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
             <Select
               showSearch
               allowClear
-              value={selectedProductionArea ? selectedProductionArea?.title : undefined}
-              onChange={onChangeProductionArea}
+              value={selectedProductionType ? selectedProductionType?.title : undefined}
+              onChange={onChangeProductionType}
             >
-              {allProductionArea && allProductionArea.length > 0 ?
-                allProductionArea.map(productionArea => (
-                  <Option id={productionArea.id} key={productionArea.id} value={productionArea.title}>
-                    {productionArea.title}
+              {allProductionType && allProductionType.length > 0 ?
+                allProductionType.map(productionType => (
+                  <Option id={productionType.id} key={productionType.id} value={productionType.title}>
+                    {productionType.title}
                   </Option>
                 )) : null}
             </Select>

@@ -1,8 +1,8 @@
 import React from "react";
-import {AddModalProps, TypeProductionArea} from "../../../types";
+import {AddModalProps, TypeProductionType} from "../../../types";
 import {Form, Input, Modal} from "antd";
 
-export const AddModalProductionArea: React.FC<AddModalProps<TypeProductionArea>> = ({
+export const AddModalProductionType: React.FC<AddModalProps<TypeProductionType>> = ({
                                                                                       isOpen,
                                                                                       addItem,
                                                                                       onCancel,

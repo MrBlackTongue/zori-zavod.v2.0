@@ -11,6 +11,7 @@ import {
   deleteProductionProductMovementById,
   postNewProductionProductMovement,
   getOperationAccountingById,
+  deleteOperationAccountingById,
 } from "../../services";
 import {TypeOperationAccounting, TypeOperationTimesheet, TypeProductionProductMovement} from "../../types";
 import {TableOperationAccountingDetail} from "./components/TableOperationAccountingDetail";
@@ -54,6 +55,12 @@ export const PageOperationAccountingDetail: React.FC = () => {
     setUpdateAllTable(prevState => !prevState)
   }, [id]);
 
+  // Удалить запись из таблицы
+  const handleDeleteOperationAccounting = (id: number) => {
+    deleteOperationAccountingById(id).catch((error) => console.error(error));
+    handleBack()
+  };
+
   // Добавить сотрудника в табель учета рабочего времени
   const handleAddOperationTimesheet = useCallback((values: { [key: string]: any }): void => {
     const operationTimesheet: TypeOperationTimesheet = {
@@ -96,26 +103,26 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }, []);
 
   // Добавить запись движения товара на производстве
-  const handleAddProductionProductMovement = useCallback(async (values: { [key: string]: any }):
-  Promise<void> => {
-    if (!id) return;
-    const operationAccounting = await getOperationAccountingById(+id);
-    let operationDate = operationAccounting?.date;
+  const handleAddProductionProductMovement =
+    useCallback(async (values: { [key: string]: any }): Promise<void> => {
+      if (!id) return;
+      const operationAccounting = await getOperationAccountingById(+id);
+      let operationDate = operationAccounting?.date;
 
-    const productionProductMovement: TypeProductionProductMovement = {
-      amount: values.amount,
-      income: values.income,
-      stock: values.stock,
-      date: operationDate,
-      productBatch: values.productBatch,
-      operationAccounting: {
-        id: id ? +id : undefined
-      },
-    };
-    setIsModalProductionProductMovementOpen(false)
-    postNewProductionProductMovement(productionProductMovement)
-    setUpdateAllTable(prevState => !prevState)
-  }, [id]);
+      const productionProductMovement: TypeProductionProductMovement = {
+        amount: values.amount,
+        income: values.income,
+        stock: values.stock,
+        date: operationDate,
+        productBatch: values.productBatch,
+        operationAccounting: {
+          id: id ? +id : undefined
+        },
+      };
+      setIsModalProductionProductMovementOpen(false)
+      postNewProductionProductMovement(productionProductMovement)
+      setUpdateAllTable(prevState => !prevState)
+    }, [id]);
 
   // Удалить запись движения товара на производстве
   const handleDeleteProductionProductMovement = useCallback((id: number) => {
@@ -159,6 +166,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
       <TableOperationAccountingDetail
         isUpdateTable={updateAllTable}
         openDrawer={() => setIsDrawerOperationAccountingOpen(true)}
+        onDelete={handleDeleteOperationAccounting}
         idDetail={id ? +id : undefined}
       />
       <EditDrawerOperationAccounting

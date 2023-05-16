@@ -1,16 +1,16 @@
-import {TypeProductionArea} from "../types";
-import {URL, PRODUCTION_AREA } from "./apiEndpoints";
+import {TypeProductionType} from "../types";
+import {URL, PRODUCTION_TYPE } from "./apiEndpoints";
 import {message} from "antd";
 
 // Получить список типов производства
-export async function getAllProductionArea(): Promise<TypeProductionArea[]> {
+export async function getAllProductionType(): Promise<TypeProductionType[]> {
   try {
-    const res = await fetch(URL + PRODUCTION_AREA);
+    const res = await fetch(URL + PRODUCTION_TYPE);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as TypeProductionArea[];
+    return await res.json() as TypeProductionType[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -18,9 +18,9 @@ export async function getAllProductionArea(): Promise<TypeProductionArea[]> {
 }
 
 // Получить данные типа производства по id
-export async function getProductionAreaById(id: number): Promise<TypeProductionArea | undefined> {
+export async function getProductionTypeById(id: number): Promise<TypeProductionType | undefined> {
   try {
-    const response = await fetch(URL + PRODUCTION_AREA + `/${id}`);
+    const response = await fetch(URL + PRODUCTION_TYPE + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -33,14 +33,14 @@ export async function getProductionAreaById(id: number): Promise<TypeProductionA
 }
 
 // Добавить новый тип производства
-export function postNewProductionArea(data: TypeProductionArea) {
+export function postNewProductionType(data: TypeProductionType) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCTION_AREA, config)
+    fetch(URL + PRODUCTION_TYPE, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -56,9 +56,9 @@ export function postNewProductionArea(data: TypeProductionArea) {
 }
 
 // Удалить тип производства по id
-export async function deleteProductionAreaById(id: number) {
+export async function deleteProductionTypeById(id: number) {
   try {
-    const response = await fetch(URL + PRODUCTION_AREA + `/${id}`, {
+    const response = await fetch(URL + PRODUCTION_TYPE + `/${id}`, {
       method: 'DELETE',
     });
     if (response.ok) {
@@ -74,14 +74,14 @@ export async function deleteProductionAreaById(id: number) {
 }
 
 // Редактировать тип производства
-export function putChangeProductionArea(data: TypeProductionArea) {
+export function putChangeProductionType(data: TypeProductionType) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCTION_AREA, config)
+    fetch(URL + PRODUCTION_TYPE, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');

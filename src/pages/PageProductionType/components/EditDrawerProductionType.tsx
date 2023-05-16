@@ -1,9 +1,9 @@
 import {Button, Drawer, Form, Input, Space} from "antd";
 import React, {useEffect} from "react";
-import {EditDrawerProps, TypeProductionArea} from "../../../types";
-import {getProductionAreaById} from "../../../services";
+import {EditDrawerProps, TypeProductionType} from "../../../types";
+import {getProductionTypeById} from "../../../services";
 
-export const EditDrawerProductionArea: React.FC<EditDrawerProps<TypeProductionArea>> = ({
+export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionType>> = ({
                                                                                           isOpen,
                                                                                           selectedItemId,
                                                                                           closeDrawer,
@@ -28,20 +28,20 @@ export const EditDrawerProductionArea: React.FC<EditDrawerProps<TypeProductionAr
   const handleClose = () => {
     form.resetFields();
     if (selectedItemId) {
-      getProductionArea(selectedItemId).catch((error) => console.error(error));
+      getProductionType(selectedItemId).catch((error) => console.error(error));
     }
     closeDrawer();
   };
 
   // Функция для получения информации выбранной записи и установления значений полей формы
-  const getProductionArea = async (itemId: number) => {
-    const productionArea = await getProductionAreaById(itemId);
-    form.setFieldsValue(productionArea);
+  const getProductionType = async (itemId: number) => {
+    const productionType = await getProductionTypeById(itemId);
+    form.setFieldsValue(productionType);
   }
 
   useEffect(() => {
     if (selectedItemId) {
-      getProductionArea(selectedItemId).catch((error) => console.error(error));
+      getProductionType(selectedItemId).catch((error) => console.error(error));
     }
   }, [selectedItemId]);
 

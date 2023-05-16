@@ -3,7 +3,7 @@ import {TypeOperation} from "./TypeOperation";
 import {TypeOutput} from "./TypeOutput";
 import {TypeUnit} from "./TypeUnit";
 import {TypeOperationTimesheet} from "./TypeOperationTimesheet";
-import {TypeProductionArea} from "./TypeProductionArea";
+import {TypeProductionType} from "./TypeProductionType";
 
 export type TypeOperationAccounting = {
   id?: number,
@@ -15,7 +15,7 @@ export type TypeOperationAccounting = {
   output?: TypeOutput,
   unit?: TypeUnit,
   timeSheets?: TypeOperationTimesheet[],
-  productionType?: TypeProductionArea,
+  productionType?: TypeProductionType,
 }
 
 export interface TypeOperationAccountingFilter {
