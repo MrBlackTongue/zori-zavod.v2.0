@@ -1,5 +1,5 @@
 import {TypeProduct, TypeProductGroup} from "../types";
-import {URL, PRODUCT_GROUP, GROUP, ROOTS, CHILDREN, TREE} from "./apiEndpoints";
+import {URL, PRODUCT_GROUP, GROUP, TREE} from "./apiEndpoints";
 import {message} from "antd";
 
 // Получить список всех товарных групп
@@ -16,21 +16,6 @@ export async function getAllProductGroup(): Promise<TypeProduct[]> {
     return Promise.reject(error);
   }
 }
-
-// Получить данные товарной группы по id
-// export async function getProductGroupById(id: number): Promise<TypeProduct | undefined> {
-//   try {
-//     const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`);
-//     if (!response.ok) {
-//       console.error(response.statusText);
-//       return Promise.reject();
-//     }
-//     return await response.json();
-//   } catch (error) {
-//     console.error(error);
-//     return Promise.reject(error);
-//   }
-// }
 
 // Добавить новую товарную группу
 export function postNewProductGroup(data: TypeProductGroup) {
@@ -101,37 +86,6 @@ export function putChangeProductGroup(data: TypeProductGroup) {
   }
 }
 
-
-// Получить родительские группы товаров
-export async function getRootsProductGroup(): Promise<TypeProduct[]> {
-  try {
-    const res = await fetch(URL + PRODUCT_GROUP + GROUP + ROOTS);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeProduct[];
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-}
-
-// Получить дочерние товарные группы по id родителя
-export async function getChildrenProductGroup(parentId: number): Promise<TypeProduct[]> {
-  try {
-    const res = await fetch(URL + PRODUCT_GROUP + GROUP + CHILDREN + '/' + parentId);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeProduct[];
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-}
-
 // Получить данные товарной группы по id
 export async function getProductGroupById(id: number): Promise<TypeProductGroup | undefined> {
   try {
@@ -147,7 +101,6 @@ export async function getProductGroupById(id: number): Promise<TypeProductGroup 
       console.error(parentResponse.statusText);
       return Promise.reject();
     }
-
     const parentGroup = await parentResponse.json();
     return { ...productGroup, parent: parentGroup };
   } catch (error) {

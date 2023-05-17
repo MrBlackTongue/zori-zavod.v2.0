@@ -19,18 +19,16 @@ export const PageProductGroup: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую группу товаров
-  const addProductGroup = (values: { [key: string]: any }): TypeProductGroup => {
+  const addProductGroup = (values: { [key: string]: any }): void => {
+    console.log("values.parent", values.parent)
     const productGroup: TypeProductGroup = {
       title: values.title,
-      parent: values.parent, // добавлено
-      children: [], // добавлено
+      parent: values.parent ? {id: values.parent} : undefined,
     };
     setIsModalOpen(false)
     postNewProductGroup(productGroup)
     setUpdateTable(!updateTable)
-    return productGroup;
   };
-
 
   // Открыть дравер
   const openDrawer = (productGroupId: number) => {
@@ -40,18 +38,19 @@ export const PageProductGroup: React.FC = () => {
 
   // Обновить группу товаров
   const updateProductGroup = (values: { [key: string]: any }): TypeProductGroup => {
+    console.log("values", values);
     const productGroup: TypeProductGroup = {
       id: values.id,
       title: values.title,
-      parent: values.parent,
+      parent: values.parent ? {id: values.parent.id} : undefined,
       children: [],
     };
+    setSelectedProductGroupId(selectedProductGroupId)
     setIsDrawerOpen(false)
     putChangeProductGroup(productGroup)
     setUpdateTable(!updateTable)
     return productGroup
   };
-
 
   return (
     <div style={{ display: 'grid' }}>

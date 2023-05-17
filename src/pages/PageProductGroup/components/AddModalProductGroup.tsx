@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Form, Input, Modal, Select } from "antd";
-import { AddModalProps, TypeProductGroup } from "../../../types";
-import { getAllProductGroup } from "../../../services";
+import React, {useState, useEffect} from "react";
+import {Form, Input, Modal, Select} from "antd";
+import {AddModalProps, TypeProductGroup} from "../../../types";
+import {getAllProductGroup} from "../../../services";
 
 export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = ({
                                                                                   isOpen,
@@ -19,13 +19,9 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
     form
       .validateFields()
       .then((values) => {
+        console.log('values' ,values);
         form.resetFields();
-        // Находим выбранную группу в массиве всех групп
-        const parentGroup = productGroups.find(
-          (group) => group.id === values.parent
-        );
-        // Используем эту группу как родительскую
-        addItem({ ...values, parent: parentGroup });
+        addItem({...values, parent: values.parent}); // Изменено
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
@@ -44,19 +40,21 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
     >
       <Form
         form={form}
-        initialValues={{ modifier: "public" }}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
-        style={{ marginTop: 30 }}
+        initialValues={{modifier: "public"}}
+        labelCol={{span: 6}}
+        wrapperCol={{span: 16}}
+        style={{marginTop: 30}}
       >
         <Form.Item
           label="Название"
           name="title"
-          rules={[{ required: true, message: "введите название группы" }]}
+          rules={[{required: true, message: "введите название группы"}]}
         >
-          <Input />
+          <Input/>
         </Form.Item>
-        <Form.Item label="Родительская группа" name="parent">
+        <Form.Item
+          label="Родительская группа"
+          name="parent">
           <Select placeholder="Выберите родительскую группу">
             {productGroups.map((group) => (
               <Select.Option key={group.id} value={group.id}>

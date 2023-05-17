@@ -1,7 +1,7 @@
 import { Form, Input, Drawer, Select, Button } from "antd";
 import { useEffect, useState } from "react";
 import { EditDrawerProps, TypeProductGroup } from "../../../types";
-import { getAllProductGroup } from "../../../services";
+import {getProductGroupById, getAllProductGroup } from "../../../services";
 
 export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>> = ({
                                                                                       isOpen,
@@ -16,16 +16,28 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
     getAllProductGroup().then(setProductGroup);
   }, []);
 
-  const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        updateItem(values);
-      })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+  useEffect(() => {
+    if (selectedItemId !== undefined) { // проверяем, что selectedItemId определён
+      getProductGroupById(selectedItemId).then((data) => {
+        form.setFieldsValue({
+          title: data?.title,
+          parent: data?.parent?.id ?? null, // Если id не определен, используем null
+        });
       });
+    }
+  }, [selectedItemId, form]);
+
+  const handleOk = async () => {
+    try {
+      const values = await form.validateFields();
+      form.resetFields();
+      updateItem({
+        ...values,
+        parent: values.parent ? {id: values.parent} : undefined,
+      });
+    } catch (info) {
+      console.log('Validate Failed:', info);
+    }
   };
 
   return (
@@ -41,6 +53,12 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
         wrapperCol={{ span: 16 }}
         style={{ marginTop: 30 }}
       >
+        <Form.Item
+          name="id"
+          style={{ display: 'none' }}
+        >
+          <Input type="hidden" />
+        </Form.Item>
         <Form.Item
           label="Название"
           name="title"

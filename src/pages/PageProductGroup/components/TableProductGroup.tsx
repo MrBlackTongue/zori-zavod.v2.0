@@ -33,7 +33,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-     // sorter: (a, b) => a.title < b.title ? -1 : 1,
+      //sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
       title: 'Действия',
