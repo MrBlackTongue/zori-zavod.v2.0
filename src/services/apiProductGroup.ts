@@ -59,7 +59,7 @@ export async function deleteProductGroupById(id: number) {
 }
 
 // Редактировать товарную группу
-export function putChangeProductGroup(data: TypeProductGroup) {
+export function putChangeProductGroup(data: TypeProductGroup, setUpdateTable: Function, updateTable: boolean) {
   try {
     const config = {
       method: 'PUT',
@@ -67,14 +67,15 @@ export function putChangeProductGroup(data: TypeProductGroup) {
       body: JSON.stringify({
         id: data.id,
         title: data.title,
-        parent: String(data.parent),  // convert to string
-        children: data?.children?.map(child => String(child)),  // convert each child to string
+        parent: data.parent?.id,  // pass id instead of object
+        children: data?.children?.map(child => child.id),  // pass each child id
       }),
     };
     fetch(URL + PRODUCT_GROUP + GROUP, config)
       .then(response => {
         if (response.ok) {
-          return message.success('Запись изменена');
+          message.success('Запись изменена');
+          setUpdateTable(!updateTable); // Update table after successful response
         } else {
           console.error(response.statusText);
           return message.error('Ошибка при изменении записи');
@@ -95,7 +96,9 @@ export async function getProductGroupById(id: number): Promise<TypeProductGroup 
       return Promise.reject();
     }
     const productGroup = await response.json();
-    const parentResponse = await fetch(URL + PRODUCT_GROUP + GROUP + `/${productGroup.parent}`);
+    console.log(productGroup);
+    const parentResponse = await fetch(URL + PRODUCT_GROUP + GROUP + `/${productGroup.parent.id}`);
+
 
     if (!parentResponse.ok) {
       console.error(parentResponse.statusText);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, Space, Button } from 'antd';
 import { SyncOutlined, PlusOutlined } from '@ant-design/icons';
-import { postNewProductGroup, putChangeProductGroup } from "../../services";
+import {getProductGroupById, postNewProductGroup, putChangeProductGroup} from "../../services";
 import { TypeProductGroup } from "../../types";
 import { TableProductGroup } from "./components/TableProductGroup";
 import { AddModalProductGroup } from "./components/AddModalProductGroup";
@@ -42,14 +42,13 @@ export const PageProductGroup: React.FC = () => {
     const productGroup: TypeProductGroup = {
       id: values.id,
       title: values.title,
-      parent: values.parent ? {id: values.parent.id} : undefined,
-      children: [],
+      parent: values.parent ? {id: values.parent} : undefined, // Here we pass the parent id directly
     };
-    setSelectedProductGroupId(selectedProductGroupId)
-    setIsDrawerOpen(false)
-    putChangeProductGroup(productGroup)
-    setUpdateTable(!updateTable)
-    return productGroup
+    setSelectedProductGroupId(values.id);
+    setIsDrawerOpen(false);
+    putChangeProductGroup(productGroup, setUpdateTable, updateTable);
+    setUpdateTable(!updateTable);
+    return productGroup;
   };
 
   return (

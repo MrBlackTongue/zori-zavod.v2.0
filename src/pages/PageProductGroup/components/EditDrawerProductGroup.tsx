@@ -20,6 +20,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
     if (selectedItemId !== undefined) { // проверяем, что selectedItemId определён
       getProductGroupById(selectedItemId).then((data) => {
         form.setFieldsValue({
+          id: data?.id,
           title: data?.title,
           parent: data?.parent?.id ?? null, // Если id не определен, используем null
         });
@@ -27,18 +28,24 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
     }
   }, [selectedItemId, form]);
 
+
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
       form.resetFields();
+
+      // Здесь мы получаем объект parent с полными данными.
+      const parentGroup = productGroup.find(group => group.id === values.parent);
+
       updateItem({
         ...values,
-        parent: values.parent ? {id: values.parent} : undefined,
+        parent: parentGroup ? parentGroup : null, // Если parentGroup не найден, используем null
       });
     } catch (info) {
       console.log('Validate Failed:', info);
     }
   };
+
 
   return (
     <Drawer
