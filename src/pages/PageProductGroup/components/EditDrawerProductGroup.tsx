@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Form, Input, Drawer, Select, Button } from "antd";
+import React, {useEffect, useState} from "react";
+import {Form, Input, Drawer, Select, Space, Button} from "antd";
 import {EditDrawerProps, TypeProductGroup} from "../../../types";
-import {getProductGroupById, getAllProductGroup } from "../../../services";
+import {getProductGroupById, getAllProductGroup} from "../../../services";
 
 export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>> = ({
                                                                                       isOpen,
@@ -49,31 +49,45 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
     }
   };
 
+  // Функция закрытия дравера
+  const handleClose = () => {
+    closeDrawer();
+    form.resetFields();
+  };
+
   return (
     <Drawer
       title={`Редактирование группы товаров`}
       open={isOpen}
       onClose={closeDrawer}
       width={650}
+      extra={
+        <Space>
+          <Button onClick={handleClose}>Отмена</Button>
+          <Button onClick={handleOk} type="primary" htmlType="submit">
+            Сохранить
+          </Button>
+        </Space>
+      }
     >
       <Form
         form={form}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
-        style={{ marginTop: 30 }}
+        labelCol={{span: 6}}
+        wrapperCol={{span: 16}}
+        style={{marginTop: 30}}
       >
         <Form.Item
           name="id"
-          style={{ display: 'none' }}
+          style={{display: 'none'}}
         >
-          <Input type="hidden" />
+          <Input type="hidden"/>
         </Form.Item>
         <Form.Item
           label="Название"
           name="title"
-          rules={[{ required: true, message: 'Введите название группы' }]}
+          rules={[{required: true, message: 'Введите название группы'}]}
         >
-          <Input />
+          <Input/>
         </Form.Item>
         <Form.Item
           label="Родительская группа"
@@ -90,11 +104,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
             </Select>
           </div>
         </Form.Item>
-        <Form.Item>
-          <Button type="primary" onClick={handleOk}>
-            Сохранить
-          </Button>
-        </Form.Item>
+
       </Form>
     </Drawer>
   );
