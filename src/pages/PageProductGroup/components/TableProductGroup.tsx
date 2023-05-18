@@ -5,7 +5,6 @@ import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {deleteProductGroupById, getProductGroupTree} from "../../../services";
 import {TableProps, TypeProductGroup, TableParams, TypeProductGroupTree} from "../../../types";
-import type { TableRowSelection } from 'antd/es/table/interface';
 
 export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
                                                                             isUpdateTable,
@@ -90,19 +89,6 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
     }
   };
 
-  // rowSelection objects indicates the need for row selection
-  const rowSelection: TableRowSelection<TypeProductGroupTree> = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
-    },
-    onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
-    },
-  };
-
   // Функция для обновления таблицы
   const updateTable = () => {
     setLoading(true);
@@ -137,7 +123,6 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
       }}
       loading={loading}
       onChange={handleTableChange}
-      rowSelection={{ ...rowSelection }}
     />
   );
 };
