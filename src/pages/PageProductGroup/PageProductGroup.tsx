@@ -38,18 +38,21 @@ export const PageProductGroup: React.FC = () => {
 
   // Обновить группу товаров
   const updateProductGroup = (values: { [key: string]: any }): TypeProductGroup => {
-    console.log("values", values);
     const productGroup: TypeProductGroup = {
       id: values.id,
       title: values.title,
       parent: values.parent ? {id: values.parent} : undefined,
     };
+
+    console.log(productGroup);
+
     setSelectedProductGroupId(values.id);
     setIsDrawerOpen(false);
     putChangeProductGroup(productGroup);
     setUpdateTable(!updateTable);
     return productGroup;
   };
+
 
   return (
     <div style={{ display: 'grid' }}>

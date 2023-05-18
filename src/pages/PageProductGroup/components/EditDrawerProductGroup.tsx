@@ -20,12 +20,10 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
   useEffect(() => {
     if (selectedItemId !== undefined) {
       getProductGroupById(selectedItemId).then((data) => {
-        console.log("data", data)
-        console.log("parent", data?.parent)
         form.setFieldsValue({
           id: data?.id,
           title: data?.title,
-          parent: data?.parent
+          parent: data?.parent?.id
         });
         setSelectedParentProductGroup(data?.parent)
       });
@@ -40,14 +38,16 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
       // Здесь мы получаем объект parent с полными данными.
       const parentGroup = productGroup.find(group => group.id === values.parent);
 
+      // Обновляем объект, который отправляем на сервер, чтобы в parent передавался только id.
       updateItem({
         ...values,
-        parent: parentGroup ? parentGroup : null,
+        parent: parentGroup ? parentGroup.id : null,
       });
     } catch (info) {
       console.log('Validate Failed:', info);
     }
   };
+
 
   // Функция закрытия дравера
   const handleClose = () => {
@@ -96,7 +96,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
           <div>
             <Select
               placeholder="Выберите родительскую группу"
-              value={selectedParentProductGroup ? selectedParentProductGroup.title : undefined}
+              value={selectedParentProductGroup ? selectedParentProductGroup.id : undefined}
             >
               {productGroup.map(group => (
                 <Select.Option key={group.id} value={group.id}>{group.title}</Select.Option>
@@ -104,7 +104,6 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
             </Select>
           </div>
         </Form.Item>
-
       </Form>
     </Drawer>
   );
