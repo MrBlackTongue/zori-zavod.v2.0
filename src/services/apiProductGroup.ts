@@ -58,24 +58,17 @@ export async function deleteProductGroupById(id: number) {
   }
 }
 
-// Редактировать товарную группу
-export function putChangeProductGroup(data: TypeProductGroup, setUpdateTable: Function, updateTable: boolean) {
+export function putChangeProductGroup(data: TypeProductGroup) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        id: data.id,
-        title: data.title,
-        parent: data.parent?.id,  // pass id instead of object
-        children: data?.children?.map(child => child.id),  // pass each child id
-      }),
+      body: JSON.stringify(data),
     };
     fetch(URL + PRODUCT_GROUP + GROUP, config)
       .then(response => {
         if (response.ok) {
-          message.success('Запись изменена');
-          setUpdateTable(!updateTable); // Update table after successful response
+          return message.success('Запись изменена');
         } else {
           console.error(response.statusText);
           return message.error('Ошибка при изменении записи');
@@ -90,22 +83,12 @@ export function putChangeProductGroup(data: TypeProductGroup, setUpdateTable: Fu
 // Получить данные товарной группы по id
 export async function getProductGroupById(id: number): Promise<TypeProductGroup | undefined> {
   try {
-    const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`);
+    const response = await fetch(URL + PRODUCT_GROUP + GROUP +`/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
     }
-    const productGroup = await response.json();
-    console.log(productGroup);
-    const parentResponse = await fetch(URL + PRODUCT_GROUP + GROUP + `/${productGroup.parent.id}`);
-
-
-    if (!parentResponse.ok) {
-      console.error(parentResponse.statusText);
-      return Promise.reject();
-    }
-    const parentGroup = await parentResponse.json();
-    return { ...productGroup, parent: parentGroup };
+    return await response.json();
   } catch (error) {
     console.error(error);
     return Promise.reject(error);

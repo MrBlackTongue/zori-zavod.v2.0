@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { Form, Input, Drawer, Select, Button } from "antd";
-import { useEffect, useState } from "react";
-import { EditDrawerProps, TypeProductGroup } from "../../../types";
+import {EditDrawerProps, TypeProductGroup} from "../../../types";
 import {getProductGroupById, getAllProductGroup } from "../../../services";
 
 export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>> = ({
@@ -11,23 +11,26 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
                                                                                     }) => {
   const [form] = Form.useForm();
   const [productGroup, setProductGroup] = useState<TypeProductGroup[]>([]);
+  const [selectedParentProductGroup, setSelectedParentProductGroup] = useState<TypeProductGroup>();
 
   useEffect(() => {
     getAllProductGroup().then(setProductGroup);
   }, []);
 
   useEffect(() => {
-    if (selectedItemId !== undefined) { // проверяем, что selectedItemId определён
+    if (selectedItemId !== undefined) {
       getProductGroupById(selectedItemId).then((data) => {
+        console.log("data", data)
+        console.log("parent", data?.parent)
         form.setFieldsValue({
           id: data?.id,
           title: data?.title,
-          parent: data?.parent?.id ?? null, // Если id не определен, используем null
+          parent: data?.parent
         });
+        setSelectedParentProductGroup(data?.parent)
       });
     }
   }, [selectedItemId, form]);
-
 
   const handleOk = async () => {
     try {
@@ -39,13 +42,12 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
 
       updateItem({
         ...values,
-        parent: parentGroup ? parentGroup : null, // Если parentGroup не найден, используем null
+        parent: parentGroup ? parentGroup : null,
       });
     } catch (info) {
       console.log('Validate Failed:', info);
     }
   };
-
 
   return (
     <Drawer
@@ -77,11 +79,16 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
           label="Родительская группа"
           name="parent"
         >
-          <Select placeholder="Выберите родительскую группу">
-            {productGroup.map(group => (
-              <Select.Option key={group.id} value={group.id}>{group.title}</Select.Option>
-            ))}
-          </Select>
+          <div>
+            <Select
+              placeholder="Выберите родительскую группу"
+              value={selectedParentProductGroup ? selectedParentProductGroup.title : undefined}
+            >
+              {productGroup.map(group => (
+                <Select.Option key={group.id} value={group.id}>{group.title}</Select.Option>
+              ))}
+            </Select>
+          </div>
         </Form.Item>
         <Form.Item>
           <Button type="primary" onClick={handleOk}>
