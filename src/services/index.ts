@@ -16,3 +16,4 @@ export * from './apiOperationTimesheet';
 export * from './apiShipment';
 export * from './apiShipmentProductMovement'
 export * from './apiProductionProductMovement'
+export * from './apiMeterType'
