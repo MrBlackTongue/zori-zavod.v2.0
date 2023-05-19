@@ -43,8 +43,8 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
         setSelectedClient(undefined)
         addItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 

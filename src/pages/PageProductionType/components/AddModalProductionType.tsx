@@ -17,8 +17,8 @@ export const AddModalProductionType: React.FC<AddModalProps<TypeProductionType>>
         form.resetFields();
         addItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 

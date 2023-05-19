@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
 import {EditDrawerProps, TypeProduct, TypeProductBatch} from "../../../types";
 import {getAllProduct, getProductBatchById} from "../../../services";
@@ -53,8 +53,8 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
       .then((values) => {
         updateItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 

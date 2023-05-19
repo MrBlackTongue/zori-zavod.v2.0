@@ -17,8 +17,8 @@ export const AddModalClient: React.FC<AddModalProps<TypeClient>> = ({
         form.resetFields();
         addItem(values);
       })
-      .catch((info) => {
-        console.log('Validate failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 

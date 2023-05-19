@@ -20,8 +20,8 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
         // form.resetFields()
         updateItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 

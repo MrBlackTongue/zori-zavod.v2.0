@@ -106,8 +106,8 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         addItem({...values, output: values.output || null, fact: values.fact || null});
         onSearchOutput('');
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 

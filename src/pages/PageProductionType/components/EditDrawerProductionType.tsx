@@ -1,5 +1,5 @@
-import {Button, Drawer, Form, Input, Space} from "antd";
 import React, {useEffect} from "react";
+import {Button, Drawer, Form, Input, Space} from "antd";
 import {EditDrawerProps, TypeProductionType} from "../../../types";
 import {getProductionTypeById} from "../../../services";
 
@@ -19,8 +19,8 @@ export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTy
         updateItem(values);
         closeDrawer()
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 

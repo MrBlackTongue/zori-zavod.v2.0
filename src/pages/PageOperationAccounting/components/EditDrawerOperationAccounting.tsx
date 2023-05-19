@@ -1,5 +1,5 @@
-import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
 import React, {useState, useEffect} from "react";
+import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../../types";
 import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionType} from "../../../services";
 import dayjs from "dayjs";
@@ -7,12 +7,13 @@ import dayjs from "dayjs";
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperationAccounting>> = ({
-                                                                                                    isOpen,
-                                                                                                    selectedItemId,
-                                                                                                    closeDrawer,
-                                                                                                    updateItem,
-                                                                                                  }) => {
+export const EditDrawerOperationAccounting:
+  React.FC<EditDrawerProps<TypeOperationAccounting>> = ({
+                                                          isOpen,
+                                                          selectedItemId,
+                                                          closeDrawer,
+                                                          updateItem,
+                                                        }) => {
   const [form] = Form.useForm();
 
   // Все операции, выбранная операция
@@ -101,8 +102,8 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
         closeDrawer()
         onSearchOutput('')
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 

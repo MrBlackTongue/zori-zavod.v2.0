@@ -1,5 +1,5 @@
-import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import React, {useCallback, useEffect, useState} from "react";
+import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import {EditDrawerProps, TypeOutput, TypeProduct} from "../../../types";
 import {getOutputById, getAllProduct} from "../../../services";
 import dayjs from 'dayjs';
@@ -56,8 +56,8 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
       .then((values) => {
         updateItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 

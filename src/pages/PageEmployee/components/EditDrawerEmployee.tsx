@@ -25,8 +25,8 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
       .then((values) => {
         updateItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 

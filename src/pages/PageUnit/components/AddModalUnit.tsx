@@ -17,8 +17,8 @@ export const AddModalUnit: React.FC<AddModalProps<TypeUnit>> = ({
         form.resetFields();
         addItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 

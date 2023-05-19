@@ -39,8 +39,8 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
         setSelectedProduct(undefined)
         addItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 

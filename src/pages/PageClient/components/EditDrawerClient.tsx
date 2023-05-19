@@ -20,8 +20,8 @@ export const EditDrawerClient: React.FC<EditDrawerProps<TypeClient>> = ({
         // form.resetFields()
         updateItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   };
 
