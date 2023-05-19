@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {Form, Input, Modal, Select} from "antd";
 import {AddModalProps, TypeProductGroup} from "../../../types";
-import {getProductGroupParent} from "../../../services";
+import {getAllProductGroup} from "../../../services";
+
+const {Option} = Select;
 
 export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = ({
                                                                                   isOpen,
@@ -10,16 +12,18 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                 }) => {
   const [form] = Form.useForm();
   const [allProductGroupParent, setAllProductGroupParent] = useState<TypeProductGroup[]>([]);
+ // const [selectedParentGroup, setSelectedParentGroup] = useState<TypeProductGroup>();
+  //const [filteredParentGroup, setFilteredParentGroup] = useState<TypeProductGroup[]>([]);
 
   useEffect(() => {
-    getProductGroupParent().then(setAllProductGroupParent);
+    getAllProductGroup().then(setAllProductGroupParent);
   }, []);
 
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
-        console.log('values' ,values);
+        console.log('values', values);
         form.resetFields();
         addItem({...values, parent: values.parent}); // Изменено
       })
@@ -27,6 +31,23 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
         console.log("Validate Failed:", info);
       });
   };
+
+  //Поиск по товарам
+  // const onSearchParentGroup = (searchText: string) => {
+  //   if (searchText === '') {
+  //     setFilteredParentGroup(allProductGroupParent || []);
+  //   } else {
+  //     const searchLowerCase = searchText.toLowerCase();
+  //     const filtered = allProductGroupParent?.filter((productGroupParent) => {
+  //       const titleMatch = productGroupParent && productGroupParent?.parent?.title
+  //         ? productGroupParent?.parent?.title.toLowerCase().includes(searchLowerCase)
+  //         : false;
+  //
+  //       return titleMatch;
+  //     });
+  //     setFilteredParentGroup(prevState => filtered || prevState);
+  //   }
+  // };
 
   return (
     <Modal
@@ -55,13 +76,22 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
         <Form.Item
           label="Родительская группа"
           name="parent">
-          <Select placeholder="Выберите родительскую группу">
-            {allProductGroupParent.map((group) => (
-              <Select.Option key={group.id} value={group.id}>
-                {group.title}
-              </Select.Option>
-            ))}
-          </Select>
+          <div>
+            <Select
+              showSearch
+              allowClear
+              filterOption={false}
+              placeholder="Выберите родительскую группу"
+             // value={selectedParentGroup ? selectedParentGroup?.title : undefined}
+             // onSearch={onSearchParentGroup}
+              >
+              {allProductGroupParent.map((group) => (
+                <Option key={group.id} value={group.id}>
+                  {group.title}
+                </Option>
+              ))}
+            </Select>
+          </div>
         </Form.Item>
       </Form>
     </Modal>

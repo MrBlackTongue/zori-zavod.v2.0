@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Form, Input, Drawer, Select, Space, Button} from "antd";
 import {EditDrawerProps, TypeProductGroup} from "../../../types";
-import {getProductGroupById, getProductGroupParent} from "../../../services";
+import {getAllProductGroup, getProductGroupById} from "../../../services";
 
 export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>> = ({
                                                                                       isOpen,
@@ -44,7 +44,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
   };
 
   useEffect(() => {
-    getProductGroupParent().then(setAllProductGroup);
+    getAllProductGroup().then(setAllProductGroup);
   }, []);
 
   useEffect(() => {
