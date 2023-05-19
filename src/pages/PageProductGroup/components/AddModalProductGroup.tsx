@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Form, Input, Modal, Select} from "antd";
 import {AddModalProps, TypeProductGroup} from "../../../types";
-import {getAllProductGroup} from "../../../services";
+import {getProductGroupParent} from "../../../services";
 
 export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = ({
                                                                                   isOpen,
@@ -9,10 +9,10 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                   onCancel,
                                                                                 }) => {
   const [form] = Form.useForm();
-  const [productGroups, setProductGroups] = useState<TypeProductGroup[]>([]);
+  const [allProductGroupParent, setAllProductGroupParent] = useState<TypeProductGroup[]>([]);
 
   useEffect(() => {
-    getAllProductGroup().then(setProductGroups);
+    getProductGroupParent().then(setAllProductGroupParent);
   }, []);
 
   const handleOk = () => {
@@ -56,7 +56,7 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
           label="Родительская группа"
           name="parent">
           <Select placeholder="Выберите родительскую группу">
-            {productGroups.map((group) => (
+            {allProductGroupParent.map((group) => (
               <Select.Option key={group.id} value={group.id}>
                 {group.title}
               </Select.Option>

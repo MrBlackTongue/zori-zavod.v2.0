@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Form, Input, Drawer, Select, Space, Button} from "antd";
 import {EditDrawerProps, TypeProductGroup} from "../../../types";
-import {getProductGroupById, getAllProductGroup} from "../../../services";
+import {getProductGroupById, getProductGroupParent} from "../../../services";
 
 export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>> = ({
                                                                                       isOpen,
@@ -10,11 +10,41 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
                                                                                       closeDrawer,
                                                                                     }) => {
   const [form] = Form.useForm();
-  const [productGroup, setProductGroup] = useState<TypeProductGroup[]>([]);
-  const [selectedParentProductGroup, setSelectedParentProductGroup] = useState<TypeProductGroup>();
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
+  const [selectedProductGroupParent, setSelectedProductGroupParent] = useState<TypeProductGroup>();
+
+  // Изменить выбранный группу товаров
+  const onChangeProductGroupParent = (value: string): TypeProductGroup | undefined => {
+    const selectedProductGroupParent =
+      allProductGroup?.find(ProductGroupParent => ProductGroupParent.id === parseInt(value));
+    form.setFieldsValue({parent: selectedProductGroupParent});
+    setSelectedProductGroupParent(selectedProductGroupParent);
+    return selectedProductGroupParent;
+  };
+
+  // Функция подтверждения редактирования
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        console.log('values', values);
+        updateItem(values);
+        closeDrawer()
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info)
+      })
+  }
+
+
+  // Функция закрытия дравера
+  const handleClose = () => {
+    closeDrawer();
+    form.resetFields();
+  };
 
   useEffect(() => {
-    getAllProductGroup().then(setProductGroup);
+    getProductGroupParent().then(setAllProductGroup);
   }, []);
 
   useEffect(() => {
@@ -25,35 +55,10 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
           title: data?.title,
           parent: data?.parent?.id
         });
-        setSelectedParentProductGroup(data?.parent)
+        setSelectedProductGroupParent(data?.parent)
       });
     }
   }, [selectedItemId, form]);
-
-  const handleOk = async () => {
-    try {
-      const values = await form.validateFields();
-      form.resetFields();
-
-      // Здесь мы получаем объект parent с полными данными.
-      const parentGroup = productGroup.find(group => group.id === values.parent);
-
-      // Обновляем объект, который отправляем на сервер, чтобы в parent передавался только id.
-      updateItem({
-        ...values,
-        parent: parentGroup ? parentGroup.id : null,
-      });
-    } catch (info) {
-      console.log('Validate Failed:', info);
-    }
-  };
-
-
-  // Функция закрытия дравера
-  const handleClose = () => {
-    closeDrawer();
-    form.resetFields();
-  };
 
   return (
     <Drawer
@@ -96,9 +101,10 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
           <div>
             <Select
               placeholder="Выберите родительскую группу"
-              value={selectedParentProductGroup ? selectedParentProductGroup.id : undefined}
+              value={selectedProductGroupParent ? selectedProductGroupParent.title : undefined}
+              onChange={onChangeProductGroupParent}
             >
-              {productGroup.map(group => (
+              {allProductGroup.map(group => (
                 <Select.Option key={group.id} value={group.id}>{group.title}</Select.Option>
               ))}
             </Select>

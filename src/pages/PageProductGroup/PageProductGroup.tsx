@@ -38,10 +38,11 @@ export const PageProductGroup: React.FC = () => {
 
   // Обновить группу товаров
   const updateProductGroup = (values: { [key: string]: any }): TypeProductGroup => {
+    console.log('parent_value', values);
     const productGroup: TypeProductGroup = {
       id: values.id,
       title: values.title,
-      parent: values.parent ? {id: values.parent} : undefined,
+      parent: values.parent ? {id: values.parent.id} : undefined,
     };
 
     console.log(productGroup);
