@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
-import {Space, Button, FloatButton, Divider, Tooltip} from 'antd';
+import {Space, Button, FloatButton, Divider, Tooltip, Typography} from 'antd';
 import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
@@ -26,6 +26,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
 
   const {id} = useParams();
   const navigate = useNavigate();
+  const {Title} = Typography;
 
   // Состояние и методы для учетной операции
   const [updateAllTable, setUpdateAllTable] = useState(false);
@@ -148,9 +149,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Button>
       </Tooltip>
       <div className='centerTitle'>
-        <div style={{flex: 1}}>
-          <Divider orientation="left">Учетная операция</Divider>
-        </div>
+        <Title level={3}>Детали учетной операции</Title>
         <Space>
           <Button
             type="dashed"
