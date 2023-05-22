@@ -95,6 +95,18 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
           <Input/>
         </Form.Item>
         <Form.Item
+          label="Цена за ед. изм."
+          name="cost"
+          rules={[
+            {
+              required: true,
+              message: 'Пожалуйста, введите цену за ед. изм.!',
+            },
+          ]}
+        >
+          <InputNumber style={{width: '100%'}}/>
+        </Form.Item>
+        <Form.Item
           label="Единица измерения"
           name="unit"
         >
@@ -111,17 +123,6 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
                 )) : null}
             </Select>
           </div>
-        </Form.Item>
-        <Form.Item
-          label="Цена"
-          name="cost"
-          rules={[{
-            type: 'number',
-            message: 'напишите цену цифрами больше 0',
-            warningOnly: true,
-          }]}
-        >
-          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Form>
     </Drawer>

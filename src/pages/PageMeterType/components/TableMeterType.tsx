@@ -13,8 +13,11 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
                                                                     }) => {
   type TablePaginationPosition = 'bottomCenter'
 
+  // Лоудер и список всех типов счетчиков
   const [loading, setLoading] = useState(false);
   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>();
+
+  // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -23,6 +26,7 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeMeterType> = [
     {
       title: 'Счетчик',
@@ -30,6 +34,11 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
       key: 'title',
       defaultSortOrder: 'ascend',
       sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
+    },
+    {
+      title: 'Цена за ед. изм',
+      dataIndex: 'cost',
+      key: 'cost',
     },
     {
       title: 'Единица измерения',
@@ -74,6 +83,7 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
     },
   ];
 
+  // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
     sorter: SorterResult<TypeMeterType>,
@@ -82,14 +92,22 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
       pagination,
       ...sorter,
     });
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setAllMeterType(allMeterType);
+    }
   };
 
-  useEffect(() => {
+  // Функция для обновления таблицы
+  const updateTable = () => {
     setLoading(true);
     getAllMeterType().then((meterType) => {
       setAllMeterType(meterType);
       setLoading(false);
     });
+  }
+
+  useEffect(() => {
+    updateTable();
   }, [isUpdateTable]);
 
   return (

@@ -11,11 +11,16 @@ import {EditDrawerMeterType} from "./components/EditDrawerMeterType";
 const {Title} = Typography;
 
 export const PageMeterType: React.FC = () => {
+
+  // Обновление таблицы, тим счетчика по id
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
+
+  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // Добавить новый тим счетчика
   const handleAddMeterType = (values: { [key: string]: any }): TypeMeterType => {
     const meterType: TypeMeterType = {
       title: values.title,
@@ -31,11 +36,13 @@ export const PageMeterType: React.FC = () => {
     return meterType;
   };
 
+  // Открыть дравер
   const openDrawer = (meterTypeId: number) => {
     setSelectedMeterTypeId(meterTypeId)
     setIsDrawerOpen(true);
   };
 
+  // Обновить тип счетчика
   const handleUpdateMeterType = (values: { [key: string]: any }): TypeMeterType => {
     const meterType: TypeMeterType = {
       title: values.title,
@@ -52,6 +59,7 @@ export const PageMeterType: React.FC = () => {
     return meterType
   };
 
+  // Удалить запись из таблицы
   const handleDeleteMeterType = (id: number) => {
     deleteMeterTypeById(id).catch((error) => console.error(error));
     setUpdateTable(prevState => !prevState)

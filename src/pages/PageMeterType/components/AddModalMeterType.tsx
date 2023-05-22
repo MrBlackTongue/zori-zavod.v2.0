@@ -1,14 +1,20 @@
 import React, {useState, useEffect} from "react";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {AddModalProps, TypeMeterType, TypeUnit} from "../../../types";
-import {getAllUnit, postNewMeterType} from "../../../services";
+import {getAllUnit} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpen, addItem, onCancel,}) => {
+export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpen,
+                                                                            addItem,
+                                                                            onCancel,
+                                                                          }) => {
   const [form] = Form.useForm();
+
+  // Все единицы измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
+  // Изменить выбранную единицу измерения
   const onChangeUnit = (values: string, option: any): TypeUnit => {
     const unit: TypeUnit = {
       id: option.id,
@@ -20,12 +26,14 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpe
     return unit
   };
 
+  // Функция подтверждения добавления
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
         const meterType: TypeMeterType = {
           title: values.title,
+          cost: values.cost,  // добавьте это поле
           unit: {
             id: values.unit.id,
             name: values.unit.name,
@@ -39,6 +47,7 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpe
       });
   }
 
+  // Функция закрытия модального окна
   const handleClose = () => {
     onCancel()
   };
@@ -52,7 +61,7 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpe
   return (
     <Modal
       title={`Добавление нового типа счетчика`}
-      visible={isOpen}
+      open={isOpen}
       onCancel={handleClose}
       width={700}
       okText={'Сохранить'}
@@ -72,6 +81,18 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpe
           rules={[{required: true, message: 'Введите название'}]}
         >
           <Input/>
+        </Form.Item>
+        <Form.Item
+          label="Цена за ед. изм."
+          name="cost"
+          rules={[
+            {
+              required: true,
+              message: 'Пожалуйста, введите цену за ед. изм.!',
+            },
+          ]}
+        >
+          <InputNumber style={{width: '100%'}} step={0.01} />
         </Form.Item>
         <Form.Item
           label="Единица измерения"
