@@ -24,13 +24,6 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
     setSelectedParentGroup(selectedParentGroup);
   };
 
-  useEffect(() => {
-    getAllProductGroup().then(groups => {
-      setAllProductGroupParent(groups);
-      setFilteredParentGroup(groups);
-    });
-  }, []);
-
   const handleOk = () => {
     form
       .validateFields()
@@ -43,6 +36,19 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
         console.log("Validate Failed:", info);
       });
   };
+
+  const handleClose = () => {
+    form.resetFields();
+    setSelectedParentGroup(undefined);
+    onCancel()
+  };
+
+  useEffect(() => {
+    getAllProductGroup().then(groups => {
+      setAllProductGroupParent(groups);
+      setFilteredParentGroup(groups);
+    });
+  }, []);
 
 
   //Поиск по товарам
@@ -64,7 +70,7 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
     <Modal
       title="Добавление новой группы товаров"
       open={isOpen}
-      onCancel={onCancel}
+      onCancel={handleClose}
       width={650}
       okText="Сохранить"
       cancelText="Отмена"

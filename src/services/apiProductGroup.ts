@@ -109,18 +109,3 @@ export async function getProductGroupTree(): Promise<TypeProductGroup[]> {
     return Promise.reject(error);
   }
 }
-
-// Получение родительских групп товаров
-// export async function getProductGroupParent(): Promise<TypeProductGroup[]> {
-//   try {
-//     const res = await fetch(URL + PRODUCT_GROUP + GROUP + PARENT);
-//     if (!res.ok) {
-//       console.error(res.statusText);
-//       return Promise.reject();
-//     }
-//     return await res.json() as TypeProductGroup[];
-//   } catch (error) {
-//     console.error(error);
-//     return Promise.reject(error);
-//   }
-// }
