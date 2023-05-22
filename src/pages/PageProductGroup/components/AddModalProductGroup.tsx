@@ -12,11 +12,23 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                 }) => {
   const [form] = Form.useForm();
   const [allProductGroupParent, setAllProductGroupParent] = useState<TypeProductGroup[]>([]);
- // const [selectedParentGroup, setSelectedParentGroup] = useState<TypeProductGroup>();
-  //const [filteredParentGroup, setFilteredParentGroup] = useState<TypeProductGroup[]>([]);
+  const [selectedParentGroup, setSelectedParentGroup] = useState<TypeProductGroup>();
+  const [filteredParentGroup, setFilteredParentGroup] = useState<TypeProductGroup[]>([]);
+
+  // Изменить выбранный группу товаров
+  const onChangeProductGroup = (value: string): void => {
+    const selectedParentGroup = allProductGroupParent?.find(productGroup => productGroup.id === parseInt(value));
+    form.setFieldsValue({
+      parent: selectedParentGroup ? selectedParentGroup.id : undefined
+    });
+    setSelectedParentGroup(selectedParentGroup);
+  };
 
   useEffect(() => {
-    getAllProductGroup().then(setAllProductGroupParent);
+    getAllProductGroup().then(groups => {
+      setAllProductGroupParent(groups);
+      setFilteredParentGroup(groups);
+    });
   }, []);
 
   const handleOk = () => {
@@ -25,29 +37,28 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
       .then((values) => {
         console.log('values', values);
         form.resetFields();
-        addItem({...values, parent: values.parent}); // Изменено
+        addItem({...values, parent: values.parent ? values.parent : null}); // Изменено
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
       });
   };
 
+
   //Поиск по товарам
-  // const onSearchParentGroup = (searchText: string) => {
-  //   if (searchText === '') {
-  //     setFilteredParentGroup(allProductGroupParent || []);
-  //   } else {
-  //     const searchLowerCase = searchText.toLowerCase();
-  //     const filtered = allProductGroupParent?.filter((productGroupParent) => {
-  //       const titleMatch = productGroupParent && productGroupParent?.parent?.title
-  //         ? productGroupParent?.parent?.title.toLowerCase().includes(searchLowerCase)
-  //         : false;
-  //
-  //       return titleMatch;
-  //     });
-  //     setFilteredParentGroup(prevState => filtered || prevState);
-  //   }
-  // };
+  const onSearchParentGroup = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredParentGroup(allProductGroupParent || []);
+    } else {
+      const searchLowerCase = searchText.toLowerCase();
+      const filtered = allProductGroupParent?.filter((productGroupParent) =>
+        productGroupParent?.title
+          ? productGroupParent.title.toLowerCase().includes(searchLowerCase)
+          : false
+      );
+      setFilteredParentGroup(filtered || []);
+    }
+  };
 
   return (
     <Modal
@@ -82,11 +93,12 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
               allowClear
               filterOption={false}
               placeholder="Выберите родительскую группу"
-             // value={selectedParentGroup ? selectedParentGroup?.title : undefined}
-             // onSearch={onSearchParentGroup}
+             value={selectedParentGroup ? selectedParentGroup?.title : undefined}
+             onSearch={onSearchParentGroup}
+              onChange={onChangeProductGroup}
               >
-              {allProductGroupParent.map((group) => (
-                <Option key={group.id} value={group.id}>
+              {filteredParentGroup?.map((group) => (
+                <Option key={group.id} value={group.id} title={group.title}>
                   {group.title}
                 </Option>
               ))}
