@@ -42,7 +42,7 @@ export const PageProductGroup: React.FC = () => {
     const productGroup: TypeProductGroup = {
       id: values.id,
       title: values.title,
-      parent: values.parent ? {id: values.parent.id} : undefined,
+      parent: values.parent ? {id: values.parent} : undefined,
     };
 
     console.log(productGroup);
