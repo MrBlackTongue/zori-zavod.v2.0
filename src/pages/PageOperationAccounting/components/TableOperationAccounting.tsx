@@ -1,21 +1,31 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {EditOutlined, DeleteOutlined, SearchOutlined,} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {getAllOperationAccounting, postFilterByTable,} from "../../../services";
-import {TableProps, TypeOperationAccounting, TableParams, TypeOperationTimesheet} from "../../../types";
+import {
+  TableProps,
+  TypeOperationAccounting,
+  TableParams,
+  TypeOperationTimesheet,
+  TypeOperationAccountingFilter,
+} from "../../../types";
 import dayjs from "dayjs";
 
-export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounting>> = ({
-                                                                                          isUpdateTable,
-                                                                                          openDrawer,
-                                                                                          onDelete,
-                                                                                          filter,
-                                                                                        }) => {
+export const TableOperationAccounting:
+  React.FC<TableProps<TypeOperationAccounting, TypeOperationAccountingFilter>> = ({
+                                                                                    isUpdateTable,
+                                                                                    openDrawer,
+                                                                                    onDelete,
+                                                                                    filter,
+                                                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
   const navigate = useNavigate();
+
+  // Удаление записи из таблицы
+  const [isDeleteClicked, setIsDeleteClicked] = useState(false);
 
   // Лоудер и список всех учетных операций
   const [loading, setLoading] = useState(false);
@@ -31,7 +41,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
   });
 
   // Переход на другую страницу по адресу
-  const handleMoreDetails = (id: number) => {
+  const handleMoreDetail = (id: number) => {
     navigate(`/operation-accounting/${id}/detail`);
   };
 
@@ -116,23 +126,16 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       align: 'center',
       render: ((id: number) => (
         <Space>
-          <Tooltip title="Подробнее" placement="bottomRight">
-            <Button
-              type="primary"
-              size="small"
-              shape="circle"
-              onClick={() => handleMoreDetails(id)}
-            >
-              <SearchOutlined/>
-            </Button>
-          </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
               type="primary"
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer && openDrawer(id)}>
+              onClick={(e) => {
+                e.stopPropagation();
+                openDrawer && openDrawer(id)
+              }}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -140,11 +143,19 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту учетную операцию?"
-              onConfirm={() => onDelete && onDelete(id)}
+              onConfirm={() => {
+                onDelete && onDelete(id)
+                setIsDeleteClicked(false);
+              }}
+              onCancel={() => setIsDeleteClicked(false)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsDeleteClicked(true);
+                      }}>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -223,8 +234,9 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
     if (filter) {
       setLoading(true);
       postFilterByTable({
-        date: filter.dateFilter || undefined,
-        operationId: filter.idFilter || undefined,
+        date: filter.date || undefined,
+        operationId: filter.operationId || undefined,
+        productionTypeId: filter.productionTypeId || undefined,
       }).then((allOperationAccounting) => {
         setAllOperationAccounting(allOperationAccounting);
         setLoading(false);
@@ -233,7 +245,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
   }
 
   useEffect(() => {
-    if (filter && (filter.dateFilter || filter.idFilter)) {
+    if (filter && (filter.date || filter.operationId || filter.productionTypeId)) {
       filterTable();
     } else {
       updateTable();
@@ -253,6 +265,15 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       loading={loading}
       onChange={handleTableChange}
       summary={renderSummaryRow}
+      onRow={(record: TypeOperationAccounting) => {
+        return {
+          onClick: () => {
+            if (!isDeleteClicked && record.id) {
+              handleMoreDetail(record.id);
+            }
+          }
+        }
+      }}
     />
   );
 }

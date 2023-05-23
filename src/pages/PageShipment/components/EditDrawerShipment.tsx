@@ -47,8 +47,8 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
         updateItem(values);
         closeDrawer()
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   };
 

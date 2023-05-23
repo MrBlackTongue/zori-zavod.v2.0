@@ -57,8 +57,8 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
       .then((values) => {
         updateItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 

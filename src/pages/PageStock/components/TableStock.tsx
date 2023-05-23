@@ -10,7 +10,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
                                                               openDrawer,
                                                               onDelete,
                                                               searchText,
-                                                              filter
+                                                              filter2
                                                             }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -142,24 +142,24 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
 
   // Функция для фильтрации таблицы
   const filterTable = useCallback(() => {
-    if (filter && filter.idFilter) {
+    if (filter2 && filter2.idFilter) {
       setLoading(true);
-      getStockByGroupId(filter.idFilter).then((allStock) => {
+      getStockByGroupId(filter2.idFilter).then((allStock) => {
         setAllStock(allStock);
         setLoading(false);
       });
     }
-  }, [filter]);
+  }, [filter2]);
 
   useEffect(() => {
-    if (filter && filter.idFilter) {
+    if (filter2 && filter2.idFilter) {
       filterTable();
     } else if (searchText) {
       searchTable();
     } else {
       updateTable();
     }
-  }, [searchText, filter, isUpdateTable, filterTable, searchTable, updateTable]);
+  }, [searchText, filter2, isUpdateTable, filterTable, searchTable, updateTable]);
 
   return (
     <Table
