@@ -89,18 +89,23 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
     }
   };
 
+  // Рекурсивная функция для удаления пустых детей
+  const removeEmptyChildren = (group: TypeProductGroupTree): TypeProductGroupTree => {
+    if (group.children && group.children.length === 0) {
+      const { children, ...rest } = group;
+      return rest;
+    }
+    if (group.children) {
+      return { ...group, children: group.children.map(removeEmptyChildren) };
+    }
+    return group;
+  };
+
   // Функция для обновления таблицы
   const updateTable = () => {
     setLoading(true);
     getProductGroupTree().then((allProductGroup) => {
-      const updatedProductGroup = allProductGroup.map(group => {
-        if (group.children && group.children.length === 0) {
-          const { children, ...rest } = group;
-          return rest;
-        }
-        return group;
-      });
-      console.log(updatedProductGroup);
+      const updatedProductGroup = allProductGroup.map(removeEmptyChildren);
       setAllProductGroup(updatedProductGroup);
       setLoading(false);
     });
