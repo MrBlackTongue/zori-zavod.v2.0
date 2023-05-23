@@ -58,8 +58,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
               title="Вы действительно хотите удалить эту группу товаров?"
               onConfirm={() => {
                 deleteProductGroupById(id).then(() => {
-                  getProductGroupTree().then((allProductGroup) =>
-                    setAllProductGroup(allProductGroup));
+                  updateTable();
                 });
               }}
               okText="Да"
@@ -96,19 +95,18 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
       return rest;
     }
     if (group.children) {
-      return { ...group, children: group.children.map(removeEmptyChildren) };
+      return { ...group, children: group.children.map(child => removeEmptyChildren(child)) };
     }
     return group;
   };
 
   // Функция для обновления таблицы
-  const updateTable = () => {
+  const updateTable = async () => {
     setLoading(true);
-    getProductGroupTree().then((allProductGroup) => {
-      const updatedProductGroup = allProductGroup.map(removeEmptyChildren);
-      setAllProductGroup(updatedProductGroup);
-      setLoading(false);
-    });
+    const allProductGroup = await getProductGroupTree();
+    const updatedProductGroup = allProductGroup.map(removeEmptyChildren);
+    setAllProductGroup(updatedProductGroup);
+    setLoading(false);
   };
 
   useEffect(() => {

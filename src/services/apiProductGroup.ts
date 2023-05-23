@@ -46,15 +46,15 @@ export async function deleteProductGroupById(id: number) {
     const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
-      return message.success('Запись удалена');
+    if (response.ok) {
+      message.success("Запись удалена");
     } else {
       console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
+      message.error("Ошибка при удалении записи");
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
