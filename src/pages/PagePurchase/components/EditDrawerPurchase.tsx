@@ -95,7 +95,6 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
       width={600}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>

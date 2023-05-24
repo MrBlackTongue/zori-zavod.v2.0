@@ -98,6 +98,12 @@ export const EditDrawerOperationAccounting:
     form
       .validateFields()
       .then((values) => {
+        if (typeof values.operation === 'string') {
+          values.operation = selectedOperation;
+        }
+        if (typeof values.productionType === 'string') {
+          values.productionType = selectedProductionType;
+        }
         updateItem(values);
         closeDrawer()
         onSearchOutput('')
@@ -173,7 +179,6 @@ export const EditDrawerOperationAccounting:
       width={700}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>
@@ -192,7 +197,7 @@ export const EditDrawerOperationAccounting:
         <Form.Item
           label="Операция"
           name="operation"
-          rules={[{type: 'object' as const, required: true, message: 'выберите операцию'}]}
+          rules={[{required: true, message: 'выберите операцию'}]}
         >
           <div>
             <Select
@@ -256,7 +261,7 @@ export const EditDrawerOperationAccounting:
         <Form.Item
           label="Тип производства"
           name="productionType"
-          rules={[{type: 'object' as const, required: true, message: 'выберите тип'}]}
+          rules={[{required: true, message: 'выберите тип'}]}
         >
           <div>
             <Select

@@ -39,7 +39,6 @@ export const EditDrawerClient: React.FC<EditDrawerProps<TypeClient>> = ({
       width={600}
       open={isOpen}
       onClose={closeDrawer}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={closeDrawer}>Отмена</Button>

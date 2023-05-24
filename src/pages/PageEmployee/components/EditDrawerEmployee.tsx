@@ -44,7 +44,6 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
       width={600}
       open={isOpen}
       onClose={closeDrawer}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={closeDrawer}>Отмена</Button>
