@@ -39,7 +39,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
         addItem(values);
       })
       .catch((error) => {
-        console.log("Validate Failed:", error);
+        console.log('Validate Failed:', error);
       });
   };
 

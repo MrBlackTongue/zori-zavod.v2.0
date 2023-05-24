@@ -17,19 +17,19 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   const [filteredEmployee, setFilteredEmployee] = useState<TypeEmployee[]>([]);
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = useCallback((values: string, option: any): TypeEmployee => {
+  const onChangeEmployee = ((values: string, option: any): TypeEmployee => {
     const employee: TypeEmployee = {
       id: option.id,
     };
     form.setFieldsValue({employee: employee});
     onSearchEmployee('')
     return employee
-  }, [form]);
+  });
 
   // Очистить поле сотрудника
-  const onClearEmployee = useCallback((): void => {
+  const onClearEmployee = ((): void => {
     form.setFieldsValue({employee: undefined});
-  }, [form]);
+  });
 
   // Поиск по сотрудникам
   const onSearchEmployee = useCallback((searchText: string) => {
@@ -62,10 +62,10 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
         addItem(values);
         onSearchEmployee('');
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
-  }, [form, addItem, onSearchEmployee]);
+  }, [form, addItem]);
 
   // Функция закрытия модального окна
   const handleClose = useCallback(() => {

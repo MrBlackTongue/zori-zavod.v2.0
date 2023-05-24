@@ -1,5 +1,5 @@
-import './App.css';
 import React, {useState} from 'react';
+import './App.css';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -29,7 +29,7 @@ function App() {
           </Header>
           <MenuMain/>
         </Sider>
-        <Layout className="site-layout">
+        <Layout className="site-layout" style={{minHeight: '100vh', height: '100vh', overflow: 'auto'}}>
           <Header style={{padding: 0, background: colorBgContainer}}>
             {/*<Title level={3}></Title>*/}
           </Header>

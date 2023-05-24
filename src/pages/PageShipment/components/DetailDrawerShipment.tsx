@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Space} from "antd";
-import {DetailProps, TypeShipment, TypeShipmentProductMovement} from "../../../types";
+import {DetailDrawerProps, TypeShipment, TypeShipmentProductMovement} from "../../../types";
 import {TableDetailShipment} from "./TableDetailShipment";
 import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
 import {
@@ -11,7 +11,7 @@ import {
 import {AddModalDetailShipment} from "./AddModalDetailShipment";
 
 
-export const DetailDrawerShipment: React.FC<DetailProps<TypeShipment>> = ({
+export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = ({
                                                                             isOpen,
                                                                             closeDrawer,
                                                                             selectedItemId

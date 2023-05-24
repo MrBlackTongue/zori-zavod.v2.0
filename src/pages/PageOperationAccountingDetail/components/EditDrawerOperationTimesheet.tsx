@@ -5,12 +5,13 @@ import {getAllEmployee, getOperationTimesheetById} from "../../../services";
 
 const {Option} = Select;
 
-export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperationTimesheet>> = ({
-                                                                                                  isOpen,
-                                                                                                  selectedItemId,
-                                                                                                  closeDrawer,
-                                                                                                  updateItem,
-                                                                                                }) => {
+export const EditDrawerOperationTimesheet:
+  React.FC<EditDrawerProps<TypeOperationTimesheet>> = ({
+                                                         isOpen,
+                                                         selectedItemId,
+                                                         closeDrawer,
+                                                         updateItem,
+                                                       }) => {
   const [form] = Form.useForm();
 
   // Все сотрудники, отфильтрованные сотрудники
@@ -58,8 +59,8 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
         closeDrawer()
         onSearchEmployee('');
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 
@@ -102,8 +103,8 @@ export const EditDrawerOperationTimesheet: React.FC<EditDrawerProps<TypeOperatio
 
   return (
     <Drawer
-      title="Редактирование учетной операции"
-      width={600}
+      title="Редактирование табеля учета рабочего времени"
+      width={700}
       open={isOpen}
       onClose={handleClose}
       extra={

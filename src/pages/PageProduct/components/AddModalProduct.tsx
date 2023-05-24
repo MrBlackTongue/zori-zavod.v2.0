@@ -56,8 +56,8 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
         setSelectedProductGroup(undefined);
         addItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 

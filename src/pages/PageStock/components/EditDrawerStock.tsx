@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Form, Drawer, Select, InputNumber, Space, Button} from "antd";
 import {EditDrawerProps, TypeProduct, TypeStock} from "../../../types";
 import {getStockById, getAllProduct} from "../../../services";
@@ -33,11 +33,9 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
     } else {
       const searchLowerCase = searchText.toLowerCase();
       const filtered = allProduct?.filter((product) => {
-        const titleMatch = product && product.title
+        return product && product.title
           ? product.title.toLowerCase().includes(searchLowerCase)
           : false;
-
-        return titleMatch;
       });
       setFilteredProduct(prevState => filtered || prevState);
     }
@@ -65,8 +63,8 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
         closeDrawer();
         onSearchProduct('')
       })
-      .catch((info) => {
-        console.log("Validate Failed:", info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   };
 

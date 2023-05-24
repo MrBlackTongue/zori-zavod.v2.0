@@ -23,4 +23,5 @@ export const PARENT = '/parent'
 export const CHILDREN = '/children'
 export const SHIPMENT = '/shipment';
 export const PRODUCTION = '/production';
+export const PRODUCTION_TYPE = '/production-type';
 export const TREE = '/tree';

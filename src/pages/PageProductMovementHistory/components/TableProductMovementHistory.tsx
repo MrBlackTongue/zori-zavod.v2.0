@@ -7,7 +7,7 @@ import {TypeProduct, TableParams, TableProps, TypeProductMovementHistory} from "
 
 export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovementHistory>> = ({
                                                                                                 isUpdateTable,
-                                                                                                filter,
+                                                                                                filter2,
                                                                                               }) => {
   type TablePaginationPosition = 'bottomCenter'
 
@@ -94,9 +94,9 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
 
   // Функция для поиска по таблице истории движения товаров
   const filterTable = () => {
-    if (filter?.idFilter) {
+    if (filter2?.idFilter) {
       setLoading(true);
-      getProductMovementHistoryById(filter?.idFilter).then((allProductMovementHistory) => {
+      getProductMovementHistoryById(filter2?.idFilter).then((allProductMovementHistory) => {
         setAllProductMovementHistory(allProductMovementHistory);
         setLoading(false);
       });
@@ -113,12 +113,12 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
   }
 
   useEffect(() => {
-    if (filter?.idFilter) {
+    if (filter2?.idFilter) {
       filterTable();
     } else {
       updateTable();
     }
-  }, [filter, isUpdateTable]);
+  }, [filter2, isUpdateTable]);
 
   return (
     <Table
