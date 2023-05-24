@@ -30,7 +30,8 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
       .then((values) => {
         console.log('values', values);
         form.resetFields();
-        addItem({...values, parent: values.parent ? values.parent : null}); // Изменено
+        addItem({...values, parent: values.parent ? values.parent : null});
+        setSelectedParentGroup(undefined);
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
