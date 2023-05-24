@@ -11,6 +11,8 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                   onCancel,
                                                                                 }) => {
   const [form] = Form.useForm();
+
+  // Все родительские группы товаров, выбранная родительская группа, отфильтрованная родительская группа
   const [allProductGroupParent, setAllProductGroupParent] = useState<TypeProductGroup[]>([]);
   const [selectedParentGroup, setSelectedParentGroup] = useState<TypeProductGroup>();
   const [filteredParentGroup, setFilteredParentGroup] = useState<TypeProductGroup[]>([]);
@@ -24,34 +26,7 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
     setSelectedParentGroup(selectedParentGroup);
   };
 
-  const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        console.log('values', values);
-        form.resetFields();
-        addItem({...values, parent: values.parent ? values.parent : null}); // Изменено
-      })
-      .catch((info) => {
-        console.log("Validate Failed:", info);
-      });
-  };
-
-  const handleClose = () => {
-    form.resetFields();
-    setSelectedParentGroup(undefined);
-    onCancel()
-  };
-
-  useEffect(() => {
-    getAllProductGroup().then(groups => {
-      setAllProductGroupParent(groups);
-      setFilteredParentGroup(groups);
-    });
-  }, []);
-
-
-  //Поиск по товарам
+  //Поиск по родительской группе
   const onSearchParentGroup = (searchText: string) => {
     if (searchText === '') {
       setFilteredParentGroup(allProductGroupParent || []);
@@ -65,6 +40,36 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
       setFilteredParentGroup(filtered || []);
     }
   };
+
+  // Функция подтверждения добавления новой родительской группы
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        console.log('values', values);
+        form.resetFields();
+        addItem({...values, parent: values.parent ? values.parent : null});
+        setSelectedParentGroup(undefined);
+      })
+      .catch((info) => {
+        console.log("Validate Failed:", info);
+      });
+  };
+  // Функция закрытия модальноо о
+  const handleClose = () => {
+    form.resetFields();
+    setSelectedParentGroup(undefined);
+    onCancel()
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      getAllProductGroup().then(groups => {
+        setAllProductGroupParent(groups);
+        setFilteredParentGroup(groups);
+      });
+    }
+  }, [isOpen]);
 
   return (
     <Modal
@@ -99,10 +104,10 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
               allowClear
               filterOption={false}
               placeholder="Выберите родительскую группу"
-             value={selectedParentGroup ? selectedParentGroup?.title : undefined}
-             onSearch={onSearchParentGroup}
+              value={selectedParentGroup ? selectedParentGroup?.title : undefined}
+              onSearch={onSearchParentGroup}
               onChange={onChangeProductGroup}
-              >
+            >
               {filteredParentGroup?.map((group) => (
                 <Option key={group.id} value={group.id} title={group.title}>
                   {group.title}

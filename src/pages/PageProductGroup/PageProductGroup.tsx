@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Typography, Space, Button } from 'antd';
-import { SyncOutlined, PlusOutlined } from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button} from 'antd';
+import {SyncOutlined, PlusOutlined } from '@ant-design/icons';
 import {postNewProductGroup, putChangeProductGroup} from "../../services";
-import { TypeProductGroup } from "../../types";
-import { TableProductGroup } from "./components/TableProductGroup";
-import { AddModalProductGroup } from "./components/AddModalProductGroup";
-import { EditDrawerProductGroup } from "./components/EditDrawerProductGroup";
+import {TypeProductGroup} from "../../types";
+import {TableProductGroup} from "./components/TableProductGroup";
+import { AddModalProductGroup} from "./components/AddModalProductGroup";
+import { EditDrawerProductGroup} from "./components/EditDrawerProductGroup";
 
 const { Title } = Typography;
 
 export const PageProductGroup: React.FC = () => {
+  
   // Обновление таблицы, выбранная группа товаров по id
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
@@ -44,9 +45,7 @@ export const PageProductGroup: React.FC = () => {
       title: values.title,
       parent: values.parent ? {id: values.parent} : undefined,
     };
-
     console.log(productGroup);
-
     setSelectedProductGroupId(values.id);
     setIsDrawerOpen(false);
     putChangeProductGroup(productGroup);
@@ -54,9 +53,8 @@ export const PageProductGroup: React.FC = () => {
     return productGroup;
   };
 
-
   return (
-    <div style={{ display: 'grid' }}>
+    <div style={{display: 'grid'}}>
       <div className='centerTitle'>
         <Title level={3}>Группы товаров</Title>
         <Space>

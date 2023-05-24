@@ -7,9 +7,9 @@ import {deleteProductGroupById, getProductGroupTree} from "../../../services";
 import {TableProps, TypeProductGroup, TableParams, TypeProductGroupTree} from "../../../types";
 
 export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
-                                                                            isUpdateTable,
-                                                                            openDrawer,
-                                                                          }) => {
+                                                                                isUpdateTable,
+                                                                                openDrawer,
+                                                                              }) => {
   type TablePaginationPosition = 'bottomCenter';
 
   // Лоудер и список всех групп товаров
@@ -32,7 +32,6 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-      //sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
       title: 'Действия',
@@ -61,7 +60,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
                   updateTable();
                 });
               }}
-              okText="Да"
+                okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
                       style={{color: 'tomato', borderColor: 'tomato'}} ghost>
@@ -88,14 +87,14 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
     }
   };
 
-  // Рекурсивная функция для удаления пустых детей
+  // Рекурсивная функция для удаления пустых дочерних элементов
   const removeEmptyChildren = (group: TypeProductGroupTree): TypeProductGroupTree => {
     if (group.children && group.children.length === 0) {
-      const { children, ...rest } = group;
+      const {children, ...rest} = group;
       return rest;
     }
     if (group.children) {
-      return { ...group, children: group.children.map(child => removeEmptyChildren(child)) };
+      return {...group, children: group.children.map(child => removeEmptyChildren(child))};
     }
     return group;
   };
@@ -110,7 +109,13 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
   };
 
   useEffect(() => {
-    updateTable()
+    (async () => {
+      try {
+        await updateTable()
+      } catch (error) {
+        console.error('Failed to update table:', error);
+      }
+    })();
   }, [isUpdateTable]);
 
   return (
