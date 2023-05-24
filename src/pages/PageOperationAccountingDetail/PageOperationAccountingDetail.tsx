@@ -50,6 +50,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         id: values.operation.id,
       },
       output: values.output ? {id: values.output.id} : undefined,
+      productionType: {id: values.productionType?.id},
     };
     setIsDrawerOperationAccountingOpen(false)
     putChangeOperationAccounting(operationAccounting)
@@ -145,7 +146,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
           onClick={handleBack}
         >
           <ArrowLeftOutlined/>
-          Назад к учету операций
+          Вернуться к таблице Учет операций
         </Button>
       </Tooltip>
       <div className='centerTitle'>

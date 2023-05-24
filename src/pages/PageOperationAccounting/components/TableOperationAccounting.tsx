@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {getAllOperationAccounting, postFilterByTable,} from "../../../services";
@@ -23,9 +23,6 @@ export const TableOperationAccounting:
                                                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
   const navigate = useNavigate();
-
-  // Удаление записи из таблицы
-  const [isDeleteClicked, setIsDeleteClicked] = useState(false);
 
   // Лоудер и список всех учетных операций
   const [loading, setLoading] = useState(false);
@@ -126,16 +123,22 @@ export const TableOperationAccounting:
       align: 'center',
       render: ((id: number) => (
         <Space>
+          <Tooltip title="Подробнее" placement="bottomRight">
+            <Button
+              type="primary"
+              size="small"
+              shape="circle"
+              onClick={() => handleMoreDetail(id)}>
+              <EllipsisOutlined/>
+            </Button>
+          </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
               type="primary"
               size="small"
               shape="circle"
               ghost
-              onClick={(e) => {
-                e.stopPropagation();
-                openDrawer && openDrawer(id)
-              }}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -143,19 +146,11 @@ export const TableOperationAccounting:
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту учетную операцию?"
-              onConfirm={() => {
-                onDelete && onDelete(id)
-                setIsDeleteClicked(false);
-              }}
-              onCancel={() => setIsDeleteClicked(false)}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsDeleteClicked(true);
-                      }}>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -257,23 +252,10 @@ export const TableOperationAccounting:
       bordered
       columns={columns}
       dataSource={allOperationAccounting}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}
       summary={renderSummaryRow}
-      onRow={(record: TypeOperationAccounting) => {
-        return {
-          onClick: () => {
-            if (!isDeleteClicked && record.id) {
-              handleMoreDetail(record.id);
-            }
-          }
-        }
-      }}
     />
   );
 }
