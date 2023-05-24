@@ -45,12 +45,13 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
   };
 
   useEffect(() => {
-    getAllProductGroup().then(groups => {
-      setAllProductGroupParent(groups);
-      setFilteredParentGroup(groups);
-    });
-  }, []);
-
+    if (isOpen) {
+      getAllProductGroup().then(groups => {
+        setAllProductGroupParent(groups);
+        setFilteredParentGroup(groups);
+      });
+    }
+  }, [isOpen]);
 
   //Поиск по товарам
   const onSearchParentGroup = (searchText: string) => {

@@ -16,7 +16,6 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
   const [selectedParentGroup, setSelectedParentGroup] = useState<TypeProductGroup>();
   const [filteredParentGroup, setFilteredParentGroup] = useState<TypeProductGroup[]>([]);
 
-
   //Поиск по товарам
   const onSearchParentGroup = (searchText: string) => {
     if (searchText === '') {
@@ -75,11 +74,13 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
   };
 
   useEffect(() => {
-    getAllProductGroup().then(groups => {
-      setAllProductGroupParent(groups);
-      setFilteredParentGroup(groups);
-    });
-  }, []);
+    if (isOpen) {
+      getAllProductGroup().then(groups => {
+        setAllProductGroupParent(groups);
+        setFilteredParentGroup(groups);
+      });
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -88,8 +89,6 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
       form.resetFields();
     }
   }, [isOpen, handleGetParentId, form]);
-
-
 
   return (
     <Drawer
