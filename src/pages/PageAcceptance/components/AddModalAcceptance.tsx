@@ -99,8 +99,8 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         setSelectedPurchase(undefined);
         addItem(values);
       })
-      .catch((warning) => {
-        console.log("Validate Failed:", warning);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   };
 

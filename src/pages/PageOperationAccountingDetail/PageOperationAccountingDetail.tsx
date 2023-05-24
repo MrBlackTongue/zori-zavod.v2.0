@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
-import {Typography, Space, Button, FloatButton, Divider, Tooltip} from 'antd';
+import {Space, Button, FloatButton, Divider, Tooltip, Typography} from 'antd';
 import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
@@ -11,6 +11,7 @@ import {
   deleteProductionProductMovementById,
   postNewProductionProductMovement,
   getOperationAccountingById,
+  deleteOperationAccountingById,
 } from "../../services";
 import {TypeOperationAccounting, TypeOperationTimesheet, TypeProductionProductMovement} from "../../types";
 import {TableOperationAccountingDetail} from "./components/TableOperationAccountingDetail";
@@ -21,12 +22,11 @@ import {EditDrawerOperationTimesheet} from "./components/EditDrawerOperationTime
 import {TableProductionProductMovement} from "./components/TableProductionProductMovement";
 import {AddModalProductionProductMovement} from "./components/AddModalProductionProductMovement";
 
-const {Title} = Typography;
-
 export const PageOperationAccountingDetail: React.FC = () => {
 
   const {id} = useParams();
   const navigate = useNavigate();
+  const {Title} = Typography;
 
   // Состояние и методы для учетной операции
   const [updateAllTable, setUpdateAllTable] = useState(false);
@@ -55,6 +55,12 @@ export const PageOperationAccountingDetail: React.FC = () => {
     putChangeOperationAccounting(operationAccounting)
     setUpdateAllTable(prevState => !prevState)
   }, [id]);
+
+  // Удалить запись из таблицы
+  const handleDeleteOperationAccounting = (id: number) => {
+    deleteOperationAccountingById(id).catch((error) => console.error(error));
+    handleBack()
+  };
 
   // Добавить сотрудника в табель учета рабочего времени
   const handleAddOperationTimesheet = useCallback((values: { [key: string]: any }): void => {
@@ -98,26 +104,26 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }, []);
 
   // Добавить запись движения товара на производстве
-  const handleAddProductionProductMovement = useCallback(async (values: { [key: string]: any }):
-  Promise<void> => {
-    if (!id) return;
-    const operationAccounting = await getOperationAccountingById(+id);
-    let operationDate = operationAccounting?.date;
+  const handleAddProductionProductMovement =
+    useCallback(async (values: { [key: string]: any }): Promise<void> => {
+      if (!id) return;
+      const operationAccounting = await getOperationAccountingById(+id);
+      let operationDate = operationAccounting?.date;
 
-    const productionProductMovement: TypeProductionProductMovement = {
-      amount: values.amount,
-      income: values.income,
-      stock: values.stock,
-      date: operationDate,
-      productBatch: values.productBatch,
-      operationAccounting: {
-        id: id ? +id : undefined
-      },
-    };
-    setIsModalProductionProductMovementOpen(false)
-    postNewProductionProductMovement(productionProductMovement)
-    setUpdateAllTable(prevState => !prevState)
-  }, [id]);
+      const productionProductMovement: TypeProductionProductMovement = {
+        amount: values.amount,
+        income: values.income,
+        stock: values.stock,
+        date: operationDate,
+        productBatch: values.productBatch,
+        operationAccounting: {
+          id: id ? +id : undefined
+        },
+      };
+      setIsModalProductionProductMovementOpen(false)
+      postNewProductionProductMovement(productionProductMovement)
+      setUpdateAllTable(prevState => !prevState)
+    }, [id]);
 
   // Удалить запись движения товара на производстве
   const handleDeleteProductionProductMovement = useCallback((id: number) => {
@@ -143,7 +149,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Button>
       </Tooltip>
       <div className='centerTitle'>
-        <Title level={3}>Учетная операция</Title>
+        <Title level={3}>Детали учетной операции</Title>
         <Space>
           <Button
             type="dashed"
@@ -159,6 +165,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
       <TableOperationAccountingDetail
         isUpdateTable={updateAllTable}
         openDrawer={() => setIsDrawerOperationAccountingOpen(true)}
+        onDelete={handleDeleteOperationAccounting}
         idDetail={id ? +id : undefined}
       />
       <EditDrawerOperationAccounting
@@ -167,14 +174,16 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={id ? +id : undefined}
         updateItem={handleUpdateOperationAccounting}
       />
-      <Divider/>
       <div className='centerTitle'>
-        <Title level={3}>Табель учета рабочего времени </Title>
+        <div style={{flex: 1}}>
+          <Divider orientation="left">Табель учета рабочего времени</Divider>
+        </div>
         <Space>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
             onClick={() => setIsModalOperationTimesheetOpen(true)}
+            size={"small"}
           >
             Добавить
           </Button>
@@ -197,14 +206,16 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={selectedOperationTimesheetId}
         updateItem={handleUpdateOperationTimesheet}
       />
-      <Divider/>
       <div className='centerTitle'>
-        <Title level={3}>Движение товаров на производстве</Title>
+        <div style={{flex: 1}}>
+          <Divider orientation="left">Движение товаров на производстве</Divider>
+        </div>
         <Space>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
             onClick={() => setIsModalProductionProductMovementOpen(true)}
+            size={"small"}
           >
             Добавить
           </Button>

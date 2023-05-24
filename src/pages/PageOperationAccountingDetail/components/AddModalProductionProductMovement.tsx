@@ -5,11 +5,12 @@ import {getAllStock} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalProductionProductMovement: React.FC<AddModalProps<TypeProductionProductMovement>> = ({
-                                                                                                            isOpen,
-                                                                                                            addItem,
-                                                                                                            onCancel,
-                                                                                                          }) => {
+export const AddModalProductionProductMovement:
+  React.FC<AddModalProps<TypeProductionProductMovement>> = ({
+                                                              isOpen,
+                                                              addItem,
+                                                              onCancel,
+                                                            }) => {
   const [form] = Form.useForm();
 
   // Состояния для всех товаров на складе, выбранного товара и отфильтрованные товары
@@ -50,11 +51,13 @@ export const AddModalProductionProductMovement: React.FC<AddModalProps<TypeProdu
     const enteredAmount = form.getFieldValue("amount");
     const enteredIncome = form.getFieldValue('income')
     if (selectedStock?.amount === 0 && !enteredIncome) {
-      message.warning("Выбранного товара не осталось на складе")
+      message.warning("Выбранного товара не осталось на складе").then(() => {
+      })
       return;
     }
     if (enteredAmount && selectedStock?.amount && enteredAmount > selectedStock.amount && !enteredIncome) {
-      message.warning("Введенное количество превышает количество товара на складе");
+      message.warning("Введенное количество превышает количество товара на складе").then(() => {
+      })
       return;
     }
     form
@@ -65,10 +68,10 @@ export const AddModalProductionProductMovement: React.FC<AddModalProps<TypeProdu
         setSelectedStock(undefined)
         onSearchStock('');
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
-  }, [form, addItem, onSearchStock]);
+  }, [form, addItem]);
 
   // Функция закрытия модального окна
   const handleClose = useCallback(() => {

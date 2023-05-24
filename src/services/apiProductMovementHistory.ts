@@ -1,4 +1,4 @@
-import {TypeProductMovementHistory} from "../types/TypeProductMovementHistory";
+import {TypeProductMovementHistory} from "../types";
 import {URL, HISTORY, PRODUCT_MOVEMENT} from "./apiEndpoints";
 
 // Получить всю историю движения товаров
