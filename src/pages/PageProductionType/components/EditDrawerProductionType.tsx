@@ -51,7 +51,6 @@ export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTy
       width={600}
       open={isOpen}
       onClose={handleClose}
-      bodyStyle={{paddingBottom: 80}}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>

@@ -34,6 +34,7 @@ export const AddModalProductionProductMovement:
     } else {
       const searchLowerCase = searchText.toLowerCase();
       const filtered = allStock?.filter((stock) => {
+
         const titleMatch = stock?.product && stock.product.title
           ? stock.product.title.toLowerCase().includes(searchLowerCase)
           : false;
@@ -66,7 +67,6 @@ export const AddModalProductionProductMovement:
         form.resetFields();
         addItem(values);
         setSelectedStock(undefined)
-        onSearchStock('');
       })
       .catch((error) => {
         console.log('Validate Failed:', error);

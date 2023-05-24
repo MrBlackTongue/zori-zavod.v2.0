@@ -21,6 +21,9 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'employee',
+      defaultSortOrder: 'ascend',
+      sorter:(a, b) =>
+        (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
       render: (employee: TypeEmployee) => (
         <div>
           {employee.lastName} {employee.firstName}
