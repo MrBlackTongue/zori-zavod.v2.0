@@ -5,7 +5,8 @@ import {getAllUnit} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpen,
+export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({
+                                                                            isOpen,
                                                                             addItem,
                                                                             onCancel,
                                                                           }) => {
@@ -31,30 +32,24 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpe
     form
       .validateFields()
       .then((values) => {
-        const meterType: TypeMeterType = {
-          title: values.title,
-          cost: values.cost,  // добавьте это поле
-          unit: {
-            id: values.unit.id,
-            name: values.unit.name,
-          },
-        };
         form.resetFields();
-        addItem(meterType);
+        addItem(values);
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
+        return;
       });
-  }
+  };
 
-  // Функция закрытия модального окна
-  const handleClose = () => {
-    onCancel()
+  // Функция для сброса формы при закрытии модального окна
+  const handleCancel = () => {
+    form.resetFields();
+    onCancel();
   };
 
   useEffect(() => {
-    getAllUnit().then((units) => {
-      setAllUnit(units);
+    getAllUnit().then((allUnit) => {
+      setAllUnit(allUnit);
     });
   }, []);
 
@@ -62,7 +57,7 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpe
     <Modal
       title={`Добавление нового типа счетчика`}
       open={isOpen}
-      onCancel={handleClose}
+      onCancel={handleCancel}
       width={700}
       okText={'Сохранить'}
       cancelText={'Отмена'}
@@ -76,27 +71,33 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({isOpe
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Название типа"
+          label="Название"
           name="title"
-          rules={[{required: true, message: 'Введите название'}]}
+          rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
         <Form.Item
-          label="Цена за ед. изм."
+          label="Цена"
           name="cost"
           rules={[
+            {required: true, message: "введите цену"},
             {
-              required: true,
-              message: 'Пожалуйста, введите цену за ед. изм.!',
+              validator: (_, value) => {
+                if (!value || /^\d+(\.\d{1,2})?$/.test(value)) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('Введите число в правильном формате (например, 12.34)'));
+              },
             },
           ]}
         >
-          <InputNumber style={{width: '100%'}} step={0.01} />
+          <InputNumber style={{width: "100%"}}/>
         </Form.Item>
         <Form.Item
           label="Единица измерения"
           name="unit"
+          rules={[{required: true, message: 'Выберите единицу измерения'}]}
         >
           <div>
             <Select

@@ -33,15 +33,16 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
 
   // Функция подтверждения редактирования
   const handleOk = () => {
-    closeDrawer()
     form
       .validateFields()
       .then((values) => {
         updateItem(values);
+        closeDrawer();
       })
       .catch((info) => {
-        console.log('Validate Failed:', info)
-      })
+        console.log('Validate Failed:', info);
+        return;
+      });
   }
 
   // Функция закрытия дравера
@@ -51,24 +52,26 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
   };
 
   useEffect(() => {
-    getAllUnit().then((units) => {
-      setAllUnit(units);
+    getAllUnit().then((unit) => {
+      setAllUnit(unit);
     });
   }, []);
 
   useEffect(() => {
-    if (selectedItemId) {
+    if (isOpen && selectedItemId) {
       getMeterTypeById(selectedItemId).then((meterType) => {
         form.setFieldsValue(meterType)
         setSelectedUnit(meterType?.unit)
         setUnit(meterType?.unit)
       })
+    } else {
+      form.resetFields();
     }
-  }, [selectedItemId]);
+  }, [isOpen, selectedItemId]);
 
   return (
     <Drawer
-      title="Редактирование типа счетчика"
+      title="Редактирование счетчика"
       width={700}
       open={isOpen}
       onClose={handleClose}
@@ -95,16 +98,21 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
           <Input/>
         </Form.Item>
         <Form.Item
-          label="Цена за ед. изм."
+          label="Цена"
           name="cost"
           rules={[
+            {required: true, message: "введите цену"},
             {
-              required: true,
-              message: 'Пожалуйста, введите цену за ед. изм.!',
+              validator: (_, value) => {
+                if (!value || /^\d+(\.\d{1,2})?$/.test(value)) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('Введите число в правильном формате (например, 12.34)'));
+              },
             },
           ]}
         >
-          <InputNumber style={{width: '100%'}}/>
+          <InputNumber style={{width: "100%"}}/>
         </Form.Item>
         <Form.Item
           label="Единица измерения"

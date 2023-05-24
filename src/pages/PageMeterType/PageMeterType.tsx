@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 export const PageMeterType: React.FC = () => {
 
-  // Обновление таблицы, тим счетчика по id
+  // Обновление таблицы, тип счетчика по id
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
 
@@ -20,7 +20,7 @@ export const PageMeterType: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Добавить новый тим счетчика
+  // Добавить новый тип счетчика
   const handleAddMeterType = (values: { [key: string]: any }): TypeMeterType => {
     const meterType: TypeMeterType = {
       title: values.title,
@@ -32,7 +32,7 @@ export const PageMeterType: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewMeterType(meterType)
-    setUpdateTable(!updateTable)
+    setUpdateTable(prevState => !prevState)
     return meterType;
   };
 
@@ -55,7 +55,7 @@ export const PageMeterType: React.FC = () => {
     };
     setIsDrawerOpen(false)
     putChangeMeterType(meterType)
-    setUpdateTable(!updateTable)
+    setUpdateTable(prevState => !prevState)
     return meterType
   };
 

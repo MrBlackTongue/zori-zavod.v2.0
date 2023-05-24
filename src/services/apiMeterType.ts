@@ -1,4 +1,4 @@
-import {TypeMeterType, TypeStock} from "../types";
+import {TypeMeterType} from "../types";
 import {URL, METER_TYPE} from "./apiEndpoints";
 import {message} from "antd";
 
@@ -10,7 +10,7 @@ export async function getAllMeterType(): Promise<TypeMeterType[]> {
       console.error(response.statusText);
       return Promise.reject();
     }
-    return await response.json() as TypeStock[];
+    return await response.json() as TypeMeterType[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);

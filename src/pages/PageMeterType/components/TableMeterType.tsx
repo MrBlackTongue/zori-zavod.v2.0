@@ -39,6 +39,17 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
       title: 'Цена за ед. изм',
       dataIndex: 'cost',
       key: 'cost',
+      render: ((cost: number | null) =>
+        cost !== null ? (
+          <div>
+            {cost.toLocaleString('ru-RU', {
+              style: 'currency',
+              currency: 'RUB',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : null)
     },
     {
       title: 'Единица измерения',
@@ -68,7 +79,7 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот счетчик?"
+              title="Вы действительно хотите удалить этот тип счётчика?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
@@ -111,12 +122,13 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
   }, [isUpdateTable]);
 
   return (
-    <Table<TypeMeterType>
+    <Table
       columns={columns}
       dataSource={allMeterType}
       loading={loading}
       onChange={handleTableChange}
       pagination={{...tableParams.pagination, position: [bottom]}}
+      bordered
     />
   );
 };
