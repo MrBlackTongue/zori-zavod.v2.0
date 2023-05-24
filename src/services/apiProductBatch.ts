@@ -17,7 +17,7 @@ export async function getAllProductBatch(): Promise<TypeProductBatch[]> {
   }
 }
 
-// Редактировать партию товара
+// Редактировать партию товаров
 export function putChangeProductBatch(data: TypeProductBatch) {
   try {
     const config = {
@@ -40,7 +40,7 @@ export function putChangeProductBatch(data: TypeProductBatch) {
   }
 }
 
-// Добавить новую партию товара
+// Добавить новую партию товаров
 export function postNewProductBatch(data: TypeProductBatch) {
   try {
     const config = {
@@ -63,7 +63,7 @@ export function postNewProductBatch(data: TypeProductBatch) {
   }
 }
 
-// Получить данные партии товара по id
+// Получить данные партии товаров по id
 export async function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
   try {
     const response = await fetch(URL + PRODUCT + BATCH + `/${id}`);
@@ -78,7 +78,7 @@ export async function getProductBatchById(id: number): Promise<TypeProductBatch 
   }
 }
 
-// Удалить партию товара по id
+// Удалить партию товаров по id
 export async function deleteProductBatchById(id: number) {
   try {
     const response = await fetch(URL + PRODUCT + BATCH + `/${id}`, {

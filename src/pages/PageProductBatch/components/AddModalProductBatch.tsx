@@ -57,7 +57,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
 
   return (
     <Modal
-      title={`Добавление новой партии товара`}
+      title={`Добавление новой партии товаров`}
       open={isOpen}
       onCancel={handleClose}
       width={500}
