@@ -12,26 +12,13 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
                                                                                       closeDrawer,
                                                                                     }) => {
   const [form] = Form.useForm();
+
+  // Все родительские группы, выбранная родительская группа
   const [allProductGroupParent, setAllProductGroupParent] = useState<TypeProductGroup[]>([]);
   const [selectedParentGroup, setSelectedParentGroup] = useState<TypeProductGroup>();
   const [filteredParentGroup, setFilteredParentGroup] = useState<TypeProductGroup[]>([]);
 
-  //Поиск по товарам
-  const onSearchParentGroup = (searchText: string) => {
-    if (searchText === '') {
-      setFilteredParentGroup(allProductGroupParent || []);
-    } else {
-      const searchLowerCase = searchText.toLowerCase();
-      const filtered = allProductGroupParent?.filter((productGroupParent) =>
-        productGroupParent?.title
-          ? productGroupParent.title.toLowerCase().includes(searchLowerCase)
-          : false
-      );
-      setFilteredParentGroup(filtered || []);
-    }
-  };
-
-  // Изменить выбранный группу товаров
+  // Изменить выбранную товарную группу
   const onChangeProductGroup = (value: string): void => {
     const selectedParentGroup = allProductGroupParent?.find(productGroup => productGroup.id === parseInt(value));
     form.setFieldsValue({
@@ -40,6 +27,22 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
     setSelectedParentGroup(selectedParentGroup);
   };
 
+  //Поиск по родительским группам
+    const onSearchParentGroup = (searchText: string) => {
+      if (searchText === '') {
+        setFilteredParentGroup(allProductGroupParent || []);
+      } else {
+        const searchLowerCase = searchText.toLowerCase();
+        const filtered = allProductGroupParent?.filter((productGroupParent) =>
+          productGroupParent?.title
+            ? productGroupParent.title.toLowerCase().includes(searchLowerCase)
+            : false
+        );
+        setFilteredParentGroup(filtered || []);
+      }
+    };
+
+  // Функция для получения данных о группе товаров по id обновление формы
   const handleGetParentId = useCallback(() => {
     if (selectedItemId !== undefined) {
       getProductGroupById(selectedItemId).then((data) => {
