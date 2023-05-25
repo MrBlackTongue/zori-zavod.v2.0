@@ -35,8 +35,8 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
         form.resetFields();
         addItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 

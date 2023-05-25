@@ -7,8 +7,9 @@ import {
   postNewOperationAccounting,
   putChangeOperationAccounting,
   deleteOperationAccountingById,
+  getAllProductionType,
 } from "../../services";
-import {TypeOperation, TypeOperationAccounting} from "../../types";
+import {TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
 import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
 import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
@@ -32,8 +33,12 @@ export const PageOperationAccounting: React.FC = () => {
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperationById, setSelectedOperationById] = useState<number>();
 
+  // Все типы производства, выбранный тип по id
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
+  const [selectedProductionTypeById, setSelectedProductionTypeById] = useState<number>();
+
   // Добавить новую учетную операцию
-  const handleAddOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
+  const handleAddOperationAccounting = (values: { [key: string]: any }): void => {
     const operationAccounting: TypeOperationAccounting = {
       date: values['date'].format('YYYY-MM-DD'),
       fact: values.fact || undefined,
@@ -53,13 +58,12 @@ export const PageOperationAccounting: React.FC = () => {
           }
         }
         : undefined,
+      productionType: values.productionType,
     };
     setIsModalOpen(false)
     postNewOperationAccounting(operationAccounting)
     setDate(date)
-    setSelectedOperationAccountingById(selectedOperationAccountingById)
     setUpdateTable(prevState => !prevState)
-    return values;
   };
 
   // Открыть дравер
@@ -78,8 +82,18 @@ export const PageOperationAccounting: React.FC = () => {
     return option.id
   };
 
+  // Изменить выбранный тип производства
+  const onChangeProductionType = (values: string, option: any): TypeProductionType | undefined => {
+    if (values === undefined) {
+      setSelectedProductionTypeById(undefined);
+      return undefined;
+    }
+    setSelectedProductionTypeById(option.id)
+    return option.id
+  };
+
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: { [key: string]: any }): TypeOperationAccounting => {
+  const handleUpdateOperationAccounting = (values: { [key: string]: any }): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingById,
       date: values['date'].format('YYYY-MM-DD'),
@@ -88,13 +102,12 @@ export const PageOperationAccounting: React.FC = () => {
         id: values.operation.id,
       },
       output: values.output ? {id: values.output.id} : undefined,
+      productionType: {id: values.productionType?.id},
     };
     setIsDrawerOpen(false)
     putChangeOperationAccounting(operationAccounting)
     setDate(date)
-    setSelectedOperationAccountingById(selectedOperationAccountingById)
     setUpdateTable(prevState => !prevState)
-    return values;
   };
 
   // Удалить запись из таблицы
@@ -106,6 +119,12 @@ export const PageOperationAccounting: React.FC = () => {
   useEffect(() => {
     getAllOperation().then((allOperation) => {
       setAllOperation(allOperation);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
     });
   }, []);
 
@@ -135,6 +154,20 @@ export const PageOperationAccounting: React.FC = () => {
                 </Option>
               )) : null}
           </Select>
+          <Select
+            showSearch
+            allowClear
+            placeholder='Тип производства'
+            onChange={onChangeProductionType}
+            style={{'width': '250px'}}
+          >
+            {allProductionType && allProductionType.length > 0 ?
+              allProductionType.map(productionType => (
+                <Option id={productionType.id} key={productionType.id} value={productionType.title}>
+                  {productionType.title}
+                </Option>
+              )) : null}
+          </Select>
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
@@ -158,8 +191,9 @@ export const PageOperationAccounting: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteOperationAccounting}
         filter={{
-          dateFilter: date,
-          idFilter: selectedOperationById,
+          date: date,
+          operationId: selectedOperationById,
+          productionTypeId: selectedProductionTypeById,
         }}
       />
       <AddModalOperationAccounting

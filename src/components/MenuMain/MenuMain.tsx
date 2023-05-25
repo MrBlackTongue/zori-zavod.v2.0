@@ -19,7 +19,7 @@ const {SubMenu} = Menu;
 
 export const MenuMain: React.FC = () => {
   return (
-    <div style={{'height': 'calc(100vh - 10px)', 'overflowY': 'auto'}}>
+    <div style={{'height': 'calc(100vh - 100px)', 'overflowY': 'auto'}}>
       <Menu
         theme="light"
         mode="inline">
@@ -33,6 +33,9 @@ export const MenuMain: React.FC = () => {
           </Menu.Item>
           <Menu.Item key="3" icon={<UnorderedListOutlined/>}>
             <Link to="/operation">Типы операций</Link>
+          </Menu.Item>
+          <Menu.Item key="31" icon={<UnorderedListOutlined/>}>
+            <Link to="/production-type">Типы производства</Link>
           </Menu.Item>
         </SubMenu>
 

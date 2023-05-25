@@ -15,6 +15,7 @@ import {PageAcceptance} from "../../pages/PageAcceptance/PageAcceptance";
 import {PageOperationAccounting} from "../../pages/PageOperationAccounting/PageOperationAccounting";
 import {PageOperationAccountingDetail} from "../../pages/PageOperationAccountingDetail/PageOperationAccountingDetail";
 import {PageStock} from "../../pages/PageStock/PageStock";
+import {PageProductionType} from "../../pages/PageProductionType/PageProductionType";
 import {PageMeterType} from "../../pages/PageMeterType/PageMeterType";
 
 export const AppRoutes: React.FC = () => {
@@ -35,6 +36,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/operation-accounting/:id/detail" element={<PageOperationAccountingDetail/>}/>
       <Route path="/stock" element={<PageStock/>}/>
       <Route path="/shipment" element={<PageShipment/>}/>
+      <Route path="/production-type" element={<PageProductionType/>}/>
       <Route path="/meter-type" element={<PageMeterType/>}/>
     </Routes>
   );

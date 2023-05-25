@@ -65,8 +65,8 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
         addItem(values);
         onSearchStock('');
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   };
 

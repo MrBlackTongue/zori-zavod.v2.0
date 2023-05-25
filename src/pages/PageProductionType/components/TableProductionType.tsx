@@ -1,20 +1,21 @@
-import React, {useState, useEffect} from "react";
-import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, TypeProductBatch, TableParams, TypeUnit} from "../../../types";
-import {getAllProductBatch} from "../../../services";
+import React, {useState, useEffect} from 'react';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
+import type {SorterResult} from 'antd/es/table/interface';
+import {getAllProductionType,} from "../../../services";
+import {TableProps, TypeProductionType, TableParams} from "../../../types";
 
-export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
-                                                                            isUpdateTable,
-                                                                            openDrawer,
-                                                                            onDelete,
-                                                                          }) => {
+export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
+                                                                                isUpdateTable,
+                                                                                openDrawer,
+                                                                                onDelete,
+                                                                              }) => {
   type TablePaginationPosition = 'bottomCenter'
 
-  // Лоудер и список всех партий товаров
+  // Лоудер и список типов производства
   const [loading, setLoading] = useState(false);
-  const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>();
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -26,32 +27,16 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeProductBatch> = [
+  const columns: ColumnsType<TypeProductionType> = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
+      title: 'Название',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
-      title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: ((product: any) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
-    },
-    {
-      title: 'Количество',
-      dataIndex: 'amount',
-      key: 'amount',
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
-    },
-    {
-      title: 'Ед. изм',
-      dataIndex: ['product', 'unit'],
-      key: 'unit',
-      render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+      title: 'Описание',
+      dataIndex: 'description',
+      key: 'description',
     },
     {
       title: 'Действия',
@@ -74,7 +59,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить эту партию товаров?"
+              title="Вы действительно хотите удалить этот тип производства?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
@@ -92,22 +77,22 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
   // Параметры изменения таблицы
   const handleTableChange = (
     pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProductBatch>,
+    sorter: SorterResult<TypeProductionType>,
   ) => {
     setTableParams({
       pagination,
       ...sorter,
     });
     if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductBatch(allProductBatch);
+      setAllProductionType(allProductionType);
     }
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
     setLoading(true);
-    getAllProductBatch().then((allProductBatch) => {
-      setAllProductBatch(allProductBatch);
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
       setLoading(false);
     });
   }
@@ -120,7 +105,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
     <Table
       bordered
       columns={columns}
-      dataSource={allProductBatch}
+      dataSource={allProductionType}
       pagination={{
         position: [bottom],
         current: tableParams?.pagination?.current,
@@ -130,4 +115,4 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
       onChange={handleTableChange}
     />
   );
-};
+}

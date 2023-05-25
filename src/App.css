@@ -88,4 +88,5 @@
   min-height: 280px;
   border-radius: 8px;
   background: white;
+  overflow: auto;
 }

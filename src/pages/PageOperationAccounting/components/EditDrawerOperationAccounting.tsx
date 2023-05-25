@@ -1,23 +1,28 @@
-import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
 import React, {useState, useEffect} from "react";
-import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting} from "../../../types";
-import {getAllOutput, getAllOperation, getOperationAccountingById} from "../../../services";
+import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
+import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../../types";
+import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionType} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
 const dateFormatUser = 'DD.MM.YYYY';
 
-export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperationAccounting>> = ({
-                                                                                                    isOpen,
-                                                                                                    selectedItemId,
-                                                                                                    closeDrawer,
-                                                                                                    updateItem,
-                                                                                                  }) => {
+export const EditDrawerOperationAccounting:
+  React.FC<EditDrawerProps<TypeOperationAccounting>> = ({
+                                                          isOpen,
+                                                          selectedItemId,
+                                                          closeDrawer,
+                                                          updateItem,
+                                                        }) => {
   const [form] = Form.useForm();
 
   // Все операции, выбранная операция
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
+
+  // Все типы производства, выбранный тип производства
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
+  const [selectedProductionType, setSelectedProductionType] = useState<TypeProductionType>();
 
   // Все выпуски продукции, Выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
@@ -25,12 +30,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): TypeOperation | undefined => {
-    if (values === undefined) {
-      setSelectedOperation(undefined);
-      form.setFieldsValue({operation: undefined});
-      return undefined;
-    }
+  const onChangeOperation = (values: string, option: any): TypeOperation => {
     const operation: TypeOperation = {
       id: option.id,
       title: values,
@@ -38,6 +38,28 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
     return operation
+  };
+
+  // Очистить поле операция
+  const onClearOperation = (): void => {
+    form.setFieldsValue({operation: undefined});
+    setSelectedOperation(undefined);
+  }
+
+  // Изменить выбранный тип производства
+  const onChangeProductionType = (values: string, option: any): TypeProductionType | undefined => {
+    if (values === undefined) {
+      setSelectedProductionType(undefined);
+      form.setFieldsValue({productionType: undefined});
+      return undefined;
+    }
+    const productionType: TypeProductionType = {
+      id: option.id,
+      title: values,
+    };
+    form.setFieldsValue({productionType: productionType});
+    setSelectedProductionType(productionType)
+    return productionType
   };
 
   // Изменить выбранный выпуск продукции
@@ -76,12 +98,18 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     form
       .validateFields()
       .then((values) => {
+        if (typeof values.operation === 'string') {
+          values.operation = selectedOperation;
+        }
+        if (typeof values.productionType === 'string') {
+          values.productionType = selectedProductionType;
+        }
         updateItem(values);
         closeDrawer()
         onSearchOutput('')
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 
@@ -102,9 +130,11 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
       fact: operationAccounting?.fact,
       operation: operationAccounting?.operation,
       output: operationAccounting?.output,
+      productionType: operationAccounting?.productionType,
     });
     setSelectedOperation(operationAccounting?.operation);
     setSelectedOutput(operationAccounting?.output);
+    setSelectedProductionType(operationAccounting?.productionType)
   }
 
   useEffect(() => {
@@ -113,6 +143,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     } else {
       setSelectedOperation(undefined);
       setSelectedOutput(undefined);
+      setSelectedProductionType(undefined);
     }
   }, [selectedItemId]);
 
@@ -126,6 +157,12 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
     getAllOutput().then((allOutput) => {
       setAllOutput(allOutput);
       setFilteredOutput(allOutput);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
     });
   }, []);
 
@@ -160,7 +197,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
         <Form.Item
           label="Операция"
           name="operation"
-          rules={[{type: 'object' as const, required: true, message: 'выберите операцию'}]}
+          rules={[{required: true, message: 'выберите операцию'}]}
         >
           <div>
             <Select
@@ -168,6 +205,7 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
               allowClear
               value={selectedOperation ? selectedOperation?.title : undefined}
               onChange={onChangeOperation}
+              onClear={onClearOperation}
             >
               {allOperation && allOperation.length > 0 ?
                 allOperation.map(operation => (
@@ -219,6 +257,27 @@ export const EditDrawerOperationAccounting: React.FC<EditDrawerProps<TypeOperati
             style={{width: '100%'}}
             format={dateFormatUser}
           />
+        </Form.Item>
+        <Form.Item
+          label="Тип производства"
+          name="productionType"
+          rules={[{required: true, message: 'выберите тип'}]}
+        >
+          <div>
+            <Select
+              showSearch
+              allowClear
+              value={selectedProductionType ? selectedProductionType?.title : undefined}
+              onChange={onChangeProductionType}
+            >
+              {allProductionType && allProductionType.length > 0 ?
+                allProductionType.map(productionType => (
+                  <Option id={productionType.id} key={productionType.id} value={productionType.title}>
+                    {productionType.title}
+                  </Option>
+                )) : null}
+            </Select>
+          </div>
         </Form.Item>
       </Form>
     </Drawer>
