@@ -102,7 +102,7 @@ export const PageOperationAccounting: React.FC = () => {
         id: values.operation.id,
       },
       output: values.output ? {id: values.output.id} : undefined,
-      productionType: values.productionType,
+      productionType: {id: values.productionType?.id},
     };
     setIsDrawerOpen(false)
     putChangeOperationAccounting(operationAccounting)

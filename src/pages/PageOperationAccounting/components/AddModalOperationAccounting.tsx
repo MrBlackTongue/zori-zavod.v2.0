@@ -163,7 +163,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         <Form.Item
           label="Операция"
           name="operation"
-          rules={[{type: 'object' as const, required: true, message: 'выберите операцию'}]}
+          rules={[{required: true, message: 'выберите операцию'}]}
         >
           <div>
             <Select
@@ -230,7 +230,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         <Form.Item
           label="Тип производства"
           name="productionType"
-          rules={[{type: 'object' as const, required: true, message: 'выберите тип'}]}
+          rules={[{required: true, message: 'выберите тип'}]}
         >
           <div>
             <Select
