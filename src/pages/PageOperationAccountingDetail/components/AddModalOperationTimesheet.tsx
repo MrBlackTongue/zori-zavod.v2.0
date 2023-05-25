@@ -32,7 +32,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   });
 
   // Поиск по сотрудникам
-  const onSearchEmployee = useCallback((searchText: string) => {
+  const onSearchEmployee = (searchText: string) => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {
@@ -51,16 +51,15 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
       });
       setFilteredEmployee(prevState => filtered || prevState);
     }
-  }, [allEmployee]);
+  };
 
-  // Функция подтверждения добавления сотрудника в табель учета рабочего времени
+  // Функция подтверждения добавления
   const handleOk = useCallback(() => {
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
         addItem(values);
-        onSearchEmployee('');
       })
       .catch((error) => {
         console.log('Validate Failed:', error);

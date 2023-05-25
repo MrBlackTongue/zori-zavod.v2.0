@@ -16,7 +16,7 @@ const {Title} = Typography;
 
 export const PageProductBatch: React.FC = () => {
 
-  // Обновление таблицы, выбрана партия товара по id
+  // Обновление таблицы, выбрана партия товаров по id
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
@@ -24,7 +24,7 @@ export const PageProductBatch: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Добавить новую партии товара
+  // Добавить новую партию товаров
   const handleAddProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
     const productBatch: TypeProductBatch = {
       product: {
@@ -44,7 +44,7 @@ export const PageProductBatch: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Обновление партии товара
+  // Обновление партии товаров
   const handleUpdateProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
     const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,

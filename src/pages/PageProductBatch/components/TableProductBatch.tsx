@@ -74,7 +74,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить эту партию товара?"
+              title="Вы действительно хотите удалить эту партию товаров?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
@@ -103,7 +103,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
     }
   };
 
-  // Функция для обновления таблицы партии товаров
+  // Функция для обновления таблицы
   const updateTable = () => {
     setLoading(true);
     getAllProductBatch().then((allProductBatch) => {
@@ -112,7 +112,6 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
     });
   }
 
-  // Обновление таблицы партии товаров
   useEffect(() => {
     updateTable();
   }, [isUpdateTable]);
