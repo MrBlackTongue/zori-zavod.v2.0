@@ -80,17 +80,7 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({
         <Form.Item
           label="Цена"
           name="cost"
-          rules={[
-            {required: true, message: "введите цену"},
-            {
-              validator: (_, value) => {
-                if (!value || /^\d+(\.\d{1,2})?$/.test(value)) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error('Введите число в правильном формате (например, 12.34)'));
-              },
-            },
-          ]}
+          rules={[{required: true, message: "введите цену"}]}
         >
           <InputNumber
             style={{width: "100%"}}

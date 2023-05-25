@@ -44,11 +44,6 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
       });
   }
 
-  // Функция закрытия дравера
-  const handleClose = () => {
-    closeDrawer()
-  };
-
   useEffect(() => {
     getAllUnit().then((allUnit) => {
       setAllUnit(allUnit);
@@ -72,10 +67,10 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
       title="Редактирование типа счетчика"
       width={700}
       open={isOpen}
-      onClose={handleClose}
+      onClose={closeDrawer}
       extra={
         <Space>
-          <Button onClick={handleClose}>Отмена</Button>
+          <Button onClick={closeDrawer}>Отмена</Button>
           <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>
@@ -100,7 +95,7 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
           name="cost"
           rules={[
             {required: true, message: "введите цену"},
-            {type: 'number', min: 0.01, message: 'цена должна быть больше 0,01'}
+            {type: 'number', min: 0.1, message: 'цена должна быть больше 0,1'}
           ]}
         >
           <InputNumber
