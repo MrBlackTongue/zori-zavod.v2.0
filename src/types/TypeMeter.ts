@@ -1,6 +1,6 @@
 import {TypeMeterType} from "./TypeMeterType";
 
-export interface TypeMeter {
+export type TypeMeter = {
   id: number;
   serialNumber: string;
   description: string;
