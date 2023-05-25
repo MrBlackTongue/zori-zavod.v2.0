@@ -16,7 +16,6 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
   // Все единицы измерения, выбранная единица измерения, единица измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
   const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
-  const [unit, setUnit] = useState<TypeUnit>()
 
   // Изменить выбранную единицу измерения
   const onChangeUnit = (values: string, option: any): TypeUnit => {
@@ -47,13 +46,12 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
 
   // Функция закрытия дравера
   const handleClose = () => {
-    setSelectedUnit(unit);
     closeDrawer()
   };
 
   useEffect(() => {
-    getAllUnit().then((unit) => {
-      setAllUnit(unit);
+    getAllUnit().then((allUnit) => {
+      setAllUnit(allUnit);
     });
   }, []);
 
@@ -62,16 +60,16 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
       getMeterTypeById(selectedItemId).then((meterType) => {
         form.setFieldsValue(meterType)
         setSelectedUnit(meterType?.unit)
-        setUnit(meterType?.unit)
       })
     } else {
       form.resetFields();
+      setSelectedUnit(undefined);
     }
   }, [isOpen, selectedItemId]);
 
   return (
     <Drawer
-      title="Редактирование счетчика"
+      title="Редактирование типа счетчика"
       width={700}
       open={isOpen}
       onClose={handleClose}
@@ -91,7 +89,7 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Название типа счетчика"
+          label="Название"
           name="title"
           rules={[{required: true, message: 'введите название'}]}
         >
@@ -102,17 +100,20 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
           name="cost"
           rules={[
             {required: true, message: "введите цену"},
-            {
-              validator: (_, value) => {
-                if (!value || /^\d+(\.\d{1,2})?$/.test(value)) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error('Введите число в правильном формате (например, 12.34)'));
-              },
-            },
+            {type: 'number', min: 0.01, message: 'цена должна быть больше 0,01'}
           ]}
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber
+            style={{width: "100%"}}
+            min={0.01}
+            formatter={(value) => `${value}`.replace('.', ',')}
+            parser={(displayValue: string | undefined): number => {
+              if (displayValue === undefined) {
+                return 0;
+              }
+              return parseFloat(displayValue.replace(',', '.'));
+            }}
+          />
         </Form.Item>
         <Form.Item
           label="Единица измерения"

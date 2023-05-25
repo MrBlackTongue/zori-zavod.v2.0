@@ -92,12 +92,22 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({
             },
           ]}
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber
+            style={{width: "100%"}}
+            min={0.01}
+            formatter={(value) => `${value}`.replace('.', ',')}
+            parser={(displayValue: string | undefined): number => {
+              if (displayValue === undefined) {
+                return 0;
+              }
+              return parseFloat(displayValue.replace(',', '.'));
+            }}
+          />
         </Form.Item>
         <Form.Item
           label="Единица измерения"
           name="unit"
-          rules={[{required: true, message: 'Выберите единицу измерения'}]}
+          rules={[{required: true, message: 'выберите единицу измерения'}]}
         >
           <div>
             <Select

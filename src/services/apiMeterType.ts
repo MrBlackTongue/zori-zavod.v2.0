@@ -84,7 +84,6 @@ export async function deleteMeterTypeById(id: number) {
     const response = await fetch(URL + METER_TYPE + `/${id}`, {
       method: "DELETE",
     });
-
     if (response.ok) {
       message.success("Запись удалена");
     } else {

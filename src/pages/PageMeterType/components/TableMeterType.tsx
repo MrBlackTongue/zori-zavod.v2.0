@@ -32,8 +32,6 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
       title: 'Счетчик',
       dataIndex: 'title',
       key: 'title',
-      defaultSortOrder: 'ascend',
-      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
     },
     {
       title: 'Цена за ед. изм',

@@ -21,7 +21,7 @@ export const PageMeterType: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новый тип счетчика
-  const handleAddMeterType = (values: { [key: string]: any }): TypeMeterType => {
+  const handleAddMeterType = (values: { [key: string]: any }): void => {
     const meterType: TypeMeterType = {
       title: values.title,
       unit: {
@@ -33,7 +33,6 @@ export const PageMeterType: React.FC = () => {
     setIsModalOpen(false)
     postNewMeterType(meterType)
     setUpdateTable(prevState => !prevState)
-    return meterType;
   };
 
   // Открыть дравер
@@ -43,7 +42,7 @@ export const PageMeterType: React.FC = () => {
   };
 
   // Обновить тип счетчика
-  const handleUpdateMeterType = (values: { [key: string]: any }): TypeMeterType => {
+  const handleUpdateMeterType = (values: { [key: string]: any }): void => {
     const meterType: TypeMeterType = {
       title: values.title,
       unit: {
@@ -56,7 +55,6 @@ export const PageMeterType: React.FC = () => {
     setIsDrawerOpen(false)
     putChangeMeterType(meterType)
     setUpdateTable(prevState => !prevState)
-    return meterType
   };
 
   // Удалить запись из таблицы
@@ -73,7 +71,7 @@ export const PageMeterType: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setUpdateTable(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
