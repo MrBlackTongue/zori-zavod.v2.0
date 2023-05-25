@@ -1,4 +1,4 @@
-import {TypeOperationAccounting} from "../types";
+import {TypeOperationAccounting, TypeOperationAccountingFilter} from "../types";
 import {message} from "antd";
 import {URL, OPERATION_ACCOUNTING, FILTER} from "./apiEndpoints";
 
@@ -97,7 +97,7 @@ export function putChangeOperationAccounting(data: TypeOperationAccounting) {
 }
 
 // Фильтр по таблице
-export function postFilterByTable(data: { date?: string; operationId?: number }) {
+export function postFilterByTable(data: TypeOperationAccountingFilter) {
   try {
     const config = {
       method: 'POST',

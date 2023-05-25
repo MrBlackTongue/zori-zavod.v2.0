@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeProduct, TypeStock} from "../../../types";
 import {Form, Modal, Select, InputNumber} from "antd";
 import {getAllProduct} from "../../../services";
@@ -34,11 +34,9 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
     } else {
       const searchLowerCase = searchText.toLowerCase();
       const filtered = allProduct?.filter((product) => {
-        const titleMatch = product && product.title
+        return product && product.title
           ? product.title.toLowerCase().includes(searchLowerCase)
           : false;
-
-        return titleMatch;
       });
       setFilteredProduct(prevState => filtered || prevState);
     }
@@ -55,7 +53,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
         onSearchProduct('')
       })
       .catch((error) => {
-        console.log("Validate Failed:", error);
+        console.log('Validate Failed:', error);
       });
   };
 

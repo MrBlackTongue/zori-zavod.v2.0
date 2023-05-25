@@ -138,7 +138,7 @@ export const PageStock: React.FC = () => {
         onDelete={handleDelete}
         openDrawer={openDrawer}
         searchText={searchText}
-        filter={{
+        filter2={{
           idFilter: selectedGroupId,
         }}
       />

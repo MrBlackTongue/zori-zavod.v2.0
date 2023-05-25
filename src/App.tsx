@@ -1,5 +1,6 @@
+import React, {useState, useEffect} from 'react';
+import {useLocation} from 'react-router-dom';
 import './App.css';
-import React, {useState} from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -12,9 +13,18 @@ const {Header, Sider, Content} = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
   const {
     token: {colorBgContainer},
   } = theme.useToken();
+
+  useEffect(() => {
+    if (location.pathname === '/operation-accounting') {
+      setCollapsed(true);
+    } else {
+      setCollapsed(false)
+    }
+  }, [location]);
 
   return (
     <div>
@@ -29,7 +39,7 @@ function App() {
           </Header>
           <MenuMain/>
         </Sider>
-        <Layout className="site-layout">
+        <Layout className="site-layout" style={{minHeight: '100vh', height: '100vh', overflow: 'auto'}}>
           <Header style={{padding: 0, background: colorBgContainer}}>
             {/*<Title level={3}></Title>*/}
           </Header>
