@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Form, Drawer, Select, InputNumber, DatePicker, Checkbox, Space, Button} from "antd";
 import {EditDrawerProps, TypeProduct, TypePurchase} from "../../../types";
 import {getAllProduct, getPurchaseById} from "../../../services";
@@ -68,8 +68,8 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
       .then((values) => {
         updateItem(values);
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info)
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       })
   }
 

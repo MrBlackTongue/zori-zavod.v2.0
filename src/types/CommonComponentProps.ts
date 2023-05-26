@@ -1,10 +1,11 @@
-export interface TableProps<T> {
+export interface TableProps<T, F = {}> {
   isUpdateTable: boolean;
   openDrawer?: (id: number) => void;
   openDetailDrawer?: (id: number) => void;
   onDelete?: (id: number) => void;
   searchText?: string | undefined;
-  filter?: {
+  filter?: F;
+  filter2?: {
     dateFilter?: string | undefined,
     idFilter?: number | undefined,
   }
@@ -24,7 +25,7 @@ export interface EditDrawerProps<T> {
   updateItem: (values: T) => void;
 }
 
-export interface DetailProps<T> {
+export interface DetailDrawerProps<T> {
   isOpen: boolean;
   closeDrawer: () => void;
   selectedItemId: number | undefined;

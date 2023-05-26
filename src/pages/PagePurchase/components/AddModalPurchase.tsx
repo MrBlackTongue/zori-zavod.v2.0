@@ -47,7 +47,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
         addItem(values);
       })
       .catch((error) => {
-        console.log("Validate Failed:", error);
+        console.log('Validate Failed:', error);
       });
   };
 

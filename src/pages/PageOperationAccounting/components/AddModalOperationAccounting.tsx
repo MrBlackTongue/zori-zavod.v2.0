@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeOperation, TypeOperationAccounting, TypeOutput} from "../../../types";
+import {AddModalProps, TypeOperation, TypeOperationAccounting, TypeOutput, TypeProductionType} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select} from "antd";
-import {getAllOperation, getAllOutput} from "../../../services";
+import {getAllOperation, getAllOutput, getAllProductionType} from "../../../services";
 import dayjs from "dayjs";
 
 const {Option} = Select;
@@ -18,6 +18,10 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
   const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
 
+  // Все типы производства, выбранный тип производства
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
+  const [selectedProductionType, setSelectedProductionType] = useState<TypeProductionType>();
+
   // Все выпуски продукции, выбранный выпуск продукции, отфильтрованные выпуски продукции
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
   const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
@@ -29,9 +33,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
       id: option.id,
       title: values,
     };
-    form.setFieldsValue({
-      operation: operation
-    });
+    form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
     return operation
   };
@@ -40,6 +42,23 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   const onClearOperation = (): void => {
     form.setFieldsValue({operation: undefined});
     setSelectedOperation(undefined);
+  }
+
+  // Изменить выбранный тип производства
+  const onChangeProductionType = (values: string, option: any): TypeProductionType => {
+    const productionType: TypeProductionType = {
+      id: option.id,
+      title: values,
+    };
+    form.setFieldsValue({productionType: productionType});
+    setSelectedProductionType(productionType)
+    return productionType
+  };
+
+  // Очистить поле
+  const onClearProductionType = (): void => {
+    form.setFieldsValue({productionType: undefined});
+    setSelectedProductionType(undefined);
   }
 
   // Изменить выбранный выпуск продукции
@@ -83,11 +102,12 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         form.resetFields();
         setSelectedOperation(undefined);
         setSelectedOutput(undefined);
+        setSelectedProductionType(undefined);
         addItem({...values, output: values.output || null, fact: values.fact || null});
         onSearchOutput('');
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
   }
 
@@ -96,6 +116,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     form.resetFields();
     setSelectedOperation(undefined);
     setSelectedOutput(undefined);
+    setSelectedProductionType(undefined);
     onCancel()
   };
 
@@ -109,6 +130,12 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
     getAllOutput().then((allOutput) => {
       setAllOutput(allOutput);
       setFilteredOutput(allOutput);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
     });
   }, []);
 
@@ -136,7 +163,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         <Form.Item
           label="Операция"
           name="operation"
-          rules={[{type: 'object' as const, required: true, message: 'выберите операцию'}]}
+          rules={[{required: true, message: 'выберите операцию'}]}
         >
           <div>
             <Select
@@ -199,6 +226,28 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
             style={{width: '100%'}}
             format={dateFormatUser}
           />
+        </Form.Item>
+        <Form.Item
+          label="Тип производства"
+          name="productionType"
+          rules={[{required: true, message: 'выберите тип'}]}
+        >
+          <div>
+            <Select
+              showSearch
+              allowClear
+              value={selectedProductionType ? selectedProductionType?.title : undefined}
+              onChange={onChangeProductionType}
+              onClear={onClearProductionType}
+            >
+              {allProductionType && allProductionType.length > 0 ?
+                allProductionType.map(productionType => (
+                  <Option id={productionType.id} key={productionType.id} value={productionType.title}>
+                    {productionType.title}
+                  </Option>
+                )) : null}
+            </Select>
+          </div>
         </Form.Item>
       </Form>
     </Modal>

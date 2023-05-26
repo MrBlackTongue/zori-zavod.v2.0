@@ -1,31 +1,31 @@
+import {TypeMeterType} from "../types";
+import {URL, METER_TYPE} from "./apiEndpoints";
 import {message} from "antd";
-import {URL, PRODUCT, BATCH} from "./apiEndpoints";
-import {TypeProductBatch} from "../types";
 
-// Получить все партии товаров
-export async function getAllProductBatch(): Promise<TypeProductBatch[]> {
+// Получение всех типов счетчика
+export async function getAllMeterType(): Promise<TypeMeterType[]> {
   try {
-    const res = await fetch(URL + PRODUCT + BATCH);
-    if (!res.ok) {
-      console.error(res.statusText);
+    const response = await fetch(URL + METER_TYPE);
+    if (!response.ok) {
+      console.error(response.statusText);
       return Promise.reject();
     }
-    return await res.json() as TypeProductBatch[];
+    return await response.json() as TypeMeterType[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
   }
 }
 
-// Редактировать партию товаров
-export function putChangeProductBatch(data: TypeProductBatch) {
+// Изменение существующего типа счетчика
+export function putChangeMeterType(data: TypeMeterType) {
   try {
     const config = {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCT + BATCH, config)
+    fetch(URL + METER_TYPE, config)
       .then(response => {
         if (response.ok) {
           return message.success('Запись изменена');
@@ -40,15 +40,15 @@ export function putChangeProductBatch(data: TypeProductBatch) {
   }
 }
 
-// Добавить новую партию товаров
-export function postNewProductBatch(data: TypeProductBatch) {
+// Создание нового типа счетчика
+export function postNewMeterType(data: TypeMeterType) {
   try {
     const config = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
-    fetch(URL + PRODUCT + BATCH, config)
+    fetch(URL + METER_TYPE, config)
       .then((response) => {
         if (response.ok) {
           return message.success('Запись добавлена');
@@ -63,10 +63,10 @@ export function postNewProductBatch(data: TypeProductBatch) {
   }
 }
 
-// Получить данные партии товаров по id
-export async function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
+// Получить тип счетчика по id
+export async function getMeterTypeById(id: number): Promise<TypeMeterType | undefined> {
   try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`);
+    const response = await fetch(URL + METER_TYPE + `/${id}`);
     if (!response.ok) {
       console.error(response.statusText);
       return Promise.reject();
@@ -78,20 +78,20 @@ export async function getProductBatchById(id: number): Promise<TypeProductBatch 
   }
 }
 
-// Удалить партию товаров по id
-export async function deleteProductBatchById(id: number) {
+// Удаление типа счетчика по id
+export async function deleteMeterTypeById(id: number) {
   try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`, {
-      method: 'DELETE',
+    const response = await fetch(URL + METER_TYPE + `/${id}`, {
+      method: "DELETE",
     });
-    const data = await response.json();
-    if (data.success) {
-      return message.success('Запись удалена');
+    if (response.ok) {
+      message.success("Запись удалена");
     } else {
       console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
+      message.error("Ошибка при удалении записи");
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }

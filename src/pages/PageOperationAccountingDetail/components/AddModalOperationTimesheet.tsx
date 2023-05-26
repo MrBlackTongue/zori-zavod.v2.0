@@ -17,22 +17,22 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   const [filteredEmployee, setFilteredEmployee] = useState<TypeEmployee[]>([]);
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = useCallback((values: string, option: any): TypeEmployee => {
+  const onChangeEmployee = ((values: string, option: any): TypeEmployee => {
     const employee: TypeEmployee = {
       id: option.id,
     };
     form.setFieldsValue({employee: employee});
     onSearchEmployee('')
     return employee
-  }, [form]);
+  });
 
   // Очистить поле сотрудника
-  const onClearEmployee = useCallback((): void => {
+  const onClearEmployee = ((): void => {
     form.setFieldsValue({employee: undefined});
-  }, [form]);
+  });
 
   // Поиск по сотрудникам
-  const onSearchEmployee = useCallback((searchText: string) => {
+  const onSearchEmployee = (searchText: string) => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {
@@ -51,21 +51,20 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
       });
       setFilteredEmployee(prevState => filtered || prevState);
     }
-  }, [allEmployee]);
+  };
 
-  // Функция подтверждения добавления сотрудника в табель учета рабочего времени
+  // Функция подтверждения добавления
   const handleOk = useCallback(() => {
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
         addItem(values);
-        onSearchEmployee('');
       })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
+      .catch((error) => {
+        console.log('Validate Failed:', error);
       });
-  }, [form, addItem, onSearchEmployee]);
+  }, [form, addItem]);
 
   // Функция закрытия модального окна
   const handleClose = useCallback(() => {

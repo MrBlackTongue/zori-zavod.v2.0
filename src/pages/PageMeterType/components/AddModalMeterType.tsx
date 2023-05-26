@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeOperation, TypeUnit} from "../../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
+import {AddModalProps, TypeMeterType, TypeUnit} from "../../../types";
 import {getAllUnit} from "../../../services";
 
 const {Option} = Select;
 
-export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
+export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({
                                                                             isOpen,
                                                                             addItem,
                                                                             onCancel,
@@ -35,27 +35,29 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
         form.resetFields();
         addItem(values);
       })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+        return;
       });
-  }
+  };
 
-  // Функция закрытия модального окна
-  const handleClose = () => {
-    onCancel()
+  // Функция для сброса формы при закрытии модального окна
+  const handleCancel = () => {
+    form.resetFields();
+    onCancel();
   };
 
   useEffect(() => {
-    getAllUnit().then((units) => {
-      setAllUnit(units);
+    getAllUnit().then((allUnit) => {
+      setAllUnit(allUnit);
     });
   }, []);
 
   return (
     <Modal
-      title={`Добавление новой операции`}
+      title={`Добавление нового типа счетчика`}
       open={isOpen}
-      onCancel={handleClose}
+      onCancel={handleCancel}
       width={700}
       okText={'Сохранить'}
       cancelText={'Отмена'}
@@ -69,15 +71,33 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Название операции"
+          label="Название"
           name="title"
           rules={[{required: true, message: 'введите название'}]}
         >
           <Input/>
         </Form.Item>
         <Form.Item
+          label="Цена"
+          name="cost"
+          rules={[{required: true, message: "введите цену"}]}
+        >
+          <InputNumber
+            style={{width: "100%"}}
+            min={0.01}
+            formatter={(value) => `${value}`.replace('.', ',')}
+            parser={(displayValue: string | undefined): number => {
+              if (displayValue === undefined) {
+                return 0;
+              }
+              return parseFloat(displayValue.replace(',', '.'));
+            }}
+          />
+        </Form.Item>
+        <Form.Item
           label="Единица измерения"
           name="unit"
+          rules={[{required: true, message: 'выберите единицу измерения'}]}
         >
           <div>
             <Select
@@ -91,17 +111,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
                 )) : null}
             </Select>
           </div>
-        </Form.Item>
-        <Form.Item
-          label="Норма"
-          name="rate"
-          rules={[{
-            type: 'number',
-            message: 'напишите норму цифрами больше 1',
-            warningOnly: true,
-          }]}
-        >
-          <InputNumber style={{width: '100%'}}/>
         </Form.Item>
       </Form>
     </Modal>

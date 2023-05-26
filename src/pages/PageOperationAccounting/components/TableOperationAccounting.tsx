@@ -1,19 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {EditOutlined, DeleteOutlined, SearchOutlined,} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {getAllOperationAccounting, postFilterByTable,} from "../../../services";
-import {TableProps, TypeOperationAccounting, TableParams, TypeOperationTimesheet} from "../../../types";
+import {
+  TableProps,
+  TypeOperationAccounting,
+  TableParams,
+  TypeOperationTimesheet,
+  TypeOperationAccountingFilter,
+} from "../../../types";
 import dayjs from "dayjs";
 
-export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounting>> = ({
-                                                                                          isUpdateTable,
-                                                                                          openDrawer,
-                                                                                          onDelete,
-                                                                                          filter,
-                                                                                        }) => {
+export const TableOperationAccounting:
+  React.FC<TableProps<TypeOperationAccounting, TypeOperationAccountingFilter>> = ({
+                                                                                    isUpdateTable,
+                                                                                    openDrawer,
+                                                                                    onDelete,
+                                                                                    filter,
+                                                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
   const navigate = useNavigate();
 
@@ -31,7 +38,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
   });
 
   // Переход на другую страницу по адресу
-  const handleMoreDetails = (id: number) => {
+  const handleMoreDetail = (id: number) => {
     navigate(`/operation-accounting/${id}/detail`);
   };
 
@@ -121,9 +128,8 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
               type="primary"
               size="small"
               shape="circle"
-              onClick={() => handleMoreDetails(id)}
-            >
-              <SearchOutlined/>
+              onClick={() => handleMoreDetail(id)}>
+              <EllipsisOutlined/>
             </Button>
           </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -223,8 +229,9 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
     if (filter) {
       setLoading(true);
       postFilterByTable({
-        date: filter.dateFilter || undefined,
-        operationId: filter.idFilter || undefined,
+        date: filter.date || undefined,
+        operationId: filter.operationId || undefined,
+        productionTypeId: filter.productionTypeId || undefined,
       }).then((allOperationAccounting) => {
         setAllOperationAccounting(allOperationAccounting);
         setLoading(false);
@@ -233,7 +240,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
   }
 
   useEffect(() => {
-    if (filter && (filter.dateFilter || filter.idFilter)) {
+    if (filter && (filter.date || filter.operationId || filter.productionTypeId)) {
       filterTable();
     } else {
       updateTable();
@@ -245,11 +252,7 @@ export const TableOperationAccounting: React.FC<TableProps<TypeOperationAccounti
       bordered
       columns={columns}
       dataSource={allOperationAccounting}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: [bottom]}}
       loading={loading}
       onChange={handleTableChange}
       summary={renderSummaryRow}
