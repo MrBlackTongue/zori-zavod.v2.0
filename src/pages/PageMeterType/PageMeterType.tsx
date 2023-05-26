@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 export const PageMeterType: React.FC = () => {
 
-  // Обновление таблицы, тип счетчика по id
+  // Обновление таблицы, id выбраного типа счетчика
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
 

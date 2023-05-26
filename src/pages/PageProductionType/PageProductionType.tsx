@@ -16,9 +16,9 @@ const {Title} = Typography;
 
 export const PageProductionType: React.FC = () => {
 
-  // Обновление таблицы, выбран тип производства по id
+  // Обновление таблицы, id выбраного типа производства
   const [updateTable, setUpdateTable] = useState(false);
-  const [selectedProductionTypeById, setSelectedProductionTypeById] = useState<number>();
+  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,14 +37,14 @@ export const PageProductionType: React.FC = () => {
 
   // Открыть дравер
   const openDrawer = (productionTypeId: number) => {
-    setSelectedProductionTypeById(productionTypeId)
+    setSelectedProductionTypeId(productionTypeId)
     setIsDrawerOpen(true);
   };
 
   // Обновить запись в таблице
   const handleUpdateProductionType = (values: { [key: string]: any }): void => {
     const productionType: TypeProductionType = {
-      id: selectedProductionTypeById,
+      id: selectedProductionTypeId,
       title: values.title,
       description: values.description,
     };
@@ -94,7 +94,7 @@ export const PageProductionType: React.FC = () => {
       />
       <EditDrawerProductionType
         isOpen={isDrawerOpen}
-        selectedItemId={selectedProductionTypeById}
+        selectedItemId={selectedProductionTypeId}
         updateItem={handleUpdateProductionType}
         closeDrawer={() => setIsDrawerOpen(false)}
       />

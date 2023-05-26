@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 export const PageOutput: React.FC = () => {
 
-  // Обновление таблицы, выбран выпуск продукции по id
+  // Обновление таблицы, id выбраного выпуска продукции
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedOutputId, setSelectedOutputId] = useState<number>();
 

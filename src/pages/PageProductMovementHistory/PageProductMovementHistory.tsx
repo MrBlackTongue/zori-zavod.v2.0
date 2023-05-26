@@ -11,22 +11,22 @@ const {Option} = Select;
 
 export const PageProductMovementHistory: React.FC = () => {
 
-  // Все остатки, выбрать остаток по id
+  // Все остатки на складе, id выбранного остатка на складе
   const [stock, setStock] = useState<TypeStock[]>();
-  const [selectedStockById, setSelectedStockById] = useState<number>();
+  const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Обновление таблицы
   const [updateTable, setUpdateTable] = useState(false);
 
-  // Изменить выбраный остаток
+  // Изменить выбраный остаток на складе
   const onChangeStock = (values: string, option: any): TypeStock => {
-    setSelectedStockById(option.id)
+    setSelectedStockId(option.id)
     return option.id;
   };
 
   // Обновить таблицу при очистке выбора
   const onClearStock = (): void => {
-    setSelectedStockById(undefined);
+    setSelectedStockId(undefined);
     setUpdateTable(!updateTable);
   }
 
@@ -68,7 +68,7 @@ export const PageProductMovementHistory: React.FC = () => {
       <FloatButton.BackTop/>
       <TableProductMovementHistory
         isUpdateTable={updateTable}
-        filter2={{idFilter: selectedStockById}}
+        filter2={{idFilter: selectedStockId}}
       />
     </div>
   );

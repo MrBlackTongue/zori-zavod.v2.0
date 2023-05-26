@@ -13,7 +13,7 @@ const {Title} = Typography;
 
 export const PageShipment: React.FC = () => {
 
-  // Состояние для обновления таблицы, выбранна отгрузка по id
+  // Состояние для обновления таблицы, id выбранной отгрузки
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 

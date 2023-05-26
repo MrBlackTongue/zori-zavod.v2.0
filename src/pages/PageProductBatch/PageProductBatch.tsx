@@ -16,7 +16,7 @@ const {Title} = Typography;
 
 export const PageProductBatch: React.FC = () => {
 
-  // Обновление таблицы, выбрана партия товаров по id
+  // Обновление таблицы, id выбраной партии товаров
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 

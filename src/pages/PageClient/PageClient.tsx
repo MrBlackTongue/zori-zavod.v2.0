@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 export const PageClient: React.FC = () => {
 
-  // Обновление таблицы, выбран клиент по id
+  // Обновление таблицы, id выбраного клиента
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<number>();
 

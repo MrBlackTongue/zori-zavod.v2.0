@@ -20,22 +20,22 @@ const {Option} = Select;
 
 export const PageOperationAccounting: React.FC = () => {
 
-  // Обновление таблицы, выбрана учетная операция по id
+  // Обновление таблицы, id выбраной учетной операции
   const [updateTable, setUpdateTable] = useState(false);
-  const [selectedOperationAccountingById, setSelectedOperationAccountingById] = useState<number>();
+  const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер, дата
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [date, setDate] = useState<any>();
 
-  // Все операции, выбранная операция по id
+  // Все операции, id выбранной операции
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
-  const [selectedOperationById, setSelectedOperationById] = useState<number>();
+  const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
-  // Все типы производства, выбранный тип по id
+  // Все типы производства, id выбранного типа производства
   const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
-  const [selectedProductionTypeById, setSelectedProductionTypeById] = useState<number>();
+  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Добавить новую учетную операцию
   const handleAddOperationAccounting = (values: { [key: string]: any }): void => {
@@ -68,34 +68,34 @@ export const PageOperationAccounting: React.FC = () => {
 
   // Открыть дравер
   const openDrawer = (operationAccountingId: number) => {
-    setSelectedOperationAccountingById(operationAccountingId)
+    setSelectedOperationAccountingId(operationAccountingId)
     setIsDrawerOpen(true);
   };
 
   // Изменить выбранную операцию
   const onChangeOperation = (values: string, option: any): TypeOperation | undefined => {
     if (values === undefined) {
-      setSelectedOperationById(undefined);
+      setSelectedOperationId(undefined);
       return undefined;
     }
-    setSelectedOperationById(option.id)
+    setSelectedOperationId(option.id)
     return option.id
   };
 
   // Изменить выбранный тип производства
   const onChangeProductionType = (values: string, option: any): TypeProductionType | undefined => {
     if (values === undefined) {
-      setSelectedProductionTypeById(undefined);
+      setSelectedProductionTypeId(undefined);
       return undefined;
     }
-    setSelectedProductionTypeById(option.id)
+    setSelectedProductionTypeId(option.id)
     return option.id
   };
 
   // Обновить учетную операцию
   const handleUpdateOperationAccounting = (values: { [key: string]: any }): void => {
     const operationAccounting: TypeOperationAccounting = {
-      id: selectedOperationAccountingById,
+      id: selectedOperationAccountingId,
       date: values['date'].format('YYYY-MM-DD'),
       fact: values.fact || undefined,
       operation: {
@@ -192,8 +192,8 @@ export const PageOperationAccounting: React.FC = () => {
         onDelete={handleDeleteOperationAccounting}
         filter={{
           date: date,
-          operationId: selectedOperationById,
-          productionTypeId: selectedProductionTypeById,
+          operationId: selectedOperationId,
+          productionTypeId: selectedProductionTypeId,
         }}
       />
       <AddModalOperationAccounting
@@ -203,7 +203,7 @@ export const PageOperationAccounting: React.FC = () => {
       />
       <EditDrawerOperationAccounting
         isOpen={isDrawerOpen}
-        selectedItemId={selectedOperationAccountingById}
+        selectedItemId={selectedOperationAccountingId}
         updateItem={handleUpdateOperationAccounting}
         closeDrawer={() => setIsDrawerOpen(false)}
       />

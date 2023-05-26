@@ -20,11 +20,11 @@ export const PageStock: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Все группы продуктов, выбранная группа продуктов по id
+  // Все группы товаров, id выбранной группы товаров
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
   const [selectedGroupId, setSelectedGroupId] = useState<number>();
 
-  // Выбрана ячейка на складе по id
+  // id выбранной ячейка на складе
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Текст поиска

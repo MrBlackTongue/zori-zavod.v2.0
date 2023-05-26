@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 export const PageOperation: React.FC = () => {
 
-  // Обновление таблицы, выбрана операция по id
+  // Обновление таблицы, id выбраной операции
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
 

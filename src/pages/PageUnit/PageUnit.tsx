@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 export const PageUnit: React.FC = () => {
 
-  // Обновление таблицы, выбрана единица измерения по id
+  // Обновление таблицы, id выбраной единицы измерения
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedUnitId, setSelectedUnitId] = useState<number>();
 

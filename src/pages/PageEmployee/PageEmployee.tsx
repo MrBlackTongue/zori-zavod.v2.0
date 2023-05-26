@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 export const PageEmployee: React.FC = () => {
 
-  // Обновление таблицы, выбран сотрудник по id
+  // Обновление таблицы, id выбраного сотрудника
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 

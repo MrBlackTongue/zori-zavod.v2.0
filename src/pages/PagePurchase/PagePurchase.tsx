@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 export const PagePurchase: React.FC = () => {
 
-  // Обновление таблицы, выбрана закупка по id
+  // Обновление таблицы, id выбраной закупки
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
