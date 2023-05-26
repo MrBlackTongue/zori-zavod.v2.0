@@ -4,5 +4,5 @@ export type TypeMeter = {
   id: number;
   serialNumber: string;
   description: string;
-  meterType: TypeMeterType;
+  meterTypeDto: TypeMeterType;
 }

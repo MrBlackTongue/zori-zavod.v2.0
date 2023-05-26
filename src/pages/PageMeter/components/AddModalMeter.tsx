@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AddModalProps, TypeMeter, TypeMeterType} from "../../../types";
-import {Form, Modal, Select, InputNumber} from "antd";
-/*import {getAllMeterType} from "../../../services";*/
+import {Form, Modal, Select, InputNumber, Input} from "antd";
+import {getAllMeterType} from "../../../services";
 
 const {Option} = Select;
 
@@ -50,14 +50,18 @@ export const AddModalMeter: React.FC<AddModalProps<TypeMeter>> = ({
       .validateFields()
       .then((values) => {
         form.resetFields();
-        setSelectedMeterType(undefined)
-        addItem({...values, meterType: values.meterType});
+        setSelectedMeterType(undefined);
+        addItem({
+          ...values,
+          meterTypeDto: selectedMeterType
+        });
         onSearchMeterType('')
       })
       .catch((error) => {
         console.log("Validate Failed:", error);
       });
   };
+
 
   // Функция закрытия модального окна
   const handleClose = () => {
@@ -67,18 +71,18 @@ export const AddModalMeter: React.FC<AddModalProps<TypeMeter>> = ({
   };
 
   useEffect(() => {
-    /*getAllMeterType().then((allMeterType) => {
+    getAllMeterType().then((allMeterType) => {
       setAllMeterType(allMeterType);
       setFilteredMeterType(allMeterType);
-    });*/
+    });
   }, []);
 
   return (
     <Modal
-      title={`Добавление новой ячейки на склад`}
+      title={`Добавление нового счётчика`}
       open={isOpen}
       onCancel={handleClose}
-      width={500}
+      width={600}
       okText={"Сохранить"}
       cancelText={"Отмена"}
       onOk={handleOk}
@@ -93,9 +97,9 @@ export const AddModalMeter: React.FC<AddModalProps<TypeMeter>> = ({
         style={{marginTop: 30}}
       >
         <Form.Item
-          label="Товар"
+          label="Тип счётчика"
           name="meterType"
-          rules={[{required: true, message: 'выберите товар'}]}
+          rules={[{required: true, message: 'выберите счётчик'}]}
         >
           <div>
             <Select
@@ -116,11 +120,18 @@ export const AddModalMeter: React.FC<AddModalProps<TypeMeter>> = ({
           </div>
         </Form.Item>
         <Form.Item
-          label="Количество"
-          name="amount"
-          rules={[{required: true, message: "введите количество"}]}
+          label="Серийный номер"
+          name="serialNumber"
+          rules={[{required: true, message: "введите серийный номер"}]}
         >
           <InputNumber style={{width: "100%"}} min={0}/>
+        </Form.Item>
+        <Form.Item
+          label="Описание"
+          name="description"
+          rules={[{required: true, message: "введите описание"}]}
+        >
+          <Input/>
         </Form.Item>
       </Form>
     </Modal>

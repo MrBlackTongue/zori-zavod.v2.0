@@ -5,7 +5,7 @@ import '../../App.css';
 import {postNewMeter, putChangeMeter, deleteMeterById} from '../../services';
 import {TypeMeter} from '../../types';
 import {TableMeter} from "./components/TableMeter";
-/*import {AddModalMeter} from "../PageMeter/components/AddModalMeter";*/
+import {AddModalMeter} from "../PageMeter/components/AddModalMeter";
 /*import {EditDrawerMeter} from "../PageMeter/components/EditDrawerMeter";*/
 
 const {Title} = Typography;
@@ -22,18 +22,20 @@ export const PageMeter: React.FC = () => {
   const [selectedMeterId, setSelectedMeterId] = useState<number>();
 
   // Добавить новый счётчик
- /* const addMeter = (values: { [key: string]: any }): TypeMeter => {
-    const Meter: TypeMeter = {
-      amount: values.amount,
-      product: {
-        id: values.product.id,
-      },
+  const addMeter = (values: { [key: string]: any }): TypeMeter => {
+    console.log('values:', values);
+    const meter: TypeMeter = {
+      id: values.id,
+      serialNumber: values.serialNumber,
+      description: values.description,
+      meterTypeDto: values.meterTypeDto,
     };
     setIsModalOpen(false);
-    postNewMeter(Meter);
-    setUpdateTable(!updateTable);
-    return Meter;
-  };*/
+
+    postNewMeter(meter);
+    setUpdateTable(prevState => !prevState);
+    return meter;
+  };
 
   // Открыть дравер
   const openDrawer = (MeterId: number) => {
@@ -90,17 +92,17 @@ export const PageMeter: React.FC = () => {
         onDelete={handleDelete}
         openDrawer={openDrawer}
       />
-      {/*<AddModalMeter
+      {<AddModalMeter
         isOpen={isModalOpen}
         addItem={addMeter}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerMeter
-        isOpen={isDrawerOpen}
-        selectedItemId={selectedMeterId}
-        updateItem={updateMeter}
-        closeDrawer={() => setIsDrawerOpen(false)}
-      />*/}
+        /*<EditDrawerMeter
+          isOpen={isDrawerOpen}
+          selectedItemId={selectedMeterId}
+          updateItem={updateMeter}
+          closeDrawer={() => setIsDrawerOpen(false)}
+        />*/}
     </div>
   );
 };
