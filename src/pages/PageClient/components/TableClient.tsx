@@ -14,7 +14,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех клиентов
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allClient, setAllClient] = useState<TypeClient[]>();
 
   // Параментры для пагинации
@@ -87,10 +87,10 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllClient().then((allClients) => {
       setAllClient(allClients);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -108,7 +108,7 @@ export const TableClient: React.FC<TableProps<TypeClient>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

@@ -17,7 +17,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар
-  const onChangeProductBatch = (values: string, option: any): TypeProductBatch => {
+  const onChangeProductBatch = (values: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
       title: values,
@@ -26,7 +26,6 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
       product: product.id
     });
     setSelectedProduct(product)
-    return product
   };
 
   // Функция подтверждения добавления

@@ -14,7 +14,7 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех типов счетчиков
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>();
 
   // Параментры для пагинации
@@ -108,10 +108,10 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllMeterType().then((meterType) => {
       setAllMeterType(meterType);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -123,7 +123,7 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
     <Table
       columns={columns}
       dataSource={allMeterType}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
       pagination={{...tableParams.pagination, position: [bottom]}}
       bordered

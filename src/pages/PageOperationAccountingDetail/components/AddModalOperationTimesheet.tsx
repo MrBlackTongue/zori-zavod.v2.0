@@ -17,13 +17,12 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   const [filteredEmployee, setFilteredEmployee] = useState<TypeEmployee[]>([]);
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = ((values: string, option: any): TypeEmployee => {
+  const onChangeEmployee = ((values: string, option: any): void => {
     const employee: TypeEmployee = {
       id: option.id,
     };
     form.setFieldsValue({employee: employee});
     onSearchEmployee('')
-    return employee
   });
 
   // Очистить поле сотрудника
@@ -32,7 +31,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   });
 
   // Поиск по сотрудникам
-  const onSearchEmployee = (searchText: string) => {
+  const onSearchEmployee = (searchText: string): void => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {

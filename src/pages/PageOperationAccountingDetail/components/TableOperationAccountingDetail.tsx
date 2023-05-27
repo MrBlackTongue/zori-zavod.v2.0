@@ -13,7 +13,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
                                                                                                            idDetail,
                                                                                                          }) => {
   // Лоудер и учетная операция
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [operationAccounting, setOperationAccounting] = useState<TypeOperationAccounting>();
 
   // Колонки в таблице
@@ -126,12 +126,12 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
   ];
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = useCallback(() => {
+  const handleUpdateOperationAccounting = useCallback((): void => {
     if (idDetail) {
-      setLoading(true);
+      setIsLoading(true);
       getOperationAccountingById(idDetail).then((operationAccounting) => {
         setOperationAccounting(operationAccounting)
-        setLoading(false);
+        setIsLoading(false);
       })
     }
   }, [idDetail]);
@@ -148,7 +148,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAc
       columns={columns}
       dataSource={operationAccounting ? [operationAccounting] : []}
       pagination={false}
-      loading={loading}
+      loading={isLoading}
       size="middle"
       style={{marginBottom: '20px'}}
     />

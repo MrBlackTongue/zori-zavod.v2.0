@@ -17,7 +17,7 @@ const {Title} = Typography;
 export const PageProductionType: React.FC = () => {
 
   // Обновление таблицы, id выбраного типа производства
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -25,14 +25,14 @@ export const PageProductionType: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить запись в таблицу
-  const handleAddProductionType = (values: { [key: string]: any }): void => {
+  const handleAddProductionType = (values: TypeProductionType): void => {
     const productionType: TypeProductionType = {
       title: values.title,
       description: values.description,
     };
     setIsModalOpen(false)
     postNewProductionType(productionType)
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -42,7 +42,7 @@ export const PageProductionType: React.FC = () => {
   };
 
   // Обновить запись в таблице
-  const handleUpdateProductionType = (values: { [key: string]: any }): void => {
+  const handleUpdateProductionType = (values: TypeProductionType): void => {
     const productionType: TypeProductionType = {
       id: selectedProductionTypeId,
       title: values.title,
@@ -50,13 +50,13 @@ export const PageProductionType: React.FC = () => {
     };
     setIsDrawerOpen(false)
     putChangeProductionType(productionType)
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteProductionType = (id: number) => {
+  const handleDeleteProductionType = (id: number): void => {
     deleteProductionTypeById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -67,7 +67,7 @@ export const PageProductionType: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(prevState => !prevState)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -83,7 +83,7 @@ export const PageProductionType: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProductionType
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteProductionType}
       />

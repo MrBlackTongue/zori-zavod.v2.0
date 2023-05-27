@@ -13,7 +13,7 @@ const {Title} = Typography;
 export const PageUnit: React.FC = () => {
 
   // Обновление таблицы, id выбраной единицы измерения
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -21,14 +21,13 @@ export const PageUnit: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую единицу измерения
-  const handleAddUnit = (values: { [key: string]: any }): TypeUnit => {
+  const handleAddUnit = (values: { [key: string]: any }): void => {
     const unit: TypeUnit = {
       name: values.name,
     };
     setIsModalOpen(false)
     postNewUnit(unit)
-    setUpdateTable(!updateTable)
-    return unit;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -38,21 +37,20 @@ export const PageUnit: React.FC = () => {
   };
 
   // Обновить единицу измерения
-  const handleUpdateUnit = (values: { [key: string]: any }): TypeUnit => {
+  const handleUpdateUnit = (values: TypeUnit): void => {
     const unit: TypeUnit = {
       name: values.name,
       id: selectedUnitId,
     };
     setIsDrawerOpen(false)
     putChangeUnit(unit)
-    setUpdateTable(!updateTable)
-    return unit
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteUnit = (id: number) => {
+  const handleDeleteUnit = (id: number): void => {
     deleteUnitById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -63,7 +61,7 @@ export const PageUnit: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -78,7 +76,7 @@ export const PageUnit: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableUnit
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteUnit}
       />

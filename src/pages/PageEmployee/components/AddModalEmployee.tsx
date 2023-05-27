@@ -11,7 +11,7 @@ export const AddModalEmployee: React.FC<AddModalProps<TypeEmployee>> = ({
   const [form] = Form.useForm();
 
   // Изменить состояние чекбокса
-  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
+  const onChangeCheckbox = (e: CheckboxChangeEvent): void => {
     form.setFieldsValue({hired: e.target.checked});
   }
 

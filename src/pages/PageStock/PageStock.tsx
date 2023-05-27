@@ -14,7 +14,7 @@ const {Option} = Select;
 export const PageStock: React.FC = () => {
 
   // Обновление таблицы
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
 
   // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,7 +31,7 @@ export const PageStock: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую ячейку на складе
-  const addStock = (values: { [key: string]: any }): TypeStock => {
+  const handleAddStock = (values: { [key: string]: any }): void => {
     const stock: TypeStock = {
       amount: values.amount,
       product: {
@@ -40,8 +40,7 @@ export const PageStock: React.FC = () => {
     };
     setIsModalOpen(false);
     postNewStock(stock);
-    setUpdateTable(!updateTable);
-    return stock;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -51,17 +50,16 @@ export const PageStock: React.FC = () => {
   };
 
   // Изменить выбранную группу товаров
-  const onChangeProductGroup = (values: string, option: any): number | undefined => {
+  const onChangeProductGroup = (values: string, option: any): void => {
     if (values === undefined) {
       setSelectedGroupId(undefined);
       return undefined;
     }
-    setSelectedGroupId(option.id);
-    return option.id
+    setSelectedGroupId(option.id)
   };
 
   // Обновить товар на складе
-  const updateStock = (values: { [key: string]: any }): TypeStock => {
+  const handleUpdateStock = (values: { [key: string]: any }): void => {
     const stock: TypeStock = {
       id: selectedStockId,
       amount: values.amount,
@@ -71,14 +69,13 @@ export const PageStock: React.FC = () => {
     };
     setIsDrawerOpen(false);
     putChangeStock(stock);
-    setUpdateTable(!updateTable);
-    return stock;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number): void => {
     deleteStockById(id).catch((error) => console.error(error));
-    setUpdateTable(!updateTable);
+    setIsTableUpdate(prevState => !prevState);
   };
 
   useEffect(() => {
@@ -118,7 +115,7 @@ export const PageStock: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className="greenButton"
           >
             Обновить
@@ -134,7 +131,7 @@ export const PageStock: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableStock
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         onDelete={handleDelete}
         openDrawer={openDrawer}
         searchText={searchText}
@@ -144,13 +141,13 @@ export const PageStock: React.FC = () => {
       />
       <AddModalStock
         isOpen={isModalOpen}
-        addItem={addStock}
+        addItem={handleAddStock}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerStock
         isOpen={isDrawerOpen}
         selectedItemId={selectedStockId}
-        updateItem={updateStock}
+        updateItem={handleUpdateStock}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>

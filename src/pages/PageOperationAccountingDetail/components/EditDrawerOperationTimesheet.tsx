@@ -20,16 +20,15 @@ export const EditDrawerOperationTimesheet:
   const [selectedEmployee, setSelectedEmployee] = useState<TypeEmployee>();
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = (value: string): TypeEmployee | undefined => {
+  const onChangeEmployee = (value: string): void => {
     const selectedEmployee = allEmployee?.find(employee => employee.id === parseInt(value));
     form.setFieldsValue({employee: selectedEmployee});
     setSelectedEmployee(selectedEmployee)
     onSearchEmployee('')
-    return selectedEmployee
   };
 
   // Поиск по сотрудникам
-  const onSearchEmployee = useCallback((searchText: string) => {
+  const onSearchEmployee = useCallback((searchText: string): void => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {

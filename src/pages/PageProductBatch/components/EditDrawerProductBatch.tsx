@@ -19,7 +19,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
   const [product, setProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (values: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
       title: values,
@@ -28,7 +28,6 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
       product: product.id,
     });
     setSelectedProduct(product)
-    return product
   };
 
   // Функция для получения данных о партии товаров по id и обновления формы

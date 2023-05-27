@@ -14,7 +14,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех сотрудников
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
 
   // Параментры для пагинации
@@ -60,7 +60,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
         if (hired) return 'Да'
         else return 'Нет'
       }),
-      sorter: (a, b) => (a.hired ?? false) < (b.hired ?? false) ? -1 : 1,
+      sorter: (a, b) => (Number(a.hired) ?? 0) - (Number(b.hired) ?? 0)
     },
     {
       title: 'Действия',
@@ -114,10 +114,10 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllEmployee().then((allEmployees) => {
       setAllEmployee(allEmployees);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -135,7 +135,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

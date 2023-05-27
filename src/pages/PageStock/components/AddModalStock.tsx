@@ -18,17 +18,16 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   const [filteredProduct, setFilteredProduct] = useState<TypeProduct[]>([]);
 
   // Изменить выбранный товар
-  const onChangeProduct = (value: string): TypeProduct | undefined => {
+  const onChangeProduct = (value: string): void => {
     const selectedProduct = allProduct?.find(product => product.id === parseInt(value));
     form.setFieldsValue({
       product: selectedProduct
     });
     setSelectedProduct(selectedProduct);
-    return selectedProduct;
   };
 
   // Поиск по товарам
-  const onSearchProduct = (searchText: string) => {
+  const onSearchProduct = (searchText: string): void => {
     if (searchText === '') {
       setFilteredProduct(allProduct || []);
     } else {

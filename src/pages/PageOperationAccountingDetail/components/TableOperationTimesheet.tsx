@@ -12,7 +12,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
                                                                                                    idDetail,
                                                                                                  }) => {
   // Лоудер и весь табель учета рабочего времени
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allOperationTimesheet, setAllOperationTimesheet] = useState<TypeOperationTimesheet[]>();
 
   // Колонки в таблице
@@ -87,10 +87,10 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
   // Обновить таблицу
   const updateOperationTimesheet = useCallback(() => {
     if (idDetail) {
-      setLoading(true);
+      setIsLoading(true);
       getOperationTimesheetByIdOperationAccounting(idDetail).then((allOperationTimesheet) => {
         setAllOperationTimesheet(allOperationTimesheet);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
   }, [idDetail]);
@@ -105,7 +105,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
       columns={columns}
       dataSource={allOperationTimesheet}
       pagination={false}
-      loading={loading}
+      loading={isLoading}
       size="small"
       style={{marginBottom: '20px'}}
     />

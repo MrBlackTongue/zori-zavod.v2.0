@@ -14,7 +14,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех единиц измерения
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
   // Параментры для пагинации
@@ -87,10 +87,10 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllUnit().then((allUnits) => {
       setAllUnit(allUnits);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -108,7 +108,7 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

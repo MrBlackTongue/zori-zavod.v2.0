@@ -25,7 +25,7 @@ export const TableOperationAccounting:
   const navigate = useNavigate();
 
   // Лоудер и список всех учетных операций
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allOperationAccounting, setAllOperationAccounting] = useState<TypeOperationAccounting[]>();
 
   // Параментры для пагинации
@@ -217,24 +217,24 @@ export const TableOperationAccounting:
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllOperationAccounting().then((allOperationAccounting) => {
       setAllOperationAccounting(allOperationAccounting);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
   // Функция для фильтрации таблицы
   const filterTable = () => {
     if (filter) {
-      setLoading(true);
+      setIsLoading(true);
       postFilterByTable({
         date: filter.date || undefined,
         operationId: filter.operationId || undefined,
         productionTypeId: filter.productionTypeId || undefined,
       }).then((allOperationAccounting) => {
         setAllOperationAccounting(allOperationAccounting);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
   }
@@ -253,7 +253,7 @@ export const TableOperationAccounting:
       columns={columns}
       dataSource={allOperationAccounting}
       pagination={{...tableParams.pagination, position: [bottom]}}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
       summary={renderSummaryRow}
     />

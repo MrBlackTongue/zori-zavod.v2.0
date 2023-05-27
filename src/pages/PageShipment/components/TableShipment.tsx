@@ -16,7 +16,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Состояния для загрузки данных и списка всех отгрузок
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
   // Состояние для параметров пагинации
@@ -114,10 +114,10 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllShipment().then((allShipment) => {
       setAllShipment(allShipment);
-      setLoading(false);
+      setIsLoading(false);
     });
   };
 
@@ -135,7 +135,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

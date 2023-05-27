@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllAcceptance, getAcceptanceByTitle} from "../../../services";
+import {getAllAcceptance, getAllAcceptanceByTitle} from "../../../services";
 import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
@@ -15,7 +15,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
   type TablePaginationPosition = "bottomCenter"
 
   // Лоудер и список всех приемок
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allAcceptance, setAllAcceptance] = useState<TypeAcceptance[]>();
 
   // Параметры для пагинации
@@ -111,19 +111,19 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
 
   // Функция для обновления таблицы приемок
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllAcceptance().then((allAcceptance) => {
       setAllAcceptance(allAcceptance);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
   // Функция для поиска приёмки
   const searchTable = () => {
-    setLoading(true);
-    getAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
+    setIsLoading(true);
+    getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
       setAllAcceptance(allAcceptance);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -145,7 +145,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

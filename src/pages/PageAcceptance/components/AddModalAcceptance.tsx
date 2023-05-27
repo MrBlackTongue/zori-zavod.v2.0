@@ -43,7 +43,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   // Функция фильтрации товара на складе
-  const onSearchStock = (searchText: string) => {
+  const onSearchStock = (searchText: string): void => {
     if (searchText === '') {
       setFilteredStock(allStock || []);
     } else {
@@ -61,7 +61,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   // Функция фильтрации закупок
-  const onSearchPurchase = (searchText: string) => {
+  const onSearchPurchase = (searchText: string): void => {
     if (searchText === '') {
       setFilteredPurchase(allPurchase || []);
     } else {

@@ -20,7 +20,7 @@ export const TableProductionProductMovement:
                                                                     }) => {
 
   // Лоудер и все движение товара на производстве
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProductionProductMovement, setAllProductionProductMovement] = useState<TypeProductionProductMovement[]>();
 
   // Колонки в таблице
@@ -98,10 +98,10 @@ export const TableProductionProductMovement:
   // Обновить таблицу
   const updateProductionProductMovement = useCallback(() => {
     if (idDetail) {
-      setLoading(true);
+      setIsLoading(true);
       getProductionProductMovementByIdOperationAccounting(idDetail).then((allProductionProductMovement) => {
         setAllProductionProductMovement(allProductionProductMovement);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
   }, [idDetail]);
@@ -116,7 +116,7 @@ export const TableProductionProductMovement:
       columns={columns}
       dataSource={allProductionProductMovement}
       pagination={false}
-      loading={loading}
+      loading={isLoading}
       size="small"
     />
   );

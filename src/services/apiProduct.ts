@@ -97,7 +97,7 @@ export function putChangeProduct(data: TypeProduct) {
 }
 
 // Поиск по товару
-export async function getProductByTitle(title: string): Promise<TypeProduct[]> {
+export async function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
   try {
     const response = await fetch(URL + PRODUCT + TITLE + `/${title}`);
     if (!response.ok) {

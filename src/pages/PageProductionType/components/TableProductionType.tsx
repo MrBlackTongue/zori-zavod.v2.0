@@ -14,7 +14,7 @@ export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список типов производства
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
 
   // Параментры для пагинации
@@ -90,10 +90,10 @@ export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllProductionType().then((allProductionType) => {
       setAllProductionType(allProductionType);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -111,7 +111,7 @@ export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

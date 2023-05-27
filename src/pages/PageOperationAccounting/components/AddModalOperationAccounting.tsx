@@ -28,14 +28,13 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): TypeOperation => {
+  const onChangeOperation = (values: string, option: any): void => {
     const operation: TypeOperation = {
       id: option.id,
       title: values,
     };
     form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
-    return operation
   };
 
   // Очистить поле операция
@@ -45,14 +44,13 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   }
 
   // Изменить выбранный тип производства
-  const onChangeProductionType = (values: string, option: any): TypeProductionType => {
+  const onChangeProductionType = (values: string, option: any): void => {
     const productionType: TypeProductionType = {
       id: option.id,
       title: values,
     };
     form.setFieldsValue({productionType: productionType});
     setSelectedProductionType(productionType)
-    return productionType
   };
 
   // Очистить поле
@@ -62,18 +60,17 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   }
 
   // Изменить выбранный выпуск продукции
-  const onChangeOutput = (value: string): TypeOutput | undefined => {
+  const onChangeOutput = (value: string): void => {
     const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
     form.setFieldsValue({
       output: selectedOutput
     });
     setSelectedOutput(selectedOutput);
     onSearchOutput('')
-    return selectedOutput;
   };
 
   // Поиск по выпускам продукции
-  const onSearchOutput = (searchText: string) => {
+  const onSearchOutput = (searchText: string): void => {
     if (searchText === '') {
       setFilteredOutput(allOutput || []);
     } else {

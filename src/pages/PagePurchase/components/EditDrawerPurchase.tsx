@@ -24,13 +24,12 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
   const [selectedDate, setSelectedDate] = useState<Dayjs | null | undefined>();
 
   // Изменить состояние чекбокса
-  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-    // setPaid(e.target.checked);
+  const onChangeCheckbox = (e: CheckboxChangeEvent): void => {
     form.setFieldsValue({paid: e.target.checked});
   }
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (values: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
       title: values,
@@ -39,7 +38,6 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
       product: product.id,
     });
     setSelectedProduct(product)
-    return product
   };
 
   // Функция для получения данных о закупке по id и обновления формы

@@ -59,7 +59,7 @@ export async function deleteAcceptanceById(id: number) {
 }
 
 // Получение приемок по названию продукта
-export async function getAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
+export async function getAllAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
   try {
     const response = await fetch(URL + MOVEMENT + ACCEPTANCE + PRODUCT + `/${title}`);
     if (!response.ok) {

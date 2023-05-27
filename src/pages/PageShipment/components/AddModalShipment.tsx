@@ -18,14 +18,13 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
 
   // Функция для изменения выбранного клиента
-  const onChangeClient = useCallback((value: string, option: any): TypeClient => {
+  const onChangeClient = useCallback((value: string, option: any): void => {
     const client: TypeClient = {
       id: option.id,
       title: value,
     };
     form.setFieldsValue({client: client});
     setSelectedClient(client)
-    return client
   }, [form]);
 
   // Функция для очистки поля клиента

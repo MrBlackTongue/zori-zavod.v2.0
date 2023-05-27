@@ -17,7 +17,7 @@ const {Title} = Typography;
 export const PageProductBatch: React.FC = () => {
 
   // Обновление таблицы, id выбраной партии товаров
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -25,7 +25,7 @@ export const PageProductBatch: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую партию товаров
-  const handleAddProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
+  const handleAddProductBatch = (values: { [key: string]: any }): void => {
     const productBatch: TypeProductBatch = {
       product: {
         id: values.product,
@@ -34,8 +34,7 @@ export const PageProductBatch: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewProductBatch(productBatch)
-    setUpdateTable(!updateTable)
-    return productBatch;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -45,7 +44,7 @@ export const PageProductBatch: React.FC = () => {
   };
 
   // Обновление партии товаров
-  const handleUpdateProductBatch = (values: { [key: string]: any }): TypeProductBatch => {
+  const handleUpdateProductBatch = (values: { [key: string]: any }): void => {
     const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,
       product: {
@@ -55,14 +54,13 @@ export const PageProductBatch: React.FC = () => {
     };
     setIsDrawerOpen(false)
     putChangeProductBatch(productBatch)
-    setUpdateTable(!updateTable)
-    return productBatch
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteProductBatch = (id: number) => {
+  const handleDeleteProductBatch = (id: number): void => {
     deleteProductBatchById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -73,7 +71,7 @@ export const PageProductBatch: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -88,7 +86,7 @@ export const PageProductBatch: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProductBatch
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteProductBatch}
       />

@@ -3,7 +3,7 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import {TableProps, TableParams, TypeUnit, TypeStock} from "../../../types";
-import {getAllStock, getStockByTitle, getStockByGroupId} from "../../../services";
+import {getAllStock, getAllStockByTitle, getStockByGroupId} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStock>> = ({
                                                               isUpdateTable,
@@ -15,7 +15,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех остатков
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allStock, setAllStock] = useState<TypeStock[]>();
 
   // Параментры для пагинации
@@ -124,29 +124,29 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
 
   // Функция для обновления таблицы склада
   const updateTable = useCallback(() => {
-    setLoading(true);
+    setIsLoading(true);
     getAllStock().then((allStock) => {
       setAllStock(allStock);
-      setLoading(false);
+      setIsLoading(false);
     });
   }, [isUpdateTable]);
 
   // Функция для поиска по таблице склада
   const searchTable = useCallback(() => {
-    setLoading(true);
-    getStockByTitle(searchText || "").then((allStock) => {
+    setIsLoading(true);
+    getAllStockByTitle(searchText || "").then((allStock) => {
       setAllStock(allStock);
-      setLoading(false);
+      setIsLoading(false);
     });
   }, [searchText]);
 
   // Функция для фильтрации таблицы
   const filterTable = useCallback(() => {
     if (filter2 && filter2.idFilter) {
-      setLoading(true);
+      setIsLoading(true);
       getStockByGroupId(filter2.idFilter).then((allStock) => {
         setAllStock(allStock);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
   }, [filter2]);
@@ -171,7 +171,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

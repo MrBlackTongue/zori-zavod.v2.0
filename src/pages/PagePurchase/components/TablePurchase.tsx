@@ -3,7 +3,7 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
 import {TableProps, TypePurchase, TableParams, TypeUnit} from "../../../types";
-import {getAllPurchase, getPurchaseByTitle} from "../../../services";
+import {getAllPurchase, getAllPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
 
 export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
@@ -15,7 +15,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех закупок
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
 
   // Параментры для пагинации
@@ -156,19 +156,19 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
 
   // Функция для обновления таблицы закупок
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllPurchase().then((allPurchases) => {
       setAllPurchase(allPurchases);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
   // Функция для поиска по таблице закупок
   const searchTable = () => {
-    setLoading(true);
-    getPurchaseByTitle(searchText ?? '').then((allPurchases) => {
+    setIsLoading(true);
+    getAllPurchaseByTitle(searchText ?? '').then((allPurchases) => {
       setAllPurchase(allPurchases);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -190,7 +190,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

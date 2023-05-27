@@ -13,7 +13,7 @@ const {Title} = Typography;
 export const PageMeterType: React.FC = () => {
 
   // Обновление таблицы, id выбраного типа счетчика
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -32,7 +32,7 @@ export const PageMeterType: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewMeterType(meterType)
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -54,13 +54,13 @@ export const PageMeterType: React.FC = () => {
     };
     setIsDrawerOpen(false)
     putChangeMeterType(meterType)
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteMeterType = (id: number) => {
+  const handleDeleteMeterType = (id: number): void => {
     deleteMeterTypeById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -71,7 +71,7 @@ export const PageMeterType: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(prevState => !prevState)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -86,7 +86,7 @@ export const PageMeterType: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableMeterType
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteMeterType}
       />

@@ -12,7 +12,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
                                                                           onDelete,
                                                                         }) => {
   // Состояния для лоадера и списка всех товаров в отгрузке
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allShipmentMovement, setAllShipmentMovement] = useState<TypeShipmentProductMovement[]>();
 
   // Колонки в таблице
@@ -72,11 +72,11 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     if (idDetail) {
       getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
         setAllShipmentMovement(allShipmentMovement);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
   };
@@ -92,7 +92,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
       columns={columns}
       dataSource={allShipmentMovement}
       pagination={false}
-      loading={loading}
+      loading={isLoading}
     />
   );
 };

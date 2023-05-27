@@ -21,7 +21,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
   const [date, setDate] = useState<any>();
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (values: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
       title: values,
@@ -30,7 +30,6 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
       product: product.id,
     });
     setSelectedProduct(product)
-    return product
   };
 
   // Функция для получения данных о выпуске продукции по id и обновления формы

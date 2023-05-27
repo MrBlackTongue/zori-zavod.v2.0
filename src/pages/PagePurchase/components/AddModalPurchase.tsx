@@ -19,12 +19,12 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
   // Изменить состояние чекбокса
-  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
+  const onChangeCheckbox = (e: CheckboxChangeEvent): void => {
     form.setFieldsValue({paid: e.target.checked});
   }
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (values: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
       title: values,
@@ -33,7 +33,6 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
       product: product.id
     });
     setSelectedProduct(product)
-    return product
   };
 
 

@@ -19,14 +19,13 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
 
   // Функция для изменения выбранного клиента
-  const onChangeClient = (values: string, option: any): TypeClient => {
+  const onChangeClient = (values: string, option: any): void => {
     const client: TypeClient = {
       id: option.id,
       title: values,
     };
     form.setFieldsValue({client: client});
     setSelectedClient(client)
-    return client
   };
 
   // Функция для получения данных об отгрузке по id и обновления формы

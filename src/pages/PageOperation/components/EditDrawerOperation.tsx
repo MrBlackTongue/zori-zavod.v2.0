@@ -19,7 +19,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   const [unit, setUnit] = useState<TypeUnit>()
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
+  const onChangeUnit = (values: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
       name: values,
@@ -28,7 +28,6 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
       unit: unit
     });
     setSelectedUnit(unit)
-    return unit
   };
 
   // Функция подтверждения редактирования

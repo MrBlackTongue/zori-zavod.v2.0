@@ -13,7 +13,7 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
   const [form] = Form.useForm();
 
   // Изменить состояние чекбокса
-  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
+  const onChangeCheckbox = (e: CheckboxChangeEvent): void => {
     form.setFieldsValue({hired: e.target.checked});
   }
 

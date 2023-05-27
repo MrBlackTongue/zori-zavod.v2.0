@@ -19,16 +19,15 @@ export const AddModalProductionProductMovement:
   const [filteredStock, setFilteredStock] = useState<TypeStock[]>([]);
 
   // Функция изменения выбранного товара на складе
-  const onChangeStock = (value: string): TypeStock | undefined => {
+  const onChangeStock = (value: string): void => {
     const selectedStock = allStock?.find(stock => stock.id === parseInt(value));
     form.setFieldsValue({stock: selectedStock});
     setSelectedStock(selectedStock)
     onSearchStock('')
-    return selectedStock
   };
 
   // Поиск по товарам на складе
-  const onSearchStock = (searchText: string) => {
+  const onSearchStock = (searchText: string): void => {
     if (searchText === '') {
       setFilteredStock(allStock || []);
     } else {

@@ -97,7 +97,7 @@ export function putChangePurchase(data: TypePurchase) {
 }
 
 // Поиск по товару
-export async function getPurchaseByTitle(title: string): Promise<TypePurchase[]> {
+export async function getAllPurchaseByTitle(title: string): Promise<TypePurchase[]> {
   try {
     const response = await fetch(URL + PURCHASE + PRODUCT + `/${title}`);
     if (!response.ok) {

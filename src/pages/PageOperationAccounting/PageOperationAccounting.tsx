@@ -21,7 +21,7 @@ const {Option} = Select;
 export const PageOperationAccounting: React.FC = () => {
 
   // Обновление таблицы, id выбраной учетной операции
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер, дата
@@ -63,7 +63,7 @@ export const PageOperationAccounting: React.FC = () => {
     setIsModalOpen(false)
     postNewOperationAccounting(operationAccounting)
     setDate(date)
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -73,23 +73,21 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): TypeOperation | undefined => {
+  const onChangeOperation = (values: string, option: any): void => {
     if (values === undefined) {
       setSelectedOperationId(undefined);
       return undefined;
     }
     setSelectedOperationId(option.id)
-    return option.id
   };
 
   // Изменить выбранный тип производства
-  const onChangeProductionType = (values: string, option: any): TypeProductionType | undefined => {
+  const onChangeProductionType = (values: string, option: any): void => {
     if (values === undefined) {
       setSelectedProductionTypeId(undefined);
       return undefined;
     }
     setSelectedProductionTypeId(option.id)
-    return option.id
   };
 
   // Обновить учетную операцию
@@ -107,13 +105,13 @@ export const PageOperationAccounting: React.FC = () => {
     setIsDrawerOpen(false)
     putChangeOperationAccounting(operationAccounting)
     setDate(date)
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteOperationAccounting = (id: number) => {
+  const handleDeleteOperationAccounting = (id: number): void => {
     deleteOperationAccountingById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   useEffect(() => {
@@ -171,7 +169,7 @@ export const PageOperationAccounting: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(prevState => !prevState)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -187,7 +185,7 @@ export const PageOperationAccounting: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOperationAccounting
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteOperationAccounting}
         filter={{

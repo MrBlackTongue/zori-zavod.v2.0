@@ -12,7 +12,7 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всей истории движения товаров
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProductMovementHistory, setAllProductMovementHistory] = useState<TypeProductMovementHistory[]>();
 
   // Параментры для пагинации
@@ -95,20 +95,20 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
   // Функция для поиска по таблице истории движения товаров
   const filterTable = () => {
     if (filter2?.idFilter) {
-      setLoading(true);
+      setIsLoading(true);
       getProductMovementHistoryById(filter2?.idFilter).then((allProductMovementHistory) => {
         setAllProductMovementHistory(allProductMovementHistory);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
   }
 
   // Функция для обновления таблицы товаров
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllProductMovementHistory().then((allProductMovementHistory) => {
       setAllProductMovementHistory(allProductMovementHistory);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -130,7 +130,7 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

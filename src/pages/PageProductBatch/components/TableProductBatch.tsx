@@ -13,7 +13,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех партий товаров
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>();
 
   // Параментры для пагинации
@@ -105,10 +105,10 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllProductBatch().then((allProductBatch) => {
       setAllProductBatch(allProductBatch);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -126,7 +126,7 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

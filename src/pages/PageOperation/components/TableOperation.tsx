@@ -14,7 +14,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех операций
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
 
   // Параментры для пагинации
@@ -100,10 +100,10 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllOperation().then((allOperations) => {
       setAllOperation(allOperations);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -121,7 +121,7 @@ export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

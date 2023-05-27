@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
-import {getAllProduct, getProductByTitle, getAllProductGroup,} from "../../../services";
+import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
 import {TableProps, TypeProduct, TableParams} from "../../../types";
 
 export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
@@ -15,7 +15,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех товаров
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
   // Все товарные группы
@@ -111,19 +111,19 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
 
   // Функция для обновления таблицы товаров
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllProduct().then((allProducts) => {
       setAllProduct(allProducts);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
   // Функция для поиска по таблице товаров
   const searchTable = () => {
-    setLoading(true);
-    getProductByTitle(searchText ?? '').then((allProducts) => {
+    setIsLoading(true);
+    getAllProductByTitle(searchText ?? '').then((allProducts) => {
       setAllProduct(allProducts);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -151,7 +151,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
         current: tableParams?.pagination?.current,
         pageSize: tableParams?.pagination?.pageSize,
       }}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

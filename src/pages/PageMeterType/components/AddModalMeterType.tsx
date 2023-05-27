@@ -16,7 +16,7 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
+  const onChangeUnit = (values: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
       name: values,
@@ -24,7 +24,6 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({
     form.setFieldsValue({
       unit: unit
     });
-    return unit
   };
 
   // Функция подтверждения добавления
