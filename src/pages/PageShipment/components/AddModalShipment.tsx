@@ -34,7 +34,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   }, [form]);
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -48,7 +48,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields()
     onCancel()
     setSelectedClient(undefined)

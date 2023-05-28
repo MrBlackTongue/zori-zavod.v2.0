@@ -91,7 +91,7 @@ export const EditDrawerOperationAccounting:
   };
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -111,7 +111,7 @@ export const EditDrawerOperationAccounting:
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
       getOperationAccounting(selectedItemId).catch((error) => console.error(error));

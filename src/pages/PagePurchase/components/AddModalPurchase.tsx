@@ -37,7 +37,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
 
 
   // Функция подтверждения добавления новой закупки
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -51,7 +51,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     onCancel()
     setSelectedProduct(undefined)
   };

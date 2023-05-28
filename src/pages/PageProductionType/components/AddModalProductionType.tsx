@@ -10,7 +10,7 @@ export const AddModalProductionType: React.FC<AddModalProps<TypeProductionType>>
   const [form] = Form.useForm();
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -23,7 +23,7 @@ export const AddModalProductionType: React.FC<AddModalProps<TypeProductionType>>
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     onCancel()
   };

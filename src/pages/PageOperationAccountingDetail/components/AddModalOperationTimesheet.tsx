@@ -53,7 +53,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   };
 
   // Функция подтверждения добавления
-  const handleOk = useCallback(() => {
+  const handleOk = useCallback((): void => {
     form
       .validateFields()
       .then((values) => {
@@ -66,7 +66,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   }, [form, addItem]);
 
   // Функция закрытия модального окна
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback((): void => {
     form.resetFields();
     onCancel()
   }, [form, onCancel])

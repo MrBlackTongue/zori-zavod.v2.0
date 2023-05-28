@@ -2,16 +2,16 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, TableParams, TypeUnit, TypeStock} from "../../../types";
+import {TableProps, TableParams, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
 import {getAllStock, getAllStockByTitle, getStockByGroupId} from "../../../services";
 
-export const TableStock: React.FC<TableProps<TypeStock>> = ({
-                                                              isUpdateTable,
-                                                              openDrawer,
-                                                              onDelete,
-                                                              searchText,
-                                                              filter2
-                                                            }) => {
+export const TableStock: React.FC<TableProps<TypeStock, TypeStockFilter>> = ({
+                                                                               isUpdateTable,
+                                                                               openDrawer,
+                                                                               onDelete,
+                                                                               searchText,
+                                                                               filter,
+                                                                             }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех остатков
@@ -96,10 +96,10 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
                 type="primary"
                 size="small"
                 shape="circle"
-                style={{ color: "tomato", borderColor: "tomato" }}
+                style={{color: "tomato", borderColor: "tomato"}}
                 ghost
               >
-                <DeleteOutlined />
+                <DeleteOutlined/>
               </Button>
             </Popconfirm>
           </Tooltip>
@@ -129,7 +129,7 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
       setAllStock(allStock);
       setIsLoading(false);
     });
-  }, [isUpdateTable]);
+  }, []);
 
   // Функция для поиска по таблице склада
   const searchTable = useCallback(() => {
@@ -142,24 +142,24 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
 
   // Функция для фильтрации таблицы
   const filterTable = useCallback(() => {
-    if (filter2 && filter2.idFilter) {
+    if (filter?.id) {
       setIsLoading(true);
-      getStockByGroupId(filter2.idFilter).then((allStock) => {
+      getStockByGroupId(filter.id).then((allStock) => {
         setAllStock(allStock);
         setIsLoading(false);
       });
     }
-  }, [filter2]);
+  }, [filter]);
 
   useEffect(() => {
-    if (filter2 && filter2.idFilter) {
+    if (filter?.id) {
       filterTable();
     } else if (searchText) {
       searchTable();
     } else {
       updateTable();
     }
-  }, [searchText, filter2, isUpdateTable, filterTable, searchTable, updateTable]);
+  }, [searchText, filter, isUpdateTable, filterTable, searchTable, updateTable]);
 
   return (
     <Table

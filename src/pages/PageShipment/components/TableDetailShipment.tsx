@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Button, Popconfirm, Space, Table, Tooltip,} from 'antd';
 import {DeleteOutlined} from "@ant-design/icons";
 import type {ColumnsType} from 'antd/es/table';
@@ -71,7 +71,7 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
   ];
 
   // Функция для обновления таблицы
-  const updateTable = () => {
+  const updateTable = useCallback(() => {
     setIsLoading(true);
     if (idDetail) {
       getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
@@ -79,11 +79,11 @@ export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
         setIsLoading(false);
       });
     }
-  };
+  }, [idDetail])
 
   useEffect(() => {
     updateTable()
-  }, [idDetail, isUpdateTable]);
+  }, [updateTable, isUpdateTable]);
 
   return (
     <Table

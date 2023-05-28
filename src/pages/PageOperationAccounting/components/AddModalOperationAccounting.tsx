@@ -92,7 +92,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -109,7 +109,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     setSelectedOperation(undefined);
     setSelectedOutput(undefined);

@@ -50,7 +50,7 @@ export const EditDrawerOperationTimesheet:
   }, [allEmployee]);
 
   // Функция подтверждения добавления сотрудника в табель учета рабочего времени
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -64,7 +64,7 @@ export const EditDrawerOperationTimesheet:
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
       getOperationTimesheet(selectedItemId).catch((error) => {

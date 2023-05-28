@@ -135,9 +135,7 @@ export const PageStock: React.FC = () => {
         onDelete={handleDelete}
         openDrawer={openDrawer}
         searchText={searchText}
-        filter2={{
-          idFilter: selectedGroupId,
-        }}
+        filter={{id: selectedGroupId}}
       />
       <AddModalStock
         isOpen={isModalOpen}

@@ -31,7 +31,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   };
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -45,7 +45,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     setSelectedUnit(unit);
     closeDrawer()
   };

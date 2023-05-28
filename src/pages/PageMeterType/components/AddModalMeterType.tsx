@@ -27,7 +27,7 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {

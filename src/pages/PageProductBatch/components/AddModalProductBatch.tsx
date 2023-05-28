@@ -29,7 +29,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -43,7 +43,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     onCancel()
     setSelectedProduct(undefined)
   };

@@ -47,7 +47,7 @@ export const AddModalProductionProductMovement:
   };
 
   // Функция подтверждения добавления
-  const handleOk = useCallback(() => {
+  const handleOk = useCallback((): void => {
     const enteredAmount = form.getFieldValue("amount");
     const enteredIncome = form.getFieldValue('income')
     if (selectedStock?.amount === 0 && !enteredIncome) {
@@ -73,7 +73,7 @@ export const AddModalProductionProductMovement:
   }, [form, addItem]);
 
   // Функция закрытия модального окна
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback((): void => {
     form.resetFields();
     onCancel()
     setSelectedStock(undefined)

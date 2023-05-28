@@ -16,7 +16,7 @@ export const AddModalEmployee: React.FC<AddModalProps<TypeEmployee>> = ({
   }
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {

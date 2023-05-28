@@ -18,7 +18,7 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
   }
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()

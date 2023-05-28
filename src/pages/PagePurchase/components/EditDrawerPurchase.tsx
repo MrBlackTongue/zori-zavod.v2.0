@@ -56,10 +56,10 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
         setSelectedDate(dayjs(purchase?.date));
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form]);
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -72,7 +72,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     closeDrawer()
     setSelectedProduct(product)
   };

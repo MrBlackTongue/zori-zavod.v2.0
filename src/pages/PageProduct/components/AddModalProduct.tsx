@@ -45,7 +45,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -60,7 +60,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     setSelectedUnit(undefined);
     setSelectedProductGroup(undefined);
     onCancel()

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
@@ -155,22 +155,22 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
   };
 
   // Функция для обновления таблицы закупок
-  const updateTable = () => {
+  const updateTable = useCallback(() => {
     setIsLoading(true);
     getAllPurchase().then((allPurchases) => {
       setAllPurchase(allPurchases);
       setIsLoading(false);
     });
-  }
+  }, [])
 
   // Функция для поиска по таблице закупок
-  const searchTable = () => {
+  const searchTable = useCallback(() => {
     setIsLoading(true);
     getAllPurchaseByTitle(searchText ?? '').then((allPurchases) => {
       setAllPurchase(allPurchases);
       setIsLoading(false);
     });
-  }
+  }, [searchText])
 
   useEffect(() => {
     if (searchText) {
@@ -178,7 +178,7 @@ export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
     } else {
       updateTable();
     }
-  }, [searchText, isUpdateTable]);
+  }, [searchText, isUpdateTable, searchTable, updateTable]);
 
   return (
     <Table

@@ -54,7 +54,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   }, [selectedItemId, form]);
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -68,7 +68,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   };
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     closeDrawer();
     form.resetFields();
   };

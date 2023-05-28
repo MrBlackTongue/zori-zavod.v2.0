@@ -12,7 +12,7 @@ export const EditDrawerClient: React.FC<EditDrawerProps<TypeClient>> = ({
   const [form] = Form.useForm();
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()

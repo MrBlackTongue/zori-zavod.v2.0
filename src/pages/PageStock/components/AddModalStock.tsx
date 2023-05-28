@@ -42,7 +42,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   };
 
   // Функция подтверждения добавления новой ячейки на склад
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -57,7 +57,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     setSelectedProduct(undefined);
     onCancel()

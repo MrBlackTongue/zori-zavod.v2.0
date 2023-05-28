@@ -48,7 +48,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
   };
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -61,7 +61,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     setSelectedUnit(unit);
     setSelectedProductGroup(productGroup);
     closeDrawer()

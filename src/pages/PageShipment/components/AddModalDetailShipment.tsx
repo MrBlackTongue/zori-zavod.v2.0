@@ -46,7 +46,7 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   };
 
   // Функция подтверждения добавления нового товара
-  const handleOk = () => {
+  const handleOk = (): void => {
     const enteredAmount = form.getFieldValue("amount");
     if (selectedStock?.amount === 0) {
       message.warning("Выбранного товара не осталось на складе");
@@ -70,7 +70,7 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields()
     onCancel()
     setSelectedStock(undefined)

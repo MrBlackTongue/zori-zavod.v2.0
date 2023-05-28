@@ -5,10 +5,6 @@ export interface TableProps<T, F = {}> {
   onDelete?: (id: number) => void;
   searchText?: string | undefined;
   filter?: F;
-  filter2?: {
-    dateFilter?: string | undefined,
-    idFilter?: number | undefined,
-  }
   idDetail?: number | undefined;
 }
 

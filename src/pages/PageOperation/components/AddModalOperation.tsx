@@ -27,7 +27,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -40,7 +40,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     onCancel()
   };
 

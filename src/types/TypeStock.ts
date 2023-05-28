@@ -5,3 +5,6 @@ export type TypeStock = {
   product?: TypeProduct,
   amount?: number,
 }
+export type TypeStockFilter = {
+  id?: number,
+}
