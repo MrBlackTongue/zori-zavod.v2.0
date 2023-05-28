@@ -3,9 +3,8 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {getAllAcceptance, getAllAcceptanceByTitle} from "../../../services";
-import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from "../../../types";
+import {TableProps, TypeAcceptance, TableParams, TypeUnit} from "../../../types";
 import dayjs from "dayjs";
-import {SorterResult} from "antd/es/table/interface";
 
 export const TableAcceptance: React.FC<TableProps> = ({
                                                         isUpdateTable,
@@ -96,17 +95,8 @@ export const TableAcceptance: React.FC<TableProps> = ({
   ]
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypePurchase>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllAcceptance(allAcceptance);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы приемок
@@ -140,11 +130,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allAcceptance}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: [bottom]}}
       loading={isLoading}
       onChange={handleTableChange}
     />

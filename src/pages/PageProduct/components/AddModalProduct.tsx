@@ -21,26 +21,22 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
   const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): void => {
+  const onChangeUnit = (value: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
-      name: values,
+      name: value,
     };
-    form.setFieldsValue({
-      unit: unit
-    });
+    form.setFieldsValue({unit: unit});
     setSelectedUnit(unit)
   };
 
   // Изменить выбранную товарную группу
-  const onChangeProductGroup = (values: string, option: any): void => {
+  const onChangeProductGroup = (value: string, option: any): void => {
     const productGroup: TypeProduct = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      productGroup: productGroup
-    });
+    form.setFieldsValue({productGroup: productGroup});
     setSelectedProductGroup(productGroup)
   };
 

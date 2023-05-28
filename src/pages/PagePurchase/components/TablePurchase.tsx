@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TypePurchase, TableParams, TypeUnit} from "../../../types";
 import {getAllPurchase, getAllPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
@@ -141,17 +141,8 @@ export const TablePurchase: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypePurchase>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllPurchase(allPurchase);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы закупок
@@ -185,11 +176,7 @@ export const TablePurchase: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allPurchase}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: [bottom]}}
       loading={isLoading}
       onChange={handleTableChange}
     />

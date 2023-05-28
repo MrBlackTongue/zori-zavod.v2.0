@@ -20,9 +20,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   // Изменить выбранный товар
   const onChangeProduct = (value: string): void => {
     const selectedProduct = allProduct?.find(product => product.id === parseInt(value));
-    form.setFieldsValue({
-      product: selectedProduct
-    });
+    form.setFieldsValue({product: selectedProduct});
     setSelectedProduct(selectedProduct);
   };
 

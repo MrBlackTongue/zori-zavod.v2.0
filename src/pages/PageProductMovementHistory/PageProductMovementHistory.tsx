@@ -19,7 +19,7 @@ export const PageProductMovementHistory: React.FC = () => {
   const [isTableUpdate, setIsTableUpdate] = useState(false);
 
   // Изменить выбраный остаток на складе
-  const onChangeStock = (values: string, option: any): void => {
+  const onChangeStock = (value: string, option: any): void => {
     setSelectedStockId(option.id)
   };
 

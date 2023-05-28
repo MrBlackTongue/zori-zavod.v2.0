@@ -24,14 +24,12 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
   }
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): void => {
+  const onChangeProduct = (value: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      product: product.id
-    });
+    form.setFieldsValue({product: product.id});
     setSelectedProduct(product)
   };
 

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TableParams, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
 import {getAllStock, getAllStockByTitle, getStockByGroupId} from "../../../services";
 
@@ -109,17 +109,8 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeStock>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllStock(allStock);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы склада
@@ -166,11 +157,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       bordered
       columns={columns}
       dataSource={allStock}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: [bottom]}}
       loading={isLoading}
       onChange={handleTableChange}
     />

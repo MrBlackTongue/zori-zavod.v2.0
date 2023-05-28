@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TypeProductBatch, TableParams, TypeUnit} from "../../../types";
 import {getAllProductBatch} from "../../../services";
 
@@ -90,17 +90,8 @@ export const TableProductBatch: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProductBatch>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductBatch(allProductBatch);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
@@ -121,11 +112,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allProductBatch}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: [bottom]}}
       loading={isLoading}
       onChange={handleTableChange}
     />

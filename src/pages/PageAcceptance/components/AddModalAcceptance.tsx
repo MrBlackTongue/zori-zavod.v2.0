@@ -28,18 +28,14 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   const onChangeStock = (value: number): void => {
     const stock = allStock?.find((stock) => stock.id === value);
     setSelectedStock(stock);
-    form.setFieldsValue({
-      stock: stock,
-    });
+    form.setFieldsValue({stock: stock});
   };
 
   // Изменить выбранную закупку
   const onChangePurchase = (value: number): void => {
     const purchase = allPurchase?.find((purchase) => purchase.id === value);
     setSelectedPurchase(purchase);
-    form.setFieldsValue({
-      purchase: purchase,
-    });
+    form.setFieldsValue({purchase: purchase});
   };
 
   // Функция фильтрации товара на складе

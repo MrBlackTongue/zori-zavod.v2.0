@@ -28,7 +28,7 @@ export const EditDrawerOperationTimesheet:
   };
 
   // Поиск по сотрудникам
-  const onSearchEmployee = useCallback((searchText: string): void => {
+  const onSearchEmployee = (searchText: string): void => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {
@@ -47,7 +47,7 @@ export const EditDrawerOperationTimesheet:
       });
       setFilteredEmployee(prevState => filtered || prevState);
     }
-  }, [allEmployee]);
+  }
 
   // Функция подтверждения добавления сотрудника в табель учета рабочего времени
   const handleOk = (): void => {

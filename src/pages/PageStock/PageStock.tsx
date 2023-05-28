@@ -50,12 +50,8 @@ export const PageStock: React.FC = () => {
   };
 
   // Изменить выбранную группу товаров
-  const onChangeProductGroup = (values: string, option: any): void => {
-    if (values === undefined) {
-      setSelectedGroupId(undefined);
-      return undefined;
-    }
-    setSelectedGroupId(option.id)
+  const onChangeProductGroup = (value: string, option: any): void => {
+    setSelectedGroupId(value !== undefined ? option.id : undefined);
   };
 
   // Обновить товар на складе

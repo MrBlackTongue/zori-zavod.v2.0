@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import dayjs from "dayjs";
 import {getAllProductMovementHistory, getProductMovementHistoryById} from "../../../services";
 import {
-  TypeProduct,
   TableParams,
   TableProps,
   TypeProductMovementHistory,
@@ -86,17 +85,8 @@ export const TableProductMovementHistory:
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProduct>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductMovementHistory(allProductMovementHistory);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для поиска по таблице истории движения товаров

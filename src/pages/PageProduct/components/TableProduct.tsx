@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
+import type {ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
 import {TableProps, TypeProduct, TableParams} from "../../../types";
 
@@ -96,17 +96,8 @@ export const TableProduct: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProduct>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProduct(allProduct);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы товаров
@@ -146,11 +137,7 @@ export const TableProduct: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allProduct}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: [bottom]}}
       loading={isLoading}
       onChange={handleTableChange}
     />

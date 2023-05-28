@@ -17,7 +17,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   const [filteredEmployee, setFilteredEmployee] = useState<TypeEmployee[]>([]);
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = ((values: string, option: any): void => {
+  const onChangeEmployee = ((option: any): void => {
     const employee: TypeEmployee = {
       id: option.id,
     };

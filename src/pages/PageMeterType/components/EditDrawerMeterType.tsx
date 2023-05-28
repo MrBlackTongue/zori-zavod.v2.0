@@ -18,14 +18,12 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
   const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): void => {
+  const onChangeUnit = (value: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
-      name: values,
+      name: value,
     };
-    form.setFieldsValue({
-      unit: unit
-    });
+    form.setFieldsValue({unit: unit});
     setSelectedUnit(unit)
   };
 

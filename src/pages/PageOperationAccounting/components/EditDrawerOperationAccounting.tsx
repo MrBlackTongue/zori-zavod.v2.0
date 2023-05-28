@@ -30,10 +30,10 @@ export const EditDrawerOperationAccounting:
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): void => {
+  const onChangeOperation = (value: string, option: any): void => {
     const operation: TypeOperation = {
       id: option.id,
-      title: values,
+      title: value,
     };
     form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
@@ -46,15 +46,15 @@ export const EditDrawerOperationAccounting:
   }
 
   // Изменить выбранный тип производства
-  const onChangeProductionType = (values: string, option: any): void => {
-    if (values === undefined) {
+  const onChangeProductionType = (value: string, option: any): void => {
+    if (value === undefined) {
       setSelectedProductionType(undefined);
       form.setFieldsValue({productionType: undefined});
       return undefined;
     }
     const productionType: TypeProductionType = {
       id: option.id,
-      title: values,
+      title: value,
     };
     form.setFieldsValue({productionType: productionType});
     setSelectedProductionType(productionType)

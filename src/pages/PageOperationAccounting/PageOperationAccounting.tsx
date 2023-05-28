@@ -73,21 +73,13 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): void => {
-    if (values === undefined) {
-      setSelectedOperationId(undefined);
-      return undefined;
-    }
-    setSelectedOperationId(option.id)
+  const onChangeOperation = (value: string, option: any): void => {
+    setSelectedOperationId(value !== undefined ? option.id : undefined);
   };
 
   // Изменить выбранный тип производства
-  const onChangeProductionType = (values: string, option: any): void => {
-    if (values === undefined) {
-      setSelectedProductionTypeId(undefined);
-      return undefined;
-    }
-    setSelectedProductionTypeId(option.id)
+  const onChangeProductionType = (value: string, option: any): void => {
+    setSelectedProductionTypeId(value !== undefined ? option.id : undefined);
   };
 
   // Обновить учетную операцию

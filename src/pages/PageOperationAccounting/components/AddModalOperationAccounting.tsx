@@ -28,10 +28,10 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): void => {
+  const onChangeOperation = (value: string, option: any): void => {
     const operation: TypeOperation = {
       id: option.id,
-      title: values,
+      title: value,
     };
     form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
@@ -44,10 +44,10 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   }
 
   // Изменить выбранный тип производства
-  const onChangeProductionType = (values: string, option: any): void => {
+  const onChangeProductionType = (value: string, option: any): void => {
     const productionType: TypeProductionType = {
       id: option.id,
-      title: values,
+      title: value,
     };
     form.setFieldsValue({productionType: productionType});
     setSelectedProductionType(productionType)
@@ -62,9 +62,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
   // Изменить выбранный выпуск продукции
   const onChangeOutput = (value: string): void => {
     const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
-    form.setFieldsValue({
-      output: selectedOutput
-    });
+    form.setFieldsValue({output: selectedOutput});
     setSelectedOutput(selectedOutput);
     onSearchOutput('')
   };

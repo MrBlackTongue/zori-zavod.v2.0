@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllOutput} from "../../../services";
 import {TableProps, TypeOutput, TableParams} from "../../../types";
@@ -86,17 +85,8 @@ export const TableOutput: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeOutput>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOutput(allOutput);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
@@ -117,11 +107,7 @@ export const TableOutput: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allOutput}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: [bottom]}}
       loading={isLoading}
       onChange={handleTableChange}
     />

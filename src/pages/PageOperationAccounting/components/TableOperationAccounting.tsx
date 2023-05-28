@@ -3,7 +3,6 @@ import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {getAllOperationAccounting, postFilterByTable,} from "../../../services";
 import {
   TableProps,
@@ -161,17 +160,8 @@ export const TableOperationAccounting:
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeOperationAccounting>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperationAccounting(allOperationAccounting);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для расчета итоговых значений
