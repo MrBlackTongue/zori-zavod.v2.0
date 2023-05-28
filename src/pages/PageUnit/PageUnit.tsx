@@ -31,7 +31,7 @@ export const PageUnit: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (unitId: number) => {
+  const openDrawer = (unitId: number): void => {
     setSelectedUnitId(unitId)
     setIsDrawerOpen(true);
   };

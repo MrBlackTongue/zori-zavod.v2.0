@@ -42,7 +42,7 @@ export const PageProduct: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (productId: number) => {
+  const openDrawer = (productId: number): void => {
     setSelectedProductId(productId)
     setIsDrawerOpen(true);
   };

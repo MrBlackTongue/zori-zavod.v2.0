@@ -36,7 +36,7 @@ export const PageProductionType: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (productionTypeId: number) => {
+  const openDrawer = (productionTypeId: number): void => {
     setSelectedProductionTypeId(productionTypeId)
     setIsDrawerOpen(true);
   };

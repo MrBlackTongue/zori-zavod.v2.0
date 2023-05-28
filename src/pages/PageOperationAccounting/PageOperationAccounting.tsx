@@ -67,7 +67,7 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (operationAccountingId: number) => {
+  const openDrawer = (operationAccountingId: number): void => {
     setSelectedOperationAccountingId(operationAccountingId)
     setIsDrawerOpen(true);
   };

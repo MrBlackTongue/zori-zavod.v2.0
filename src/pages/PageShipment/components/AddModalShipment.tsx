@@ -28,10 +28,10 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   }, [form]);
 
   // Функция для очистки поля клиента
-  const onClearClient = useCallback((): void => {
+  const onClearClient = (): void => {
     form.setFieldsValue({operation: undefined});
     setSelectedClient(undefined);
-  }, [form]);
+  }
 
   // Функция подтверждения добавления
   const handleOk = (): void => {

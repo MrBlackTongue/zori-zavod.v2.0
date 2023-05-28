@@ -36,7 +36,7 @@ export const PageMeterType: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (meterTypeId: number) => {
+  const openDrawer = (meterTypeId: number): void => {
     setSelectedMeterTypeId(meterTypeId)
     setIsDrawerOpen(true);
   };

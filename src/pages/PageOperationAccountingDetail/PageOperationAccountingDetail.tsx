@@ -99,7 +99,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }
 
   // Открыть дравер табеля учета рабочего времени
-  const openDrawerOperationTimesheet = (operationTimesheetId: number) => {
+  const openDrawerOperationTimesheet = (operationTimesheetId: number): void => {
     setSelectedOperationTimesheetId(operationTimesheetId)
     setIsDrawerOperationTimesheetOpen(true);
   }

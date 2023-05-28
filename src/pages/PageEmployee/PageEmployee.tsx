@@ -35,7 +35,7 @@ export const PageEmployee: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (employeeId: number) => {
+  const openDrawer = (employeeId: number): void => {
     setSelectedEmployeeId(employeeId)
     setIsDrawerOpen(true);
   };

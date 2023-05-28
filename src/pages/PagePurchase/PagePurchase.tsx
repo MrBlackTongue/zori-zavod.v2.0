@@ -40,7 +40,7 @@ export const PagePurchase: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (purchaseId: number) => {
+  const openDrawer = (purchaseId: number): void => {
     setSelectedPurchaseId(purchaseId);
     setIsDrawerOpen(true);
   };
