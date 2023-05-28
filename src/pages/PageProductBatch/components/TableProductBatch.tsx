@@ -5,11 +5,11 @@ import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/tab
 import {TableProps, TypeProductBatch, TableParams, TypeUnit} from "../../../types";
 import {getAllProductBatch} from "../../../services";
 
-export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
-                                                                            isUpdateTable,
-                                                                            openDrawer,
-                                                                            onDelete,
-                                                                          }) => {
+export const TableProductBatch: React.FC<TableProps> = ({
+                                                          isUpdateTable,
+                                                          openDrawer,
+                                                          onDelete,
+                                                        }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех партий товаров

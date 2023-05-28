@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
@@ -15,12 +15,12 @@ import {
 import dayjs from "dayjs";
 
 export const TableOperationAccounting:
-  React.FC<TableProps<TypeOperationAccounting, TypeOperationAccountingFilter>> = ({
-                                                                                    isUpdateTable,
-                                                                                    openDrawer,
-                                                                                    onDelete,
-                                                                                    filter,
-                                                                                  }) => {
+  React.FC<TableProps<TypeOperationAccountingFilter>> = ({
+                                                           isUpdateTable,
+                                                           openDrawer,
+                                                           onDelete,
+                                                           filter,
+                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
   const navigate = useNavigate();
 
@@ -225,7 +225,7 @@ export const TableOperationAccounting:
   }
 
   // Функция для фильтрации таблицы
-  const filterTable = () => {
+  const filterTable = useCallback(() => {
     if (filter) {
       setIsLoading(true);
       postFilterByTable({
@@ -237,15 +237,15 @@ export const TableOperationAccounting:
         setIsLoading(false);
       });
     }
-  }
+  }, [filter]);
 
   useEffect(() => {
-    if (filter && (filter.date || filter.operationId || filter.productionTypeId)) {
+    if (filter?.date || filter?.operationId || filter?.productionTypeId) {
       filterTable();
     } else {
       updateTable();
     }
-  }, [filter, isUpdateTable]);
+  }, [filter, isUpdateTable, filterTable]);
 
   return (
     <Table

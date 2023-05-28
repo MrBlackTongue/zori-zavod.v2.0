@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeProductionProductMovement, TypeStock} from "../../../types";
 import {Form, InputNumber, message, Modal, Select} from "antd";
 import {getAllStock} from "../../../services";
@@ -47,7 +47,7 @@ export const AddModalProductionProductMovement:
   };
 
   // Функция подтверждения добавления
-  const handleOk = useCallback((): void => {
+  const handleOk = (): void => {
     const enteredAmount = form.getFieldValue("amount");
     const enteredIncome = form.getFieldValue('income')
     if (selectedStock?.amount === 0 && !enteredIncome) {
@@ -70,14 +70,14 @@ export const AddModalProductionProductMovement:
       .catch((error) => {
         console.log('Validate Failed:', error);
       });
-  }, [form, addItem]);
+  }
 
   // Функция закрытия модального окна
-  const handleClose = useCallback((): void => {
+  const handleClose = (): void => {
     form.resetFields();
     onCancel()
     setSelectedStock(undefined)
-  }, [form, onCancel])
+  }
 
   useEffect(() => {
     getAllStock().then((allStock) => {

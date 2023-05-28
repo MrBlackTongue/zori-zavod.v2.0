@@ -6,11 +6,11 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllClient} from "../../../services";
 import {TableProps, TypeClient, TableParams} from "../../../types";
 
-export const TableClient: React.FC<TableProps<TypeClient>> = ({
-                                                                isUpdateTable,
-                                                                openDrawer,
-                                                                onDelete,
-                                                              }) => {
+export const TableClient: React.FC<TableProps> = ({
+                                                    isUpdateTable,
+                                                    openDrawer,
+                                                    onDelete,
+                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех клиентов

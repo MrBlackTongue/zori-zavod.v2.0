@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../../types";
 import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionType} from "../../../services";
@@ -119,8 +119,8 @@ export const EditDrawerOperationAccounting:
     closeDrawer();
   };
 
-  // Функция для получения информации об учетной записи и установления значений полей формы
-  const getOperationAccounting = async (itemId: number) => {
+  // Функция для получения данных в дравер
+  const getOperationAccounting = useCallback(async (itemId: number) => {
     const operationAccounting = await getOperationAccountingById(itemId);
     form.setFieldsValue({
       date: dayjs(operationAccounting?.date),
@@ -132,7 +132,7 @@ export const EditDrawerOperationAccounting:
     setSelectedOperation(operationAccounting?.operation);
     setSelectedOutput(operationAccounting?.output);
     setSelectedProductionType(operationAccounting?.productionType)
-  }
+  }, [form])
 
   useEffect(() => {
     if (selectedItemId) {
@@ -142,7 +142,7 @@ export const EditDrawerOperationAccounting:
       setSelectedOutput(undefined);
       setSelectedProductionType(undefined);
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, getOperationAccounting]);
 
   useEffect(() => {
     getAllOperation().then((allOperation) => {
@@ -168,7 +168,7 @@ export const EditDrawerOperationAccounting:
     if (!isOpen) {
       setFilteredOutput(allOutput || []);
     }
-  }, [isOpen]);
+  }, [isOpen, allOutput]);
 
   return (
     <Drawer

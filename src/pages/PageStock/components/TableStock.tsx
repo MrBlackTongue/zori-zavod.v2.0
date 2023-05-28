@@ -5,13 +5,13 @@ import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/tab
 import {TableProps, TableParams, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
 import {getAllStock, getAllStockByTitle, getStockByGroupId} from "../../../services";
 
-export const TableStock: React.FC<TableProps<TypeStock, TypeStockFilter>> = ({
-                                                                               isUpdateTable,
-                                                                               openDrawer,
-                                                                               onDelete,
-                                                                               searchText,
-                                                                               filter,
-                                                                             }) => {
+export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
+                                                                    isUpdateTable,
+                                                                    openDrawer,
+                                                                    onDelete,
+                                                                    searchText,
+                                                                    filter,
+                                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех остатков

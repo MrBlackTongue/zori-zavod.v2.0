@@ -7,11 +7,11 @@ import {getAllOutput} from "../../../services";
 import {TableProps, TypeOutput, TableParams} from "../../../types";
 import dayjs from 'dayjs';
 
-export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
-                                                                isUpdateTable,
-                                                                openDrawer,
-                                                                onDelete,
-                                                              }) => {
+export const TableOutput: React.FC<TableProps> = ({
+                                                    isUpdateTable,
+                                                    openDrawer,
+                                                    onDelete,
+                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех единиц измерения

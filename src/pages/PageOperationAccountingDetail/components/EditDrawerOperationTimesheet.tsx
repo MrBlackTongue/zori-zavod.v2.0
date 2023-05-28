@@ -67,15 +67,15 @@ export const EditDrawerOperationTimesheet:
   const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
-      getOperationTimesheet(selectedItemId).catch((error) => {
+      handleGetOperationTimesheet(selectedItemId).catch((error) => {
         console.error("Ошибка при получении данных об учетной операции: ", error)
       });
     }
     closeDrawer();
   };
 
-  // Функция для получения информации о табеле учета рабочего времени и установления значений полей формы
-  const getOperationTimesheet = useCallback(async (itemId: number) => {
+  // Функция для получения данных в дравер
+  const handleGetOperationTimesheet = useCallback(async (itemId: number) => {
     const operationTimesheet = await getOperationTimesheetById(itemId);
     form.setFieldsValue({
       hours: operationTimesheet?.hours,
@@ -83,15 +83,15 @@ export const EditDrawerOperationTimesheet:
       fact: operationTimesheet?.fact,
     });
     setSelectedEmployee(operationTimesheet?.employee);
-  }, []);
+  }, [form]);
 
   useEffect(() => {
     if (selectedItemId) {
-      getOperationTimesheet(selectedItemId).catch((error) => console.error(error));
+      handleGetOperationTimesheet(selectedItemId).catch((error) => console.error(error));
     } else {
       setSelectedEmployee(undefined);
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, handleGetOperationTimesheet, form]);
 
   useEffect(() => {
     getAllEmployee().then((allEmployee) => {

@@ -36,16 +36,16 @@ export const PageShipment: React.FC = () => {
   }, [openState]);
 
   // Функция открытия дравера редактирования отгрузки
-  const openDrawer = useCallback((shipmentId: number) => {
+  const openDrawer = (shipmentId: number) => {
     setSelectedShipmentId(shipmentId);
     setOpenState({...openState, isDrawerOpen: true});
-  }, [openState]);
+  }
 
   // Функция открытия детального дравера отгрузки с использованием useCallback
-  const openDetailShipment = useCallback((shipmentId: number) => {
+  const openDetailShipment = (shipmentId: number) => {
     setSelectedShipmentId(shipmentId);
     setOpenState({...openState, isBottomDrawerOpen: true});
-  }, [openState]);
+  }
 
   // Функция обновления отгрузки
   const handleUpdateShipment = useCallback((values: { [key: string]: any }): void => {

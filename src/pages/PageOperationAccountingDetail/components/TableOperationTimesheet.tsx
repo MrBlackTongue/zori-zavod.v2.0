@@ -5,12 +5,12 @@ import type {ColumnsType} from 'antd/es/table';
 import {TableProps, TypeOperationTimesheet, TypeEmployee} from "../../../types";
 import {getOperationTimesheetByIdOperationAccounting} from "../../../services";
 
-export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet>> = React.memo(({
-                                                                                                   isUpdateTable,
-                                                                                                   openDrawer,
-                                                                                                   onDelete,
-                                                                                                   idDetail,
-                                                                                                 }) => {
+export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
+                                                                           isUpdateTable,
+                                                                           openDrawer,
+                                                                           onDelete,
+                                                                           idDetail,
+                                                                         }) => {
   // Лоудер и весь табель учета рабочего времени
   const [isLoading, setIsLoading] = useState(false);
   const [allOperationTimesheet, setAllOperationTimesheet] = useState<TypeOperationTimesheet[]>();
@@ -22,7 +22,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
       dataIndex: 'employee',
       key: 'employee',
       defaultSortOrder: 'ascend',
-      sorter:(a, b) =>
+      sorter: (a, b) =>
         (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
       render: (employee: TypeEmployee) => (
         <div>

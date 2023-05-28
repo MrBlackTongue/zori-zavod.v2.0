@@ -3,14 +3,14 @@ import {Button, Popconfirm, Space, Table, Tooltip,} from 'antd';
 import {DeleteOutlined} from "@ant-design/icons";
 import type {ColumnsType} from 'antd/es/table';
 import {getAllProductMovementByShipmentId} from "../../../services";
-import {TableProps, TypeShipment, TypeStock, TypeShipmentProductMovement} from "../../../types";
+import {TableProps, TypeStock, TypeShipmentProductMovement} from "../../../types";
 import dayjs from 'dayjs';
 
-export const TableDetailShipment: React.FC<TableProps<TypeShipment>> = ({
-                                                                          isUpdateTable,
-                                                                          idDetail,
-                                                                          onDelete,
-                                                                        }) => {
+export const TableDetailShipment: React.FC<TableProps> = ({
+                                                            isUpdateTable,
+                                                            idDetail,
+                                                            onDelete,
+                                                          }) => {
   // Состояния для лоадера и списка всех товаров в отгрузке
   const [isLoading, setIsLoading] = useState(false);
   const [allShipmentMovement, setAllShipmentMovement] = useState<TypeShipmentProductMovement[]>();

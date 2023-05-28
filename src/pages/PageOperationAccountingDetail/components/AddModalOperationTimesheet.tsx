@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeEmployee, TypeOperationTimesheet} from "../../../types";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllEmployee} from "../../../services";
@@ -53,7 +53,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   };
 
   // Функция подтверждения добавления
-  const handleOk = useCallback((): void => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -63,13 +63,13 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
       .catch((error) => {
         console.log('Validate Failed:', error);
       });
-  }, [form, addItem]);
+  }
 
   // Функция закрытия модального окна
-  const handleClose = useCallback((): void => {
+  const handleClose = (): void => {
     form.resetFields();
     onCancel()
-  }, [form, onCancel])
+  }
 
   useEffect(() => {
     getAllEmployee().then((allEmployee) => {

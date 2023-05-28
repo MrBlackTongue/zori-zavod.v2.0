@@ -30,7 +30,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
     setSelectedProduct(product)
   };
 
-  // Функция для получения данных о партии товаров по id и обновления формы
+  // Функция для получения данных в дравер
   const handleGetProductBatchById = useCallback(() => {
     if (selectedItemId) {
       getProductBatchById(selectedItemId).then((productBatch) => {
@@ -42,7 +42,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
         setProduct(productBatch?.product)
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form]);
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {
@@ -64,14 +64,14 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
   };
 
   useEffect(() => {
+    handleGetProductBatchById();
+  }, [selectedItemId, handleGetProductBatchById]);
+
+  useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
     });
   }, []);
-
-  useEffect(() => {
-    handleGetProductBatchById();
-  }, [selectedItemId, handleGetProductBatchById]);
 
   return (
     <Drawer

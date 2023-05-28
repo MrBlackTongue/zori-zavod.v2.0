@@ -45,7 +45,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
         setDate(dayjs(output?.date));
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form]);
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {

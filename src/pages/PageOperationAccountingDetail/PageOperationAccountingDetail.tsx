@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {Space, Button, FloatButton, Divider, Tooltip, Typography} from 'antd';
 import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
@@ -41,7 +41,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const [isModalProductionProductMovementOpen, setIsModalProductionProductMovementOpen] = useState(false);
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = useCallback((values: { [key: string]: any }): void => {
+  const handleUpdateOperationAccounting = (values: { [key: string]: any }): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: id ? +id : undefined,
       date: values['date'].format('YYYY-MM-DD'),
@@ -55,7 +55,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
     setIsDrawerOperationAccountingOpen(false)
     putChangeOperationAccounting(operationAccounting)
     setIsAllTableUpdate(prevState => !prevState)
-  }, [id]);
+  }
 
   // Удалить запись из таблицы
   const handleDeleteOperationAccounting = (id: number): void => {
@@ -64,7 +64,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   };
 
   // Добавить сотрудника в табель учета рабочего времени
-  const handleAddOperationTimesheet = useCallback((values: TypeOperationTimesheet): void => {
+  const handleAddOperationTimesheet = (values: TypeOperationTimesheet): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       hours: values.hours,
       employee: values.employee,
@@ -74,10 +74,10 @@ export const PageOperationAccountingDetail: React.FC = () => {
     setIsModalOperationTimesheetOpen(false)
     postNewOperationTimesheet(operationTimesheet)
     setIsAllTableUpdate(prevState => !prevState)
-  }, [id]);
+  }
 
   // Обновить сотрудника в табеле учета рабочего времени
-  const handleUpdateOperationTimesheet = useCallback((values: TypeOperationTimesheet): void => {
+  const handleUpdateOperationTimesheet = (values: TypeOperationTimesheet): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       id: selectedOperationTimesheetId,
       hours: values.hours,
@@ -90,47 +90,46 @@ export const PageOperationAccountingDetail: React.FC = () => {
     setIsDrawerOperationTimesheetOpen(false)
     putChangeOperationTimesheet(operationTimesheet)
     setIsAllTableUpdate(prevState => !prevState)
-  }, [selectedOperationTimesheetId]);
+  }
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
-  const handleDeleteOperationTimesheet = useCallback((id: number): void => {
+  const handleDeleteOperationTimesheet = (id: number): void => {
     deleteOperationTimesheetById(id).catch((error) => console.error(error));
     setIsAllTableUpdate(prevState => !prevState)
-  }, [id]);
+  }
 
   // Открыть дравер табеля учета рабочего времени
-  const openDrawerOperationTimesheet = useCallback((operationTimesheetId: number) => {
+  const openDrawerOperationTimesheet = (operationTimesheetId: number) => {
     setSelectedOperationTimesheetId(operationTimesheetId)
     setIsDrawerOperationTimesheetOpen(true);
-  }, []);
+  }
 
   // Добавить запись движения товара на производстве
-  const handleAddProductionProductMovement =
-    useCallback(async (values: TypeProductionProductMovement): Promise<void> => {
-      if (!id) return;
-      const operationAccounting = await getOperationAccountingById(+id);
-      let operationDate = operationAccounting?.date;
+  const handleAddProductionProductMovement = async (values: TypeProductionProductMovement): Promise<void> => {
+    if (!id) return;
+    const operationAccounting = await getOperationAccountingById(+id);
+    let operationDate = operationAccounting?.date;
 
-      const productionProductMovement: TypeProductionProductMovement = {
-        amount: values.amount,
-        income: values.income,
-        stock: values.stock,
-        date: operationDate,
-        productBatch: values.productBatch,
-        operationAccounting: {
-          id: id ? +id : undefined
-        },
-      };
-      setIsModalProductionProductMovementOpen(false)
-      postNewProductionProductMovement(productionProductMovement)
-      setIsAllTableUpdate(prevState => !prevState)
-    }, [id]);
+    const productionProductMovement: TypeProductionProductMovement = {
+      amount: values.amount,
+      income: values.income,
+      stock: values.stock,
+      date: operationDate,
+      productBatch: values.productBatch,
+      operationAccounting: {
+        id: id ? +id : undefined
+      },
+    };
+    setIsModalProductionProductMovementOpen(false)
+    postNewProductionProductMovement(productionProductMovement)
+    setIsAllTableUpdate(prevState => !prevState)
+  }
 
   // Удалить запись движения товара на производстве
-  const handleDeleteProductionProductMovement = useCallback((id: number): void => {
+  const handleDeleteProductionProductMovement = (id: number): void => {
     deleteProductionProductMovementById(id).catch((error) => console.error(error));
     setIsAllTableUpdate(prevState => !prevState)
-  }, [id]);
+  }
 
   // Переход на другую страницу по адресу
   const handleBack = () => {

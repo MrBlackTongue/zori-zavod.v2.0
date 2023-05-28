@@ -6,11 +6,11 @@ import type {SorterResult} from 'antd/es/table/interface';
 import {getAllProductionType,} from "../../../services";
 import {TableProps, TypeProductionType, TableParams} from "../../../types";
 
-export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
-                                                                                isUpdateTable,
-                                                                                openDrawer,
-                                                                                onDelete,
-                                                                              }) => {
+export const TableProductionType: React.FC<TableProps> = ({
+                                                            isUpdateTable,
+                                                            openDrawer,
+                                                            onDelete,
+                                                          }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список типов производства

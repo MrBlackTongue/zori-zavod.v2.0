@@ -13,11 +13,11 @@ import {getProductionProductMovementByIdOperationAccounting} from "../../../serv
 import dayjs from "dayjs";
 
 export const TableProductionProductMovement:
-  React.FC<TableProps<TypeProductionProductMovement>> = React.memo(({
-                                                                      isUpdateTable,
-                                                                      onDelete,
-                                                                      idDetail,
-                                                                    }) => {
+  React.FC<TableProps> = React.memo(({
+                                       isUpdateTable,
+                                       onDelete,
+                                       idDetail,
+                                     }) => {
 
   // Лоудер и все движение товара на производстве
   const [isLoading, setIsLoading] = useState(false);

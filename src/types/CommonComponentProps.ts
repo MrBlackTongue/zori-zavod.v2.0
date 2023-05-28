@@ -1,4 +1,4 @@
-export interface TableProps<T, F = {}> {
+export interface TableProps<F = {}> {
   isUpdateTable: boolean;
   openDrawer?: (id: number) => void;
   openDetailDrawer?: (id: number) => void;
@@ -25,4 +25,5 @@ export interface DetailDrawerProps<T> {
   isOpen: boolean;
   closeDrawer: () => void;
   selectedItemId: number | undefined;
+  updateItem?: (values: T) => void;
 }

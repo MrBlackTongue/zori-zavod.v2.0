@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeOperation, TypeUnit} from "../../../types";
 import {getOperationById, getAllUnit} from "../../../services";
@@ -50,13 +50,8 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
     closeDrawer()
   };
 
-  useEffect(() => {
-    getAllUnit().then((units) => {
-      setAllUnit(units);
-    });
-  }, []);
-
-  useEffect(() => {
+  // Функция для получения данных в дравер
+  const handleGetOperation = useCallback(() => {
     if (selectedItemId) {
       getOperationById(selectedItemId).then((operation) => {
         form.setFieldsValue(operation)
@@ -64,7 +59,17 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
         setUnit(operation?.unit)
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    handleGetOperation()
+  }, [selectedItemId, handleGetOperation]);
+
+  useEffect(() => {
+    getAllUnit().then((units) => {
+      setAllUnit(units);
+    });
+  }, []);
 
   return (
     <Drawer

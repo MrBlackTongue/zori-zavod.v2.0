@@ -6,12 +6,12 @@ import {TableProps, TypePurchase, TableParams, TypeUnit} from "../../../types";
 import {getAllPurchase, getAllPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
 
-export const TablePurchase: React.FC<TableProps<TypePurchase>> = ({
-                                                                    isUpdateTable,
-                                                                    openDrawer,
-                                                                    onDelete,
-                                                                    searchText,
-                                                                  }) => {
+export const TablePurchase: React.FC<TableProps> = ({
+                                                      isUpdateTable,
+                                                      openDrawer,
+                                                      onDelete,
+                                                      searchText,
+                                                    }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех закупок

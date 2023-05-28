@@ -6,11 +6,11 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllOperation} from "../../../services";
 import {TableProps, TypeOperation, TableParams} from "../../../types";
 
-export const TableOperation: React.FC<TableProps<TypeOperation>> = ({
-                                                                      isUpdateTable,
-                                                                      openDrawer,
-                                                                      onDelete,
-                                                                    }) => {
+export const TableOperation: React.FC<TableProps> = ({
+                                                       isUpdateTable,
+                                                       openDrawer,
+                                                       onDelete,
+                                                     }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех операций

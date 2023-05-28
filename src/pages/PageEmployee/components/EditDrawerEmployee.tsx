@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Button, Checkbox, Drawer, Form, Input, InputNumber, Space} from "antd";
 import {EditDrawerProps, TypeEmployee} from "../../../types";
 import {getEmployeeById} from "../../../services";
@@ -29,14 +29,18 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
         console.log('Validate Failed:', error);
       })
   }
-
-  useEffect(() => {
+  // Функция для получения данных в дравер
+  const handleGetEmployee = useCallback(()=> {
     if (selectedItemId) {
       getEmployeeById(selectedItemId).then((employee) => {
         form.setFieldsValue(employee);
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    handleGetEmployee()
+  }, [selectedItemId, handleGetEmployee]);
 
   return (
     <Drawer

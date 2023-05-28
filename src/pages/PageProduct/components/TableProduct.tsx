@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
@@ -6,12 +6,12 @@ import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
 import {TableProps, TypeProduct, TableParams} from "../../../types";
 
-export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
-                                                                  isUpdateTable,
-                                                                  openDrawer,
-                                                                  onDelete,
-                                                                  searchText
-                                                                }) => {
+export const TableProduct: React.FC<TableProps> = ({
+                                                     isUpdateTable,
+                                                     openDrawer,
+                                                     onDelete,
+                                                     searchText
+                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех товаров
@@ -119,13 +119,13 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
   }
 
   // Функция для поиска по таблице товаров
-  const searchTable = () => {
+  const searchTable = useCallback(() => {
     setIsLoading(true);
     getAllProductByTitle(searchText ?? '').then((allProducts) => {
       setAllProduct(allProducts);
       setIsLoading(false);
     });
-  }
+  }, [searchText]);
 
   useEffect(() => {
     getAllProductGroup().then((productGroups) => {
@@ -139,7 +139,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
     } else {
       updateTable();
     }
-  }, [searchText, isUpdateTable]);
+  }, [searchText, isUpdateTable, searchTable]);
 
   return (
     <Table

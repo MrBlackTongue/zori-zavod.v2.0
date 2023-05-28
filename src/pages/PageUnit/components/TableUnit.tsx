@@ -6,11 +6,11 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllUnit} from "../../../services";
 import {TableProps, TypeUnit, TableParams} from "../../../types";
 
-export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
-                                                            isUpdateTable,
-                                                            openDrawer,
-                                                            onDelete,
-                                                          }) => {
+export const TableUnit: React.FC<TableProps> = ({
+                                                  isUpdateTable,
+                                                  openDrawer,
+                                                  onDelete,
+                                                }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех единиц измерения

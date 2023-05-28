@@ -6,12 +6,12 @@ import {getOperationAccountingById} from "../../../services";
 import {TableProps, TypeOperationAccounting, TypeOperationTimesheet} from "../../../types";
 import dayjs from "dayjs";
 
-export const TableOperationAccountingDetail: React.FC<TableProps<TypeOperationAccounting>> = React.memo(({
-                                                                                                           isUpdateTable,
-                                                                                                           openDrawer,
-                                                                                                           onDelete,
-                                                                                                           idDetail,
-                                                                                                         }) => {
+export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo(({
+                                                                                  isUpdateTable,
+                                                                                  openDrawer,
+                                                                                  onDelete,
+                                                                                  idDetail,
+                                                                                }) => {
   // Лоудер и учетная операция
   const [isLoading, setIsLoading] = useState(false);
   const [operationAccounting, setOperationAccounting] = useState<TypeOperationAccounting>();

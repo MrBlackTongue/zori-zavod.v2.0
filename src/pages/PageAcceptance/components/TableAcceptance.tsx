@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
@@ -7,11 +7,11 @@ import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from ".
 import dayjs from "dayjs";
 import {SorterResult} from "antd/es/table/interface";
 
-export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
-                                                                        isUpdateTable,
-                                                                        searchText,
-                                                                        onDelete,
-                                                                      }) => {
+export const TableAcceptance: React.FC<TableProps> = ({
+                                                        isUpdateTable,
+                                                        searchText,
+                                                        onDelete,
+                                                      }) => {
   type TablePaginationPosition = "bottomCenter"
 
   // Лоудер и список всех приемок
@@ -110,22 +110,22 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
   };
 
   // Функция для обновления таблицы приемок
-  const updateTable = () => {
+  const updateTable = useCallback(() => {
     setIsLoading(true);
     getAllAcceptance().then((allAcceptance) => {
       setAllAcceptance(allAcceptance);
       setIsLoading(false);
     });
-  }
+  }, [])
 
   // Функция для поиска приёмки
-  const searchTable = () => {
+  const searchTable = useCallback(() => {
     setIsLoading(true);
     getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
       setAllAcceptance(allAcceptance);
       setIsLoading(false);
     });
-  }
+  }, [searchText])
 
   useEffect(() => {
     if (searchText) {
@@ -133,7 +133,7 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     } else {
       updateTable();
     }
-  }, [searchText, isUpdateTable]);
+  }, [searchText, isUpdateTable, searchTable, updateTable]);
 
   return (
     <Table

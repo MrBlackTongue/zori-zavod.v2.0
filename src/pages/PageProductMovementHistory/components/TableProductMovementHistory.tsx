@@ -12,10 +12,10 @@ import {
 } from "../../../types";
 
 export const TableProductMovementHistory:
-  React.FC<TableProps<TypeProductMovementHistory, TypeProductMovementHistoryFilter>> = ({
-                                                                                          isUpdateTable,
-                                                                                          filter,
-                                                                                        }) => {
+  React.FC<TableProps<TypeProductMovementHistoryFilter>> = ({
+                                                              isUpdateTable,
+                                                              filter,
+                                                            }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всей истории движения товаров

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeMeterType, TypeUnit} from "../../../types";
 import {getMeterTypeById, getAllUnit} from "../../../services";
@@ -43,23 +43,30 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
       });
   }
 
+  // Функция для получения данных в дравер
+  const handleGetMeterType = useCallback(() => {
+    if (selectedItemId) {
+      getMeterTypeById(selectedItemId).then((meterType) => {
+        form.setFieldsValue(meterType)
+        setSelectedUnit(meterType?.unit)
+      })
+    }
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    if (isOpen && selectedItemId) {
+      handleGetMeterType()
+    } else {
+      form.resetFields();
+      setSelectedUnit(undefined);
+    }
+  }, [isOpen, selectedItemId, handleGetMeterType, form]);
+
   useEffect(() => {
     getAllUnit().then((allUnit) => {
       setAllUnit(allUnit);
     });
   }, []);
-
-  useEffect(() => {
-    if (isOpen && selectedItemId) {
-      getMeterTypeById(selectedItemId).then((meterType) => {
-        form.setFieldsValue(meterType)
-        setSelectedUnit(meterType?.unit)
-      })
-    } else {
-      form.resetFields();
-      setSelectedUnit(undefined);
-    }
-  }, [isOpen, selectedItemId]);
 
   return (
     <Drawer

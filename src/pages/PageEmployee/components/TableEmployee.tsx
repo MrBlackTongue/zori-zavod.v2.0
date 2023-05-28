@@ -6,11 +6,11 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllEmployee} from "../../../services";
 import {TableProps, TypeEmployee, TableParams} from "../../../types";
 
-export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
-                                                                    isUpdateTable,
-                                                                    openDrawer,
-                                                                    onDelete,
-                                                                  }) => {
+export const TableEmployee: React.FC<TableProps> = ({
+                                                      isUpdateTable,
+                                                      openDrawer,
+                                                      onDelete,
+                                                    }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех сотрудников

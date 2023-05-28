@@ -7,12 +7,12 @@ import {getAllShipment} from "../../../services";
 import {TableProps, TypeShipment, TableParams} from "../../../types";
 import dayjs from 'dayjs';
 
-export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
-                                                                    isUpdateTable,
-                                                                    openDrawer,
-                                                                    onDelete,
-                                                                    openDetailDrawer
-                                                                  }) => {
+export const TableShipment: React.FC<TableProps> = ({
+                                                      isUpdateTable,
+                                                      openDrawer,
+                                                      onDelete,
+                                                      openDetailDrawer
+                                                    }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Состояния для загрузки данных и списка всех отгрузок

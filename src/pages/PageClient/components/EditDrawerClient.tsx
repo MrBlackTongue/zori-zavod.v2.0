@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Button, Drawer, Form, Input, Space} from "antd";
 import {EditDrawerProps, TypeClient} from "../../../types";
 import {getClientById} from "../../../services";
@@ -25,13 +25,18 @@ export const EditDrawerClient: React.FC<EditDrawerProps<TypeClient>> = ({
       })
   };
 
-  useEffect(() => {
+  // Функция для получения данных в дравер
+  const handleGetClient = useCallback(()=> {
     if (selectedItemId) {
       getClientById(selectedItemId).then((client) => {
         form.setFieldsValue(client);
       })
     }
-  }, [selectedItemId]);
+  },[selectedItemId, form])
+
+  useEffect(() => {
+    handleGetClient()
+  }, [selectedItemId, handleGetClient]);
 
   return (
     <Drawer

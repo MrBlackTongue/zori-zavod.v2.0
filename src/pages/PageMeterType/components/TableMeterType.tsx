@@ -6,11 +6,11 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterType} from "../../../services";
 import {TableProps, TypeMeterType, TableParams} from "../../../types";
 
-export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
-                                                                      isUpdateTable,
-                                                                      openDrawer,
-                                                                      onDelete,
-                                                                    }) => {
+export const TableMeterType: React.FC<TableProps> = ({
+                                                       isUpdateTable,
+                                                       openDrawer,
+                                                       onDelete,
+                                                     }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех типов счетчиков
