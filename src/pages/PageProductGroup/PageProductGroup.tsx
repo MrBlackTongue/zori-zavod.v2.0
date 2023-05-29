@@ -10,7 +10,7 @@ import { EditDrawerProductGroup} from "./components/EditDrawerProductGroup";
 const { Title } = Typography;
 
 export const PageProductGroup: React.FC = () => {
-  
+
   // Обновление таблицы, выбранная группа товаров по id
   const [updateTable, setUpdateTable] = useState(false);
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
