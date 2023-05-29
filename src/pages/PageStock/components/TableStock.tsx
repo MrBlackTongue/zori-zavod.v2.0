@@ -3,7 +3,7 @@ import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TableParams, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
-import {getAllStock, getAllStockByTitle, getStockByGroupId} from "../../../services";
+import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
                                                                     isUpdateTable,
@@ -135,7 +135,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   const filterTable = useCallback(() => {
     if (filter?.id) {
       setIsLoading(true);
-      getStockByGroupId(filter.id).then((allStock) => {
+      getAllStockByFilter(filter.id).then((allStock) => {
         setAllStock(allStock);
         setIsLoading(false);
       });

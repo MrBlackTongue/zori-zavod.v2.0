@@ -2,7 +2,7 @@ import {TypeMeterType} from "../types";
 import {URL, METER_TYPE} from "./apiEndpoints";
 import {message} from "antd";
 
-// Получение всех типов счетчика
+// Получить список всех типов счетчика
 export async function getAllMeterType(): Promise<TypeMeterType[]> {
   try {
     const response = await fetch(URL + METER_TYPE);
@@ -17,31 +17,23 @@ export async function getAllMeterType(): Promise<TypeMeterType[]> {
   }
 }
 
-// Изменение существующего типа счетчика
-export function putChangeMeterType(data: TypeMeterType) {
+// Получить данные типа счетчика по id
+export async function getMeterTypeById(id: number): Promise<TypeMeterType | undefined> {
   try {
-    const config = {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    };
-    fetch(URL + METER_TYPE, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    const response = await fetch(URL + METER_TYPE + `/${id}`);
+    if (!response.ok) {
+      console.error(response.statusText);
+      return Promise.reject();
+    }
+    return await response.json();
   } catch (error) {
     console.error(error);
+    return Promise.reject(error);
   }
 }
 
-// Создание нового типа счетчика
-export function postNewMeterType(data: TypeMeterType) {
+// Добавить новый тип счетчика
+export function postNewMeterType(data: TypeMeterType): void {
   try {
     const config = {
       method: 'POST',
@@ -63,35 +55,43 @@ export function postNewMeterType(data: TypeMeterType) {
   }
 }
 
-// Получить тип счетчика по id
-export async function getMeterTypeById(id: number): Promise<TypeMeterType | undefined> {
-  try {
-    const response = await fetch(URL + METER_TYPE + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-}
-
-// Удаление типа счетчика по id
+// Удалить тип счетчика по id
 export async function deleteMeterTypeById(id: number) {
   try {
     const response = await fetch(URL + METER_TYPE + `/${id}`, {
       method: "DELETE",
     });
     if (response.ok) {
-      message.success("Запись удалена");
+      return message.success("Запись удалена");
     } else {
       console.error(response.statusText);
-      message.error("Ошибка при удалении записи");
+      return message.error("Ошибка при удалении записи");
     }
   } catch (err) {
     console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    return message.error('Произошла ошибка при попытке удаления записи');
+  }
+}
+
+// Редактировать тип счетчика
+export function putChangeMeterType(data: TypeMeterType): void {
+  try {
+    const config = {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data),
+    };
+    fetch(URL + METER_TYPE, config)
+      .then(response => {
+        if (response.ok) {
+          return message.success('Запись изменена');
+        } else {
+          console.error(response.statusText);
+          return message.error('Ошибка при изменении записи');
+        }
+      })
+      .catch(error => console.error(error))
+  } catch (error) {
+    console.error(error);
   }
 }

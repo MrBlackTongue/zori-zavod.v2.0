@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllOperationAccounting, postFilterByTable,} from "../../../services";
+import {getAllOperationAccounting, getAllOperationAccountingByFilter,} from "../../../services";
 import {
   TableProps,
   TypeOperationAccounting,
@@ -218,7 +218,7 @@ export const TableOperationAccounting:
   const filterTable = useCallback(() => {
     if (filter) {
       setIsLoading(true);
-      postFilterByTable({
+      getAllOperationAccountingByFilter({
         date: filter.date || undefined,
         operationId: filter.operationId || undefined,
         productionTypeId: filter.productionTypeId || undefined,

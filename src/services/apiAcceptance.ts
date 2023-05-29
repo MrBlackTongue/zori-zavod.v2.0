@@ -2,7 +2,7 @@ import {URL, MOVEMENT, ACCEPTANCE, PRODUCT} from "./apiEndpoints";
 import {TypeAcceptance} from "../types";
 import {message} from "antd";
 
-// Получение всех приемок товаров
+// Получить список всех приемок товаров
 export async function getAllAcceptance(): Promise<TypeAcceptance[]> {
   try {
     const res = await fetch(URL + MOVEMENT + ACCEPTANCE);
@@ -17,8 +17,8 @@ export async function getAllAcceptance(): Promise<TypeAcceptance[]> {
   }
 }
 
-// Создание приемки
-export function postNewAcceptance(data: TypeAcceptance) {
+// Добавить новую приемку товаров
+export function postNewAcceptance(data: TypeAcceptance): void {
   try {
     const config = {
       method: 'POST',
@@ -40,14 +40,13 @@ export function postNewAcceptance(data: TypeAcceptance) {
   }
 }
 
-// Удаление приемки по id
+// Удалить приемку товаров по id
 export async function deleteAcceptanceById(id: number) {
   try {
     const response = await fetch(URL + MOVEMENT + ACCEPTANCE + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -55,10 +54,11 @@ export async function deleteAcceptanceById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
-// Получение приемок по названию продукта
+// Получить список всех отфильтрованных приемок товара по названию
 export async function getAllAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
   try {
     const response = await fetch(URL + MOVEMENT + ACCEPTANCE + PRODUCT + `/${title}`);

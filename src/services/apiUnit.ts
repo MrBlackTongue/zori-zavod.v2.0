@@ -33,7 +33,7 @@ export async function getUnitById(id: number): Promise<TypeUnit | undefined> {
 }
 
 // Добавить новую единицу измерения
-export function postNewUnit(data: TypeUnit) {
+export function postNewUnit(data: TypeUnit): void {
   try {
     const config = {
       method: 'POST',
@@ -61,8 +61,7 @@ export async function deleteUnitById(id: number) {
     const response = await fetch(URL + UNIT + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -70,11 +69,12 @@ export async function deleteUnitById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
 // Редактировать единицу измерения
-export function putChangeUnit(data: TypeUnit) {
+export function putChangeUnit(data: TypeUnit): void {
   try {
     const config = {
       method: 'PUT',

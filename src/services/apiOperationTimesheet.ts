@@ -2,8 +2,9 @@ import {TypeOperationTimesheet} from "../types";
 import {message} from "antd";
 import {URL, OPERATION_ACCOUNTING, OPERATION_TIMESHEET} from "./apiEndpoints";
 
-// Получить данные табеля рабочего времени по id учетной операции
-export async function getOperationTimesheetByIdOperationAccounting(id: number): Promise<TypeOperationTimesheet[] | undefined> {
+// Получить список всех сотрудников в табеле рабочего времени по id учетной операции
+export async function getOperationTimesheetByIdOperationAccounting(id: number):
+  Promise<TypeOperationTimesheet[] | undefined> {
   try {
     const response = await fetch(URL + OPERATION_TIMESHEET + OPERATION_ACCOUNTING + `/${id}`);
     if (!response.ok) {
@@ -32,8 +33,8 @@ export async function getOperationTimesheetById(id: number): Promise<TypeOperati
   }
 }
 
-// Добавить табель учета рабочего времени
-export function postNewOperationTimesheet(data: TypeOperationTimesheet) {
+// Добавить сотрудника в табель учета рабочего времени
+export function postNewOperationTimesheet(data: TypeOperationTimesheet): void {
   try {
     const config = {
       method: 'POST',
@@ -55,7 +56,7 @@ export function postNewOperationTimesheet(data: TypeOperationTimesheet) {
   }
 }
 
-// Удалить табель учета рабочего времени по id
+// Удалить сотрудника из табеля учета рабочего времени по id
 export async function deleteOperationTimesheetById(id: number) {
   try {
     const response = await fetch(URL + OPERATION_TIMESHEET + `/${id}`, {
@@ -73,8 +74,8 @@ export async function deleteOperationTimesheetById(id: number) {
   }
 }
 
-// Редактировать табель учета рабочего времени
-export function putChangeOperationTimesheet(data: TypeOperationTimesheet) {
+// Редактировать сотрудника в табеле учета рабочего времени
+export function putChangeOperationTimesheet(data: TypeOperationTimesheet): void {
   try {
     const config = {
       method: 'PUT',

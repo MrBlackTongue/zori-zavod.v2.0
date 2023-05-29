@@ -33,7 +33,7 @@ export async function getOutputById(id: number): Promise<TypeOutput | undefined>
 }
 
 // Добавить новую единицу измерения
-export function postNewOutput(data: TypeOutput) {
+export function postNewOutput(data: TypeOutput): void {
   try {
     const config = {
       method: 'POST',
@@ -61,8 +61,7 @@ export async function deleteOutputById(id: number) {
     const response = await fetch(URL + OUTPUT + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -70,11 +69,12 @@ export async function deleteOutputById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
 // Редактировать единицу изремерения
-export function putChangeOutput(data: TypeOutput) {
+export function putChangeOutput(data: TypeOutput): void {
   try {
     const config = {
       method: 'PUT',

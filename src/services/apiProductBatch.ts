@@ -17,31 +17,23 @@ export async function getAllProductBatch(): Promise<TypeProductBatch[]> {
   }
 }
 
-// Редактировать партию товаров
-export function putChangeProductBatch(data: TypeProductBatch) {
+// Получить данные партии товаров по id
+export async function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
   try {
-    const config = {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT + BATCH, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`);
+    if (!response.ok) {
+      console.error(response.statusText);
+      return Promise.reject();
+    }
+    return await response.json();
   } catch (error) {
     console.error(error);
+    return Promise.reject(error);
   }
 }
 
 // Добавить новую партию товаров
-export function postNewProductBatch(data: TypeProductBatch) {
+export function postNewProductBatch(data: TypeProductBatch): void {
   try {
     const config = {
       method: 'POST',
@@ -63,29 +55,13 @@ export function postNewProductBatch(data: TypeProductBatch) {
   }
 }
 
-// Получить данные партии товаров по id
-export async function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
-  try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-}
-
 // Удалить партию товаров по id
 export async function deleteProductBatchById(id: number) {
   try {
     const response = await fetch(URL + PRODUCT + BATCH + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -93,5 +69,29 @@ export async function deleteProductBatchById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
+  }
+}
+
+// Редактировать партию товаров
+export function putChangeProductBatch(data: TypeProductBatch): void {
+  try {
+    const config = {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data),
+    };
+    fetch(URL + PRODUCT + BATCH, config)
+      .then(response => {
+        if (response.ok) {
+          return message.success('Запись изменена');
+        } else {
+          console.error(response.statusText);
+          return message.error('Ошибка при изменении записи');
+        }
+      })
+      .catch(error => console.error(error))
+  } catch (error) {
+    console.error(error);
   }
 }

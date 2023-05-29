@@ -33,7 +33,7 @@ export async function getShipmentById(id: number): Promise<TypeShipment | undefi
 }
 
 // Добавить новую отгрузку
-export function postNewShipment(data: TypeShipment) {
+export function postNewShipment(data: TypeShipment): void {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteShipmentById(id: number) {
 }
 
 // Редактировать отгрузку
-export function putChangeShipment(data: TypeShipment) {
+export function putChangeShipment(data: TypeShipment): void {
   try {
     const config = {
       method: 'PUT',

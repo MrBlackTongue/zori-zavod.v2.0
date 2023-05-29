@@ -2,7 +2,7 @@ import {TypePurchase} from "../types";
 import {message} from "antd";
 import {URL, PRODUCT, PURCHASE} from "./apiEndpoints";
 
-// Получить все закупки
+// Получить список всех закупок
 export async function getAllPurchase(): Promise<TypePurchase[]> {
   try {
     const res = await fetch(URL + PURCHASE);
@@ -33,7 +33,7 @@ export async function getPurchaseById(id: number): Promise<TypePurchase | undefi
 }
 
 // Добавить новую закупку
-export function postNewPurchase(data: TypePurchase) {
+export function postNewPurchase(data: TypePurchase): void {
   try {
     const config = {
       method: 'POST',
@@ -61,8 +61,7 @@ export async function deletePurchaseById(id: number) {
     const response = await fetch(URL + PURCHASE + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -70,11 +69,12 @@ export async function deletePurchaseById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
 // Редактировать закупку
-export function putChangePurchase(data: TypePurchase) {
+export function putChangePurchase(data: TypePurchase): void {
   try {
     const config = {
       method: 'PUT',
@@ -96,7 +96,7 @@ export function putChangePurchase(data: TypePurchase) {
   }
 }
 
-// Поиск по товару
+// Получить список всех отфильтрованных закупок по названию
 export async function getAllPurchaseByTitle(title: string): Promise<TypePurchase[]> {
   try {
     const response = await fetch(URL + PURCHASE + PRODUCT + `/${title}`);
