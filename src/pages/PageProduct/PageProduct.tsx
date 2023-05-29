@@ -24,16 +24,16 @@ export const PageProduct: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новый товар
-  const handleAddProduct = (values: { [key: string]: any }): void => {
+  const handleAddProduct = (values: TypeProduct): void => {
     const product: TypeProduct = {
       title: values.title,
       productGroup: {
-        id: values.productGroup.id,
-        title: values.productGroup.title,
+        id: values.productGroup?.id,
+        title: values.productGroup?.title,
       },
       unit: {
-        id: values.unit.id,
-        name: values.unit.name,
+        id: values.unit?.id,
+        name: values.unit?.name,
       },
     };
     setIsModalOpen(false)
@@ -48,16 +48,16 @@ export const PageProduct: React.FC = () => {
   };
 
   // Обновить товар
-  const handleUpdateProduct = (values: { [key: string]: any }): void => {
+  const handleUpdateProduct = (values: TypeProduct): void => {
     const product: TypeProduct = {
       title: values.title,
       productGroup: {
-        id: values.productGroup.id,
-        title: values.productGroup.title,
+        id: values.productGroup?.id,
+        title: values.productGroup?.title,
       },
       unit: {
-        id: values.unit.id,
-        name: values.unit.name,
+        id: values.unit?.id,
+        name: values.unit?.name,
       },
       id: selectedProductId,
     };

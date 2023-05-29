@@ -32,7 +32,7 @@ export const TableUnit: React.FC<TableProps> = ({
       dataIndex: 'name',
       key: 'name',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.name < b.name ? -1 : 1,
+      sorter: (a, b) => (a.name ?? '') < (b.name ?? '') ? -1 : 1,
     },
     {
       title: 'Действия',

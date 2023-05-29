@@ -21,6 +21,7 @@ import {TableOperationTimesheet} from "./components/TableOperationTimesheet";
 import {EditDrawerOperationTimesheet} from "./components/EditDrawerOperationTimesheet";
 import {TableProductionProductMovement} from "./components/TableProductionProductMovement";
 import {AddModalProductionProductMovement} from "./components/AddModalProductionProductMovement";
+import dayjs from "dayjs";
 
 export const PageOperationAccountingDetail: React.FC = () => {
 
@@ -41,13 +42,13 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const [isModalProductionProductMovementOpen, setIsModalProductionProductMovementOpen] = useState(false);
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: { [key: string]: any }): void => {
+  const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: id ? +id : undefined,
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')): undefined,
       fact: values.fact || 0,
       operation: {
-        id: values.operation.id,
+        id: values.operation?.id,
       },
       output: values.output ? {id: values.output.id} : undefined,
       productionType: {id: values.productionType?.id},

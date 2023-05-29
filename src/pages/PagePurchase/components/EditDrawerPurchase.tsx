@@ -34,7 +34,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 

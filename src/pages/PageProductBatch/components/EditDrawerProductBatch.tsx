@@ -24,7 +24,7 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
@@ -66,8 +66,8 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
   }, [selectedItemId, handleGetProductBatchById]);
 
   useEffect(() => {
-    getAllProduct().then((products) => {
-      setAllProduct(products);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
     });
   }, []);
 

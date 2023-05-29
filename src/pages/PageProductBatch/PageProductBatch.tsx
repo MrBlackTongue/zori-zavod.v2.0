@@ -25,10 +25,10 @@ export const PageProductBatch: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую партию товаров
-  const handleAddProductBatch = (values: { [key: string]: any }): void => {
+  const handleAddProductBatch = (values: TypeProductBatch): void => {
     const productBatch: TypeProductBatch = {
       product: {
-        id: values.product,
+        id: values.product?.id,
       },
       amount: values.amount,
     };
@@ -44,11 +44,11 @@ export const PageProductBatch: React.FC = () => {
   };
 
   // Обновление партии товаров
-  const handleUpdateProductBatch = (values: { [key: string]: any }): void => {
+  const handleUpdateProductBatch = (values: TypeProductBatch): void => {
     const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,
       product: {
-        id: values.product,
+        id: values.product?.id,
       },
       amount: values.amount,
     };

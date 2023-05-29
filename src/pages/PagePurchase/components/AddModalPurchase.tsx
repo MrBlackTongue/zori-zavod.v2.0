@@ -29,7 +29,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
@@ -55,8 +55,8 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
   };
 
   useEffect(() => {
-    getAllProduct().then((products) => {
-      setAllProduct(products);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
     });
   }, []);
 
