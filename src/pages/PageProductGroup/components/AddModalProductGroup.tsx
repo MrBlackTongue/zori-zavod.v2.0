@@ -21,7 +21,7 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
   const onChangeProductGroup = (value: string): void => {
     const selectedGroup = allProductGroup?.find(productGroup => productGroup.id === parseInt(value));
     form.setFieldsValue({
-      parent: selectedGroup ? selectedGroup.id : undefined
+      parent: selectedGroup ? selectedGroup : undefined
     });
     setSelectedGroup(selectedGroup);
   };

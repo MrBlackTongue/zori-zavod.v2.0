@@ -22,7 +22,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
   const onChangeProductGroup = (value: string): void => {
     const selectedParentGroup = allProductGroupParent?.find(productGroup => productGroup.id === parseInt(value));
     form.setFieldsValue({
-      parent: selectedParentGroup ? selectedParentGroup.id : undefined
+      parent: selectedParentGroup ? selectedParentGroup : undefined
     });
     setSelectedParentGroup(selectedParentGroup);
   };
