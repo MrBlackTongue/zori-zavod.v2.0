@@ -1,4 +1,4 @@
 export type TypeUnit = {
   id?: number;
-  name: string;
+  name?: string;
 }

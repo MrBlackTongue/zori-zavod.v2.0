@@ -31,11 +31,11 @@ export const PageStock: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую ячейку на складе
-  const handleAddStock = (values: { [key: string]: any }): void => {
+  const handleAddStock = (values: TypeStock): void => {
     const stock: TypeStock = {
       amount: values.amount,
       product: {
-        id: values.product.id,
+        id: values.product?.id,
       },
     };
     setIsModalOpen(false);
@@ -55,12 +55,12 @@ export const PageStock: React.FC = () => {
   };
 
   // Обновить товар на складе
-  const handleUpdateStock = (values: { [key: string]: any }): void => {
+  const handleUpdateStock = (values: TypeStock): void => {
     const stock: TypeStock = {
       id: selectedStockId,
       amount: values.amount,
       product: {
-        id: values.product.id,
+        id: values.product?.id,
       },
     };
     setIsDrawerOpen(false);

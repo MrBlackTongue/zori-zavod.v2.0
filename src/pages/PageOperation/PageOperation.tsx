@@ -21,12 +21,12 @@ export const PageOperation: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую операцию
-  const handleAddOperation = (values: { [key: string]: any }): void => {
+  const handleAddOperation = (values: TypeOperation): void => {
     const operation: TypeOperation = {
       title: values.title,
       unit: {
-        id: values.unit.id,
-        name: values.unit.name,
+        id: values.unit?.id,
+        name: values.unit?.name,
       },
       rate: values.rate,
     };
@@ -42,12 +42,12 @@ export const PageOperation: React.FC = () => {
   };
 
   // Обновить операцию
-  const handleUpdateOperation = (values: { [key: string]: any }): void => {
+  const handleUpdateOperation = (values: TypeOperation): void => {
     const operation: TypeOperation = {
       title: values.title,
       unit: {
-        id: values.unit.id,
-        name: values.unit.name,
+        id: values.unit?.id,
+        name: values.unit?.name,
       },
       rate: values.rate,
       id: selectedOperationId,

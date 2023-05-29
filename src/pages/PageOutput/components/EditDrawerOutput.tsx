@@ -26,7 +26,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
@@ -36,7 +36,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
       getOutputById(selectedItemId).then((output) => {
         form.setFieldsValue({
           date: dayjs(output?.date),
-          product: output?.product?.id,
+          product: output?.product,
         });
         setSelectedProduct(output?.product)
         setProduct(output?.product)

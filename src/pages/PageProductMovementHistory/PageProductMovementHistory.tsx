@@ -12,7 +12,7 @@ const {Option} = Select;
 export const PageProductMovementHistory: React.FC = () => {
 
   // Все остатки на складе, id выбранного остатка на складе
-  const [stock, setStock] = useState<TypeStock[]>();
+  const [allStock, setAllStock] = useState<TypeStock[]>();
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Обновление таблицы
@@ -30,8 +30,8 @@ export const PageProductMovementHistory: React.FC = () => {
   }
 
   useEffect(() => {
-    getAllStock().then((stock) => {
-      setStock(stock);
+    getAllStock().then((allStock) => {
+      setAllStock(allStock);
     });
   }, []);
 
@@ -48,8 +48,8 @@ export const PageProductMovementHistory: React.FC = () => {
             onChange={onChangeStock}
             onClear={onClearStock}
           >
-            {stock && stock.length > 0 ?
-              stock.map(stock => (
+            {allStock && allStock.length > 0 ?
+              allStock.map(stock => (
                 <Option id={stock.id} key={stock.id} value={stock?.product?.title}>
                   {`ID: ${stock.id}, ${stock?.product?.title}`}
                 </Option>

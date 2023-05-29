@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
@@ -8,6 +8,7 @@ import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
 import {EditDrawerShipment} from "./components/EditDrawerShipment";
 import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
+import dayjs from "dayjs";
 
 const {Title} = Typography;
 
@@ -25,15 +26,15 @@ export const PageShipment: React.FC = () => {
   });
 
   // Функция добавления новой отгрузки
-  const handleAddShipment = useCallback((values: { [key: string]: any }): void => {
+  const handleAddShipment = (values: TypeShipment): void => {
     const shipment: TypeShipment = {
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')) : undefined,
       client: values.client,
     };
     setOpenState({...openState, isModalOpen: false});
     postNewShipment(shipment);
     setIsTableUpdate(prevState => !prevState);
-  }, [openState]);
+  }
 
   // Функция открытия дравера редактирования отгрузки
   const openDrawer = (shipmentId: number): void => {
@@ -48,16 +49,16 @@ export const PageShipment: React.FC = () => {
   }
 
   // Функция обновления отгрузки
-  const handleUpdateShipment = useCallback((values: { [key: string]: any }): void => {
+  const handleUpdateShipment = (values: TypeShipment): void => {
     const shipment: TypeShipment = {
       id: selectedShipmentId,
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')) : undefined,
       client: values.client,
     };
     setOpenState({...openState, isDrawerOpen: false});
     putChangeShipment(shipment);
     setIsTableUpdate(prevState => !prevState);
-  }, [openState, selectedShipmentId]);
+  }
 
   // Удалить запись из таблицы
   const handleDeleteShipment = (id: number): void => {

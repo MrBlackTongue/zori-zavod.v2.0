@@ -22,7 +22,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
@@ -47,8 +47,8 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
   };
 
   useEffect(() => {
-    getAllProduct().then((products) => {
-      setAllProduct(products);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
     });
   }, []);
 

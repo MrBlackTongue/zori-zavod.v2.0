@@ -21,12 +21,12 @@ export const PageMeterType: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новый тип счетчика
-  const handleAddMeterType = (values: { [key: string]: any }): void => {
+  const handleAddMeterType = (values: TypeMeterType): void => {
     const meterType: TypeMeterType = {
       title: values.title,
       unit: {
-        id: values.unit.id,
-        name: values.unit.name,
+        id: values.unit?.id,
+        name: values.unit?.name,
       },
       cost: values.cost,
     };
@@ -42,12 +42,12 @@ export const PageMeterType: React.FC = () => {
   };
 
   // Обновить тип счетчика
-  const handleUpdateMeterType = (values: { [key: string]: any }): void => {
+  const handleUpdateMeterType = (values: TypeMeterType): void => {
     const meterType: TypeMeterType = {
       title: values.title,
       unit: {
-        id: values.unit.id,
-        name: values.unit.name,
+        id: values.unit?.id,
+        name: values.unit?.name,
       },
       cost: values.cost,
       id: selectedMeterTypeId,
