@@ -18,7 +18,7 @@ export type TypeOperationAccounting = {
   productionType?: TypeProductionType,
 }
 
-export interface TypeOperationAccountingFilter {
+export type TypeOperationAccountingFilter = {
   date?: Dayjs,
   operationId?: number,
   productionTypeId?: number,

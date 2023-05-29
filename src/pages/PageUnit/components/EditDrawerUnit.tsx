@@ -12,7 +12,7 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
   const [form] = Form.useForm();
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -31,7 +31,7 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
         form.setFieldsValue(unit);
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form]);
 
   return (
     <Drawer

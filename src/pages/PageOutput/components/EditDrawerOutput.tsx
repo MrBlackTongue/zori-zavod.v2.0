@@ -21,16 +21,13 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
   const [date, setDate] = useState<any>();
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (value: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      product: product.id,
-    });
+    form.setFieldsValue({product: product.id});
     setSelectedProduct(product)
-    return product
   };
 
   // Функция для получения данных о выпуске продукции по id и обновления формы
@@ -46,10 +43,10 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
         setDate(dayjs(output?.date));
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form]);
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -62,7 +59,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     closeDrawer()
     setSelectedProduct(product)
   };

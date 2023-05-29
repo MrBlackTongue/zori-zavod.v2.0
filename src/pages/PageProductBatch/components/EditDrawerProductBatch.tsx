@@ -19,19 +19,16 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
   const [product, setProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (value: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      product: product.id,
-    });
+    form.setFieldsValue({product: product.id});
     setSelectedProduct(product)
-    return product
   };
 
-  // Функция для получения данных о партии товаров по id и обновления формы
+  // Функция для получения данных в дравер
   const handleGetProductBatchById = useCallback(() => {
     if (selectedItemId) {
       getProductBatchById(selectedItemId).then((productBatch) => {
@@ -43,10 +40,10 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
         setProduct(productBatch?.product)
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form]);
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -59,20 +56,20 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     closeDrawer()
     setSelectedProduct(product)
   };
+
+  useEffect(() => {
+    handleGetProductBatchById();
+  }, [selectedItemId, handleGetProductBatchById]);
 
   useEffect(() => {
     getAllProduct().then((products) => {
       setAllProduct(products);
     });
   }, []);
-
-  useEffect(() => {
-    handleGetProductBatchById();
-  }, [selectedItemId, handleGetProductBatchById]);
 
   return (
     <Drawer

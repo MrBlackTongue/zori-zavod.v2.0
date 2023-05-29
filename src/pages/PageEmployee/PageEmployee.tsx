@@ -12,8 +12,8 @@ const {Title} = Typography;
 
 export const PageEmployee: React.FC = () => {
 
-  // Обновление таблицы, выбран сотрудник по id
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, id выбраного сотрудника
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -21,7 +21,7 @@ export const PageEmployee: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить нового сотрудника
-  const handleAddEmployee = (values: { [key: string]: any }): TypeEmployee => {
+  const handleAddEmployee = (values: TypeEmployee): void => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -31,18 +31,17 @@ export const PageEmployee: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewEmployee(employee)
-    setUpdateTable(!updateTable)
-    return employee;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (employeeId: number) => {
+  const openDrawer = (employeeId: number): void => {
     setSelectedEmployeeId(employeeId)
     setIsDrawerOpen(true);
   };
 
   // Обновить сотрудника
-  const handleUpdateEmployee = (values: { [key: string]: any }): TypeEmployee => {
+  const handleUpdateEmployee = (values: TypeEmployee): void => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -53,14 +52,13 @@ export const PageEmployee: React.FC = () => {
     };
     setIsDrawerOpen(false)
     putChangeEmployee(employee)
-    setUpdateTable(!updateTable)
-    return employee
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteEmployee = (id: number) => {
+  const handleDeleteEmployee = (id: number): void => {
     deleteEmployeeById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -71,7 +69,7 @@ export const PageEmployee: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -86,7 +84,7 @@ export const PageEmployee: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableEmployee
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteEmployee}
       />

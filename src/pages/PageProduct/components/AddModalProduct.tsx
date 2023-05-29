@@ -21,33 +21,27 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
   const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
+  const onChangeUnit = (value: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
-      name: values,
+      name: value,
     };
-    form.setFieldsValue({
-      unit: unit
-    });
+    form.setFieldsValue({unit: unit});
     setSelectedUnit(unit)
-    return unit
   };
 
   // Изменить выбранную товарную группу
-  const onChangeProductGroup = (values: string, option: any): TypeProduct => {
+  const onChangeProductGroup = (value: string, option: any): void => {
     const productGroup: TypeProduct = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      productGroup: productGroup
-    });
+    form.setFieldsValue({productGroup: productGroup});
     setSelectedProductGroup(productGroup)
-    return productGroup
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -62,7 +56,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     setSelectedUnit(undefined);
     setSelectedProductGroup(undefined);
     onCancel()

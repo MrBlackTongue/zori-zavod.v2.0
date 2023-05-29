@@ -1,19 +1,19 @@
 import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TypeProductBatch, TableParams, TypeUnit} from "../../../types";
 import {getAllProductBatch} from "../../../services";
 
-export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
-                                                                            isUpdateTable,
-                                                                            openDrawer,
-                                                                            onDelete,
-                                                                          }) => {
+export const TableProductBatch: React.FC<TableProps> = ({
+                                                          isUpdateTable,
+                                                          openDrawer,
+                                                          onDelete,
+                                                        }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех партий товаров
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>();
 
   // Параментры для пагинации
@@ -90,25 +90,16 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProductBatch>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductBatch(allProductBatch);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllProductBatch().then((allProductBatch) => {
       setAllProductBatch(allProductBatch);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -121,12 +112,8 @@ export const TableProductBatch: React.FC<TableProps<TypeProductBatch>> = ({
       bordered
       columns={columns}
       dataSource={allProductBatch}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

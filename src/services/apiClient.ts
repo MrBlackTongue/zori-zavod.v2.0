@@ -33,7 +33,7 @@ export async function getClientById(id: number): Promise<TypeClient | undefined>
 }
 
 // Добавить нового клиента
-export function postNewClient(data: TypeClient) {
+export function postNewClient(data: TypeClient): void {
   try {
     const config = {
       method: 'POST',
@@ -61,8 +61,7 @@ export async function deleteClientById(id: number) {
     const response = await fetch(URL + CLIENT + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -70,11 +69,12 @@ export async function deleteClientById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
 // Редактировать клиента
-export function putChangeClient(data: TypeClient) {
+export function putChangeClient(data: TypeClient): void {
   try {
     const config = {
       method: 'PUT',

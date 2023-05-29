@@ -10,7 +10,7 @@ export const AddModalUnit: React.FC<AddModalProps<TypeUnit>> = ({
   const [form] = Form.useForm();
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {

@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {deleteProductGroupById, getProductGroupTree} from "../../../services";
-import {TableProps, TypeProductGroup, TableParams, TypeProductGroupTree} from "../../../types";
+import {TableProps, TableParams, TypeProductGroup} from "../../../types";
 
-export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
+export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
                                                                                 isUpdateTable,
                                                                                 openDrawer,
                                                                               }) => {
@@ -14,7 +14,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
 
   // Лоудер и список всех групп товаров
   const [loading, setLoading] = useState(false);
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroupTree[]>();
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
@@ -26,7 +26,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeProductGroupTree> = [
+  const columns: ColumnsType<TypeProductGroup> = [
     {
       title: 'Название',
       dataIndex: 'title',
@@ -56,9 +56,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
               placement="topRight"
               title="Вы действительно хотите удалить эту группу товаров?"
               onConfirm={() => {
-                deleteProductGroupById(id).then(() => {
-                  updateTable();
-                });
+                deleteProductGroupById(id).then(() => {updateTable()});
               }}
                 okText="Да"
               cancelText="Отмена">
@@ -88,35 +86,39 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroupTree>> = ({
   };
 
   // Рекурсивная функция для удаления пустых дочерних элементов
-  const removeEmptyChildren = (group: TypeProductGroupTree): TypeProductGroupTree => {
-    if (group.children && group.children.length === 0) {
-      const {children, ...rest} = group;
-      return rest;
-    }
-    if (group.children) {
-      return {...group, children: group.children.map(child => removeEmptyChildren(child))};
-    }
-    return group;
-  };
+  const removeEmptyChildren = useMemo(() => {
+    const removeEmpty = (group: TypeProductGroup): TypeProductGroup => {
+      if (group.children && group.children.length === 0) {
+        const {children, ...rest} = group;
+        return rest;
+      }
+      if (group.children) {
+        return {...group, children: group.children.map(child => removeEmpty(child))};
+      }
+      return group;
+    };
+    return removeEmpty;
+  }, []);
 
   // Функция для обновления таблицы
-  const updateTable = async () => {
+  const updateTable = useCallback(async () => {
     setLoading(true);
     const allProductGroup = await getProductGroupTree();
     const updatedProductGroup = allProductGroup.map(removeEmptyChildren);
     setAllProductGroup(updatedProductGroup);
     setLoading(false);
-  };
+  }, [removeEmptyChildren]);
 
   useEffect(() => {
     (async () => {
       try {
-        await updateTable()
+        await updateTable();
       } catch (error) {
         console.error('Failed to update table:', error);
       }
     })();
-  }, [isUpdateTable]);
+  }, [isUpdateTable, updateTable]);
+
 
   return (
     <Table

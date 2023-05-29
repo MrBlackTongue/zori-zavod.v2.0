@@ -33,7 +33,7 @@ export async function getEmployeeById(id: number): Promise<TypeEmployee | undefi
 }
 
 // Добавить нового сотрудника
-export function postNewEmployee(data: TypeEmployee) {
+export function postNewEmployee(data: TypeEmployee): void {
   try {
     const config = {
       method: 'POST',
@@ -61,8 +61,7 @@ export async function deleteEmployeeById(id: number) {
     const response = await fetch(URL + EMPLOYEE + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -70,11 +69,12 @@ export async function deleteEmployeeById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
 // Редактировать сотрудника
-export function putChangeEmployee(data: TypeEmployee) {
+export function putChangeEmployee(data: TypeEmployee): void {
   try {
     const config = {
       method: 'PUT',

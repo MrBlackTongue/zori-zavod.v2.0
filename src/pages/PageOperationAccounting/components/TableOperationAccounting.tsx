@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
-import {getAllOperationAccounting, postFilterByTable,} from "../../../services";
+import {getAllOperationAccounting, getAllOperationAccountingByFilter,} from "../../../services";
 import {
   TableProps,
   TypeOperationAccounting,
@@ -15,17 +14,17 @@ import {
 import dayjs from "dayjs";
 
 export const TableOperationAccounting:
-  React.FC<TableProps<TypeOperationAccounting, TypeOperationAccountingFilter>> = ({
-                                                                                    isUpdateTable,
-                                                                                    openDrawer,
-                                                                                    onDelete,
-                                                                                    filter,
-                                                                                  }) => {
+  React.FC<TableProps<TypeOperationAccountingFilter>> = ({
+                                                           isUpdateTable,
+                                                           openDrawer,
+                                                           onDelete,
+                                                           filter,
+                                                         }) => {
   type TablePaginationPosition = 'bottomCenter'
   const navigate = useNavigate();
 
   // Лоудер и список всех учетных операций
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allOperationAccounting, setAllOperationAccounting] = useState<TypeOperationAccounting[]>();
 
   // Параментры для пагинации
@@ -161,17 +160,8 @@ export const TableOperationAccounting:
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeOperationAccounting>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperationAccounting(allOperationAccounting);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для расчета итоговых значений
@@ -217,35 +207,35 @@ export const TableOperationAccounting:
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllOperationAccounting().then((allOperationAccounting) => {
       setAllOperationAccounting(allOperationAccounting);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
   // Функция для фильтрации таблицы
-  const filterTable = () => {
+  const filterTable = useCallback(() => {
     if (filter) {
-      setLoading(true);
-      postFilterByTable({
+      setIsLoading(true);
+      getAllOperationAccountingByFilter({
         date: filter.date || undefined,
         operationId: filter.operationId || undefined,
         productionTypeId: filter.productionTypeId || undefined,
       }).then((allOperationAccounting) => {
         setAllOperationAccounting(allOperationAccounting);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
-  }
+  }, [filter]);
 
   useEffect(() => {
-    if (filter && (filter.date || filter.operationId || filter.productionTypeId)) {
+    if (filter?.date || filter?.operationId || filter?.productionTypeId) {
       filterTable();
     } else {
       updateTable();
     }
-  }, [filter, isUpdateTable]);
+  }, [filter, isUpdateTable, filterTable]);
 
   return (
     <Table
@@ -253,7 +243,7 @@ export const TableOperationAccounting:
       columns={columns}
       dataSource={allOperationAccounting}
       pagination={{...tableParams.pagination, position: [bottom]}}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
       summary={renderSummaryRow}
     />

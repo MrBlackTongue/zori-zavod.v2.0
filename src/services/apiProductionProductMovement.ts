@@ -2,7 +2,7 @@ import {TypeProductionProductMovement} from "../types";
 import {URL, MOVEMENT, PRODUCTION, OPERATION_ACCOUNTING} from "./apiEndpoints";
 import {message} from "antd";
 
-// Получить данные производственных движений товара по id учетной операции
+// Получить список всех производственных движений товара по id учетной операции
 export async function getProductionProductMovementByIdOperationAccounting(id: number):
   Promise<TypeProductionProductMovement[] | undefined> {
   try {
@@ -19,7 +19,7 @@ export async function getProductionProductMovementByIdOperationAccounting(id: nu
 }
 
 // Добавить производственное движение товара
-export function postNewProductionProductMovement(data: TypeProductionProductMovement) {
+export function postNewProductionProductMovement(data: TypeProductionProductMovement): void {
   try {
     const config = {
       method: 'POST',

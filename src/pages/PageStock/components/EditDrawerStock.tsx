@@ -19,15 +19,14 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   const [filteredProduct, setFilteredProduct] = useState<TypeProduct[]>([]);
 
   // Изменить выбранный товар
-  const onChangeProduct = (value: string): TypeProduct | undefined => {
+  const onChangeProduct = (value: string): void => {
     const selectedProduct = allProduct?.find(product => product.id === parseInt(value));
     form.setFieldsValue({product: selectedProduct});
-    setSelectedProduct(selectedProduct);
-    return selectedProduct;
+    setSelectedProduct(selectedProduct)
   }
 
   // Поиск по товару
-  const onSearchProduct = (searchText: string) => {
+  const onSearchProduct = (searchText: string): void => {
     if (searchText === '') {
       setFilteredProduct(allProduct || []);
     } else {
@@ -55,7 +54,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   }, [selectedItemId, form]);
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -69,7 +68,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   };
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     closeDrawer();
     form.resetFields();
   };
