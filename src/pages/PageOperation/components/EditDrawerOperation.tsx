@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeOperation, TypeUnit} from "../../../types";
 import {getOperationById, getAllUnit} from "../../../services";
@@ -19,20 +19,17 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   const [unit, setUnit] = useState<TypeUnit>()
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
+  const onChangeUnit = (value: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
-      name: values,
+      name: value,
     };
-    form.setFieldsValue({
-      unit: unit
-    });
+    form.setFieldsValue({unit: unit});
     setSelectedUnit(unit)
-    return unit
   };
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -46,18 +43,13 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     setSelectedUnit(unit);
     closeDrawer()
   };
 
-  useEffect(() => {
-    getAllUnit().then((units) => {
-      setAllUnit(units);
-    });
-  }, []);
-
-  useEffect(() => {
+  // Функция для получения данных в дравер
+  const handleGetOperation = useCallback(() => {
     if (selectedItemId) {
       getOperationById(selectedItemId).then((operation) => {
         form.setFieldsValue(operation)
@@ -65,7 +57,17 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
         setUnit(operation?.unit)
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    handleGetOperation()
+  }, [selectedItemId, handleGetOperation]);
+
+  useEffect(() => {
+    getAllUnit().then((units) => {
+      setAllUnit(units);
+    });
+  }, []);
 
   return (
     <Drawer

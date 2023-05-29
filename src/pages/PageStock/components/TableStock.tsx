@@ -1,21 +1,21 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, TableParams, TypeUnit, TypeStock} from "../../../types";
-import {getAllStock, getStockByTitle, getStockByGroupId} from "../../../services";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
+import {TableProps, TableParams, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
+import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
 
-export const TableStock: React.FC<TableProps<TypeStock>> = ({
-                                                              isUpdateTable,
-                                                              openDrawer,
-                                                              onDelete,
-                                                              searchText,
-                                                              filter2
-                                                            }) => {
+export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
+                                                                    isUpdateTable,
+                                                                    openDrawer,
+                                                                    onDelete,
+                                                                    searchText,
+                                                                    filter,
+                                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех остатков
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allStock, setAllStock] = useState<TypeStock[]>();
 
   // Параментры для пагинации
@@ -96,10 +96,10 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
                 type="primary"
                 size="small"
                 shape="circle"
-                style={{ color: "tomato", borderColor: "tomato" }}
+                style={{color: "tomato", borderColor: "tomato"}}
                 ghost
               >
-                <DeleteOutlined />
+                <DeleteOutlined/>
               </Button>
             </Popconfirm>
           </Tooltip>
@@ -109,69 +109,56 @@ export const TableStock: React.FC<TableProps<TypeStock>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeStock>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllStock(allStock);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы склада
   const updateTable = useCallback(() => {
-    setLoading(true);
+    setIsLoading(true);
     getAllStock().then((allStock) => {
       setAllStock(allStock);
-      setLoading(false);
+      setIsLoading(false);
     });
-  }, [isUpdateTable]);
+  }, []);
 
   // Функция для поиска по таблице склада
   const searchTable = useCallback(() => {
-    setLoading(true);
-    getStockByTitle(searchText || "").then((allStock) => {
+    setIsLoading(true);
+    getAllStockByTitle(searchText || "").then((allStock) => {
       setAllStock(allStock);
-      setLoading(false);
+      setIsLoading(false);
     });
   }, [searchText]);
 
   // Функция для фильтрации таблицы
   const filterTable = useCallback(() => {
-    if (filter2 && filter2.idFilter) {
-      setLoading(true);
-      getStockByGroupId(filter2.idFilter).then((allStock) => {
+    if (filter?.id) {
+      setIsLoading(true);
+      getAllStockByFilter(filter.id).then((allStock) => {
         setAllStock(allStock);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
-  }, [filter2]);
+  }, [filter]);
 
   useEffect(() => {
-    if (filter2 && filter2.idFilter) {
+    if (filter?.id) {
       filterTable();
     } else if (searchText) {
       searchTable();
     } else {
       updateTable();
     }
-  }, [searchText, filter2, isUpdateTable, filterTable, searchTable, updateTable]);
+  }, [searchText, filter, isUpdateTable, filterTable, searchTable, updateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allStock}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

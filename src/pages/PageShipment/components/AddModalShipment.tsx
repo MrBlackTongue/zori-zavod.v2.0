@@ -18,24 +18,23 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
 
   // Функция для изменения выбранного клиента
-  const onChangeClient = useCallback((value: string, option: any): TypeClient => {
+  const onChangeClient = useCallback((value: string, option: any): void => {
     const client: TypeClient = {
       id: option.id,
       title: value,
     };
     form.setFieldsValue({client: client});
     setSelectedClient(client)
-    return client
   }, [form]);
 
   // Функция для очистки поля клиента
-  const onClearClient = useCallback((): void => {
+  const onClearClient = (): void => {
     form.setFieldsValue({operation: undefined});
     setSelectedClient(undefined);
-  }, [form]);
+  }
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -49,7 +48,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields()
     onCancel()
     setSelectedClient(undefined)

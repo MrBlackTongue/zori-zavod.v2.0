@@ -1,21 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllAcceptance, getAcceptanceByTitle} from "../../../services";
-import {TableProps, TypeAcceptance, TableParams, TypeUnit, TypePurchase} from "../../../types";
+import {getAllAcceptance, getAllAcceptanceByTitle} from "../../../services";
+import {TableProps, TypeAcceptance, TableParams, TypeUnit} from "../../../types";
 import dayjs from "dayjs";
-import {SorterResult} from "antd/es/table/interface";
 
-export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
-                                                                        isUpdateTable,
-                                                                        searchText,
-                                                                        onDelete,
-                                                                      }) => {
+export const TableAcceptance: React.FC<TableProps> = ({
+                                                        isUpdateTable,
+                                                        searchText,
+                                                        onDelete,
+                                                      }) => {
   type TablePaginationPosition = "bottomCenter"
 
   // Лоудер и список всех приемок
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allAcceptance, setAllAcceptance] = useState<TypeAcceptance[]>();
 
   // Параметры для пагинации
@@ -96,36 +95,27 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
   ]
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypePurchase>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllAcceptance(allAcceptance);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы приемок
-  const updateTable = () => {
-    setLoading(true);
+  const updateTable = useCallback(() => {
+    setIsLoading(true);
     getAllAcceptance().then((allAcceptance) => {
       setAllAcceptance(allAcceptance);
-      setLoading(false);
+      setIsLoading(false);
     });
-  }
+  }, [])
 
   // Функция для поиска приёмки
-  const searchTable = () => {
-    setLoading(true);
-    getAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
+  const searchTable = useCallback(() => {
+    setIsLoading(true);
+    getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
       setAllAcceptance(allAcceptance);
-      setLoading(false);
+      setIsLoading(false);
     });
-  }
+  }, [searchText])
 
   useEffect(() => {
     if (searchText) {
@@ -133,19 +123,15 @@ export const TableAcceptance: React.FC<TableProps<TypeAcceptance>> = ({
     } else {
       updateTable();
     }
-  }, [searchText, isUpdateTable]);
+  }, [searchText, isUpdateTable, searchTable, updateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allAcceptance}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

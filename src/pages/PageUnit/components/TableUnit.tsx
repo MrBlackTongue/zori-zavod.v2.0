@@ -1,20 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllUnit} from "../../../services";
 import {TableProps, TypeUnit, TableParams} from "../../../types";
 
-export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
-                                                            isUpdateTable,
-                                                            openDrawer,
-                                                            onDelete,
-                                                          }) => {
+export const TableUnit: React.FC<TableProps> = ({
+                                                  isUpdateTable,
+                                                  openDrawer,
+                                                  onDelete,
+                                                }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех единиц измерения
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
   // Параментры для пагинации
@@ -72,25 +71,16 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeUnit>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllUnit(allUnit);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllUnit().then((allUnits) => {
       setAllUnit(allUnits);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -103,12 +93,8 @@ export const TableUnit: React.FC<TableProps<TypeUnit>> = ({
       bordered
       columns={columns}
       dataSource={allUnit}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

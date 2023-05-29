@@ -12,12 +12,12 @@ const {Title} = Typography;
 export const PageAcceptance: React.FC = () => {
 
   // Обновить таблицу, открыть закрыть модальное окно, текст поиска
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую приемку товаров
-  const handleAddAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
+  const handleAddAcceptance = (values: { [key: string]: any }): void => {
     const acceptance: TypeAcceptance = {
       amount: values.amount || 0,
       income: true,
@@ -36,14 +36,13 @@ export const PageAcceptance: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewAcceptance(acceptance)
-    setUpdateTable(!updateTable)
-    return acceptance;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteAcceptance = (id: number) => {
+  const handleDeleteAcceptance = (id: number): void => {
     deleteAcceptanceById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -61,7 +60,7 @@ export const PageAcceptance: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -77,7 +76,7 @@ export const PageAcceptance: React.FC = () => {
       <FloatButton.BackTop/>
       <TableAcceptance
         searchText={searchText}
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         onDelete={handleDeleteAcceptance}
       />
       <AddModalAcceptance

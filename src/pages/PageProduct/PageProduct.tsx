@@ -12,8 +12,8 @@ const {Title} = Typography;
 
 export const PageProduct: React.FC = () => {
 
-  // Обновление таблицы, выбран товар по id
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, id выбраного товара
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -24,7 +24,7 @@ export const PageProduct: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новый товар
-  const handleAddProduct = (values: { [key: string]: any }): TypeProduct => {
+  const handleAddProduct = (values: { [key: string]: any }): void => {
     const product: TypeProduct = {
       title: values.title,
       productGroup: {
@@ -38,18 +38,17 @@ export const PageProduct: React.FC = () => {
     };
     setIsModalOpen(false)
     postNewProduct(product)
-    setUpdateTable(!updateTable)
-    return product;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (productId: number) => {
+  const openDrawer = (productId: number): void => {
     setSelectedProductId(productId)
     setIsDrawerOpen(true);
   };
 
   // Обновить товар
-  const handleUpdateProduct = (values: { [key: string]: any }): TypeProduct => {
+  const handleUpdateProduct = (values: { [key: string]: any }): void => {
     const product: TypeProduct = {
       title: values.title,
       productGroup: {
@@ -64,14 +63,13 @@ export const PageProduct: React.FC = () => {
     };
     setIsDrawerOpen(false)
     putChangeProduct(product)
-    setUpdateTable(!updateTable)
-    return product
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteProduct = (id: number) => {
+  const handleDeleteProduct = (id: number): void => {
     deleteProductById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -90,7 +88,7 @@ export const PageProduct: React.FC = () => {
             type="dashed"
             className='greenButton'
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
           >
             Обновить
           </Button>
@@ -105,7 +103,7 @@ export const PageProduct: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProduct
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteProduct}
         searchText={searchText}

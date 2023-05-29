@@ -5,14 +5,14 @@ import type {ColumnsType} from 'antd/es/table';
 import {TableProps, TypeOperationTimesheet, TypeEmployee} from "../../../types";
 import {getOperationTimesheetByIdOperationAccounting} from "../../../services";
 
-export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet>> = React.memo(({
-                                                                                                   isUpdateTable,
-                                                                                                   openDrawer,
-                                                                                                   onDelete,
-                                                                                                   idDetail,
-                                                                                                 }) => {
+export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
+                                                                           isUpdateTable,
+                                                                           openDrawer,
+                                                                           onDelete,
+                                                                           idDetail,
+                                                                         }) => {
   // Лоудер и весь табель учета рабочего времени
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allOperationTimesheet, setAllOperationTimesheet] = useState<TypeOperationTimesheet[]>();
 
   // Колонки в таблице
@@ -21,6 +21,9 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'employee',
+      defaultSortOrder: 'ascend',
+      sorter: (a, b) =>
+        (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
       render: (employee: TypeEmployee) => (
         <div>
           {employee.lastName} {employee.firstName}
@@ -84,10 +87,10 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
   // Обновить таблицу
   const updateOperationTimesheet = useCallback(() => {
     if (idDetail) {
-      setLoading(true);
+      setIsLoading(true);
       getOperationTimesheetByIdOperationAccounting(idDetail).then((allOperationTimesheet) => {
         setAllOperationTimesheet(allOperationTimesheet);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
   }, [idDetail]);
@@ -102,7 +105,7 @@ export const TableOperationTimesheet: React.FC<TableProps<TypeOperationTimesheet
       columns={columns}
       dataSource={allOperationTimesheet}
       pagination={false}
-      loading={loading}
+      loading={isLoading}
       size="small"
       style={{marginBottom: '20px'}}
     />

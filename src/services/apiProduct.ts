@@ -33,7 +33,7 @@ export async function getProductById(id: number): Promise<TypeProduct | undefine
 }
 
 // Добавить новый товар
-export function postNewProduct(data: TypeProduct) {
+export function postNewProduct(data: TypeProduct): void {
   try {
     const config = {
       method: 'POST',
@@ -61,8 +61,7 @@ export async function deleteProductById(id: number) {
     const response = await fetch(URL + PRODUCT + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -70,11 +69,12 @@ export async function deleteProductById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
 // Редактировать товар
-export function putChangeProduct(data: TypeProduct) {
+export function putChangeProduct(data: TypeProduct): void {
   try {
     const config = {
       method: 'PUT',
@@ -96,8 +96,8 @@ export function putChangeProduct(data: TypeProduct) {
   }
 }
 
-// Поиск по товару
-export async function getProductByTitle(title: string): Promise<TypeProduct[]> {
+// Получить список всех отфильтрованных товаров по названию
+export async function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
   try {
     const response = await fetch(URL + PRODUCT + TITLE + `/${title}`);
     if (!response.ok) {

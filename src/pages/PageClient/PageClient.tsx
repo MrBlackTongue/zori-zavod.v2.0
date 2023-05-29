@@ -12,8 +12,8 @@ const {Title} = Typography;
 
 export const PageClient: React.FC = () => {
 
-  // Обновление таблицы, выбран клиент по id
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, id выбраного клиента
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -21,38 +21,36 @@ export const PageClient: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить нового клиента
-  const handleAddClient = (values: { [key: string]: any }): TypeClient => {
+  const handleAddClient = (values: TypeClient): void => {
     const client: TypeClient = {
       title: values.title,
     };
     setIsModalOpen(false)
     postNewClient(client)
-    setUpdateTable(!updateTable)
-    return client;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (clientId: number) => {
+  const openDrawer = (clientId: number): void => {
     setSelectedClientId(clientId)
     setIsDrawerOpen(true);
   };
 
   // Обновить клиента
-  const handleUpdateClient = (values: { [key: string]: any }): TypeClient => {
+  const handleUpdateClient = (values: TypeClient): void => {
     const client: TypeClient = {
       id: selectedClientId,
       title: values.title,
     };
     setIsDrawerOpen(false)
     putChangeClient(client)
-    setUpdateTable(!updateTable)
-    return client
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteClient = (id: number) => {
+  const handleDeleteClient = (id: number): void => {
     deleteClientById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -63,7 +61,7 @@ export const PageClient: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -78,7 +76,7 @@ export const PageClient: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableClient
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteClient}
       />

@@ -12,8 +12,8 @@ const {Title} = Typography;
 
 export const PagePurchase: React.FC = () => {
 
-  // Обновление таблицы, выбрана закупка по id
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, id выбраной закупки
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -24,7 +24,7 @@ export const PagePurchase: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую закупку
-  const handleAddPurchase = (values: { [key: string]: any }): TypePurchase => {
+  const handleAddPurchase = (values: { [key: string]: any }): void => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
@@ -36,18 +36,17 @@ export const PagePurchase: React.FC = () => {
     };
     setIsModalOpen(false);
     postNewPurchase(purchase);
-    setUpdateTable(!updateTable);
-    return purchase;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (purchaseId: number) => {
+  const openDrawer = (purchaseId: number): void => {
     setSelectedPurchaseId(purchaseId);
     setIsDrawerOpen(true);
   };
 
   // Обновить закупку
-  const handleUpdatePurchase = (values: { [key: string]: any }): TypePurchase => {
+  const handleUpdatePurchase = (values: { [key: string]: any }): void => {
     const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
@@ -60,14 +59,13 @@ export const PagePurchase: React.FC = () => {
     };
     setIsDrawerOpen(false);
     putChangePurchase(purchase);
-    setUpdateTable(!updateTable);
-    return purchase;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeletePurchase = (id: number) => {
+  const handleDeletePurchase = (id: number): void => {
     deletePurchaseById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -86,7 +84,7 @@ export const PagePurchase: React.FC = () => {
             type="dashed"
             className="greenButton"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
           >
             Обновить
           </Button>
@@ -101,7 +99,7 @@ export const PagePurchase: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TablePurchase
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeletePurchase}
         searchText={searchText}

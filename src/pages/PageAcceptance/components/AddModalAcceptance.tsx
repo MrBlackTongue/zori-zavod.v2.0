@@ -28,22 +28,18 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   const onChangeStock = (value: number): void => {
     const stock = allStock?.find((stock) => stock.id === value);
     setSelectedStock(stock);
-    form.setFieldsValue({
-      stock: stock,
-    });
+    form.setFieldsValue({stock: stock});
   };
 
   // Изменить выбранную закупку
   const onChangePurchase = (value: number): void => {
     const purchase = allPurchase?.find((purchase) => purchase.id === value);
     setSelectedPurchase(purchase);
-    form.setFieldsValue({
-      purchase: purchase,
-    });
+    form.setFieldsValue({purchase: purchase});
   };
 
   // Функция фильтрации товара на складе
-  const onSearchStock = (searchText: string) => {
+  const onSearchStock = (searchText: string): void => {
     if (searchText === '') {
       setFilteredStock(allStock || []);
     } else {
@@ -61,7 +57,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   // Функция фильтрации закупок
-  const onSearchPurchase = (searchText: string) => {
+  const onSearchPurchase = (searchText: string): void => {
     if (searchText === '') {
       setFilteredPurchase(allPurchase || []);
     } else {
@@ -82,7 +78,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     if (
       selectedPurchase &&
       selectedStock &&
@@ -105,7 +101,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     onCancel()
     setSelectedStock(undefined)

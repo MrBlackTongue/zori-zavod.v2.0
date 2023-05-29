@@ -1,18 +1,24 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import dayjs from "dayjs";
 import {getAllProductMovementHistory, getProductMovementHistoryById} from "../../../services";
-import {TypeProduct, TableParams, TableProps, TypeProductMovementHistory} from "../../../types";
+import {
+  TableParams,
+  TableProps,
+  TypeProductMovementHistory,
+  TypeProductMovementHistoryFilter
+} from "../../../types";
 
-export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovementHistory>> = ({
-                                                                                                isUpdateTable,
-                                                                                                filter2,
-                                                                                              }) => {
+export const TableProductMovementHistory:
+  React.FC<TableProps<TypeProductMovementHistoryFilter>> = ({
+                                                              isUpdateTable,
+                                                              filter,
+                                                            }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всей истории движения товаров
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProductMovementHistory, setAllProductMovementHistory] = useState<TypeProductMovementHistory[]>();
 
   // Параментры для пагинации
@@ -79,58 +85,45 @@ export const TableProductMovementHistory: React.FC<TableProps<TypeProductMovemen
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProduct>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductMovementHistory(allProductMovementHistory);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для поиска по таблице истории движения товаров
-  const filterTable = () => {
-    if (filter2?.idFilter) {
-      setLoading(true);
-      getProductMovementHistoryById(filter2?.idFilter).then((allProductMovementHistory) => {
+  const filterTable = useCallback(() => {
+    if (filter?.id) {
+      setIsLoading(true);
+      getProductMovementHistoryById(filter.id).then((allProductMovementHistory) => {
         setAllProductMovementHistory(allProductMovementHistory);
-        setLoading(false);
+        setIsLoading(false);
       });
     }
-  }
+  }, [filter]);
 
   // Функция для обновления таблицы товаров
-  const updateTable = () => {
-    setLoading(true);
+  const updateTable = useCallback(() => {
+    setIsLoading(true);
     getAllProductMovementHistory().then((allProductMovementHistory) => {
       setAllProductMovementHistory(allProductMovementHistory);
-      setLoading(false);
+      setIsLoading(false);
     });
-  }
+  }, []);
 
   useEffect(() => {
-    if (filter2?.idFilter) {
+    if (filter?.id) {
       filterTable();
     } else {
       updateTable();
     }
-  }, [filter2, isUpdateTable]);
+  }, [filter, isUpdateTable, filterTable, updateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allProductMovementHistory}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

@@ -9,3 +9,6 @@ export type TypeProductMovementHistory = {
   leftovers?: number,
   unit?: string,
 }
+export type TypeProductMovementHistoryFilter = {
+  id?: number,
+}

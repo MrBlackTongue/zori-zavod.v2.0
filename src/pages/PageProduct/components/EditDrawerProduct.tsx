@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, Select, Space} from "antd";
 import {EditDrawerProps, TypeProduct, TypeUnit} from "../../../types";
 import {getAllProductGroup, getProductById, getAllUnit} from "../../../services";
@@ -13,44 +13,37 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
                                                                           }) => {
   const [form] = Form.useForm();
 
-  // Единицы измерения, выбранная единица измерения, единица измерения
+  // Единицы измерения, выбранная единица измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
   const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
-  const [unit, setUnit] = useState<TypeUnit>()
+  // const [unit, setUnit] = useState<TypeUnit>()
 
-  // Все товарные группы, выбранная товарная группа, товарная группа
+  // Все товарные группы, выбранная товарная группа
   const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
   const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
-  const [productGroup, setProductGroup] = useState<TypeProduct>()
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
+  const onChangeUnit = (value: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
-      name: values,
+      name: value,
     };
-    form.setFieldsValue({
-      unit: unit
-    });
+    form.setFieldsValue({unit: unit});
     setSelectedUnit(unit)
-    return unit
   };
 
   // Изменить выбранную товарную группу
-  const onChangeProductGroup = (values: string, option: any): TypeProduct => {
+  const onChangeProductGroup = (value: string, option: any): void => {
     const productGroup: TypeProduct = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      productGroup: productGroup
-    });
+    form.setFieldsValue({productGroup: productGroup});
     setSelectedProductGroup(productGroup)
-    return productGroup
   };
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -63,11 +56,26 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
-    setSelectedUnit(unit);
-    setSelectedProductGroup(productGroup);
+  const handleClose = (): void => {
+    setSelectedUnit(undefined);
+    setSelectedProductGroup(undefined);
     closeDrawer()
   };
+
+  // Функция для получения данных в дравер
+  const handleGetProductById = useCallback(() => {
+    if (selectedItemId) {
+      getProductById(selectedItemId).then((product) => {
+        form.setFieldsValue(product)
+        setSelectedUnit(product?.unit)
+        setSelectedProductGroup(product?.productGroup)
+      })
+    }
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    handleGetProductById()
+  }, [selectedItemId, handleGetProductById]);
 
   useEffect(() => {
     getAllUnit().then((units) => {
@@ -80,18 +88,6 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
       setAllProductGroup(productGroups);
     });
   }, []);
-
-  useEffect(() => {
-    if (selectedItemId) {
-      getProductById(selectedItemId).then((product) => {
-        form.setFieldsValue(product)
-        setSelectedUnit(product?.unit)
-        setUnit(product?.unit)
-        setSelectedProductGroup(product?.productGroup)
-        setProductGroup(product?.productGroup)
-      })
-    }
-  }, [selectedItemId]);
 
   return (
     <Drawer

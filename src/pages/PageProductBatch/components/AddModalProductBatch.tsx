@@ -17,20 +17,17 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
   const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
 
   // Изменить выбранный товар
-  const onChangeProductBatch = (values: string, option: any): TypeProductBatch => {
+  const onChangeProductBatch = (value: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      product: product.id
-    });
+    form.setFieldsValue({product: product.id});
     setSelectedProduct(product)
-    return product
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -44,7 +41,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     onCancel()
     setSelectedProduct(undefined)
   };
@@ -57,7 +54,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatch>> = (
 
   return (
     <Modal
-      title={`Добавление новой партии товара`}
+      title={`Добавление новой партии товаров`}
       open={isOpen}
       onCancel={handleClose}
       width={500}

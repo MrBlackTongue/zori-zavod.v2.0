@@ -13,8 +13,8 @@ const {Title} = Typography;
 
 export const PageShipment: React.FC = () => {
 
-  // Состояние для обновления таблицы, выбранна отгрузка по id
-  const [updateTable, setUpdateTable] = useState(false);
+  // Состояние для обновления таблицы, id выбранной отгрузки
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 
   // Состояния для контроля открытия/закрытия модалки и драверов
@@ -32,20 +32,20 @@ export const PageShipment: React.FC = () => {
     };
     setOpenState({...openState, isModalOpen: false});
     postNewShipment(shipment);
-    setUpdateTable(prevState => !prevState);
+    setIsTableUpdate(prevState => !prevState);
   }, [openState]);
 
   // Функция открытия дравера редактирования отгрузки
-  const openDrawer = useCallback((shipmentId: number) => {
+  const openDrawer = (shipmentId: number): void => {
     setSelectedShipmentId(shipmentId);
     setOpenState({...openState, isDrawerOpen: true});
-  }, [openState]);
+  }
 
   // Функция открытия детального дравера отгрузки с использованием useCallback
-  const openDetailShipment = useCallback((shipmentId: number) => {
+  const openDetailShipment = (shipmentId: number) => {
     setSelectedShipmentId(shipmentId);
     setOpenState({...openState, isBottomDrawerOpen: true});
-  }, [openState]);
+  }
 
   // Функция обновления отгрузки
   const handleUpdateShipment = useCallback((values: { [key: string]: any }): void => {
@@ -56,13 +56,13 @@ export const PageShipment: React.FC = () => {
     };
     setOpenState({...openState, isDrawerOpen: false});
     putChangeShipment(shipment);
-    setUpdateTable(prevState => !prevState);
+    setIsTableUpdate(prevState => !prevState);
   }, [openState, selectedShipmentId]);
 
   // Удалить запись из таблицы
-  const handleDeleteShipment = (id: number) => {
+  const handleDeleteShipment = (id: number): void => {
     deleteShipmentById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -73,7 +73,7 @@ export const PageShipment: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(prevState => !prevState)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -88,7 +88,7 @@ export const PageShipment: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableShipment
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteShipment}
         openDetailDrawer={openDetailShipment}

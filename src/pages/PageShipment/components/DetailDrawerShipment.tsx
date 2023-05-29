@@ -18,12 +18,12 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
                                                                           }) => {
 
   // Состояния для обновления таблицы, модального окна, выбранная отгрузка
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Функция добавления нового товара в отгрузку
-  const handleAddShipmentMovement = (values: { [key: string]: any }): void => {
+  const handleAddShipmentMovement = (values: TypeShipmentProductMovement): void => {
     const productMovement: TypeShipmentProductMovement = {
       date: selectedShipment?.date,
       stock: values['stock'],
@@ -33,13 +33,13 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
     };
     setIsModalOpen(false)
     postNewShipmentProductMovement(productMovement)
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteShipmentMovement = (id: number) => {
+  const handleDeleteShipmentMovement = (id: number): void => {
     deleteShipmentProductMovementById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Функция для получения данных об отгрузке по id и обновления формы
@@ -65,7 +65,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(prevState => !prevState)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -81,7 +81,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
       }
     >
       <TableDetailShipment
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         idDetail={selectedShipment?.id}
         onDelete={handleDeleteShipmentMovement}
       />

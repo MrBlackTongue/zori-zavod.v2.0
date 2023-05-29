@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeEmployee, TypeOperationTimesheet} from "../../../types";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllEmployee} from "../../../services";
@@ -17,13 +17,12 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   const [filteredEmployee, setFilteredEmployee] = useState<TypeEmployee[]>([]);
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = ((values: string, option: any): TypeEmployee => {
+  const onChangeEmployee = ((option: any): void => {
     const employee: TypeEmployee = {
       id: option.id,
     };
     form.setFieldsValue({employee: employee});
     onSearchEmployee('')
-    return employee
   });
 
   // Очистить поле сотрудника
@@ -32,7 +31,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   });
 
   // Поиск по сотрудникам
-  const onSearchEmployee = useCallback((searchText: string) => {
+  const onSearchEmployee = (searchText: string): void => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {
@@ -51,27 +50,26 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
       });
       setFilteredEmployee(prevState => filtered || prevState);
     }
-  }, [allEmployee]);
+  };
 
-  // Функция подтверждения добавления сотрудника в табель учета рабочего времени
-  const handleOk = useCallback(() => {
+  // Функция подтверждения добавления
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
         addItem(values);
-        onSearchEmployee('');
       })
       .catch((error) => {
         console.log('Validate Failed:', error);
       });
-  }, [form, addItem]);
+  }
 
   // Функция закрытия модального окна
-  const handleClose = useCallback(() => {
+  const handleClose = (): void => {
     form.resetFields();
     onCancel()
-  }, [form, onCancel])
+  }
 
   useEffect(() => {
     getAllEmployee().then((allEmployee) => {
