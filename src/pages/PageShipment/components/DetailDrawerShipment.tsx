@@ -12,10 +12,10 @@ import {AddModalDetailShipment} from "./AddModalDetailShipment";
 
 
 export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = ({
-                                                                            isOpen,
-                                                                            closeDrawer,
-                                                                            selectedItemId
-                                                                          }) => {
+                                                                                  isOpen,
+                                                                                  closeDrawer,
+                                                                                  selectedItemId
+                                                                                }) => {
 
   // Состояния для обновления таблицы, модального окна, выбранная отгрузка
   const [isTableUpdate, setIsTableUpdate] = useState(false);
@@ -25,7 +25,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
   // Функция добавления нового товара в отгрузку
   const handleAddShipmentMovement = (values: TypeShipmentProductMovement): void => {
     const productMovement: TypeShipmentProductMovement = {
-      date: selectedShipment?.date,
+      // date: selectedShipment?.date,
       stock: values['stock'],
       amount: values['amount'],
       shipment: selectedShipment,
@@ -43,15 +43,15 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
   };
 
   // Функция для получения данных об отгрузке по id и обновления формы
-  const handleGetShipmentById = useCallback(() => {
+  const handleGetShipment = useCallback((): void => {
     if (selectedItemId) {
       getShipmentById(selectedItemId).then((shipment) => setSelectedShipment(shipment))
     }
   }, [selectedItemId]);
 
   useEffect(() => {
-    handleGetShipmentById();
-  }, [selectedItemId, handleGetShipmentById]);
+    handleGetShipment();
+  }, [selectedItemId, handleGetShipment]);
 
   return (
     <Drawer

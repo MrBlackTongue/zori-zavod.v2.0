@@ -43,6 +43,9 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
     form
       .validateFields()
       .then((values) => {
+        if (typeof values.client === 'number') {
+          values.client = selectedClient
+        }
         updateItem(values);
         closeDrawer()
       })
@@ -104,7 +107,7 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

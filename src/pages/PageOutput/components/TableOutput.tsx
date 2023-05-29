@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllOutput} from "../../../services";
-import {TableProps, TypeOutput, TableParams} from "../../../types";
+import {TableProps, TypeOutput, TableParam} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableOutput: React.FC<TableProps> = ({
@@ -19,7 +19,7 @@ export const TableOutput: React.FC<TableProps> = ({
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,

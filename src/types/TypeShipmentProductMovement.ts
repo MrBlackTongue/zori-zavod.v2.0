@@ -7,6 +7,6 @@ export type TypeShipmentProductMovement = {
   amount?: number,
   income?: boolean,
   stock?: TypeStock,
-  date?: Dayjs,
+  date?: Dayjs | string,
   shipment?: TypeShipment
 }

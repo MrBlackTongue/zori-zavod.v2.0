@@ -29,7 +29,7 @@ export const PagePurchase: React.FC = () => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
-      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       product: {
         id: values.product?.id,
       },
@@ -52,7 +52,7 @@ export const PagePurchase: React.FC = () => {
       id: selectedPurchaseId,
       amount: values.amount,
       cost: values.cost,
-      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       product: {
         id: values.product?.id,
       },

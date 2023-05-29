@@ -101,7 +101,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
         <Form.Item
           label="Единица измерения"
           name="unit"
-          rules={[{type: 'object' as const, required: true, message: 'выберите ед. изм.'}]}
+          rules={[{required: true, message: 'выберите ед. изм.'}]}
         >
           <div>
             <Select
@@ -120,7 +120,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
         <Form.Item
           label="Товарная группа"
           name="productGroup"
-          rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
+          rules={[{required: true, message: 'выберите тов. группу'}]}
         >
           <div>
             <Select

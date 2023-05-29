@@ -24,7 +24,7 @@ export const PageOutput: React.FC = () => {
   // Добавить новый выпуск продукции
   const handleAddOutput = (values: TypeOutput): void => {
     const output: TypeOutput = {
-      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       product: {
         id: values.product?.id,
       }
@@ -43,7 +43,7 @@ export const PageOutput: React.FC = () => {
   // Обновить выпуск продукции
   const handleUpdateOutput = (values: TypeOutput): void => {
     const output: TypeOutput = {
-      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       product: {
         id: values.product?.id,
       },

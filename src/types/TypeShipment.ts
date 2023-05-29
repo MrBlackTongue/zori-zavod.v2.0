@@ -4,5 +4,5 @@ import {Dayjs} from "dayjs";
 export type TypeShipment = {
   id?: number;
   client?: TypeClient;
-  date?: Dayjs;
+  date?: Dayjs | string;
 }

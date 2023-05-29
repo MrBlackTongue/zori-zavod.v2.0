@@ -7,7 +7,7 @@ import {getAllOperationAccounting, getAllOperationAccountingByFilter,} from "../
 import {
   TableProps,
   TypeOperationAccounting,
-  TableParams,
+  TableParam,
   TypeOperationTimesheet,
   TypeOperationAccountingFilter,
 } from "../../../types";
@@ -29,7 +29,7 @@ export const TableOperationAccounting:
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,

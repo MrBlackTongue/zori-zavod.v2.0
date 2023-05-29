@@ -7,7 +7,7 @@ import {TypeProductionType} from "./TypeProductionType";
 
 export type TypeOperationAccounting = {
   id?: number,
-  date?: Dayjs,
+  date?: Dayjs | string,
   plan?: number,
   fact?: number,
   average?: number,
@@ -19,7 +19,7 @@ export type TypeOperationAccounting = {
 }
 
 export type TypeOperationAccountingFilter = {
-  date?: Dayjs,
+  date?: Dayjs | string,
   operationId?: number,
   productionTypeId?: number,
 }

@@ -28,7 +28,7 @@ export const PageShipment: React.FC = () => {
   // Функция добавления новой отгрузки
   const handleAddShipment = (values: TypeShipment): void => {
     const shipment: TypeShipment = {
-      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')) : undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       client: values.client,
     };
     setOpenState({...openState, isModalOpen: false});
@@ -52,7 +52,7 @@ export const PageShipment: React.FC = () => {
   const handleUpdateShipment = (values: TypeShipment): void => {
     const shipment: TypeShipment = {
       id: selectedShipmentId,
-      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')) : undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       client: values.client,
     };
     setOpenState({...openState, isDrawerOpen: false});
