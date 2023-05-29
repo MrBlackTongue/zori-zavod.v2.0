@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button} from 'antd';
-import {SyncOutlined, PlusOutlined } from '@ant-design/icons';
+import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import {postNewProductGroup, putChangeProductGroup} from "../../services";
 import {TypeProductGroup} from "../../types";
 import {TableProductGroup} from "./components/TableProductGroup";
-import { AddModalProductGroup} from "./components/AddModalProductGroup";
-import { EditDrawerProductGroup} from "./components/EditDrawerProductGroup";
+import {AddModalProductGroup} from "./components/AddModalProductGroup";
+import {EditDrawerProductGroup} from "./components/EditDrawerProductGroup";
 
-const { Title } = Typography;
+const {Title} = Typography;
 
 export const PageProductGroup: React.FC = () => {
 
@@ -20,15 +20,14 @@ export const PageProductGroup: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую группу товаров
-  const addProductGroup = (values: { [key: string]: any }): void => {
-    console.log("values.parent", values.parent)
+  const handleAddProductGroup = (values: { [key: string]: any }): void => {
     const productGroup: TypeProductGroup = {
       title: values.title,
       parent: values.parent ? {id: values.parent} : undefined,
     };
     setIsModalOpen(false)
     postNewProductGroup(productGroup)
-    setUpdateTable(!updateTable)
+    setUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -38,19 +37,15 @@ export const PageProductGroup: React.FC = () => {
   };
 
   // Обновить группу товаров
-  const updateProductGroup = (values: { [key: string]: any }): TypeProductGroup => {
-    console.log('parent_value', values);
+  const handleUpdateProductGroup = (values: { [key: string]: any }): void => {
     const productGroup: TypeProductGroup = {
-      id: values.id,
+      id: selectedProductGroupId,
       title: values.title,
       parent: values.parent ? {id: values.parent} : undefined,
     };
-    console.log(productGroup);
-    setSelectedProductGroupId(values.id);
     setIsDrawerOpen(false);
     putChangeProductGroup(productGroup);
-    setUpdateTable(!updateTable);
-    return productGroup;
+    setUpdateTable(prevState => !prevState);
   };
 
   return (
@@ -60,15 +55,16 @@ export const PageProductGroup: React.FC = () => {
         <Space>
           <Button
             type="dashed"
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
             type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}
+            icon={<PlusOutlined/>}
+            onClick={() => setIsModalOpen(prevState => !prevState)}
           >
             Добавить
           </Button>
@@ -80,13 +76,13 @@ export const PageProductGroup: React.FC = () => {
       />
       <AddModalProductGroup
         isOpen={isModalOpen}
-        addItem={addProductGroup}
+        addItem={handleAddProductGroup}
         onCancel={() => setIsModalOpen(false)}
       />
       <EditDrawerProductGroup
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductGroupId}
-        updateItem={updateProductGroup}
+        updateItem={handleUpdateProductGroup}
         closeDrawer={() => setIsDrawerOpen(false)}
       />
     </div>
