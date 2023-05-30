@@ -4,7 +4,7 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {deleteProductGroupById, getProductGroupTree} from "../../../services";
-import {TableProps, TableParams, TypeProductGroup} from "../../../types";
+import {TableProps, TableParam, TypeProductGroup} from "../../../types";
 
 export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
                                                                                 isUpdateTable,
@@ -18,7 +18,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -110,13 +110,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
   }, [removeEmptyChildren]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        await updateTable();
-      } catch (error) {
-        console.error('Failed to update table:', error);
-      }
-    })();
+     updateTable();
   }, [isUpdateTable, updateTable]);
 
 

@@ -13,45 +13,44 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
                                                                                     }) => {
   const [form] = Form.useForm();
 
-  // Все родительские группы, выбранная родительская группа
-  const [allProductGroupParent, setAllProductGroupParent] = useState<TypeProductGroup[]>([]);
-  const [selectedParentGroup, setSelectedParentGroup] = useState<TypeProductGroup>();
-  const [filteredParentGroup, setFilteredParentGroup] = useState<TypeProductGroup[]>([]);
+  // Все товарные группы, выбранная товарная группа
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
+  const [selectedGroup, setSelectedGroup] = useState<TypeProductGroup>();
+  const [filteredGroup, setFilteredGroup] = useState<TypeProductGroup[]>([]);
 
   // Изменить выбранную товарную группу
   const onChangeProductGroup = (value: string): void => {
-    const selectedParentGroup = allProductGroupParent?.find(productGroup => productGroup.id === parseInt(value));
+    const selectedGroup = allProductGroup?.find(productGroup => productGroup.id === parseInt(value));
     form.setFieldsValue({
-      parent: selectedParentGroup ? selectedParentGroup : undefined
+      parent: selectedGroup ? selectedGroup : undefined
     });
-    setSelectedParentGroup(selectedParentGroup);
+    setSelectedGroup(selectedGroup);
   };
 
-  //Поиск по родительским группам
-    const onSearchParentGroup = (searchText: string) => {
-      if (searchText === '') {
-        setFilteredParentGroup(allProductGroupParent || []);
-      } else {
-        const searchLowerCase = searchText.toLowerCase();
-        const filtered = allProductGroupParent?.filter((productGroupParent) =>
-          productGroupParent?.title
-            ? productGroupParent.title.toLowerCase().includes(searchLowerCase)
-            : false
-        );
-        setFilteredParentGroup(filtered || []);
-      }
-    };
+  // Поиск по товарным группам
+  const onSearchGroup = (searchText: string) => {
+    if (searchText === '') {
+      setFilteredGroup(allProductGroup || []);
+    } else {
+      const searchLowerCase = searchText.toLowerCase();
+      const filtered = allProductGroup?.filter((productGroup) =>
+        productGroup?.title
+          ? productGroup.title.toLowerCase().includes(searchLowerCase)
+          : false
+      );
+      setFilteredGroup(filtered || []);
+    }
+  };
 
   // Функция для получения данных о группе товаров по id обновление формы
-  const handleGetParentId = useCallback(() => {
+  const handleGetProductGroupId = useCallback(() => {
     if (selectedItemId !== undefined) {
       getProductGroupById(selectedItemId).then((data) => {
         form.setFieldsValue({
-          id: data?.id,
           title: data?.title,
           parent: data?.parent?.id
         });
-        setSelectedParentGroup(data?.parent)
+        setSelectedGroup(data?.parent)
       });
     }
   }, [selectedItemId, form]);
@@ -61,8 +60,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
     form
       .validateFields()
       .then((values) => {
-        console.log('values', values);
-        updateItem({...values, parent: values.parent ? values.parent : null}); // Изменено
+        updateItem({...values});
         closeDrawer();
       })
       .catch((info) => {
@@ -78,27 +76,27 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
 
   useEffect(() => {
     if (isOpen) {
-      getAllProductGroup().then(groups => {
-        setAllProductGroupParent(groups);
-        setFilteredParentGroup(groups);
+      getAllProductGroup().then(productGroup => {
+        setAllProductGroup(productGroup);
+        setFilteredGroup(productGroup);
       });
     }
   }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
-      handleGetParentId();
+      handleGetProductGroupId();
     } else {
       form.resetFields();
     }
-  }, [isOpen, handleGetParentId, form]);
+  }, [isOpen, handleGetProductGroupId, form]);
 
   return (
     <Drawer
       title={`Редактирование группы товаров`}
       open={isOpen}
       onClose={closeDrawer}
-      width={650}
+      width={680}
       extra={
         <Space>
           <Button onClick={handleClose}>Отмена</Button>
@@ -115,15 +113,9 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
         style={{marginTop: 30}}
       >
         <Form.Item
-          name="id"
-          style={{display: 'none'}}
-        >
-          <Input type="hidden"/>
-        </Form.Item>
-        <Form.Item
           label="Название"
           name="title"
-          rules={[{required: true, message: 'Введите название группы'}]}
+          rules={[{required: true, message: 'введите название группы товаров'}]}
         >
           <Input/>
         </Form.Item>
@@ -136,13 +128,13 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
               allowClear
               filterOption={false}
               placeholder="Выберите родительскую группу"
-              value={selectedParentGroup ? selectedParentGroup?.title : undefined}
-              onSearch={onSearchParentGroup}
+              value={selectedGroup ? selectedGroup?.title : undefined}
+              onSearch={onSearchGroup}
               onChange={onChangeProductGroup}
             >
-              {filteredParentGroup?.map((group) => (
-                <Option key={group.id} value={group.id} title={group.title}>
-                  {group.title}
+              {filteredGroup?.map((productGroup) => (
+                <Option key={productGroup.id} value={productGroup.id} title={productGroup.title}>
+                  {productGroup.title}
                 </Option>
               ))}
             </Select>

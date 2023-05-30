@@ -1,16 +1,16 @@
-import {TypeProduct, TypeProductGroup} from "../types";
+import {TypeProductGroup} from "../types";
 import {URL, PRODUCT_GROUP, GROUP, TREE} from "./apiEndpoints";
 import {message} from "antd";
 
 // Получить список всех товарных групп
-export async function getAllProductGroup(): Promise<TypeProduct[]> {
+export async function getAllProductGroup(): Promise<TypeProductGroup[]> {
   try {
     const res = await fetch(URL + PRODUCT_GROUP + GROUP);
     if (!res.ok) {
       console.error(res.statusText);
       return Promise.reject();
     }
-    return await res.json() as TypeProduct[];
+    return await res.json() as TypeProductGroup[];
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -58,6 +58,7 @@ export async function deleteProductGroupById(id: number) {
   }
 }
 
+// Редактировать товарную группу
 export function putChangeProductGroup(data: TypeProductGroup) {
   try {
     const config = {
@@ -95,7 +96,7 @@ export async function getProductGroupById(id: number): Promise<TypeProductGroup 
   }
 }
 
-// Получение древа групп товаров
+// Получить дерево группы товаров
 export async function getProductGroupTree(): Promise<TypeProductGroup[]> {
   try {
     const res = await fetch(URL + PRODUCT_GROUP + GROUP + TREE);
