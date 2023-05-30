@@ -195,7 +195,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

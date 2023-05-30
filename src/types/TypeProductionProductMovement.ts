@@ -6,9 +6,9 @@ import {TypeOperationAccounting} from "./TypeOperationAccounting";
 export type TypeProductionProductMovement = {
   id?: number,
   amount?: number,
-  income: boolean,
+  income?: boolean,
   stock?: TypeStock,
-  date?: Dayjs,
+  date?: Dayjs | string,
   productBatch?: TypeProductBatch,
   operationAccounting?: TypeOperationAccounting,
 }

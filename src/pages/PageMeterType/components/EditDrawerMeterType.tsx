@@ -42,7 +42,7 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
   }
 
   // Функция для получения данных в дравер
-  const handleGetMeterType = useCallback(() => {
+  const handleGetMeterType = useCallback((): void => {
     if (selectedItemId) {
       getMeterTypeById(selectedItemId).then((meterType) => {
         form.setFieldsValue(meterType)

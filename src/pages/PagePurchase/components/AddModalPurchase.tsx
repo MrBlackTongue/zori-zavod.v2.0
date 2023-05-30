@@ -113,7 +113,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypeProductBatch, TableParams, TypeUnit} from "../../../types";
+import {TableProps, TypeProductBatch, TableParam, TypeUnit} from "../../../types";
 import {getAllProductBatch} from "../../../services";
 
 export const TableProductBatch: React.FC<TableProps> = ({
@@ -18,7 +18,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,

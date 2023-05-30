@@ -45,7 +45,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: id ? +id : undefined,
-      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       fact: values.fact || 0,
       operation: {
         id: values.operation?.id,
@@ -68,7 +68,9 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const handleAddOperationTimesheet = (values: TypeOperationTimesheet): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       hours: values.hours,
-      employee: values.employee,
+      employee: {
+        id: values.employee?.id,
+      },
       operationAccountingId: id ? +id : undefined,
       fact: values.fact || 0,
     };

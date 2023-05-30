@@ -4,7 +4,7 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
-import {TableProps, TypeProduct, TableParams} from "../../../types";
+import {TableProps, TypeProduct, TableParam} from "../../../types";
 
 export const TableProduct: React.FC<TableProps> = ({
                                                      isUpdateTable,
@@ -23,7 +23,7 @@ export const TableProduct: React.FC<TableProps> = ({
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,

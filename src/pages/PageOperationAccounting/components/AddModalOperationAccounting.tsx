@@ -215,7 +215,7 @@ export const AddModalOperationAccounting: React.FC<AddModalProps<TypeOperationAc
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

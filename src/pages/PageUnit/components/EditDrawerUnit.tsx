@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Button, Drawer, Form, Input, Space} from "antd";
 import {EditDrawerProps, TypeUnit} from "../../../types";
 import {getUnitById} from "../../../services";
@@ -17,7 +17,6 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
     form
       .validateFields()
       .then((values) => {
-        // form.resetFields()
         updateItem(values);
       })
       .catch((error) => {
@@ -25,13 +24,17 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
       })
   }
 
-  useEffect(() => {
+  const handleGetUnit = useCallback((): void => {
     if (selectedItemId) {
       getUnitById(selectedItemId).then((unit) => {
         form.setFieldsValue(unit);
       })
     }
-  }, [selectedItemId, form]);
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    handleGetUnit()
+  }, [selectedItemId, handleGetUnit, form]);
 
   return (
     <Drawer

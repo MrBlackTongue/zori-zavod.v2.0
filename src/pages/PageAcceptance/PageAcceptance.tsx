@@ -22,7 +22,7 @@ export const PageAcceptance: React.FC = () => {
     const acceptance: TypeAcceptance = {
       amount: values.amount || 0,
       income: true,
-      date: values.date ? dayjs(values.date.format('YYYY-MM-DD')): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       stock: values.stock && {
         id: values.stock?.id,
         amount: values.stock?.amount,
@@ -31,7 +31,7 @@ export const PageAcceptance: React.FC = () => {
       purchase: values.purchase && {
         id: values.purchase?.id,
         amount: values.amount,
-        date: values.date ? dayjs(values.date.format('YYYY-MM-DD')): undefined,
+        date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
         product: values.purchase?.product,
       },
     };

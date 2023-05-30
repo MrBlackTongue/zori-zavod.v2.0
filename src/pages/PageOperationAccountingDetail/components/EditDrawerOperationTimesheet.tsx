@@ -124,7 +124,7 @@ export const EditDrawerOperationTimesheet:
         <Form.Item
           label="Сотрудник"
           name="employee"
-          rules={[{type: 'object' as const, required: true, message: 'выберите сотрудника'}]}
+          rules={[{required: true, message: 'выберите сотрудника'}]}
         >
           <div>
             <Select

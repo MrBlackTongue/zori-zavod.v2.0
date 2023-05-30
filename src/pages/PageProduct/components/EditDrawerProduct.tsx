@@ -63,7 +63,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
   };
 
   // Функция для получения данных в дравер
-  const handleGetProductById = useCallback(() => {
+  const handleGetProduct = useCallback((): void => {
     if (selectedItemId) {
       getProductById(selectedItemId).then((product) => {
         form.setFieldsValue(product)
@@ -74,8 +74,8 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
   }, [selectedItemId, form])
 
   useEffect(() => {
-    handleGetProductById()
-  }, [selectedItemId, handleGetProductById]);
+    handleGetProduct()
+  }, [selectedItemId, handleGetProduct]);
 
   useEffect(() => {
     getAllUnit().then((units) => {
@@ -120,7 +120,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
         <Form.Item
           label="Единица измерения"
           name="unit"
-          rules={[{type: 'object' as const, required: true, message: 'выберите ед. изм.'}]}
+          rules={[{required: true, message: 'выберите ед. изм.'}]}
         >
           <div>
             <Select
@@ -139,7 +139,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
         <Form.Item
           label="Товарная группа"
           name="productGroup"
-          rules={[{type: 'object' as const, required: true, message: 'выберите тов. группу'}]}
+          rules={[{required: true, message: 'выберите тов. группу'}]}
         >
           <div>
             <Select

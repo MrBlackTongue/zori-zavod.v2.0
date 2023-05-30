@@ -40,7 +40,7 @@ export const PageOperationAccounting: React.FC = () => {
   // Добавить новую учетную операцию
   const handleAddOperationAccounting = (values: TypeOperationAccounting): void => {
     const operationAccounting: TypeOperationAccounting = {
-      date: values.date ? dayjs(values['date'].format('YYYY-MM-DD')): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       fact: values.fact || undefined,
       operation: {
         id: values.operation?.id,
@@ -86,7 +86,7 @@ export const PageOperationAccounting: React.FC = () => {
   const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingId,
-      date: values.date ? dayjs(values['date'].format('YYYY-MM-DD')): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       fact: values.fact || undefined,
       operation: {
         id: values.operation?.id,

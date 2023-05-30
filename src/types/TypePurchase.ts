@@ -6,7 +6,7 @@ export type TypePurchase = {
     id?: number,
     amount?: number,
     cost?: number,
-    date?: Dayjs,
+    date?: Dayjs | string,
     product?: TypeProduct,
     productBatch?: TypeProductBatch,
     paid?: boolean
