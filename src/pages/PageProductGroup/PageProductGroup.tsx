@@ -20,10 +20,10 @@ export const PageProductGroup: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую группу товаров
-  const handleAddProductGroup = (values: { [key: string]: any }): void => {
+  const handleAddProductGroup = (values: TypeProductGroup): void => {
     const productGroup: TypeProductGroup = {
       title: values.title,
-      parent: values.parent ? {id: values.parent} : undefined,
+      parent: values.parent ? {id: values.parent.id} : undefined,
     };
     setIsModalOpen(false)
     postNewProductGroup(productGroup)
@@ -37,11 +37,11 @@ export const PageProductGroup: React.FC = () => {
   };
 
   // Обновить группу товаров
-  const handleUpdateProductGroup = (values: { [key: string]: any }): void => {
+  const handleUpdateProductGroup = (values: TypeProductGroup): void => {
     const productGroup: TypeProductGroup = {
       id: selectedProductGroupId,
       title: values.title,
-      parent: values.parent ? {id: values.parent} : undefined,
+      parent: values.parent ? {id: values.parent.id} : undefined,
     };
     setIsDrawerOpen(false);
     putChangeProductGroup(productGroup);

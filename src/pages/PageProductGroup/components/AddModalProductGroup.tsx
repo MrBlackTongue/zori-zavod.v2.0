@@ -12,61 +12,61 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Все родительские группы товаров, выбранная родительская группа, отфильтрованная родительская группа
-  const [allProductGroupParent, setAllProductGroupParent] = useState<TypeProductGroup[]>([]);
-  const [selectedParentGroup, setSelectedParentGroup] = useState<TypeProductGroup>();
-  const [filteredParentGroup, setFilteredParentGroup] = useState<TypeProductGroup[]>([]);
+  // Все группы товаров, выбранная группа, отфильтрованная группа
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
+  const [selectedGroup, setSelectedGroup] = useState<TypeProductGroup>();
+  const [filteredGroup, setFilteredGroup] = useState<TypeProductGroup[]>([]);
 
-  // Изменить выбранный группу товаров
+  // Изменить выбранную группу товаров
   const onChangeProductGroup = (value: string): void => {
-    const selectedParentGroup = allProductGroupParent?.find(productGroup => productGroup.id === parseInt(value));
+    const selectedGroup = allProductGroup?.find(productGroup => productGroup.id === parseInt(value));
     form.setFieldsValue({
-      parent: selectedParentGroup ? selectedParentGroup.id : undefined
+      parent: selectedGroup ? selectedGroup : undefined
     });
-    setSelectedParentGroup(selectedParentGroup);
+    setSelectedGroup(selectedGroup);
   };
 
-  //Поиск по родительской группе
-  const onSearchParentGroup = (searchText: string) => {
+  // Поиск по группе
+  const onSearchGroup = (searchText: string) => {
     if (searchText === '') {
-      setFilteredParentGroup(allProductGroupParent || []);
+      setFilteredGroup(allProductGroup || []);
     } else {
       const searchLowerCase = searchText.toLowerCase();
-      const filtered = allProductGroupParent?.filter((productGroupParent) =>
-        productGroupParent?.title
-          ? productGroupParent.title.toLowerCase().includes(searchLowerCase)
+      const filtered = allProductGroup?.filter((productGroup) =>
+        productGroup?.title
+          ? productGroup.title.toLowerCase().includes(searchLowerCase)
           : false
       );
-      setFilteredParentGroup(filtered || []);
+      setFilteredGroup(filtered || []);
     }
   };
 
-  // Функция подтверждения добавления новой родительской группы
+  // Функция подтверждения добавления новой группы
   const handleOk = () => {
     form
       .validateFields()
       .then((values) => {
-        console.log('values', values);
         form.resetFields();
-        addItem({...values, parent: values.parent ? values.parent : null});
-        setSelectedParentGroup(undefined);
+        addItem(values);
+        setSelectedGroup(undefined);
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
       });
   };
-  // Функция закрытия модальноо о
+
+  // Функция закрытия модального окна
   const handleClose = () => {
     form.resetFields();
-    setSelectedParentGroup(undefined);
+    setSelectedGroup(undefined);
     onCancel()
   };
 
   useEffect(() => {
     if (isOpen) {
-      getAllProductGroup().then(groups => {
-        setAllProductGroupParent(groups);
-        setFilteredParentGroup(groups);
+      getAllProductGroup().then(allProductGroup => {
+        setAllProductGroup(allProductGroup);
+        setFilteredGroup(allProductGroup);
       });
     }
   }, [isOpen]);
@@ -76,7 +76,7 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
       title="Добавление новой группы товаров"
       open={isOpen}
       onCancel={handleClose}
-      width={650}
+      width={680}
       okText="Сохранить"
       cancelText="Отмена"
       onOk={handleOk}
@@ -104,13 +104,13 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
               allowClear
               filterOption={false}
               placeholder="Выберите родительскую группу"
-              value={selectedParentGroup ? selectedParentGroup?.title : undefined}
-              onSearch={onSearchParentGroup}
+              value={selectedGroup ? selectedGroup?.title : undefined}
+              onSearch={onSearchGroup}
               onChange={onChangeProductGroup}
             >
-              {filteredParentGroup?.map((group) => (
-                <Option key={group.id} value={group.id} title={group.title}>
-                  {group.title}
+              {filteredGroup?.map((productGroup) => (
+                <Option key={productGroup.id} value={productGroup.id} title={productGroup.title}>
+                  {productGroup.title}
                 </Option>
               ))}
             </Select>
