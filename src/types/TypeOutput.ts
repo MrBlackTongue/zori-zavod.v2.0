@@ -3,6 +3,6 @@ import {Dayjs} from "dayjs";
 
 export type TypeOutput = {
   id?: number;
-  date?: Dayjs;
+  date?: Dayjs | string;
   product?: TypeProduct;
 }

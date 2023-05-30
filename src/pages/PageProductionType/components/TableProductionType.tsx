@@ -2,24 +2,23 @@ import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {getAllProductionType,} from "../../../services";
-import {TableProps, TypeProductionType, TableParams} from "../../../types";
+import {TableProps, TypeProductionType, TableParam} from "../../../types";
 
-export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
-                                                                                isUpdateTable,
-                                                                                openDrawer,
-                                                                                onDelete,
-                                                                              }) => {
+export const TableProductionType: React.FC<TableProps> = ({
+                                                            isUpdateTable,
+                                                            openDrawer,
+                                                            onDelete,
+                                                          }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список типов производства
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -75,25 +74,16 @@ export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProductionType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductionType(allProductionType);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllProductionType().then((allProductionType) => {
       setAllProductionType(allProductionType);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -106,12 +96,8 @@ export const TableProductionType: React.FC<TableProps<TypeProductionType>> = ({
       bordered
       columns={columns}
       dataSource={allProductionType}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

@@ -33,7 +33,7 @@ export async function getProductionTypeById(id: number): Promise<TypeProductionT
 }
 
 // Добавить новый тип производства
-export function postNewProductionType(data: TypeProductionType) {
+export function postNewProductionType(data: TypeProductionType): void {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteProductionTypeById(id: number) {
 }
 
 // Редактировать тип производства
-export function putChangeProductionType(data: TypeProductionType) {
+export function putChangeProductionType(data: TypeProductionType): void {
   try {
     const config = {
       method: 'PUT',

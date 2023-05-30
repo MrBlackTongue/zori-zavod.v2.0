@@ -11,28 +11,27 @@ const {Option} = Select;
 
 export const PageProductMovementHistory: React.FC = () => {
 
-  // Все остатки, выбрать остаток по id
-  const [stock, setStock] = useState<TypeStock[]>();
-  const [selectedStockById, setSelectedStockById] = useState<number>();
+  // Все остатки на складе, id выбранного остатка на складе
+  const [allStock, setAllStock] = useState<TypeStock[]>();
+  const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Обновление таблицы
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
 
-  // Изменить выбраный остаток
-  const onChangeStock = (values: string, option: any): TypeStock => {
-    setSelectedStockById(option.id)
-    return option.id;
+  // Изменить выбраный остаток на складе
+  const onChangeStock = (value: string, option: any): void => {
+    setSelectedStockId(option.id)
   };
 
   // Обновить таблицу при очистке выбора
   const onClearStock = (): void => {
-    setSelectedStockById(undefined);
-    setUpdateTable(!updateTable);
+    setSelectedStockId(undefined);
+    setIsTableUpdate(prevState => !prevState);
   }
 
   useEffect(() => {
-    getAllStock().then((stock) => {
-      setStock(stock);
+    getAllStock().then((allStock) => {
+      setAllStock(allStock);
     });
   }, []);
 
@@ -49,8 +48,8 @@ export const PageProductMovementHistory: React.FC = () => {
             onChange={onChangeStock}
             onClear={onClearStock}
           >
-            {stock && stock.length > 0 ?
-              stock.map(stock => (
+            {allStock && allStock.length > 0 ?
+              allStock.map(stock => (
                 <Option id={stock.id} key={stock.id} value={stock?.product?.title}>
                   {`ID: ${stock.id}, ${stock?.product?.title}`}
                 </Option>
@@ -59,7 +58,7 @@ export const PageProductMovementHistory: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -67,8 +66,8 @@ export const PageProductMovementHistory: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProductMovementHistory
-        isUpdateTable={updateTable}
-        filter2={{idFilter: selectedStockById}}
+        isUpdateTable={isTableUpdate}
+        filter={{id: selectedStockId}}
       />
     </div>
   );

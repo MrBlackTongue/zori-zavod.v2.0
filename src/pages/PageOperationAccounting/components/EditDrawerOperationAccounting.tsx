@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../../types";
 import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionType} from "../../../services";
@@ -30,14 +30,13 @@ export const EditDrawerOperationAccounting:
   const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
 
   // Изменить выбранную операцию
-  const onChangeOperation = (values: string, option: any): TypeOperation => {
+  const onChangeOperation = (value: string, option: any): void => {
     const operation: TypeOperation = {
       id: option.id,
-      title: values,
+      title: value,
     };
     form.setFieldsValue({operation: operation});
     setSelectedOperation(operation)
-    return operation
   };
 
   // Очистить поле операция
@@ -47,32 +46,30 @@ export const EditDrawerOperationAccounting:
   }
 
   // Изменить выбранный тип производства
-  const onChangeProductionType = (values: string, option: any): TypeProductionType | undefined => {
-    if (values === undefined) {
+  const onChangeProductionType = (value: string, option: any): void => {
+    if (value === undefined) {
       setSelectedProductionType(undefined);
       form.setFieldsValue({productionType: undefined});
       return undefined;
     }
     const productionType: TypeProductionType = {
       id: option.id,
-      title: values,
+      title: value,
     };
     form.setFieldsValue({productionType: productionType});
     setSelectedProductionType(productionType)
-    return productionType
   };
 
   // Изменить выбранный выпуск продукции
-  const onChangeOutput = (value: string): TypeOutput | undefined => {
+  const onChangeOutput = (value: string): void => {
     const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
     form.setFieldsValue({output: selectedOutput});
     setSelectedOutput(selectedOutput);
     onSearchOutput('')
-    return selectedOutput;
   };
 
   // Поиск по выпускам продукции
-  const onSearchOutput = (searchText: string) => {
+  const onSearchOutput = (searchText: string): void => {
     if (searchText === '') {
       setFilteredOutput(allOutput || []);
     } else {
@@ -94,7 +91,7 @@ export const EditDrawerOperationAccounting:
   };
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -114,16 +111,16 @@ export const EditDrawerOperationAccounting:
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
-      getOperationAccounting(selectedItemId).catch((error) => console.error(error));
+      handleGetOperationAccounting(selectedItemId).catch((error) => console.error(error));
     }
     closeDrawer();
   };
 
-  // Функция для получения информации об учетной записи и установления значений полей формы
-  const getOperationAccounting = async (itemId: number) => {
+  // Функция для получения данных в дравер
+  const handleGetOperationAccounting = useCallback(async (itemId: number) => {
     const operationAccounting = await getOperationAccountingById(itemId);
     form.setFieldsValue({
       date: dayjs(operationAccounting?.date),
@@ -135,17 +132,17 @@ export const EditDrawerOperationAccounting:
     setSelectedOperation(operationAccounting?.operation);
     setSelectedOutput(operationAccounting?.output);
     setSelectedProductionType(operationAccounting?.productionType)
-  }
+  }, [form])
 
   useEffect(() => {
     if (selectedItemId) {
-      getOperationAccounting(selectedItemId).catch((error) => console.error(error));
+      handleGetOperationAccounting(selectedItemId).catch((error) => console.error(error));
     } else {
       setSelectedOperation(undefined);
       setSelectedOutput(undefined);
       setSelectedProductionType(undefined);
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, handleGetOperationAccounting]);
 
   useEffect(() => {
     getAllOperation().then((allOperation) => {
@@ -171,7 +168,7 @@ export const EditDrawerOperationAccounting:
     if (!isOpen) {
       setFilteredOutput(allOutput || []);
     }
-  }, [isOpen]);
+  }, [isOpen, allOutput]);
 
   return (
     <Drawer
@@ -251,7 +248,7 @@ export const EditDrawerOperationAccounting:
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

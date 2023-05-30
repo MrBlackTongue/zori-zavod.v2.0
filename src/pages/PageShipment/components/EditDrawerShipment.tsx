@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, DatePicker, Drawer, Form, Select, Space} from "antd";
 import {EditDrawerProps, TypeShipment, TypeClient} from "../../../types";
 import {getShipmentById, getAllClient} from "../../../services";
@@ -19,31 +19,33 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
 
   // Функция для изменения выбранного клиента
-  const onChangeClient = (values: string, option: any): TypeClient => {
+  const onChangeClient = (value: string, option: any): void => {
     const client: TypeClient = {
       id: option.id,
-      title: values,
+      title: value,
     };
     form.setFieldsValue({client: client});
     setSelectedClient(client)
-    return client
   };
 
   // Функция для получения данных об отгрузке по id и обновления формы
-  const handleGetShipmentById = async (selectedItemId: number) => {
+  const handleGetShipmentById = useCallback(async (selectedItemId: number) => {
     const shipment = await getShipmentById(selectedItemId)
     form.setFieldsValue({
       date: dayjs(shipment?.date),
       client: shipment?.client?.id,
     });
     setSelectedClient(shipment?.client)
-  }
+  }, [form]);
 
   // Функция для обработки нажатия кнопки "Сохранить"
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
+        if (typeof values.client === 'number') {
+          values.client = selectedClient
+        }
         updateItem(values);
         closeDrawer()
       })
@@ -53,7 +55,7 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
   };
 
   // Функция для обработки закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
       handleGetShipmentById(selectedItemId).catch((error) => console.error(error));
@@ -79,7 +81,7 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
     } else {
       setSelectedClient(undefined);
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, handleGetShipmentById]);
 
   return (
     <Drawer
@@ -105,7 +107,7 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

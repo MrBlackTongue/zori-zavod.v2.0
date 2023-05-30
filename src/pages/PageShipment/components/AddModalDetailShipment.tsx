@@ -19,16 +19,15 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   const [filteredStock, setFilteredStock] = useState<TypeStock[]>([]);
 
   // Функция изменения выбранного товара на складе
-  const onChangeStock = (value: string): TypeStock | undefined => {
+  const onChangeStock = (value: string): void => {
     const selectedStock = allStock?.find(stock => stock.id === parseInt(value));
     form.setFieldsValue({stock: selectedStock});
     setSelectedStock(selectedStock)
     onSearchStock('')
-    return selectedStock
   };
 
   // Поиск по товарам на складе
-  const onSearchStock = (searchText: string) => {
+  const onSearchStock = (searchText: string): void => {
     if (searchText === '') {
       setFilteredStock(allStock || []);
     } else {
@@ -47,7 +46,7 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   };
 
   // Функция подтверждения добавления нового товара
-  const handleOk = () => {
+  const handleOk = (): void => {
     const enteredAmount = form.getFieldValue("amount");
     if (selectedStock?.amount === 0) {
       message.warning("Выбранного товара не осталось на складе");
@@ -71,7 +70,7 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields()
     onCancel()
     setSelectedStock(undefined)

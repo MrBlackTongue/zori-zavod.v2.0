@@ -24,26 +24,22 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
   const [selectedDate, setSelectedDate] = useState<Dayjs | null | undefined>();
 
   // Изменить состояние чекбокса
-  const onChangeCheckbox = (e: CheckboxChangeEvent) => {
-    // setPaid(e.target.checked);
+  const onChangeCheckbox = (e: CheckboxChangeEvent): void => {
     form.setFieldsValue({paid: e.target.checked});
   }
 
   // Изменить выбранный товар
-  const onChangeProduct = (values: string, option: any): TypeProduct => {
+  const onChangeProduct = (value: string, option: any): void => {
     const product: TypeProduct = {
       id: option.id,
-      title: values,
+      title: value,
     };
-    form.setFieldsValue({
-      product: product.id,
-    });
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
-    return product
   };
 
   // Функция для получения данных о закупке по id и обновления формы
-  const handleGetPurchaseById = useCallback(() => {
+  const handleGetPurchase = useCallback((): void => {
     if (selectedItemId) {
       getPurchaseById(selectedItemId).then((purchase) => {
         form.setFieldsValue({
@@ -58,10 +54,10 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
         setSelectedDate(dayjs(purchase?.date));
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form]);
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
@@ -74,7 +70,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     closeDrawer()
     setSelectedProduct(product)
   };
@@ -86,8 +82,8 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
   }, []);
 
   useEffect(() => {
-    handleGetPurchaseById();
-  }, [selectedItemId, handleGetPurchaseById]);
+    handleGetPurchase();
+  }, [selectedItemId, handleGetPurchase]);
 
   return (
     <Drawer
@@ -147,7 +143,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

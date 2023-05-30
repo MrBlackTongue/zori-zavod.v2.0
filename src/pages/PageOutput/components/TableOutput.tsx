@@ -1,26 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllOutput} from "../../../services";
-import {TableProps, TypeOutput, TableParams} from "../../../types";
+import {TableProps, TypeOutput, TableParam} from "../../../types";
 import dayjs from 'dayjs';
 
-export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
-                                                                isUpdateTable,
-                                                                openDrawer,
-                                                                onDelete,
-                                                              }) => {
+export const TableOutput: React.FC<TableProps> = ({
+                                                    isUpdateTable,
+                                                    openDrawer,
+                                                    onDelete,
+                                                  }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех единиц измерения
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -86,25 +85,16 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeOutput>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOutput(allOutput);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllOutput().then((allOutputs) => {
       setAllOutput(allOutputs);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -117,12 +107,8 @@ export const TableOutput: React.FC<TableProps<TypeOutput>> = ({
       bordered
       columns={columns}
       dataSource={allOutput}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

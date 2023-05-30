@@ -1,25 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterType} from "../../../services";
-import {TableProps, TypeMeterType, TableParams} from "../../../types";
+import {TableProps, TypeMeterType, TableParam} from "../../../types";
 
-export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
-                                                                      isUpdateTable,
-                                                                      openDrawer,
-                                                                      onDelete,
-                                                                    }) => {
+export const TableMeterType: React.FC<TableProps> = ({
+                                                       isUpdateTable,
+                                                       openDrawer,
+                                                       onDelete,
+                                                     }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех типов счетчиков
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -93,25 +92,16 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeMeterType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllMeterType(allMeterType);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllMeterType().then((meterType) => {
       setAllMeterType(meterType);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -123,7 +113,7 @@ export const TableMeterType: React.FC<TableProps<TypeMeterType>> = ({
     <Table
       columns={columns}
       dataSource={allMeterType}
-      loading={loading}
+      loading={isLoading}
       onChange={handleTableChange}
       pagination={{...tableParams.pagination, position: [bottom]}}
       bordered

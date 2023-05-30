@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
@@ -8,13 +8,14 @@ import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
 import {EditDrawerShipment} from "./components/EditDrawerShipment";
 import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
+import dayjs from "dayjs";
 
 const {Title} = Typography;
 
 export const PageShipment: React.FC = () => {
 
-  // Состояние для обновления таблицы, выбранна отгрузка по id
-  const [updateTable, setUpdateTable] = useState(false);
+  // Состояние для обновления таблицы, id выбранной отгрузки
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 
   // Состояния для контроля открытия/закрытия модалки и драверов
@@ -25,44 +26,44 @@ export const PageShipment: React.FC = () => {
   });
 
   // Функция добавления новой отгрузки
-  const handleAddShipment = useCallback((values: { [key: string]: any }): void => {
+  const handleAddShipment = (values: TypeShipment): void => {
     const shipment: TypeShipment = {
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       client: values.client,
     };
     setOpenState({...openState, isModalOpen: false});
     postNewShipment(shipment);
-    setUpdateTable(prevState => !prevState);
-  }, [openState]);
+    setIsTableUpdate(prevState => !prevState);
+  }
 
   // Функция открытия дравера редактирования отгрузки
-  const openDrawer = useCallback((shipmentId: number) => {
+  const openDrawer = (shipmentId: number): void => {
     setSelectedShipmentId(shipmentId);
     setOpenState({...openState, isDrawerOpen: true});
-  }, [openState]);
+  }
 
   // Функция открытия детального дравера отгрузки с использованием useCallback
-  const openDetailShipment = useCallback((shipmentId: number) => {
+  const openDetailShipment = (shipmentId: number) => {
     setSelectedShipmentId(shipmentId);
     setOpenState({...openState, isBottomDrawerOpen: true});
-  }, [openState]);
+  }
 
   // Функция обновления отгрузки
-  const handleUpdateShipment = useCallback((values: { [key: string]: any }): void => {
+  const handleUpdateShipment = (values: TypeShipment): void => {
     const shipment: TypeShipment = {
       id: selectedShipmentId,
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       client: values.client,
     };
     setOpenState({...openState, isDrawerOpen: false});
     putChangeShipment(shipment);
-    setUpdateTable(prevState => !prevState);
-  }, [openState, selectedShipmentId]);
+    setIsTableUpdate(prevState => !prevState);
+  }
 
   // Удалить запись из таблицы
-  const handleDeleteShipment = (id: number) => {
+  const handleDeleteShipment = (id: number): void => {
     deleteShipmentById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -73,7 +74,7 @@ export const PageShipment: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(prevState => !prevState)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -88,7 +89,7 @@ export const PageShipment: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableShipment
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteShipment}
         openDetailDrawer={openDetailShipment}

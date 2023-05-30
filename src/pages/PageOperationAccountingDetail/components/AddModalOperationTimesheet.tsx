@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeEmployee, TypeOperationTimesheet} from "../../../types";
 import {Form, InputNumber, Modal, Select} from "antd";
 import {getAllEmployee} from "../../../services";
@@ -17,14 +17,13 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   const [filteredEmployee, setFilteredEmployee] = useState<TypeEmployee[]>([]);
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = ((values: string, option: any): TypeEmployee => {
+  const onChangeEmployee = (value: string, option: any): void => {
     const employee: TypeEmployee = {
       id: option.id,
     };
     form.setFieldsValue({employee: employee});
     onSearchEmployee('')
-    return employee
-  });
+  }
 
   // Очистить поле сотрудника
   const onClearEmployee = ((): void => {
@@ -32,7 +31,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   });
 
   // Поиск по сотрудникам
-  const onSearchEmployee = (searchText: string) => {
+  const onSearchEmployee = (searchText: string): void => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {
@@ -54,7 +53,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   };
 
   // Функция подтверждения добавления
-  const handleOk = useCallback(() => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -64,13 +63,13 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
       .catch((error) => {
         console.log('Validate Failed:', error);
       });
-  }, [form, addItem]);
+  }
 
   // Функция закрытия модального окна
-  const handleClose = useCallback(() => {
+  const handleClose = (): void => {
     form.resetFields();
     onCancel()
-  }, [form, onCancel])
+  }
 
   useEffect(() => {
     getAllEmployee().then((allEmployee) => {
@@ -99,7 +98,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
         <Form.Item
           label="Сотрудник"
           name="employee"
-          rules={[{type: 'object' as const, required: true, message: 'выберите сотрудника'}]}
+          rules={[{required: true, message: 'выберите сотрудника'}]}
         >
           <div>
             <Select

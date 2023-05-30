@@ -12,8 +12,8 @@ const {Title} = Typography;
 
 export const PageOperation: React.FC = () => {
 
-  // Обновление таблицы, выбрана операция по id
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, id выбраной операции
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
   // Открыть закрыть модальное окно, дравер
@@ -21,48 +21,46 @@ export const PageOperation: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую операцию
-  const handleAddOperation = (values: { [key: string]: any }): TypeOperation => {
+  const handleAddOperation = (values: TypeOperation): void => {
     const operation: TypeOperation = {
       title: values.title,
       unit: {
-        id: values.unit.id,
-        name: values.unit.name,
+        id: values.unit?.id,
+        name: values.unit?.name,
       },
       rate: values.rate,
     };
     setIsModalOpen(false)
     postNewOperation(operation)
-    setUpdateTable(!updateTable)
-    return operation;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (operationId: number) => {
+  const openDrawer = (operationId: number): void => {
     setSelectedOperationId(operationId)
     setIsDrawerOpen(true);
   };
 
   // Обновить операцию
-  const handleUpdateOperation = (values: { [key: string]: any }): TypeOperation => {
+  const handleUpdateOperation = (values: TypeOperation): void => {
     const operation: TypeOperation = {
       title: values.title,
       unit: {
-        id: values.unit.id,
-        name: values.unit.name,
+        id: values.unit?.id,
+        name: values.unit?.name,
       },
       rate: values.rate,
       id: selectedOperationId,
     };
     setIsDrawerOpen(false)
     putChangeOperation(operation)
-    setUpdateTable(!updateTable)
-    return operation
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteOperation = (id: number) => {
+  const handleDeleteOperation = (id: number): void => {
     deleteOperationById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -73,7 +71,7 @@ export const PageOperation: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -88,7 +86,7 @@ export const PageOperation: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOperation
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
         onDelete={handleDeleteOperation}
       />

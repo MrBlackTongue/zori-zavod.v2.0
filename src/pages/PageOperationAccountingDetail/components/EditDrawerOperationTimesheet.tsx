@@ -20,16 +20,15 @@ export const EditDrawerOperationTimesheet:
   const [selectedEmployee, setSelectedEmployee] = useState<TypeEmployee>();
 
   // Изменить выбранного сотрудника
-  const onChangeEmployee = (value: string): TypeEmployee | undefined => {
+  const onChangeEmployee = (value: string): void => {
     const selectedEmployee = allEmployee?.find(employee => employee.id === parseInt(value));
     form.setFieldsValue({employee: selectedEmployee});
     setSelectedEmployee(selectedEmployee)
     onSearchEmployee('')
-    return selectedEmployee
   };
 
   // Поиск по сотрудникам
-  const onSearchEmployee = useCallback((searchText: string) => {
+  const onSearchEmployee = (searchText: string): void => {
     if (searchText === '') {
       setFilteredEmployee(allEmployee || []);
     } else {
@@ -48,10 +47,10 @@ export const EditDrawerOperationTimesheet:
       });
       setFilteredEmployee(prevState => filtered || prevState);
     }
-  }, [allEmployee]);
+  }
 
   // Функция подтверждения добавления сотрудника в табель учета рабочего времени
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -65,18 +64,18 @@ export const EditDrawerOperationTimesheet:
   }
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
-      getOperationTimesheet(selectedItemId).catch((error) => {
+      handleGetOperationTimesheet(selectedItemId).catch((error) => {
         console.error("Ошибка при получении данных об учетной операции: ", error)
       });
     }
     closeDrawer();
   };
 
-  // Функция для получения информации о табеле учета рабочего времени и установления значений полей формы
-  const getOperationTimesheet = useCallback(async (itemId: number) => {
+  // Функция для получения данных в дравер
+  const handleGetOperationTimesheet = useCallback(async (itemId: number) => {
     const operationTimesheet = await getOperationTimesheetById(itemId);
     form.setFieldsValue({
       hours: operationTimesheet?.hours,
@@ -84,15 +83,15 @@ export const EditDrawerOperationTimesheet:
       fact: operationTimesheet?.fact,
     });
     setSelectedEmployee(operationTimesheet?.employee);
-  }, []);
+  }, [form]);
 
   useEffect(() => {
     if (selectedItemId) {
-      getOperationTimesheet(selectedItemId).catch((error) => console.error(error));
+      handleGetOperationTimesheet(selectedItemId).catch((error) => console.error(error));
     } else {
       setSelectedEmployee(undefined);
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, handleGetOperationTimesheet, form]);
 
   useEffect(() => {
     getAllEmployee().then((allEmployee) => {
@@ -125,7 +124,7 @@ export const EditDrawerOperationTimesheet:
         <Form.Item
           label="Сотрудник"
           name="employee"
-          rules={[{type: 'object' as const, required: true, message: 'выберите сотрудника'}]}
+          rules={[{required: true, message: 'выберите сотрудника'}]}
         >
           <div>
             <Select

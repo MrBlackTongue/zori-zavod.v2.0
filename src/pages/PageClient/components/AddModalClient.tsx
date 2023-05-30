@@ -10,7 +10,7 @@ export const AddModalClient: React.FC<AddModalProps<TypeClient>> = ({
   const [form] = Form.useForm();
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {

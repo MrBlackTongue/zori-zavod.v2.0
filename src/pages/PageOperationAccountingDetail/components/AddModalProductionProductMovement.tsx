@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeProductionProductMovement, TypeStock} from "../../../types";
 import {Form, InputNumber, message, Modal, Select} from "antd";
 import {getAllStock} from "../../../services";
@@ -19,16 +19,15 @@ export const AddModalProductionProductMovement:
   const [filteredStock, setFilteredStock] = useState<TypeStock[]>([]);
 
   // Функция изменения выбранного товара на складе
-  const onChangeStock = (value: string): TypeStock | undefined => {
+  const onChangeStock = (value: string): void => {
     const selectedStock = allStock?.find(stock => stock.id === parseInt(value));
     form.setFieldsValue({stock: selectedStock});
     setSelectedStock(selectedStock)
     onSearchStock('')
-    return selectedStock
   };
 
   // Поиск по товарам на складе
-  const onSearchStock = (searchText: string) => {
+  const onSearchStock = (searchText: string): void => {
     if (searchText === '') {
       setFilteredStock(allStock || []);
     } else {
@@ -48,7 +47,7 @@ export const AddModalProductionProductMovement:
   };
 
   // Функция подтверждения добавления
-  const handleOk = useCallback(() => {
+  const handleOk = (): void => {
     const enteredAmount = form.getFieldValue("amount");
     const enteredIncome = form.getFieldValue('income')
     if (selectedStock?.amount === 0 && !enteredIncome) {
@@ -71,14 +70,14 @@ export const AddModalProductionProductMovement:
       .catch((error) => {
         console.log('Validate Failed:', error);
       });
-  }, [form, addItem]);
+  }
 
   // Функция закрытия модального окна
-  const handleClose = useCallback(() => {
+  const handleClose = (): void => {
     form.resetFields();
     onCancel()
     setSelectedStock(undefined)
-  }, [form, onCancel])
+  }
 
   useEffect(() => {
     getAllStock().then((allStock) => {

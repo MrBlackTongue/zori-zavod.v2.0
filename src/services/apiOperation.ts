@@ -33,7 +33,7 @@ export async function getOperationById(id: number): Promise<TypeOperation | unde
 }
 
 // Добавить новый тип операции
-export function postNewOperation(data: TypeOperation) {
+export function postNewOperation(data: TypeOperation): void {
   try {
     const config = {
       method: 'POST',
@@ -61,8 +61,7 @@ export async function deleteOperationById(id: number) {
     const response = await fetch(URL + OPERATION + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -70,11 +69,12 @@ export async function deleteOperationById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }
 
 // Редактировать тип операции
-export function putChangeOperation(data: TypeOperation) {
+export function putChangeOperation(data: TypeOperation): void {
   try {
     const config = {
       method: 'PUT',

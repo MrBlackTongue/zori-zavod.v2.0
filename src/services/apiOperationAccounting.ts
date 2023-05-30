@@ -2,7 +2,7 @@ import {TypeOperationAccounting, TypeOperationAccountingFilter} from "../types";
 import {message} from "antd";
 import {URL, OPERATION_ACCOUNTING, FILTER} from "./apiEndpoints";
 
-// Получить список учетных операций
+// Получить список всех учетных операций
 export async function getAllOperationAccounting(): Promise<TypeOperationAccounting[]> {
   try {
     const res = await fetch(URL + OPERATION_ACCOUNTING);
@@ -33,7 +33,7 @@ export async function getOperationAccountingById(id: number): Promise<TypeOperat
 }
 
 // Добавить новую учетную операцию
-export function postNewOperationAccounting(data: TypeOperationAccounting) {
+export function postNewOperationAccounting(data: TypeOperationAccounting): void {
   try {
     const config = {
       method: 'POST',
@@ -74,7 +74,7 @@ export async function deleteOperationAccountingById(id: number) {
 }
 
 // Редактировать учетную операцию
-export function putChangeOperationAccounting(data: TypeOperationAccounting) {
+export function putChangeOperationAccounting(data: TypeOperationAccounting): void {
   try {
     const config = {
       method: 'PUT',
@@ -96,12 +96,12 @@ export function putChangeOperationAccounting(data: TypeOperationAccounting) {
   }
 }
 
-// Фильтр по таблице
-export function postFilterByTable(data: TypeOperationAccountingFilter) {
+// Получить список всех отфильтрованных учетных операций
+export function getAllOperationAccountingByFilter(data: TypeOperationAccountingFilter) {
   try {
     const config = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
     };
     return fetch(URL + OPERATION_ACCOUNTING + FILTER, config)

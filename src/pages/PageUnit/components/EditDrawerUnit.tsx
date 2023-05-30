@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Button, Drawer, Form, Input, Space} from "antd";
 import {EditDrawerProps, TypeUnit} from "../../../types";
 import {getUnitById} from "../../../services";
@@ -12,12 +12,11 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
   const [form] = Form.useForm();
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     closeDrawer()
     form
       .validateFields()
       .then((values) => {
-        // form.resetFields()
         updateItem(values);
       })
       .catch((error) => {
@@ -25,13 +24,17 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
       })
   }
 
-  useEffect(() => {
+  const handleGetUnit = useCallback((): void => {
     if (selectedItemId) {
       getUnitById(selectedItemId).then((unit) => {
         form.setFieldsValue(unit);
       })
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    handleGetUnit()
+  }, [selectedItemId, handleGetUnit, form]);
 
   return (
     <Drawer

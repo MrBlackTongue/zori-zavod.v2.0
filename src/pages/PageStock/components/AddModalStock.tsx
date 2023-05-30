@@ -18,17 +18,14 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   const [filteredProduct, setFilteredProduct] = useState<TypeProduct[]>([]);
 
   // Изменить выбранный товар
-  const onChangeProduct = (value: string): TypeProduct | undefined => {
+  const onChangeProduct = (value: string): void => {
     const selectedProduct = allProduct?.find(product => product.id === parseInt(value));
-    form.setFieldsValue({
-      product: selectedProduct
-    });
+    form.setFieldsValue({product: selectedProduct});
     setSelectedProduct(selectedProduct);
-    return selectedProduct;
   };
 
   // Поиск по товарам
-  const onSearchProduct = (searchText: string) => {
+  const onSearchProduct = (searchText: string): void => {
     if (searchText === '') {
       setFilteredProduct(allProduct || []);
     } else {
@@ -43,7 +40,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   };
 
   // Функция подтверждения добавления новой ячейки на склад
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -58,7 +55,7 @@ export const AddModalStock: React.FC<AddModalProps<TypeStock>> = ({
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     setSelectedProduct(undefined);
     onCancel()

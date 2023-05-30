@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {Space, Button, FloatButton, Divider, Tooltip, Typography} from 'antd';
 import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
@@ -21,6 +21,7 @@ import {TableOperationTimesheet} from "./components/TableOperationTimesheet";
 import {EditDrawerOperationTimesheet} from "./components/EditDrawerOperationTimesheet";
 import {TableProductionProductMovement} from "./components/TableProductionProductMovement";
 import {AddModalProductionProductMovement} from "./components/AddModalProductionProductMovement";
+import dayjs from "dayjs";
 
 export const PageOperationAccountingDetail: React.FC = () => {
 
@@ -29,7 +30,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const {Title} = Typography;
 
   // Состояние и методы для учетной операции
-  const [updateAllTable, setUpdateAllTable] = useState(false);
+  const [isAllTableUpdate, setIsAllTableUpdate] = useState(false);
   const [isDrawerOperationAccountingOpen, setIsDrawerOperationAccountingOpen] = useState(false);
 
   // Состояние и методы для табеля учета рабочего времени
@@ -41,43 +42,45 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const [isModalProductionProductMovementOpen, setIsModalProductionProductMovementOpen] = useState(false);
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = useCallback((values: { [key: string]: any }): void => {
+  const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: id ? +id : undefined,
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       fact: values.fact || 0,
       operation: {
-        id: values.operation.id,
+        id: values.operation?.id,
       },
       output: values.output ? {id: values.output.id} : undefined,
       productionType: {id: values.productionType?.id},
     };
     setIsDrawerOperationAccountingOpen(false)
     putChangeOperationAccounting(operationAccounting)
-    setUpdateAllTable(prevState => !prevState)
-  }, [id]);
+    setIsAllTableUpdate(prevState => !prevState)
+  }
 
   // Удалить запись из таблицы
-  const handleDeleteOperationAccounting = (id: number) => {
+  const handleDeleteOperationAccounting = (id: number): void => {
     deleteOperationAccountingById(id).catch((error) => console.error(error));
     handleBack()
   };
 
   // Добавить сотрудника в табель учета рабочего времени
-  const handleAddOperationTimesheet = useCallback((values: { [key: string]: any }): void => {
+  const handleAddOperationTimesheet = (values: TypeOperationTimesheet): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       hours: values.hours,
-      employee: values.employee,
+      employee: {
+        id: values.employee?.id,
+      },
       operationAccountingId: id ? +id : undefined,
       fact: values.fact || 0,
     };
     setIsModalOperationTimesheetOpen(false)
     postNewOperationTimesheet(operationTimesheet)
-    setUpdateAllTable(prevState => !prevState)
-  }, [id]);
+    setIsAllTableUpdate(prevState => !prevState)
+  }
 
   // Обновить сотрудника в табеле учета рабочего времени
-  const handleUpdateOperationTimesheet = useCallback((values: { [key: string]: any }): void => {
+  const handleUpdateOperationTimesheet = (values: TypeOperationTimesheet): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       id: selectedOperationTimesheetId,
       hours: values.hours,
@@ -89,48 +92,47 @@ export const PageOperationAccountingDetail: React.FC = () => {
     };
     setIsDrawerOperationTimesheetOpen(false)
     putChangeOperationTimesheet(operationTimesheet)
-    setUpdateAllTable(prevState => !prevState)
-  }, [selectedOperationTimesheetId]);
+    setIsAllTableUpdate(prevState => !prevState)
+  }
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
-  const handleDeleteOperationTimesheet = useCallback((id: number) => {
+  const handleDeleteOperationTimesheet = (id: number): void => {
     deleteOperationTimesheetById(id).catch((error) => console.error(error));
-    setUpdateAllTable(prevState => !prevState)
-  }, [id]);
+    setIsAllTableUpdate(prevState => !prevState)
+  }
 
   // Открыть дравер табеля учета рабочего времени
-  const openDrawerOperationTimesheet = useCallback((operationTimesheetId: number) => {
+  const openDrawerOperationTimesheet = (operationTimesheetId: number): void => {
     setSelectedOperationTimesheetId(operationTimesheetId)
     setIsDrawerOperationTimesheetOpen(true);
-  }, []);
+  }
 
   // Добавить запись движения товара на производстве
-  const handleAddProductionProductMovement =
-    useCallback(async (values: { [key: string]: any }): Promise<void> => {
-      if (!id) return;
-      const operationAccounting = await getOperationAccountingById(+id);
-      let operationDate = operationAccounting?.date;
+  const handleAddProductionProductMovement = async (values: TypeProductionProductMovement): Promise<void> => {
+    if (!id) return;
+    const operationAccounting = await getOperationAccountingById(+id);
+    let operationDate = operationAccounting?.date;
 
-      const productionProductMovement: TypeProductionProductMovement = {
-        amount: values.amount,
-        income: values.income,
-        stock: values.stock,
-        date: operationDate,
-        productBatch: values.productBatch,
-        operationAccounting: {
-          id: id ? +id : undefined
-        },
-      };
-      setIsModalProductionProductMovementOpen(false)
-      postNewProductionProductMovement(productionProductMovement)
-      setUpdateAllTable(prevState => !prevState)
-    }, [id]);
+    const productionProductMovement: TypeProductionProductMovement = {
+      amount: values.amount,
+      income: values.income,
+      stock: values.stock,
+      date: operationDate,
+      productBatch: values.productBatch,
+      operationAccounting: {
+        id: id ? +id : undefined
+      },
+    };
+    setIsModalProductionProductMovementOpen(false)
+    postNewProductionProductMovement(productionProductMovement)
+    setIsAllTableUpdate(prevState => !prevState)
+  }
 
   // Удалить запись движения товара на производстве
-  const handleDeleteProductionProductMovement = useCallback((id: number) => {
+  const handleDeleteProductionProductMovement = (id: number): void => {
     deleteProductionProductMovementById(id).catch((error) => console.error(error));
-    setUpdateAllTable(prevState => !prevState)
-  }, [id]);
+    setIsAllTableUpdate(prevState => !prevState)
+  }
 
   // Переход на другую страницу по адресу
   const handleBack = () => {
@@ -155,7 +157,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateAllTable(prevState => !prevState)}
+            onClick={() => setIsAllTableUpdate(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -164,7 +166,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOperationAccountingDetail
-        isUpdateTable={updateAllTable}
+        isUpdateTable={isAllTableUpdate}
         openDrawer={() => setIsDrawerOperationAccountingOpen(true)}
         onDelete={handleDeleteOperationAccounting}
         idDetail={id ? +id : undefined}
@@ -191,7 +193,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Space>
       </div>
       <TableOperationTimesheet
-        isUpdateTable={updateAllTable}
+        isUpdateTable={isAllTableUpdate}
         openDrawer={openDrawerOperationTimesheet}
         onDelete={handleDeleteOperationTimesheet}
         idDetail={id ? +id : undefined}
@@ -223,7 +225,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Space>
       </div>
       <TableProductionProductMovement
-        isUpdateTable={updateAllTable}
+        isUpdateTable={isAllTableUpdate}
         onDelete={handleDeleteProductionProductMovement}
         idDetail={id ? +id : undefined}
       />

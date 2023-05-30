@@ -1,21 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
-import {getAllProduct, getProductByTitle, getAllProductGroup,} from "../../../services";
-import {TableProps, TypeProduct, TableParams} from "../../../types";
+import type {ColumnFilterItem} from 'antd/es/table/interface';
+import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
+import {TableProps, TypeProduct, TableParam} from "../../../types";
 
-export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
-                                                                  isUpdateTable,
-                                                                  openDrawer,
-                                                                  onDelete,
-                                                                  searchText
-                                                                }) => {
+export const TableProduct: React.FC<TableProps> = ({
+                                                     isUpdateTable,
+                                                     openDrawer,
+                                                     onDelete,
+                                                     searchText
+                                                   }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех товаров
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
   // Все товарные группы
@@ -23,7 +23,7 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -96,36 +96,27 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProduct>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProduct(allProduct);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы товаров
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllProduct().then((allProducts) => {
       setAllProduct(allProducts);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
   // Функция для поиска по таблице товаров
-  const searchTable = () => {
-    setLoading(true);
-    getProductByTitle(searchText ?? '').then((allProducts) => {
+  const searchTable = useCallback(() => {
+    setIsLoading(true);
+    getAllProductByTitle(searchText ?? '').then((allProducts) => {
       setAllProduct(allProducts);
-      setLoading(false);
+      setIsLoading(false);
     });
-  }
+  }, [searchText]);
 
   useEffect(() => {
     getAllProductGroup().then((productGroups) => {
@@ -139,19 +130,15 @@ export const TableProduct: React.FC<TableProps<TypeProduct>> = ({
     } else {
       updateTable();
     }
-  }, [searchText, isUpdateTable]);
+  }, [searchText, isUpdateTable, searchTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allProduct}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

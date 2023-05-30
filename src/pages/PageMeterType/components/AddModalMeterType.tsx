@@ -16,19 +16,16 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterType>> = ({
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
+  const onChangeUnit = (value: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
-      name: values,
+      name: value,
     };
-    form.setFieldsValue({
-      unit: unit
-    });
-    return unit
+    form.setFieldsValue({unit: unit});
   };
 
   // Функция подтверждения добавления
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {

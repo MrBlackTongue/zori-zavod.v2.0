@@ -6,44 +6,44 @@ import {deleteAcceptanceById, postNewAcceptance} from "../../services";
 import {TypeAcceptance} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
 import {AddModalAcceptance} from "./components/AddModalAcceptance";
+import dayjs from "dayjs";
 
 const {Title} = Typography;
 
 export const PageAcceptance: React.FC = () => {
 
   // Обновить таблицу, открыть закрыть модальное окно, текст поиска
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую приемку товаров
-  const handleAddAcceptance = (values: { [key: string]: any }): TypeAcceptance => {
+  const handleAddAcceptance = (values: TypeAcceptance): void => {
     const acceptance: TypeAcceptance = {
       amount: values.amount || 0,
       income: true,
-      date: values['date'].format('YYYY-MM-DD'),
-      stock: {
-        id: values?.stock?.id,
-        amount: values?.stock?.amount,
-        product: values?.stock?.product,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+      stock: values.stock && {
+        id: values.stock?.id,
+        amount: values.stock?.amount,
+        product: values.stock?.product,
       },
-      purchase: {
-        id: values?.purchase?.id,
-        amount: values?.amount,
-        date: values['date'].format('YYYY-MM-DD'),
-        product: values?.purchase?.product,
+      purchase: values.purchase && {
+        id: values.purchase?.id,
+        amount: values.amount,
+        date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+        product: values.purchase?.product,
       },
     };
     setIsModalOpen(false)
     postNewAcceptance(acceptance)
-    setUpdateTable(!updateTable)
-    return acceptance;
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteAcceptance = (id: number) => {
+  const handleDeleteAcceptance = (id: number): void => {
     deleteAcceptanceById(id).catch((error) => console.error(error));
-    setUpdateTable(prevState => !prevState)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   return (
@@ -61,7 +61,7 @@ export const PageAcceptance: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'>
             Обновить
           </Button>
@@ -77,7 +77,7 @@ export const PageAcceptance: React.FC = () => {
       <FloatButton.BackTop/>
       <TableAcceptance
         searchText={searchText}
-        isUpdateTable={updateTable}
+        isUpdateTable={isTableUpdate}
         onDelete={handleDeleteAcceptance}
       />
       <AddModalAcceptance

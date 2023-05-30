@@ -1,25 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllEmployee} from "../../../services";
-import {TableProps, TypeEmployee, TableParams} from "../../../types";
+import {TableProps, TypeEmployee, TableParam} from "../../../types";
 
-export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
-                                                                    isUpdateTable,
-                                                                    openDrawer,
-                                                                    onDelete,
-                                                                  }) => {
+export const TableEmployee: React.FC<TableProps> = ({
+                                                      isUpdateTable,
+                                                      openDrawer,
+                                                      onDelete,
+                                                    }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех сотрудников
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -60,7 +59,7 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
         if (hired) return 'Да'
         else return 'Нет'
       }),
-      sorter: (a, b) => (a.hired ?? false) < (b.hired ?? false) ? -1 : 1,
+      sorter: (a, b) => (Number(a.hired) ?? 0) - (Number(b.hired) ?? 0)
     },
     {
       title: 'Действия',
@@ -99,25 +98,16 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeEmployee>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllEmployee(allEmployee);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllEmployee().then((allEmployees) => {
       setAllEmployee(allEmployees);
-      setLoading(false);
+      setIsLoading(false);
     });
   }
 
@@ -130,12 +120,8 @@ export const TableEmployee: React.FC<TableProps<TypeEmployee>> = ({
       bordered
       columns={columns}
       dataSource={allEmployee}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

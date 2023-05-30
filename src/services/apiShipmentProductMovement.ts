@@ -3,7 +3,8 @@ import {URL, SHIPMENT, MOVEMENT} from "./apiEndpoints";
 import {TypeShipmentProductMovement} from "../types";
 
 // Получить все движения товаров по id отгрузки
-export async function getAllProductMovementByShipmentId(id: number): Promise<TypeShipmentProductMovement[] | undefined> {
+export async function getAllProductMovementByShipmentId(id: number):
+  Promise<TypeShipmentProductMovement[] | undefined> {
   try {
     const response = await fetch(URL + MOVEMENT + SHIPMENT + SHIPMENT + `/${id}`);
     if (!response.ok) {
@@ -18,7 +19,7 @@ export async function getAllProductMovementByShipmentId(id: number): Promise<Typ
 }
 
 // Добавить новый товар в отгрузку
-export function postNewShipmentProductMovement(data: TypeShipmentProductMovement) {
+export function postNewShipmentProductMovement(data: TypeShipmentProductMovement): void {
   try {
     const config = {
       method: 'POST',
@@ -46,8 +47,7 @@ export async function deleteShipmentProductMovementById(id: number) {
     const response = await fetch(URL + MOVEMENT + SHIPMENT + `/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
-    if (data.success) {
+    if (response.ok) {
       return message.success('Запись удалена');
     } else {
       console.error(response.statusText);
@@ -55,5 +55,6 @@ export async function deleteShipmentProductMovementById(id: number) {
     }
   } catch (err) {
     console.error(err);
+    message.error('Произошла ошибка при попытке удаления записи');
   }
 }

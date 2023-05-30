@@ -1,27 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined, DownOutlined} from '@ant-design/icons';
 import {getAllShipment} from "../../../services";
-import {TableProps, TypeShipment, TableParams} from "../../../types";
+import {TableProps, TypeShipment, TableParam} from "../../../types";
 import dayjs from 'dayjs';
 
-export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
-                                                                    isUpdateTable,
-                                                                    openDrawer,
-                                                                    onDelete,
-                                                                    openDetailDrawer
-                                                                  }) => {
+export const TableShipment: React.FC<TableProps> = ({
+                                                      isUpdateTable,
+                                                      openDrawer,
+                                                      onDelete,
+                                                      openDetailDrawer
+                                                    }) => {
   type TablePaginationPosition = 'bottomCenter'
 
   // Состояния для загрузки данных и списка всех отгрузок
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
   // Состояние для параметров пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -46,7 +45,7 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       title: 'Клиент',
       dataIndex: 'client',
       key: 'client',
-      sorter: (a: any, b: any) => a.client.title < b.client.title ? -1 : 1,
+      sorter: (a, b ) => (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
       render: ((client: any) =>
         client !== null ? (<div key={client.id}>{client.title}</div>) : null)
     },
@@ -99,25 +98,16 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeShipment>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllShipment(allShipment);
-    }
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
   const updateTable = () => {
-    setLoading(true);
+    setIsLoading(true);
     getAllShipment().then((allShipment) => {
       setAllShipment(allShipment);
-      setLoading(false);
+      setIsLoading(false);
     });
   };
 
@@ -130,12 +120,8 @@ export const TableShipment: React.FC<TableProps<TypeShipment>> = ({
       bordered
       columns={columns}
       dataSource={allShipment}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
-      loading={loading}
+      pagination={{...tableParams.pagination, position: [bottom]}}
+      loading={isLoading}
       onChange={handleTableChange}
     />
   );

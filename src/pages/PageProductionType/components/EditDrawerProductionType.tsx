@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, Space} from "antd";
 import {EditDrawerProps, TypeProductionType} from "../../../types";
 import {getProductionTypeById} from "../../../services";
@@ -12,7 +12,7 @@ export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTy
   const [form] = Form.useForm();
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -25,25 +25,25 @@ export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTy
   }
 
   // Функция закрытия дравера
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
-      getProductionType(selectedItemId).catch((error) => console.error(error));
+      handleGetProductionType(selectedItemId).catch((error) => console.error(error));
     }
     closeDrawer();
   };
 
   // Функция для получения информации выбранной записи и установления значений полей формы
-  const getProductionType = async (itemId: number) => {
+  const handleGetProductionType = useCallback(async (itemId: number) => {
     const productionType = await getProductionTypeById(itemId);
     form.setFieldsValue(productionType);
-  }
+  }, [form]);
 
   useEffect(() => {
     if (selectedItemId) {
-      getProductionType(selectedItemId).catch((error) => console.error(error));
+      handleGetProductionType(selectedItemId).catch((error) => console.error(error));
     }
-  }, [selectedItemId]);
+  }, [selectedItemId, handleGetProductionType]);
 
   return (
     <Drawer

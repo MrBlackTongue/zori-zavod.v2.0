@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeMeterType, TypeUnit} from "../../../types";
 import {getMeterTypeById, getAllUnit} from "../../../services";
@@ -18,20 +18,17 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
   const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (values: string, option: any): TypeUnit => {
+  const onChangeUnit = (value: string, option: any): void => {
     const unit: TypeUnit = {
       id: option.id,
-      name: values,
+      name: value,
     };
-    form.setFieldsValue({
-      unit: unit
-    });
+    form.setFieldsValue({unit: unit});
     setSelectedUnit(unit)
-    return unit
   };
 
   // Функция подтверждения редактирования
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
@@ -44,23 +41,30 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
       });
   }
 
+  // Функция для получения данных в дравер
+  const handleGetMeterType = useCallback((): void => {
+    if (selectedItemId) {
+      getMeterTypeById(selectedItemId).then((meterType) => {
+        form.setFieldsValue(meterType)
+        setSelectedUnit(meterType?.unit)
+      })
+    }
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    if (isOpen && selectedItemId) {
+      handleGetMeterType()
+    } else {
+      form.resetFields();
+      setSelectedUnit(undefined);
+    }
+  }, [isOpen, selectedItemId, handleGetMeterType, form]);
+
   useEffect(() => {
     getAllUnit().then((allUnit) => {
       setAllUnit(allUnit);
     });
   }, []);
-
-  useEffect(() => {
-    if (isOpen && selectedItemId) {
-      getMeterTypeById(selectedItemId).then((meterType) => {
-        form.setFieldsValue(meterType)
-        setSelectedUnit(meterType?.unit)
-      })
-    } else {
-      form.resetFields();
-      setSelectedUnit(undefined);
-    }
-  }, [isOpen, selectedItemId]);
 
   return (
     <Drawer
