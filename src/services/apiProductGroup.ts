@@ -1,6 +1,7 @@
 import {TypeProduct} from "../types";
 import {URL, PRODUCT_GROUP, GROUP} from "./apiEndpoints";
 import {message} from "antd";
+import {BASE_HEADERS} from "../utils";
 
 // Получить список всех товарных групп
 export async function getAllProductGroup(): Promise<TypeProduct[]> {
@@ -37,7 +38,7 @@ export function postNewProductGroup(data: TypeProduct) {
   try {
     const config = {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
     };
     fetch(URL + PRODUCT_GROUP + GROUP, config)
@@ -78,7 +79,7 @@ export function putChangeProductGroup(data: TypeProduct) {
   try {
     const config = {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
     };
     fetch(URL + PRODUCT_GROUP + GROUP, config)

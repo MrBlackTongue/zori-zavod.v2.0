@@ -71,7 +71,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
   ];
 
   // Функция для обновления таблицы
-  const updateTable = useCallback(() => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     if (idDetail) {
       getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
@@ -82,8 +82,8 @@ export const TableDetailShipment: React.FC<TableProps> = ({
   }, [idDetail])
 
   useEffect(() => {
-    updateTable()
-  }, [updateTable, isUpdateTable]);
+    handleUpdateTable()
+  }, [handleUpdateTable, isUpdateTable]);
 
   return (
     <Table

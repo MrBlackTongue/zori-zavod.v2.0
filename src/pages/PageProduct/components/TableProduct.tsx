@@ -12,8 +12,6 @@ export const TableProduct: React.FC<TableProps> = ({
                                                      onDelete,
                                                      searchText
                                                    }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
   // Лоудер и список всех товаров
   const [isLoading, setIsLoading] = useState(false);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
@@ -22,7 +20,6 @@ export const TableProduct: React.FC<TableProps> = ({
   const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -96,21 +93,21 @@ export const TableProduct: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для обновления таблицы товаров
-  const updateTable = () => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProduct().then((allProducts) => {
       setAllProduct(allProducts);
       setIsLoading(false);
     });
-  }
+  }, [])
 
   // Функция для поиска по таблице товаров
-  const searchTable = useCallback(() => {
+  const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductByTitle(searchText ?? '').then((allProducts) => {
       setAllProduct(allProducts);
@@ -126,20 +123,20 @@ export const TableProduct: React.FC<TableProps> = ({
 
   useEffect(() => {
     if (searchText) {
-      searchTable();
+      handleSearchTable();
     } else {
-      updateTable();
+      handleUpdateTable();
     }
-  }, [searchText, isUpdateTable, searchTable]);
+  }, [searchText, isUpdateTable,handleUpdateTable, handleSearchTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allProduct}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };

@@ -12,14 +12,11 @@ export const TablePurchase: React.FC<TableProps> = ({
                                                       onDelete,
                                                       searchText,
                                                     }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
   // Лоудер и список всех закупок
   const [isLoading, setIsLoading] = useState(false);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -141,12 +138,12 @@ export const TablePurchase: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для обновления таблицы закупок
-  const updateTable = useCallback(() => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllPurchase().then((allPurchases) => {
       setAllPurchase(allPurchases);
@@ -155,7 +152,7 @@ export const TablePurchase: React.FC<TableProps> = ({
   }, [])
 
   // Функция для поиска по таблице закупок
-  const searchTable = useCallback(() => {
+  const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllPurchaseByTitle(searchText ?? '').then((allPurchases) => {
       setAllPurchase(allPurchases);
@@ -165,20 +162,20 @@ export const TablePurchase: React.FC<TableProps> = ({
 
   useEffect(() => {
     if (searchText) {
-      searchTable();
+      handleSearchTable();
     } else {
-      updateTable();
+      handleUpdateTable();
     }
-  }, [searchText, isUpdateTable, searchTable, updateTable]);
+  }, [searchText, isUpdateTable, handleSearchTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allPurchase}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };
