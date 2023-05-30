@@ -7,6 +7,7 @@ import {TypePurchase} from '../../types';
 import {TablePurchase} from "./components/TablePurchase";
 import {AddModalPurchase} from "./components/AddModalPurchase";
 import {EditDrawerPurchase} from "./components/EditDrawerPurchase";
+import dayjs from "dayjs";
 
 const {Title} = Typography;
 
@@ -24,13 +25,13 @@ export const PagePurchase: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую закупку
-  const handleAddPurchase = (values: { [key: string]: any }): void => {
+  const handleAddPurchase = (values: TypePurchase): void => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       product: {
-        id: values.product,
+        id: values.product?.id,
       },
       paid: values.paid,
     };
@@ -46,14 +47,14 @@ export const PagePurchase: React.FC = () => {
   };
 
   // Обновить закупку
-  const handleUpdatePurchase = (values: { [key: string]: any }): void => {
+  const handleUpdatePurchase = (values: TypePurchase): void => {
     const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
       cost: values.cost,
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       product: {
-        id: values.product,
+        id: values.product?.id,
       },
       paid: values.paid,
     };

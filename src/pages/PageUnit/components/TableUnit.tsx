@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllUnit} from "../../../services";
-import {TableProps, TypeUnit, TableParams} from "../../../types";
+import {TableProps, TypeUnit, TableParam} from "../../../types";
 
 export const TableUnit: React.FC<TableProps> = ({
                                                   isUpdateTable,
@@ -18,7 +18,7 @@ export const TableUnit: React.FC<TableProps> = ({
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -32,7 +32,7 @@ export const TableUnit: React.FC<TableProps> = ({
       dataIndex: 'name',
       key: 'name',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.name < b.name ? -1 : 1,
+      sorter: (a, b) => (a.name ?? '') < (b.name ?? '') ? -1 : 1,
     },
     {
       title: 'Действия',

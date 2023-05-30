@@ -26,17 +26,17 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
   // Функция для получения данных о выпуске продукции по id и обновления формы
-  const handleGetOutputById = useCallback(() => {
+  const handleGetOutput = useCallback((): void => {
     if (selectedItemId) {
       getOutputById(selectedItemId).then((output) => {
         form.setFieldsValue({
           date: dayjs(output?.date),
-          product: output?.product?.id,
+          product: output?.product,
         });
         setSelectedProduct(output?.product)
         setProduct(output?.product)
@@ -71,8 +71,8 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
   }, []);
 
   useEffect(() => {
-    handleGetOutputById();
-  }, [selectedItemId, handleGetOutputById]);
+    handleGetOutput();
+  }, [selectedItemId, handleGetOutput]);
 
   return (
     <Drawer
@@ -99,7 +99,7 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutput>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

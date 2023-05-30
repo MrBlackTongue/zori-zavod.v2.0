@@ -8,7 +8,7 @@ export type TypeAcceptance = {
   amount?: number,
   income?: true,
   stock?: TypeStock,
-  date?: Dayjs,
+  date?: Dayjs | string,
   productBatch?: TypeProductBatch,
   purchase?: TypePurchase;
 }

@@ -34,12 +34,12 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
   // Функция для получения данных о закупке по id и обновления формы
-  const handleGetPurchaseById = useCallback(() => {
+  const handleGetPurchase = useCallback((): void => {
     if (selectedItemId) {
       getPurchaseById(selectedItemId).then((purchase) => {
         form.setFieldsValue({
@@ -82,8 +82,8 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
   }, []);
 
   useEffect(() => {
-    handleGetPurchaseById();
-  }, [selectedItemId, handleGetPurchaseById]);
+    handleGetPurchase();
+  }, [selectedItemId, handleGetPurchase]);
 
   return (
     <Drawer
@@ -143,7 +143,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

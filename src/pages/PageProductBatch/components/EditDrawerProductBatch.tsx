@@ -24,12 +24,12 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
   // Функция для получения данных в дравер
-  const handleGetProductBatchById = useCallback(() => {
+  const handleGetProductBatch = useCallback((): void => {
     if (selectedItemId) {
       getProductBatchById(selectedItemId).then((productBatch) => {
         form.setFieldsValue({
@@ -62,12 +62,12 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
   };
 
   useEffect(() => {
-    handleGetProductBatchById();
-  }, [selectedItemId, handleGetProductBatchById]);
+    handleGetProductBatch();
+  }, [selectedItemId, handleGetProductBatch]);
 
   useEffect(() => {
-    getAllProduct().then((products) => {
-      setAllProduct(products);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
     });
   }, []);
 

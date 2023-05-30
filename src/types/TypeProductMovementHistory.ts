@@ -1,7 +1,7 @@
 import {Dayjs} from 'dayjs';
 
 export type TypeProductMovementHistory = {
-  date?: Dayjs,
+  date?: Dayjs | string,
   id?: number,
   title?: string,
   income?: number,

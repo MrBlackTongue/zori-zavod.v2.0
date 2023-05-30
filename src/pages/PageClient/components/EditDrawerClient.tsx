@@ -26,13 +26,13 @@ export const EditDrawerClient: React.FC<EditDrawerProps<TypeClient>> = ({
   };
 
   // Функция для получения данных в дравер
-  const handleGetClient = useCallback(()=> {
+  const handleGetClient = useCallback((): void => {
     if (selectedItemId) {
       getClientById(selectedItemId).then((client) => {
         form.setFieldsValue(client);
       })
     }
-  },[selectedItemId, form])
+  }, [selectedItemId, form])
 
   useEffect(() => {
     handleGetClient()

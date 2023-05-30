@@ -28,22 +28,22 @@ export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTy
   const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
-      getProductionType(selectedItemId).catch((error) => console.error(error));
+      handleGetProductionType(selectedItemId).catch((error) => console.error(error));
     }
     closeDrawer();
   };
 
   // Функция для получения информации выбранной записи и установления значений полей формы
-  const getProductionType = useCallback(async (itemId: number) => {
+  const handleGetProductionType = useCallback(async (itemId: number) => {
     const productionType = await getProductionTypeById(itemId);
     form.setFieldsValue(productionType);
   }, [form]);
 
   useEffect(() => {
     if (selectedItemId) {
-      getProductionType(selectedItemId).catch((error) => console.error(error));
+      handleGetProductionType(selectedItemId).catch((error) => console.error(error));
     }
-  }, [selectedItemId, getProductionType]);
+  }, [selectedItemId, handleGetProductionType]);
 
   return (
     <Drawer

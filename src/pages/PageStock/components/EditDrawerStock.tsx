@@ -41,7 +41,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
   };
 
   // Функция для получения данных об остатке по id и обновление формы
-  const handleGetStockById = useCallback(() => {
+  const handleGetStock = useCallback((): void => {
     if (selectedItemId) {
       getStockById(selectedItemId).then((stock) => {
         form.setFieldsValue({
@@ -75,11 +75,11 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
 
   useEffect(() => {
     if (isOpen) {
-      handleGetStockById();
+      handleGetStock();
     } else {
       form.resetFields();
     }
-  }, [isOpen, handleGetStockById, form]);
+  }, [isOpen, handleGetStock, form]);
 
   useEffect(() => {
     getAllProduct().then((allProduct) => {

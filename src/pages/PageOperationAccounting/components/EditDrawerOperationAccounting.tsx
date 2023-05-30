@@ -114,13 +114,13 @@ export const EditDrawerOperationAccounting:
   const handleClose = (): void => {
     form.resetFields();
     if (selectedItemId) {
-      getOperationAccounting(selectedItemId).catch((error) => console.error(error));
+      handleGetOperationAccounting(selectedItemId).catch((error) => console.error(error));
     }
     closeDrawer();
   };
 
   // Функция для получения данных в дравер
-  const getOperationAccounting = useCallback(async (itemId: number) => {
+  const handleGetOperationAccounting = useCallback(async (itemId: number) => {
     const operationAccounting = await getOperationAccountingById(itemId);
     form.setFieldsValue({
       date: dayjs(operationAccounting?.date),
@@ -136,13 +136,13 @@ export const EditDrawerOperationAccounting:
 
   useEffect(() => {
     if (selectedItemId) {
-      getOperationAccounting(selectedItemId).catch((error) => console.error(error));
+      handleGetOperationAccounting(selectedItemId).catch((error) => console.error(error));
     } else {
       setSelectedOperation(undefined);
       setSelectedOutput(undefined);
       setSelectedProductionType(undefined);
     }
-  }, [selectedItemId, getOperationAccounting]);
+  }, [selectedItemId, handleGetOperationAccounting]);
 
   useEffect(() => {
     getAllOperation().then((allOperation) => {
@@ -248,7 +248,7 @@ export const EditDrawerOperationAccounting:
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

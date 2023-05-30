@@ -38,23 +38,23 @@ export const PageOperationAccounting: React.FC = () => {
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Добавить новую учетную операцию
-  const handleAddOperationAccounting = (values: { [key: string]: any }): void => {
+  const handleAddOperationAccounting = (values: TypeOperationAccounting): void => {
     const operationAccounting: TypeOperationAccounting = {
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       fact: values.fact || undefined,
       operation: {
-        id: values.operation.id,
-        title: values.operation.title,
+        id: values.operation?.id,
+        title: values.operation?.title,
       },
       output: values.output
         ? {
           id: values.output.id,
           date: values.output.date,
           product: {
-            id: values.output.product.id,
-            productGroup: values.output.product.productGroup,
-            title: values.output.product.title,
-            unit: values.output.product.unit,
+            id: values.output?.product?.id,
+            productGroup: values.output?.product?.productGroup,
+            title: values.output?.product?.title,
+            unit: values.output?.product?.unit,
           }
         }
         : undefined,
@@ -83,13 +83,13 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: { [key: string]: any }): void => {
+  const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingId,
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       fact: values.fact || undefined,
       operation: {
-        id: values.operation.id,
+        id: values.operation?.id,
       },
       output: values.output ? {id: values.output.id} : undefined,
       productionType: {id: values.productionType?.id},

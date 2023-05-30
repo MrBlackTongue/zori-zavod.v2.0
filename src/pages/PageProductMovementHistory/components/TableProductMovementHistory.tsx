@@ -4,7 +4,7 @@ import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import dayjs from "dayjs";
 import {getAllProductMovementHistory, getProductMovementHistoryById} from "../../../services";
 import {
-  TableParams,
+  TableParam,
   TableProps,
   TypeProductMovementHistory,
   TypeProductMovementHistoryFilter
@@ -23,7 +23,7 @@ export const TableProductMovementHistory:
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,

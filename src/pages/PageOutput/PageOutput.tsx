@@ -7,6 +7,7 @@ import {TypeOutput} from "../../types";
 import {TableOutput} from "./components/TableOutput";
 import {AddModalOutput} from "./components/AddModalOutput";
 import {EditDrawerOutput} from "./components/EditDrawerOutput";
+import dayjs from "dayjs";
 
 const {Title} = Typography;
 
@@ -21,11 +22,11 @@ export const PageOutput: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новый выпуск продукции
-  const handleAddOutput = (values: { [key: string]: any }): void => {
+  const handleAddOutput = (values: TypeOutput): void => {
     const output: TypeOutput = {
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       product: {
-        id: values.product,
+        id: values.product?.id,
       }
     };
     setIsModalOpen(false)
@@ -40,11 +41,11 @@ export const PageOutput: React.FC = () => {
   };
 
   // Обновить выпуск продукции
-  const handleUpdateOutput = (values: { [key: string]: any }): void => {
+  const handleUpdateOutput = (values: TypeOutput): void => {
     const output: TypeOutput = {
-      date: values['date'].format('YYYY-MM-DD'),
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
       product: {
-        id: values.product,
+        id: values.product?.id,
       },
       id: selectedOutputId,
     };

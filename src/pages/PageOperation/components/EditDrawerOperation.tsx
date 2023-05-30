@@ -49,7 +49,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   };
 
   // Функция для получения данных в дравер
-  const handleGetOperation = useCallback(() => {
+  const handleGetOperation = useCallback((): void => {
     if (selectedItemId) {
       getOperationById(selectedItemId).then((operation) => {
         form.setFieldsValue(operation)

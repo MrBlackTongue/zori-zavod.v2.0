@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TableParams, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
+import {TableProps, TableParam, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
 import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
@@ -20,7 +20,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,

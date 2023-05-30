@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined, DownOutlined} from '@ant-design/icons';
 import {getAllShipment} from "../../../services";
-import {TableProps, TypeShipment, TableParams} from "../../../types";
+import {TableProps, TypeShipment, TableParam} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableShipment: React.FC<TableProps> = ({
@@ -20,7 +20,7 @@ export const TableShipment: React.FC<TableProps> = ({
 
   // Состояние для параметров пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -45,7 +45,7 @@ export const TableShipment: React.FC<TableProps> = ({
       title: 'Клиент',
       dataIndex: 'client',
       key: 'client',
-      sorter: (a: any, b: any) => a.client.title < b.client.title ? -1 : 1,
+      sorter: (a, b ) => (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
       render: ((client: any) =>
         client !== null ? (<div key={client.id}>{client.title}</div>) : null)
     },

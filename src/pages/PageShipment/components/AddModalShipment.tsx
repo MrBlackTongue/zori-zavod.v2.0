@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeShipment, TypeClient} from "../../../types";
 import {Form, Modal, DatePicker, Select} from "antd";
 import {getAllClient} from "../../../services";
@@ -18,14 +18,14 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   const [selectedClient, setSelectedClient] = useState<TypeClient>();
 
   // Функция для изменения выбранного клиента
-  const onChangeClient = useCallback((value: string, option: any): void => {
+  const onChangeClient = (value: string, option: any): void => {
     const client: TypeClient = {
       id: option.id,
       title: value,
     };
     form.setFieldsValue({client: client});
     setSelectedClient(client)
-  }, [form]);
+  }
 
   // Функция для очистки поля клиента
   const onClearClient = (): void => {
@@ -80,7 +80,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

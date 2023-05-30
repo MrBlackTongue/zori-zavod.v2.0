@@ -23,7 +23,7 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
@@ -48,8 +48,8 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
   };
 
   useEffect(() => {
-    getAllProduct().then((products) => {
-      setAllProduct(products);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
     });
   }, []);
 
@@ -73,7 +73,7 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutput>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

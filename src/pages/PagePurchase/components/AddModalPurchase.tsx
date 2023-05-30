@@ -29,7 +29,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
       id: option.id,
       title: value,
     };
-    form.setFieldsValue({product: product.id});
+    form.setFieldsValue({product: product});
     setSelectedProduct(product)
   };
 
@@ -55,8 +55,8 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
   };
 
   useEffect(() => {
-    getAllProduct().then((products) => {
-      setAllProduct(products);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
     });
   }, []);
 
@@ -113,7 +113,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchase>> = ({
         <Form.Item
           label="Дата"
           name="date"
-          rules={[{type: 'object' as const, required: true, message: 'выберите дату'}]}
+          rules={[{required: true, message: 'выберите дату'}]}
         >
           <DatePicker
             style={{width: '100%'}}

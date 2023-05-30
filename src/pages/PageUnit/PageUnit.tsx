@@ -21,7 +21,7 @@ export const PageUnit: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую единицу измерения
-  const handleAddUnit = (values: { [key: string]: any }): void => {
+  const handleAddUnit = (values: TypeUnit): void => {
     const unit: TypeUnit = {
       name: values.name,
     };

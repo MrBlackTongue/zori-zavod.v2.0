@@ -30,7 +30,7 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
       })
   }
   // Функция для получения данных в дравер
-  const handleGetEmployee = useCallback(()=> {
+  const handleGetEmployee = useCallback((): void => {
     if (selectedItemId) {
       getEmployeeById(selectedItemId).then((employee) => {
         form.setFieldsValue(employee);
