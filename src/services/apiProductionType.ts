@@ -1,97 +1,75 @@
 import {TypeProductionType} from "../types";
-import {URL, PRODUCTION_TYPE } from "./apiEndpoints";
-import {message} from "antd";
+import {URL, PRODUCTION_TYPE} from "./apiEndpoints";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список типов производства
-export async function getAllProductionType(): Promise<TypeProductionType[]> {
+export function getAllProductionType(): Promise<TypeProductionType[]> {
   try {
-    const res = await fetch(URL + PRODUCTION_TYPE);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeProductionType[];
+    return fetch(URL + PRODUCTION_TYPE)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные типа производства по id
-export async function getProductionTypeById(id: number): Promise<TypeProductionType | undefined> {
+export function getProductionTypeById(id: number): Promise<TypeProductionType | undefined> {
   try {
-    const response = await fetch(URL + PRODUCTION_TYPE + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + PRODUCTION_TYPE + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новый тип производства
-export function postNewProductionType(data: TypeProductionType): void {
+export function createProductionType(data: TypeProductionType): void {
   try {
-    const config = {
+    fetch(URL + PRODUCTION_TYPE, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCTION_TYPE, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
   }
 }
 
 // Удалить тип производства по id
-export async function deleteProductionTypeById(id: number) {
+export function deleteProductionTypeById(id: number): void {
   try {
-    const response = await fetch(URL + PRODUCTION_TYPE + `/${id}`, {
+    fetch(URL + PRODUCTION_TYPE + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать тип производства
-export function putChangeProductionType(data: TypeProductionType): void {
+export function editProductionType(data: TypeProductionType): void {
   try {
-    const config = {
+    fetch(URL + PRODUCTION_TYPE, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCTION_TYPE, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }

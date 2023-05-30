@@ -1,60 +1,50 @@
-import {message} from "antd";
 import {URL, SHIPMENT, MOVEMENT} from "./apiEndpoints";
 import {TypeShipmentProductMovement} from "../types";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+} from '../utils';
 
 // Получить все движения товаров по id отгрузки
-export async function getAllProductMovementByShipmentId(id: number):
+export function getAllProductMovementByShipmentId(id: number):
   Promise<TypeShipmentProductMovement[] | undefined> {
   try {
-    const response = await fetch(URL + MOVEMENT + SHIPMENT + SHIPMENT + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + MOVEMENT + SHIPMENT + SHIPMENT + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новый товар в отгрузку
-export function postNewShipmentProductMovement(data: TypeShipmentProductMovement): void {
+export function createShipmentProductMovement(data: TypeShipmentProductMovement): void {
   try {
-    const config = {
+    fetch(URL + MOVEMENT + SHIPMENT, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + MOVEMENT + SHIPMENT, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error))
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить товар из отгрузки по id
-export async function deleteShipmentProductMovementById(id: number) {
+export function deleteShipmentProductMovementById(id: number): void {
   try {
-    const response = await fetch(URL + MOVEMENT + SHIPMENT + `/${id}`, {
+    fetch(URL + MOVEMENT + SHIPMENT + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }

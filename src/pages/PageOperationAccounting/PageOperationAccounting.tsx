@@ -4,8 +4,8 @@ import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
   getAllOperation,
-  postNewOperationAccounting,
-  putChangeOperationAccounting,
+  createOperationAccounting,
+  editOperationAccounting,
   deleteOperationAccountingById,
   getAllProductionType,
 } from "../../services";
@@ -61,7 +61,7 @@ export const PageOperationAccounting: React.FC = () => {
       productionType: values.productionType,
     };
     setIsModalOpen(false)
-    postNewOperationAccounting(operationAccounting)
+    createOperationAccounting(operationAccounting)
     setDate(date)
     setIsTableUpdate(prevState => !prevState)
   };
@@ -95,14 +95,14 @@ export const PageOperationAccounting: React.FC = () => {
       productionType: {id: values.productionType?.id},
     };
     setIsDrawerOpen(false)
-    putChangeOperationAccounting(operationAccounting)
+    editOperationAccounting(operationAccounting)
     setDate(date)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOperationAccounting = (id: number): void => {
-    deleteOperationAccountingById(id).catch((error) => console.error(error));
+    deleteOperationAccountingById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
-import {postNewShipment, putChangeShipment, deleteShipmentById} from "../../services";
+import {createShipment, editShipment, deleteShipmentById} from "../../services";
 import {TypeShipment} from "../../types";
 import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
@@ -32,7 +32,7 @@ export const PageShipment: React.FC = () => {
       client: values.client,
     };
     setOpenState({...openState, isModalOpen: false});
-    postNewShipment(shipment);
+    createShipment(shipment);
     setIsTableUpdate(prevState => !prevState);
   }
 
@@ -56,13 +56,13 @@ export const PageShipment: React.FC = () => {
       client: values.client,
     };
     setOpenState({...openState, isDrawerOpen: false});
-    putChangeShipment(shipment);
+    editShipment(shipment);
     setIsTableUpdate(prevState => !prevState);
   }
 
   // Удалить запись из таблицы
   const handleDeleteShipment = (id: number): void => {
-    deleteShipmentById(id).catch((error) => console.error(error));
+    deleteShipmentById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

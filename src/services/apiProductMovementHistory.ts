@@ -1,32 +1,29 @@
 import {TypeProductMovementHistory} from "../types";
 import {URL, HISTORY, PRODUCT_MOVEMENT} from "./apiEndpoints";
+import {
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+} from '../utils';
 
 // Получить всю историю движения товаров
-export async function getAllProductMovementHistory(): Promise<TypeProductMovementHistory[]> {
+export function getAllProductMovementHistory(): Promise<TypeProductMovementHistory[]> {
   try {
-    const res = await fetch(URL + PRODUCT_MOVEMENT + HISTORY);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeProductMovementHistory[];
+    return fetch(URL + PRODUCT_MOVEMENT + HISTORY)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить всю историю движения товаров по id ячейки товара на складе
-export async function getProductMovementHistoryById(id: number): Promise<TypeProductMovementHistory[] | undefined> {
+export function getProductMovementHistoryById(id: number): Promise<TypeProductMovementHistory[] | undefined> {
   try {
-    const response = await fetch(URL + PRODUCT_MOVEMENT + HISTORY + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + PRODUCT_MOVEMENT + HISTORY + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }

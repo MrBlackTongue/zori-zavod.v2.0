@@ -6,7 +6,7 @@ import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
 import {
   deleteShipmentProductMovementById,
   getShipmentById,
-  postNewShipmentProductMovement
+  createShipmentProductMovement
 } from "../../../services";
 import {AddModalDetailShipment} from "./AddModalDetailShipment";
 
@@ -32,13 +32,13 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
       income: false
     };
     setIsModalOpen(false)
-    postNewShipmentProductMovement(productMovement)
+    createShipmentProductMovement(productMovement)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteShipmentMovement = (id: number): void => {
-    deleteShipmentProductMovementById(id).catch((error) => console.error(error));
+    deleteShipmentProductMovementById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteClientById, postNewClient, putChangeClient} from "../../services";
+import {deleteClientById, createClient, editClient} from "../../services";
 import {TypeClient} from "../../types";
 import {TableClient} from "./components/TableClient";
 import {AddModalClient} from "./components/AddModalClient";
@@ -26,7 +26,7 @@ export const PageClient: React.FC = () => {
       title: values.title,
     };
     setIsModalOpen(false)
-    postNewClient(client)
+    createClient(client)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -43,13 +43,13 @@ export const PageClient: React.FC = () => {
       title: values.title,
     };
     setIsDrawerOpen(false)
-    putChangeClient(client)
+    editClient(client)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteClient = (id: number): void => {
-    deleteClientById(id).catch((error) => console.error(error));
+    deleteClientById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 
