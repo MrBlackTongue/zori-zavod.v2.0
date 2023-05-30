@@ -8,11 +8,13 @@ import {
 import {Layout, theme} from 'antd';
 import {MenuMain} from "./components/MenuMain/MenuMain";
 import {AppRoutes} from "./components/AppRoutes/AppRoutes";
+import {PageLoginForm} from "./pages/PageLoginForm/PageLoginForm";
 
 const {Header, Sider, Content} = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
   const {
     token: {colorBgContainer},
@@ -25,6 +27,14 @@ function App() {
       setCollapsed(false)
     }
   }, [location]);
+
+  if (!isLoggedIn) {
+    return (
+      <div className="login-form-container">
+        <PageLoginForm onLogin={() => setIsLoggedIn(true)}/>
+      </div>
+    )
+  }
 
   return (
     <div>
