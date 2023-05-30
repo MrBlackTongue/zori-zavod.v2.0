@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, TableParams, TypeMeter} from "../../../types";
+import {TableProps, TableParam, TypeMeter} from "../../../types";
 import {getAllMeter} from "../../../services";
 
 export const TableMeter: React.FC<TableProps<TypeMeter>> = ({
@@ -18,7 +18,7 @@ export const TableMeter: React.FC<TableProps<TypeMeter>> = ({
 
   // Параментры для пагинации
   const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,

@@ -1,37 +1,39 @@
-import React, {useState, useEffect} from "react";
+ import React, {useState, useEffect} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeMeter, TypeMeterType, TypeUnit} from "../../../types";
-import {getAllMeterType} from "../../../services";
+import {getAllMeter} from "../../../services";
 
-// const {Option} = Select;
-//
+const {Option} = Select;
+
 // export const EditDrawerMeter: React.FC<EditDrawerProps<TypeMeter>> = ({
 //                                                                         isOpen,
 //                                                                         closeDrawer,
-//                                                                         createItem,
+//                                                                         updateItem
 //                                                                       }) => {
-//
+
 //   const [form] = Form.useForm();
-//   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>();
-//   const [selectedMeterType, setSelectedMeterType] = useState<TypeMeterType>();
-//
-//   const onChangeMeterType = (values: string, option: any): TypeMeterType => {
-//     const meterType: TypeMeterType = {
+  // 
+//   const [allMeter, setAllMeter] = useState<TypeMeter[]>();
+//   const [selectedMeter, setSelectedMeter] = useState<TypeMeter>();
+// 
+//   const onChangeMeter = (value: any, option: any): void => {
+//     const meterType: TypeMeter = {
 //       id: option.id,
-//       name: values,
+//       serialNumber: value,
+//       description: value,
+//       meterTypeDto: TypeMeterType,
 //     };
 //     form.setFieldsValue({
 //       meterType: meterType
 //     });
-//     setSelectedMeterType(meterType)
-//     return meterType
+//     setSelectedMeter(meterType)
 //   };
-//
+// 
 //   const handleOk = () => {
 //     form
 //       .validateFields()
 //       .then((values) => {
-//         createItem(values);
+//         updateItem(values);
 //         closeDrawer();
 //       })
 //       .catch((info) => {
@@ -39,20 +41,20 @@ import {getAllMeterType} from "../../../services";
 //         return;
 //       });
 //   }
-//
+// 
 //   useEffect(() => {
-//     getAllMeterType().then((allMeterType) => {
-//       setAllMeterType(allMeterType);
+//     getAllMeter().then((allMeterType) => {
+//       setAllMeter(allMeterType);
 //     });
 //   }, []);
-//
+// 
 //   useEffect(() => {
 //     if (!isOpen) {
 //       form.resetFields();
-//       setSelectedMeterType(undefined);
+//       setSelectedMeter(undefined);
 //     }
 //   }, [isOpen]);
-//
+// 
 //   return (
 //     <Drawer
 //       title="Добавление счётчика"
@@ -87,13 +89,13 @@ import {getAllMeterType} from "../../../services";
 //         >
 //           <div>
 //             <Select
-//               value={selectedMeterType ? selectedMeterType.name : undefined}
-//               onChange={onChangeMeterType}
+//               value={selectedMeter ? selectedMeter.title : undefined}
+//               onChange={onChangeMeter}
 //             >
-//               {allMeterType && allMeterType.length > 0 ?
-//                 allMeterType.map(meterType => (
-//                   <Option id={meterType.id} key={meterType.id} value={meterType.name}>
-//                     {meterType.name}
+//               {allMeter && allMeter.length > 0 ?
+//                 allMeter.map(meterType => (
+//                   <Option id={meterType.id} key={meterType.id} value={meterType.title}>
+//                     {meterType.title}
 //                   </Option>
 //                 )) : null}
 //             </Select>
