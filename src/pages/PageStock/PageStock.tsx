@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getAllProductGroup, postNewStock, putChangeStock, deleteStockById} from '../../services';
+import {getAllProductGroup, createNewStock, editStock, deleteStockById} from '../../services';
 import {TypeProductGroup, TypeStock} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
@@ -39,7 +39,7 @@ export const PageStock: React.FC = () => {
       },
     };
     setIsModalOpen(false);
-    postNewStock(stock);
+    createNewStock(stock);
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -64,13 +64,13 @@ export const PageStock: React.FC = () => {
       },
     };
     setIsDrawerOpen(false);
-    putChangeStock(stock);
+    editStock(stock);
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDelete = (id: number): void => {
-    deleteStockById(id).catch((error) => console.error(error));
+    deleteStockById(id)
     setIsTableUpdate(prevState => !prevState);
   };
 

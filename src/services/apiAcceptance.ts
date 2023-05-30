@@ -1,74 +1,60 @@
 import {URL, MOVEMENT, ACCEPTANCE, PRODUCT} from "./apiEndpoints";
 import {TypeAcceptance} from "../types";
-import {message} from "antd";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+} from '../utils';
 
 // Получить список всех приемок товаров
-export async function getAllAcceptance(): Promise<TypeAcceptance[]> {
+export function getAllAcceptance(): Promise<TypeAcceptance[]> {
   try {
-    const res = await fetch(URL + MOVEMENT + ACCEPTANCE);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeAcceptance[];
+    return fetch(URL + MOVEMENT + ACCEPTANCE)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новую приемку товаров
-export function postNewAcceptance(data: TypeAcceptance): void {
+export function createAcceptance(data: TypeAcceptance): void {
   try {
-    const config = {
+    fetch(URL + MOVEMENT + ACCEPTANCE, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + MOVEMENT + ACCEPTANCE, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить приемку товаров по id
-export async function deleteAcceptanceById(id: number) {
+export function deleteAcceptanceById(id: number): void {
   try {
-    const response = await fetch(URL + MOVEMENT + ACCEPTANCE + `/${id}`, {
+    fetch(URL + MOVEMENT + ACCEPTANCE + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Получить список всех отфильтрованных приемок товара по названию
-export async function getAllAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
+export function getAllAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
   try {
-    const response = await fetch(URL + MOVEMENT + ACCEPTANCE + PRODUCT + `/${title}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + MOVEMENT + ACCEPTANCE + PRODUCT + `/${title}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteOutputById, postNewOutput, putChangeOutput} from "../../services";
+import {deleteOutputById, createOutput, editChangeOutput} from "../../services";
 import {TypeOutput} from "../../types";
 import {TableOutput} from "./components/TableOutput";
 import {AddModalOutput} from "./components/AddModalOutput";
@@ -30,7 +30,7 @@ export const PageOutput: React.FC = () => {
       }
     };
     setIsModalOpen(false)
-    postNewOutput(output)
+    createOutput(output)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -50,13 +50,13 @@ export const PageOutput: React.FC = () => {
       id: selectedOutputId,
     };
     setIsDrawerOpen(false)
-    putChangeOutput(output)
+    editChangeOutput(output)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOutput = (id: number): void => {
-    deleteOutputById(id).catch((error) => console.error(error));
+    deleteOutputById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

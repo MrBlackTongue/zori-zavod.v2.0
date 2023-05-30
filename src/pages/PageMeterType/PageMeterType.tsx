@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteMeterTypeById, postNewMeterType, putChangeMeterType} from "../../services";
+import {deleteMeterTypeById, createMeterType, editMeterType} from "../../services";
 import {TypeMeterType} from "../../types";
 import {TableMeterType} from "./components/TableMeterType";
 import {AddModalMeterType} from "./components/AddModalMeterType";
@@ -31,7 +31,7 @@ export const PageMeterType: React.FC = () => {
       cost: values.cost,
     };
     setIsModalOpen(false)
-    postNewMeterType(meterType)
+    createMeterType(meterType)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -53,13 +53,13 @@ export const PageMeterType: React.FC = () => {
       id: selectedMeterTypeId,
     };
     setIsDrawerOpen(false)
-    putChangeMeterType(meterType)
+    editMeterType(meterType)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteMeterType = (id: number): void => {
-    deleteMeterTypeById(id).catch((error) => console.error(error));
+    deleteMeterTypeById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

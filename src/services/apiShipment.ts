@@ -1,97 +1,76 @@
 import {TypeShipment} from "../types";
-import {message} from "antd";
 import {URL, SHIPMENT} from "./apiEndpoints";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех отгрузок
-export async function getAllShipment(): Promise<TypeShipment[]> {
+export function getAllShipment(): Promise<TypeShipment[]> {
   try {
-    const res = await fetch(URL + SHIPMENT);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeShipment[];
+    return fetch(URL + SHIPMENT)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные отгрузки по id
-export async function getShipmentById(id: number): Promise<TypeShipment | undefined> {
+export function getShipmentById(id: number): Promise<TypeShipment | undefined> {
   try {
-    const response = await fetch(URL + SHIPMENT + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + SHIPMENT + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новую отгрузку
-export function postNewShipment(data: TypeShipment): void {
+export function createShipment(data: TypeShipment): void {
   try {
-    const config = {
+    fetch(URL + SHIPMENT, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + SHIPMENT, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error))
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить отгрузку по id
-export async function deleteShipmentById(id: number) {
+export function deleteShipmentById(id: number): void {
   try {
-    const response = await fetch(URL + SHIPMENT + `/${id}`, {
+    fetch(URL + SHIPMENT + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать отгрузку
-export function putChangeShipment(data: TypeShipment): void {
+export function editShipment(data: TypeShipment): void {
   try {
-    const config = {
+    fetch(URL + SHIPMENT, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + SHIPMENT, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }

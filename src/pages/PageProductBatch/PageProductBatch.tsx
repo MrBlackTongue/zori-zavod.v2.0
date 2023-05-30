@@ -4,8 +4,8 @@ import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
   deleteProductBatchById,
-  postNewProductBatch,
-  putChangeProductBatch
+  createProductBatch,
+  editProductBatch
 } from "../../services";
 import {TypeProductBatch} from '../../types';
 import {TableProductBatch} from "./components/TableProductBatch";
@@ -33,7 +33,7 @@ export const PageProductBatch: React.FC = () => {
       amount: values.amount,
     };
     setIsModalOpen(false)
-    postNewProductBatch(productBatch)
+    createProductBatch(productBatch)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -53,13 +53,13 @@ export const PageProductBatch: React.FC = () => {
       amount: values.amount,
     };
     setIsDrawerOpen(false)
-    putChangeProductBatch(productBatch)
+    editProductBatch(productBatch)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductBatch = (id: number): void => {
-    deleteProductBatchById(id).catch((error) => console.error(error));
+    deleteProductBatchById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

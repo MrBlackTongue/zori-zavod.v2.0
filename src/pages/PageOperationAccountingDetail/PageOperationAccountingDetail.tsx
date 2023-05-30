@@ -4,12 +4,12 @@ import {Space, Button, FloatButton, Divider, Tooltip, Typography} from 'antd';
 import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
-  putChangeOperationAccounting,
-  postNewOperationTimesheet,
+  editOperationAccounting,
+  createOperationTimesheet,
   deleteOperationTimesheetById,
-  putChangeOperationTimesheet,
+  editOperationTimesheet,
   deleteProductionProductMovementById,
-  postNewProductionProductMovement,
+  createProductionProductMovement,
   getOperationAccountingById,
   deleteOperationAccountingById,
 } from "../../services";
@@ -54,17 +54,17 @@ export const PageOperationAccountingDetail: React.FC = () => {
       productionType: {id: values.productionType?.id},
     };
     setIsDrawerOperationAccountingOpen(false)
-    putChangeOperationAccounting(operationAccounting)
+    editOperationAccounting(operationAccounting)
     setIsAllTableUpdate(prevState => !prevState)
   }
 
   // Удалить запись из таблицы
   const handleDeleteOperationAccounting = (id: number): void => {
-    deleteOperationAccountingById(id).catch((error) => console.error(error));
+    deleteOperationAccountingById(id)
     handleBack()
   };
 
-  // Добавить сотрудника в табель учета рабочего времени
+  // Создать сотрудника в табеле учета рабочего времени
   const handleAddOperationTimesheet = (values: TypeOperationTimesheet): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       hours: values.hours,
@@ -75,7 +75,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
       fact: values.fact || 0,
     };
     setIsModalOperationTimesheetOpen(false)
-    postNewOperationTimesheet(operationTimesheet)
+    createOperationTimesheet(operationTimesheet)
     setIsAllTableUpdate(prevState => !prevState)
   }
 
@@ -91,13 +91,13 @@ export const PageOperationAccountingDetail: React.FC = () => {
       fact: values.fact || 0,
     };
     setIsDrawerOperationTimesheetOpen(false)
-    putChangeOperationTimesheet(operationTimesheet)
+    editOperationTimesheet(operationTimesheet)
     setIsAllTableUpdate(prevState => !prevState)
   }
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
   const handleDeleteOperationTimesheet = (id: number): void => {
-    deleteOperationTimesheetById(id).catch((error) => console.error(error));
+    deleteOperationTimesheetById(id)
     setIsAllTableUpdate(prevState => !prevState)
   }
 
@@ -107,7 +107,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
     setIsDrawerOperationTimesheetOpen(true);
   }
 
-  // Добавить запись движения товара на производстве
+  // Создать запись движения товара на производстве
   const handleAddProductionProductMovement = async (values: TypeProductionProductMovement): Promise<void> => {
     if (!id) return;
     const operationAccounting = await getOperationAccountingById(+id);
@@ -124,13 +124,13 @@ export const PageOperationAccountingDetail: React.FC = () => {
       },
     };
     setIsModalProductionProductMovementOpen(false)
-    postNewProductionProductMovement(productionProductMovement)
+    createProductionProductMovement(productionProductMovement)
     setIsAllTableUpdate(prevState => !prevState)
   }
 
   // Удалить запись движения товара на производстве
   const handleDeleteProductionProductMovement = (id: number): void => {
-    deleteProductionProductMovementById(id).catch((error) => console.error(error));
+    deleteProductionProductMovementById(id)
     setIsAllTableUpdate(prevState => !prevState)
   }
 

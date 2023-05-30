@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css'
-import {deleteAcceptanceById, postNewAcceptance} from "../../services";
+import {deleteAcceptanceById, createAcceptance} from "../../services";
 import {TypeAcceptance} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
 import {AddModalAcceptance} from "./components/AddModalAcceptance";
@@ -17,7 +17,7 @@ export const PageAcceptance: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  // Добавить новую приемку товаров
+  // Создать новую приемку товаров
   const handleAddAcceptance = (values: TypeAcceptance): void => {
     const acceptance: TypeAcceptance = {
       amount: values.amount || 0,
@@ -36,13 +36,13 @@ export const PageAcceptance: React.FC = () => {
       },
     };
     setIsModalOpen(false)
-    postNewAcceptance(acceptance)
+    createAcceptance(acceptance)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteAcceptance = (id: number): void => {
-    deleteAcceptanceById(id).catch((error) => console.error(error));
+    deleteAcceptanceById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

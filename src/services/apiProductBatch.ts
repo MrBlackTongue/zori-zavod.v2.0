@@ -1,97 +1,76 @@
-import {message} from "antd";
 import {URL, PRODUCT, BATCH} from "./apiEndpoints";
 import {TypeProductBatch} from "../types";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить все партии товаров
-export async function getAllProductBatch(): Promise<TypeProductBatch[]> {
+export function getAllProductBatch(): Promise<TypeProductBatch[]> {
   try {
-    const res = await fetch(URL + PRODUCT + BATCH);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeProductBatch[];
+    return fetch(URL + PRODUCT + BATCH)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные партии товаров по id
-export async function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
+export function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
   try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + PRODUCT + BATCH + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новую партию товаров
-export function postNewProductBatch(data: TypeProductBatch): void {
+export function createProductBatch(data: TypeProductBatch): void {
   try {
-    const config = {
+    fetch(URL + PRODUCT + BATCH, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT + BATCH, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить партию товаров по id
-export async function deleteProductBatchById(id: number) {
+export function deleteProductBatchById(id: number): void {
   try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`, {
+    fetch(URL + PRODUCT + BATCH + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать партию товаров
-export function putChangeProductBatch(data: TypeProductBatch): void {
+export function editProductBatch(data: TypeProductBatch): void {
   try {
-    const config = {
+    fetch(URL + PRODUCT + BATCH, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT + BATCH, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }

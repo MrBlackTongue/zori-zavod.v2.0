@@ -1,98 +1,77 @@
 import {TypeOperationTimesheet} from "../types";
-import {message} from "antd";
 import {URL, OPERATION_ACCOUNTING, OPERATION_TIMESHEET} from "./apiEndpoints";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех сотрудников в табеле рабочего времени по id учетной операции
-export async function getOperationTimesheetByIdOperationAccounting(id: number):
+export function getOperationTimesheetByIdOperationAccounting(id: number):
   Promise<TypeOperationTimesheet[] | undefined> {
   try {
-    const response = await fetch(URL + OPERATION_TIMESHEET + OPERATION_ACCOUNTING + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + OPERATION_TIMESHEET + OPERATION_ACCOUNTING + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные сотрудника из табеля учета рабочего времени по id
-export async function getOperationTimesheetById(id: number): Promise<TypeOperationTimesheet | undefined> {
+export function getOperationTimesheetById(id: number): Promise<TypeOperationTimesheet | undefined> {
   try {
-    const response = await fetch(URL + OPERATION_TIMESHEET + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + OPERATION_TIMESHEET + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить сотрудника в табель учета рабочего времени
-export function postNewOperationTimesheet(data: TypeOperationTimesheet): void {
+export function createOperationTimesheet(data: TypeOperationTimesheet): void {
   try {
-    const config = {
+    fetch(URL + OPERATION_TIMESHEET, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + OPERATION_TIMESHEET, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить сотрудника из табеля учета рабочего времени по id
-export async function deleteOperationTimesheetById(id: number) {
+export function deleteOperationTimesheetById(id: number): void {
   try {
-    const response = await fetch(URL + OPERATION_TIMESHEET + `/${id}`, {
+    fetch(URL + OPERATION_TIMESHEET + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать сотрудника в табеле учета рабочего времени
-export function putChangeOperationTimesheet(data: TypeOperationTimesheet): void {
+export function editOperationTimesheet(data: TypeOperationTimesheet): void {
   try {
-    const config = {
+    fetch(URL + OPERATION_TIMESHEET, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + OPERATION_TIMESHEET, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
