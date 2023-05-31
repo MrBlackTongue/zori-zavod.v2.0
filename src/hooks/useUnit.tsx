@@ -1,9 +1,7 @@
-import {useState} from 'react';
 import {FormInstance} from 'antd';
 import {TypeUnit} from "../types";
 
 export const useUnit = (form: FormInstance) => {
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
   const onChangeUnit = (value: string, option: any): void => {
     const unit: TypeUnit = {
@@ -11,8 +9,11 @@ export const useUnit = (form: FormInstance) => {
       name: value,
     };
     form.setFieldsValue({unit: unit});
-    setSelectedUnit(unit);
   };
 
-  return {selectedUnit, onChangeUnit};
+  const onClearUnit = (): void => {
+    form.setFieldsValue({unit: undefined})
+  }
+
+  return {onChangeUnit, onClearUnit};
 }

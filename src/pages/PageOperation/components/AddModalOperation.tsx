@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeOperation, TypeUnit} from "../../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnit} from "../../../services";
+import {useUnit} from "../../../hooks"
 
 const {Option} = Select;
 
@@ -14,23 +15,22 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
 
   // Все единицы измерения, выбраная единица измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
+
+  const {onChangeUnit, onClearUnit} = useUnit(form);
 
   // Изменить выбранную единицу измерения
-  const onChangeUnit = (value: string, option: any): void => {
-    const unit: TypeUnit = {
-      id: option.id,
-      name: value,
-    };
-    form.setFieldsValue({unit: unit});
-    setSelectedUnit(unit)
-  };
+  // const onChangeUnit = (value: string, option: any): void => {
+  //   const unit: TypeUnit = {
+  //     id: option.id,
+  //     name: value,
+  //   };
+  //   form.setFieldsValue({unit: unit});
+  // };
 
   // Очистить поле единица измерения
-  const onClearUnit = (): void => {
-    form.setFieldsValue({unit: undefined})
-    setSelectedUnit(undefined)
-  }
+  // const onClearUnit = (): void => {
+  //   form.setFieldsValue({unit: undefined})
+  // }
 
   // Функция подтверждения добавления
   const handleOk = (): void => {
@@ -38,7 +38,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
       .validateFields()
       .then((values) => {
         form.resetFields();
-        setSelectedUnit(undefined)
         addItem(values);
       })
       .catch((error) => {
@@ -49,7 +48,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
   // Функция закрытия модального окна
   const handleClose = (): void => {
     form.resetFields();
-    setSelectedUnit(undefined)
     onCancel()
   };
 
@@ -91,7 +89,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
             <Select
               showSearch
               allowClear
-              value={selectedUnit ? selectedUnit?. name : undefined}
               onChange={onChangeUnit}
               onClear={onClearUnit}
             >

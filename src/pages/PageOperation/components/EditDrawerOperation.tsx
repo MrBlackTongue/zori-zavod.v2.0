@@ -2,6 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeOperation, TypeUnit} from "../../../types";
 import {getOperationById, getAllUnit} from "../../../services";
+import {useUnit} from "../../../hooks"
 
 const {Option} = Select;
 
@@ -13,29 +14,19 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
                                                                               }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения, выбранная единица измерения, единица измерения
+  // Все единицы измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
-  const [unit, setUnit] = useState<TypeUnit>()
 
-  // Изменить выбранную единицу измерения
-  const onChangeUnit = (value: string, option: any): void => {
-    const unit: TypeUnit = {
-      id: option.id,
-      name: value,
-    };
-    form.setFieldsValue({unit: unit});
-    setSelectedUnit(unit)
-  };
+  const {onChangeUnit, onClearUnit} = useUnit(form);
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {
-    closeDrawer()
     form
       .validateFields()
       .then((values) => {
-        // form.resetFields()
+        form.resetFields()
         updateItem(values);
+        closeDrawer()
       })
       .catch((error) => {
         console.log('Validate Failed:', error);
@@ -44,7 +35,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
 
   // Функция закрытия дравера
   const handleClose = (): void => {
-    setSelectedUnit(unit);
+    form.resetFields()
     closeDrawer()
   };
 
@@ -52,16 +43,19 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   const handleGetOperation = useCallback((): void => {
     if (selectedItemId) {
       getOperationById(selectedItemId).then((operation) => {
-        form.setFieldsValue(operation)
-        setSelectedUnit(operation?.unit)
-        setUnit(operation?.unit)
+        form.setFieldsValue({
+          ...operation,
+          unit: operation?.unit?.name,
+        })
       })
     }
   }, [selectedItemId, form])
 
   useEffect(() => {
-    handleGetOperation()
-  }, [selectedItemId, handleGetOperation]);
+    if (isOpen && selectedItemId) {
+      handleGetOperation();
+    }
+  }, [isOpen, selectedItemId, handleGetOperation]);
 
   useEffect(() => {
     getAllUnit().then((allUnit) => {
@@ -101,19 +95,19 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
           label="Единица измерения"
           name="unit"
         >
-          <div>
-            <Select
-              value={selectedUnit ? selectedUnit.name : undefined}
-              onChange={onChangeUnit}
-            >
-              {allUnit && allUnit.length > 0 ?
-                allUnit.map(unit => (
-                  <Option id={unit.id} key={unit.id} value={unit.name}>
-                    {unit.name}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
+          <Select
+            showSearch
+            allowClear
+            onChange={onChangeUnit}
+            onClear={onClearUnit}
+          >
+            {allUnit && allUnit.length > 0 ?
+              allUnit.map(unit => (
+                <Option id={unit.id} key={unit.id} value={unit.name}>
+                  {unit.name}
+                </Option>
+              )) : null}
+          </Select>
         </Form.Item>
         <Form.Item
           label="Норма"
