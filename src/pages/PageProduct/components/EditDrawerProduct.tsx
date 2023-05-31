@@ -44,11 +44,11 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {
-    closeDrawer()
     form
       .validateFields()
       .then((values) => {
         updateItem(values);
+        closeDrawer()
       })
       .catch((error) => {
         console.log('Validate Failed:', error);

@@ -12,8 +12,9 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
                                                                           }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения
+  // Все единицы измерения, выбраная единица измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
+  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
 
   // Изменить выбранную единицу измерения
   const onChangeUnit = (value: string, option: any): void => {
@@ -22,7 +23,14 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
       name: value,
     };
     form.setFieldsValue({unit: unit});
+    setSelectedUnit(unit)
   };
+
+  // Очистить поле единица измерения
+  const onClearUnit = (): void => {
+    form.setFieldsValue({unit: undefined})
+    setSelectedUnit(undefined)
+  }
 
   // Функция подтверждения добавления
   const handleOk = (): void => {
@@ -30,6 +38,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
       .validateFields()
       .then((values) => {
         form.resetFields();
+        setSelectedUnit(undefined)
         addItem(values);
       })
       .catch((error) => {
@@ -39,12 +48,14 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
 
   // Функция закрытия модального окна
   const handleClose = (): void => {
+    form.resetFields();
+    setSelectedUnit(undefined)
     onCancel()
   };
 
   useEffect(() => {
-    getAllUnit().then((units) => {
-      setAllUnit(units);
+    getAllUnit().then((allUnit) => {
+      setAllUnit(allUnit);
     });
   }, []);
 
@@ -78,7 +89,11 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
         >
           <div>
             <Select
+              showSearch
+              allowClear
+              value={selectedUnit ? selectedUnit?. name : undefined}
               onChange={onChangeUnit}
+              onClear={onClearUnit}
             >
               {allUnit && allUnit.length > 0 ?
                 allUnit.map(unit => (

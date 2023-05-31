@@ -64,8 +64,8 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
   }, [selectedItemId, handleGetOperation]);
 
   useEffect(() => {
-    getAllUnit().then((units) => {
-      setAllUnit(units);
+    getAllUnit().then((allUnit) => {
+      setAllUnit(allUnit);
     });
   }, []);
 
