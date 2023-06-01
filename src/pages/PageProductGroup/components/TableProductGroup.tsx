@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
+import React, {useState, useEffect, useCallback} from 'react';
+import {Space, Button, Table, Tooltip, Popconfirm, message,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {deleteProductGroupById, getProductGroupTree} from "../../../services";
 import {TableProps, TableParam, TypeProductGroup} from "../../../types";
@@ -53,11 +52,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту группу товаров?"
-              onConfirm={() => {
-                deleteProductGroupById(id).then(() => {
-                  handleUpdateTable()
-                });
-              }}
+              onConfirm={() => handleDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
@@ -78,15 +73,15 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
 
   // Рекурсивная функция для удаления пустых дочерних элементов
   const removeEmptyChildren = useCallback((productGroup: TypeProductGroup): TypeProductGroup => {
-      if (productGroup.children && productGroup.children.length === 0) {
-        const {children, ...rest} = productGroup;
-        return rest;
-      }
-      if (productGroup.children) {
-        return {...productGroup, children: productGroup.children.map(removeEmptyChildren)};
-      }
-      return productGroup;
-  }, [] )
+    if (productGroup.children && productGroup.children.length === 0) {
+      const {children, ...rest} = productGroup;
+      return rest;
+    }
+    if (productGroup.children) {
+      return {...productGroup, children: productGroup.children.map(removeEmptyChildren)};
+    }
+    return productGroup;
+  }, [])
 
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
@@ -98,16 +93,39 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
     })
   }, [removeEmptyChildren]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await handleUpdateTable();
-      } catch (error) {
-        console.error('Failed to update table:', error);
+  // Функция для поиска группы товаров по id
+  const findProductGroupById = (allProductGroup: TypeProductGroup[] | undefined, id: number): TypeProductGroup | null => {
+    if (!allProductGroup) {
+      return null;
+    }
+    for (let i = 0; i < allProductGroup.length; i++) {
+      if (allProductGroup[i].id === id) {
+        return allProductGroup[i];
       }
-    })();
-  }, [isUpdateTable, handleUpdateTable]);
+      if (allProductGroup[i].children) {
+        const foundGroup = findProductGroupById(allProductGroup[i].children, id);
+        if (foundGroup) return foundGroup;
+      }
+    }
+    return null;
+  };
 
+  // Удалить группу товаров
+  const handleDelete = async (id: number): Promise<void> => {
+    const allProductGroup = await getProductGroupTree();
+
+    const productGroup = findProductGroupById(allProductGroup as TypeProductGroup[], id);
+    if (productGroup && productGroup.children && productGroup.children.length > 0) {
+      message.warning('Невозможно удалить группу товаров с дочерним элементом');
+    } else {
+      deleteProductGroupById(id)
+      handleUpdateTable();
+    }
+  };
+
+  useEffect(() => {
+    handleUpdateTable()
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
@@ -115,9 +133,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
       bordered
       columns={columns}
       dataSource={allProductGroup}
-      pagination={{
-        ...tableParams.pagination, position: ['bottomCenter']
-      }}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={loading}
       onChange={handleChangeTable}
     />

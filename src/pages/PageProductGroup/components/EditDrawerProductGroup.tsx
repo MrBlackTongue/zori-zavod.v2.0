@@ -49,7 +49,7 @@ export const EditDrawerProductGroup: React.FC<EditDrawerProps<TypeProductGroup>>
         form.setFieldsValue({
           id: data?.id,
           title: data?.title,
-          parent: data?.parent?.id
+          parent: data?.parent,
         });
         setSelectedProductGroup(data?.parent)
       });

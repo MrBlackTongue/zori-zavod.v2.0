@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
-import {postNewProductGroup, putChangeProductGroup} from "../../services";
+import {
+  createNewProductGroup,
+  editProductGroup,
+} from "../../services";
 import {TypeProductGroup} from "../../types";
 import {TableProductGroup} from "./components/TableProductGroup";
 import {AddModalProductGroup} from "./components/AddModalProductGroup";
@@ -12,7 +15,7 @@ const {Title} = Typography;
 export const PageProductGroup: React.FC = () => {
 
   // Обновление таблицы, выбранная группа товаров по id
-  const [updateTable, setUpdateTable] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
 
   // Открыть/закрыть модальное окно, дравер
@@ -26,8 +29,8 @@ export const PageProductGroup: React.FC = () => {
       parent: values.parent ? {id: values.parent.id} : undefined,
     };
     setIsModalOpen(false)
-    postNewProductGroup(productGroup)
-    setUpdateTable(prevState => !prevState)
+    createNewProductGroup(productGroup)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -44,8 +47,8 @@ export const PageProductGroup: React.FC = () => {
       parent: values.parent ? {id: values.parent.id} : undefined,
     };
     setIsDrawerOpen(false);
-    putChangeProductGroup(productGroup);
-    setUpdateTable(prevState => !prevState);
+    editProductGroup(productGroup);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
@@ -56,7 +59,7 @@ export const PageProductGroup: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -71,7 +74,7 @@ export const PageProductGroup: React.FC = () => {
         </Space>
       </div>
       <TableProductGroup
-        isUpdateTable={updateTable}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
       />
       <AddModalProductGroup

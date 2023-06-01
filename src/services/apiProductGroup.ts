@@ -1,113 +1,87 @@
 import {TypeProductGroup} from "../types";
 import {URL, PRODUCT_GROUP, GROUP, TREE} from "./apiEndpoints";
-import {message} from "antd";
-import {BASE_HEADERS} from "../utils";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех товарных групп
-export async function getAllProductGroup(): Promise<TypeProductGroup[]> {
+export function getAllProductGroup(): Promise<TypeProductGroup[]> {
   try {
-    const res = await fetch(URL + PRODUCT_GROUP + GROUP);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeProductGroup[];
+    return fetch(URL + PRODUCT_GROUP + GROUP)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
+  }
+}
+
+// Получить товарную группу по id
+export function getProductGroupById(id: number): Promise<TypeProductGroup | undefined> {
+  try {
+    return fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
+  } catch (error) {
+    return handleCatchError(error);
   }
 }
 
 // Добавить новую товарную группу
-export function postNewProductGroup(data: TypeProductGroup) {
+export function createNewProductGroup(data: TypeProductGroup): void {
   try {
-    const config = {
+    fetch(URL + PRODUCT_GROUP + GROUP, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT_GROUP + GROUP, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error))
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить товарную группу по id
-export async function deleteProductGroupById(id: number) {
+export function deleteProductGroupById(id: number): void {
   try {
-    const response = await fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`, {
-      method: 'DELETE',
-    });
-    if (response.ok) {
-      message.success("Запись удалена");
-    } else {
-      console.error(response.statusText);
-      message.error("Ошибка при удалении записи");
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`, {
+      method: "DELETE",
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать товарную группу
-export function putChangeProductGroup(data: TypeProductGroup) {
+export function editProductGroup(data: TypeProductGroup): void {
   try {
-    const config = {
+    fetch(URL + PRODUCT_GROUP + GROUP, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT_GROUP + GROUP, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
-  }
-}
-
-// Получить данные товарной группы по id
-export async function getProductGroupById(id: number): Promise<TypeProductGroup | undefined> {
-  try {
-    const response = await fetch(URL + PRODUCT_GROUP + GROUP +`/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    void handleCatchError(error);
   }
 }
 
 // Получить дерево группы товаров
-export async function getProductGroupTree(): Promise<TypeProductGroup[]> {
+export function getProductGroupTree(): Promise<TypeProductGroup[]> {
   try {
-    const res = await fetch(URL + PRODUCT_GROUP + GROUP + TREE);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeProductGroup[];
+    return fetch(URL + PRODUCT_GROUP + GROUP + TREE)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }

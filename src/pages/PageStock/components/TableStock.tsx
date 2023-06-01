@@ -77,7 +77,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => (openDrawer && openDrawer(id))}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -85,7 +85,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту ячейку на складе?"
-              onConfirm={() => (onDelete && onDelete(id))}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена"
             >
