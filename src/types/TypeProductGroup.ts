@@ -6,5 +6,4 @@ export type TypeProductGroup = {
   title?: string;
   parent?: TypeProductGroup;
   children?: TypeProductGroup[];
-  parentGroup?: number;
 }
