@@ -7,7 +7,7 @@ import {
   createProductBatch,
   editProductBatch
 } from "../../services";
-import {TypeProductBatch} from '../../types';
+import {TypeProductBatch, TypeProductBatchFormValue} from '../../types';
 import {TableProductBatch} from "./components/TableProductBatch";
 import {AddModalProductBatch} from "./components/AddModalProductBatch";
 import {EditDrawerProductBatch} from "./components/EditDrawerProductBatch";
@@ -25,11 +25,9 @@ export const PageProductBatch: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую партию товаров
-  const handleAddProductBatch = (values: TypeProductBatch): void => {
+  const handleAddProductBatch = (values: TypeProductBatchFormValue): void => {
     const productBatch: TypeProductBatch = {
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
       amount: values.amount,
     };
     setIsModalOpen(false)
@@ -44,12 +42,10 @@ export const PageProductBatch: React.FC = () => {
   };
 
   // Обновление партии товаров
-  const handleUpdateProductBatch = (values: TypeProductBatch): void => {
+  const handleUpdateProductBatch = (values: TypeProductBatchFormValue): void => {
     const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
       amount: values.amount,
     };
     setIsDrawerOpen(false)

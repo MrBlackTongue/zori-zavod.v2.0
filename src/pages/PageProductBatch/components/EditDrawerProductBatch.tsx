@@ -1,68 +1,48 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {Form, Drawer, Select, Space, Button, InputNumber} from "antd";
-import {EditDrawerProps, TypeProduct, TypeProductBatch} from "../../../types";
+import {Form, Drawer, Space, Button} from "antd";
+import {EditDrawerProps, TypeProduct, TypeProductBatchFormValue} from "../../../types";
 import {getAllProduct, getProductBatchById} from "../../../services";
+import {useFormField, useFormHandler} from "../../../hooks";
+import {FormProductBatch} from "./FormProductBatch";
 
-const {Option} = Select;
-
-export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>> = ({
-                                                                                      isOpen,
-                                                                                      selectedItemId,
-                                                                                      onCancel,
-                                                                                      updateItem,
-                                                                                    }) => {
+export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatchFormValue>> = ({
+                                                                                               isOpen,
+                                                                                               selectedItemId,
+                                                                                               onCancel,
+                                                                                               updateItem,
+                                                                                             }) => {
   const [form] = Form.useForm();
 
-  // Все товары, выбранный товар, товар
-  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
-  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
-  const [product, setProduct] = useState<TypeProduct>();
+  // Все товары
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
 
-  // Изменить выбранный товар
-  const onChangeProduct = (value: string, option: any): void => {
-    const product: TypeProduct = {
-      id: option.id,
-      title: value,
-    };
-    form.setFieldsValue({product: product});
-    setSelectedProduct(product)
-  };
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+
+  // Хук для управления полем product
+  const {
+    onChangeField: onChangeProduct,
+    onClearField: onClearProduct,
+    onSearchField: onSearchProduct,
+  } = useFormField(form, 'product');
 
   // Функция для получения данных в дравер
   const handleGetProductBatch = useCallback((): void => {
     if (selectedItemId) {
       getProductBatchById(selectedItemId).then((productBatch) => {
         form.setFieldsValue({
-          product: productBatch?.product?.id,
-          amount: productBatch?.amount,
+          ...productBatch,
+          product: productBatch?.product?.id === 0 ? '' : productBatch?.product?.id,
         });
-        setSelectedProduct(productBatch?.product)
-        setProduct(productBatch?.product)
       })
     }
   }, [selectedItemId, form]);
 
-  // Функция подтверждения редактирования
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        updateItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      })
-  }
-
-  // Функция закрытия дравера
-  const handleClose = (): void => {
-    onCancel()
-    setSelectedProduct(product)
-  };
-
   useEffect(() => {
-    handleGetProductBatch();
-  }, [selectedItemId, handleGetProductBatch]);
+    if (isOpen && selectedItemId) {
+      handleGetProductBatch();
+    }
+  }, [isOpen, selectedItemId, handleGetProductBatch]);
 
   useEffect(() => {
     getAllProduct().then((allProduct) => {
@@ -75,49 +55,23 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatch>>
       title="Редактирование партии товаров"
       width={600}
       open={isOpen}
-      onClose={handleClose}
+      onClose={handleReset}
       extra={
         <Space>
-          <Button onClick={handleClose}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
+          <Button onClick={handleReset}>Отмена</Button>
+          <Button onClick={handleSubmit} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-      <Form
+      <FormProductBatch
         form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Товар"
-          name="product"
-          rules={[{required: true, message: "выберите товар"}]}
-        >
-          <div>
-            <Select
-              value={selectedProduct ? selectedProduct.title : undefined}
-              onChange={onChangeProduct}
-            >
-              {allProduct && allProduct.length > 0 ?
-                allProduct.map(product => (
-                  <Option id={product.id} key={product.id} value={product.title}>
-                    {product.title}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-        <Form.Item
-          label="Количество"
-          name="amount"
-          rules={[{required: true, message: 'введите количество'}]}
-        >
-          <InputNumber style={{width: '100%'}}/>
-        </Form.Item>
-      </Form>
+        allProduct={allProduct}
+        onChangeProduct={onChangeProduct}
+        onClearProduct={onClearProduct}
+        onSearchProduct={onSearchProduct}
+      />
     </Drawer>
   )
 }
