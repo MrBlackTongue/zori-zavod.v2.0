@@ -1,36 +1,27 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeOperation, TypeUnit} from "../../../types";
+import {AddModalProps, TypeOperationFormValue, TypeUnit} from "../../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnit} from "../../../services";
-import {useUnit} from "../../../hooks"
+import {useFormField} from "../../../hooks"
 
 const {Option} = Select;
 
-export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
-                                                                            isOpen,
-                                                                            addItem,
-                                                                            onCancel,
-                                                                          }) => {
+export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> = ({
+                                                                                     isOpen,
+                                                                                     addItem,
+                                                                                     onCancel,
+                                                                                   }) => {
   const [form] = Form.useForm();
 
   // Все единицы измерения, выбраная единица измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
-  const {onChangeUnit, onClearUnit} = useUnit(form);
-
-  // Изменить выбранную единицу измерения
-  // const onChangeUnit = (value: string, option: any): void => {
-  //   const unit: TypeUnit = {
-  //     id: option.id,
-  //     name: value,
-  //   };
-  //   form.setFieldsValue({unit: unit});
-  // };
-
-  // Очистить поле единица измерения
-  // const onClearUnit = (): void => {
-  //   form.setFieldsValue({unit: undefined})
-  // }
+  // Хук для управления полем unit
+  const {
+    onChangeField: onChangeUnit,
+    onClearField: onClearUnit,
+    onSearchField: onSearchUnit
+  } = useFormField(form, 'unit');
 
   // Функция подтверждения добавления
   const handleOk = (): void => {
@@ -60,16 +51,15 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
   return (
     <Modal
       title={`Добавление новой операции`}
-      open={isOpen}
-      onCancel={handleClose}
       width={700}
+      open={isOpen}
+      onOk={handleOk}
+      onCancel={handleClose}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={handleOk}
     >
       <Form
         form={form}
-        initialValues={{modifier: 'public'}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -85,21 +75,20 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperation>> = ({
           label="Единица измерения"
           name="unit"
         >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              onChange={onChangeUnit}
-              onClear={onClearUnit}
-            >
-              {allUnit && allUnit.length > 0 ?
-                allUnit.map(unit => (
-                  <Option id={unit.id} key={unit.id} value={unit.name}>
-                    {unit.name}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
+          <Select
+            showSearch
+            allowClear
+            onChange={onChangeUnit}
+            onClear={onClearUnit}
+            filterOption={onSearchUnit}
+          >
+            {allUnit && allUnit.length > 0 ?
+              allUnit.map(unit => (
+                <Option key={unit.id} value={unit.id} label={unit.name}>
+                  {unit.name}
+                </Option>
+              )) : null}
+          </Select>
         </Form.Item>
         <Form.Item
           label="Норма"

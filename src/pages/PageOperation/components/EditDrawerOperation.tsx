@@ -1,23 +1,28 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
-import {EditDrawerProps, TypeOperation, TypeUnit} from "../../../types";
+import {EditDrawerProps, TypeUnit, TypeOperationFormValue} from "../../../types";
 import {getOperationById, getAllUnit} from "../../../services";
-import {useUnit} from "../../../hooks"
+import {useFormField} from "../../../hooks"
 
 const {Option} = Select;
 
-export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
-                                                                                isOpen,
-                                                                                selectedItemId,
-                                                                                closeDrawer,
-                                                                                updateItem,
-                                                                              }) => {
+export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValue>> = ({
+                                                                                         isOpen,
+                                                                                         selectedItemId,
+                                                                                         closeDrawer,
+                                                                                         updateItem,
+                                                                                       }) => {
   const [form] = Form.useForm();
 
   // Все единицы измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
-  const {onChangeUnit, onClearUnit} = useUnit(form);
+  // Хук для управления полем unit
+  const {
+    onChangeField: onChangeUnit,
+    onClearField: onClearUnit,
+    onSearchField: onSearchUnit
+  } = useFormField(form, 'unit');
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {
@@ -45,7 +50,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
       getOperationById(selectedItemId).then((operation) => {
         form.setFieldsValue({
           ...operation,
-          unit: operation?.unit?.name,
+          unit: operation?.unit?.id,
         })
       })
     }
@@ -100,10 +105,11 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperation>> = ({
             allowClear
             onChange={onChangeUnit}
             onClear={onClearUnit}
+            filterOption={onSearchUnit}
           >
             {allUnit && allUnit.length > 0 ?
               allUnit.map(unit => (
-                <Option id={unit.id} key={unit.id} value={unit.name}>
+                <Option key={unit.id} value={unit.id} label={unit.name}>
                   {unit.name}
                 </Option>
               )) : null}

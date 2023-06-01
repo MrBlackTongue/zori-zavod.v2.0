@@ -3,7 +3,7 @@ import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteOperationById, createOperation, editOperation} from "../../services";
-import {TypeOperation} from "../../types";
+import {TypeOperation, TypeOperationFormValue} from "../../types";
 import {TableOperation} from "./components/TableOperation";
 import {AddModalOperation} from "./components/AddModalOperation";
 import {EditDrawerOperation} from "./components/EditDrawerOperation";
@@ -21,13 +21,10 @@ export const PageOperation: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую операцию
-  const handleAddOperation = (values: TypeOperation): void => {
+  const handleAddOperation = (values: TypeOperationFormValue): void => {
     const operation: TypeOperation = {
       title: values.title,
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
+      unit: {id: values.unit},
       rate: values.rate,
     };
     setIsModalOpen(false)
@@ -42,15 +39,12 @@ export const PageOperation: React.FC = () => {
   };
 
   // Обновить операцию
-  const handleUpdateOperation = (values: TypeOperation): void => {
+  const handleUpdateOperation = (values: TypeOperationFormValue): void => {
     const operation: TypeOperation = {
-      title: values.title,
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
-      rate: values.rate,
       id: selectedOperationId,
+      title: values.title,
+      unit: {id: values.unit},
+      rate: values.rate,
     };
     setIsDrawerOpen(false)
     editOperation(operation)
