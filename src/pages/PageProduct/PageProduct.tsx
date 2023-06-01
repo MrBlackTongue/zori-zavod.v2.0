@@ -3,7 +3,7 @@ import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteProductById, createProduct, editProduct} from "../../services";
-import {TypeProduct} from "../../types";
+import {TypeProduct, TypeProductFormValue} from "../../types";
 import {TableProduct} from "./components/TableProduct";
 import {AddModalProduct} from "./components/AddModalProduct";
 import {EditDrawerProduct} from "./components/EditDrawerProduct";
@@ -24,17 +24,11 @@ export const PageProduct: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новый товар
-  const handleAddProduct = (values: TypeProduct): void => {
+  const handleAddProduct = (values: TypeProductFormValue): void => {
     const product: TypeProduct = {
       title: values.title,
-      productGroup: {
-        id: values.productGroup?.id,
-        title: values.productGroup?.title,
-      },
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
+      productGroup: {id: values.productGroup},
+      unit: {id: values.unit},
     };
     setIsModalOpen(false)
     createProduct(product)
@@ -48,18 +42,12 @@ export const PageProduct: React.FC = () => {
   };
 
   // Обновить товар
-  const handleUpdateProduct = (values: TypeProduct): void => {
+  const handleUpdateProduct = (values: TypeProductFormValue): void => {
     const product: TypeProduct = {
-      title: values.title,
-      productGroup: {
-        id: values.productGroup?.id,
-        title: values.productGroup?.title,
-      },
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
       id: selectedProductId,
+      title: values.title,
+      productGroup: {id: values.productGroup},
+      unit: {id: values.unit},
     };
     setIsDrawerOpen(false)
     editProduct(product)

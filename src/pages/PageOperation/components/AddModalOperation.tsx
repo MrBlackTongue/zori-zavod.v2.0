@@ -12,7 +12,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
                                                                                    }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения, выбраная единица измерения
+  // Все единицы измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
 
   // Хук для отправки формы и отмены ввода
@@ -22,7 +22,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
   const {
     onChangeField: onChangeUnit,
     onClearField: onClearUnit,
-    onSearchField: onSearchUnit
+    onSearchField: onSearchUnit,
   } = useFormField(form, 'unit');
 
   useEffect(() => {

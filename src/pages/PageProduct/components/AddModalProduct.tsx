@@ -1,76 +1,49 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeProduct, TypeUnit} from "../../../types";
-import {Form, Input, Modal, Select} from "antd";
+import {AddModalProps, TypeProductGroup, TypeProductFormValue, TypeUnit} from "../../../types";
+import {Form, Modal} from "antd";
 import {getAllUnit, getAllProductGroup} from "../../../services";
+import {useFormField, useFormHandler} from "../../../hooks";
+import {FormProduct} from "./FormProduct";
 
-const {Option} = Select;
-
-export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
-                                                                        isOpen,
-                                                                        addItem,
-                                                                        onCancel,
-                                                                      }) => {
+export const AddModalProduct: React.FC<AddModalProps<TypeProductFormValue>> = ({
+                                                                                 isOpen,
+                                                                                 addItem,
+                                                                                 onCancel,
+                                                                               }) => {
   const [form] = Form.useForm();
 
-  // Единицы измерения, выбранная единица измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
+  // Все единицы измерения
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
 
-  // Товарные группы, выбранная товарная группа
-  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
-  const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProduct>();
+  // Товарные группы
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
 
-  // Изменить выбранную единицу измерения
-  const onChangeUnit = (value: string, option: any): void => {
-    const unit: TypeUnit = {
-      id: option.id,
-      name: value,
-    };
-    form.setFieldsValue({unit: unit});
-    setSelectedUnit(unit)
-  };
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
-  // Изменить выбранную товарную группу
-  const onChangeProductGroup = (value: string, option: any): void => {
-    const productGroup: TypeProduct = {
-      id: option.id,
-      title: value,
-    };
-    form.setFieldsValue({productGroup: productGroup});
-    setSelectedProductGroup(productGroup)
-  };
+  // Хук для управления полем unit
+  const {
+    onChangeField: onChangeUnit,
+    onClearField: onClearUnit,
+    onSearchField: onSearchUnit,
+  } = useFormField(form, 'unit');
 
-  // Функция подтверждения добавления
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        setSelectedUnit(undefined);
-        setSelectedProductGroup(undefined);
-        addItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
-  }
-
-  // Функция закрытия модального окна
-  const handleClose = (): void => {
-    setSelectedUnit(undefined);
-    setSelectedProductGroup(undefined);
-    onCancel()
-  };
+  // Хук для управления полем productGroup
+  const {
+    onChangeField: onChangeProductGroup,
+    onClearField: onClearProductGroup,
+    onSearchField: onSearchProductGroup,
+  } = useFormField(form, 'productGroup');
 
   useEffect(() => {
-    getAllUnit().then((units) => {
-      setAllUnit(units);
+    getAllUnit().then((allUnit) => {
+      setAllUnit(allUnit);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductGroup().then((productGroups) => {
-      setAllProductGroup(productGroups);
+    getAllProductGroup().then((allProductGroup) => {
+      setAllProductGroup(allProductGroup);
     });
   }, []);
 
@@ -78,65 +51,23 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProduct>> = ({
     <Modal
       title={`Добавление нового товара`}
       open={isOpen}
-      onCancel={handleClose}
       width={700}
+      onOk={handleSubmit}
+      onCancel={handleReset}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={handleOk}
     >
-      <Form
+      <FormProduct
         form={form}
-        initialValues={{modifier: 'public'}}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Название товара"
-          name="title"
-          rules={[{required: true, message: 'введите название'}]}
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Единица измерения"
-          name="unit"
-          rules={[{required: true, message: 'выберите ед. изм.'}]}
-        >
-          <div>
-            <Select
-              value={selectedUnit ? selectedUnit.name : undefined}
-              onChange={onChangeUnit}
-            >
-              {allUnit && allUnit.length > 0 ?
-                allUnit.map(unit => (
-                  <Option id={unit.id} key={unit.id} value={unit.name}>
-                    {unit.name}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-        <Form.Item
-          label="Товарная группа"
-          name="productGroup"
-          rules={[{required: true, message: 'выберите тов. группу'}]}
-        >
-          <div>
-            <Select
-              value={selectedProductGroup ? selectedProductGroup.title : undefined}
-              onChange={onChangeProductGroup}
-            >
-              {allProductGroup && allProductGroup.length > 0 ?
-                allProductGroup.map(productGroup => (
-                  <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
-                    {productGroup.title}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-      </Form>
+        allUnit={allUnit}
+        onChangeUnit={onChangeUnit}
+        onClearUnit={onClearUnit}
+        onSearchUnit={onSearchUnit}
+        allProductGroup={allProductGroup}
+        onChangeProductGroup={onChangeProductGroup}
+        onClearProductGroup={onClearProductGroup}
+        onSearchProductGroup={onSearchProductGroup}
+      />
     </Modal>
   )
 }

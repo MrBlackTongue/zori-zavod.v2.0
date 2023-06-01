@@ -13,7 +13,7 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterTypeFormValu
                                                                                        }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения, выбранная единица измерения, единица измерения
+  // Все единицы измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
 
   // Хук для отправки формы и отмены ввода
