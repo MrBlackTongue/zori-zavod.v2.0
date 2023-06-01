@@ -3,7 +3,7 @@ import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {getAllProductGroup, createNewStock, editStock, deleteStockById} from '../../services';
-import {TypeProductGroup, TypeStock} from '../../types';
+import {TypeProductGroup, TypeStock, TypeStockFormValue} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
 import {EditDrawerStock} from "./components/EditDrawerStock";
@@ -31,12 +31,10 @@ export const PageStock: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую ячейку на складе
-  const handleAddStock = (values: TypeStock): void => {
+  const handleAddStock = (values: TypeStockFormValue): void => {
     const stock: TypeStock = {
       amount: values.amount,
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
     };
     setIsModalOpen(false);
     createNewStock(stock);
@@ -55,13 +53,11 @@ export const PageStock: React.FC = () => {
   };
 
   // Обновить товар на складе
-  const handleUpdateStock = (values: TypeStock): void => {
+  const handleUpdateStock = (values: TypeStockFormValue): void => {
     const stock: TypeStock = {
       id: selectedStockId,
       amount: values.amount,
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
     };
     setIsDrawerOpen(false);
     editStock(stock);
