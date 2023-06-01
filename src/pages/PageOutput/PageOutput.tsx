@@ -3,7 +3,7 @@ import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteOutputById, createOutput, editChangeOutput} from "../../services";
-import {TypeOutput} from "../../types";
+import {TypeOutput, TypeOutputFormValue} from "../../types";
 import {TableOutput} from "./components/TableOutput";
 import {AddModalOutput} from "./components/AddModalOutput";
 import {EditDrawerOutput} from "./components/EditDrawerOutput";
@@ -22,12 +22,10 @@ export const PageOutput: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новый выпуск продукции
-  const handleAddOutput = (values: TypeOutput): void => {
+  const handleAddOutput = (values: TypeOutputFormValue): void => {
     const output: TypeOutput = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      product: {
-        id: values.product?.id,
-      }
+      product: {id: values.product}
     };
     setIsModalOpen(false)
     createOutput(output)
@@ -41,12 +39,10 @@ export const PageOutput: React.FC = () => {
   };
 
   // Обновить выпуск продукции
-  const handleUpdateOutput = (values: TypeOutput): void => {
+  const handleUpdateOutput = (values: TypeOutputFormValue): void => {
     const output: TypeOutput = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
       id: selectedOutputId,
     };
     setIsDrawerOpen(false)
