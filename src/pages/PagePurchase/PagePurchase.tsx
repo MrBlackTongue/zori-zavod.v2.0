@@ -3,7 +3,7 @@ import {Typography, Space, Button, Input, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {deletePurchaseById, createPurchase, editPurchase} from '../../services';
-import {TypePurchase} from '../../types';
+import {TypePurchase, TypePurchaseFormValue} from '../../types';
 import {TablePurchase} from "./components/TablePurchase";
 import {AddModalPurchase} from "./components/AddModalPurchase";
 import {EditDrawerPurchase} from "./components/EditDrawerPurchase";
@@ -25,14 +25,12 @@ export const PagePurchase: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую закупку
-  const handleAddPurchase = (values: TypePurchase): void => {
+  const handleAddPurchase = (values: TypePurchaseFormValue): void => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      product: {
-        id: values.product?.id,
-      },
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      product: {id: values.product},
       paid: values.paid,
     };
     setIsModalOpen(false);
@@ -47,15 +45,13 @@ export const PagePurchase: React.FC = () => {
   };
 
   // Обновить закупку
-  const handleUpdatePurchase = (values: TypePurchase): void => {
+  const handleUpdatePurchase = (values: TypePurchaseFormValue): void => {
     const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
       cost: values.cost,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      product: {
-        id: values.product?.id,
-      },
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      product: {id: values.product},
       paid: values.paid,
     };
     setIsDrawerOpen(false);

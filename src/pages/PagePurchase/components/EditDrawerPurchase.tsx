@@ -1,163 +1,80 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {Form, Drawer, Select, InputNumber, DatePicker, Checkbox, Space, Button} from "antd";
-import {EditDrawerProps, TypeProduct, TypePurchase} from "../../../types";
+import {Form, Drawer, Space, Button} from "antd";
+import {EditDrawerProps, TypeProduct, TypePurchaseFormValue} from "../../../types";
 import {getAllProduct, getPurchaseById} from "../../../services";
-import dayjs, {Dayjs} from 'dayjs';
-import {CheckboxChangeEvent} from "antd/es/checkbox";
+import dayjs from 'dayjs';
+import {useFormField, useFormHandler} from "../../../hooks";
+import {FormPurchase} from "./FormPurchase";
 
-const {Option} = Select;
-
-export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
-                                                                              isOpen,
-                                                                              selectedItemId,
-                                                                              onCancel,
-                                                                              updateItem,
-                                                                            }) => {
+export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchaseFormValue>> = ({
+                                                                                       isOpen,
+                                                                                       selectedItemId,
+                                                                                       onCancel,
+                                                                                       updateItem,
+                                                                                     }) => {
   const [form] = Form.useForm();
 
-  // Все товары, выбранный товар, товар
-  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
-  const [selectedProduct, setSelectedProduct] = useState<TypeProduct>();
-  const [product, setProduct] = useState<TypeProduct>();
+  // Все товары
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
 
-  // Выбранная дата
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null | undefined>();
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
-  // Изменить состояние чекбокса
-  const onChangeCheckbox = (e: CheckboxChangeEvent): void => {
-    form.setFieldsValue({paid: e.target.checked});
-  }
-
-  // Изменить выбранный товар
-  const onChangeProduct = (value: string, option: any): void => {
-    const product: TypeProduct = {
-      id: option.id,
-      title: value,
-    };
-    form.setFieldsValue({product: product});
-    setSelectedProduct(product)
-  };
+  // Хук для управления полем product
+  const {
+    onChangeField: onChangeProduct,
+    onClearField: onClearProduct,
+    onSearchField: onSearchProduct,
+  } = useFormField(form, 'product');
 
   // Функция для получения данных о закупке по id и обновления формы
   const handleGetPurchase = useCallback((): void => {
     if (selectedItemId) {
       getPurchaseById(selectedItemId).then((purchase) => {
         form.setFieldsValue({
+          ...purchase,
           date: dayjs(purchase?.date),
-          product: purchase?.product?.id,
-          cost: purchase?.cost,
-          amount: purchase?.amount,
-          paid: purchase?.paid,
+          product: purchase?.product?.id === 0 ? '' : purchase?.product?.id,
+          paid: purchase?.paid || false,
         });
-        setSelectedProduct(purchase?.product)
-        setProduct(purchase?.product)
-        setSelectedDate(dayjs(purchase?.date));
       })
     }
   }, [selectedItemId, form]);
 
-  // Функция подтверждения редактирования
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        updateItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      })
-  }
-
-  // Функция закрытия дравера
-  const handleClose = (): void => {
-    onCancel()
-    setSelectedProduct(product)
-  };
-
   useEffect(() => {
-    getAllProduct().then((products) => {
-      setAllProduct(products);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
     });
   }, []);
 
   useEffect(() => {
-    handleGetPurchase();
-  }, [selectedItemId, handleGetPurchase]);
+    if (isOpen && selectedItemId) {
+      handleGetPurchase();
+    }
+  }, [isOpen, selectedItemId, handleGetPurchase]);
 
   return (
     <Drawer
       title="Редактирование закупки"
       width={600}
       open={isOpen}
-      onClose={handleClose}
+      onClose={handleReset}
       extra={
         <Space>
-          <Button onClick={handleClose}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
+          <Button onClick={handleReset}>Отмена</Button>
+          <Button onClick={handleSubmit} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-      <Form
+      <FormPurchase
         form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-        initialValues={{date: selectedDate}}
-      >
-        <Form.Item
-          label="Товар"
-          name="product"
-          rules={[{required: true, message: "выберите товар"}]}
-        >
-          <div>
-            <Select
-              value={selectedProduct ? selectedProduct.title : undefined}
-              onChange={onChangeProduct}
-            >
-              {allProduct && allProduct.length > 0 ?
-                allProduct.map(product => (
-                  <Option id={product.id} key={product.id} value={product.title}>
-                    {product.title}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-        <Form.Item
-          label="Цена"
-          name="cost"
-          rules={[{required: true, message: "введите цену"}]}
-        >
-          <InputNumber style={{width: '100%'}}/>
-        </Form.Item>
-        <Form.Item
-          label="Количество"
-          name="amount"
-          rules={[{required: true, message: "введите количество"}]}
-        >
-          <InputNumber style={{width: '100%'}}/>
-        </Form.Item>
-        <Form.Item
-          label="Дата"
-          name="date"
-          rules={[{required: true, message: 'выберите дату'}]}
-        >
-          <DatePicker
-            style={{width: '100%'}}
-            format='DD.MM.YYYY'
-            onChange={(value) => setSelectedDate(value)}
-          />
-        </Form.Item>
-        <Form.Item
-          name="paid"
-          wrapperCol={{offset: 8, span: 16}}
-          valuePropName='checked'
-        >
-          <Checkbox onChange={onChangeCheckbox}>Оплачено</Checkbox>
-        </Form.Item>
-      </Form>
+        allProduct={allProduct}
+        onChangeProduct={onChangeProduct}
+        onClearProduct={onClearProduct}
+        onSearchProduct={onSearchProduct}
+      />
     </Drawer>
   )
 }
