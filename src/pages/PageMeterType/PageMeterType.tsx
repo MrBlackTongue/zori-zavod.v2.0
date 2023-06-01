@@ -3,7 +3,7 @@ import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteMeterTypeById, createMeterType, editMeterType} from "../../services";
-import {TypeMeterType} from "../../types";
+import {TypeMeterType, TypeMeterTypeFormValue} from "../../types";
 import {TableMeterType} from "./components/TableMeterType";
 import {AddModalMeterType} from "./components/AddModalMeterType";
 import {EditDrawerMeterType} from "./components/EditDrawerMeterType";
@@ -21,13 +21,10 @@ export const PageMeterType: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новый тип счетчика
-  const handleAddMeterType = (values: TypeMeterType): void => {
+  const handleAddMeterType = (values: TypeMeterTypeFormValue): void => {
     const meterType: TypeMeterType = {
       title: values.title,
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
+      unit: {id: values.unit},
       cost: values.cost,
     };
     setIsModalOpen(false)
@@ -42,13 +39,10 @@ export const PageMeterType: React.FC = () => {
   };
 
   // Обновить тип счетчика
-  const handleUpdateMeterType = (values: TypeMeterType): void => {
+  const handleUpdateMeterType = (values: TypeMeterTypeFormValue): void => {
     const meterType: TypeMeterType = {
       title: values.title,
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
+      unit: {id: values.unit},
       cost: values.cost,
       id: selectedMeterTypeId,
     };

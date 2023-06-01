@@ -1,52 +1,39 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
-import {EditDrawerProps, TypeMeterType, TypeUnit} from "../../../types";
+import {Button, Drawer, Form, Space} from "antd";
+import {EditDrawerProps, TypeMeterTypeFormValue, TypeUnit} from "../../../types";
 import {getMeterTypeById, getAllUnit} from "../../../services";
+import {useFormField, useFormHandler} from "../../../hooks";
+import {FormOperation} from "./FormMeterType";
 
-const {Option} = Select;
-
-export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
-                                                                                isOpen,
-                                                                                selectedItemId,
-                                                                                onCancel,
-                                                                                updateItem,
-                                                                              }) => {
+export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterTypeFormValue>> = ({
+                                                                                         isOpen,
+                                                                                         selectedItemId,
+                                                                                         onCancel,
+                                                                                         updateItem,
+                                                                                       }) => {
   const [form] = Form.useForm();
 
   // Все единицы измерения, выбранная единица измерения, единица измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
-  const [selectedUnit, setSelectedUnit] = useState<TypeUnit>();
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
 
-  // Изменить выбранную единицу измерения
-  const onChangeUnit = (value: string, option: any): void => {
-    const unit: TypeUnit = {
-      id: option.id,
-      name: value,
-    };
-    form.setFieldsValue({unit: unit});
-    setSelectedUnit(unit)
-  };
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
-  // Функция подтверждения редактирования
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        updateItem(values);
-        onCancel();
-      })
-      .catch((info) => {
-        console.log('Validate Failed:', info);
-        return;
-      });
-  }
+  // Хук для управления полем unit
+  const {
+    onChangeField: onChangeUnit,
+    onClearField: onClearUnit,
+    onSearchField: onSearchUnit
+  } = useFormField(form, 'unit');
 
   // Функция для получения данных в дравер
   const handleGetMeterType = useCallback((): void => {
     if (selectedItemId) {
       getMeterTypeById(selectedItemId).then((meterType) => {
-        form.setFieldsValue(meterType)
-        setSelectedUnit(meterType?.unit)
+        form.setFieldsValue({
+          ...meterType,
+          unit: meterType?.unit?.id === 0 ? '' : meterType?.unit?.id,
+        })
       })
     }
   }, [selectedItemId, form])
@@ -54,9 +41,6 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
   useEffect(() => {
     if (isOpen && selectedItemId) {
       handleGetMeterType()
-    } else {
-      form.resetFields();
-      setSelectedUnit(undefined);
     }
   }, [isOpen, selectedItemId, handleGetMeterType, form]);
 
@@ -74,65 +58,20 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
       onClose={onCancel}
       extra={
         <Space>
-          <Button onClick={onCancel}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
+          <Button onClick={handleReset}>Отмена</Button>
+          <Button onClick={handleSubmit} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-      <Form
+      <FormOperation
         form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Название"
-          name="title"
-          rules={[{required: true, message: 'введите название'}]}
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Цена"
-          name="cost"
-          rules={[
-            {required: true, message: "введите цену"},
-            {type: 'number', min: 0.1, message: 'цена должна быть больше 0,1'}
-          ]}
-        >
-          <InputNumber
-            style={{width: "100%"}}
-            min={0.01}
-            formatter={(value) => `${value}`.replace('.', ',')}
-            parser={(displayValue: string | undefined): number => {
-              if (displayValue === undefined) {
-                return 0;
-              }
-              return parseFloat(displayValue.replace(',', '.'));
-            }}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Единица измерения"
-          name="unit"
-        >
-          <div>
-            <Select
-              value={selectedUnit ? selectedUnit.name : undefined}
-              onChange={onChangeUnit}
-            >
-              {allUnit && allUnit.length > 0 ?
-                allUnit.map(unit => (
-                  <Option id={unit.id} key={unit.id} value={unit.name}>
-                    {unit.name}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-      </Form>
+        allUnit={allUnit}
+        onChangeUnit={onChangeUnit}
+        onClearUnit={onClearUnit}
+        onSearchUnit={onSearchUnit}
+      />
     </Drawer>
   )
 }
