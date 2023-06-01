@@ -13,3 +13,11 @@ export type TypeOperationFormValue = {
   unit?: number;
   rate?: number;
 }
+
+export interface FormOperationProps {
+  form: any;
+  allUnit: TypeUnit[];
+  onChangeUnit: (value: string) => void;
+  onClearUnit: () => void;
+  onSearchUnit: (input: string, option: any) => boolean;
+}
