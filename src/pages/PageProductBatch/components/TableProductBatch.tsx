@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
@@ -10,14 +10,11 @@ export const TableProductBatch: React.FC<TableProps> = ({
                                                           openDrawer,
                                                           onDelete,
                                                         }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
   // Лоудер и список всех партий товаров
   const [isLoading, setIsLoading] = useState(false);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -90,31 +87,31 @@ export const TableProductBatch: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
-  const updateTable = () => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductBatch().then((allProductBatch) => {
       setAllProductBatch(allProductBatch);
       setIsLoading(false);
     });
-  }
+  }, [])
 
   useEffect(() => {
-    updateTable();
-  }, [isUpdateTable]);
+    handleUpdateTable();
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allProductBatch}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };

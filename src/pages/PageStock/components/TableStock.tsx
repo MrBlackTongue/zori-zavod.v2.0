@@ -12,14 +12,11 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
                                                                     searchText,
                                                                     filter,
                                                                   }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
   // Лоудер и список всех остатков
   const [isLoading, setIsLoading] = useState(false);
   const [allStock, setAllStock] = useState<TypeStock[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -109,12 +106,12 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для обновления таблицы склада
-  const updateTable = useCallback(() => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllStock().then((allStock) => {
       setAllStock(allStock);
@@ -123,7 +120,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   }, []);
 
   // Функция для поиска по таблице склада
-  const searchTable = useCallback(() => {
+  const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllStockByTitle(searchText || "").then((allStock) => {
       setAllStock(allStock);
@@ -132,7 +129,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   }, [searchText]);
 
   // Функция для фильтрации таблицы
-  const filterTable = useCallback(() => {
+  const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
       getAllStockByFilter(filter.id).then((allStock) => {
@@ -144,22 +141,22 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
 
   useEffect(() => {
     if (filter?.id) {
-      filterTable();
+      handleFilterTable();
     } else if (searchText) {
-      searchTable();
+      handleSearchTable();
     } else {
-      updateTable();
+      handleUpdateTable();
     }
-  }, [searchText, filter, isUpdateTable, filterTable, searchTable, updateTable]);
+  }, [searchText, filter, isUpdateTable, handleFilterTable, handleSearchTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allStock}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };

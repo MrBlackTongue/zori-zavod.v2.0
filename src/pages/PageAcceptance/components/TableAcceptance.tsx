@@ -11,14 +11,11 @@ export const TableAcceptance: React.FC<TableProps> = ({
                                                         searchText,
                                                         onDelete,
                                                       }) => {
-  type TablePaginationPosition = "bottomCenter"
-
   // Лоудер и список всех приемок
   const [isLoading, setIsLoading] = useState(false);
   const [allAcceptance, setAllAcceptance] = useState<TypeAcceptance[]>();
 
   // Параметры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -95,12 +92,12 @@ export const TableAcceptance: React.FC<TableProps> = ({
   ]
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для обновления таблицы приемок
-  const updateTable = useCallback(() => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptance().then((allAcceptance) => {
       setAllAcceptance(allAcceptance);
@@ -109,7 +106,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
   }, [])
 
   // Функция для поиска приёмки
-  const searchTable = useCallback(() => {
+  const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
       setAllAcceptance(allAcceptance);
@@ -119,20 +116,20 @@ export const TableAcceptance: React.FC<TableProps> = ({
 
   useEffect(() => {
     if (searchText) {
-      searchTable();
+      handleSearchTable();
     } else {
-      updateTable();
+      handleUpdateTable();
     }
-  }, [searchText, isUpdateTable, searchTable, updateTable]);
+  }, [searchText, isUpdateTable, handleSearchTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allAcceptance}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };

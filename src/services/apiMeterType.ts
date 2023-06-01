@@ -65,7 +65,7 @@ export function editMeterType(data: TypeMeterType): void {
   try {
     fetch(URL + METER_TYPE, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
       .then(handleResponseEdit)
