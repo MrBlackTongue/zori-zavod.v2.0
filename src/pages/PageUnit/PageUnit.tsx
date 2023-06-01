@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteUnitById, postNewUnit, putChangeUnit} from "../../services";
+import {deleteUnitById, createUnit, editUnit} from "../../services";
 import {TypeUnit} from "../../types";
 import {TableUnit} from "./components/TableUnit";
 import {AddModalUnit} from "./components/AddModalUnit";
@@ -26,7 +26,7 @@ export const PageUnit: React.FC = () => {
       name: values.name,
     };
     setIsModalOpen(false)
-    postNewUnit(unit)
+    createUnit(unit)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -43,13 +43,13 @@ export const PageUnit: React.FC = () => {
       id: selectedUnitId,
     };
     setIsDrawerOpen(false)
-    putChangeUnit(unit)
+    editUnit(unit)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteUnit = (id: number): void => {
-    deleteUnitById(id).catch((error) => console.error(error));
+    deleteUnitById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

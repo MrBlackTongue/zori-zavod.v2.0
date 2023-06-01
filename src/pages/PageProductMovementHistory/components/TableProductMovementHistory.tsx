@@ -15,14 +15,11 @@ export const TableProductMovementHistory:
                                                               isUpdateTable,
                                                               filter,
                                                             }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
   // Лоудер и список всей истории движения товаров
   const [isLoading, setIsLoading] = useState(false);
   const [allProductMovementHistory, setAllProductMovementHistory] = useState<TypeProductMovementHistory[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -85,12 +82,12 @@ export const TableProductMovementHistory:
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для поиска по таблице истории движения товаров
-  const filterTable = useCallback(() => {
+  const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
       getProductMovementHistoryById(filter.id).then((allProductMovementHistory) => {
@@ -101,7 +98,7 @@ export const TableProductMovementHistory:
   }, [filter]);
 
   // Функция для обновления таблицы товаров
-  const updateTable = useCallback(() => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductMovementHistory().then((allProductMovementHistory) => {
       setAllProductMovementHistory(allProductMovementHistory);
@@ -111,20 +108,20 @@ export const TableProductMovementHistory:
 
   useEffect(() => {
     if (filter?.id) {
-      filterTable();
+      handleFilterTable();
     } else {
-      updateTable();
+      handleUpdateTable();
     }
-  }, [filter, isUpdateTable, filterTable, updateTable]);
+  }, [filter, isUpdateTable, handleFilterTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allProductMovementHistory}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 }

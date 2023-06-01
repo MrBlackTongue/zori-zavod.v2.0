@@ -1,60 +1,50 @@
 import {TypeProductionProductMovement} from "../types";
 import {URL, MOVEMENT, PRODUCTION, OPERATION_ACCOUNTING} from "./apiEndpoints";
-import {message} from "antd";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+} from '../utils';
 
 // Получить список всех производственных движений товара по id учетной операции
-export async function getProductionProductMovementByIdOperationAccounting(id: number):
+export function getProductionProductMovementByIdOperationAccounting(id: number):
   Promise<TypeProductionProductMovement[] | undefined> {
   try {
-    const response = await fetch(URL + MOVEMENT + PRODUCTION + OPERATION_ACCOUNTING + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + MOVEMENT + PRODUCTION + OPERATION_ACCOUNTING + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить производственное движение товара
-export function postNewProductionProductMovement(data: TypeProductionProductMovement): void {
+export function createProductionProductMovement(data: TypeProductionProductMovement): void {
   try {
-    const config = {
+    fetch(URL + MOVEMENT + PRODUCTION, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + MOVEMENT + PRODUCTION, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить производственное движение товара по id
-export async function deleteProductionProductMovementById(id: number) {
+export function deleteProductionProductMovementById(id: number): void {
   try {
-    const response = await fetch(URL + MOVEMENT + PRODUCTION + `/${id}`, {
+    fetch(URL + MOVEMENT + PRODUCTION + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }

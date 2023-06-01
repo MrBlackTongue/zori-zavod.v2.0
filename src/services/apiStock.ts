@@ -1,127 +1,98 @@
 import {TypeStock} from "../types";
 import {URL, STOCK, GROUP, TITLE} from "./apiEndpoints";
-import {message} from "antd";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех остатков со склада
-export async function getAllStock(): Promise<TypeStock[]> {
+export function getAllStock(): Promise<TypeStock[]> {
   try {
-    const response = await fetch(URL + STOCK);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json() as TypeStock[];
+    return fetch(URL + STOCK)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные остатка со склада по id
-export async function getStockById(id: number): Promise<TypeStock | undefined> {
+export function getStockById(id: number): Promise<TypeStock | undefined> {
   try {
-    const response = await fetch(URL + STOCK + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + STOCK + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новый остаток на складе
-export function postNewStock(data: TypeStock): void {
+export function createNewStock(data: TypeStock): void {
   try {
-    const config = {
+    fetch(URL + STOCK, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + STOCK, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить остаток на складе по id
-export async function deleteStockById(id: number) {
+export function deleteStockById(id: number): void {
   try {
-    const response = await fetch(URL + STOCK + `/${id}`, {
+    fetch(URL + STOCK + `/${id}`, {
       method: "DELETE",
-    });
-    if (response.ok) {
-      message.success("Запись удалена");
-    } else {
-      console.error(response.statusText);
-      message.error("Ошибка при удалении записи");
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать остаток на складе
-export function putChangeStock(data: TypeStock): void {
+export function editStock(data: TypeStock): void {
   try {
-    const config = {
+    fetch(URL + STOCK, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + STOCK, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Получить список всех отфильтрованных остатков на складе по название
-export async function getAllStockByTitle(title: string): Promise<TypeStock[]> {
+export function getAllStockByTitle(title: string): Promise<TypeStock[]> {
   try {
-    const response = await fetch(URL + STOCK + TITLE + `/${title}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + STOCK + TITLE + `/${title}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить список всех отфильтрованных остаков на складе
-export async function getAllStockByFilter(id: number): Promise<TypeStock[] | undefined> {
+export function getAllStockByFilter(id: number): Promise<TypeStock[] | undefined> {
   try {
-    const response = await fetch(URL + STOCK + GROUP + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + STOCK + GROUP + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }

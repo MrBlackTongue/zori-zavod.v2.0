@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined, DownOutlined} from '@ant-design/icons';
@@ -12,14 +12,11 @@ export const TableShipment: React.FC<TableProps> = ({
                                                       onDelete,
                                                       openDetailDrawer
                                                     }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
   // Состояния для загрузки данных и списка всех отгрузок
   const [isLoading, setIsLoading] = useState(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
   // Состояние для параметров пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -45,7 +42,7 @@ export const TableShipment: React.FC<TableProps> = ({
       title: 'Клиент',
       dataIndex: 'client',
       key: 'client',
-      sorter: (a, b ) => (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
+      sorter: (a, b) => (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
       render: ((client: any) =>
         client !== null ? (<div key={client.id}>{client.title}</div>) : null)
     },
@@ -98,31 +95,31 @@ export const TableShipment: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
-  const updateTable = () => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllShipment().then((allShipment) => {
       setAllShipment(allShipment);
       setIsLoading(false);
     });
-  };
+  }, [])
 
   useEffect(() => {
-    updateTable()
-  }, [isUpdateTable]);
+    handleUpdateTable()
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allShipment}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };

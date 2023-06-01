@@ -1,112 +1,87 @@
 import {TypeProduct} from "../types";
-import {message} from "antd";
 import {URL, PRODUCT, TITLE} from "./apiEndpoints";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех товаров
-export async function getAllProduct(): Promise<TypeProduct[]> {
+export function getAllProduct(): Promise<TypeProduct[]> {
   try {
-    const res = await fetch(URL + PRODUCT);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeProduct[];
+    return fetch(URL + PRODUCT)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные товара по id
-export async function getProductById(id: number): Promise<TypeProduct | undefined> {
+export function getProductById(id: number): Promise<TypeProduct | undefined> {
   try {
-    const response = await fetch(URL + PRODUCT + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + PRODUCT + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новый товар
-export function postNewProduct(data: TypeProduct): void {
+export function createProduct(data: TypeProduct): void {
   try {
-    const config = {
+    fetch(URL + PRODUCT, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error))
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить товар по id
-export async function deleteProductById(id: number) {
+export function deleteProductById(id: number): void {
   try {
-    const response = await fetch(URL + PRODUCT + `/${id}`, {
+    fetch(URL + PRODUCT + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать товар
-export function putChangeProduct(data: TypeProduct): void {
+export function editProduct(data: TypeProduct): void {
   try {
-    const config = {
+    fetch(URL + PRODUCT, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Получить список всех отфильтрованных товаров по названию
-export async function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
+export function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
   try {
-    const response = await fetch(URL + PRODUCT + TITLE + `/${title}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + PRODUCT + TITLE + `/${title}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }

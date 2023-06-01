@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteOperationById, postNewOperation, putChangeOperation} from "../../services";
+import {deleteOperationById, createOperation, editOperation} from "../../services";
 import {TypeOperation} from "../../types";
 import {TableOperation} from "./components/TableOperation";
 import {AddModalOperation} from "./components/AddModalOperation";
@@ -31,7 +31,7 @@ export const PageOperation: React.FC = () => {
       rate: values.rate,
     };
     setIsModalOpen(false)
-    postNewOperation(operation)
+    createOperation(operation)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -53,13 +53,13 @@ export const PageOperation: React.FC = () => {
       id: selectedOperationId,
     };
     setIsDrawerOpen(false)
-    putChangeOperation(operation)
+    editOperation(operation)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOperation = (id: number): void => {
-    deleteOperationById(id).catch((error) => console.error(error));
+    deleteOperationById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

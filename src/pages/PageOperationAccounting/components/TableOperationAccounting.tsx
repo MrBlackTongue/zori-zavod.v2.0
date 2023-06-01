@@ -20,7 +20,6 @@ export const TableOperationAccounting:
                                                            onDelete,
                                                            filter,
                                                          }) => {
-  type TablePaginationPosition = 'bottomCenter'
   const navigate = useNavigate();
 
   // Лоудер и список всех учетных операций
@@ -28,7 +27,6 @@ export const TableOperationAccounting:
   const [allOperationAccounting, setAllOperationAccounting] = useState<TypeOperationAccounting[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -160,7 +158,7 @@ export const TableOperationAccounting:
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
@@ -206,16 +204,16 @@ export const TableOperationAccounting:
   };
 
   // Функция для обновления таблицы
-  const updateTable = () => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllOperationAccounting().then((allOperationAccounting) => {
       setAllOperationAccounting(allOperationAccounting);
       setIsLoading(false);
     });
-  }
+  }, [])
 
   // Функция для фильтрации таблицы
-  const filterTable = useCallback(() => {
+  const handleFilterTable = useCallback((): void => {
     if (filter) {
       setIsLoading(true);
       getAllOperationAccountingByFilter({
@@ -231,20 +229,20 @@ export const TableOperationAccounting:
 
   useEffect(() => {
     if (filter?.date || filter?.operationId || filter?.productionTypeId) {
-      filterTable();
+      handleFilterTable();
     } else {
-      updateTable();
+      handleUpdateTable();
     }
-  }, [filter, isUpdateTable, filterTable]);
+  }, [filter, isUpdateTable, handleUpdateTable, handleFilterTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allOperationAccounting}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
       summary={renderSummaryRow}
     />
   );

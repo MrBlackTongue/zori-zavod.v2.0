@@ -1,97 +1,76 @@
 import {TypeMeterType} from "../types";
 import {URL, METER_TYPE} from "./apiEndpoints";
-import {message} from "antd";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех типов счетчика
-export async function getAllMeterType(): Promise<TypeMeterType[]> {
+export function getAllMeterType(): Promise<TypeMeterType[]> {
   try {
-    const response = await fetch(URL + METER_TYPE);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json() as TypeMeterType[];
+    return fetch(URL + METER_TYPE)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные типа счетчика по id
-export async function getMeterTypeById(id: number): Promise<TypeMeterType | undefined> {
+export function getMeterTypeById(id: number): Promise<TypeMeterType | undefined> {
   try {
-    const response = await fetch(URL + METER_TYPE + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + METER_TYPE + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новый тип счетчика
-export function postNewMeterType(data: TypeMeterType): void {
+export function createMeterType(data: TypeMeterType): void {
   try {
-    const config = {
+    fetch(URL + METER_TYPE, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + METER_TYPE, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить тип счетчика по id
-export async function deleteMeterTypeById(id: number) {
+export function deleteMeterTypeById(id: number): void {
   try {
-    const response = await fetch(URL + METER_TYPE + `/${id}`, {
+    fetch(URL + METER_TYPE + `/${id}`, {
       method: "DELETE",
-    });
-    if (response.ok) {
-      return message.success("Запись удалена");
-    } else {
-      console.error(response.statusText);
-      return message.error("Ошибка при удалении записи");
-    }
-  } catch (err) {
-    console.error(err);
-    return message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать тип счетчика
-export function putChangeMeterType(data: TypeMeterType): void {
+export function editMeterType(data: TypeMeterType): void {
   try {
-    const config = {
+    fetch(URL + METER_TYPE, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + METER_TYPE, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }

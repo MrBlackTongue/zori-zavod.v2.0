@@ -1,97 +1,76 @@
 import {TypeOutput} from "../types";
-import {message} from "antd";
 import {URL, OUTPUT} from "./apiEndpoints";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех единиц измерения
-export async function getAllOutput(): Promise<TypeOutput[]> {
+export function getAllOutput(): Promise<TypeOutput[]> {
   try {
-    const res = await fetch(URL + OUTPUT);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeOutput[];
+    return fetch(URL + OUTPUT)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные единицы измерения по id
-export async function getOutputById(id: number): Promise<TypeOutput | undefined> {
+export function getOutputById(id: number): Promise<TypeOutput | undefined> {
   try {
-    const response = await fetch(URL + OUTPUT + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + OUTPUT + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новую единицу измерения
-export function postNewOutput(data: TypeOutput): void {
+export function createOutput(data: TypeOutput): void {
   try {
-    const config = {
+    fetch(URL + OUTPUT, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + OUTPUT, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error))
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить единицу измерения по id
-export async function deleteOutputById(id: number) {
+export function deleteOutputById(id: number): void {
   try {
-    const response = await fetch(URL + OUTPUT + `/${id}`, {
+    fetch(URL + OUTPUT + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать единицу изремерения
-export function putChangeOutput(data: TypeOutput): void {
+export function editChangeOutput(data: TypeOutput): void {
   try {
-    const config = {
+    fetch(URL + OUTPUT, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + OUTPUT, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }

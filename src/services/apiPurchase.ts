@@ -1,112 +1,87 @@
 import {TypePurchase} from "../types";
-import {message} from "antd";
 import {URL, PRODUCT, PURCHASE} from "./apiEndpoints";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех закупок
-export async function getAllPurchase(): Promise<TypePurchase[]> {
+export function getAllPurchase(): Promise<TypePurchase[]> {
   try {
-    const res = await fetch(URL + PURCHASE);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypePurchase[];
+    return fetch(URL + PURCHASE)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные закупки по id
-export async function getPurchaseById(id: number): Promise<TypePurchase | undefined> {
+export function getPurchaseById(id: number): Promise<TypePurchase | undefined> {
   try {
-    const response = await fetch(URL + PURCHASE + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + PURCHASE + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить новую закупку
-export function postNewPurchase(data: TypePurchase): void {
+export function createPurchase(data: TypePurchase): void {
   try {
-    const config = {
+    fetch(URL + PURCHASE, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PURCHASE, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить закупку по id
-export async function deletePurchaseById(id: number) {
+export function deletePurchaseById(id: number): void {
   try {
-    const response = await fetch(URL + PURCHASE + `/${id}`, {
+    fetch(URL + PURCHASE + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать закупку
-export function putChangePurchase(data: TypePurchase): void {
+export function editPurchase(data: TypePurchase): void {
   try {
-    const config = {
+    fetch(URL + PURCHASE, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + PURCHASE, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Получить список всех отфильтрованных закупок по названию
-export async function getAllPurchaseByTitle(title: string): Promise<TypePurchase[]> {
+export function getAllPurchaseByTitle(title: string): Promise<TypePurchase[]> {
   try {
-    const response = await fetch(URL + PURCHASE + PRODUCT + `/${title}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + PURCHASE + PRODUCT + `/${title}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }

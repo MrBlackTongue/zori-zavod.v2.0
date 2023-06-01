@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
@@ -10,14 +10,11 @@ export const TableProductionType: React.FC<TableProps> = ({
                                                             openDrawer,
                                                             onDelete,
                                                           }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
   // Лоудер и список типов производства
   const [isLoading, setIsLoading] = useState(false);
   const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -74,31 +71,31 @@ export const TableProductionType: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
-  const updateTable = () => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductionType().then((allProductionType) => {
       setAllProductionType(allProductionType);
       setIsLoading(false);
     });
-  }
+  }, [])
 
   useEffect(() => {
-    updateTable();
-  }, [isUpdateTable]);
+    handleUpdateTable();
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allProductionType}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 }

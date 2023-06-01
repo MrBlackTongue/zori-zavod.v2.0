@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
@@ -11,14 +11,11 @@ export const TableOutput: React.FC<TableProps> = ({
                                                     openDrawer,
                                                     onDelete,
                                                   }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
   // Лоудер и список всех единиц измерения
   const [isLoading, setIsLoading] = useState(false);
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -85,31 +82,31 @@ export const TableOutput: React.FC<TableProps> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (pagination: TablePaginationConfig) => {
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
 
   // Функция для обновления таблицы
-  const updateTable = () => {
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllOutput().then((allOutputs) => {
       setAllOutput(allOutputs);
       setIsLoading(false);
     });
-  }
+  }, [])
 
   useEffect(() => {
-    updateTable()
-  }, [isUpdateTable]);
+    handleUpdateTable()
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allOutput}
-      pagination={{...tableParams.pagination, position: [bottom]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };
