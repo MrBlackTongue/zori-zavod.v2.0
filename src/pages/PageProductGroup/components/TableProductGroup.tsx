@@ -4,21 +4,19 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {SorterResult} from 'antd/es/table/interface';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {deleteProductGroupById, getProductGroupTree} from "../../../services";
-import {TableProps, TableParams, TypeProductGroup} from "../../../types";
+import {TableProps, TableParam, TypeProductGroup} from "../../../types";
 
 export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
-                                                                                isUpdateTable,
-                                                                                openDrawer,
-                                                                              }) => {
-  type TablePaginationPosition = 'bottomCenter';
+                                                                            isUpdateTable,
+                                                                            openDrawer,
+                                                                          }) => {
 
   // Лоудер и список всех групп товаров
   const [loading, setLoading] = useState(false);
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
@@ -56,9 +54,11 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
               placement="topRight"
               title="Вы действительно хотите удалить эту группу товаров?"
               onConfirm={() => {
-                deleteProductGroupById(id).then(() => {updateTable()});
+                deleteProductGroupById(id).then(() => {
+                  handleUpdateTable()
+                });
               }}
-                okText="Да"
+              okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
                       style={{color: 'tomato', borderColor: 'tomato'}} ghost>
@@ -72,52 +72,41 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeProductGroup>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProductGroup(allProductGroup);
-    }
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setTableParams({pagination});
   };
 
   // Рекурсивная функция для удаления пустых дочерних элементов
-  const removeEmptyChildren = useMemo(() => {
-    const removeEmpty = (group: TypeProductGroup): TypeProductGroup => {
-      if (group.children && group.children.length === 0) {
-        const {children, ...rest} = group;
+  const removeEmptyChildren = useCallback((productGroup: TypeProductGroup): TypeProductGroup => {
+      if (productGroup.children && productGroup.children.length === 0) {
+        const {children, ...rest} = productGroup;
         return rest;
       }
-      if (group.children) {
-        return {...group, children: group.children.map(child => removeEmpty(child))};
+      if (productGroup.children) {
+        return {...productGroup, children: productGroup.children.map(removeEmptyChildren)};
       }
-      return group;
-    };
-    return removeEmpty;
-  }, []);
+      return productGroup;
+  }, [] )
 
   // Функция для обновления таблицы
-  const updateTable = useCallback(async () => {
+  const handleUpdateTable = useCallback((): void => {
     setLoading(true);
-    const allProductGroup = await getProductGroupTree();
-    const updatedProductGroup = allProductGroup.map(removeEmptyChildren);
-    setAllProductGroup(updatedProductGroup);
-    setLoading(false);
+    getProductGroupTree().then((allProductGroup) => {
+      const updatedProductGroup = allProductGroup.map(removeEmptyChildren);
+      setAllProductGroup(updatedProductGroup);
+      setLoading(false);
+    })
   }, [removeEmptyChildren]);
 
   useEffect(() => {
     (async () => {
       try {
-        await updateTable();
+        await handleUpdateTable();
       } catch (error) {
         console.error('Failed to update table:', error);
       }
     })();
-  }, [isUpdateTable, updateTable]);
+  }, [isUpdateTable, handleUpdateTable]);
 
 
   return (
@@ -127,12 +116,10 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
       columns={columns}
       dataSource={allProductGroup}
       pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
+        ...tableParams.pagination, position: ['bottomCenter']
       }}
       loading={loading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };

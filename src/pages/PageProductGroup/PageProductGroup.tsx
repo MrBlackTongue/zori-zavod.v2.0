@@ -31,7 +31,7 @@ export const PageProductGroup: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (productGroupId: number) => {
+  const openDrawer = (productGroupId: number): void => {
     setSelectedProductGroupId(productGroupId)
     setIsDrawerOpen(true);
   };
@@ -56,7 +56,7 @@ export const PageProductGroup: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить

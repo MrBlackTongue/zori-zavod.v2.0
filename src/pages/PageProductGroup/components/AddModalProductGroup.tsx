@@ -12,10 +12,10 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Все группы товаров, выбранная группа, отфильтрованная группа
+  // Все группы товаров, выбранная группа товаров, отфильтрованные группы товаров
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<TypeProductGroup>();
-  const [filteredGroup, setFilteredGroup] = useState<TypeProductGroup[]>([]);
+  const [selectedProductGroup, setSelectedProductGroup] = useState<TypeProductGroup>();
+  const [filteredProductGroup, setFilteredProductGroup] = useState<TypeProductGroup[]>([]);
 
   // Изменить выбранную группу товаров
   const onChangeProductGroup = (value: string): void => {
@@ -23,13 +23,13 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
     form.setFieldsValue({
       parent: selectedGroup ? selectedGroup : undefined
     });
-    setSelectedGroup(selectedGroup);
+    setSelectedProductGroup(selectedGroup);
   };
 
   // Поиск по группе
-  const onSearchGroup = (searchText: string) => {
+  const onSearchProductGroup = (searchText: string): void => {
     if (searchText === '') {
-      setFilteredGroup(allProductGroup || []);
+      setFilteredProductGroup(allProductGroup || []);
     } else {
       const searchLowerCase = searchText.toLowerCase();
       const filtered = allProductGroup?.filter((productGroup) =>
@@ -37,18 +37,18 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
           ? productGroup.title.toLowerCase().includes(searchLowerCase)
           : false
       );
-      setFilteredGroup(filtered || []);
+      setFilteredProductGroup(prevState => filtered || prevState);
     }
   };
 
   // Функция подтверждения добавления новой группы
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
       .then((values) => {
         form.resetFields();
         addItem(values);
-        setSelectedGroup(undefined);
+        setSelectedProductGroup(undefined);
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
@@ -56,9 +56,9 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
   };
 
   // Функция закрытия модального окна
-  const handleClose = () => {
+  const handleClose = (): void => {
     form.resetFields();
-    setSelectedGroup(undefined);
+    setSelectedProductGroup(undefined);
     onCancel()
   };
 
@@ -66,7 +66,7 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
     if (isOpen) {
       getAllProductGroup().then(allProductGroup => {
         setAllProductGroup(allProductGroup);
-        setFilteredGroup(allProductGroup);
+        setFilteredProductGroup(allProductGroup);
       });
     }
   }, [isOpen]);
@@ -91,7 +91,7 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
         <Form.Item
           label="Название"
           name="title"
-          rules={[{required: true, message: "введите название группы"}]}
+          rules={[{required: true, message: "введите название группы товаров"}]}
         >
           <Input/>
         </Form.Item>
@@ -104,11 +104,11 @@ export const AddModalProductGroup: React.FC<AddModalProps<TypeProductGroup>> = (
               allowClear
               filterOption={false}
               placeholder="Выберите родительскую группу"
-              value={selectedGroup ? selectedGroup?.title : undefined}
-              onSearch={onSearchGroup}
+              value={selectedProductGroup ? selectedProductGroup?.title : undefined}
+              onSearch={onSearchProductGroup}
               onChange={onChangeProductGroup}
             >
-              {filteredGroup?.map((productGroup) => (
+              {filteredProductGroup?.map((productGroup) => (
                 <Option key={productGroup.id} value={productGroup.id} title={productGroup.title}>
                   {productGroup.title}
                 </Option>
