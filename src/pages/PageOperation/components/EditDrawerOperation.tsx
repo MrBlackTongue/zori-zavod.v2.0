@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
 import {EditDrawerProps, TypeUnit, TypeOperationFormValue} from "../../../types";
 import {getOperationById, getAllUnit} from "../../../services";
-import {useFormField} from "../../../hooks"
+import {useFormField, useFormHandler} from "../../../hooks"
 
 const {Option} = Select;
 
@@ -17,31 +17,15 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValu
   // Все единицы измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+
   // Хук для управления полем unit
   const {
     onChangeField: onChangeUnit,
     onClearField: onClearUnit,
     onSearchField: onSearchUnit
   } = useFormField(form, 'unit');
-
-  // Функция подтверждения редактирования
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields()
-        updateItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      })
-  }
-
-  // Функция закрытия дравера
-  const handleClose = (): void => {
-    form.resetFields()
-    onCancel()
-  };
 
   // Функция для получения данных в дравер
   const handleGetOperation = useCallback((): void => {
@@ -72,11 +56,11 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValu
       title="Редактирование операции"
       width={700}
       open={isOpen}
-      onClose={handleClose}
+      onClose={handleReset}
       extra={
         <Space>
-          <Button onClick={handleClose}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
+          <Button onClick={handleReset}>Отмена</Button>
+          <Button onClick={handleSubmit} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>

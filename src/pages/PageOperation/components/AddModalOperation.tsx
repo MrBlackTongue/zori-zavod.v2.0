@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {AddModalProps, TypeOperationFormValue, TypeUnit} from "../../../types";
 import {Form, Input, InputNumber, Modal, Select} from "antd";
 import {getAllUnit} from "../../../services";
-import {useFormField} from "../../../hooks"
+import {useFormField, useFormHandler} from "../../../hooks"
 
 const {Option} = Select;
 
@@ -16,31 +16,15 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
   // Все единицы измерения, выбраная единица измерения
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+
   // Хук для управления полем unit
   const {
     onChangeField: onChangeUnit,
     onClearField: onClearUnit,
     onSearchField: onSearchUnit
   } = useFormField(form, 'unit');
-
-  // Функция подтверждения добавления
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        addItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
-  }
-
-  // Функция закрытия модального окна
-  const handleClose = (): void => {
-    form.resetFields();
-    onCancel()
-  };
 
   useEffect(() => {
     getAllUnit().then((allUnit) => {
@@ -53,8 +37,8 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
       title={`Добавление новой операции`}
       width={700}
       open={isOpen}
-      onOk={handleOk}
-      onCancel={handleClose}
+      onOk={handleSubmit}
+      onCancel={handleReset}
       okText={'Сохранить'}
       cancelText={'Отмена'}
     >
