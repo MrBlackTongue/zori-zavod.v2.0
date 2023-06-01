@@ -114,7 +114,7 @@ export const PagePurchase: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedPurchaseId}
         updateItem={handleUpdatePurchase}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

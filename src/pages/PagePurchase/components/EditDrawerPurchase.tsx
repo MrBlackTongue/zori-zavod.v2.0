@@ -10,7 +10,7 @@ const {Option} = Select;
 export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
                                                                               isOpen,
                                                                               selectedItemId,
-                                                                              closeDrawer,
+                                                                              onCancel,
                                                                               updateItem,
                                                                             }) => {
   const [form] = Form.useForm();
@@ -58,7 +58,6 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {
-    closeDrawer()
     form
       .validateFields()
       .then((values) => {
@@ -71,7 +70,7 @@ export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchase>> = ({
 
   // Функция закрытия дравера
   const handleClose = (): void => {
-    closeDrawer()
+    onCancel()
     setSelectedProduct(product)
   };
 

@@ -7,7 +7,7 @@ import {CheckboxChangeEvent} from "antd/es/checkbox";
 export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
                                                                               isOpen,
                                                                               selectedItemId,
-                                                                              closeDrawer,
+                                                                              onCancel,
                                                                               updateItem,
                                                                             }) => {
   const [form] = Form.useForm();
@@ -19,7 +19,6 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {
-    closeDrawer()
     form
       .validateFields()
       .then((values) => {
@@ -47,10 +46,10 @@ export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
       title="Редактирование сотрудника"
       width={600}
       open={isOpen}
-      onClose={closeDrawer}
+      onClose={onCancel}
       extra={
         <Space>
-          <Button onClick={closeDrawer}>Отмена</Button>
+          <Button onClick={onCancel}>Отмена</Button>
           <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>

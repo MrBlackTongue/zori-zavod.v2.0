@@ -8,7 +8,7 @@ const {Option} = Select;
 export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
                                                                                 isOpen,
                                                                                 selectedItemId,
-                                                                                closeDrawer,
+                                                                                onCancel,
                                                                                 updateItem,
                                                                               }) => {
   const [form] = Form.useForm();
@@ -33,7 +33,7 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
       .validateFields()
       .then((values) => {
         updateItem(values);
-        closeDrawer();
+        onCancel();
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
@@ -71,10 +71,10 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterType>> = ({
       title="Редактирование типа счетчика"
       width={700}
       open={isOpen}
-      onClose={closeDrawer}
+      onClose={onCancel}
       extra={
         <Space>
-          <Button onClick={closeDrawer}>Отмена</Button>
+          <Button onClick={onCancel}>Отмена</Button>
           <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>

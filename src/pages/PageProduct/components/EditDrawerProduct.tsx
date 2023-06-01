@@ -8,7 +8,7 @@ const {Option} = Select;
 export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
                                                                             isOpen,
                                                                             selectedItemId,
-                                                                            closeDrawer,
+                                                                            onCancel,
                                                                             updateItem,
                                                                           }) => {
   const [form] = Form.useForm();
@@ -48,7 +48,6 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
       .validateFields()
       .then((values) => {
         updateItem(values);
-        closeDrawer()
       })
       .catch((error) => {
         console.log('Validate Failed:', error);
@@ -59,7 +58,7 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProduct>> = ({
   const handleClose = (): void => {
     setSelectedUnit(undefined);
     setSelectedProductGroup(undefined);
-    closeDrawer()
+    onCancel()
   };
 
   // Функция для получения данных в дравер

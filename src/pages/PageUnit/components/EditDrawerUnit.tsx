@@ -6,14 +6,13 @@ import {getUnitById} from "../../../services";
 export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
                                                                       isOpen,
                                                                       selectedItemId,
-                                                                      closeDrawer,
+                                                                      onCancel,
                                                                       updateItem,
                                                                     }) => {
   const [form] = Form.useForm();
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {
-    closeDrawer()
     form
       .validateFields()
       .then((values) => {
@@ -41,10 +40,10 @@ export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
       title="Редактирование единицы измерения"
       width={600}
       open={isOpen}
-      onClose={closeDrawer}
+      onClose={onCancel}
       extra={
         <Space>
-          <Button onClick={closeDrawer}>Отмена</Button>
+          <Button onClick={onCancel}>Отмена</Button>
           <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>

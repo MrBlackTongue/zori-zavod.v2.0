@@ -117,7 +117,7 @@ export const PageProduct: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductId}
         updateItem={handleUpdateProduct}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

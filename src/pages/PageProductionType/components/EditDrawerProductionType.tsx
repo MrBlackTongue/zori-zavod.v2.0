@@ -6,7 +6,7 @@ import {getProductionTypeById} from "../../../services";
 export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionType>> = ({
                                                                                           isOpen,
                                                                                           selectedItemId,
-                                                                                          closeDrawer,
+                                                                                          onCancel,
                                                                                           updateItem,
                                                                                         }) => {
   const [form] = Form.useForm();
@@ -17,7 +17,6 @@ export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTy
       .validateFields()
       .then((values) => {
         updateItem(values);
-        closeDrawer()
       })
       .catch((error) => {
         console.log('Validate Failed:', error);
@@ -30,7 +29,7 @@ export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTy
     if (selectedItemId) {
       handleGetProductionType(selectedItemId).catch((error) => console.error(error));
     }
-    closeDrawer();
+    onCancel();
   };
 
   // Функция для получения информации выбранной записи и установления значений полей формы

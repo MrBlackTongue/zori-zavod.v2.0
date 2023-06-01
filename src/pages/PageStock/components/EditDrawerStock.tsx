@@ -8,7 +8,7 @@ const {Option} = Select;
 export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
                                                                         isOpen,
                                                                         selectedItemId,
-                                                                        closeDrawer,
+                                                                        onCancel,
                                                                         updateItem,
                                                                       }) => {
   const [form] = Form.useForm();
@@ -59,7 +59,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
       .validateFields()
       .then((values) => {
         updateItem(values);
-        closeDrawer();
         onSearchProduct('')
       })
       .catch((error) => {
@@ -69,7 +68,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStock>> = ({
 
   // Функция закрытия дравера
   const handleClose = (): void => {
-    closeDrawer();
+    onCancel();
     form.resetFields();
   };
 

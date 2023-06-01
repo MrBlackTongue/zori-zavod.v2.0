@@ -9,7 +9,7 @@ const {Option} = Select;
 export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValue>> = ({
                                                                                          isOpen,
                                                                                          selectedItemId,
-                                                                                         closeDrawer,
+                                                                                         onCancel,
                                                                                          updateItem,
                                                                                        }) => {
   const [form] = Form.useForm();
@@ -31,7 +31,6 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValu
       .then((values) => {
         form.resetFields()
         updateItem(values);
-        closeDrawer()
       })
       .catch((error) => {
         console.log('Validate Failed:', error);
@@ -41,7 +40,7 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValu
   // Функция закрытия дравера
   const handleClose = (): void => {
     form.resetFields()
-    closeDrawer()
+    onCancel()
   };
 
   // Функция для получения данных в дравер

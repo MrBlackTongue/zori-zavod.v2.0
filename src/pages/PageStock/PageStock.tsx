@@ -142,7 +142,7 @@ export const PageStock: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedStockId}
         updateItem={handleUpdateStock}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

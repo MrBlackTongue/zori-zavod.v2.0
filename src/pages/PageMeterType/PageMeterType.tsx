@@ -99,7 +99,7 @@ export const PageMeterType: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedMeterTypeId}
         updateItem={handleUpdateMeterType}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

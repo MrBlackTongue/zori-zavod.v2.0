@@ -89,7 +89,7 @@ export const PageClient: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedClientId}
         updateItem={handleUpdateClient}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

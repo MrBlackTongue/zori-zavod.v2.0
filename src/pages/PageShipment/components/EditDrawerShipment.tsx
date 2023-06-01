@@ -9,7 +9,7 @@ const {Option} = Select;
 export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
                                                                               isOpen,
                                                                               selectedItemId,
-                                                                              closeDrawer,
+                                                                              onCancel,
                                                                               updateItem,
                                                                             }) => {
   const [form] = Form.useForm();
@@ -47,7 +47,6 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
           values.client = selectedClient
         }
         updateItem(values);
-        closeDrawer()
       })
       .catch((error) => {
         console.log('Validate Failed:', error);
@@ -60,7 +59,7 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipment>> = ({
     if (selectedItemId) {
       handleGetShipmentById(selectedItemId).catch((error) => console.error(error));
     }
-    closeDrawer()
+    onCancel()
   }
 
   // Функция для сброса выбранного значения клиента в форме

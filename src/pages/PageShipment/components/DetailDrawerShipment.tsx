@@ -13,7 +13,7 @@ import {AddModalDetailShipment} from "./AddModalDetailShipment";
 
 export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = ({
                                                                                   isOpen,
-                                                                                  closeDrawer,
+                                                                                  onCancel,
                                                                                   selectedItemId
                                                                                 }) => {
 
@@ -59,7 +59,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
       placement={"bottom"}
       height={400}
       open={isOpen}
-      onClose={closeDrawer}
+      onClose={onCancel}
       extra={
         <Space>
           <Button

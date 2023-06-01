@@ -9,7 +9,7 @@ export const EditDrawerOperationTimesheet:
   React.FC<EditDrawerProps<TypeOperationTimesheet>> = ({
                                                          isOpen,
                                                          selectedItemId,
-                                                         closeDrawer,
+                                                         onCancel,
                                                          updateItem,
                                                        }) => {
   const [form] = Form.useForm();
@@ -55,7 +55,6 @@ export const EditDrawerOperationTimesheet:
       .validateFields()
       .then((values) => {
         updateItem(values);
-        closeDrawer()
         onSearchEmployee('');
       })
       .catch((error) => {
@@ -71,7 +70,7 @@ export const EditDrawerOperationTimesheet:
         console.error("Ошибка при получении данных об учетной операции: ", error)
       });
     }
-    closeDrawer();
+    onCancel();
   };
 
   // Функция для получения данных в дравер

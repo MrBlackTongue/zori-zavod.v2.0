@@ -97,7 +97,7 @@ export const PageEmployee: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedEmployeeId}
         updateItem={handleUpdateEmployee}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

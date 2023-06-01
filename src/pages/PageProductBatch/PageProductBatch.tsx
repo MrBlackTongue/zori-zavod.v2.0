@@ -99,7 +99,7 @@ export const PageProductBatch: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductBatchId}
         updateItem={handleUpdateProductBatch}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

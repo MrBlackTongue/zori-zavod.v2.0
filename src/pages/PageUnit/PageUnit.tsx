@@ -89,7 +89,7 @@ export const PageUnit: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedUnitId}
         updateItem={handleUpdateUnit}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

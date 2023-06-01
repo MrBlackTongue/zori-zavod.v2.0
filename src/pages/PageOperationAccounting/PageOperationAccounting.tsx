@@ -195,7 +195,7 @@ export const PageOperationAccounting: React.FC = () => {
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationAccountingId}
         updateItem={handleUpdateOperationAccounting}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

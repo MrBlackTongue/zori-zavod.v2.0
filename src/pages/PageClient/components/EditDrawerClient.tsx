@@ -6,18 +6,17 @@ import {getClientById} from "../../../services";
 export const EditDrawerClient: React.FC<EditDrawerProps<TypeClient>> = ({
                                                                           isOpen,
                                                                           selectedItemId,
-                                                                          closeDrawer,
+                                                                          onCancel,
                                                                           updateItem,
                                                                         }) => {
   const [form] = Form.useForm();
 
   // Функция подтверждения редактирования
   const handleOk = (): void => {
-    closeDrawer()
     form
       .validateFields()
       .then((values) => {
-        // form.resetFields()
+        form.resetFields()
         updateItem(values);
       })
       .catch((error) => {
@@ -43,10 +42,10 @@ export const EditDrawerClient: React.FC<EditDrawerProps<TypeClient>> = ({
       title="Редактирование клиента"
       width={600}
       open={isOpen}
-      onClose={closeDrawer}
+      onClose={onCancel}
       extra={
         <Space>
-          <Button onClick={closeDrawer}>Отмена</Button>
+          <Button onClick={onCancel}>Отмена</Button>
           <Button onClick={handleOk} type="primary" htmlType="submit">
             Сохранить
           </Button>

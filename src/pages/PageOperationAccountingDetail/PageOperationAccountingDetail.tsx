@@ -173,7 +173,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
       />
       <EditDrawerOperationAccounting
         isOpen={isDrawerOperationAccountingOpen}
-        closeDrawer={() => setIsDrawerOperationAccountingOpen(false)}
+        onCancel={() => setIsDrawerOperationAccountingOpen(false)}
         selectedItemId={id ? +id : undefined}
         updateItem={handleUpdateOperationAccounting}
       />
@@ -205,7 +205,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
       />
       <EditDrawerOperationTimesheet
         isOpen={isDrawerOperationTimesheetOpen}
-        closeDrawer={() => setIsDrawerOperationTimesheetOpen(false)}
+        onCancel={() => setIsDrawerOperationTimesheetOpen(false)}
         selectedItemId={selectedOperationTimesheetId}
         updateItem={handleUpdateOperationTimesheet}
       />

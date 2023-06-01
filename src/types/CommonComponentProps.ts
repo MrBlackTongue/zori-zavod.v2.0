@@ -16,14 +16,14 @@ export interface AddModalProps<T> {
 
 export interface EditDrawerProps<T> {
   isOpen: boolean;
-  closeDrawer: () => void;
+  onCancel: () => void;
   selectedItemId: number | undefined;
   updateItem: (values: T) => void;
 }
 
 export interface DetailDrawerProps<T> {
   isOpen: boolean;
-  closeDrawer: () => void;
+  onCancel: () => void;
   selectedItemId: number | undefined;
   updateItem?: (values: T) => void;
 }

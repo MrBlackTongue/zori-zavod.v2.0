@@ -103,12 +103,12 @@ export const PageShipment: React.FC = () => {
         isOpen={openState.isDrawerOpen}
         selectedItemId={selectedShipmentId}
         updateItem={handleUpdateShipment}
-        closeDrawer={() => setOpenState({...openState, isDrawerOpen: false})}
+        onCancel={() => setOpenState({...openState, isDrawerOpen: false})}
       />
       <DetailDrawerShipment
         selectedItemId={selectedShipmentId}
         isOpen={openState.isBottomDrawerOpen}
-        closeDrawer={() => setOpenState({...openState, isBottomDrawerOpen: false})}
+        onCancel={() => setOpenState({...openState, isBottomDrawerOpen: false})}
       />
     </div>
   );

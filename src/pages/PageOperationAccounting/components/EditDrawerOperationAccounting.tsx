@@ -11,7 +11,7 @@ export const EditDrawerOperationAccounting:
   React.FC<EditDrawerProps<TypeOperationAccounting>> = ({
                                                           isOpen,
                                                           selectedItemId,
-                                                          closeDrawer,
+                                                          onCancel,
                                                           updateItem,
                                                         }) => {
   const [form] = Form.useForm();
@@ -102,7 +102,7 @@ export const EditDrawerOperationAccounting:
           values.productionType = selectedProductionType;
         }
         updateItem(values);
-        closeDrawer()
+        onCancel()
         onSearchOutput('')
       })
       .catch((error) => {
@@ -116,7 +116,7 @@ export const EditDrawerOperationAccounting:
     if (selectedItemId) {
       handleGetOperationAccounting(selectedItemId).catch((error) => console.error(error));
     }
-    closeDrawer();
+    onCancel();
   };
 
   // Функция для получения данных в дравер
