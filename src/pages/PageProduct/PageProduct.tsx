@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteProductById, postNewProduct, putChangeProduct} from "../../services";
+import {deleteProductById, createProduct, editProduct} from "../../services";
 import {TypeProduct} from "../../types";
 import {TableProduct} from "./components/TableProduct";
 import {AddModalProduct} from "./components/AddModalProduct";
@@ -37,7 +37,7 @@ export const PageProduct: React.FC = () => {
       },
     };
     setIsModalOpen(false)
-    postNewProduct(product)
+    createProduct(product)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -62,13 +62,13 @@ export const PageProduct: React.FC = () => {
       id: selectedProductId,
     };
     setIsDrawerOpen(false)
-    putChangeProduct(product)
+    editProduct(product)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProduct = (id: number): void => {
-    deleteProductById(id).catch((error) => console.error(error));
+    deleteProductById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

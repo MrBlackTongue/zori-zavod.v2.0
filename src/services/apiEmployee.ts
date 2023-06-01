@@ -1,97 +1,76 @@
 import {TypeEmployee} from "../types";
-import {message} from "antd";
 import {URL, EMPLOYEE} from "./apiEndpoints";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех сотрудников
-export async function getAllEmployee(): Promise<TypeEmployee[]> {
+export function getAllEmployee(): Promise<TypeEmployee[]> {
   try {
-    const res = await fetch(URL + EMPLOYEE);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as TypeEmployee[];
+    return fetch(URL + EMPLOYEE)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Получить данные сотрудника по id
-export async function getEmployeeById(id: number): Promise<TypeEmployee | undefined> {
+export function getEmployeeById(id: number): Promise<TypeEmployee | undefined> {
   try {
-    const response = await fetch(URL + EMPLOYEE + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + EMPLOYEE + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Добавить нового сотрудника
-export function postNewEmployee(data: TypeEmployee): void {
+export function createEmployee(data: TypeEmployee): void {
   try {
-    const config = {
+    fetch(URL + EMPLOYEE, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + EMPLOYEE, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Удалить сотрудника по id
-export async function deleteEmployeeById(id: number) {
+export function deleteEmployeeById(id: number): void {
   try {
-    const response = await fetch(URL + EMPLOYEE + `/${id}`, {
+    fetch(URL + EMPLOYEE + `/${id}`, {
       method: 'DELETE',
-    });
-    if (response.ok) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }
 
 // Редактировать сотрудника
-export function putChangeEmployee(data: TypeEmployee): void {
+export function editEmployee(data: TypeEmployee): void {
   try {
-    const config = {
+    fetch(URL + EMPLOYEE, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + EMPLOYEE, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }

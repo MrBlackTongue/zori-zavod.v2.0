@@ -3,8 +3,8 @@ import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
-  postNewProductionType,
-  putChangeProductionType,
+  createProductionType,
+  editProductionType,
   deleteProductionTypeById,
 } from "../../services";
 import {TypeProductionType} from "../../types";
@@ -31,7 +31,7 @@ export const PageProductionType: React.FC = () => {
       description: values.description,
     };
     setIsModalOpen(false)
-    postNewProductionType(productionType)
+    createProductionType(productionType)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -49,13 +49,13 @@ export const PageProductionType: React.FC = () => {
       description: values.description,
     };
     setIsDrawerOpen(false)
-    putChangeProductionType(productionType)
+    editProductionType(productionType)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductionType = (id: number): void => {
-    deleteProductionTypeById(id).catch((error) => console.error(error));
+    deleteProductionTypeById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

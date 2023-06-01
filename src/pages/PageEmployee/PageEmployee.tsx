@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteEmployeeById, postNewEmployee, putChangeEmployee} from "../../services";
+import {deleteEmployeeById, createEmployee, editEmployee} from "../../services";
 import {TypeEmployee} from "../../types";
 import {TableEmployee} from "./components/TableEmployee";
 import {AddModalEmployee} from "./components/AddModalEmployee";
@@ -30,7 +30,7 @@ export const PageEmployee: React.FC = () => {
       hired: values.hired,
     };
     setIsModalOpen(false)
-    postNewEmployee(employee)
+    createEmployee(employee)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -51,13 +51,13 @@ export const PageEmployee: React.FC = () => {
       id: selectedEmployeeId,
     };
     setIsDrawerOpen(false)
-    putChangeEmployee(employee)
+    editEmployee(employee)
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteEmployee = (id: number): void => {
-    deleteEmployeeById(id).catch((error) => console.error(error));
+    deleteEmployeeById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 

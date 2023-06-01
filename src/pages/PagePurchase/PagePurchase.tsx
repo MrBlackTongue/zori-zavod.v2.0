@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {deletePurchaseById, postNewPurchase, putChangePurchase} from '../../services';
+import {deletePurchaseById, createPurchase, editPurchase} from '../../services';
 import {TypePurchase} from '../../types';
 import {TablePurchase} from "./components/TablePurchase";
 import {AddModalPurchase} from "./components/AddModalPurchase";
@@ -36,7 +36,7 @@ export const PagePurchase: React.FC = () => {
       paid: values.paid,
     };
     setIsModalOpen(false);
-    postNewPurchase(purchase);
+    createPurchase(purchase);
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -59,13 +59,13 @@ export const PagePurchase: React.FC = () => {
       paid: values.paid,
     };
     setIsDrawerOpen(false);
-    putChangePurchase(purchase);
+    editPurchase(purchase);
     setIsTableUpdate(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeletePurchase = (id: number): void => {
-    deletePurchaseById(id).catch((error) => console.error(error));
+    deletePurchaseById(id)
     setIsTableUpdate(prevState => !prevState)
   };
 
