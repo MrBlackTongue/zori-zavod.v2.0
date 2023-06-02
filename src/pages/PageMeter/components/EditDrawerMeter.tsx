@@ -1,134 +1,131 @@
- import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Input, InputNumber, Select, Space} from "antd";
-import {EditDrawerProps, TypeMeter, TypeMeterType, TypeUnit} from "../../../types";
-import {getAllMeter} from "../../../services";
+import {EditDrawerProps, TypeMeter, TypeMeterType} from "../../../types";
+import {getAllMeterType, getMeterById} from "../../../services";
 
 const {Option} = Select;
 
-// export const EditDrawerMeter: React.FC<EditDrawerProps<TypeMeter>> = ({
-//                                                                         isOpen,
-//                                                                         closeDrawer,
-//                                                                         updateItem
-//                                                                       }) => {
+export const EditDrawerMeter: React.FC<EditDrawerProps<TypeMeter>> = ({
+                                                                        isOpen,
+                                                                        closeDrawer,
+                                                                        updateItem,
+                                                                        selectedItemId,
+                                                                      }) => {
 
-//   const [form] = Form.useForm();
-  // 
-//   const [allMeter, setAllMeter] = useState<TypeMeter[]>();
-//   const [selectedMeter, setSelectedMeter] = useState<TypeMeter>();
-// 
-//   const onChangeMeter = (value: any, option: any): void => {
-//     const meterType: TypeMeter = {
-//       id: option.id,
-//       serialNumber: value,
-//       description: value,
-//       meterTypeDto: TypeMeterType,
-//     };
-//     form.setFieldsValue({
-//       meterType: meterType
-//     });
-//     setSelectedMeter(meterType)
-//   };
-// 
-//   const handleOk = () => {
-//     form
-//       .validateFields()
-//       .then((values) => {
-//         updateItem(values);
-//         closeDrawer();
-//       })
-//       .catch((info) => {
-//         console.log('Validate Failed:', info);
-//         return;
-//       });
-//   }
-// 
-//   useEffect(() => {
-//     getAllMeter().then((allMeterType) => {
-//       setAllMeter(allMeterType);
-//     });
-//   }, []);
-// 
-//   useEffect(() => {
-//     if (!isOpen) {
-//       form.resetFields();
-//       setSelectedMeter(undefined);
-//     }
-//   }, [isOpen]);
-// 
-//   return (
-//     <Drawer
-//       title="Добавление счётчика"
-//       width={700}
-//       open={isOpen}
-//       onClose={closeDrawer}
-//       extra={
-//         <Space>
-//           <Button onClick={closeDrawer}>Отмена</Button>
-//           <Button onClick={handleOk} type="primary" htmlType="submit">
-//             Сохранить
-//           </Button>
-//         </Space>
-//       }
-//     >
-//       <Form
-//         form={form}
-//         labelCol={{span: 6}}
-//         wrapperCol={{span: 16}}
-//         style={{marginTop: 30}}
-//       >
-//         <Form.Item
-//           label="Название"
-//           name="title"
-//           rules={[{required: true, message: 'Введите название'}]}
-//         >
-//           <Input/>
-//         </Form.Item>
-//         <Form.Item
-//           label="Тип счётчика"
-//           name="meterType"
-//         >
-//           <div>
-//             <Select
-//               value={selectedMeter ? selectedMeter.title : undefined}
-//               onChange={onChangeMeter}
-//             >
-//               {allMeter && allMeter.length > 0 ?
-//                 allMeter.map(meterType => (
-//                   <Option id={meterType.id} key={meterType.id} value={meterType.title}>
-//                     {meterType.title}
-//                   </Option>
-//                 )) : null}
-//             </Select>
-//           </div>
-//         </Form.Item>
-//         <Form.Item
-//           label="Единицы измерения"
-//           name="unit"
-//           rules={[{required: true, message: 'Введите единицы измерения'}]}
-//         >
-//           <Select>
-//             {Object.keys(TypeUnit).map(unit => (
-//               <Option key={unit} value={unit}>
-//                 {unit}
-//               </Option>
-//             ))}
-//           </Select>
-//         </Form.Item>
-//         <Form.Item
-//           label="Минимальное значение"
-//           name="min"
-//           rules={[{required: true, message: 'Введите минимальное значение'}]}
-//         >
-//           <InputNumber min={0}/>
-//         </Form.Item>
-//         <Form.Item
-//           label="Максимальное значение"
-//           name="max"
-//           rules={[{required: true, message: 'Введите максимальное значение'}]}
-//         >
-//           <InputNumber min={0}/>
-//         </Form.Item>
-//       </Form>
-//     </Drawer>
-//   );
-// }
+  const [form] = Form.useForm();
+
+  // Р’СЃРµ С‚РёРїС‹ СЃС‡РµС‚С‡РёРєРѕРІ, РІС‹Р±СЂР°РЅРЅС‹Р№ СЃС‡РµС‚С‡РёРє
+  const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>();
+  const [selectedMeterType, setSelectedMeterType] = useState<TypeMeterType>();
+
+  // РР·РјРµРЅРёС‚СЊ РІС‹Р±СЂР°РЅРЅС‹Р№ С‚РёРї СЃС‡РµС‚С‡РёРєР°
+  const onChangeMeterType = (value: any, option: any): void => {
+    const meterType: TypeMeterType = {
+      id: option.id,
+      title: value,
+    };
+    form.setFieldsValue({
+      meterTypeDto: meterType
+    });
+    setSelectedMeterType(meterType)
+  };
+
+  // Р¤СѓРЅРєС†РёСЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        updateItem(values);
+        closeDrawer();
+      })
+      .catch((info) => {
+        console.log('Validate Failed:', info);
+        return;
+      });
+  }
+
+  // Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С… РІ РґСЂР°РІРµСЂ
+  const handleGetMeter = useCallback((): void => {
+    if (selectedItemId) {
+      getMeterById(selectedItemId).then((data) => {
+        form.setFieldsValue({
+          ...data,
+          meterTypeDto: data?.meterTypeDto
+        })
+        setSelectedMeterType(data?.meterTypeDto)
+      })
+    }
+  }, [selectedItemId, form])
+
+  useEffect(() => {
+    getAllMeterType().then((allMeterType) => {
+      setAllMeterType(allMeterType);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isOpen && selectedItemId) {
+      handleGetMeter()
+    } else {
+      form.resetFields();
+      setSelectedMeterType(undefined);
+    }
+  }, [isOpen, selectedItemId, handleGetMeter, form]);
+
+  return (
+    <Drawer
+      title="Р”РѕР±Р°РІР»РµРЅРёРµ СЃС‡С‘С‚С‡РёРєР°"
+      width={600}
+      open={isOpen}
+      onClose={closeDrawer}
+      extra={
+        <Space>
+          <Button onClick={closeDrawer}>РћС‚РјРµРЅР°</Button>
+          <Button onClick={handleOk} type="primary" htmlType="submit">
+            РЎРѕС…СЂР°РЅРёС‚СЊ
+          </Button>
+        </Space>
+      }
+    >
+      <Form
+        form={form}
+        labelCol={{span: 6}}
+        wrapperCol={{span: 16}}
+        style={{marginTop: 30}}
+      >
+        <Form.Item
+          label="РўРёРї СЃС‡С‘С‚С‡РёРєР°"
+          name="meterTypeDto"
+        >
+          <div>
+            <Select
+              value={selectedMeterType ? selectedMeterType?.title : undefined}
+              onChange={onChangeMeterType}
+            >
+              {allMeterType && allMeterType.length > 0 ?
+                allMeterType.map(meterType => (
+                  <Option id={meterType.id} key={meterType.id} value={meterType.title}>
+                    {meterType.title}
+                  </Option>
+                )) : null}
+            </Select>
+          </div>
+        </Form.Item>
+        <Form.Item
+          label="РћРїРёСЃР°РЅРёРµ"
+          name="description"
+          rules={[{required: true, message: 'Р’РІРµРґРёС‚Рµ РѕРїРёСЃР°РЅРёРµ'}]}
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          label="РЎРµСЂРёР№РЅС‹Р№ РЅРѕРјРµСЂ"
+          name="serialNumber"
+          rules={[{required: true, message: 'Р’РІРµРґРёС‚Рµ СЃРµСЂРёР№РЅС‹Р№ РЅРѕРјРµСЂ'}]}
+        >
+          <InputNumber style={{width: '100%'}}/>
+        </Form.Item>
+      </Form>
+    </Drawer>
+  );
+}

@@ -5,8 +5,8 @@ import '../../App.css';
 import {postNewMeter, putChangeMeter, deleteMeterById} from '../../services';
 import {TypeMeter} from '../../types';
 import {TableMeter} from "./components/TableMeter";
-import {AddModalMeter} from "../PageMeter/components/AddModalMeter";
-/*import {EditDrawerMeter} from "../PageMeter/components/EditDrawerMeter";*/
+import {AddModalMeter} from "./components/AddModalMeter";
+import {EditDrawerMeter} from "./components/EditDrawerMeter";
 
 const {Title} = Typography;
 
@@ -22,7 +22,7 @@ export const PageMeter: React.FC = () => {
   const [selectedMeterId, setSelectedMeterId] = useState<number>();
 
   // Добавить новый счётчик
-  const addMeter = (values: { [key: string]: any }): TypeMeter => {
+  const addMeter = (values: TypeMeter): TypeMeter => {
     console.log('values:', values);
     const meter: TypeMeter = {
       id: values.id,
@@ -43,20 +43,21 @@ export const PageMeter: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Обновить товар на складе
-  /*const updateMeter = (values: { [key: string]: any }): TypeMeter => {
-    const Meter: TypeMeter = {
+  // Обновить счетчик
+  const handleUpdateMeter = (values: TypeMeter): TypeMeter => {
+    const meter: TypeMeter = {
       id: selectedMeterId,
-      amount: values.amount,
-      product: {
-        id: values.product.id,
+      serialNumber: values.serialNumber,
+      description: values.description,
+      meterTypeDto: {
+        id: values.meterTypeDto?.id,
       },
     };
     setIsDrawerOpen(false);
-    putChangeMeter(Meter);
+    putChangeMeter(meter);
     setUpdateTable(!updateTable);
-    return Meter;
-  };*/
+    return meter;
+  };
 
   // Удалить запись из таблицы
   const handleDelete = (id: number) => {
@@ -92,17 +93,17 @@ export const PageMeter: React.FC = () => {
         onDelete={handleDelete}
         openDrawer={openDrawer}
       />
-      {<AddModalMeter
+      <AddModalMeter
         isOpen={isModalOpen}
         addItem={addMeter}
         onCancel={() => setIsModalOpen(false)}
       />
-        /*<EditDrawerMeter
+        <EditDrawerMeter
           isOpen={isDrawerOpen}
           selectedItemId={selectedMeterId}
-          updateItem={updateMeter}
+          updateItem={handleUpdateMeter}
           closeDrawer={() => setIsDrawerOpen(false)}
-        />*/}
+        />
     </div>
   );
 };
