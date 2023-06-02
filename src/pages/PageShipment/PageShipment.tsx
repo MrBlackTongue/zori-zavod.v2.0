@@ -3,7 +3,7 @@ import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {createShipment, editShipment, deleteShipmentById} from "../../services";
-import {TypeShipment} from "../../types";
+import {TypeShipment, TypeShipmentFormValue} from "../../types";
 import {TableShipment} from "./components/TableShipment";
 import {AddModalShipment} from "./components/AddModalShipment";
 import {EditDrawerShipment} from "./components/EditDrawerShipment";
@@ -26,10 +26,12 @@ export const PageShipment: React.FC = () => {
   });
 
   // Функция добавления новой отгрузки
-  const handleAddShipment = (values: TypeShipment): void => {
+  const handleAddShipment = (values: TypeShipmentFormValue): void => {
     const shipment: TypeShipment = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      client: values.client,
+      client: {
+        id: values.client,
+      },
     };
     setOpenState({...openState, isModalOpen: false});
     createShipment(shipment);
@@ -49,11 +51,13 @@ export const PageShipment: React.FC = () => {
   }
 
   // Функция обновления отгрузки
-  const handleUpdateShipment = (values: TypeShipment): void => {
+  const handleUpdateShipment = (values: TypeShipmentFormValue): void => {
     const shipment: TypeShipment = {
       id: selectedShipmentId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      client: values.client,
+      client: {
+        id: values.client,
+      },
     };
     setOpenState({...openState, isDrawerOpen: false});
     editShipment(shipment);

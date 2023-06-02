@@ -1,58 +1,29 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeShipment, TypeClient} from "../../../types";
-import {Form, Modal, DatePicker, Select} from "antd";
+import {AddModalProps, TypeClient, TypeShipmentFormValue} from "../../../types";
+import {Form, Modal} from "antd";
 import {getAllClient} from "../../../services";
+import {useFormField, useFormHandler} from "../../../hooks";
+import {FormShipment} from "./FormShipment";
 
-const {Option} = Select;
-const dateFormatUser = 'DD.MM.YYYY';
-
-export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
-                                                                          isOpen,
-                                                                          addItem,
-                                                                          onCancel,
-                                                                        }) => {
+export const AddModalShipment: React.FC<AddModalProps<TypeShipmentFormValue>> = ({
+                                                                                   isOpen,
+                                                                                   addItem,
+                                                                                   onCancel,
+                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Состояния для всех клиентов и выбранного клиента
-  const [allClient, setAllClient] = useState<TypeClient[]>();
-  const [selectedClient, setSelectedClient] = useState<TypeClient>();
+  // Все клиенты
+  const [allClient, setAllClient] = useState<TypeClient[]>([]);
 
-  // Функция для изменения выбранного клиента
-  const onChangeClient = (value: string, option: any): void => {
-    const client: TypeClient = {
-      id: option.id,
-      title: value,
-    };
-    form.setFieldsValue({client: client});
-    setSelectedClient(client)
-  }
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
-  // Функция для очистки поля клиента
-  const onClearClient = (): void => {
-    form.setFieldsValue({operation: undefined});
-    setSelectedClient(undefined);
-  }
-
-  // Функция подтверждения добавления
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        setSelectedClient(undefined)
-        addItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
-  }
-
-  // Функция закрытия модального окна
-  const handleClose = (): void => {
-    form.resetFields()
-    onCancel()
-    setSelectedClient(undefined)
-  }
+  // Хук для управления полем client
+  const {
+    onChangeField: onChangeClient,
+    onClearField: onClearClient,
+    onSearchField: onSearchClient,
+  } = useFormField(form, 'client');
 
   useEffect(() => {
     getAllClient().then((allClient) => {
@@ -63,53 +34,20 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipment>> = ({
   return (
     <Modal
       title={`Добавление новой отгрузки`}
-      open={isOpen}
-      onCancel={handleClose}
-      width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={handleOk}
+      width={500}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
-      <Form
+      <FormShipment
         form={form}
-        initialValues={{modifier: 'public'}}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Дата"
-          name="date"
-          rules={[{required: true, message: 'выберите дату'}]}
-        >
-          <DatePicker
-            style={{width: '100%'}}
-            format={dateFormatUser}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Клиент"
-          name="client"
-          rules={[{required: true, message: 'выберите клиента'}]}
-        >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              value={selectedClient ? selectedClient.title : undefined}
-              onChange={onChangeClient}
-              onClear={onClearClient}
-            >
-              {allClient && allClient.length > 0 ?
-                allClient.map(client => (
-                  <Option id={client.id} key={client.id} value={client.title}>
-                    {client.title}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-      </Form>
+        allClient={allClient}
+        onChangeClient={onChangeClient}
+        onClearClient={onClearClient}
+        onSearchClient={onSearchClient}
+      />
     </Modal>
   )
 }
