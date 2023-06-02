@@ -1,52 +1,32 @@
 import React from "react";
-import {AddModalProps, TypeClient} from "../../../types";
-import {Form, Input, Modal} from "antd";
+import {AddModalProps, TypeClientFormValue} from "../../../types";
+import {Form, Modal} from "antd";
+import {useFormHandler} from "../../../hooks";
+import {FormClient} from "./FormClient";
 
-export const AddModalClient: React.FC<AddModalProps<TypeClient>> = ({
-                                                                      isOpen,
-                                                                      addItem,
-                                                                      onCancel,
-                                                                    }) => {
+export const AddModalClient: React.FC<AddModalProps<TypeClientFormValue>> = ({
+                                                                               isOpen,
+                                                                               addItem,
+                                                                               onCancel,
+                                                                             }) => {
   const [form] = Form.useForm();
 
-  // Функция подтверждения добавления
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        addItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
-  }
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
   return (
     <Modal
       title={`Добавление нового клиента`}
-      open={isOpen}
-      onCancel={onCancel}
-      width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={handleOk}
+      width={500}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
-      <Form
+      <FormClient
         form={form}
-        initialValues={{modifier: 'public'}}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Имя"
-          name="title"
-          rules={[{required: true, message: 'введите имя'}]}
-        >
-          <Input/>
-        </Form.Item>
-      </Form>
+      />
     </Modal>
   )
 }

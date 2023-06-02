@@ -34,12 +34,12 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterTypeFormValue>> 
   return (
     <Modal
       title={`Добавление нового типа счетчика`}
+      okText={'Сохранить'}
+      cancelText={'Отмена'}
       width={700}
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}
-      okText={'Сохранить'}
-      cancelText={'Отмена'}
     >
       <FormOperation
         form={form}

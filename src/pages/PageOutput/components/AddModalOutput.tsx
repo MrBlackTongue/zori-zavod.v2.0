@@ -34,12 +34,12 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutputFormValue>> = ({
   return (
     <Modal
       title={`Добавление нового выпуска продукции`}
-      open={isOpen}
-      width={500}
-      onOk={handleSubmit}
-      onCancel={handleReset}
       okText={'Сохранить'}
       cancelText={'Отмена'}
+      width={500}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
       <FormOutput
         form={form}

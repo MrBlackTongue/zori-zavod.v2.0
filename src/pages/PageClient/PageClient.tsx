@@ -3,7 +3,7 @@ import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteClientById, createClient, editClient} from "../../services";
-import {TypeClient} from "../../types";
+import {TypeClient, TypeClientFormValue} from "../../types";
 import {TableClient} from "./components/TableClient";
 import {AddModalClient} from "./components/AddModalClient";
 import {EditDrawerClient} from "./components/EditDrawerClient";
@@ -21,7 +21,7 @@ export const PageClient: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить нового клиента
-  const handleAddClient = (values: TypeClient): void => {
+  const handleAddClient = (values: TypeClientFormValue): void => {
     const client: TypeClient = {
       title: values.title,
     };
@@ -37,7 +37,7 @@ export const PageClient: React.FC = () => {
   };
 
   // Обновить клиента
-  const handleUpdateClient = (values: TypeClient): void => {
+  const handleUpdateClient = (values: TypeClientFormValue): void => {
     const client: TypeClient = {
       id: selectedClientId,
       title: values.title,
@@ -62,7 +62,8 @@ export const PageClient: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

@@ -1,71 +1,54 @@
-import React, {useCallback, useEffect} from "react";
-import {Button, Drawer, Form, Input, Space} from "antd";
-import {EditDrawerProps, TypeClient} from "../../../types";
+import React, {useEffect, useCallback} from "react";
+import {Button, Drawer, Form, Space} from "antd";
+import {EditDrawerProps, TypeClientFormValue} from "../../../types";
 import {getClientById} from "../../../services";
+import {useFormHandler} from "../../../hooks";
+import {FormClient} from "./FormClient";
 
-export const EditDrawerClient: React.FC<EditDrawerProps<TypeClient>> = ({
-                                                                          isOpen,
-                                                                          selectedItemId,
-                                                                          onCancel,
-                                                                          updateItem,
-                                                                        }) => {
+export const EditDrawerClient: React.FC<EditDrawerProps<TypeClientFormValue>> = ({
+                                                                                   isOpen,
+                                                                                   selectedItemId,
+                                                                                   onCancel,
+                                                                                   updateItem,
+                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Функция подтверждения редактирования
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields()
-        updateItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      })
-  };
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Функция для получения данных в дравер
   const handleGetClient = useCallback((): void => {
     if (selectedItemId) {
       getClientById(selectedItemId).then((client) => {
-        form.setFieldsValue(client);
+        form.setFieldsValue({...client});
       })
     }
   }, [selectedItemId, form])
 
   useEffect(() => {
-    handleGetClient()
-  }, [selectedItemId, handleGetClient]);
+    if (isOpen && selectedItemId) {
+      handleGetClient()
+    }
+  }, [isOpen, selectedItemId, handleGetClient]);
 
   return (
     <Drawer
       title="Редактирование клиента"
       width={600}
       open={isOpen}
-      onClose={onCancel}
+      onClose={handleReset}
       extra={
         <Space>
-          <Button onClick={onCancel}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
+          <Button onClick={handleReset}>Отмена</Button>
+          <Button onClick={handleSubmit} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-      <Form
+      <FormClient
         form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Имя"
-          name="title"
-          rules={[{required: true, message: 'введите имя'}]}
-        >
-          <Input/>
-        </Form.Item>
-      </Form>
+      />
     </Drawer>
   )
 }

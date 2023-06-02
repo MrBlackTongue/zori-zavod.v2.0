@@ -34,12 +34,12 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatchFormVa
   return (
     <Modal
       title={`Добавление новой партии товаров`}
-      open={isOpen}
-      width={500}
-      onOk={handleSubmit}
-      onCancel={handleReset}
       okText={"Сохранить"}
       cancelText={"Отмена"}
+      width={500}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
       <FormProductBatch
         form={form}

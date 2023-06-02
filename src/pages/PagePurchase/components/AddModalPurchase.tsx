@@ -34,12 +34,12 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchaseFormValue>> = 
   return (
     <Modal
       title={`Добавление новой закупки`}
-      open={isOpen}
-      width={500}
-      onOk={handleSubmit}
-      onCancel={handleReset}
       okText={"Сохранить"}
       cancelText={"Отмена"}
+      width={500}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
       <FormPurchase
         form={form}

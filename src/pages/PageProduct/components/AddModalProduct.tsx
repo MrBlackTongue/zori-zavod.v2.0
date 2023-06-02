@@ -50,12 +50,12 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProductFormValue>> = ({
   return (
     <Modal
       title={`Добавление нового товара`}
-      open={isOpen}
-      width={700}
-      onOk={handleSubmit}
-      onCancel={handleReset}
       okText={'Сохранить'}
       cancelText={'Отмена'}
+      width={700}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
       <FormProduct
         form={form}

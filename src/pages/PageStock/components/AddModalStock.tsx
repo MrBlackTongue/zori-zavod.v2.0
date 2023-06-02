@@ -34,12 +34,12 @@ export const AddModalStock: React.FC<AddModalProps<TypeStockFormValue>> = ({
   return (
     <Modal
       title={`Добавление новой ячейки на склад`}
-      open={isOpen}
-      width={500}
-      onOk={handleSubmit}
-      onCancel={handleReset}
       okText={"Сохранить"}
       cancelText={"Отмена"}
+      width={500}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
       <FormStock
         form={form}

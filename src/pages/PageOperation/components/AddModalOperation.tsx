@@ -34,12 +34,12 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
   return (
     <Modal
       title={`Добавление новой операции`}
+      okText={'Сохранить'}
+      cancelText={'Отмена'}
       width={700}
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}
-      okText={'Сохранить'}
-      cancelText={'Отмена'}
     >
       <FormOperation
         form={form}
