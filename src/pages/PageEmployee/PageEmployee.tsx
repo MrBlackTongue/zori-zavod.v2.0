@@ -3,7 +3,7 @@ import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteEmployeeById, createEmployee, editEmployee} from "../../services";
-import {TypeEmployee} from "../../types";
+import {TypeEmployee, TypeEmployeeFormValue} from "../../types";
 import {TableEmployee} from "./components/TableEmployee";
 import {AddModalEmployee} from "./components/AddModalEmployee";
 import {EditDrawerEmployee} from "./components/EditDrawerEmployee";
@@ -21,7 +21,7 @@ export const PageEmployee: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить нового сотрудника
-  const handleAddEmployee = (values: TypeEmployee): void => {
+  const handleAddEmployee = (values: TypeEmployeeFormValue): void => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -41,7 +41,7 @@ export const PageEmployee: React.FC = () => {
   };
 
   // Обновить сотрудника
-  const handleUpdateEmployee = (values: TypeEmployee): void => {
+  const handleUpdateEmployee = (values: TypeEmployeeFormValue): void => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
