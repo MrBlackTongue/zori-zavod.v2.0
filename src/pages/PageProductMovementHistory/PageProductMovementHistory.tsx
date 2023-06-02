@@ -50,8 +50,8 @@ export const PageProductMovementHistory: React.FC = () => {
           >
             {allStock && allStock.length > 0 ?
               allStock.map(stock => (
-                <Option id={stock.id} key={stock.id} value={stock?.product?.title}>
-                  {`ID: ${stock.id}, ${stock?.product?.title}`}
+                <Option id={stock.id} key={stock.id} value={stock.product?.title}>
+                  {`ID: ${stock.id}, ${stock.product?.title}`}
                 </Option>
               )) : null}
           </Select>

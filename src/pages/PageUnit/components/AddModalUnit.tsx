@@ -1,52 +1,32 @@
 import React from "react";
-import {AddModalProps, TypeUnit} from "../../../types";
-import {Form, Input, Modal} from "antd";
+import {AddModalProps, TypeUnitFormValue} from "../../../types";
+import {Form, Modal} from "antd";
+import {useFormHandler} from "../../../hooks";
+import {FormUnit} from "./FormUnit";
 
-export const AddModalUnit: React.FC<AddModalProps<TypeUnit>> = ({
-                                                                  isOpen,
-                                                                  addItem,
-                                                                  onCancel,
-                                                                }) => {
+export const AddModalUnit: React.FC<AddModalProps<TypeUnitFormValue>> = ({
+                                                                           isOpen,
+                                                                           addItem,
+                                                                           onCancel,
+                                                                         }) => {
   const [form] = Form.useForm();
 
-  // Функция подтверждения добавления
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        addItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
-  }
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
   return (
     <Modal
       title={`Добавление новой единицы измерения`}
-      open={isOpen}
-      onCancel={onCancel}
-      width={500}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={handleOk}
+      width={500}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
-      <Form
+      <FormUnit
         form={form}
-        initialValues={{modifier: 'public'}}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Имя"
-          name="name"
-          rules={[{required: true, message: 'введите имя'}]}
-        >
-          <Input/>
-        </Form.Item>
-      </Form>
+      />
     </Modal>
   )
 }

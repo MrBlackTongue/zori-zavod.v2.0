@@ -1,69 +1,53 @@
 import React, {useCallback, useEffect} from "react";
-import {Button, Drawer, Form, Input, Space} from "antd";
-import {EditDrawerProps, TypeUnit} from "../../../types";
+import {Button, Drawer, Form, Space} from "antd";
+import {EditDrawerProps, TypeUnitFormValue} from "../../../types";
 import {getUnitById} from "../../../services";
+import {useFormHandler} from "../../../hooks";
+import {FormUnit} from "./FormUnit";
 
-export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnit>> = ({
-                                                                      isOpen,
-                                                                      selectedItemId,
-                                                                      onCancel,
-                                                                      updateItem,
-                                                                    }) => {
+export const EditDrawerUnit: React.FC<EditDrawerProps<TypeUnitFormValue>> = ({
+                                                                               isOpen,
+                                                                               selectedItemId,
+                                                                               onCancel,
+                                                                               updateItem,
+                                                                             }) => {
   const [form] = Form.useForm();
 
-  // Функция подтверждения редактирования
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        updateItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      })
-  }
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   const handleGetUnit = useCallback((): void => {
     if (selectedItemId) {
       getUnitById(selectedItemId).then((unit) => {
-        form.setFieldsValue(unit);
+        form.setFieldsValue({...unit});
       })
     }
   }, [selectedItemId, form])
 
   useEffect(() => {
-    handleGetUnit()
-  }, [selectedItemId, handleGetUnit, form]);
+    if (isOpen && selectedItemId) {
+      handleGetUnit()
+    }
+  }, [isOpen, selectedItemId, handleGetUnit, form]);
 
   return (
     <Drawer
       title="Редактирование единицы измерения"
       width={600}
       open={isOpen}
-      onClose={onCancel}
+      onClose={handleReset}
       extra={
         <Space>
-          <Button onClick={onCancel}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
+          <Button onClick={handleReset}>Отмена</Button>
+          <Button onClick={handleSubmit} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-      <Form
+      <FormUnit
         form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Имя"
-          name="name"
-          rules={[{required: true, message: 'введите имя'}]}
-        >
-          <Input/>
-        </Form.Item>
-      </Form>
+      />
     </Drawer>
   )
 }

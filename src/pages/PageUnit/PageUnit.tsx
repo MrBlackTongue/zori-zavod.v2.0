@@ -3,7 +3,7 @@ import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteUnitById, createUnit, editUnit} from "../../services";
-import {TypeUnit} from "../../types";
+import {TypeUnit, TypeUnitFormValue} from "../../types";
 import {TableUnit} from "./components/TableUnit";
 import {AddModalUnit} from "./components/AddModalUnit";
 import {EditDrawerUnit} from "./components/EditDrawerUnit";
@@ -21,7 +21,7 @@ export const PageUnit: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новую единицу измерения
-  const handleAddUnit = (values: TypeUnit): void => {
+  const handleAddUnit = (values: TypeUnitFormValue): void => {
     const unit: TypeUnit = {
       name: values.name,
     };
@@ -37,7 +37,7 @@ export const PageUnit: React.FC = () => {
   };
 
   // Обновить единицу измерения
-  const handleUpdateUnit = (values: TypeUnit): void => {
+  const handleUpdateUnit = (values: TypeUnitFormValue): void => {
     const unit: TypeUnit = {
       name: values.name,
       id: selectedUnitId,
