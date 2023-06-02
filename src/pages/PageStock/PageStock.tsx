@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getAllProductGroup, createNewStock, editStock, deleteStockById} from '../../services';
+import {getAllProductGroup, createStock, editStock, deleteStockById} from '../../services';
 import {TypeProductGroup, TypeStock} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
@@ -39,7 +39,7 @@ export const PageStock: React.FC = () => {
       },
     };
     setIsModalOpen(false);
-    createNewStock(stock);
+    createStock(stock);
     setIsTableUpdate(prevState => !prevState)
   };
 

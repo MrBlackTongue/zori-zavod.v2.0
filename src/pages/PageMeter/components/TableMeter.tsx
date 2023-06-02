@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TableParam, TypeMeter} from "../../../types";
 import {getAllMeter} from "../../../services";
 
@@ -10,14 +10,12 @@ export const TableMeter: React.FC<TableProps<TypeMeter>> = ({
                                                               openDrawer,
                                                               onDelete,
                                                             }) => {
-  type TablePaginationPosition = 'bottomCenter'
 
   // Лоудер и список всех счётчиков
   const [loading, setLoading] = useState(false);
   const [allMeter, setAllMeter] = useState<TypeMeter[]>();
 
   // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -87,17 +85,8 @@ export const TableMeter: React.FC<TableProps<TypeMeter>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<TypeMeter>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllMeter(allMeter);
-    }
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы счётчиков
@@ -107,24 +96,20 @@ export const TableMeter: React.FC<TableProps<TypeMeter>> = ({
       setAllMeter(allMeter);
       setLoading(false);
     });
-  }, [isUpdateTable]);
+  }, []);
 
   useEffect(() => {
     updateTable();
-  }, [updateTable]);
+  }, [updateTable, isUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allMeter}
-      pagination={{
-        position: [bottom],
-        current: tableParams?.pagination?.current,
-        pageSize: tableParams?.pagination?.pageSize,
-      }}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={loading}
-      onChange={handleTableChange}
+      onChange={handleChangeTable}
     />
   );
 };

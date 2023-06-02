@@ -1,98 +1,76 @@
 import {TypeMeter} from "../types";
 import {URL, METER} from "./apiEndpoints";
-import {message} from "antd";
+import {
+  BASE_HEADERS,
+  handleResponseGet,
+  handleError,
+  handleCatchError,
+  handleResponseCreate,
+  handleResponseDelete,
+  handleResponseEdit,
+} from '../utils';
 
 // Получить список всех счётчиков
-export async function getAllMeter(): Promise<TypeMeter[]> {
+export function getAllMeter(): Promise<TypeMeter[]> {
   try {
-    const response = await fetch(URL + METER);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json() as TypeMeter[];
+    return fetch(URL + METER)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Изменение существующего счётчика
-export function putChangeMeter(data: TypeMeter) {
+export function editMeter(data: TypeMeter): void {
   try {
-    const config = {
+    fetch(URL + METER, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + METER, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
+    })
+      .then(handleResponseEdit)
+      .catch(handleError)
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Создание нового счётчика
-export function postNewMeter(data: TypeMeter) {
+export function createMeter(data: TypeMeter): void {
   try {
-    const config = {
+    fetch(URL + METER, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: BASE_HEADERS,
       body: JSON.stringify(data),
-    };
-    fetch(URL + METER, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
+    })
+      .then(handleResponseCreate)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
+    void handleCatchError(error);
   }
 }
 
 // Получить счётчик по id
-export async function getMeterById(id: number): Promise<TypeMeter | undefined> {
+export function getMeterById(id: number): Promise<TypeMeter | undefined> {
   try {
-    const response = await fetch(URL + METER + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
+    return fetch(URL + METER + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+    return handleCatchError(error);
   }
 }
 
 // Удаление счётчика по id
-export async function deleteMeterById(id: number) {
+export function deleteMeterById(id: number): void {
   try {
-    const response = await fetch(URL + METER + `/${id}`, {
+    fetch(URL + METER + `/${id}`, {
       method: "DELETE",
-    });
-
-    if (response.ok) {
-      message.success("Запись удалена");
-    } else {
-      console.error(response.statusText);
-      message.error("Ошибка при удалении записи");
-    }
-  } catch (err) {
-    console.error(err);
-    message.error('Произошла ошибка при попытке удаления записи');
+    })
+      .then(handleResponseDelete)
+      .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
   }
 }

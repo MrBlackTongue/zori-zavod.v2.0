@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {postNewMeter, putChangeMeter, deleteMeterById} from '../../services';
+import {createMeter, editMeter, deleteMeterById} from '../../services';
 import {TypeMeter} from '../../types';
 import {TableMeter} from "./components/TableMeter";
 import {AddModalMeter} from "./components/AddModalMeter";
@@ -32,7 +32,7 @@ export const PageMeter: React.FC = () => {
     };
     setIsModalOpen(false);
 
-    postNewMeter(meter);
+    createMeter(meter);
     setUpdateTable(prevState => !prevState);
     return meter;
   };
@@ -54,14 +54,14 @@ export const PageMeter: React.FC = () => {
       },
     };
     setIsDrawerOpen(false);
-    putChangeMeter(meter);
+    editMeter(meter);
     setUpdateTable(!updateTable);
     return meter;
   };
 
   // Удалить запись из таблицы
   const handleDelete = (id: number) => {
-    deleteMeterById(id).catch((error) => console.error(error));
+    deleteMeterById(id);
     setUpdateTable(!updateTable);
   };
 
@@ -98,12 +98,12 @@ export const PageMeter: React.FC = () => {
         addItem={addMeter}
         onCancel={() => setIsModalOpen(false)}
       />
-        <EditDrawerMeter
-          isOpen={isDrawerOpen}
-          selectedItemId={selectedMeterId}
-          updateItem={handleUpdateMeter}
-          closeDrawer={() => setIsDrawerOpen(false)}
-        />
+      <EditDrawerMeter
+        isOpen={isDrawerOpen}
+        selectedItemId={selectedMeterId}
+        updateItem={handleUpdateMeter}
+        closeDrawer={() => setIsDrawerOpen(false)}
+      />
     </div>
   );
 };
