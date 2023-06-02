@@ -1,85 +1,54 @@
 import React, {useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Input, Space} from "antd";
-import {EditDrawerProps, TypeProductionType} from "../../../types";
+import {Button, Drawer, Form, Space} from "antd";
+import {EditDrawerProps, TypeProductionTypeFormValue} from "../../../types";
 import {getProductionTypeById} from "../../../services";
+import {FormProductionType} from "./FormProductionType";
+import {useFormHandler} from "../../../hooks";
 
-export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionType>> = ({
-                                                                                          isOpen,
-                                                                                          selectedItemId,
-                                                                                          onCancel,
-                                                                                          updateItem,
-                                                                                        }) => {
+export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTypeFormValue>> = ({
+                                                                                                   isOpen,
+                                                                                                   selectedItemId,
+                                                                                                   onCancel,
+                                                                                                   updateItem,
+                                                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Функция подтверждения редактирования
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        updateItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      })
-  }
-
-  // Функция закрытия дравера
-  const handleClose = (): void => {
-    form.resetFields();
-    if (selectedItemId) {
-      handleGetProductionType(selectedItemId).catch((error) => console.error(error));
-    }
-    onCancel();
-  };
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Функция для получения информации выбранной записи и установления значений полей формы
-  const handleGetProductionType = useCallback(async (itemId: number) => {
-    const productionType = await getProductionTypeById(itemId);
-    form.setFieldsValue(productionType);
-  }, [form]);
+  const handleGetProductionType = useCallback((): void => {
+    if (selectedItemId) {
+      getProductionTypeById(selectedItemId).then((productionType) => {
+        form.setFieldsValue({...productionType});
+      })
+    }
+  }, [selectedItemId, form]);
 
   useEffect(() => {
-    if (selectedItemId) {
-      handleGetProductionType(selectedItemId).catch((error) => console.error(error));
+    if (isOpen && selectedItemId) {
+      handleGetProductionType()
     }
-  }, [selectedItemId, handleGetProductionType]);
+  }, [isOpen, selectedItemId, handleGetProductionType]);
 
   return (
     <Drawer
       title="Редактирование типа производства"
       width={600}
       open={isOpen}
-      onClose={handleClose}
+      onClose={handleReset}
       extra={
         <Space>
-          <Button onClick={handleClose}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
+          <Button onClick={handleReset}>Отмена</Button>
+          <Button onClick={handleSubmit} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-      <Form
+      <FormProductionType
         form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Название"
-          name="title"
-          rules={[{required: true, message: 'введите название'}]}
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Описание"
-          name="description"
-          rules={[{required: true, message: 'введите описание'}]}
-        >
-          <Input.TextArea/>
-        </Form.Item>
-      </Form>
+      />
     </Drawer>
   )
 }

@@ -1,65 +1,32 @@
 import React from "react";
-import {AddModalProps, TypeProductionType} from "../../../types";
-import {Form, Input, Modal} from "antd";
+import {AddModalProps, TypeProductionTypeFormValue} from "../../../types";
+import {Form, Modal} from "antd";
+import {useFormHandler} from "../../../hooks";
+import {FormProductionType} from "./FormProductionType";
 
-export const AddModalProductionType: React.FC<AddModalProps<TypeProductionType>> = ({
-                                                                                      isOpen,
-                                                                                      addItem,
-                                                                                      onCancel,
-                                                                                    }) => {
+export const AddModalProductionType: React.FC<AddModalProps<TypeProductionTypeFormValue>> = ({
+                                                                                               isOpen,
+                                                                                               addItem,
+                                                                                               onCancel,
+                                                                                             }) => {
   const [form] = Form.useForm();
 
-  // Функция подтверждения добавления
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        addItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
-  }
-
-  // Функция закрытия модального окна
-  const handleClose = (): void => {
-    form.resetFields();
-    onCancel()
-  };
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
   return (
     <Modal
       title={`Добавление нового типа производства`}
-      open={isOpen}
-      onCancel={handleClose}
-      width={550}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      onOk={handleOk}
+      width={550}
+      open={isOpen}
+      onOk={handleSubmit}
+      onCancel={handleReset}
     >
-      <Form
+      <FormProductionType
         form={form}
-        initialValues={{modifier: 'public',}}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Название"
-          name="title"
-          rules={[{required: true, message: 'введите название'}]}
-        >
-          <Input/>
-        </Form.Item>
-        <Form.Item
-          label="Описание"
-          name="description"
-          rules={[{required: true, message: 'введите описание'}]}
-        >
-          <Input.TextArea/>
-        </Form.Item>
-      </Form>
+      />
     </Modal>
   )
 }

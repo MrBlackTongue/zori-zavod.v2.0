@@ -7,7 +7,7 @@ import {
   editProductionType,
   deleteProductionTypeById,
 } from "../../services";
-import {TypeProductionType} from "../../types";
+import {TypeProductionType, TypeProductionTypeFormValue} from "../../types";
 import {TableProductionType} from "./components/TableProductionType";
 import {AddModalProductionType} from "./components/AddModalProductionType";
 import {EditDrawerProductionType} from "./components/EditDrawerProductionType";
@@ -25,7 +25,7 @@ export const PageProductionType: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить запись в таблицу
-  const handleAddProductionType = (values: TypeProductionType): void => {
+  const handleAddProductionType = (values: TypeProductionTypeFormValue): void => {
     const productionType: TypeProductionType = {
       title: values.title,
       description: values.description,
@@ -42,7 +42,7 @@ export const PageProductionType: React.FC = () => {
   };
 
   // Обновить запись в таблице
-  const handleUpdateProductionType = (values: TypeProductionType): void => {
+  const handleUpdateProductionType = (values: TypeProductionTypeFormValue): void => {
     const productionType: TypeProductionType = {
       id: selectedProductionTypeId,
       title: values.title,
