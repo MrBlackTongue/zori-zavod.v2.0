@@ -1,6 +1,11 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Space} from "antd";
-import {DetailDrawerProps, TypeShipment, TypeShipmentProductMovement} from "../../../types";
+import {
+  DetailDrawerProps,
+  TypeShipment,
+  TypeShipmentProductMovement,
+  TypeShipmentProductMovementFormValue
+} from "../../../types";
 import {TableDetailShipment} from "./TableDetailShipment";
 import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
 import {
@@ -23,12 +28,16 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Функция добавления нового товара в отгрузку
-  const handleAddShipmentMovement = (values: TypeShipmentProductMovement): void => {
+  const handleAddShipmentMovement = (values: TypeShipmentProductMovementFormValue): void => {
     const productMovement: TypeShipmentProductMovement = {
-      // date: selectedShipment?.date,
-      stock: values['stock'],
-      amount: values['amount'],
-      shipment: selectedShipment,
+      date: selectedShipment?.date,
+      stock: {
+        id: values.stock,
+      },
+      amount: values.amount,
+      shipment: {
+        id: selectedShipment?.id,
+      },
       income: false
     };
     setIsModalOpen(false)
