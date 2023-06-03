@@ -12,15 +12,13 @@ const {Title} = Typography;
 
 export const PageProduct: React.FC = () => {
 
-  // Обновление таблицы, id выбраного товара
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Текст поиска
+  // id выбраного товара, Текст поиска
+  const [selectedProductId, setSelectedProductId] = useState<number>();
   const [searchText, setSearchText] = useState("");
 
   // Добавить новый товар

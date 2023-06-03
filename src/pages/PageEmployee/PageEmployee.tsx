@@ -12,13 +12,13 @@ const {Title} = Typography;
 
 export const PageEmployee: React.FC = () => {
 
-  // Обновление таблицы, id выбраного сотрудника
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  //  id выбраного сотрудника
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Добавить нового сотрудника
   const handleAddEmployee = (values: TypeEmployeeFormValue): void => {
@@ -70,7 +70,8 @@ export const PageEmployee: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

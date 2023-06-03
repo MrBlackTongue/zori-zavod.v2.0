@@ -13,22 +13,30 @@ const {Option} = Select;
 
 export const PageStock: React.FC = () => {
 
-  // Обновление таблицы
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Все группы товаров, id выбранной группы товаров
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
-  const [selectedGroupId, setSelectedGroupId] = useState<number>();
+  const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
 
   // id выбранной ячейка на складе
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState("");
+
+  // Изменить выбранную группу товаров
+  const onChangeProductGroup = (value: any): void => {
+    setSelectedProductGroupId(value ? value : undefined);
+  };
+
+  // Поиск по селекту
+  const onSearchSelect = (searchText: string, option: any) => {
+    return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
+  }
 
   // Добавить новую ячейку на складе
   const handleAddStock = (values: TypeStockFormValue): void => {
@@ -45,11 +53,6 @@ export const PageStock: React.FC = () => {
   const openDrawer = (stockId: number): void => {
     setSelectedStockId(stockId);
     setIsDrawerOpen(true);
-  };
-
-  // Изменить выбранную группу товаров
-  const onChangeProductGroup = (value: string, option: any): void => {
-    setSelectedGroupId(value !== undefined ? option.id : undefined);
   };
 
   // Обновить товар на складе
@@ -91,15 +94,16 @@ export const PageStock: React.FC = () => {
           <Select
             showSearch
             allowClear
-            placeholder='Товарная группа'
+            placeholder='Выберите товарную группу'
+            style={{'width': '250px'}}
             onChange={onChangeProductGroup}
-            style={{'width': '300px'}}
+            filterOption={onSearchSelect}
           >
             {allProductGroup && allProductGroup.length > 0 ?
               allProductGroup
-                .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
+                .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1) //todo: сделать сортировку на бэкенде
                 .map(productGroup => (
-                  <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
+                  <Option key={productGroup.id} value={productGroup.id} label={productGroup.title}>
                     {productGroup.title}
                   </Option>
                 )) : null}
@@ -127,7 +131,7 @@ export const PageStock: React.FC = () => {
         onDelete={handleDelete}
         openDrawer={openDrawer}
         searchText={searchText}
-        filter={{id: selectedGroupId}}
+        filter={{id: selectedProductGroupId}}
       />
       <AddModalStock
         isOpen={isModalOpen}

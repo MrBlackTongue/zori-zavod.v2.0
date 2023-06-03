@@ -13,13 +13,13 @@ const {Title} = Typography;
 
 export const PagePurchase: React.FC = () => {
 
-  // Обновление таблицы, id выбраной закупки
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраной закупки
+  const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState("");

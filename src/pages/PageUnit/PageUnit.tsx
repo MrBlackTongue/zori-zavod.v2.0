@@ -12,13 +12,13 @@ const {Title} = Typography;
 
 export const PageUnit: React.FC = () => {
 
-  // Обновление таблицы, id выбраной единицы измерения
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedUnitId, setSelectedUnitId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраной единицы измерения
+  const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
   // Добавить новую единицу измерения
   const handleAddUnit = (values: TypeUnitFormValue): void => {
@@ -39,8 +39,8 @@ export const PageUnit: React.FC = () => {
   // Обновить единицу измерения
   const handleUpdateUnit = (values: TypeUnitFormValue): void => {
     const unit: TypeUnit = {
-      name: values.name,
       id: selectedUnitId,
+      name: values.name,
     };
     setIsDrawerOpen(false)
     editUnit(unit)
@@ -62,7 +62,8 @@ export const PageUnit: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

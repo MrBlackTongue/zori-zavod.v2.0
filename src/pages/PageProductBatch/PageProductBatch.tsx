@@ -16,13 +16,13 @@ const {Title} = Typography;
 
 export const PageProductBatch: React.FC = () => {
 
-  // Обновление таблицы, id выбраной партии товаров
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраной партии товаров
+  const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
   // Добавить новую партию товаров
   const handleAddProductBatch = (values: TypeProductBatchFormValue): void => {
@@ -68,7 +68,8 @@ export const PageProductBatch: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

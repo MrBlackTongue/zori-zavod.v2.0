@@ -13,18 +13,18 @@ const {Title} = Typography;
 
 export const PageOutput: React.FC = () => {
 
-  // Обновление таблицы, id выбраного выпуска продукции
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedOutputId, setSelectedOutputId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраного выпуска продукции
+  const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
   // Добавить новый выпуск продукции
   const handleAddOutput = (values: TypeOutputFormValue): void => {
     const output: TypeOutput = {
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       product: {id: values.product}
     };
     setIsModalOpen(false)
@@ -41,7 +41,7 @@ export const PageOutput: React.FC = () => {
   // Обновить выпуск продукции
   const handleUpdateOutput = (values: TypeOutputFormValue): void => {
     const output: TypeOutput = {
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       product: {id: values.product},
       id: selectedOutputId,
     };
@@ -65,7 +65,8 @@ export const PageOutput: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

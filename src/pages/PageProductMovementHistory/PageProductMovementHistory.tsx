@@ -11,12 +11,12 @@ const {Option} = Select;
 
 export const PageProductMovementHistory: React.FC = () => {
 
+  // Обновление таблицы
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
+
   // Все остатки на складе, id выбранного остатка на складе
   const [allStock, setAllStock] = useState<TypeStock[]>();
   const [selectedStockId, setSelectedStockId] = useState<number>();
-
-  // Обновление таблицы
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
 
   // Изменить выбраный остаток на складе
   const onChangeStock = (value: string, option: any): void => {

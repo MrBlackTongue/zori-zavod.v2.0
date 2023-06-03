@@ -16,13 +16,13 @@ const {Title} = Typography;
 
 export const PageProductionType: React.FC = () => {
 
-  // Обновление таблицы, id выбраного типа производства
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраного типа производства
+  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Добавить запись в таблицу
   const handleAddProductionType = (values: TypeProductionTypeFormValue): void => {

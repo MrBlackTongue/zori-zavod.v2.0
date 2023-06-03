@@ -12,13 +12,13 @@ const {Title} = Typography;
 
 export const PageMeterType: React.FC = () => {
 
-  // Обновление таблицы, id выбраного типа счетчика
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраного типа счетчика
+  const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
 
   // Добавить новый тип счетчика
   const handleAddMeterType = (values: TypeMeterTypeFormValue): void => {
@@ -66,7 +66,8 @@ export const PageMeterType: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

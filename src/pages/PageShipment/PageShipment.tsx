@@ -14,9 +14,8 @@ const {Title} = Typography;
 
 export const PageShipment: React.FC = () => {
 
-  // Состояние для обновления таблицы, id выбранной отгрузки
+  // Обновление таблицы
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 
   // Состояния для контроля открытия/закрытия модалки и драверов
   const [openState, setOpenState] = useState({
@@ -24,6 +23,9 @@ export const PageShipment: React.FC = () => {
     isDrawerOpen: false,
     isBottomDrawerOpen: false,
   });
+
+  //  id выбранной отгрузки
+  const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 
   // Функция добавления новой отгрузки
   const handleAddShipment = (values: TypeShipmentFormValue): void => {
@@ -79,7 +81,8 @@ export const PageShipment: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

@@ -12,13 +12,13 @@ const {Title} = Typography;
 
 export const PageOperation: React.FC = () => {
 
-  // Обновление таблицы, id выбраной операции
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedOperationId, setSelectedOperationId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраной операции
+  const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
   // Добавить новую операцию
   const handleAddOperation = (values: TypeOperationFormValue): void => {
@@ -66,7 +66,8 @@ export const PageOperation: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

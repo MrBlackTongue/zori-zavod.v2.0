@@ -12,13 +12,13 @@ const {Title} = Typography;
 
 export const PageClient: React.FC = () => {
 
-  // Обновление таблицы, id выбраного клиента
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedClientId, setSelectedClientId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраного клиента
+  const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // Добавить нового клиента
   const handleAddClient = (values: TypeClientFormValue): void => {
