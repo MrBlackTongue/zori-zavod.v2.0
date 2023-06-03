@@ -19,14 +19,13 @@ export const PageProductMovementHistory: React.FC = () => {
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Изменить выбраный остаток на складе
-  const onChangeStock = (value: string, option: any): void => {
-    setSelectedStockId(option.id)
+  const onChangeStock = (value: any): void => {
+    setSelectedStockId(value ? value : undefined)
   };
 
-  // Обновить таблицу при очистке выбора
-  const onClearStock = (): void => {
-    setSelectedStockId(undefined);
-    setIsTableUpdate(prevState => !prevState);
+  // Поиск по селекту
+  const onSearchSelect = (searchText: string, option: any) => {
+    return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   }
 
   useEffect(() => {
@@ -46,11 +45,11 @@ export const PageProductMovementHistory: React.FC = () => {
             placeholder="Ячейка на складе"
             style={{'width': '350px'}}
             onChange={onChangeStock}
-            onClear={onClearStock}
+            filterOption={onSearchSelect}
           >
             {allStock && allStock.length > 0 ?
               allStock.map(stock => (
-                <Option id={stock.id} key={stock.id} value={stock.product?.title}>
+                <Option key={stock.id} value={stock.id} label={`${stock.id}, ${stock.product?.title}`}>
                   {`ID: ${stock.id}, ${stock.product?.title}`}
                 </Option>
               )) : null}
@@ -59,7 +58,8 @@ export const PageProductMovementHistory: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
         </Space>
