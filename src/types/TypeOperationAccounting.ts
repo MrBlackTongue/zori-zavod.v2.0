@@ -11,7 +11,7 @@ export type TypeOperationAccounting = {
   plan?: number,
   fact?: number,
   average?: number,
-  operation?: TypeOperation
+  operation?: TypeOperation,
   output?: TypeOutput,
   unit?: TypeUnit,
   timeSheets?: TypeOperationTimesheet[],
@@ -22,4 +22,29 @@ export type TypeOperationAccountingFilter = {
   date?: Dayjs | string,
   operationId?: number,
   productionTypeId?: number,
+}
+
+export type TypeOperationAccountingFormValue = {
+  id?: number,
+  date?: string,
+  fact?: number,
+  operation?: number,
+  output?: number,
+  productionType?: number,
+}
+
+export interface FormOperationAccountingProps {
+  form: any,
+  allOperation: TypeOperation[],
+  onChangeOperation: (value: string) => void,
+  onClearOperation: () => void,
+  onSearchOperation: (input: string, option: any) => boolean,
+  allOutput: TypeOutput[],
+  onChangeOutput: (value: string) => void,
+  onClearOutput: () => void,
+  onSearchOutput: (input: string, option: any) => boolean,
+  allProductionType: TypeProductionType[],
+  onChangeProductionType: (value: string) => void,
+  onClearProductionType: () => void,
+  onSearchProductionType: (input: string, option: any) => boolean,
 }

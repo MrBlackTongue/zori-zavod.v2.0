@@ -13,7 +13,12 @@ import {
   getOperationAccountingById,
   deleteOperationAccountingById,
 } from "../../services";
-import {TypeOperationAccounting, TypeOperationTimesheet, TypeProductionProductMovement} from "../../types";
+import {
+  TypeOperationAccounting,
+  TypeOperationAccountingFormValue,
+  TypeOperationTimesheet,
+  TypeProductionProductMovement
+} from "../../types";
 import {TableOperationAccountingDetail} from "./components/TableOperationAccountingDetail";
 import {AddModalOperationTimesheet} from "./components/AddModalOperationTimesheet";
 import {EditDrawerOperationAccounting} from "../PageOperationAccounting/components/EditDrawerOperationAccounting";
@@ -42,16 +47,14 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const [isModalProductionProductMovementOpen, setIsModalProductionProductMovementOpen] = useState(false);
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
+  const handleUpdateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: id ? +id : undefined,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      fact: values.fact || 0,
-      operation: {
-        id: values.operation?.id,
-      },
-      output: values.output ? {id: values.output.id} : undefined,
-      productionType: {id: values.productionType?.id},
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      fact: values.fact || undefined,
+      operation: {id: values.operation},
+      output: values.output ? {id: values.output} : undefined,
+      productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOperationAccountingOpen(false)
     editOperationAccounting(operationAccounting)

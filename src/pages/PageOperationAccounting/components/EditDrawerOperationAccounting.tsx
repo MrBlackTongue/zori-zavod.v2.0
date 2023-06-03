@@ -1,148 +1,75 @@
 import React, {useState, useEffect, useCallback} from "react";
-import {Button, DatePicker, Drawer, Form, InputNumber, Select, Space} from "antd";
-import {EditDrawerProps, TypeOutput, TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../../types";
+import {Button, Drawer, Form, Space} from "antd";
+import {
+  EditDrawerProps,
+  TypeOutput,
+  TypeOperation,
+  TypeProductionType,
+  TypeOperationAccountingFormValue
+} from "../../../types";
 import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionType} from "../../../services";
 import dayjs from "dayjs";
-
-const {Option} = Select;
-const dateFormatUser = 'DD.MM.YYYY';
+import {useFormField, useFormHandler} from "../../../hooks";
+import {FormOperationAccounting} from "./FormOperationAccounting";
 
 export const EditDrawerOperationAccounting:
-  React.FC<EditDrawerProps<TypeOperationAccounting>> = ({
-                                                          isOpen,
-                                                          selectedItemId,
-                                                          onCancel,
-                                                          updateItem,
-                                                        }) => {
+  React.FC<EditDrawerProps<TypeOperationAccountingFormValue>> = ({
+                                                                   isOpen,
+                                                                   selectedItemId,
+                                                                   onCancel,
+                                                                   updateItem,
+                                                                 }) => {
   const [form] = Form.useForm();
 
-  // Все операции, выбранная операция
-  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
-  const [selectedOperation, setSelectedOperation] = useState<TypeOperation>();
+  // Все операции, Все типы производства, Все выпуски продукции
+  const [allOperation, setAllOperation] = useState<TypeOperation[]>([]);
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>([]);
+  const [allOutput, setAllOutput] = useState<TypeOutput[]>([]);
 
-  // Все типы производства, выбранный тип производства
-  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
-  const [selectedProductionType, setSelectedProductionType] = useState<TypeProductionType>();
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
-  // Все выпуски продукции, Выбранный выпуск продукции, отфильтрованные выпуски продукции
-  const [allOutput, setAllOutput] = useState<TypeOutput[]>();
-  const [selectedOutput, setSelectedOutput] = useState<TypeOutput>();
-  const [filteredOutput, setFilteredOutput] = useState<TypeOutput[]>([]);
+  // Хук для управления полем operation
+  const {
+    onChangeField: onChangeOperation,
+    onClearField: onClearOperation,
+    onSearchField: onSearchOperation,
+  } = useFormField(form, 'operation');
 
-  // Изменить выбранную операцию
-  const onChangeOperation = (value: string, option: any): void => {
-    const operation: TypeOperation = {
-      id: option.id,
-      title: value,
-    };
-    form.setFieldsValue({operation: operation});
-    setSelectedOperation(operation)
-  };
+  // Хук для управления полем output
+  const {
+    onChangeField: onChangeOutput,
+    onClearField: onClearOutput,
+    onSearchField: onSearchOutput,
+  } = useFormField(form, 'output');
 
-  // Очистить поле операция
-  const onClearOperation = (): void => {
-    form.setFieldsValue({operation: undefined});
-    setSelectedOperation(undefined);
-  }
-
-  // Изменить выбранный тип производства
-  const onChangeProductionType = (value: string, option: any): void => {
-    if (value === undefined) {
-      setSelectedProductionType(undefined);
-      form.setFieldsValue({productionType: undefined});
-      return undefined;
-    }
-    const productionType: TypeProductionType = {
-      id: option.id,
-      title: value,
-    };
-    form.setFieldsValue({productionType: productionType});
-    setSelectedProductionType(productionType)
-  };
-
-  // Изменить выбранный выпуск продукции
-  const onChangeOutput = (value: string): void => {
-    const selectedOutput = allOutput?.find(output => output.id === parseInt(value));
-    form.setFieldsValue({output: selectedOutput});
-    setSelectedOutput(selectedOutput);
-    onSearchOutput('')
-  };
-
-  // Поиск по выпускам продукции
-  const onSearchOutput = (searchText: string): void => {
-    if (searchText === '') {
-      setFilteredOutput(allOutput || []);
-    } else {
-      const searchLowerCase = searchText.toLowerCase();
-      const filtered = allOutput?.filter((output) => {
-        const titleMatch = output?.product && output.product.title
-          ? output.product.title.toLowerCase().includes(searchLowerCase)
-          : false;
-
-        const idMatch = output.id?.toString().includes(searchText);
-        const dateMatch = output?.date
-          ? dayjs(output.date).format('DD.MM.YYYY').includes(searchText)
-          : false;
-
-        return titleMatch || idMatch || dateMatch;
-      });
-      setFilteredOutput(prevState => filtered || prevState);
-    }
-  };
-
-  // Функция подтверждения редактирования
-  const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        if (typeof values.operation === 'string') {
-          values.operation = selectedOperation;
-        }
-        if (typeof values.productionType === 'string') {
-          values.productionType = selectedProductionType;
-        }
-        updateItem(values);
-        onCancel()
-        onSearchOutput('')
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      })
-  }
-
-  // Функция закрытия дравера
-  const handleClose = (): void => {
-    form.resetFields();
-    if (selectedItemId) {
-      handleGetOperationAccounting(selectedItemId).catch((error) => console.error(error));
-    }
-    onCancel();
-  };
+  // Хук для управления полем productionType
+  const {
+    onChangeField: onChangeProductionType,
+    onClearField: onClearProductionType,
+    onSearchField: onSearchProductionType,
+  } = useFormField(form, 'productionType');
 
   // Функция для получения данных в дравер
-  const handleGetOperationAccounting = useCallback(async (itemId: number) => {
-    const operationAccounting = await getOperationAccountingById(itemId);
-    form.setFieldsValue({
-      date: dayjs(operationAccounting?.date),
-      fact: operationAccounting?.fact,
-      operation: operationAccounting?.operation,
-      output: operationAccounting?.output,
-      productionType: operationAccounting?.productionType,
-    });
-    setSelectedOperation(operationAccounting?.operation);
-    setSelectedOutput(operationAccounting?.output);
-    setSelectedProductionType(operationAccounting?.productionType)
-  }, [form])
+  const handleGetOperationAccounting = useCallback((): void => {
+    if (selectedItemId) {
+      getOperationAccountingById(selectedItemId).then((operationAccounting) => {
+        form.setFieldsValue({
+          ...operationAccounting,
+          date: dayjs(operationAccounting?.date),
+          operation: operationAccounting?.operation?.id === 0 ? '' : operationAccounting?.operation?.id,
+          output: operationAccounting?.output?.id === 0 ? '' : operationAccounting?.output?.id,
+          productionType: operationAccounting?.productionType?.id === 0 ? '' : operationAccounting?.productionType?.id,
+        });
+      })
+    }
+  }, [selectedItemId, form])
 
   useEffect(() => {
-    if (selectedItemId) {
-      handleGetOperationAccounting(selectedItemId).catch((error) => console.error(error));
-    } else {
-      setSelectedOperation(undefined);
-      setSelectedOutput(undefined);
-      setSelectedProductionType(undefined);
+    if (isOpen && selectedItemId) {
+      handleGetOperationAccounting()
     }
-  }, [selectedItemId, handleGetOperationAccounting]);
+  }, [isOpen, selectedItemId, handleGetOperationAccounting]);
 
   useEffect(() => {
     getAllOperation().then((allOperation) => {
@@ -153,7 +80,6 @@ export const EditDrawerOperationAccounting:
   useEffect(() => {
     getAllOutput().then((allOutput) => {
       setAllOutput(allOutput);
-      setFilteredOutput(allOutput);
     });
   }, []);
 
@@ -163,120 +89,36 @@ export const EditDrawerOperationAccounting:
     });
   }, []);
 
-  // Для очистки фильтров выпуска продукции
-  useEffect(() => {
-    if (!isOpen) {
-      setFilteredOutput(allOutput || []);
-    }
-  }, [isOpen, allOutput]);
-
   return (
     <Drawer
       title="Редактирование учетной операции"
       width={700}
       open={isOpen}
-      onClose={handleClose}
+      onClose={handleReset}
       extra={
         <Space>
-          <Button onClick={handleClose}>Отмена</Button>
-          <Button onClick={handleOk} type="primary" htmlType="submit">
+          <Button onClick={handleReset}>Отмена</Button>
+          <Button onClick={handleSubmit} type="primary" htmlType="submit">
             Сохранить
           </Button>
         </Space>
       }
     >
-      <Form
+      <FormOperationAccounting
         form={form}
-        labelCol={{span: 6}}
-        wrapperCol={{span: 16}}
-        style={{marginTop: 30}}
-      >
-        <Form.Item
-          label="Операция"
-          name="operation"
-          rules={[{required: true, message: 'выберите операцию'}]}
-        >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              value={selectedOperation ? selectedOperation?.title : undefined}
-              onChange={onChangeOperation}
-              onClear={onClearOperation}
-            >
-              {allOperation && allOperation.length > 0 ?
-                allOperation.map(operation => (
-                  <Option id={operation.id} key={operation.id} value={operation.title}>
-                    {operation.title}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-        <Form.Item
-          label="Выпуск продукции"
-          name="output"
-        >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              filterOption={false}
-              value={selectedOutput
-                ? (
-                  `${dayjs(selectedOutput?.date).format('DD.MM.')}, 
-                  ${selectedOutput?.product?.title}, ID: ${selectedOutput.id}`
-                ) : undefined}
-              onChange={onChangeOutput}
-              onSearch={onSearchOutput}
-            >
-              {filteredOutput && filteredOutput.length > 0 ?
-                filteredOutput.map(output => (
-                  <Option id={output.id} key={output.id} value={output.id} date={output?.date}>
-                    {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product?.title}, ID: ${output.id}`}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-        <Form.Item
-          label="Факт"
-          name="fact"
-        >
-          <InputNumber style={{width: "100%"}} min={0}/>
-        </Form.Item>
-        <Form.Item
-          label="Дата"
-          name="date"
-          rules={[{required: true, message: 'выберите дату'}]}
-        >
-          <DatePicker
-            style={{width: '100%'}}
-            format={dateFormatUser}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Тип производства"
-          name="productionType"
-          rules={[{required: true, message: 'выберите тип'}]}
-        >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              value={selectedProductionType ? selectedProductionType?.title : undefined}
-              onChange={onChangeProductionType}
-            >
-              {allProductionType && allProductionType.length > 0 ?
-                allProductionType.map(productionType => (
-                  <Option id={productionType.id} key={productionType.id} value={productionType.title}>
-                    {productionType.title}
-                  </Option>
-                )) : null}
-            </Select>
-          </div>
-        </Form.Item>
-      </Form>
+        allOperation={allOperation}
+        onChangeOperation={onChangeOperation}
+        onClearOperation={onClearOperation}
+        onSearchOperation={onSearchOperation}
+        allOutput={allOutput}
+        onChangeOutput={onChangeOutput}
+        onClearOutput={onClearOutput}
+        onSearchOutput={onSearchOutput}
+        allProductionType={allProductionType}
+        onChangeProductionType={onChangeProductionType}
+        onClearProductionType={onClearProductionType}
+        onSearchProductionType={onSearchProductionType}
+      />
     </Drawer>
   )
 }

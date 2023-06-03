@@ -9,7 +9,12 @@ import {
   deleteOperationAccountingById,
   getAllProductionType,
 } from "../../services";
-import {TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../types";
+import {
+  TypeOperation,
+  TypeOperationAccounting,
+  TypeOperationAccountingFormValue,
+  TypeProductionType
+} from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
 import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
 import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
@@ -20,14 +25,14 @@ const {Option} = Select;
 
 export const PageOperationAccounting: React.FC = () => {
 
-  // Обновление таблицы, id выбраной учетной операции
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
-
-  // Открыть закрыть модальное окно, дравер, дата
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [date, setDate] = useState<any>();
+
+  // id выбраной учетной операции, выбранная дата
+  const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
+  const [selectedDate, setSelectedDate] = useState<any>();
 
   // Все операции, id выбранной операции
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
@@ -37,32 +42,37 @@ export const PageOperationAccounting: React.FC = () => {
   const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
+  // Изменить выбранную дату
+  const onChangeDate = (value: any): void => {
+    setSelectedDate(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
+  }
+
+  // Изменить выбранную операцию
+  const onChangeOperation = (value: any): void => {
+    setSelectedOperationId(value ? value : undefined);
+  };
+
+  // Изменить выбранный тип производства
+  const onChangeProductionType = (value: any): void => {
+    setSelectedProductionTypeId(value ? value : undefined);
+  };
+
+  // Поиск по селекту
+  const onSearchSelect = (searchText: string, option: any) => {
+    return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
+  }
+
   // Добавить новую учетную операцию
-  const handleAddOperationAccounting = (values: TypeOperationAccounting): void => {
+  const handleAddOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
     const operationAccounting: TypeOperationAccounting = {
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       fact: values.fact || undefined,
-      operation: {
-        id: values.operation?.id,
-        title: values.operation?.title,
-      },
-      output: values.output
-        ? {
-          id: values.output.id,
-          date: values.output.date,
-          product: {
-            id: values.output?.product?.id,
-            productGroup: values.output?.product?.productGroup,
-            title: values.output?.product?.title,
-            unit: values.output?.product?.unit,
-          }
-        }
-        : undefined,
-      productionType: values.productionType,
+      operation: {id: values.operation},
+      output: values.output ? {id: values.output} : undefined,
+      productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsModalOpen(false)
     createOperationAccounting(operationAccounting)
-    setDate(date)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -72,31 +82,18 @@ export const PageOperationAccounting: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Изменить выбранную операцию
-  const onChangeOperation = (value: string, option: any): void => {
-    setSelectedOperationId(value !== undefined ? option.id : undefined);
-  };
-
-  // Изменить выбранный тип производства
-  const onChangeProductionType = (value: string, option: any): void => {
-    setSelectedProductionTypeId(value !== undefined ? option.id : undefined);
-  };
-
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
+  const handleUpdateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingId,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       fact: values.fact || undefined,
-      operation: {
-        id: values.operation?.id,
-      },
-      output: values.output ? {id: values.output.id} : undefined,
-      productionType: {id: values.productionType?.id},
+      operation: {id: values.operation},
+      output: values.output ? {id: values.output} : undefined,
+      productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOpen(false)
     editOperationAccounting(operationAccounting)
-    setDate(date)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -126,20 +123,19 @@ export const PageOperationAccounting: React.FC = () => {
           <DatePicker
             style={{width: '150px'}}
             format='DD.MM.YYYY'
-            onChange={(value) => {
-              setDate(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
-            }}
+            onChange={onChangeDate}
           />
           <Select
             showSearch
             allowClear
-            placeholder='Операция'
-            onChange={onChangeOperation}
+            placeholder='Выберите операцию'
             style={{'width': '300px'}}
+            onChange={onChangeOperation}
+            filterOption={onSearchSelect}
           >
             {allOperation && allOperation.length > 0 ?
               allOperation.map(operation => (
-                <Option id={operation.id} key={operation.id} value={operation.title}>
+                <Option key={operation.id} value={operation.id} label={operation.title}>
                   {operation.title}
                 </Option>
               )) : null}
@@ -147,13 +143,14 @@ export const PageOperationAccounting: React.FC = () => {
           <Select
             showSearch
             allowClear
-            placeholder='Тип производства'
-            onChange={onChangeProductionType}
+            placeholder='Выберите тип производства'
             style={{'width': '250px'}}
+            onChange={onChangeProductionType}
+            filterOption={onSearchSelect}
           >
             {allProductionType && allProductionType.length > 0 ?
               allProductionType.map(productionType => (
-                <Option id={productionType.id} key={productionType.id} value={productionType.title}>
+                <Option key={productionType.id} value={productionType.id} label={productionType.title}>
                   {productionType.title}
                 </Option>
               )) : null}
@@ -161,8 +158,8 @@ export const PageOperationAccounting: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
           >
             Обновить
           </Button>
@@ -181,7 +178,7 @@ export const PageOperationAccounting: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteOperationAccounting}
         filter={{
-          date: date,
+          date: selectedDate,
           operationId: selectedOperationId,
           productionTypeId: selectedProductionTypeId,
         }}
