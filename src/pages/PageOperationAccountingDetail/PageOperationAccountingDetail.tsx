@@ -17,7 +17,7 @@ import {
   TypeOperationAccounting,
   TypeOperationAccountingFormValue,
   TypeOperationTimesheet, TypeOperationTimesheetFormValue,
-  TypeProductionProductMovement
+  TypeProductionProductMovement, TypeProductionProductMovementFormValue
 } from "../../types";
 import {TableOperationAccountingDetail} from "./components/TableOperationAccountingDetail";
 import {AddModalOperationTimesheet} from "./components/AddModalOperationTimesheet";
@@ -107,7 +107,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }
 
   // Создать запись движения товара на производстве
-  const handleAddProductionProductMovement = async (values: TypeProductionProductMovement): Promise<void> => {
+  const handleAddProductionProductMovement = async (values: TypeProductionProductMovementFormValue): Promise<void> => {
     if (!id) return;
     const operationAccounting = await getOperationAccountingById(+id);
     let operationDate = operationAccounting?.date;
@@ -115,9 +115,9 @@ export const PageOperationAccountingDetail: React.FC = () => {
     const productionProductMovement: TypeProductionProductMovement = {
       amount: values.amount,
       income: values.income,
-      stock: values.stock,
+      stock: {id: values.stock},
       date: operationDate,
-      productBatch: values.productBatch,
+      productBatch: {id: values.productBatch},
       operationAccounting: {
         id: id ? +id : undefined
       },

@@ -1,104 +1,76 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeProductionProductMovement, TypeStock} from "../../../types";
+import {AddModalProps, TypeProductionProductMovementFormValue, TypeStock} from "../../../types";
 import {Form, InputNumber, message, Modal, Select} from "antd";
 import {getAllStock} from "../../../services";
+import {useFormField, useFormHandler} from "../../../hooks";
 
 const {Option} = Select;
 
 export const AddModalProductionProductMovement:
-  React.FC<AddModalProps<TypeProductionProductMovement>> = ({
-                                                              isOpen,
-                                                              addItem,
-                                                              onCancel,
-                                                            }) => {
+  React.FC<AddModalProps<TypeProductionProductMovementFormValue>> = ({
+                                                                       isOpen,
+                                                                       addItem,
+                                                                       onCancel,
+                                                                     }) => {
   const [form] = Form.useForm();
 
-  // Состояния для всех товаров на складе, выбранного товара и отфильтрованные товары
-  const [allStock, setAllStock] = useState<TypeStock[]>();
-  const [selectedStock, setSelectedStock] = useState<TypeStock>();
-  const [filteredStock, setFilteredStock] = useState<TypeStock[]>([]);
+  // Все остатки на складе
+  const [allStock, setAllStock] = useState<TypeStock[]>([]);
 
-  // Функция изменения выбранного товара на складе
-  const onChangeStock = (value: string): void => {
-    const selectedStock = allStock?.find(stock => stock.id === parseInt(value));
-    form.setFieldsValue({stock: selectedStock});
-    setSelectedStock(selectedStock)
-    onSearchStock('')
-  };
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
-  // Поиск по товарам на складе
-  const onSearchStock = (searchText: string): void => {
-    if (searchText === '') {
-      setFilteredStock(allStock || []);
-    } else {
-      const searchLowerCase = searchText.toLowerCase();
-      const filtered = allStock?.filter((stock) => {
-
-        const titleMatch = stock?.product && stock.product.title
-          ? stock.product.title.toLowerCase().includes(searchLowerCase)
-          : false;
-
-        const idMatch = stock.id?.toString().includes(searchText);
-
-        return titleMatch || idMatch;
-      });
-      setFilteredStock(prevState => filtered || prevState);
-    }
-  };
+  // Хук для управления полем stock
+  const {
+    onChangeField: onChangeStock,
+    onClearField: onClearStock,
+    onSearchField: onSearchStock,
+  } = useFormField(form, 'stock');
 
   // Функция подтверждения добавления
-  const handleOk = (): void => {
+  const preSubmitValidation = (): boolean => {
     const enteredAmount = form.getFieldValue("amount");
     const enteredIncome = form.getFieldValue('income')
+    const selectedStockId = form.getFieldValue("stock");
+    const selectedStock = allStock.find(stock => stock.id === selectedStockId);
+
     if (selectedStock?.amount === 0 && !enteredIncome) {
-      message.warning("Выбранного товара не осталось на складе").then(() => {
-      })
-      return;
+      void message.warning("Выбранного товара не осталось на складе")
+      return false
     }
     if (enteredAmount && selectedStock?.amount && enteredAmount > selectedStock.amount && !enteredIncome) {
-      message.warning("Введенное количество превышает количество товара на складе").then(() => {
-      })
-      return;
+      void message.warning("Введенное количество превышает количество товара на складе")
+      return false
     }
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        addItem(values);
-        setSelectedStock(undefined)
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
+    return true;
   }
 
-  // Функция закрытия модального окна
-  const handleClose = (): void => {
-    form.resetFields();
-    onCancel()
-    setSelectedStock(undefined)
-  }
+  // Обработчик подтверждения добавления нового товара
+  const handleOk = (): void => {
+    if (preSubmitValidation()) {
+      handleSubmit();
+    }
+  };
 
   useEffect(() => {
     getAllStock().then((allStock) => {
       setAllStock(allStock);
-      setFilteredStock(allStock);
     });
   }, [onCancel]);
 
   return (
     <Modal
       title={`Добавление движения товара на производстве`}
-      open={isOpen}
-      onCancel={handleClose}
-      width={600}
       okText={'Сохранить'}
       cancelText={'Отмена'}
+      width={600}
+      open={isOpen}
       onOk={handleOk}
+      onCancel={handleReset}
     >
       <Form
         form={form}
-        initialValues={{income: false, modifier: 'public'}}
+        initialValues={{income: false}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -108,27 +80,21 @@ export const AddModalProductionProductMovement:
           name="stock"
           rules={[{required: true, message: 'выберите товар'}]}
         >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              filterOption={false}
-              value={
-                selectedStock
-                  ? `${selectedStock.product?.title}, ID: ${selectedStock.id}, ${selectedStock?.amount}`
-                  : undefined}
-              onChange={onChangeStock}
-              onSearch={onSearchStock}
-            >
-              {filteredStock && filteredStock.length > 0
-                ? filteredStock.map((stock) => (
-                  <Option id={stock.id} key={stock.id} value={stock.id}>
-                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
-                  </Option>
-                ))
-                : null}
-            </Select>
-          </div>
+          <Select
+            showSearch
+            allowClear
+            onChange={onChangeStock}
+            onClear={onClearStock}
+            filterOption={onSearchStock}
+          >
+            {allStock && allStock.length > 0
+              ? allStock.map((stock) => (
+                <Option key={stock.id} value={stock.id} label={`${stock.product?.title}, ${stock.id}`}>
+                  {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                </Option>
+              ))
+              : null}
+          </Select>
         </Form.Item>
         <Form.Item
           label="Количество"
@@ -141,15 +107,13 @@ export const AddModalProductionProductMovement:
           label="Тип движения"
           name="income"
         >
-          <div>
-            <Select
-              defaultValue={false}
-              onChange={value => form.setFieldsValue({income: value})}
-            >
-              <Option id={true} value={true}>{'Приход'}</Option>
-              <Option id={false} value={false}>{'Расход'}</Option>
-            </Select>
-          </div>
+          <Select
+            defaultValue={false}
+            onChange={value => form.setFieldsValue({income: value})}
+          >
+            <Option id={true} value={true}>{'Приход'}</Option>
+            <Option id={false} value={false}>{'Расход'}</Option>
+          </Select>
         </Form.Item>
       </Form>
     </Modal>
