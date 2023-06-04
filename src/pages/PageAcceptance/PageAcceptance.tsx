@@ -3,10 +3,11 @@ import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {deleteAcceptanceById, createAcceptance} from "../../services";
-import {TypeAcceptance} from "../../types";
+import {TypeAcceptance, TypeAcceptanceFormValue} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
 import {AddModalAcceptance} from "./components/AddModalAcceptance";
 import dayjs from "dayjs";
+import {useFetchData} from "../../hooks";
 
 const {Title} = Typography;
 
@@ -17,24 +18,20 @@ export const PageAcceptance: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
+  const {allStock, allPurchase} = useFetchData();
+
   // Создать новую приемку товаров
-  const handleAddAcceptance = (values: TypeAcceptance): void => {
+  const handleAddAcceptance = (values: TypeAcceptanceFormValue): void => {
+    const stock = allStock.find((item) => item.id === values.stock);
+    const purchase = allPurchase.find((item) => item.id === values.purchase);
     const acceptance: TypeAcceptance = {
       amount: values.amount || 0,
       income: true,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      stock: values.stock && {
-        id: values.stock?.id,
-        amount: values.stock?.amount,
-        product: values.stock?.product,
-      },
-      purchase: values.purchase && {
-        id: values.purchase?.id,
-        amount: values.amount,
-        date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-        product: values.purchase?.product,
-      },
-    };
+      date: dayjs(values.date).format('YYYY-MM-DD'),
+      stock: stock,
+      productBatch: {id: values.productBatch},
+      purchase: purchase,
+    }
     setIsModalOpen(false)
     createAcceptance(acceptance)
     setIsTableUpdate(prevState => !prevState)
@@ -62,7 +59,8 @@ export const PageAcceptance: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button

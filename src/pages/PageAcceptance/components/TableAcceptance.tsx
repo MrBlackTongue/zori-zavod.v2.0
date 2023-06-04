@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {getAllAcceptance, getAllAcceptanceByTitle} from "../../../services";
-import {TableProps, TypeAcceptance, TableParam, TypeUnit} from "../../../types";
+import {TableProps, TypeAcceptance, TableParam, TypeUnit, TypeStock, TypeProduct, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableAcceptance: React.FC<TableProps> = ({
@@ -36,15 +36,15 @@ export const TableAcceptance: React.FC<TableProps> = ({
       title: 'ID ячейки',
       dataIndex: 'stock',
       key: 'stock',
-      render: ((stock: any) =>
+      render: ((stock: TypeStock) =>
         stock !== null ? (<div key={stock.id}>{stock.id}</div>) : null)
     },
     {
       title: 'Товар',
-      dataIndex: 'stock',
+      dataIndex: ['stock', 'product'],
       key: 'product',
-      render: ((stock: any) =>
-        stock !== null ? (<div key={stock?.id}>{stock?.product?.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div key={product?.id}>{product?.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -62,8 +62,8 @@ export const TableAcceptance: React.FC<TableProps> = ({
       title: 'ID закупки',
       dataIndex: 'purchase',
       key: 'purchase',
-      render: ((stock: any) =>
-        stock !== null ? (<div key={stock.id}>{stock.id}</div>) : null)
+      render: ((purchase: TypePurchase) =>
+        purchase !== null ? (<div key={purchase.id}>{purchase.id}</div>) : null)
     },
     {
       title: 'Действия',
@@ -79,9 +79,15 @@ export const TableAcceptance: React.FC<TableProps> = ({
               title="Вы действительно хотите удалить эту приемку?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
-              cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
+              cancelText="Отмена"
+            >
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{color: 'tomato', borderColor: 'tomato'}}
+                ghost
+              >
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>

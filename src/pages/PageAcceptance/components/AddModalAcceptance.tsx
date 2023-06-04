@@ -1,140 +1,80 @@
-import React, {useState, useEffect} from "react";
-import {AddModalProps, TypePurchase, TypeAcceptance, TypeStock} from "../../../types";
+import React from "react";
+import {AddModalProps, TypeAcceptanceFormValue} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
-import {getAllStock, getAllPurchase} from "../../../services";
 import dayjs from "dayjs";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 
 const {Option} = Select;
-const dateFormatUser = 'DD.MM.YYYY';
 
-export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
-                                                                              isOpen,
-                                                                              addItem,
-                                                                              onCancel,
-                                                                            }) => {
+export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptanceFormValue>> = ({
+                                                                                       isOpen,
+                                                                                       addItem,
+                                                                                       onCancel,
+                                                                                     }) => {
   const [form] = Form.useForm();
 
-  // Товар со склада, выбраный товар со склада, поиск по товару на складе
-  const [allStock, setAllStock] = useState<TypeStock[]>();
-  const [selectedStock, setSelectedStock] = useState<TypeStock>();
-  const [filteredStock, setFilteredStock] = useState<TypeStock[]>([]);
+  // Хук для получения данных
+  const {allStock, allPurchase, allProductBatch} = useFetchData();
 
-  // Все закупки, выбранная закупка, поиск по закупкам
-  const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
-  const [selectedPurchase, setSelectedPurchase] = useState<TypePurchase>();
-  const [filteredPurchase, setFilteredPurchase] = useState<TypePurchase[]>([]);
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
-  // Изменить выбранный товар на складе
-  const onChangeStock = (value: number): void => {
-    const stock = allStock?.find((stock) => stock.id === value);
-    setSelectedStock(stock);
-    form.setFieldsValue({stock: stock});
-  };
+  // Хук для управления полем stock
+  const {
+    onChangeField: onChangeStock,
+    onClearField: onClearStock,
+    onSearchField: onSearchStock,
+  } = useFormField(form, 'stock');
 
-  // Изменить выбранную закупку
-  const onChangePurchase = (value: number): void => {
-    const purchase = allPurchase?.find((purchase) => purchase.id === value);
-    setSelectedPurchase(purchase);
-    form.setFieldsValue({purchase: purchase});
-  };
+  // Хук для управления полем purchase
+  const {
+    onChangeField: onChangePurchase,
+    onClearField: onClearPurchase,
+    onSearchField: onSearchPurchase,
+  } = useFormField(form, 'purchase');
 
-  // Функция фильтрации товара на складе
-  const onSearchStock = (searchText: string): void => {
-    if (searchText === '') {
-      setFilteredStock(allStock || []);
-    } else {
-      const filtered = allStock?.filter((stock) => {
-        const matchesTitle = stock && stock.product && stock.product.title
-          ? stock.product.title.toLowerCase().includes(searchText.toLowerCase())
-          : false;
+  // Хук для управления полем productBatch
+  const {
+    onChangeField: onChangeProductBatch,
+    onClearField: onClearProductBatch,
+    onSearchField: onSearchProductBatch,
+  } = useFormField(form, 'productBatch');
 
-        const matchesId = stock.id ? stock.id.toString().includes(searchText) : false;
+  const preSubmitValidation = (): boolean => {
+    const selectedStock = form.getFieldValue('stock');
+    const selectedPurchase = form.getFieldValue('purchase');
 
-        return matchesTitle || matchesId;
-      });
-      setFilteredStock(filtered || []);
+    if (selectedStock && selectedPurchase) {
+      const selectedStockItem = allStock.find(stock => stock.id === selectedStock);
+      const selectedPurchaseItem = allPurchase.find(purchase => purchase.id === selectedPurchase);
+
+      if (selectedStockItem?.product?.id !== selectedPurchaseItem?.product?.id) {
+        void message.warning("Товар в закупке и на складе отличается");
+        return false;
+      }
     }
-  };
-
-  // Функция фильтрации закупок
-  const onSearchPurchase = (searchText: string): void => {
-    if (searchText === '') {
-      setFilteredPurchase(allPurchase || []);
-    } else {
-      const filtered = allPurchase?.filter((purchase) => {
-        const matchesTitle = purchase.product && purchase.product.title
-          ? purchase.product.title.toLowerCase().includes(searchText.toLowerCase())
-          : false;
-
-        const matchesId = purchase.id ? purchase.id.toString().includes(searchText) : false;
-
-        const purchaseDate = purchase.date ? dayjs(purchase.date).format('DD.MM.YYYY') : '';
-        const matchesDate = purchaseDate.toLowerCase().includes(searchText.toLowerCase());
-
-        return matchesTitle || matchesId || matchesDate;
-      });
-      setFilteredPurchase(filtered || []);
-    }
-  };
-
-  // Функция подтверждения добавления
-  const handleOk = (): void => {
-    if (
-      selectedPurchase &&
-      selectedStock &&
-      selectedPurchase?.product?.id !== selectedStock?.product?.id
-    ) {
-      message.warning("Товар в закупке и на складе отличается");
-      return;
-    }
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        setSelectedStock(undefined);
-        setSelectedPurchase(undefined);
-        addItem(values);
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
-  };
-
-  // Функция закрытия модального окна
-  const handleClose = (): void => {
-    form.resetFields();
-    onCancel()
-    setSelectedStock(undefined)
-    setSelectedPurchase(undefined)
+    return true;
   }
 
-  useEffect(() => {
-    getAllStock().then((stock) => {
-      setAllStock(stock);
-      setFilteredStock(stock);
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllPurchase().then((purchase) => {
-      setAllPurchase(purchase);
-      setFilteredPurchase(purchase);
-    });
-  }, []);
+  // Обработчик подтверждения добавления новой приемки товаров
+  const handleOk = (): void => {
+    if (preSubmitValidation()) {
+      handleSubmit();
+    }
+  };
 
   return (
     <Modal
       title={`Добавление новой приемки`}
-      open={isOpen}
-      onCancel={handleClose}
-      width={600}
       okText={"Сохранить"}
       cancelText={"Отмена"}
+      width={600}
+      open={isOpen}
       onOk={handleOk}
+      onCancel={handleReset}
     >
       <Form
         form={form}
-        initialValues={{modifier: "public"}}
         labelCol={{span: 6}}
         wrapperCol={{span: 16}}
         style={{marginTop: 30}}
@@ -144,46 +84,75 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
           name="stock"
           rules={[{required: true, message: 'выберите товар'}]}
         >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              filterOption={false}
-              onChange={onChangeStock}
-              onSearch={onSearchStock}
-            >
-              {filteredStock && filteredStock.length > 0
-                ? filteredStock.map((stock) => (
-                  <Option key={stock.id} value={stock?.id}>
-                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
-                  </Option>
-                ))
-                : null}
-            </Select>
-          </div>
+          <Select
+            showSearch
+            allowClear
+            onChange={onChangeStock}
+            onClear={onClearStock}
+            filterOption={onSearchStock}
+          >
+            {allStock && allStock.length > 0
+              ? allStock.map((stock) => (
+                <Option key={stock.id} value={stock.id} label={`${stock.product?.title}, ${stock.id}`}>
+                  {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                </Option>
+              ))
+              : null}
+          </Select>
         </Form.Item>
         <Form.Item
           label="Закупка"
           name="purchase"
           rules={[{required: true, message: 'выберите закупку'}]}
         >
-          <div>
-            <Select
-              showSearch
-              allowClear
-              filterOption={false}
-              onChange={onChangePurchase}
-              onSearch={onSearchPurchase}
-            >
-              {filteredPurchase && filteredPurchase.length > 0
-                ? filteredPurchase.map((purchase) => (
-                  <Option key={purchase.id} value={purchase?.id}>
-                    {`${dayjs(purchase.date).format(dateFormatUser)} ID: ${purchase.id} ${purchase.product?.title}`}
-                  </Option>
-                ))
-                : null}
-            </Select>
-          </div>
+          <Select
+            showSearch
+            allowClear
+            onChange={onChangePurchase}
+            onClear={onClearPurchase}
+            filterOption={onSearchPurchase}
+          >
+            {allPurchase && allPurchase.length > 0
+              ? allPurchase.map((purchase) => (
+                <Option
+                  key={purchase.id}
+                  value={purchase.id}
+                  label={`${purchase.product?.title}, ${purchase.id}, ${purchase.date}`}
+                  title={
+                    `${dayjs(purchase.date).format('DD.MM.YYYY')} ID: 
+                    ${purchase.id} ${purchase.product?.title}`
+                  }
+                >
+                  {`${dayjs(purchase.date).format('DD.MM.YYYY')} ID: ${purchase.id} ${purchase.product?.title}`}
+                </Option>
+              ))
+              : null}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Партия товара"
+          name="productBatch"
+          rules={[{required: true, message: 'выберите партию товара'}]}
+        >
+          <Select
+            showSearch
+            allowClear
+            onChange={onChangeProductBatch}
+            onClear={onClearProductBatch}
+            filterOption={onSearchProductBatch}
+          >
+            {allProductBatch && allProductBatch.length > 0
+              ? allProductBatch.map((productBatch) => (
+                <Option
+                  key={productBatch.id}
+                  value={productBatch.id}
+                  label={`${productBatch.product?.title}, ${productBatch.id}`}
+                >
+                  {`${productBatch.product?.title}`}
+                </Option>
+              ))
+              : null}
+          </Select>
         </Form.Item>
         <Form.Item
           label="Количество"
@@ -199,7 +168,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptance>> = ({
         >
           <DatePicker
             style={{width: '100%'}}
-            format={dateFormatUser}
+            format={'DD.MM.YYYY'}
           />
         </Form.Item>
       </Form>
