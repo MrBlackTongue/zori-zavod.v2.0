@@ -6,7 +6,7 @@ import {
   TypeUnit,
   TypeOperation,
   TypeProductionType,
-  TypeOutput, TypeProduct, TypeProductGroup, TypeClient
+  TypeOutput, TypeProduct, TypeProductGroup, TypeClient, TypeEmployee
 } from "../types";
 import {
   getAllStock,
@@ -14,7 +14,7 @@ import {
   getAllProductBatch,
   getAllUnit,
   getAllOperation,
-  getAllProductionType, getAllOutput, getAllProduct, getAllProductGroup, getAllClient
+  getAllProductionType, getAllOutput, getAllProduct, getAllProductGroup, getAllClient, getAllEmployee
 } from "../services";
 
 export const useFetchData = () => {
@@ -28,6 +28,7 @@ export const useFetchData = () => {
   const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
   const [allClient, setAllClient] = useState<TypeClient[]>([]);
+  const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>([]);
 
 
   useEffect(() => {
@@ -91,6 +92,12 @@ export const useFetchData = () => {
     });
   }, []);
 
+  useEffect(() => {
+    getAllEmployee().then((allEmployee) => {
+      setAllEmployee(allEmployee);
+    });
+  }, []);
+
   return {
     allStock,
     allPurchase,
@@ -102,5 +109,6 @@ export const useFetchData = () => {
     allProduct,
     allProductGroup,
     allClient,
+    allEmployee,
   };
 }

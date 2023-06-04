@@ -16,7 +16,7 @@ import {
 import {
   TypeOperationAccounting,
   TypeOperationAccountingFormValue,
-  TypeOperationTimesheet,
+  TypeOperationTimesheet, TypeOperationTimesheetFormValue,
   TypeProductionProductMovement
 } from "../../types";
 import {TableOperationAccountingDetail} from "./components/TableOperationAccountingDetail";
@@ -68,12 +68,10 @@ export const PageOperationAccountingDetail: React.FC = () => {
   };
 
   // Создать сотрудника в табеле учета рабочего времени
-  const handleAddOperationTimesheet = (values: TypeOperationTimesheet): void => {
+  const handleAddOperationTimesheet = (values: TypeOperationTimesheetFormValue): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       hours: values.hours,
-      employee: {
-        id: values.employee?.id,
-      },
+      employee: {id: values.employee},
       operationAccountingId: id ? +id : undefined,
       fact: values.fact || 0,
     };
@@ -83,13 +81,11 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }
 
   // Обновить сотрудника в табеле учета рабочего времени
-  const handleUpdateOperationTimesheet = (values: TypeOperationTimesheet): void => {
+  const handleUpdateOperationTimesheet = (values: TypeOperationTimesheetFormValue): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       id: selectedOperationTimesheetId,
       hours: values.hours,
-      employee: {
-        id: values.employee?.id,
-      },
+      employee: {id: values.employee},
       operationAccountingId: id ? +id : undefined,
       fact: values.fact || 0,
     };
