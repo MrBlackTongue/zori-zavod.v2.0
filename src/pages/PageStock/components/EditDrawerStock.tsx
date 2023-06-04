@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Form, Drawer, Space, Button} from "antd";
-import {EditDrawerProps, TypeProduct, TypeStockFormValue} from "../../../types";
-import {getStockById, getAllProduct} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {EditDrawerProps, TypeStockFormValue} from "../../../types";
+import {getStockById} from "../../../services";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormStock} from "./FormStock";
 
 export const EditDrawerStock: React.FC<EditDrawerProps<TypeStockFormValue>> = ({
@@ -13,8 +13,8 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStockFormValue>> = ({
                                                                                }) => {
   const [form] = Form.useForm();
 
-  // Все товары
-  const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
+  // Хук для получения данных
+  const {allProduct} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -44,12 +44,6 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStockFormValue>> = ({
       handleGetStock();
     }
   }, [isOpen, selectedItemId, handleGetStock]);
-
-  useEffect(() => {
-    getAllProduct().then((allProduct) => {
-      setAllProduct(allProduct);
-    });
-  }, []);
 
   return (
     <Drawer

@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeOperationFormValue, TypeUnit} from "../../../types";
+import React from "react";
+import {AddModalProps, TypeOperationFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {getAllUnit} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks"
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks"
 import {FormOperation} from "./FormOperation";
 
 export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> = ({
@@ -12,8 +11,8 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
                                                                                    }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
+  // Хук для получения данных
+  const {allUnit} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
@@ -24,12 +23,6 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
     onClearField: onClearUnit,
     onSearchField: onSearchUnit,
   } = useFormField(form, 'unit');
-
-  useEffect(() => {
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
-    });
-  }, []);
 
   return (
     <Modal

@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {Form, Modal} from "antd";
-import {AddModalProps, TypeMeterTypeFormValue, TypeUnit} from "../../../types";
-import {getAllUnit} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {AddModalProps, TypeMeterTypeFormValue} from "../../../types";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormOperation} from "./FormMeterType";
 
 export const AddModalMeterType: React.FC<AddModalProps<TypeMeterTypeFormValue>> = ({
@@ -12,8 +11,8 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterTypeFormValue>> 
                                                                                    }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
+  // Хук для получения данных
+  const {allUnit} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
@@ -24,12 +23,6 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterTypeFormValue>> 
     onClearField: onClearUnit,
     onSearchField: onSearchUnit
   } = useFormField(form, 'unit');
-
-  useEffect(() => {
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
-    });
-  }, []);
 
   return (
     <Modal

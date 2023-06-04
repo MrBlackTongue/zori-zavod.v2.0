@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeOutputFormValue, TypeProduct} from "../../../types";
+import React from "react";
+import {AddModalProps, TypeOutputFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {getAllProduct} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormOutput} from "./FormOutput";
 
 export const AddModalOutput: React.FC<AddModalProps<TypeOutputFormValue>> = ({
@@ -12,8 +11,8 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutputFormValue>> = ({
                                                                              }) => {
   const [form] = Form.useForm();
 
-  // Все товары
-  const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
+  // Хук для получения данных
+  const {allProduct} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
@@ -24,12 +23,6 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutputFormValue>> = ({
     onClearField: onClearProduct,
     onSearchField: onSearchProduct,
   } = useFormField(form, 'product');
-
-  useEffect(() => {
-    getAllProduct().then((allProduct) => {
-      setAllProduct(allProduct);
-    });
-  }, []);
 
   return (
     <Modal

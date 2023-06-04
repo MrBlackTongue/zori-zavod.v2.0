@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Form, Drawer, Space, Button} from "antd";
-import {EditDrawerProps, TypeProduct, TypeProductBatchFormValue} from "../../../types";
-import {getAllProduct, getProductBatchById} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {EditDrawerProps, TypeProductBatchFormValue} from "../../../types";
+import {getProductBatchById} from "../../../services";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormProductBatch} from "./FormProductBatch";
 
 export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatchFormValue>> = ({
@@ -13,8 +13,8 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatchFo
                                                                                              }) => {
   const [form] = Form.useForm();
 
-  // Все товары
-  const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
+  // Хук для получения данных
+  const {allProduct} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -43,12 +43,6 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatchFo
       handleGetProductBatch();
     }
   }, [isOpen, selectedItemId, handleGetProductBatch]);
-
-  useEffect(() => {
-    getAllProduct().then((allProduct) => {
-      setAllProduct(allProduct);
-    });
-  }, []);
 
   return (
     <Drawer

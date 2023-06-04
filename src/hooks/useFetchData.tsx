@@ -1,11 +1,34 @@
 import {useState, useEffect} from 'react';
-import {TypeStock, TypePurchase, TypeProductBatch} from "../types";
-import {getAllStock, getAllPurchase, getAllProductBatch} from "../services";
+import {
+  TypeStock,
+  TypePurchase,
+  TypeProductBatch,
+  TypeUnit,
+  TypeOperation,
+  TypeProductionType,
+  TypeOutput, TypeProduct, TypeProductGroup, TypeClient
+} from "../types";
+import {
+  getAllStock,
+  getAllPurchase,
+  getAllProductBatch,
+  getAllUnit,
+  getAllOperation,
+  getAllProductionType, getAllOutput, getAllProduct, getAllProductGroup, getAllClient
+} from "../services";
 
 export const useFetchData = () => {
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>([]);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>([]);
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
+  const [allOperation, setAllOperation] = useState<TypeOperation[]>([]);
+  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>([]);
+  const [allOutput, setAllOutput] = useState<TypeOutput[]>([]);
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
+  const [allClient, setAllClient] = useState<TypeClient[]>([]);
+
 
   useEffect(() => {
     getAllStock().then((allStock) => {
@@ -25,5 +48,59 @@ export const useFetchData = () => {
     });
   }, []);
 
-  return {allStock, allPurchase, allProductBatch};
+  useEffect(() => {
+    getAllUnit().then((allUnit) => {
+      setAllUnit(allUnit);
+    });
+  }, []);
+
+
+  useEffect(() => {
+    getAllOperation().then((allOperation) => {
+      setAllOperation(allOperation);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllProductionType().then((allProductionType) => {
+      setAllProductionType(allProductionType);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllOutput().then((allOutput) => {
+      setAllOutput(allOutput);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllProductGroup().then((allProductGroup) => {
+      setAllProductGroup(allProductGroup);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllClient().then((allClient) => {
+      setAllClient(allClient);
+    });
+  }, []);
+
+  return {
+    allStock,
+    allPurchase,
+    allProductBatch,
+    allUnit,
+    allOperation,
+    allProductionType,
+    allOutput,
+    allProduct,
+    allProductGroup,
+    allClient,
+  };
 }

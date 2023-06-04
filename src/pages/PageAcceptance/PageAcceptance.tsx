@@ -18,6 +18,7 @@ export const PageAcceptance: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
+  // Хук для получения данных
   const {allStock, allPurchase} = useFetchData();
 
   // Создать новую приемку товаров

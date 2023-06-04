@@ -1,15 +1,9 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {
-  EditDrawerProps,
-  TypeOutput,
-  TypeOperation,
-  TypeProductionType,
-  TypeOperationAccountingFormValue
-} from "../../../types";
-import {getAllOutput, getAllOperation, getOperationAccountingById, getAllProductionType} from "../../../services";
+import {EditDrawerProps, TypeOperationAccountingFormValue} from "../../../types";
+import {getOperationAccountingById} from "../../../services";
 import dayjs from "dayjs";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormOperationAccounting} from "./FormOperationAccounting";
 
 export const EditDrawerOperationAccounting:
@@ -21,10 +15,8 @@ export const EditDrawerOperationAccounting:
                                                                  }) => {
   const [form] = Form.useForm();
 
-  // Все операции, Все типы производства, Все выпуски продукции
-  const [allOperation, setAllOperation] = useState<TypeOperation[]>([]);
-  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>([]);
-  const [allOutput, setAllOutput] = useState<TypeOutput[]>([]);
+  // Хук для получения данных
+  const {allOperation, allProductionType, allOutput} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -70,24 +62,6 @@ export const EditDrawerOperationAccounting:
       handleGetOperationAccounting()
     }
   }, [isOpen, selectedItemId, handleGetOperationAccounting]);
-
-  useEffect(() => {
-    getAllOperation().then((allOperation) => {
-      setAllOperation(allOperation);
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllOutput().then((allOutput) => {
-      setAllOutput(allOutput);
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllProductionType().then((allProductionType) => {
-      setAllProductionType(allProductionType);
-    });
-  }, []);
 
   return (
     <Drawer

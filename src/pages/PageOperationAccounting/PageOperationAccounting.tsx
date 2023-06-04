@@ -1,24 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Typography, Space, Button, Select, DatePicker, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
-  getAllOperation,
   createOperationAccounting,
   editOperationAccounting,
   deleteOperationAccountingById,
-  getAllProductionType,
 } from "../../services";
 import {
-  TypeOperation,
   TypeOperationAccounting,
   TypeOperationAccountingFormValue,
-  TypeProductionType
 } from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
 import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
 import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
 import dayjs from "dayjs";
+import {useFetchData} from "../../hooks";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -34,12 +31,11 @@ export const PageOperationAccounting: React.FC = () => {
   const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
   const [selectedDate, setSelectedDate] = useState<any>();
 
-  // Все операции, id выбранной операции
-  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
-  const [selectedOperationId, setSelectedOperationId] = useState<number>();
+  // Хук для получения данных
+  const {allOperation, allProductionType} = useFetchData();
 
-  // Все типы производства, id выбранного типа производства
-  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
+  // id выбранной операции, id выбранного типа производства
+  const [selectedOperationId, setSelectedOperationId] = useState<number>();
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Изменить выбранную дату
@@ -102,18 +98,6 @@ export const PageOperationAccounting: React.FC = () => {
     deleteOperationAccountingById(id)
     setIsTableUpdate(prevState => !prevState)
   };
-
-  useEffect(() => {
-    getAllOperation().then((allOperation) => {
-      setAllOperation(allOperation);
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllProductionType().then((allProductionType) => {
-      setAllProductionType(allProductionType);
-    });
-  }, []);
 
   return (
     <div style={{display: 'grid'}}>

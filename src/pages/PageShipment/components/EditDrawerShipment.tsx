@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeClient, TypeShipmentFormValue} from "../../../types";
-import {getShipmentById, getAllClient} from "../../../services";
+import {EditDrawerProps, TypeShipmentFormValue} from "../../../types";
+import {getShipmentById} from "../../../services";
 import dayjs from 'dayjs';
-import {useFormField, useFormHandler} from "../../../hooks";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormShipment} from "./FormShipment";
 
 export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipmentFormValue>> = ({
@@ -14,8 +14,8 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipmentFormValue>
                                                                                      }) => {
   const [form] = Form.useForm();
 
-  // Все клиенты
-  const [allClient, setAllClient] = useState<TypeClient[]>([]);
+  // Хук для получения данных
+  const {allClient} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -40,12 +40,6 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipmentFormValue>
       })
     }
   }, [selectedItemId, form]);
-
-  useEffect(() => {
-    getAllClient().then((allClient) => {
-      setAllClient(allClient);
-    });
-  }, []);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {

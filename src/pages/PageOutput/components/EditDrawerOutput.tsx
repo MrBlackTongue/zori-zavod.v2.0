@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeOutputFormValue, TypeProduct} from "../../../types";
-import {getOutputById, getAllProduct} from "../../../services";
+import {EditDrawerProps, TypeOutputFormValue} from "../../../types";
+import {getOutputById} from "../../../services";
 import dayjs from 'dayjs';
-import {useFormField, useFormHandler} from "../../../hooks";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormOutput} from "./FormOutput";
 
 export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutputFormValue>> = ({
@@ -14,8 +14,8 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutputFormValue>> = 
                                                                                  }) => {
   const [form] = Form.useForm();
 
-  // Все товары
-  const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
+  // Хук для получения данных
+  const {allProduct} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -38,12 +38,6 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutputFormValue>> = 
       })
     }
   }, [selectedItemId, form]);
-
-  useEffect(() => {
-    getAllProduct().then((allProduct) => {
-      setAllProduct(allProduct);
-    });
-  }, []);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {

@@ -1,12 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getAllProductGroup, createNewStock, editStock, deleteStockById} from '../../services';
-import {TypeProductGroup, TypeStock, TypeStockFormValue} from '../../types';
+import {createNewStock, editStock, deleteStockById} from '../../services';
+import {TypeStock, TypeStockFormValue} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
 import {EditDrawerStock} from "./components/EditDrawerStock";
+import {useFetchData} from "../../hooks";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -18,8 +19,10 @@ export const PageStock: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Все группы товаров, id выбранной группы товаров
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
+  // Хук для получения данных
+  const {allProductGroup} = useFetchData();
+
+  // id выбранной группы товаров
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
 
   // id выбранной ячейка на складе
@@ -72,12 +75,6 @@ export const PageStock: React.FC = () => {
     deleteStockById(id)
     setIsTableUpdate(prevState => !prevState);
   };
-
-  useEffect(() => {
-    getAllProductGroup().then((allStockGroup) => {
-      setAllProductGroup(allStockGroup);
-    });
-  }, []);
 
   return (
     <div style={{display: 'grid'}}>

@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeMeterTypeFormValue, TypeUnit} from "../../../types";
-import {getMeterTypeById, getAllUnit} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {EditDrawerProps, TypeMeterTypeFormValue} from "../../../types";
+import {getMeterTypeById} from "../../../services";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormOperation} from "./FormMeterType";
 
 export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterTypeFormValue>> = ({
@@ -13,8 +13,8 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterTypeFormValu
                                                                                        }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
+  // Хук для получения данных
+  const {allUnit} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -43,12 +43,6 @@ export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterTypeFormValu
       handleGetMeterType()
     }
   }, [isOpen, selectedItemId, handleGetMeterType, form]);
-
-  useEffect(() => {
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
-    });
-  }, []);
 
   return (
     <Drawer

@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeProduct, TypeProductBatchFormValue} from "../../../types";
+import React from "react";
+import {AddModalProps, TypeProductBatchFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {getAllProduct} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormProductBatch} from "./FormProductBatch";
 
 export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatchFormValue>> = ({
@@ -12,8 +11,8 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatchFormVa
                                                                                          }) => {
   const [form] = Form.useForm();
 
-  // Все товары
-  const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
+  // Хук для получения данных
+  const {allProduct} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
@@ -24,12 +23,6 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatchFormVa
     onClearField: onClearProduct,
     onSearchField: onSearchProduct,
   } = useFormField(form, 'product');
-
-  useEffect(() => {
-    getAllProduct().then((allProduct) => {
-      setAllProduct(allProduct);
-    });
-  }, []);
 
   return (
     <Modal

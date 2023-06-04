@@ -1,14 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {
-  AddModalProps,
-  TypeOperation,
-  TypeOperationAccountingFormValue,
-  TypeOutput,
-  TypeProductionType
-} from "../../../types";
+import React from "react";
+import {AddModalProps, TypeOperationAccountingFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {getAllOperation, getAllOutput, getAllProductionType} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormOperationAccounting} from "./FormOperationAccounting";
 
 export const AddModalOperationAccounting:
@@ -19,10 +12,8 @@ export const AddModalOperationAccounting:
                                                                }) => {
   const [form] = Form.useForm();
 
-  // Все операции, Все типы производства, Все выпуски продукции
-  const [allOperation, setAllOperation] = useState<TypeOperation[]>([]);
-  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>([]);
-  const [allOutput, setAllOutput] = useState<TypeOutput[]>([]);
+  // Хук для получения данных
+  const {allOperation, allProductionType, allOutput} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
@@ -47,24 +38,6 @@ export const AddModalOperationAccounting:
     onClearField: onClearProductionType,
     onSearchField: onSearchProductionType,
   } = useFormField(form, 'productionType');
-
-  useEffect(() => {
-    getAllOperation().then((allOperation) => {
-      setAllOperation(allOperation);
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllOutput().then((allOutput) => {
-      setAllOutput(allOutput);
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllProductionType().then((allProductionType) => {
-      setAllProductionType(allProductionType);
-    });
-  }, []);
 
   return (
     <Modal

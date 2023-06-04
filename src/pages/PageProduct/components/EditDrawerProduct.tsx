@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeProductGroup, TypeProductFormValue, TypeUnit} from "../../../types";
-import {getAllProductGroup, getProductById, getAllUnit} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {EditDrawerProps, TypeProductFormValue} from "../../../types";
+import {getProductById} from "../../../services";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
 import {FormProduct} from "./FormProduct";
 
 export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProductFormValue>> = ({
@@ -13,11 +13,8 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProductFormValue>> 
                                                                                    }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
-
-  // Все товарные группы
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
+  // Хук для получения данных
+  const {allUnit, allProductGroup} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -54,18 +51,6 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProductFormValue>> 
       handleGetProduct()
     }
   }, [isOpen, selectedItemId, handleGetProduct]);
-
-  useEffect(() => {
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllProductGroup().then((allProductGroup) => {
-      setAllProductGroup(allProductGroup);
-    });
-  }, []);
 
   return (
     <Drawer

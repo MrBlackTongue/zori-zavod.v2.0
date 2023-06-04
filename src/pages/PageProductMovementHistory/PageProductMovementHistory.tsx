@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Typography, Space, Button, Select, FloatButton} from 'antd';
 import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
-import {TypeStock} from "../../types";
-import {getAllStock} from "../../services";
+import {useFetchData} from "../../hooks";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -14,8 +13,10 @@ export const PageProductMovementHistory: React.FC = () => {
   // Обновление таблицы
   const [isTableUpdate, setIsTableUpdate] = useState(false);
 
-  // Все остатки на складе, id выбранного остатка на складе
-  const [allStock, setAllStock] = useState<TypeStock[]>();
+  // Хук для получения данных
+  const {allStock} = useFetchData();
+
+  // id выбранного остатка на складе
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Изменить выбраный остаток на складе
@@ -27,12 +28,6 @@ export const PageProductMovementHistory: React.FC = () => {
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   }
-
-  useEffect(() => {
-    getAllStock().then((allStock) => {
-      setAllStock(allStock);
-    });
-  }, []);
 
   return (
     <div style={{display: 'grid'}}>

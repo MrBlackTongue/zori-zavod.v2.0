@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeUnit, TypeOperationFormValue} from "../../../types";
-import {getOperationById, getAllUnit} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks"
+import {EditDrawerProps, TypeOperationFormValue} from "../../../types";
+import {getOperationById} from "../../../services";
+import {useFetchData, useFormField, useFormHandler} from "../../../hooks"
 import {FormOperation} from "./FormOperation";
 
 export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValue>> = ({
@@ -13,8 +13,8 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValu
                                                                                        }) => {
   const [form] = Form.useForm();
 
-  // Все единицы измерения
-  const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
+  // Хук для получения данных
+  const {allUnit} = useFetchData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -43,12 +43,6 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValu
       handleGetOperation();
     }
   }, [isOpen, selectedItemId, handleGetOperation]);
-
-  useEffect(() => {
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
-    });
-  }, []);
 
   return (
     <Drawer
