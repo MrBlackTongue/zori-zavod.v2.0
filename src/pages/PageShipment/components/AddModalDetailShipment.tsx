@@ -104,7 +104,7 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
           name="amount"
           rules={[{required: true, message: 'введите количество'}]}
         >
-          <InputNumber style={{width: "100%"}}/>
+          <InputNumber style={{width: "100%"}} min={1}/>
         </Form.Item>
       </Form>
     </Modal>

@@ -22,10 +22,8 @@ export const PageStock: React.FC = () => {
   // Хук для получения данных
   const {allProductGroup} = useFetchAllData();
 
-  // id выбранной группы товаров
+  // id выбранной группы товаров, id выбранной ячейка на складе
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
-
-  // id выбранной ячейка на складе
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Текст поиска
@@ -98,7 +96,7 @@ export const PageStock: React.FC = () => {
           >
             {allProductGroup && allProductGroup.length > 0 ?
               allProductGroup
-                .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1) //todo: сделать сортировку на бэкенде
+                .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
                 .map(productGroup => (
                   <Option key={productGroup.id} value={productGroup.id} label={productGroup.title}>
                     {productGroup.title}

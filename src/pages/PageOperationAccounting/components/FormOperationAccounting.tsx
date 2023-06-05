@@ -35,6 +35,7 @@ export const FormOperationAccounting: React.FC<FormOperationAccountingProps> = (
         <Select
           showSearch
           allowClear
+          placeholder='Выберите операцию'
           onChange={onChangeOperation}
           onClear={onClearOperation}
           filterOption={onSearchOperation}
@@ -54,6 +55,7 @@ export const FormOperationAccounting: React.FC<FormOperationAccountingProps> = (
         <Select
           showSearch
           allowClear
+          placeholder='Выберите выпуск продукции'
           onChange={onChangeOutput}
           onClear={onClearOutput}
           filterOption={onSearchOutput}
@@ -95,6 +97,7 @@ export const FormOperationAccounting: React.FC<FormOperationAccountingProps> = (
         <Select
           showSearch
           allowClear
+          placeholder='Выберите тип производства'
           onChange={onChangeProductionType}
           onClear={onClearProductionType}
           filterOption={onSearchProductionType}

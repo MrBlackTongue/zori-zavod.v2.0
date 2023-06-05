@@ -50,6 +50,14 @@ export const TableAcceptance: React.FC<TableProps> = ({
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
+      render: ((amount: number | null) =>
+        amount !== null ? (
+          <div>
+            {amount.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : null)
     },
     {
       title: 'Ед. изм',

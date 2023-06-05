@@ -12,7 +12,7 @@ export const TableShipment: React.FC<TableProps> = ({
                                                       onDelete,
                                                       openDetailDrawer
                                                     }) => {
-  // Состояния для загрузки данных и списка всех отгрузок
+  // Лоудер и список всех отгрузок
   const [isLoading, setIsLoading] = useState(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 

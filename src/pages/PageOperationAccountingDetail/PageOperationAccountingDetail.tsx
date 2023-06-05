@@ -43,7 +43,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const [isModalOperationTimesheetOpen, setIsModalOperationTimesheetOpen] = useState(false);
   const [isDrawerOperationTimesheetOpen, setIsDrawerOperationTimesheetOpen] = useState(false);
 
-  // Состояние и методы для движения товаров на производстве
+  // Состояние для движения товаров на производстве
   const [isModalProductionProductMovementOpen, setIsModalProductionProductMovementOpen] = useState(false);
 
   // Обновить учетную операцию

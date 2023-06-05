@@ -11,7 +11,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
                                                             idDetail,
                                                             onDelete,
                                                           }) => {
-  // Состояния для лоадера и списка всех товаров в отгрузке
+  // Лоудер и списка всех товаров в отгрузке
   const [isLoading, setIsLoading] = useState(false);
   const [allShipmentMovement, setAllShipmentMovement] = useState<TypeShipmentProductMovement[]>();
 

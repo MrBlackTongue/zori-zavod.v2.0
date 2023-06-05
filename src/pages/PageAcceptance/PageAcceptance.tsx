@@ -13,7 +13,7 @@ const {Title} = Typography;
 
 export const PageAcceptance: React.FC = () => {
 
-  // Обновить таблицу, открыть закрыть модальное окно, текст поиска
+  // Обновить таблицу, Открыть закрыть модальное окно, текст поиска
   const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");

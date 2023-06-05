@@ -22,7 +22,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
                                                                                   selectedItemId
                                                                                 }) => {
 
-  // Состояния для обновления таблицы, модального окна, выбранная отгрузка
+  // Обновление таблицы, Открыть закрыть модальное окно, Выбранная отгрузка
   const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();

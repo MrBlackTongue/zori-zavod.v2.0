@@ -25,7 +25,7 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
       title={`Добавление новой операции`}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      width={700}
+      width={680}
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}

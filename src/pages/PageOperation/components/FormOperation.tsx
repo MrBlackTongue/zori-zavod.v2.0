@@ -23,7 +23,7 @@ export const FormOperation: React.FC<FormOperationProps> = ({
         name="title"
         rules={[{required: true, message: 'введите название'}]}
       >
-        <Input/>
+        <Input placeholder='Название'/>
       </Form.Item>
       <Form.Item
         label="Единица измерения"
@@ -32,6 +32,7 @@ export const FormOperation: React.FC<FormOperationProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите единицу измерения'
           onChange={onChangeUnit}
           onClear={onClearUnit}
           filterOption={onSearchUnit}
@@ -53,7 +54,7 @@ export const FormOperation: React.FC<FormOperationProps> = ({
           warningOnly: true,
         }]}
       >
-        <InputNumber style={{width: '100%'}}/>
+        <InputNumber style={{width: '100%'}} min={0}/>
       </Form.Item>
     </Form>
   );

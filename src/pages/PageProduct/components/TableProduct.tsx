@@ -10,7 +10,7 @@ export const TableProduct: React.FC<TableProps> = ({
                                                      isUpdateTable,
                                                      openDrawer,
                                                      onDelete,
-                                                     searchText
+                                                     searchText,
                                                    }) => {
   // Лоудер и список всех товаров
   const [isLoading, setIsLoading] = useState(false);
@@ -100,8 +100,8 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для обновления таблицы товаров
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProduct().then((allProducts) => {
-      setAllProduct(allProducts);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct);
       setIsLoading(false);
     });
   }, [])
@@ -109,15 +109,15 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для поиска по таблице товаров
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductByTitle(searchText ?? '').then((allProducts) => {
-      setAllProduct(allProducts);
+    getAllProductByTitle(searchText ?? '').then((allProduct) => {
+      setAllProduct(allProduct);
       setIsLoading(false);
     });
   }, [searchText]);
 
   useEffect(() => {
-    getAllProductGroup().then((productGroups) => {
-      setAllProductGroup(productGroups);
+    getAllProductGroup().then((allProductGroup) => {
+      setAllProductGroup(allProductGroup);
     });
   }, []);
 

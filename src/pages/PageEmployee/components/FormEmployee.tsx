@@ -17,20 +17,20 @@ export const FormEmployee: React.FC<FormEmployeeProps> = ({
         name="firstName"
         rules={[{required: true, message: 'введите имя'}]}
       >
-        <Input/>
+        <Input placeholder='Иван'/>
       </Form.Item>
       <Form.Item
         label="Фамилия"
         name="lastName"
         rules={[{required: true, message: 'введите фамилию'}]}
       >
-        <Input/>
+        <Input placeholder='Иванов'/>
       </Form.Item>
       <Form.Item
         label="Телефон"
         name="phone"
       >
-        <Input/>
+        <Input placeholder='+7 999 999 99 99'/>
       </Form.Item>
       <Form.Item
         label="Ставка"
@@ -41,7 +41,7 @@ export const FormEmployee: React.FC<FormEmployeeProps> = ({
           warningOnly: true,
         }]}
       >
-        <InputNumber style={{width: '100%'}}/>
+        <InputNumber placeholder='100' style={{width: '100%'}} min={0}/>
       </Form.Item>
       <Form.Item
         name="hired"

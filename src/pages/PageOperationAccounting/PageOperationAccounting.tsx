@@ -27,7 +27,7 @@ export const PageOperationAccounting: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // id выбраной учетной операции, выбранная дата
+  // id выбраной учетной операции, Выбранная дата
   const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
   const [selectedDate, setSelectedDate] = useState<any>();
 
