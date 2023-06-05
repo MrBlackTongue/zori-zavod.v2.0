@@ -5,7 +5,8 @@ import '../../App.css'
 import {deleteMeterRecordById, createMeterRecord, editMeterRecord} from "../../services";
 import {TypeMeterRecord, TypeMeterType} from "../../types";
 import {TableMeterRecord} from "./components/TableMeterRecord";
-// import {AddModalMeterRecord} from "./components/AddModalMeterRecord";
+import {AddModalMeterRecord} from "./components/AddModalMeterRecord";
+import dayjs from "dayjs";
 // import {EditDrawerMeterRecord} from "./components/EditDrawerMeterRecord";
 
 const {Title} = Typography;
@@ -21,19 +22,20 @@ export const PageMeterRecord: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Добавить новый тип счетчика
-  // const handleAddMeterRecord = (values: TypeMeterRecord): void => {
-  //   const meterRecord: TypeMeterRecord = {
-  //     title: values.title,
-  //     unit: {
-  //       id: values.unit?.id,
-  //       name: values.unit?.name,
-  //     },
-  //     cost: values.cost,
-  //   };
-  //   setIsModalOpen(false)
-  //   createMeterRecord(meterType)
-  //   setIsTableUpdate(prevState => !prevState)
-  // };
+  const handleAddMeterRecord = (values: TypeMeterRecord): void => {
+    const meterRecord: TypeMeterRecord = {
+      value: values.value,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+      // meterDto: {
+      //   id: values.meterDto?.id,
+      //   serialNumber: values.meterDto?.serialNumber,
+      //   description: values.meterDto.description,
+      // },
+    };
+    setIsModalOpen(false)
+    createMeterRecord(meterRecord)
+    setIsTableUpdate(prevState => !prevState)
+  };
 
   // Открыть дравер
   const openDrawer = (meterTypeId: number): void => {
@@ -90,11 +92,11 @@ export const PageMeterRecord: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteMeterRecord}
       />
-      {/*<AddModalMeterType*/}
-      {/*  isOpen={isModalOpen}*/}
-      {/*  addItem={handleAddMeterRecord}*/}
-      {/*  onCancel={() => setIsModalOpen(false)}*/}
-      {/*/>*/}
+      <AddModalMeterRecord
+        isOpen={isModalOpen}
+        addItem={handleAddMeterRecord}
+        onCancel={() => setIsModalOpen(false)}
+      />
       {/*<EditDrawerMeterType*/}
       {/*  isOpen={isDrawerOpen}*/}
       {/*  selectedItemId={selectedMeterRecordId}*/}

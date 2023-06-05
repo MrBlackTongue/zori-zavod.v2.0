@@ -30,11 +30,11 @@ export const TableMeterRecord: React.FC<TableProps> = ({
       dataIndex: 'date',
       key: 'date',
       render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm')}</div>) : null),
     },
     {
       title: 'Счетчик',
-      dataIndex: 'id',
+      dataIndex: 'id', // нужно поменять на meterDto
       key: 'id',
     },
     {
