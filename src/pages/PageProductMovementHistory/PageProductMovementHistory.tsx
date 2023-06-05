@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Typography, Space, Button, Select, FloatButton} from 'antd';
+import {Typography, Space, Button, Select, FloatButton, Tooltip} from 'antd';
 import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
@@ -45,7 +45,9 @@ export const PageProductMovementHistory: React.FC = () => {
             {allStock && allStock.length > 0 ?
               allStock.map(stock => (
                 <Option key={stock.id} value={stock.id} label={`${stock.id}, ${stock.product?.title}`}>
-                  {`ID: ${stock.id}, ${stock.product?.title}`}
+                  <Tooltip placement="right" title={`ID: ${stock.id}, ${stock.product?.title}`}>
+                    {`ID: ${stock.id}, ${stock.product?.title}`}
+                  </Tooltip>
                 </Option>
               )) : null}
           </Select>

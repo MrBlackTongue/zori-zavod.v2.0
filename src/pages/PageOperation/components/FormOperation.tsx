@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Input, InputNumber, Select} from "antd";
+import {Form, Input, InputNumber, Select, Tooltip} from "antd";
 import {FormOperationProps} from "../../../types";
 
 const {Option} = Select;
@@ -40,7 +40,9 @@ export const FormOperation: React.FC<FormOperationProps> = ({
           {allUnit && allUnit.length > 0 ?
             allUnit.map(unit => (
               <Option key={unit.id} value={unit.id} label={unit.name}>
-                {unit.name}
+                <Tooltip placement="right" title={unit.name}>
+                  {unit.name}
+                </Tooltip>
               </Option>
             )) : null}
         </Select>

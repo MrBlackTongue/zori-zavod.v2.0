@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Typography, Space, Button, Select, DatePicker, FloatButton} from 'antd';
+import {Typography, Space, Button, Select, DatePicker, FloatButton, Tooltip} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
@@ -120,7 +120,9 @@ export const PageOperationAccounting: React.FC = () => {
             {allOperation && allOperation.length > 0 ?
               allOperation.map(operation => (
                 <Option key={operation.id} value={operation.id} label={operation.title}>
-                  {operation.title}
+                  <Tooltip placement="right" title={operation.title}>
+                    {operation.title}
+                  </Tooltip>
                 </Option>
               )) : null}
           </Select>
@@ -135,7 +137,9 @@ export const PageOperationAccounting: React.FC = () => {
             {allProductionType && allProductionType.length > 0 ?
               allProductionType.map(productionType => (
                 <Option key={productionType.id} value={productionType.id} label={productionType.title}>
-                  {productionType.title}
+                  <Tooltip placement="right" title={productionType.title}>
+                    {productionType.title}
+                  </Tooltip>
                 </Option>
               )) : null}
           </Select>

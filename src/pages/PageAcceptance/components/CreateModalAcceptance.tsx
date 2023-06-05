@@ -1,16 +1,16 @@
 import React from "react";
 import {CreateModalProps, TypeAcceptanceFormValue} from "../../../types";
-import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
+import {DatePicker, Form, InputNumber, Modal, Select, message, Tooltip} from "antd";
 import dayjs from "dayjs";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 
 const {Option} = Select;
 
 export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceFormValue>> = ({
-                                                                                       isOpen,
-                                                                                       createItem,
-                                                                                       onCancel,
-                                                                                     }) => {
+                                                                                             isOpen,
+                                                                                             createItem,
+                                                                                             onCancel,
+                                                                                           }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
@@ -95,7 +95,9 @@ export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceForm
             {allStock && allStock.length > 0
               ? allStock.map((stock) => (
                 <Option key={stock.id} value={stock.id} label={`${stock.product?.title}, ${stock.id}`}>
-                  {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                  <Tooltip placement="right" title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}>
+                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                  </Tooltip>
                 </Option>
               ))
               : null}
@@ -120,12 +122,16 @@ export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceForm
                   key={purchase.id}
                   value={purchase.id}
                   label={`${purchase.product?.title}, ${purchase.id}, ${purchase.date}`}
-                  title={
-                    `${dayjs(purchase.date).format('DD.MM.YYYY')} ID: 
-                    ${purchase.id} ${purchase.product?.title}`
-                  }
                 >
-                  {`${dayjs(purchase.date).format('DD.MM.YYYY')} ID: ${purchase.id} ${purchase.product?.title}`}
+                  <Tooltip
+                    placement="right"
+                    title={`
+                    ${dayjs(purchase.date).format('DD.MM.YYYY')} ID: 
+                    ${purchase.id} ${purchase.product?.title}`}
+                  >
+                    {`${dayjs(purchase.date).format('DD.MM.YYYY')} ID: 
+                       ${purchase.id} ${purchase.product?.title}`}
+                  </Tooltip>
                 </Option>
               ))
               : null}
@@ -151,7 +157,9 @@ export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceForm
                   value={productBatch.id}
                   label={`${productBatch.product?.title}, ${productBatch.id}`}
                 >
-                  {`${productBatch.product?.title}`}
+                  <Tooltip placement="right" title={`${productBatch.product?.title}`}>
+                    {`${productBatch.product?.title}`}
+                  </Tooltip>
                 </Option>
               ))
               : null}

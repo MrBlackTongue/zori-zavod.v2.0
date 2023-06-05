@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
+import {Typography, Space, Button, Input, Select, FloatButton, Tooltip} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {createNewStock, updateStock, deleteStockById} from '../../services';
@@ -99,7 +99,9 @@ export const PageStock: React.FC = () => {
                 .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
                 .map(productGroup => (
                   <Option key={productGroup.id} value={productGroup.id} label={productGroup.title}>
-                    {productGroup.title}
+                    <Tooltip placement="right" title={productGroup.title}>
+                      {productGroup.title}
+                    </Tooltip>
                   </Option>
                 )) : null}
           </Select>

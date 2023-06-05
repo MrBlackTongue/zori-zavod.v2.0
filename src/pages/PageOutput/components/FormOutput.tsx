@@ -1,5 +1,5 @@
 import React from 'react';
-import {DatePicker, Form, Select} from "antd";
+import {DatePicker, Form, Select, Tooltip} from "antd";
 import {FormOutputProps} from "../../../types";
 
 const {Option} = Select;
@@ -44,7 +44,9 @@ export const FormOutput: React.FC<FormOutputProps> = ({
           {allProduct && allProduct.length > 0 ?
             allProduct.map(product => (
               <Option key={product.id} value={product.id} label={product.title}>
-                {product.title}
+                <Tooltip placement="right" title={product.title}>
+                  {product.title}
+                </Tooltip>
               </Option>
             )) : null}
         </Select>

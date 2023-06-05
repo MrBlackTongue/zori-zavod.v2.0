@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, InputNumber, Select} from "antd";
+import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormStockProps} from "../../../types";
 
 const {Option} = Select;
@@ -34,7 +34,9 @@ export const FormStock: React.FC<FormStockProps> = ({
           {allProduct && allProduct.length > 0 ?
             allProduct.map(product => (
               <Option key={product.id} value={product.id} label={product.title}>
-                {product.title}
+                <Tooltip placement="right" title={product.title}>
+                  {product.title}
+                </Tooltip>
               </Option>
             )) : null}
         </Select>

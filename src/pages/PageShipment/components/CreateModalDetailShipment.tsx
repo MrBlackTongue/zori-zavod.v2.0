@@ -4,7 +4,7 @@ import {
   TypeStock,
   TypeShipmentProductMovementFormValue
 } from "../../../types";
-import {Form, InputNumber, message, Modal, Select} from "antd";
+import {Form, InputNumber, message, Modal, Select, Tooltip} from "antd";
 import {getAllStock} from "../../../services";
 import {useFormSelect, useFormHandler} from "../../../hooks";
 
@@ -12,10 +12,10 @@ const {Option} = Select;
 
 
 export const CreateModalDetailShipment: React.FC<CreateModalProps<TypeShipmentProductMovementFormValue>> = ({
-                                                                                                        isOpen,
-                                                                                                        createItem,
-                                                                                                        onCancel,
-                                                                                                      }) => {
+                                                                                                              isOpen,
+                                                                                                              createItem,
+                                                                                                              onCancel,
+                                                                                                            }) => {
   const [form] = Form.useForm();
 
   // Все остатки на складе
@@ -90,7 +90,9 @@ export const CreateModalDetailShipment: React.FC<CreateModalProps<TypeShipmentPr
             {allStock && allStock.length > 0
               ? allStock.map((stock) => (
                 <Option key={stock.id} value={stock.id} label={`${stock.product?.title}, ${stock.id}`}>
-                  {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                  <Tooltip placement="right" title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}>
+                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                  </Tooltip>
                 </Option>
               ))
               : null}

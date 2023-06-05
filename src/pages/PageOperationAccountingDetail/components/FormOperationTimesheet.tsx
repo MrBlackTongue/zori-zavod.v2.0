@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, InputNumber, Select} from "antd";
+import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormOperationTimesheetProps} from "../../../types";
 
 const {Option} = Select;
@@ -34,7 +34,9 @@ export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
           {allEmployee && allEmployee.length > 0 ?
             allEmployee.map(employee => (
               <Option key={employee.id} value={employee.id} label={`${employee.lastName}, ${employee.firstName}`}>
-                {`${employee.lastName} ${employee.firstName}`}
+                <Tooltip placement="right" title={`${employee.lastName} ${employee.firstName}`}>
+                  {`${employee.lastName} ${employee.firstName}`}
+                </Tooltip>
               </Option>
             )) : null}
         </Select>

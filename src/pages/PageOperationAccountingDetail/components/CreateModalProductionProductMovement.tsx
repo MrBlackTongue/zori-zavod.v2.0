@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {CreateModalProps, TypeProductionProductMovementFormValue, TypeStock} from "../../../types";
-import {Form, InputNumber, message, Modal, Select} from "antd";
+import {Form, InputNumber, message, Modal, Select, Tooltip} from "antd";
 import {getAllStock} from "../../../services";
 import {useFormSelect, useFormHandler} from "../../../hooks";
 
@@ -87,7 +87,9 @@ export const CreateModalProductionProductMovement:
             {allStock && allStock.length > 0
               ? allStock.map((stock) => (
                 <Option key={stock.id} value={stock.id} label={`${stock.product?.title}, ${stock.id}`}>
-                  {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                  <Tooltip placement="right" title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}>
+                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                  </Tooltip>
                 </Option>
               ))
               : null}

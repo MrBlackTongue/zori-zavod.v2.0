@@ -1,5 +1,5 @@
 import React from 'react';
-import {DatePicker, Form, Select} from "antd";
+import {DatePicker, Form, Select, Tooltip} from "antd";
 import {FormShipmentProps} from "../../../types";
 
 const {Option} = Select;
@@ -44,7 +44,9 @@ export const FormShipment: React.FC<FormShipmentProps> = ({
           {allClient && allClient.length > 0 ?
             allClient.map(client => (
               <Option key={client.id} value={client.id} label={client.title}>
-                {client.title}
+                <Tooltip placement="right" title={client.title}>
+                  {client.title}
+                </Tooltip>
               </Option>
             )) : null}
         </Select>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {DatePicker, Form, InputNumber, Select} from "antd";
+import {DatePicker, Form, InputNumber, Select, Tooltip} from "antd";
 import {FormOperationAccountingProps} from "../../../types";
 import dayjs from "dayjs";
 
@@ -43,7 +43,9 @@ export const FormOperationAccounting: React.FC<FormOperationAccountingProps> = (
           {allOperation && allOperation.length > 0 ?
             allOperation.map(operation => (
               <Option key={operation.id} value={operation.id} label={operation.title}>
-                {operation.title}
+                <Tooltip placement="right" title={operation.title}>
+                  {operation.title}
+                </Tooltip>
               </Option>
             )) : null}
         </Select>
@@ -67,7 +69,14 @@ export const FormOperationAccounting: React.FC<FormOperationAccountingProps> = (
                 value={output.id}
                 label={`${output?.date}, ${output?.product?.title}, ${output.id}`}
               >
-                {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product?.title}, ID: ${output.id}`}
+                <Tooltip
+                  placement="right"
+                  title={
+                    `${dayjs(output?.date).format('DD.MM.')}, ${output?.product?.title}, ID: ${output.id}`
+                  }
+                >
+                  {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product?.title}, ID: ${output.id}`}
+                </Tooltip>
               </Option>
             ))
             : null}
@@ -105,7 +114,9 @@ export const FormOperationAccounting: React.FC<FormOperationAccountingProps> = (
           {allProductionType && allProductionType.length > 0 ?
             allProductionType.map(productionType => (
               <Option key={productionType.id} value={productionType.id} label={productionType.title}>
-                {productionType.title}
+                <Tooltip placement="right" title={productionType.title}>
+                  {productionType.title}
+                </Tooltip>
               </Option>
             )) : null}
         </Select>
