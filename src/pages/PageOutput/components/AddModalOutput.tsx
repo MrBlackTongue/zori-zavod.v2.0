@@ -1,7 +1,7 @@
 import React from "react";
 import {AddModalProps, TypeOutputFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOutput} from "./FormOutput";
 
 export const AddModalOutput: React.FC<AddModalProps<TypeOutputFormValue>> = ({
@@ -12,17 +12,13 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutputFormValue>> = ({
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchData();
+  const {allProduct} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
   // Хук для управления полем product
-  const {
-    onChangeField: onChangeProduct,
-    onClearField: onClearProduct,
-    onSearchField: onSearchProduct,
-  } = useFormField(form, 'product');
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');
 
   return (
     <Modal
@@ -37,9 +33,9 @@ export const AddModalOutput: React.FC<AddModalProps<TypeOutputFormValue>> = ({
       <FormOutput
         form={form}
         allProduct={allProduct}
-        onChangeProduct={onChangeProduct}
-        onClearProduct={onClearProduct}
-        onSearchProduct={onSearchProduct}
+        onChangeProduct={onChangeSelect}
+        onClearProduct={onClearSelect}
+        onSearchProduct={onSearchSelect}
       />
     </Modal>
   )

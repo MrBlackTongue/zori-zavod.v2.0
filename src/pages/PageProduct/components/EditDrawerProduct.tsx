@@ -2,7 +2,7 @@ import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
 import {EditDrawerProps, TypeProductFormValue} from "../../../types";
 import {getProductById} from "../../../services";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormProduct} from "./FormProduct";
 
 export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProductFormValue>> = ({
@@ -14,24 +14,24 @@ export const EditDrawerProduct: React.FC<EditDrawerProps<TypeProductFormValue>> 
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit, allProductGroup} = useFetchData();
+  const {allUnit, allProductGroup} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Хук для управления полем unit
   const {
-    onChangeField: onChangeUnit,
-    onClearField: onClearUnit,
-    onSearchField: onSearchUnit,
-  } = useFormField(form, 'unit');
+    onChangeSelect: onChangeUnit,
+    onClearSelect: onClearUnit,
+    onSearchSelect: onSearchUnit,
+  } = useFormSelect(form, 'unit');
 
   // Хук для управления полем productGroup
   const {
-    onChangeField: onChangeProductGroup,
-    onClearField: onClearProductGroup,
-    onSearchField: onSearchProductGroup,
-  } = useFormField(form, 'productGroup');
+    onChangeSelect: onChangeProductGroup,
+    onClearSelect: onClearProductGroup,
+    onSearchSelect: onSearchProductGroup,
+  } = useFormSelect(form, 'productGroup');
 
   // Функция для получения данных в дравер
   const handleGetProduct = useCallback((): void => {

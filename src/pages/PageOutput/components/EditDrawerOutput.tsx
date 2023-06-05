@@ -3,7 +3,7 @@ import {Button, Drawer, Form, Space} from "antd";
 import {EditDrawerProps, TypeOutputFormValue} from "../../../types";
 import {getOutputById} from "../../../services";
 import dayjs from 'dayjs';
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOutput} from "./FormOutput";
 
 export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutputFormValue>> = ({
@@ -15,17 +15,13 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutputFormValue>> = 
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchData();
+  const {allProduct} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Хук для управления полем product
-  const {
-    onChangeField: onChangeProduct,
-    onClearField: onClearProduct,
-    onSearchField: onSearchProduct,
-  } = useFormField(form, 'product');
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');
 
   // Функция для получения данных о выпуске продукции по id и обновления формы
   const handleGetOutput = useCallback((): void => {
@@ -63,9 +59,9 @@ export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutputFormValue>> = 
       <FormOutput
         form={form}
         allProduct={allProduct}
-        onChangeProduct={onChangeProduct}
-        onClearProduct={onClearProduct}
-        onSearchProduct={onSearchProduct}
+        onChangeProduct={onChangeSelect}
+        onClearProduct={onClearSelect}
+        onSearchProduct={onSearchSelect}
       />
     </Drawer>
   )

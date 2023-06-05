@@ -3,7 +3,7 @@ import {Button, Drawer, Form, Space} from "antd";
 import {EditDrawerProps, TypeShipmentFormValue} from "../../../types";
 import {getShipmentById} from "../../../services";
 import dayjs from 'dayjs';
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormShipment} from "./FormShipment";
 
 export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipmentFormValue>> = ({
@@ -15,17 +15,13 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipmentFormValue>
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allClient} = useFetchData();
+  const {allClient} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Хук для управления полем client
-  const {
-    onChangeField: onChangeClient,
-    onClearField: onClearClient,
-    onSearchField: onSearchClient,
-  } = useFormField(form, 'client');
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'client');
 
 
   // Функция для получения данных об отгрузке по id и обновления формы
@@ -65,9 +61,9 @@ export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipmentFormValue>
       <FormShipment
         form={form}
         allClient={allClient}
-        onChangeClient={onChangeClient}
-        onClearClient={onClearClient}
-        onSearchClient={onSearchClient}
+        onChangeClient={onChangeSelect}
+        onClearClient={onClearSelect}
+        onSearchClient={onSearchSelect}
       />
     </Drawer>
   )

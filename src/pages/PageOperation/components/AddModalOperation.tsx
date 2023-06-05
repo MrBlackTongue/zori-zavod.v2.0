@@ -1,7 +1,7 @@
 import React from "react";
 import {AddModalProps, TypeOperationFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks"
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks"
 import {FormOperation} from "./FormOperation";
 
 export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> = ({
@@ -12,17 +12,13 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit} = useFetchData();
+  const {allUnit} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
   // Хук для управления полем unit
-  const {
-    onChangeField: onChangeUnit,
-    onClearField: onClearUnit,
-    onSearchField: onSearchUnit,
-  } = useFormField(form, 'unit');
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'unit');
 
   return (
     <Modal
@@ -37,9 +33,9 @@ export const AddModalOperation: React.FC<AddModalProps<TypeOperationFormValue>> 
       <FormOperation
         form={form}
         allUnit={allUnit}
-        onChangeUnit={onChangeUnit}
-        onClearUnit={onClearUnit}
-        onSearchUnit={onSearchUnit}
+        onChangeUnit={onChangeSelect}
+        onClearUnit={onClearSelect}
+        onSearchUnit={onSearchSelect}
       />
     </Modal>
   )

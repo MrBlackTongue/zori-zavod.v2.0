@@ -2,7 +2,7 @@ import React from "react";
 import {AddModalProps, TypeAcceptanceFormValue} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
 import dayjs from "dayjs";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 
 const {Option} = Select;
 
@@ -14,31 +14,31 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptanceFormValue>
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allStock, allPurchase, allProductBatch} = useFetchData();
+  const {allStock, allPurchase, allProductBatch} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
   // Хук для управления полем stock
   const {
-    onChangeField: onChangeStock,
-    onClearField: onClearStock,
-    onSearchField: onSearchStock,
-  } = useFormField(form, 'stock');
+    onChangeSelect: onChangeStock,
+    onClearSelect: onClearStock,
+    onSearchSelect: onSearchStock,
+  } = useFormSelect(form, 'stock');
 
   // Хук для управления полем purchase
   const {
-    onChangeField: onChangePurchase,
-    onClearField: onClearPurchase,
-    onSearchField: onSearchPurchase,
-  } = useFormField(form, 'purchase');
+    onChangeSelect: onChangePurchase,
+    onClearSelect: onClearPurchase,
+    onSearchSelect: onSearchPurchase,
+  } = useFormSelect(form, 'purchase');
 
   // Хук для управления полем productBatch
   const {
-    onChangeField: onChangeProductBatch,
-    onClearField: onClearProductBatch,
-    onSearchField: onSearchProductBatch,
-  } = useFormField(form, 'productBatch');
+    onChangeSelect: onChangeProductBatch,
+    onClearSelect: onClearProductBatch,
+    onSearchSelect: onSearchProductBatch,
+  } = useFormSelect(form, 'productBatch');
 
   const preSubmitValidation = (): boolean => {
     const selectedStock = form.getFieldValue('stock');

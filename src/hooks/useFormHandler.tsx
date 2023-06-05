@@ -5,6 +5,8 @@ export const useFormHandler = <T, >(
   onSubmit: (values: T) => void,
   onReset: () => void,
 ) => {
+
+  // Функция для отправки формы
   const handleSubmit = (): void => {
     form
       .validateFields()
@@ -17,6 +19,7 @@ export const useFormHandler = <T, >(
       });
   };
 
+  // Функция для сброса формы
   const handleReset = (): void => {
     onReset()
     form.resetFields();

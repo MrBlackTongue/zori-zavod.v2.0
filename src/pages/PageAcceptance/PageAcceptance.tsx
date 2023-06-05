@@ -7,7 +7,7 @@ import {TypeAcceptance, TypeAcceptanceFormValue} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
 import {AddModalAcceptance} from "./components/AddModalAcceptance";
 import dayjs from "dayjs";
-import {useFetchData} from "../../hooks";
+import {useFetchAllData} from "../../hooks";
 
 const {Title} = Typography;
 
@@ -19,7 +19,7 @@ export const PageAcceptance: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Хук для получения данных
-  const {allStock, allPurchase} = useFetchData();
+  const {allStock, allPurchase} = useFetchAllData();
 
   // Создать новую приемку товаров
   const handleAddAcceptance = (values: TypeAcceptanceFormValue): void => {

@@ -1,7 +1,7 @@
 import React from "react";
 import {AddModalProps, TypeOperationAccountingFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperationAccounting} from "./FormOperationAccounting";
 
 export const AddModalOperationAccounting:
@@ -13,31 +13,31 @@ export const AddModalOperationAccounting:
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allOperation, allProductionType, allOutput} = useFetchData();
+  const {allOperation, allProductionType, allOutput} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
   // Хук для управления полем operation
   const {
-    onChangeField: onChangeOperation,
-    onClearField: onClearOperation,
-    onSearchField: onSearchOperation,
-  } = useFormField(form, 'operation');
+    onChangeSelect: onChangeOperation,
+    onClearSelect: onClearOperation,
+    onSearchSelect: onSearchOperation,
+  } = useFormSelect(form, 'operation');
 
   // Хук для управления полем output
   const {
-    onChangeField: onChangeOutput,
-    onClearField: onClearOutput,
-    onSearchField: onSearchOutput,
-  } = useFormField(form, 'output');
+    onChangeSelect: onChangeOutput,
+    onClearSelect: onClearOutput,
+    onSearchSelect: onSearchOutput,
+  } = useFormSelect(form, 'output');
 
   // Хук для управления полем productionType
   const {
-    onChangeField: onChangeProductionType,
-    onClearField: onClearProductionType,
-    onSearchField: onSearchProductionType,
-  } = useFormField(form, 'productionType');
+    onChangeSelect: onChangeProductionType,
+    onClearSelect: onClearProductionType,
+    onSearchSelect: onSearchProductionType,
+  } = useFormSelect(form, 'productionType');
 
   return (
     <Modal

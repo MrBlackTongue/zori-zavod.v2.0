@@ -3,7 +3,7 @@ import {Button, Drawer, Form, Space} from "antd";
 import {EditDrawerProps, TypeOperationAccountingFormValue} from "../../../types";
 import {getOperationAccountingById} from "../../../services";
 import dayjs from "dayjs";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperationAccounting} from "./FormOperationAccounting";
 
 export const EditDrawerOperationAccounting:
@@ -16,31 +16,31 @@ export const EditDrawerOperationAccounting:
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allOperation, allProductionType, allOutput} = useFetchData();
+  const {allOperation, allProductionType, allOutput} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Хук для управления полем operation
   const {
-    onChangeField: onChangeOperation,
-    onClearField: onClearOperation,
-    onSearchField: onSearchOperation,
-  } = useFormField(form, 'operation');
+    onChangeSelect: onChangeOperation,
+    onClearSelect: onClearOperation,
+    onSearchSelect: onSearchOperation,
+  } = useFormSelect(form, 'operation');
 
   // Хук для управления полем output
   const {
-    onChangeField: onChangeOutput,
-    onClearField: onClearOutput,
-    onSearchField: onSearchOutput,
-  } = useFormField(form, 'output');
+    onChangeSelect: onChangeOutput,
+    onClearSelect: onClearOutput,
+    onSearchSelect: onSearchOutput,
+  } = useFormSelect(form, 'output');
 
   // Хук для управления полем productionType
   const {
-    onChangeField: onChangeProductionType,
-    onClearField: onClearProductionType,
-    onSearchField: onSearchProductionType,
-  } = useFormField(form, 'productionType');
+    onChangeSelect: onChangeProductionType,
+    onClearSelect: onClearProductionType,
+    onSearchSelect: onSearchProductionType,
+  } = useFormSelect(form, 'productionType');
 
   // Функция для получения данных в дравер
   const handleGetOperationAccounting = useCallback((): void => {

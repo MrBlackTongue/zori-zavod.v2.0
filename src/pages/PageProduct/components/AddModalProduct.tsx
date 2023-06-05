@@ -1,7 +1,7 @@
 import React from "react";
 import {AddModalProps, TypeProductFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormProduct} from "./FormProduct";
 
 export const AddModalProduct: React.FC<AddModalProps<TypeProductFormValue>> = ({
@@ -12,24 +12,24 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProductFormValue>> = ({
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit, allProductGroup} = useFetchData();
+  const {allUnit, allProductGroup} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
 
   // Хук для управления полем unit
   const {
-    onChangeField: onChangeUnit,
-    onClearField: onClearUnit,
-    onSearchField: onSearchUnit,
-  } = useFormField(form, 'unit');
+    onChangeSelect: onChangeUnit,
+    onClearSelect: onClearUnit,
+    onSearchSelect: onSearchUnit,
+  } = useFormSelect(form, 'unit');
 
   // Хук для управления полем productGroup
   const {
-    onChangeField: onChangeProductGroup,
-    onClearField: onClearProductGroup,
-    onSearchField: onSearchProductGroup,
-  } = useFormField(form, 'productGroup');
+    onChangeSelect: onChangeProductGroup,
+    onClearSelect: onClearProductGroup,
+    onSearchSelect: onSearchProductGroup,
+  } = useFormSelect(form, 'productGroup');
 
   return (
     <Modal

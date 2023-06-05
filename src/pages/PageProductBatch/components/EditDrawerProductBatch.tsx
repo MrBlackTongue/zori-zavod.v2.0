@@ -2,7 +2,7 @@ import React, {useEffect, useCallback} from "react";
 import {Form, Drawer, Space, Button} from "antd";
 import {EditDrawerProps, TypeProductBatchFormValue} from "../../../types";
 import {getProductBatchById} from "../../../services";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormProductBatch} from "./FormProductBatch";
 
 export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatchFormValue>> = ({
@@ -14,17 +14,13 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatchFo
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchData();
+  const {allProduct} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Хук для управления полем product
-  const {
-    onChangeField: onChangeProduct,
-    onClearField: onClearProduct,
-    onSearchField: onSearchProduct,
-  } = useFormField(form, 'product');
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');
 
   // Функция для получения данных в дравер
   const handleGetProductBatch = useCallback((): void => {
@@ -62,9 +58,9 @@ export const EditDrawerProductBatch: React.FC<EditDrawerProps<TypeProductBatchFo
       <FormProductBatch
         form={form}
         allProduct={allProduct}
-        onChangeProduct={onChangeProduct}
-        onClearProduct={onClearProduct}
-        onSearchProduct={onSearchProduct}
+        onChangeProduct={onChangeSelect}
+        onClearProduct={onClearSelect}
+        onSearchProduct={onSearchSelect}
       />
     </Drawer>
   )

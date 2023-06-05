@@ -3,7 +3,7 @@ import {Typography, Space, Button, Select, FloatButton} from 'antd';
 import {SyncOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
-import {useFetchData} from "../../hooks";
+import {useFetchAllData} from "../../hooks";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -14,7 +14,7 @@ export const PageProductMovementHistory: React.FC = () => {
   const [isTableUpdate, setIsTableUpdate] = useState(false);
 
   // Хук для получения данных
-  const {allStock} = useFetchData();
+  const {allStock} = useFetchAllData();
 
   // id выбранного остатка на складе
   const [selectedStockId, setSelectedStockId] = useState<number>();

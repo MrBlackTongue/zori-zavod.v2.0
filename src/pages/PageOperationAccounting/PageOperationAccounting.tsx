@@ -15,7 +15,7 @@ import {TableOperationAccounting} from "./components/TableOperationAccounting";
 import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
 import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
 import dayjs from "dayjs";
-import {useFetchData} from "../../hooks";
+import {useFetchAllData} from "../../hooks";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -32,7 +32,7 @@ export const PageOperationAccounting: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<any>();
 
   // Хук для получения данных
-  const {allOperation, allProductionType} = useFetchData();
+  const {allOperation, allProductionType} = useFetchAllData();
 
   // id выбранной операции, id выбранного типа производства
   const [selectedOperationId, setSelectedOperationId] = useState<number>();

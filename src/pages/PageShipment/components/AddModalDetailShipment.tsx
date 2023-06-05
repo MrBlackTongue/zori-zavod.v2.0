@@ -6,7 +6,7 @@ import {
 } from "../../../types";
 import {Form, InputNumber, message, Modal, Select} from "antd";
 import {getAllStock} from "../../../services";
-import {useFormField, useFormHandler} from "../../../hooks";
+import {useFormSelect, useFormHandler} from "../../../hooks";
 
 const {Option} = Select;
 
@@ -26,10 +26,10 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
 
   // Хук для управления полем stock
   const {
-    onChangeField: onChangeStock,
-    onClearField: onClearStock,
-    onSearchField: onSearchStock,
-  } = useFormField(form, 'stock');
+    onChangeSelect: onChangeStock,
+    onClearSelect: onClearStock,
+    onSearchSelect: onSearchStock,
+  } = useFormSelect(form, 'stock');
 
   // Проверка ввода количества перед отправкой
   const preSubmitValidation = (): boolean => {

@@ -2,7 +2,7 @@ import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
 import {EditDrawerProps, TypeOperationFormValue} from "../../../types";
 import {getOperationById} from "../../../services";
-import {useFetchData, useFormField, useFormHandler} from "../../../hooks"
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks"
 import {FormOperation} from "./FormOperation";
 
 export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValue>> = ({
@@ -14,17 +14,13 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValu
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit} = useFetchData();
+  const {allUnit} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Хук для управления полем unit
-  const {
-    onChangeField: onChangeUnit,
-    onClearField: onClearUnit,
-    onSearchField: onSearchUnit
-  } = useFormField(form, 'unit');
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'unit');
 
   // Функция для получения данных в дравер
   const handleGetOperation = useCallback((): void => {
@@ -62,9 +58,9 @@ export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValu
       <FormOperation
         form={form}
         allUnit={allUnit}
-        onChangeUnit={onChangeUnit}
-        onClearUnit={onClearUnit}
-        onSearchUnit={onSearchUnit}
+        onChangeUnit={onChangeSelect}
+        onClearUnit={onClearSelect}
+        onSearchUnit={onSearchSelect}
       />
     </Drawer>
   )

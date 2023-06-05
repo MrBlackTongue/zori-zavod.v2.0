@@ -7,7 +7,7 @@ import {TypeStock, TypeStockFormValue} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {AddModalStock} from "./components/AddModalStock";
 import {EditDrawerStock} from "./components/EditDrawerStock";
-import {useFetchData} from "../../hooks";
+import {useFetchAllData} from "../../hooks";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -20,7 +20,7 @@ export const PageStock: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Хук для получения данных
-  const {allProductGroup} = useFetchData();
+  const {allProductGroup} = useFetchAllData();
 
   // id выбранной группы товаров
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
