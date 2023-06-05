@@ -2,8 +2,6 @@ import React from 'react';
 import {Form, Input, InputNumber, Select, Tooltip} from "antd";
 import {FormTypeMeterTypeProps} from "../../../types";
 
-const {Option} = Select;
-
 export const FormOperation: React.FC<FormTypeMeterTypeProps> = ({
                                                                   form,
                                                                   allUnit,
@@ -11,6 +9,8 @@ export const FormOperation: React.FC<FormTypeMeterTypeProps> = ({
                                                                   onClearUnit,
                                                                   onSearchUnit
                                                                 }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

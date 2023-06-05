@@ -5,10 +5,10 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks"
 import {FormOperation} from "./FormOperation";
 
 export const CreateModalOperation: React.FC<CreateModalProps<TypeOperationFormValue>> = ({
-                                                                                     isOpen,
-                                                                                     createItem,
-                                                                                     onCancel,
-                                                                                   }) => {
+                                                                                           isOpen,
+                                                                                           createItem,
+                                                                                           onCancel,
+                                                                                         }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

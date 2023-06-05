@@ -5,10 +5,10 @@ import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
 import {useFetchAllData} from "../../hooks";
 
-const {Title} = Typography;
-const {Option} = Select;
-
 export const PageProductMovementHistory: React.FC = () => {
+
+  const {Title} = Typography;
+  const {Option} = Select;
 
   // Обновление таблицы
   const [isTableUpdate, setIsTableUpdate] = useState(false);

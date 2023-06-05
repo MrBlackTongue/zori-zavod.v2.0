@@ -8,9 +8,9 @@ import {TableMeterType} from "./components/TableMeterType";
 import {CreateModalMeterType} from "./components/CreateModalMeterType";
 import {UpdateDrawerMeterType} from "./components/UpdateDrawerMeterType";
 
-const {Title} = Typography;
-
 export const PageMeterType: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

@@ -6,11 +6,11 @@ import {useFormHandler} from "../../../hooks";
 import {FormClient} from "./FormClient";
 
 export const UpdateDrawerClient: React.FC<UpdateDrawerProps<TypeClientFormValue>> = ({
-                                                                                   isOpen,
-                                                                                   selectedItemId,
-                                                                                   onCancel,
-                                                                                   updateItem,
-                                                                                 }) => {
+                                                                                       isOpen,
+                                                                                       selectedItemId,
+                                                                                       onCancel,
+                                                                                       updateItem,
+                                                                                     }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода

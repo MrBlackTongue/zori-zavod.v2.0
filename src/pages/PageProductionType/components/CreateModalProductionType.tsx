@@ -5,10 +5,10 @@ import {useFormHandler} from "../../../hooks";
 import {FormProductionType} from "./FormProductionType";
 
 export const CreateModalProductionType: React.FC<CreateModalProps<TypeProductionTypeFormValue>> = ({
-                                                                                               isOpen,
-                                                                                               createItem,
-                                                                                               onCancel,
-                                                                                             }) => {
+                                                                                                     isOpen,
+                                                                                                     createItem,
+                                                                                                     onCancel,
+                                                                                                   }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода

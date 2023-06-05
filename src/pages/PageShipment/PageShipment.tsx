@@ -10,9 +10,9 @@ import {UpdateDrawerShipment} from "./components/UpdateDrawerShipment";
 import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
 import dayjs from "dayjs";
 
-const {Title} = Typography;
-
 export const PageShipment: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы
   const [isTableUpdate, setIsTableUpdate] = useState(false);

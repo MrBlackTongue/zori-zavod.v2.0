@@ -2,8 +2,6 @@ import React from 'react';
 import {DatePicker, Form, Select, Tooltip} from "antd";
 import {FormOutputProps} from "../../../types";
 
-const {Option} = Select;
-
 export const FormOutput: React.FC<FormOutputProps> = ({
                                                         form,
                                                         allProduct,
@@ -11,6 +9,8 @@ export const FormOutput: React.FC<FormOutputProps> = ({
                                                         onClearProduct,
                                                         onSearchProduct,
                                                       }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

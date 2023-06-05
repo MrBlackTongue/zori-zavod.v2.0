@@ -5,10 +5,10 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperationTimesheet} from "./FormOperationTimesheet";
 
 export const CreateModalOperationTimesheet: React.FC<CreateModalProps<TypeOperationTimesheetFormValue>> = ({
-                                                                                                       isOpen,
-                                                                                                       createItem,
-                                                                                                       onCancel,
-                                                                                                     }) => {
+                                                                                                             isOpen,
+                                                                                                             createItem,
+                                                                                                             onCancel,
+                                                                                                           }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

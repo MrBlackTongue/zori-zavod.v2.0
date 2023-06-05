@@ -15,7 +15,6 @@ import {
 } from "../../../services";
 import {CreateModalDetailShipment} from "./CreateModalDetailShipment";
 
-
 export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = ({
                                                                                   isOpen,
                                                                                   onCancel,

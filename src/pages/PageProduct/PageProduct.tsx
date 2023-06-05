@@ -8,9 +8,9 @@ import {TableProduct} from "./components/TableProduct";
 import {CreateModalProduct} from "./components/CreateModalProduct";
 import {UpdateDrawerProduct} from "./components/UpdateDrawerProduct";
 
-const {Title} = Typography;
-
 export const PageProduct: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

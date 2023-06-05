@@ -7,11 +7,11 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormPurchase} from "./FormPurchase";
 
 export const UpdateDrawerPurchase: React.FC<UpdateDrawerProps<TypePurchaseFormValue>> = ({
-                                                                                       isOpen,
-                                                                                       selectedItemId,
-                                                                                       onCancel,
-                                                                                       updateItem,
-                                                                                     }) => {
+                                                                                           isOpen,
+                                                                                           selectedItemId,
+                                                                                           onCancel,
+                                                                                           updateItem,
+                                                                                         }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

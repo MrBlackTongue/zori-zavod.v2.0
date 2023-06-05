@@ -2,8 +2,6 @@ import React from 'react';
 import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormOperationTimesheetProps} from "../../../types";
 
-const {Option} = Select;
-
 export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
                                                                                 form,
                                                                                 allEmployee,
@@ -11,6 +9,8 @@ export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
                                                                                 onClearEmployee,
                                                                                 onSearchEmployee,
                                                                               }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

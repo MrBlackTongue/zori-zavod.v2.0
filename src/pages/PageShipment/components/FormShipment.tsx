@@ -2,8 +2,6 @@ import React from 'react';
 import {DatePicker, Form, Select, Tooltip} from "antd";
 import {FormShipmentProps} from "../../../types";
 
-const {Option} = Select;
-
 export const FormShipment: React.FC<FormShipmentProps> = ({
                                                             form,
                                                             allClient,
@@ -11,6 +9,8 @@ export const FormShipment: React.FC<FormShipmentProps> = ({
                                                             onClearClient,
                                                             onSearchClient,
                                                           }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

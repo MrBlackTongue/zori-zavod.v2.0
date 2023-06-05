@@ -9,9 +9,9 @@ import {CreateModalPurchase} from "./components/CreateModalPurchase";
 import {UpdateDrawerPurchase} from "./components/UpdateDrawerPurchase";
 import dayjs from "dayjs";
 
-const {Title} = Typography;
-
 export const PagePurchase: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

@@ -8,9 +8,9 @@ import {TableOperation} from "./components/TableOperation";
 import {CreateModalOperation} from "./components/CreateModalOperation";
 import {UpdateDrawerOperation} from "./components/UpdateDrawerOperation";
 
-const {Title} = Typography;
-
 export const PageOperation: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

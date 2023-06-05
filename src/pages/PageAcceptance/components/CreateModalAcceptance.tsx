@@ -4,13 +4,12 @@ import {DatePicker, Form, InputNumber, Modal, Select, message, Tooltip} from "an
 import dayjs from "dayjs";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 
-const {Option} = Select;
-
 export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceFormValue>> = ({
                                                                                              isOpen,
                                                                                              createItem,
                                                                                              onCancel,
                                                                                            }) => {
+  const {Option} = Select;
   const [form] = Form.useForm();
 
   // Хук для получения данных

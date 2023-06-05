@@ -5,10 +5,10 @@ import {useFormHandler} from "../../../hooks";
 import {FormEmployee} from "./FormEmployee";
 
 export const CreateModalEmployee: React.FC<CreateModalProps<TypeEmployeeFormValue>> = ({
-                                                                                   isOpen,
-                                                                                   createItem,
-                                                                                   onCancel,
-                                                                                 }) => {
+                                                                                         isOpen,
+                                                                                         createItem,
+                                                                                         onCancel,
+                                                                                       }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода

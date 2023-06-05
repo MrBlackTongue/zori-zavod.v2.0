@@ -5,10 +5,10 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOutput} from "./FormOutput";
 
 export const CreateModalOutput: React.FC<CreateModalProps<TypeOutputFormValue>> = ({
-                                                                               isOpen,
-                                                                               createItem,
-                                                                               onCancel,
-                                                                             }) => {
+                                                                                     isOpen,
+                                                                                     createItem,
+                                                                                     onCancel,
+                                                                                   }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

@@ -2,8 +2,6 @@ import React from 'react';
 import {Form, Input, Select, Tooltip} from "antd";
 import {FormProductProps} from "../../../types";
 
-const {Option} = Select;
-
 export const FormProduct: React.FC<FormProductProps> = ({
                                                           form,
                                                           allUnit,
@@ -15,6 +13,8 @@ export const FormProduct: React.FC<FormProductProps> = ({
                                                           onClearProductGroup,
                                                           onSearchProductGroup,
                                                         }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

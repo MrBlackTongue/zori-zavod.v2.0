@@ -12,9 +12,9 @@ import {TableProductionType} from "./components/TableProductionType";
 import {CreateModalProductionType} from "./components/CreateModalProductionType";
 import {UpdateDrawerProductionType} from "./components/UpdateDrawerProductionType";
 
-const {Title} = Typography;
-
 export const PageProductionType: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

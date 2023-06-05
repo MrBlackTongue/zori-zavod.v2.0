@@ -6,11 +6,11 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks"
 import {FormOperation} from "./FormOperation";
 
 export const UpdateDrawerOperation: React.FC<UpdateDrawerProps<TypeOperationFormValue>> = ({
-                                                                                         isOpen,
-                                                                                         selectedItemId,
-                                                                                         onCancel,
-                                                                                         updateItem,
-                                                                                       }) => {
+                                                                                             isOpen,
+                                                                                             selectedItemId,
+                                                                                             onCancel,
+                                                                                             updateItem,
+                                                                                           }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

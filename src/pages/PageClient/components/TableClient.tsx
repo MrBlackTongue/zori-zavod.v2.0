@@ -76,7 +76,7 @@ export const TableClient: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllClient().then((allClient) => {
-      setAllClient(allClient.map((item, index) => ({ ...item, key: index })));
+      setAllClient(allClient.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])

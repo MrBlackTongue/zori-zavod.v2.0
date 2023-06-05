@@ -114,7 +114,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptance().then((allAcceptance) => {
-      setAllAcceptance(allAcceptance.map((item, index) => ({ ...item, key: index })));
+      setAllAcceptance(allAcceptance.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -123,7 +123,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
-      setAllAcceptance(allAcceptance.map((item, index) => ({ ...item, key: index })));
+      setAllAcceptance(allAcceptance.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [searchText])

@@ -6,11 +6,11 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormProductBatch} from "./FormProductBatch";
 
 export const UpdateDrawerProductBatch: React.FC<UpdateDrawerProps<TypeProductBatchFormValue>> = ({
-                                                                                               isOpen,
-                                                                                               selectedItemId,
-                                                                                               onCancel,
-                                                                                               updateItem,
-                                                                                             }) => {
+                                                                                                   isOpen,
+                                                                                                   selectedItemId,
+                                                                                                   onCancel,
+                                                                                                   updateItem,
+                                                                                                 }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

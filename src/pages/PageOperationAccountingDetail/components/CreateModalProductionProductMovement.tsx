@@ -4,8 +4,6 @@ import {Form, InputNumber, message, Modal, Select, Tooltip} from "antd";
 import {getAllStock} from "../../../services";
 import {useFormSelect, useFormHandler} from "../../../hooks";
 
-const {Option} = Select;
-
 export const CreateModalProductionProductMovement:
   React.FC<CreateModalProps<TypeProductionProductMovementFormValue>> = ({
                                                                           isOpen,
@@ -13,6 +11,7 @@ export const CreateModalProductionProductMovement:
                                                                           onCancel,
                                                                         }) => {
   const [form] = Form.useForm();
+  const {Option} = Select;
 
   // Все остатки на складе
   const [allStock, setAllStock] = useState<TypeStock[]>([]);

@@ -6,11 +6,11 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperation} from "./FormMeterType";
 
 export const UpdateDrawerMeterType: React.FC<UpdateDrawerProps<TypeMeterTypeFormValue>> = ({
-                                                                                         isOpen,
-                                                                                         selectedItemId,
-                                                                                         onCancel,
-                                                                                         updateItem,
-                                                                                       }) => {
+                                                                                             isOpen,
+                                                                                             selectedItemId,
+                                                                                             onCancel,
+                                                                                             updateItem,
+                                                                                           }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

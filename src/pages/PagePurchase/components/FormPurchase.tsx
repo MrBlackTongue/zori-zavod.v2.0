@@ -2,8 +2,6 @@ import React from 'react';
 import {Checkbox, DatePicker, Form, InputNumber, Select, Tooltip} from "antd";
 import {FormPurchaseProps} from "../../../types";
 
-const {Option} = Select;
-
 export const FormPurchase: React.FC<FormPurchaseProps> = ({
                                                             form,
                                                             allProduct,
@@ -11,6 +9,8 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
                                                             onClearProduct,
                                                             onSearchProduct,
                                                           }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

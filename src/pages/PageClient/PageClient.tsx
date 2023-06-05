@@ -8,9 +8,9 @@ import {TableClient} from "./components/TableClient";
 import {CreateModalClient} from "./components/CreateModalClient";
 import {UpdateDrawerClient} from "./components/UpdateDrawerClient";
 
-const {Title} = Typography;
-
 export const PageClient: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

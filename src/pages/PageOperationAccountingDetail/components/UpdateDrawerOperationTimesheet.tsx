@@ -7,11 +7,11 @@ import {FormOperationTimesheet} from "./FormOperationTimesheet";
 
 export const UpdateDrawerOperationTimesheet:
   React.FC<UpdateDrawerProps<TypeOperationTimesheetFormValue>> = ({
-                                                                  isOpen,
-                                                                  selectedItemId,
-                                                                  onCancel,
-                                                                  updateItem,
-                                                                }) => {
+                                                                    isOpen,
+                                                                    selectedItemId,
+                                                                    onCancel,
+                                                                    updateItem,
+                                                                  }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

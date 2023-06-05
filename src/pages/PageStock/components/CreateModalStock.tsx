@@ -5,10 +5,10 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormStock} from "./FormStock";
 
 export const CreateModalStock: React.FC<CreateModalProps<TypeStockFormValue>> = ({
-                                                                             isOpen,
-                                                                             createItem,
-                                                                             onCancel,
-                                                                           }) => {
+                                                                                   isOpen,
+                                                                                   createItem,
+                                                                                   onCancel,
+                                                                                 }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

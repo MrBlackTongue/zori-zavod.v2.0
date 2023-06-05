@@ -9,9 +9,9 @@ import {CreateModalAcceptance} from "./components/CreateModalAcceptance";
 import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
 
-const {Title} = Typography;
-
 export const PageAcceptance: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновить таблицу, Открыть закрыть модальное окно, текст поиска
   const [isTableUpdate, setIsTableUpdate] = useState(false);

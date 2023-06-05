@@ -127,7 +127,7 @@ export const TableProduct: React.FC<TableProps> = ({
     } else {
       handleUpdateTable();
     }
-  }, [searchText, isUpdateTable,handleUpdateTable, handleSearchTable]);
+  }, [searchText, isUpdateTable, handleUpdateTable, handleSearchTable]);
 
   return (
     <Table

@@ -8,9 +8,9 @@ import {TableUnit} from "./components/TableUnit";
 import {CreateModalUnit} from "./components/CreateModalUnit";
 import {UpdateDrawerUnit} from "./components/UpdateDrawerUnit";
 
-const {Title} = Typography;
-
 export const PageUnit: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

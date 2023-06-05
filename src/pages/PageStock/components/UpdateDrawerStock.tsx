@@ -6,11 +6,11 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormStock} from "./FormStock";
 
 export const UpdateDrawerStock: React.FC<UpdateDrawerProps<TypeStockFormValue>> = ({
-                                                                                 isOpen,
-                                                                                 selectedItemId,
-                                                                                 onCancel,
-                                                                                 updateItem,
-                                                                               }) => {
+                                                                                     isOpen,
+                                                                                     selectedItemId,
+                                                                                     onCancel,
+                                                                                     updateItem,
+                                                                                   }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

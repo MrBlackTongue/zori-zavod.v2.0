@@ -3,8 +3,6 @@ import {DatePicker, Form, InputNumber, Select, Tooltip} from "antd";
 import {FormOperationAccountingProps} from "../../../types";
 import dayjs from "dayjs";
 
-const {Option} = Select;
-
 export const FormOperationAccounting: React.FC<FormOperationAccountingProps> = ({
                                                                                   form,
                                                                                   allOperation,
@@ -20,6 +18,8 @@ export const FormOperationAccounting: React.FC<FormOperationAccountingProps> = (
                                                                                   onClearProductionType,
                                                                                   onSearchProductionType,
                                                                                 }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

@@ -9,10 +9,10 @@ import {CreateModalStock} from "./components/CreateModalStock";
 import {UpdateDrawerStock} from "./components/UpdateDrawerStock";
 import {useFetchAllData} from "../../hooks";
 
-const {Title} = Typography;
-const {Option} = Select;
-
 export const PageStock: React.FC = () => {
+
+  const {Title} = Typography;
+  const {Option} = Select;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

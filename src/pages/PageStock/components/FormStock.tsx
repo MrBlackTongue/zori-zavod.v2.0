@@ -2,8 +2,6 @@ import React from 'react';
 import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormStockProps} from "../../../types";
 
-const {Option} = Select;
-
 export const FormStock: React.FC<FormStockProps> = ({
                                                       form,
                                                       allProduct,
@@ -11,6 +9,8 @@ export const FormStock: React.FC<FormStockProps> = ({
                                                       onClearProduct,
                                                       onSearchProduct,
                                                     }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

@@ -5,10 +5,10 @@ import {useFormHandler} from "../../../hooks";
 import {FormUnit} from "./FormUnit";
 
 export const CreateModalUnit: React.FC<CreateModalProps<TypeUnitFormValue>> = ({
-                                                                           isOpen,
-                                                                           createItem,
-                                                                           onCancel,
-                                                                         }) => {
+                                                                                 isOpen,
+                                                                                 createItem,
+                                                                                 onCancel,
+                                                                               }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода

@@ -7,11 +7,11 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOutput} from "./FormOutput";
 
 export const UpdateDrawerOutput: React.FC<UpdateDrawerProps<TypeOutputFormValue>> = ({
-                                                                                   isOpen,
-                                                                                   selectedItemId,
-                                                                                   onCancel,
-                                                                                   updateItem,
-                                                                                 }) => {
+                                                                                       isOpen,
+                                                                                       selectedItemId,
+                                                                                       onCancel,
+                                                                                       updateItem,
+                                                                                     }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

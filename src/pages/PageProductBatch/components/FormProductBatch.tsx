@@ -2,8 +2,6 @@ import React from 'react';
 import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormProductBatchProps} from "../../../types";
 
-const {Option} = Select;
-
 export const FormProductBatch: React.FC<FormProductBatchProps> = ({
                                                                     form,
                                                                     allProduct,
@@ -11,6 +9,8 @@ export const FormProductBatch: React.FC<FormProductBatchProps> = ({
                                                                     onClearProduct,
                                                                     onSearchProduct,
                                                                   }) => {
+  const {Option} = Select;
+
   return (
     <Form
       form={form}

@@ -12,9 +12,10 @@ import {TableProductBatch} from "./components/TableProductBatch";
 import {CreateModalProductBatch} from "./components/CreateModalProductBatch";
 import {UpdateDrawerProductBatch} from "./components/UpdateDrawerProductBatch";
 
-const {Title} = Typography;
 
 export const PageProductBatch: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

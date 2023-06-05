@@ -8,11 +8,11 @@ import {FormOperationAccounting} from "./FormOperationAccounting";
 
 export const UpdateDrawerOperationAccounting:
   React.FC<UpdateDrawerProps<TypeOperationAccountingFormValue>> = ({
-                                                                   isOpen,
-                                                                   selectedItemId,
-                                                                   onCancel,
-                                                                   updateItem,
-                                                                 }) => {
+                                                                     isOpen,
+                                                                     selectedItemId,
+                                                                     onCancel,
+                                                                     updateItem,
+                                                                   }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

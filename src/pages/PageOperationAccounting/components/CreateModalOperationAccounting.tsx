@@ -6,10 +6,10 @@ import {FormOperationAccounting} from "./FormOperationAccounting";
 
 export const CreateModalOperationAccounting:
   React.FC<CreateModalProps<TypeOperationAccountingFormValue>> = ({
-                                                                 isOpen,
-                                                                 createItem,
-                                                                 onCancel,
-                                                               }) => {
+                                                                    isOpen,
+                                                                    createItem,
+                                                                    onCancel,
+                                                                  }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

@@ -5,10 +5,10 @@ import {useFormHandler} from "../../../hooks";
 import {FormClient} from "./FormClient";
 
 export const CreateModalClient: React.FC<CreateModalProps<TypeClientFormValue>> = ({
-                                                                               isOpen,
-                                                                               createItem,
-                                                                               onCancel,
-                                                                             }) => {
+                                                                                     isOpen,
+                                                                                     createItem,
+                                                                                     onCancel,
+                                                                                   }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода

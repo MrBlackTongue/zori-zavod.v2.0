@@ -8,9 +8,9 @@ import {TableEmployee} from "./components/TableEmployee";
 import {CreateModalEmployee} from "./components/CreateModalEmployee";
 import {UpdateDrawerEmployee} from "./components/UpdateDrawerEmployee";
 
-const {Title} = Typography;
-
 export const PageEmployee: React.FC = () => {
+
+  const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
   const [isTableUpdate, setIsTableUpdate] = useState(false);

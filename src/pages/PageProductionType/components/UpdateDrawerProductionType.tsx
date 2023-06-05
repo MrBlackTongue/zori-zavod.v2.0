@@ -6,11 +6,11 @@ import {FormProductionType} from "./FormProductionType";
 import {useFormHandler} from "../../../hooks";
 
 export const UpdateDrawerProductionType: React.FC<UpdateDrawerProps<TypeProductionTypeFormValue>> = ({
-                                                                                                   isOpen,
-                                                                                                   selectedItemId,
-                                                                                                   onCancel,
-                                                                                                   updateItem,
-                                                                                                 }) => {
+                                                                                                       isOpen,
+                                                                                                       selectedItemId,
+                                                                                                       onCancel,
+                                                                                                       updateItem,
+                                                                                                     }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода

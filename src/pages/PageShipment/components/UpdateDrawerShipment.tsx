@@ -7,11 +7,11 @@ import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormShipment} from "./FormShipment";
 
 export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormValue>> = ({
-                                                                                       isOpen,
-                                                                                       selectedItemId,
-                                                                                       onCancel,
-                                                                                       updateItem,
-                                                                                     }) => {
+                                                                                           isOpen,
+                                                                                           selectedItemId,
+                                                                                           onCancel,
+                                                                                           updateItem,
+                                                                                         }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных

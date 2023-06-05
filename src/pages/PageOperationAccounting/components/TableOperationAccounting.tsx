@@ -205,7 +205,7 @@ export const TableOperationAccounting:
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllOperationAccounting().then((allOperationAccounting) => {
-      setAllOperationAccounting(allOperationAccounting.map((item, index) => ({ ...item, key: index })));
+      setAllOperationAccounting(allOperationAccounting.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -219,7 +219,7 @@ export const TableOperationAccounting:
         operationId: filter.operationId || undefined,
         productionTypeId: filter.productionTypeId || undefined,
       }).then((allOperationAccounting) => {
-        setAllOperationAccounting(allOperationAccounting.map((item, index) => ({ ...item, key: index })));
+        setAllOperationAccounting(allOperationAccounting.map((item, index) => ({...item, key: index})));
         setIsLoading(false);
       });
     }
