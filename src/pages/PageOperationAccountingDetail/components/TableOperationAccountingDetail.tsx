@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
 import {getOperationAccountingById} from "../../../services";
-import {TableProps, TypeOperationAccounting, TypeOperationTimesheet} from "../../../types";
+import {TableProps, TypeOperationAccounting, TypeOperationTimesheet, TypeUnit} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo(({
@@ -44,10 +44,8 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
       title: 'Ед. изм.',
       dataIndex: ['operation', 'unit', 'name'],
       key: 'unit',
-      render: (unitName: string, record: TypeOperationAccounting) =>
-        record.operation?.unit ? (
-          <div key={record.operation?.unit.id}>{record.operation?.unit.name}</div>
-        ) : null,
+      render: (unit: TypeUnit) =>
+        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null,
     },
     {
       title: 'Факт',

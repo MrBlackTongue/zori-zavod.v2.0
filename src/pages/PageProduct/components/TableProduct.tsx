@@ -4,7 +4,7 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
-import {TableProps, TypeProduct, TableParam} from "../../../types";
+import {TableProps, TypeProduct, TableParam, TypeUnit, TypeProductGroup} from "../../../types";
 
 export const TableProduct: React.FC<TableProps> = ({
                                                      isUpdateTable,
@@ -41,7 +41,7 @@ export const TableProduct: React.FC<TableProps> = ({
       dataIndex: 'unit',
       key: 'unit',
       width: 200,
-      render: ((unit: any) =>
+      render: ((unit: TypeUnit) =>
         unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
     },
     {
@@ -53,7 +53,7 @@ export const TableProduct: React.FC<TableProps> = ({
         value: productGroup.title!
       })),
       onFilter: (value, record) => record.productGroup?.title === value,
-      render: ((productGroup: any) => productGroup !== null ? (
+      render: ((productGroup: TypeProductGroup) => productGroup !== null ? (
         <div key={productGroup.id}> {productGroup.title}</div>) : null),
     },
     {

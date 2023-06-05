@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TableParam, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
+import {TableProps, TableParam, TypeUnit, TypeStock, TypeStockFilter, TypeProduct} from "../../../types";
 import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
@@ -38,7 +38,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataIndex: 'product',
       key: 'product',
       sorter: (a, b) => (a.product?.title ?? '') < (b.product?.title ?? '') ? -1 : 1,
-      render: ((product: any) =>
+      render: ((product: TypeProduct) =>
         product !== null ? (<div key={product.id}>{product.title}</div>) : null)
     },
     {

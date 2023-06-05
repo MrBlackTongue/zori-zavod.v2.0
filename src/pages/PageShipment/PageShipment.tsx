@@ -31,9 +31,7 @@ export const PageShipment: React.FC = () => {
   const handleCreateShipment = (values: TypeShipmentFormValue): void => {
     const shipment: TypeShipment = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      client: {
-        id: values.client,
-      },
+      client: {id: values.client},
     };
     setOpenState({...openState, isModalOpen: false});
     createShipment(shipment);
@@ -57,9 +55,7 @@ export const PageShipment: React.FC = () => {
     const shipment: TypeShipment = {
       id: selectedShipmentId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      client: {
-        id: values.client,
-      },
+      client: {id: values.client},
     };
     setOpenState({...openState, isDrawerOpen: false});
     updateShipment(shipment);

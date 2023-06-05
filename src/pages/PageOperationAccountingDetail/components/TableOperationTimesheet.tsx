@@ -24,11 +24,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
       defaultSortOrder: 'ascend',
       sorter: (a, b) =>
         (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
-      render: (employee: TypeEmployee) => (
-        <div>
-          {employee.lastName} {employee.firstName}
-        </div>
-      ),
+      render: (employee: TypeEmployee) => (<div>{employee.lastName} {employee.firstName}</div>),
     },
     {
       title: 'Часы',

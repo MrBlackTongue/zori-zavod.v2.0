@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined, DownOutlined} from '@ant-design/icons';
 import {getAllShipment} from "../../../services";
-import {TableProps, TypeShipment, TableParam} from "../../../types";
+import {TableProps, TypeShipment, TableParam, TypeClient} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableShipment: React.FC<TableProps> = ({
@@ -43,7 +43,7 @@ export const TableShipment: React.FC<TableProps> = ({
       dataIndex: 'client',
       key: 'client',
       sorter: (a, b) => (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
-      render: ((client: any) =>
+      render: ((client: TypeClient) =>
         client !== null ? (<div key={client.id}>{client.title}</div>) : null)
     },
     {

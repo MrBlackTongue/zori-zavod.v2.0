@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllOutput} from "../../../services";
-import {TableProps, TypeOutput, TableParam} from "../../../types";
+import {TableProps, TypeOutput, TableParam, TypeProduct} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableOutput: React.FC<TableProps> = ({
@@ -42,7 +42,7 @@ export const TableOutput: React.FC<TableProps> = ({
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: any) =>
+      render: ((product: TypeProduct) =>
         product !== null ? (<div key={product.id}>{product.title}</div>) : null)
     },
     {

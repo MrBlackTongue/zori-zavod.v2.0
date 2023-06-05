@@ -9,7 +9,7 @@ import {
   TypeOperationAccounting,
   TableParam,
   TypeOperationTimesheet,
-  TypeOperationAccountingFilter,
+  TypeOperationAccountingFilter, TypeUnit,
 } from "../../../types";
 import dayjs from "dayjs";
 
@@ -67,10 +67,8 @@ export const TableOperationAccounting:
       title: 'Ед. изм.',
       dataIndex: ['operation', 'unit', 'name'],
       key: 'unit',
-      render: (unitName: string, record: TypeOperationAccounting) =>
-        record.operation?.unit ? (
-          <div key={record.operation?.unit.id}>{record.operation?.unit.name}</div>
-        ) : null,
+      render: (unit: TypeUnit) =>
+        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null,
     },
     {
       title: 'Факт',

@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypeProductBatch, TableParam, TypeUnit} from "../../../types";
+import {TableProps, TypeProductBatch, TableParam, TypeUnit, TypeProduct} from "../../../types";
 import {getAllProductBatch} from "../../../services";
 
 export const TableProductBatch: React.FC<TableProps> = ({
@@ -34,7 +34,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: any) =>
+      render: ((product: TypeProduct) =>
         product !== null ? (<div key={product.id}>{product.title}</div>) : null)
     },
     {

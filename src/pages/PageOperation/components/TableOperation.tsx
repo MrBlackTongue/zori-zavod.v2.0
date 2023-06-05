@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllOperation} from "../../../services";
-import {TableProps, TypeOperation, TableParam} from "../../../types";
+import {TableProps, TypeOperation, TableParam, TypeUnit} from "../../../types";
 
 export const TableOperation: React.FC<TableProps> = ({
                                                        isUpdateTable,
@@ -35,7 +35,7 @@ export const TableOperation: React.FC<TableProps> = ({
       title: 'Единица измерения',
       dataIndex: 'unit',
       key: 'unit',
-      render: ((unit: any) =>
+      render: ((unit: TypeUnit) =>
         unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
     },
     {
