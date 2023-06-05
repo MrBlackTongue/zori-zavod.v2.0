@@ -1,13 +1,13 @@
 import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeOperationAccountingFormValue} from "../../../types";
+import {UpdateDrawerProps, TypeOperationAccountingFormValue} from "../../../types";
 import {getOperationAccountingById} from "../../../services";
 import dayjs from "dayjs";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperationAccounting} from "./FormOperationAccounting";
 
-export const EditDrawerOperationAccounting:
-  React.FC<EditDrawerProps<TypeOperationAccountingFormValue>> = ({
+export const UpdateDrawerOperationAccounting:
+  React.FC<UpdateDrawerProps<TypeOperationAccountingFormValue>> = ({
                                                                    isOpen,
                                                                    selectedItemId,
                                                                    onCancel,

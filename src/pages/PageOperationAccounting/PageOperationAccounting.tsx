@@ -4,7 +4,7 @@ import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
   createOperationAccounting,
-  editOperationAccounting,
+  updateOperationAccounting,
   deleteOperationAccountingById,
 } from "../../services";
 import {
@@ -12,8 +12,8 @@ import {
   TypeOperationAccountingFormValue,
 } from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
-import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
-import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
+import {CreateModalOperationAccounting} from "./components/CreateModalOperationAccounting";
+import {UpdateDrawerOperationAccounting} from "./components/UpdateDrawerOperationAccounting";
 import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
 
@@ -59,7 +59,7 @@ export const PageOperationAccounting: React.FC = () => {
   }
 
   // Добавить новую учетную операцию
-  const handleAddOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
+  const handleCreateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
     const operationAccounting: TypeOperationAccounting = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       fact: values.fact || undefined,
@@ -89,7 +89,7 @@ export const PageOperationAccounting: React.FC = () => {
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOpen(false)
-    editOperationAccounting(operationAccounting)
+    updateOperationAccounting(operationAccounting)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -167,12 +167,12 @@ export const PageOperationAccounting: React.FC = () => {
           productionTypeId: selectedProductionTypeId,
         }}
       />
-      <AddModalOperationAccounting
+      <CreateModalOperationAccounting
         isOpen={isModalOpen}
-        addItem={handleAddOperationAccounting}
+        createItem={handleCreateOperationAccounting}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerOperationAccounting
+      <UpdateDrawerOperationAccounting
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationAccountingId}
         updateItem={handleUpdateOperationAccounting}

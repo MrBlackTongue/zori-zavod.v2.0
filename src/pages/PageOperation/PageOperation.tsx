@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteOperationById, createOperation, editOperation} from "../../services";
+import {deleteOperationById, createOperation, updateOperation} from "../../services";
 import {TypeOperation, TypeOperationFormValue} from "../../types";
 import {TableOperation} from "./components/TableOperation";
-import {AddModalOperation} from "./components/AddModalOperation";
-import {EditDrawerOperation} from "./components/EditDrawerOperation";
+import {CreateModalOperation} from "./components/CreateModalOperation";
+import {UpdateDrawerOperation} from "./components/UpdateDrawerOperation";
 
 const {Title} = Typography;
 
@@ -21,7 +21,7 @@ export const PageOperation: React.FC = () => {
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
   // Добавить новую операцию
-  const handleAddOperation = (values: TypeOperationFormValue): void => {
+  const handleCreateOperation = (values: TypeOperationFormValue): void => {
     const operation: TypeOperation = {
       title: values.title,
       unit: {id: values.unit},
@@ -47,7 +47,7 @@ export const PageOperation: React.FC = () => {
       rate: values.rate,
     };
     setIsDrawerOpen(false)
-    editOperation(operation)
+    updateOperation(operation)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -85,12 +85,12 @@ export const PageOperation: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteOperation}
       />
-      <AddModalOperation
+      <CreateModalOperation
         isOpen={isModalOpen}
-        addItem={handleAddOperation}
+        createItem={handleCreateOperation}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerOperation
+      <UpdateDrawerOperation
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationId}
         updateItem={handleUpdateOperation}

@@ -1,11 +1,11 @@
 import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeOperationFormValue} from "../../../types";
+import {UpdateDrawerProps, TypeOperationFormValue} from "../../../types";
 import {getOperationById} from "../../../services";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks"
 import {FormOperation} from "./FormOperation";
 
-export const EditDrawerOperation: React.FC<EditDrawerProps<TypeOperationFormValue>> = ({
+export const UpdateDrawerOperation: React.FC<UpdateDrawerProps<TypeOperationFormValue>> = ({
                                                                                          isOpen,
                                                                                          selectedItemId,
                                                                                          onCancel,

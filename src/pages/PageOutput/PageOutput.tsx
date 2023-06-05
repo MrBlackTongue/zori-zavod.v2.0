@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteOutputById, createOutput, editChangeOutput} from "../../services";
+import {deleteOutputById, createOutput, updateChangeOutput} from "../../services";
 import {TypeOutput, TypeOutputFormValue} from "../../types";
 import {TableOutput} from "./components/TableOutput";
-import {AddModalOutput} from "./components/AddModalOutput";
-import {EditDrawerOutput} from "./components/EditDrawerOutput";
+import {CreateModalOutput} from "./components/CreateModalOutput";
+import {UpdateDrawerOutput} from "./components/UpdateDrawerOutput";
 import dayjs from "dayjs";
 
 const {Title} = Typography;
@@ -22,7 +22,7 @@ export const PageOutput: React.FC = () => {
   const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
   // Добавить новый выпуск продукции
-  const handleAddOutput = (values: TypeOutputFormValue): void => {
+  const handleCreateOutput = (values: TypeOutputFormValue): void => {
     const output: TypeOutput = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       product: {id: values.product}
@@ -46,7 +46,7 @@ export const PageOutput: React.FC = () => {
       id: selectedOutputId,
     };
     setIsDrawerOpen(false)
-    editChangeOutput(output)
+    updateChangeOutput(output)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -84,12 +84,12 @@ export const PageOutput: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteOutput}
       />
-      <AddModalOutput
+      <CreateModalOutput
         isOpen={isModalOpen}
-        addItem={handleAddOutput}
+        createItem={handleCreateOutput}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerOutput
+      <UpdateDrawerOutput
         isOpen={isDrawerOpen}
         selectedItemId={selectedOutputId}
         updateItem={handleUpdateOutput}

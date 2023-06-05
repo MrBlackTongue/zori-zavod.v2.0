@@ -36,6 +36,7 @@ export const FormShipment: React.FC<FormShipmentProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите клиента'
           onChange={onChangeClient}
           onClear={onClearClient}
           filterOption={onSearchClient}

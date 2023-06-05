@@ -1,18 +1,18 @@
 import React from "react";
-import {AddModalProps, TypeProductionTypeFormValue} from "../../../types";
+import {CreateModalProps, TypeProductionTypeFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFormHandler} from "../../../hooks";
 import {FormProductionType} from "./FormProductionType";
 
-export const AddModalProductionType: React.FC<AddModalProps<TypeProductionTypeFormValue>> = ({
+export const CreateModalProductionType: React.FC<CreateModalProps<TypeProductionTypeFormValue>> = ({
                                                                                                isOpen,
-                                                                                               addItem,
+                                                                                               createItem,
                                                                                                onCancel,
                                                                                              }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   return (
     <Modal

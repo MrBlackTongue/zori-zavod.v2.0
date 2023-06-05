@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteUnitById, createUnit, editUnit} from "../../services";
+import {deleteUnitById, createUnit, updateUnit} from "../../services";
 import {TypeUnit, TypeUnitFormValue} from "../../types";
 import {TableUnit} from "./components/TableUnit";
-import {AddModalUnit} from "./components/AddModalUnit";
-import {EditDrawerUnit} from "./components/EditDrawerUnit";
+import {CreateModalUnit} from "./components/CreateModalUnit";
+import {UpdateDrawerUnit} from "./components/UpdateDrawerUnit";
 
 const {Title} = Typography;
 
@@ -21,7 +21,7 @@ export const PageUnit: React.FC = () => {
   const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
   // Добавить новую единицу измерения
-  const handleAddUnit = (values: TypeUnitFormValue): void => {
+  const handleCreateUnit = (values: TypeUnitFormValue): void => {
     const unit: TypeUnit = {
       name: values.name,
     };
@@ -43,7 +43,7 @@ export const PageUnit: React.FC = () => {
       name: values.name,
     };
     setIsDrawerOpen(false)
-    editUnit(unit)
+    updateUnit(unit)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -81,12 +81,12 @@ export const PageUnit: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteUnit}
       />
-      <AddModalUnit
+      <CreateModalUnit
         isOpen={isModalOpen}
-        addItem={handleAddUnit}
+        createItem={handleCreateUnit}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerUnit
+      <UpdateDrawerUnit
         isOpen={isDrawerOpen}
         selectedItemId={selectedUnitId}
         updateItem={handleUpdateUnit}

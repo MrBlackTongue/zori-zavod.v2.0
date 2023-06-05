@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteEmployeeById, createEmployee, editEmployee} from "../../services";
+import {deleteEmployeeById, createEmployee, updateEmployee} from "../../services";
 import {TypeEmployee, TypeEmployeeFormValue} from "../../types";
 import {TableEmployee} from "./components/TableEmployee";
-import {AddModalEmployee} from "./components/AddModalEmployee";
-import {EditDrawerEmployee} from "./components/EditDrawerEmployee";
+import {CreateModalEmployee} from "./components/CreateModalEmployee";
+import {UpdateDrawerEmployee} from "./components/UpdateDrawerEmployee";
 
 const {Title} = Typography;
 
@@ -21,7 +21,7 @@ export const PageEmployee: React.FC = () => {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Добавить нового сотрудника
-  const handleAddEmployee = (values: TypeEmployeeFormValue): void => {
+  const handleCreateEmployee = (values: TypeEmployeeFormValue): void => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -51,7 +51,7 @@ export const PageEmployee: React.FC = () => {
       id: selectedEmployeeId,
     };
     setIsDrawerOpen(false)
-    editEmployee(employee)
+    updateEmployee(employee)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -89,12 +89,12 @@ export const PageEmployee: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteEmployee}
       />
-      <AddModalEmployee
+      <CreateModalEmployee
         isOpen={isModalOpen}
-        addItem={handleAddEmployee}
+        createItem={handleCreateEmployee}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerEmployee
+      <UpdateDrawerEmployee
         isOpen={isDrawerOpen}
         selectedItemId={selectedEmployeeId}
         updateItem={handleUpdateEmployee}

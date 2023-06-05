@@ -16,7 +16,7 @@ export const TableShipment: React.FC<TableProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
-  // Состояние для параметров пагинации
+  // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,

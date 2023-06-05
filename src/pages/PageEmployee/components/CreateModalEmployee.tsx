@@ -1,18 +1,18 @@
 import React from "react";
-import {AddModalProps, TypeEmployeeFormValue} from "../../../types";
+import {CreateModalProps, TypeEmployeeFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFormHandler} from "../../../hooks";
 import {FormEmployee} from "./FormEmployee";
 
-export const AddModalEmployee: React.FC<AddModalProps<TypeEmployeeFormValue>> = ({
+export const CreateModalEmployee: React.FC<CreateModalProps<TypeEmployeeFormValue>> = ({
                                                                                    isOpen,
-                                                                                   addItem,
+                                                                                   createItem,
                                                                                    onCancel,
                                                                                  }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   return (
     <Modal

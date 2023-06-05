@@ -13,7 +13,7 @@ import {
   getShipmentById,
   createShipmentProductMovement
 } from "../../../services";
-import {AddModalDetailShipment} from "./AddModalDetailShipment";
+import {CreateModalDetailShipment} from "./CreateModalDetailShipment";
 
 
 export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = ({
@@ -28,7 +28,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Функция добавления нового товара в отгрузку
-  const handleAddShipmentMovement = (values: TypeShipmentProductMovementFormValue): void => {
+  const handleCreateShipmentMovement = (values: TypeShipmentProductMovementFormValue): void => {
     const productMovement: TypeShipmentProductMovement = {
       date: selectedShipment?.date,
       stock: {
@@ -94,9 +94,9 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
         idDetail={selectedShipment?.id}
         onDelete={handleDeleteShipmentMovement}
       />
-      <AddModalDetailShipment
+      <CreateModalDetailShipment
         isOpen={isModalOpen}
-        addItem={handleAddShipmentMovement}
+        createItem={handleCreateShipmentMovement}
         onCancel={() => setIsModalOpen(false)}
       />
     </Drawer>

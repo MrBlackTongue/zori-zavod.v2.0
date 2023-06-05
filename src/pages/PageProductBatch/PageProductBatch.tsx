@@ -5,12 +5,12 @@ import '../../App.css'
 import {
   deleteProductBatchById,
   createProductBatch,
-  editProductBatch
+  updateProductBatch
 } from "../../services";
 import {TypeProductBatch, TypeProductBatchFormValue} from '../../types';
 import {TableProductBatch} from "./components/TableProductBatch";
-import {AddModalProductBatch} from "./components/AddModalProductBatch";
-import {EditDrawerProductBatch} from "./components/EditDrawerProductBatch";
+import {CreateModalProductBatch} from "./components/CreateModalProductBatch";
+import {UpdateDrawerProductBatch} from "./components/UpdateDrawerProductBatch";
 
 const {Title} = Typography;
 
@@ -25,7 +25,7 @@ export const PageProductBatch: React.FC = () => {
   const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
   // Добавить новую партию товаров
-  const handleAddProductBatch = (values: TypeProductBatchFormValue): void => {
+  const handleCreateProductBatch = (values: TypeProductBatchFormValue): void => {
     const productBatch: TypeProductBatch = {
       product: {id: values.product},
       amount: values.amount,
@@ -49,7 +49,7 @@ export const PageProductBatch: React.FC = () => {
       amount: values.amount,
     };
     setIsDrawerOpen(false)
-    editProductBatch(productBatch)
+    updateProductBatch(productBatch)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -87,12 +87,12 @@ export const PageProductBatch: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteProductBatch}
       />
-      <AddModalProductBatch
+      <CreateModalProductBatch
         isOpen={isModalOpen}
-        addItem={handleAddProductBatch}
+        createItem={handleCreateProductBatch}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerProductBatch
+      <UpdateDrawerProductBatch
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductBatchId}
         updateItem={handleUpdateProductBatch}

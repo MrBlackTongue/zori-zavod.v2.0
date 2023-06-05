@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {deletePurchaseById, createPurchase, editPurchase} from '../../services';
+import {deletePurchaseById, createPurchase, updatePurchase} from '../../services';
 import {TypePurchase, TypePurchaseFormValue} from '../../types';
 import {TablePurchase} from "./components/TablePurchase";
-import {AddModalPurchase} from "./components/AddModalPurchase";
-import {EditDrawerPurchase} from "./components/EditDrawerPurchase";
+import {CreateModalPurchase} from "./components/CreateModalPurchase";
+import {UpdateDrawerPurchase} from "./components/UpdateDrawerPurchase";
 import dayjs from "dayjs";
 
 const {Title} = Typography;
@@ -25,7 +25,7 @@ export const PagePurchase: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую закупку
-  const handleAddPurchase = (values: TypePurchaseFormValue): void => {
+  const handleCreatePurchase = (values: TypePurchaseFormValue): void => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
@@ -55,7 +55,7 @@ export const PagePurchase: React.FC = () => {
       paid: values.paid,
     };
     setIsDrawerOpen(false);
-    editPurchase(purchase);
+    updatePurchase(purchase);
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -101,12 +101,12 @@ export const PagePurchase: React.FC = () => {
         onDelete={handleDeletePurchase}
         searchText={searchText}
       />
-      <AddModalPurchase
+      <CreateModalPurchase
         isOpen={isModalOpen}
-        addItem={handleAddPurchase}
+        createItem={handleCreatePurchase}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerPurchase
+      <UpdateDrawerPurchase
         isOpen={isDrawerOpen}
         selectedItemId={selectedPurchaseId}
         updateItem={handleUpdatePurchase}

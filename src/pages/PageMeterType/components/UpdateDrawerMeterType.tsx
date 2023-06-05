@@ -1,11 +1,11 @@
 import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeMeterTypeFormValue} from "../../../types";
+import {UpdateDrawerProps, TypeMeterTypeFormValue} from "../../../types";
 import {getMeterTypeById} from "../../../services";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperation} from "./FormMeterType";
 
-export const EditDrawerMeterType: React.FC<EditDrawerProps<TypeMeterTypeFormValue>> = ({
+export const UpdateDrawerMeterType: React.FC<UpdateDrawerProps<TypeMeterTypeFormValue>> = ({
                                                                                          isOpen,
                                                                                          selectedItemId,
                                                                                          onCancel,

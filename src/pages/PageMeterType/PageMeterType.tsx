@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteMeterTypeById, createMeterType, editMeterType} from "../../services";
+import {deleteMeterTypeById, createMeterType, updateMeterType} from "../../services";
 import {TypeMeterType, TypeMeterTypeFormValue} from "../../types";
 import {TableMeterType} from "./components/TableMeterType";
-import {AddModalMeterType} from "./components/AddModalMeterType";
-import {EditDrawerMeterType} from "./components/EditDrawerMeterType";
+import {CreateModalMeterType} from "./components/CreateModalMeterType";
+import {UpdateDrawerMeterType} from "./components/UpdateDrawerMeterType";
 
 const {Title} = Typography;
 
@@ -21,7 +21,7 @@ export const PageMeterType: React.FC = () => {
   const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
 
   // Добавить новый тип счетчика
-  const handleAddMeterType = (values: TypeMeterTypeFormValue): void => {
+  const handleCreateMeterType = (values: TypeMeterTypeFormValue): void => {
     const meterType: TypeMeterType = {
       title: values.title,
       unit: {id: values.unit},
@@ -47,7 +47,7 @@ export const PageMeterType: React.FC = () => {
       id: selectedMeterTypeId,
     };
     setIsDrawerOpen(false)
-    editMeterType(meterType)
+    updateMeterType(meterType)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -85,12 +85,12 @@ export const PageMeterType: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteMeterType}
       />
-      <AddModalMeterType
+      <CreateModalMeterType
         isOpen={isModalOpen}
-        addItem={handleAddMeterType}
+        createItem={handleCreateMeterType}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerMeterType
+      <UpdateDrawerMeterType
         isOpen={isDrawerOpen}
         selectedItemId={selectedMeterTypeId}
         updateItem={handleUpdateMeterType}

@@ -5,7 +5,7 @@ import '../../App.css'
 import {deleteAcceptanceById, createAcceptance} from "../../services";
 import {TypeAcceptance, TypeAcceptanceFormValue} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
-import {AddModalAcceptance} from "./components/AddModalAcceptance";
+import {CreateModalAcceptance} from "./components/CreateModalAcceptance";
 import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
 
@@ -22,7 +22,7 @@ export const PageAcceptance: React.FC = () => {
   const {allStock, allPurchase} = useFetchAllData();
 
   // Создать новую приемку товаров
-  const handleAddAcceptance = (values: TypeAcceptanceFormValue): void => {
+  const handleCreateAcceptance = (values: TypeAcceptanceFormValue): void => {
     const stock = allStock.find((item) => item.id === values.stock);
     const purchase = allPurchase.find((item) => item.id === values.purchase);
     const acceptance: TypeAcceptance = {
@@ -79,9 +79,9 @@ export const PageAcceptance: React.FC = () => {
         isUpdateTable={isTableUpdate}
         onDelete={handleDeleteAcceptance}
       />
-      <AddModalAcceptance
+      <CreateModalAcceptance
         isOpen={isModalOpen}
-        addItem={handleAddAcceptance}
+        createItem={handleCreateAcceptance}
         onCancel={() => setIsModalOpen(false)}
       />
     </div>

@@ -8,13 +8,13 @@ export interface TableProps<F = {}> {
   idDetail?: number | undefined;
 }
 
-export interface AddModalProps<T> {
+export interface CreateModalProps<T> {
   isOpen: boolean;
   onCancel: () => void;
-  addItem: (values: T) => void;
+  createItem: (values: T) => void;
 }
 
-export interface EditDrawerProps<T> {
+export interface UpdateDrawerProps<T> {
   isOpen: boolean;
   onCancel: () => void;
   selectedItemId: number | undefined;

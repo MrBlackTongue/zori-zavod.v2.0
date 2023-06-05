@@ -1,12 +1,12 @@
 import React from "react";
-import {AddModalProps, TypeProductFormValue} from "../../../types";
+import {CreateModalProps, TypeProductFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormProduct} from "./FormProduct";
 
-export const AddModalProduct: React.FC<AddModalProps<TypeProductFormValue>> = ({
+export const CreateModalProduct: React.FC<CreateModalProps<TypeProductFormValue>> = ({
                                                                                  isOpen,
-                                                                                 addItem,
+                                                                                 createItem,
                                                                                  onCancel,
                                                                                }) => {
   const [form] = Form.useForm();
@@ -15,7 +15,7 @@ export const AddModalProduct: React.FC<AddModalProps<TypeProductFormValue>> = ({
   const {allUnit, allProductGroup} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем unit
   const {

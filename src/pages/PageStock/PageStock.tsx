@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {createNewStock, editStock, deleteStockById} from '../../services';
+import {createNewStock, updateStock, deleteStockById} from '../../services';
 import {TypeStock, TypeStockFormValue} from '../../types';
 import {TableStock} from "./components/TableStock";
-import {AddModalStock} from "./components/AddModalStock";
-import {EditDrawerStock} from "./components/EditDrawerStock";
+import {CreateModalStock} from "./components/CreateModalStock";
+import {UpdateDrawerStock} from "./components/UpdateDrawerStock";
 import {useFetchAllData} from "../../hooks";
 
 const {Title} = Typography;
@@ -40,7 +40,7 @@ export const PageStock: React.FC = () => {
   }
 
   // Добавить новую ячейку на складе
-  const handleAddStock = (values: TypeStockFormValue): void => {
+  const handleCreateStock = (values: TypeStockFormValue): void => {
     const stock: TypeStock = {
       amount: values.amount,
       product: {id: values.product},
@@ -64,7 +64,7 @@ export const PageStock: React.FC = () => {
       product: {id: values.product},
     };
     setIsDrawerOpen(false);
-    editStock(stock);
+    updateStock(stock);
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -128,12 +128,12 @@ export const PageStock: React.FC = () => {
         searchText={searchText}
         filter={{id: selectedProductGroupId}}
       />
-      <AddModalStock
+      <CreateModalStock
         isOpen={isModalOpen}
-        addItem={handleAddStock}
+        createItem={handleCreateStock}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerStock
+      <UpdateDrawerStock
         isOpen={isDrawerOpen}
         selectedItemId={selectedStockId}
         updateItem={handleUpdateStock}

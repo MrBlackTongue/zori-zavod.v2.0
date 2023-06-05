@@ -1,16 +1,16 @@
 import React, {useEffect, useCallback} from "react";
 import {Form, Drawer, Space, Button} from "antd";
-import {EditDrawerProps, TypeStockFormValue} from "../../../types";
-import {getStockById} from "../../../services";
+import {UpdateDrawerProps, TypeProductBatchFormValue} from "../../../types";
+import {getProductBatchById} from "../../../services";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormStock} from "./FormStock";
+import {FormProductBatch} from "./FormProductBatch";
 
-export const EditDrawerStock: React.FC<EditDrawerProps<TypeStockFormValue>> = ({
-                                                                                 isOpen,
-                                                                                 selectedItemId,
-                                                                                 onCancel,
-                                                                                 updateItem,
-                                                                               }) => {
+export const UpdateDrawerProductBatch: React.FC<UpdateDrawerProps<TypeProductBatchFormValue>> = ({
+                                                                                               isOpen,
+                                                                                               selectedItemId,
+                                                                                               onCancel,
+                                                                                               updateItem,
+                                                                                             }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
@@ -22,28 +22,27 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStockFormValue>> = ({
   // Хук для управления полем product
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');
 
-  // Функция для получения данных
-  const handleGetStock = useCallback((): void => {
+  // Функция для получения данных в дравер
+  const handleGetProductBatch = useCallback((): void => {
     if (selectedItemId) {
-      getStockById(selectedItemId).then((stock) => {
+      getProductBatchById(selectedItemId).then((productBatch) => {
         form.setFieldsValue({
-          ...stock,
-          product: stock?.product?.id === 0 ? '' : stock?.product?.id,
+          ...productBatch,
+          product: productBatch?.product?.id === 0 ? '' : productBatch?.product?.id,
         });
-      });
+      })
     }
   }, [selectedItemId, form]);
 
-
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetStock();
+      handleGetProductBatch();
     }
-  }, [isOpen, selectedItemId, handleGetStock]);
+  }, [isOpen, selectedItemId, handleGetProductBatch]);
 
   return (
     <Drawer
-      title="Редактирование ячейки на складе"
+      title="Редактирование партии товаров"
       width={600}
       open={isOpen}
       onClose={handleReset}
@@ -56,7 +55,7 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStockFormValue>> = ({
         </Space>
       }
     >
-      <FormStock
+      <FormProductBatch
         form={form}
         allProduct={allProduct}
         onChangeProduct={onChangeSelect}
@@ -64,5 +63,5 @@ export const EditDrawerStock: React.FC<EditDrawerProps<TypeStockFormValue>> = ({
         onSearchProduct={onSearchSelect}
       />
     </Drawer>
-  );
-};
+  )
+}

@@ -62,7 +62,7 @@ export function deleteOperationTimesheetById(id: number): void {
 }
 
 // Редактировать сотрудника в табеле учета рабочего времени
-export function editOperationTimesheet(data: TypeOperationTimesheet): void {
+export function updateOperationTimesheet(data: TypeOperationTimesheet): void {
   try {
     fetch(URL + OPERATION_TIMESHEET, {
       method: 'PUT',

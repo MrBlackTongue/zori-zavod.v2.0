@@ -1,12 +1,12 @@
 import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeOutputFormValue} from "../../../types";
+import {UpdateDrawerProps, TypeOutputFormValue} from "../../../types";
 import {getOutputById} from "../../../services";
 import dayjs from 'dayjs';
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOutput} from "./FormOutput";
 
-export const EditDrawerOutput: React.FC<EditDrawerProps<TypeOutputFormValue>> = ({
+export const UpdateDrawerOutput: React.FC<UpdateDrawerProps<TypeOutputFormValue>> = ({
                                                                                    isOpen,
                                                                                    selectedItemId,
                                                                                    onCancel,

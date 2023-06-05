@@ -1,12 +1,12 @@
 import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeOperationTimesheetFormValue} from "../../../types";
+import {UpdateDrawerProps, TypeOperationTimesheetFormValue} from "../../../types";
 import {getOperationTimesheetById} from "../../../services";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperationTimesheet} from "./FormOperationTimesheet";
 
-export const EditDrawerOperationTimesheet:
-  React.FC<EditDrawerProps<TypeOperationTimesheetFormValue>> = ({
+export const UpdateDrawerOperationTimesheet:
+  React.FC<UpdateDrawerProps<TypeOperationTimesheetFormValue>> = ({
                                                                   isOpen,
                                                                   selectedItemId,
                                                                   onCancel,

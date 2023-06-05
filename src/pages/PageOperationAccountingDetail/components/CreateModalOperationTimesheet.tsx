@@ -1,12 +1,12 @@
 import React from "react";
-import {AddModalProps, TypeOperationTimesheetFormValue} from "../../../types";
+import {CreateModalProps, TypeOperationTimesheetFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperationTimesheet} from "./FormOperationTimesheet";
 
-export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTimesheetFormValue>> = ({
+export const CreateModalOperationTimesheet: React.FC<CreateModalProps<TypeOperationTimesheetFormValue>> = ({
                                                                                                        isOpen,
-                                                                                                       addItem,
+                                                                                                       createItem,
                                                                                                        onCancel,
                                                                                                      }) => {
   const [form] = Form.useForm();
@@ -15,7 +15,7 @@ export const AddModalOperationTimesheet: React.FC<AddModalProps<TypeOperationTim
   const {allEmployee} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем employee
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'employee');

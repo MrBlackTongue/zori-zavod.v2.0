@@ -4,13 +4,13 @@ import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
   createProductionType,
-  editProductionType,
+  updateProductionType,
   deleteProductionTypeById,
 } from "../../services";
 import {TypeProductionType, TypeProductionTypeFormValue} from "../../types";
 import {TableProductionType} from "./components/TableProductionType";
-import {AddModalProductionType} from "./components/AddModalProductionType";
-import {EditDrawerProductionType} from "./components/EditDrawerProductionType";
+import {CreateModalProductionType} from "./components/CreateModalProductionType";
+import {UpdateDrawerProductionType} from "./components/UpdateDrawerProductionType";
 
 const {Title} = Typography;
 
@@ -25,7 +25,7 @@ export const PageProductionType: React.FC = () => {
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Добавить запись в таблицу
-  const handleAddProductionType = (values: TypeProductionTypeFormValue): void => {
+  const handleCreateProductionType = (values: TypeProductionTypeFormValue): void => {
     const productionType: TypeProductionType = {
       title: values.title,
       description: values.description,
@@ -49,7 +49,7 @@ export const PageProductionType: React.FC = () => {
       description: values.description,
     };
     setIsDrawerOpen(false)
-    editProductionType(productionType)
+    updateProductionType(productionType)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -87,12 +87,12 @@ export const PageProductionType: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteProductionType}
       />
-      <AddModalProductionType
+      <CreateModalProductionType
         isOpen={isModalOpen}
-        addItem={handleAddProductionType}
+        createItem={handleCreateProductionType}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerProductionType
+      <UpdateDrawerProductionType
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductionTypeId}
         updateItem={handleUpdateProductionType}

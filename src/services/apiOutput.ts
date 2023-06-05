@@ -61,7 +61,7 @@ export function deleteOutputById(id: number): void {
 }
 
 // Редактировать единицу изремерения
-export function editChangeOutput(data: TypeOutput): void {
+export function updateChangeOutput(data: TypeOutput): void {
   try {
     fetch(URL + OUTPUT, {
       method: 'PUT',

@@ -1,12 +1,12 @@
 import React from "react";
-import {AddModalProps, TypePurchaseFormValue} from "../../../types";
+import {CreateModalProps, TypePurchaseFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormPurchase} from "./FormPurchase";
 
-export const AddModalPurchase: React.FC<AddModalProps<TypePurchaseFormValue>> = ({
+export const CreateModalPurchase: React.FC<CreateModalProps<TypePurchaseFormValue>> = ({
                                                                                    isOpen,
-                                                                                   addItem,
+                                                                                   createItem,
                                                                                    onCancel,
                                                                                  }) => {
   const [form] = Form.useForm();
@@ -15,7 +15,7 @@ export const AddModalPurchase: React.FC<AddModalProps<TypePurchaseFormValue>> = 
   const {allProduct} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем product
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');

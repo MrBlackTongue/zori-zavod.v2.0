@@ -26,6 +26,7 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите товар'
           onChange={onChangeProduct}
           onClear={onClearProduct}
           filterOption={onSearchProduct}
@@ -43,14 +44,14 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
         name="cost"
         rules={[{required: true, message: "введите цену"}]}
       >
-        <InputNumber style={{width: "100%"}} min={0}/>
+        <InputNumber placeholder='100' style={{width: "100%"}} min={0}/>
       </Form.Item>
       <Form.Item
         label="Количество"
         name="amount"
         rules={[{required: true, message: "введите количество"}]}
       >
-        <InputNumber style={{width: "100%"}} min={1}/>
+        <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
       </Form.Item>
       <Form.Item
         label="Дата"

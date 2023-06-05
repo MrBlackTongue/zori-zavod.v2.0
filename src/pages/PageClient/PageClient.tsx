@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteClientById, createClient, editClient} from "../../services";
+import {deleteClientById, createClient, updateClient} from "../../services";
 import {TypeClient, TypeClientFormValue} from "../../types";
 import {TableClient} from "./components/TableClient";
-import {AddModalClient} from "./components/AddModalClient";
-import {EditDrawerClient} from "./components/EditDrawerClient";
+import {CreateModalClient} from "./components/CreateModalClient";
+import {UpdateDrawerClient} from "./components/UpdateDrawerClient";
 
 const {Title} = Typography;
 
@@ -21,7 +21,7 @@ export const PageClient: React.FC = () => {
   const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // Добавить нового клиента
-  const handleAddClient = (values: TypeClientFormValue): void => {
+  const handleCreateClient = (values: TypeClientFormValue): void => {
     const client: TypeClient = {
       title: values.title,
     };
@@ -43,7 +43,7 @@ export const PageClient: React.FC = () => {
       title: values.title,
     };
     setIsDrawerOpen(false)
-    editClient(client)
+    updateClient(client)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -81,12 +81,12 @@ export const PageClient: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteClient}
       />
-      <AddModalClient
+      <CreateModalClient
         isOpen={isModalOpen}
-        addItem={handleAddClient}
+        createItem={handleCreateClient}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerClient
+      <UpdateDrawerClient
         isOpen={isDrawerOpen}
         selectedItemId={selectedClientId}
         updateItem={handleUpdateClient}

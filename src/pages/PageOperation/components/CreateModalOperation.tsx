@@ -1,12 +1,12 @@
 import React from "react";
+import {CreateModalProps, TypeOperationFormValue} from "../../../types";
 import {Form, Modal} from "antd";
-import {AddModalProps, TypeMeterTypeFormValue} from "../../../types";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormOperation} from "./FormMeterType";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks"
+import {FormOperation} from "./FormOperation";
 
-export const AddModalMeterType: React.FC<AddModalProps<TypeMeterTypeFormValue>> = ({
+export const CreateModalOperation: React.FC<CreateModalProps<TypeOperationFormValue>> = ({
                                                                                      isOpen,
-                                                                                     addItem,
+                                                                                     createItem,
                                                                                      onCancel,
                                                                                    }) => {
   const [form] = Form.useForm();
@@ -15,17 +15,17 @@ export const AddModalMeterType: React.FC<AddModalProps<TypeMeterTypeFormValue>> 
   const {allUnit} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем unit
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'unit');
 
   return (
     <Modal
-      title={`Добавление нового типа счетчика`}
+      title={`Добавление новой операции`}
       okText={'Сохранить'}
       cancelText={'Отмена'}
-      width={700}
+      width={680}
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}

@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from "react";
-import {AddModalProps, TypeProductionProductMovementFormValue, TypeStock} from "../../../types";
+import {CreateModalProps, TypeProductionProductMovementFormValue, TypeStock} from "../../../types";
 import {Form, InputNumber, message, Modal, Select} from "antd";
 import {getAllStock} from "../../../services";
 import {useFormSelect, useFormHandler} from "../../../hooks";
 
 const {Option} = Select;
 
-export const AddModalProductionProductMovement:
-  React.FC<AddModalProps<TypeProductionProductMovementFormValue>> = ({
+export const CreateModalProductionProductMovement:
+  React.FC<CreateModalProps<TypeProductionProductMovementFormValue>> = ({
                                                                        isOpen,
-                                                                       addItem,
+                                                                       createItem,
                                                                        onCancel,
                                                                      }) => {
   const [form] = Form.useForm();
@@ -18,14 +18,10 @@ export const AddModalProductionProductMovement:
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем stock
-  const {
-    onChangeSelect: onChangeStock,
-    onClearSelect: onClearStock,
-    onSearchSelect: onSearchStock,
-  } = useFormSelect(form, 'stock');
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'stock');
 
   // Функция подтверждения добавления
   const preSubmitValidation = (): boolean => {
@@ -83,9 +79,9 @@ export const AddModalProductionProductMovement:
           <Select
             showSearch
             allowClear
-            onChange={onChangeStock}
-            onClear={onClearStock}
-            filterOption={onSearchStock}
+            onChange={onChangeSelect}
+            onClear={onClearSelect}
+            filterOption={onSearchSelect}
           >
             {allStock && allStock.length > 0
               ? allStock.map((stock) => (

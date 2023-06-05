@@ -26,6 +26,7 @@ export const FormProductBatch: React.FC<FormProductBatchProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите товар'
           onChange={onChangeProduct}
           onClear={onClearProduct}
           filterOption={onSearchProduct}
@@ -43,7 +44,7 @@ export const FormProductBatch: React.FC<FormProductBatchProps> = ({
         name="amount"
         rules={[{required: true, message: 'введите количество'}]}
       >
-        <InputNumber style={{width: "100%"}} min={1}/>
+        <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
       </Form.Item>
     </Form>
   );

@@ -1,18 +1,18 @@
 import React from "react";
-import {AddModalProps, TypeUnitFormValue} from "../../../types";
+import {CreateModalProps, TypeUnitFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFormHandler} from "../../../hooks";
 import {FormUnit} from "./FormUnit";
 
-export const AddModalUnit: React.FC<AddModalProps<TypeUnitFormValue>> = ({
+export const CreateModalUnit: React.FC<CreateModalProps<TypeUnitFormValue>> = ({
                                                                            isOpen,
-                                                                           addItem,
+                                                                           createItem,
                                                                            onCancel,
                                                                          }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   return (
     <Modal

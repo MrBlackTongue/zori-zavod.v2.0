@@ -26,6 +26,7 @@ export const FormStock: React.FC<FormStockProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите товар'
           onChange={onChangeProduct}
           onClear={onClearProduct}
           filterOption={onSearchProduct}
@@ -43,7 +44,7 @@ export const FormStock: React.FC<FormStockProps> = ({
         name="amount"
         rules={[{required: true, message: "введите количество"}]}
       >
-        <InputNumber style={{width: "100%"}} min={0}/>
+        <InputNumber placeholder='1' style={{width: "100%"}} min={0}/>
       </Form.Item>
     </Form>
   );

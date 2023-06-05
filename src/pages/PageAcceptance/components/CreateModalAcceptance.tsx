@@ -1,14 +1,14 @@
 import React from "react";
-import {AddModalProps, TypeAcceptanceFormValue} from "../../../types";
+import {CreateModalProps, TypeAcceptanceFormValue} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select, message} from "antd";
 import dayjs from "dayjs";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 
 const {Option} = Select;
 
-export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptanceFormValue>> = ({
+export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceFormValue>> = ({
                                                                                        isOpen,
-                                                                                       addItem,
+                                                                                       createItem,
                                                                                        onCancel,
                                                                                      }) => {
   const [form] = Form.useForm();
@@ -17,7 +17,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptanceFormValue>
   const {allStock, allPurchase, allProductBatch} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем stock
   const {
@@ -87,6 +87,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptanceFormValue>
           <Select
             showSearch
             allowClear
+            placeholder='Выберите товар на складе'
             onChange={onChangeStock}
             onClear={onClearStock}
             filterOption={onSearchStock}
@@ -108,6 +109,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptanceFormValue>
           <Select
             showSearch
             allowClear
+            placeholder='Выберите товар в закупке'
             onChange={onChangePurchase}
             onClear={onClearPurchase}
             filterOption={onSearchPurchase}
@@ -137,6 +139,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptanceFormValue>
           <Select
             showSearch
             allowClear
+            placeholder='Выберите партию товара'
             onChange={onChangeProductBatch}
             onClear={onClearProductBatch}
             filterOption={onSearchProductBatch}
@@ -159,7 +162,7 @@ export const AddModalAcceptance: React.FC<AddModalProps<TypeAcceptanceFormValue>
           name="amount"
           rules={[{required: true, message: "введите количество"}]}
         >
-          <InputNumber style={{width: "100%"}} min={1}/>
+          <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
         </Form.Item>
         <Form.Item
           label="Дата"

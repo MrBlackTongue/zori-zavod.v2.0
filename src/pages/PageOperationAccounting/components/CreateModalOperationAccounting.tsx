@@ -1,13 +1,13 @@
 import React from "react";
-import {AddModalProps, TypeOperationAccountingFormValue} from "../../../types";
+import {CreateModalProps, TypeOperationAccountingFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormOperationAccounting} from "./FormOperationAccounting";
 
-export const AddModalOperationAccounting:
-  React.FC<AddModalProps<TypeOperationAccountingFormValue>> = ({
+export const CreateModalOperationAccounting:
+  React.FC<CreateModalProps<TypeOperationAccountingFormValue>> = ({
                                                                  isOpen,
-                                                                 addItem,
+                                                                 createItem,
                                                                  onCancel,
                                                                }) => {
   const [form] = Form.useForm();
@@ -16,7 +16,7 @@ export const AddModalOperationAccounting:
   const {allOperation, allProductionType, allOutput} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем operation
   const {

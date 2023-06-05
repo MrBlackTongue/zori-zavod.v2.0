@@ -61,7 +61,7 @@ export function deleteEmployeeById(id: number): void {
 }
 
 // Редактировать сотрудника
-export function editEmployee(data: TypeEmployee): void {
+export function updateEmployee(data: TypeEmployee): void {
   try {
     fetch(URL + EMPLOYEE, {
       method: 'PUT',

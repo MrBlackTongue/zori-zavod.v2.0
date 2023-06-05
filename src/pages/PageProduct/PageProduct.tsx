@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteProductById, createProduct, editProduct} from "../../services";
+import {deleteProductById, createProduct, updateProduct} from "../../services";
 import {TypeProduct, TypeProductFormValue} from "../../types";
 import {TableProduct} from "./components/TableProduct";
-import {AddModalProduct} from "./components/AddModalProduct";
-import {EditDrawerProduct} from "./components/EditDrawerProduct";
+import {CreateModalProduct} from "./components/CreateModalProduct";
+import {UpdateDrawerProduct} from "./components/UpdateDrawerProduct";
 
 const {Title} = Typography;
 
@@ -22,7 +22,7 @@ export const PageProduct: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Добавить новый товар
-  const handleAddProduct = (values: TypeProductFormValue): void => {
+  const handleCreateProduct = (values: TypeProductFormValue): void => {
     const product: TypeProduct = {
       title: values.title,
       productGroup: {id: values.productGroup},
@@ -48,7 +48,7 @@ export const PageProduct: React.FC = () => {
       unit: {id: values.unit},
     };
     setIsDrawerOpen(false)
-    editProduct(product)
+    updateProduct(product)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -94,12 +94,12 @@ export const PageProduct: React.FC = () => {
         onDelete={handleDeleteProduct}
         searchText={searchText}
       />
-      <AddModalProduct
+      <CreateModalProduct
         isOpen={isModalOpen}
-        addItem={handleAddProduct}
+        createItem={handleCreateProduct}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerProduct
+      <UpdateDrawerProduct
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductId}
         updateItem={handleUpdateProduct}

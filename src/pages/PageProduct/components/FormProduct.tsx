@@ -27,7 +27,7 @@ export const FormProduct: React.FC<FormProductProps> = ({
         name="title"
         rules={[{required: true, message: 'введите название'}]}
       >
-        <Input/>
+        <Input placeholder='Название'/>
       </Form.Item>
       <Form.Item
         label="Единица измерения"
@@ -37,6 +37,7 @@ export const FormProduct: React.FC<FormProductProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите единицу измерения'
           onChange={onChangeUnit}
           onClear={onClearUnit}
           filterOption={onSearchUnit}
@@ -57,6 +58,7 @@ export const FormProduct: React.FC<FormProductProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите товарную группу'
           onChange={onChangeProductGroup}
           onClear={onClearProductGroup}
           filterOption={onSearchProductGroup}

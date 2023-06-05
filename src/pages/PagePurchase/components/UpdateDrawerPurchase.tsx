@@ -1,12 +1,12 @@
 import React, {useEffect, useCallback} from "react";
 import {Form, Drawer, Space, Button} from "antd";
-import {EditDrawerProps, TypePurchaseFormValue} from "../../../types";
+import {UpdateDrawerProps, TypePurchaseFormValue} from "../../../types";
 import {getPurchaseById} from "../../../services";
 import dayjs from 'dayjs';
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormPurchase} from "./FormPurchase";
 
-export const EditDrawerPurchase: React.FC<EditDrawerProps<TypePurchaseFormValue>> = ({
+export const UpdateDrawerPurchase: React.FC<UpdateDrawerProps<TypePurchaseFormValue>> = ({
                                                                                        isOpen,
                                                                                        selectedItemId,
                                                                                        onCancel,

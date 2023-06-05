@@ -1,12 +1,12 @@
 import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeShipmentFormValue} from "../../../types";
+import {UpdateDrawerProps, TypeShipmentFormValue} from "../../../types";
 import {getShipmentById} from "../../../services";
 import dayjs from 'dayjs';
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormShipment} from "./FormShipment";
 
-export const EditDrawerShipment: React.FC<EditDrawerProps<TypeShipmentFormValue>> = ({
+export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormValue>> = ({
                                                                                        isOpen,
                                                                                        selectedItemId,
                                                                                        onCancel,

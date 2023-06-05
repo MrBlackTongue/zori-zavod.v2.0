@@ -1,12 +1,12 @@
 import React from "react";
-import {AddModalProps, TypeShipmentFormValue} from "../../../types";
+import {CreateModalProps, TypeShipmentFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormShipment} from "./FormShipment";
 
-export const AddModalShipment: React.FC<AddModalProps<TypeShipmentFormValue>> = ({
+export const CreateModalShipment: React.FC<CreateModalProps<TypeShipmentFormValue>> = ({
                                                                                    isOpen,
-                                                                                   addItem,
+                                                                                   createItem,
                                                                                    onCancel,
                                                                                  }) => {
   const [form] = Form.useForm();
@@ -15,7 +15,7 @@ export const AddModalShipment: React.FC<AddModalProps<TypeShipmentFormValue>> = 
   const {allClient} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем client
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'client');

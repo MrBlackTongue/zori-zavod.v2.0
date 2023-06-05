@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
-import {createShipment, editShipment, deleteShipmentById} from "../../services";
+import {createShipment, updateShipment, deleteShipmentById} from "../../services";
 import {TypeShipment, TypeShipmentFormValue} from "../../types";
 import {TableShipment} from "./components/TableShipment";
-import {AddModalShipment} from "./components/AddModalShipment";
-import {EditDrawerShipment} from "./components/EditDrawerShipment";
+import {CreateModalShipment} from "./components/CreateModalShipment";
+import {UpdateDrawerShipment} from "./components/UpdateDrawerShipment";
 import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
 import dayjs from "dayjs";
 
@@ -28,7 +28,7 @@ export const PageShipment: React.FC = () => {
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 
   // Функция добавления новой отгрузки
-  const handleAddShipment = (values: TypeShipmentFormValue): void => {
+  const handleCreateShipment = (values: TypeShipmentFormValue): void => {
     const shipment: TypeShipment = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       client: {
@@ -62,7 +62,7 @@ export const PageShipment: React.FC = () => {
       },
     };
     setOpenState({...openState, isDrawerOpen: false});
-    editShipment(shipment);
+    updateShipment(shipment);
     setIsTableUpdate(prevState => !prevState);
   }
 
@@ -101,12 +101,12 @@ export const PageShipment: React.FC = () => {
         onDelete={handleDeleteShipment}
         openDetailDrawer={openDetailShipment}
       />
-      <AddModalShipment
+      <CreateModalShipment
         isOpen={openState.isModalOpen}
-        addItem={handleAddShipment}
+        createItem={handleCreateShipment}
         onCancel={() => setOpenState({...openState, isModalOpen: false})}
       />
-      <EditDrawerShipment
+      <UpdateDrawerShipment
         isOpen={openState.isDrawerOpen}
         selectedItemId={selectedShipmentId}
         updateItem={handleUpdateShipment}

@@ -1,11 +1,11 @@
 import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeProductionTypeFormValue} from "../../../types";
+import {UpdateDrawerProps, TypeProductionTypeFormValue} from "../../../types";
 import {getProductionTypeById} from "../../../services";
 import {FormProductionType} from "./FormProductionType";
 import {useFormHandler} from "../../../hooks";
 
-export const EditDrawerProductionType: React.FC<EditDrawerProps<TypeProductionTypeFormValue>> = ({
+export const UpdateDrawerProductionType: React.FC<UpdateDrawerProps<TypeProductionTypeFormValue>> = ({
                                                                                                    isOpen,
                                                                                                    selectedItemId,
                                                                                                    onCancel,

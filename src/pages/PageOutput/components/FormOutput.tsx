@@ -36,6 +36,7 @@ export const FormOutput: React.FC<FormOutputProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите товар'
           onChange={onChangeProduct}
           onClear={onClearProduct}
           filterOption={onSearchProduct}

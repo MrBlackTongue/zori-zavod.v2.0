@@ -23,7 +23,7 @@ export const FormOperation: React.FC<FormTypeMeterTypeProps> = ({
         name="title"
         rules={[{required: true, message: 'введите название'}]}
       >
-        <Input/>
+        <Input placeholder='Название'/>
       </Form.Item>
       <Form.Item
         label="Цена"
@@ -32,6 +32,7 @@ export const FormOperation: React.FC<FormTypeMeterTypeProps> = ({
       >
         <InputNumber
           style={{width: "100%"}}
+          placeholder='100'
           min={0.01}
           formatter={(value) => `${value}`.replace('.', ',')}
           parser={(displayValue: string | undefined): number => {
@@ -48,6 +49,7 @@ export const FormOperation: React.FC<FormTypeMeterTypeProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите единицу измерения'
           onChange={onChangeUnit}
           onClear={onClearUnit}
           filterOption={onSearchUnit}

@@ -1,11 +1,11 @@
 import React, {useEffect, useCallback} from "react";
 import {Button, Drawer, Form, Space} from "antd";
-import {EditDrawerProps, TypeEmployee} from "../../../types";
+import {UpdateDrawerProps, TypeEmployee} from "../../../types";
 import {getEmployeeById} from "../../../services";
 import {FormEmployee} from "./FormEmployee";
 import {useFormHandler} from "../../../hooks";
 
-export const EditDrawerEmployee: React.FC<EditDrawerProps<TypeEmployee>> = ({
+export const UpdateDrawerEmployee: React.FC<UpdateDrawerProps<TypeEmployee>> = ({
                                                                               isOpen,
                                                                               selectedItemId,
                                                                               onCancel,

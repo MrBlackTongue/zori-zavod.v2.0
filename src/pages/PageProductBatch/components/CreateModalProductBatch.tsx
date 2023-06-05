@@ -1,12 +1,12 @@
 import React from "react";
-import {AddModalProps, TypeProductBatchFormValue} from "../../../types";
+import {CreateModalProps, TypeProductBatchFormValue} from "../../../types";
 import {Form, Modal} from "antd";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
 import {FormProductBatch} from "./FormProductBatch";
 
-export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatchFormValue>> = ({
+export const CreateModalProductBatch: React.FC<CreateModalProps<TypeProductBatchFormValue>> = ({
                                                                                            isOpen,
-                                                                                           addItem,
+                                                                                           createItem,
                                                                                            onCancel,
                                                                                          }) => {
   const [form] = Form.useForm();
@@ -15,7 +15,7 @@ export const AddModalProductBatch: React.FC<AddModalProps<TypeProductBatchFormVa
   const {allProduct} = useFetchAllData();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем product
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');

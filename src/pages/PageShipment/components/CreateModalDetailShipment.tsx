@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {
-  AddModalProps,
+  CreateModalProps,
   TypeStock,
   TypeShipmentProductMovementFormValue
 } from "../../../types";
@@ -11,9 +11,9 @@ import {useFormSelect, useFormHandler} from "../../../hooks";
 const {Option} = Select;
 
 
-export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductMovementFormValue>> = ({
+export const CreateModalDetailShipment: React.FC<CreateModalProps<TypeShipmentProductMovementFormValue>> = ({
                                                                                                         isOpen,
-                                                                                                        addItem,
+                                                                                                        createItem,
                                                                                                         onCancel,
                                                                                                       }) => {
   const [form] = Form.useForm();
@@ -22,14 +22,10 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, addItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем stock
-  const {
-    onChangeSelect: onChangeStock,
-    onClearSelect: onClearStock,
-    onSearchSelect: onSearchStock,
-  } = useFormSelect(form, 'stock');
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'stock');
 
   // Проверка ввода количества перед отправкой
   const preSubmitValidation = (): boolean => {
@@ -86,9 +82,10 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
           <Select
             showSearch
             allowClear
-            onChange={onChangeStock}
-            onClear={onClearStock}
-            filterOption={onSearchStock}
+            placeholder='Выберите товар'
+            onChange={onChangeSelect}
+            onClear={onClearSelect}
+            filterOption={onSearchSelect}
           >
             {allStock && allStock.length > 0
               ? allStock.map((stock) => (
@@ -104,7 +101,7 @@ export const AddModalDetailShipment: React.FC<AddModalProps<TypeShipmentProductM
           name="amount"
           rules={[{required: true, message: 'введите количество'}]}
         >
-          <InputNumber style={{width: "100%"}} min={1}/>
+          <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
         </Form.Item>
       </Form>
     </Modal>
