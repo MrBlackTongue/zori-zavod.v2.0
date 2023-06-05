@@ -26,6 +26,7 @@ export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
         <Select
           showSearch
           allowClear
+          placeholder='Выберите сотрудника'
           onChange={onChangeEmployee}
           onClear={onClearEmployee}
           filterOption={onSearchEmployee}
@@ -42,7 +43,7 @@ export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
         label="Результат"
         name="fact"
       >
-        <InputNumber style={{width: "100%"}} min={0}/>
+        <InputNumber placeholder='1' style={{width: "100%"}} min={0}/>
       </Form.Item>
       <Form.Item
         label="Часы"
@@ -54,6 +55,7 @@ export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
       >
         <InputNumber
           style={{width: "100%"}}
+          placeholder='1'
           min={0.1}
           formatter={(value) => `${value}`.replace('.', ',')}
           parser={(displayValue: string | undefined): number => {

@@ -75,8 +75,12 @@ export const TableDetailShipment: React.FC<TableProps> = ({
     setIsLoading(true);
     if (idDetail) {
       getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
-        setAllShipmentMovement(allShipmentMovement);
-        setIsLoading(false);
+        if (allShipmentMovement) {
+          setAllShipmentMovement(
+            allShipmentMovement.map((item, index) => ({...item, key: index}))
+          )
+          setIsLoading(false);
+        }
       });
     }
   }, [idDetail])

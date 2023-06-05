@@ -21,7 +21,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idOperationAccounting',
     },
     {
       title: 'Дата',
@@ -45,7 +45,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
       dataIndex: ['operation', 'unit', 'name'],
       key: 'unit',
       render: (unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null,
+        unit !== null ? (<div>{unit.name}</div>) : null,
     },
     {
       title: 'Факт',
@@ -124,21 +124,23 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
   ];
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = useCallback((): void => {
+  const handleUpdateTable = useCallback((): void => {
     if (idDetail) {
       setIsLoading(true);
       getOperationAccountingById(idDetail).then((operationAccounting) => {
-        setOperationAccounting(operationAccounting)
-        setIsLoading(false);
+        if (operationAccounting) {
+          setOperationAccounting({...operationAccounting, key: idDetail})
+          setIsLoading(false);
+        }
       })
     }
   }, [idDetail]);
 
   useEffect(() => {
     if (idDetail || isUpdateTable) {
-      handleUpdateOperationAccounting()
+      handleUpdateTable()
     }
-  }, [idDetail, isUpdateTable, handleUpdateOperationAccounting]);
+  }, [idDetail, isUpdateTable, handleUpdateTable]);
 
   return (
     <Table

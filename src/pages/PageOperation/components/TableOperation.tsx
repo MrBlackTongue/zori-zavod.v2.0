@@ -36,7 +36,7 @@ export const TableOperation: React.FC<TableProps> = ({
       dataIndex: 'unit',
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Норма',
@@ -89,7 +89,7 @@ export const TableOperation: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllOperation().then((allOperation) => {
-      setAllOperation(allOperation);
+      setAllOperation(allOperation.map((item, index) => ({ ...item, key: index })));
       setIsLoading(false);
     });
   }, [])

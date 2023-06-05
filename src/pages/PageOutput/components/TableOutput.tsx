@@ -28,7 +28,7 @@ export const TableOutput: React.FC<TableProps> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idOutput',
       defaultSortOrder: 'ascend',
     },
     {
@@ -43,7 +43,7 @@ export const TableOutput: React.FC<TableProps> = ({
       dataIndex: 'product',
       key: 'product',
       render: ((product: TypeProduct) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Действия',
@@ -89,8 +89,8 @@ export const TableOutput: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllOutput().then((allOutputs) => {
-      setAllOutput(allOutputs);
+    getAllOutput().then((allOutput) => {
+      setAllOutput(allOutput.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])

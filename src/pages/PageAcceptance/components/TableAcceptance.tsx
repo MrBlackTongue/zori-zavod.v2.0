@@ -37,14 +37,14 @@ export const TableAcceptance: React.FC<TableProps> = ({
       dataIndex: 'stock',
       key: 'stock',
       render: ((stock: TypeStock) =>
-        stock !== null ? (<div key={stock.id}>{stock.id}</div>) : null)
+        stock !== null ? (<div>{stock.id}</div>) : null)
     },
     {
       title: 'Товар',
       dataIndex: ['stock', 'product'],
       key: 'product',
       render: ((product: TypeProduct) =>
-        product !== null ? (<div key={product?.id}>{product?.title}</div>) : null)
+        product !== null ? (<div>{product?.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -64,14 +64,14 @@ export const TableAcceptance: React.FC<TableProps> = ({
       dataIndex: ['stock', 'product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'ID закупки',
       dataIndex: 'purchase',
       key: 'purchase',
       render: ((purchase: TypePurchase) =>
-        purchase !== null ? (<div key={purchase.id}>{purchase.id}</div>) : null)
+        purchase !== null ? (<div>{purchase.id}</div>) : null)
     },
     {
       title: 'Действия',
@@ -114,7 +114,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptance().then((allAcceptance) => {
-      setAllAcceptance(allAcceptance);
+      setAllAcceptance(allAcceptance.map((item, index) => ({ ...item, key: index })));
       setIsLoading(false);
     });
   }, [])
@@ -123,7 +123,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
-      setAllAcceptance(allAcceptance);
+      setAllAcceptance(allAcceptance.map((item, index) => ({ ...item, key: index })));
       setIsLoading(false);
     });
   }, [searchText])

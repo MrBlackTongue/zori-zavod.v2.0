@@ -50,7 +50,7 @@ export const TableMeterType: React.FC<TableProps> = ({
       dataIndex: 'unit',
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Действия',
@@ -96,8 +96,8 @@ export const TableMeterType: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllMeterType().then((meterType) => {
-      setAllMeterType(meterType);
+    getAllMeterType().then((allMeterType) => {
+      setAllMeterType(allMeterType.map((item, index) => ({ ...item, key: index })));
       setIsLoading(false);
     });
   }, [])

@@ -6,6 +6,7 @@ import {TypeOperationTimesheet} from "./TypeOperationTimesheet";
 import {TypeProductionType} from "./TypeProductionType";
 
 export type TypeOperationAccounting = {
+  key?: number,
   id?: number,
   date?: Dayjs | string,
   plan?: number,

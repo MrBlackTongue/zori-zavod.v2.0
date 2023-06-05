@@ -29,7 +29,7 @@ export const TableShipment: React.FC<TableProps> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idShipment',
     },
     {
       title: 'Дата',
@@ -44,7 +44,7 @@ export const TableShipment: React.FC<TableProps> = ({
       key: 'client',
       sorter: (a, b) => (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
       render: ((client: TypeClient) =>
-        client !== null ? (<div key={client.id}>{client.title}</div>) : null)
+        client !== null ? (<div>{client.title}</div>) : null)
     },
     {
       title: 'Действия',
@@ -103,7 +103,7 @@ export const TableShipment: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllShipment().then((allShipment) => {
-      setAllShipment(allShipment);
+      setAllShipment(allShipment.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])

@@ -42,7 +42,7 @@ export const TableProduct: React.FC<TableProps> = ({
       key: 'unit',
       width: 200,
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Товарная группа',
@@ -54,7 +54,7 @@ export const TableProduct: React.FC<TableProps> = ({
       })),
       onFilter: (value, record) => record.productGroup?.title === value,
       render: ((productGroup: TypeProductGroup) => productGroup !== null ? (
-        <div key={productGroup.id}> {productGroup.title}</div>) : null),
+        <div> {productGroup.title}</div>) : null),
     },
     {
       title: 'Действия',
@@ -101,7 +101,7 @@ export const TableProduct: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProduct().then((allProduct) => {
-      setAllProduct(allProduct);
+      setAllProduct(allProduct.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -110,7 +110,7 @@ export const TableProduct: React.FC<TableProps> = ({
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductByTitle(searchText ?? '').then((allProduct) => {
-      setAllProduct(allProduct);
+      setAllProduct(allProduct.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [searchText]);

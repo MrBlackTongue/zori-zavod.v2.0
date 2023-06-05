@@ -8,10 +8,10 @@ const {Option} = Select;
 
 export const CreateModalProductionProductMovement:
   React.FC<CreateModalProps<TypeProductionProductMovementFormValue>> = ({
-                                                                       isOpen,
-                                                                       createItem,
-                                                                       onCancel,
-                                                                     }) => {
+                                                                          isOpen,
+                                                                          createItem,
+                                                                          onCancel,
+                                                                        }) => {
   const [form] = Form.useForm();
 
   // Все остатки на складе
@@ -79,6 +79,7 @@ export const CreateModalProductionProductMovement:
           <Select
             showSearch
             allowClear
+            placeholder='Выберите товар'
             onChange={onChangeSelect}
             onClear={onClearSelect}
             filterOption={onSearchSelect}
@@ -97,14 +98,13 @@ export const CreateModalProductionProductMovement:
           name="amount"
           rules={[{required: true, message: 'введите количество'}]}
         >
-          <InputNumber style={{width: "100%"}} min={1}/>
+          <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
         </Form.Item>
         <Form.Item
           label="Тип движения"
           name="income"
         >
           <Select
-            defaultValue={false}
             onChange={value => form.setFieldsValue({income: value})}
           >
             <Option id={true} value={true}>{'Приход'}</Option>

@@ -44,7 +44,7 @@ export const TableOperationAccounting:
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idOperationAccounting',
     },
     {
       title: 'Дата',
@@ -68,7 +68,7 @@ export const TableOperationAccounting:
       dataIndex: ['operation', 'unit', 'name'],
       key: 'unit',
       render: (unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null,
+        unit !== null ? (<div>{unit.name}</div>) : null,
     },
     {
       title: 'Факт',
@@ -205,7 +205,7 @@ export const TableOperationAccounting:
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllOperationAccounting().then((allOperationAccounting) => {
-      setAllOperationAccounting(allOperationAccounting);
+      setAllOperationAccounting(allOperationAccounting.map((item, index) => ({ ...item, key: index })));
       setIsLoading(false);
     });
   }, [])
@@ -219,7 +219,7 @@ export const TableOperationAccounting:
         operationId: filter.operationId || undefined,
         productionTypeId: filter.productionTypeId || undefined,
       }).then((allOperationAccounting) => {
-        setAllOperationAccounting(allOperationAccounting);
+        setAllOperationAccounting(allOperationAccounting.map((item, index) => ({ ...item, key: index })));
         setIsLoading(false);
       });
     }

@@ -81,19 +81,23 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
   ];
 
   // Обновить таблицу
-  const updateOperationTimesheet = useCallback(() => {
+  const handleUpdateTable = useCallback(() => {
     if (idDetail) {
       setIsLoading(true);
       getOperationTimesheetByIdOperationAccounting(idDetail).then((allOperationTimesheet) => {
-        setAllOperationTimesheet(allOperationTimesheet);
-        setIsLoading(false);
+        if (allOperationTimesheet) {
+          setAllOperationTimesheet(
+            allOperationTimesheet.map((item, index) => ({...item, key: index}))
+          );
+          setIsLoading(false);
+        }
       });
     }
   }, [idDetail]);
 
   useEffect(() => {
-    updateOperationTimesheet();
-  }, [idDetail, isUpdateTable, updateOperationTimesheet]);
+    handleUpdateTable();
+  }, [idDetail, isUpdateTable, handleUpdateTable]);
 
   return (
     <Table

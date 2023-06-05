@@ -27,7 +27,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idProductBatch',
       sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
     },
     {
@@ -35,7 +35,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       dataIndex: 'product',
       key: 'product',
       render: ((product: TypeProduct) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -48,7 +48,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       dataIndex: ['product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'Действия',
@@ -95,7 +95,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductBatch().then((allProductBatch) => {
-      setAllProductBatch(allProductBatch);
+      setAllProductBatch(allProductBatch.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
