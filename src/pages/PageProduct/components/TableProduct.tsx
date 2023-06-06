@@ -110,7 +110,7 @@ export const TableProduct: React.FC<TableProps> = ({
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductByTitle(searchText ?? '').then((allProduct) => {
-      setAllProduct(allProduct.map((item, index) => ({...item, key: index})));
+      setAllProduct(allProduct);
       setIsLoading(false);
     });
   }, [searchText]);
@@ -131,6 +131,7 @@ export const TableProduct: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProduct}

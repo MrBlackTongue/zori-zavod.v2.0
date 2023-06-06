@@ -43,12 +43,12 @@ export const PageEmployee: React.FC = () => {
   // Обновить сотрудника
   const handleUpdateEmployee = (values: TypeEmployeeFormValue): void => {
     const employee: TypeEmployee = {
+      id: selectedEmployeeId,
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
       salaryRate: values.salaryRate,
       hired: values.hired,
-      id: selectedEmployeeId,
     };
     setIsDrawerOpen(false)
     updateEmployee(employee)

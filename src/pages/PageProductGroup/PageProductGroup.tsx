@@ -1,36 +1,34 @@
 import React, {useState} from 'react';
-import {Typography, Space, Button} from 'antd';
+import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
-import {
-  createNewProductGroup,
-  editProductGroup,
-} from "../../services";
-import {TypeProductGroup} from "../../types";
+import '../../App.css'
+import {createProductGroup, updateProductGroup, deleteProductGroupById} from "../../services";
+import {TypeProductGroup, TypeProductGroupFormValue} from "../../types";
 import {TableProductGroup} from "./components/TableProductGroup";
-import {AddModalProductGroup} from "./components/AddModalProductGroup";
-import {EditDrawerProductGroup} from "./components/EditDrawerProductGroup";
-
-const {Title} = Typography;
+import {CreateModalProductGroup} from "./components/CreateModalProductGroup";
+import {UpdateDrawerProductGroup} from "./components/UpdateDrawerProductGroup";
 
 export const PageProductGroup: React.FC = () => {
 
-  // Обновление таблицы, выбранная группа товаров по id
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
-  const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть/закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть/закрыть модальное окно, дравер
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбранной группы товаров
+  const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
+
   // Добавить новую группу товаров
-  const handleAddProductGroup = (values: TypeProductGroup): void => {
+  const handleCreateProductGroup = (values: TypeProductGroupFormValue): void => {
     const productGroup: TypeProductGroup = {
       title: values.title,
-      parent: values.parent ? {id: values.parent.id} : undefined,
+      parent: values.parent ? {id: values.parent} : undefined,
     };
     setIsModalOpen(false)
-    createNewProductGroup(productGroup)
-    setIsUpdateTable(prevState => !prevState)
+    createProductGroup(productGroup)
+    setIsTableUpdate(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -40,16 +38,22 @@ export const PageProductGroup: React.FC = () => {
   };
 
   // Обновить группу товаров
-  const handleUpdateProductGroup = (values: TypeProductGroup): void => {
+  const handleUpdateProductGroup = (values: TypeProductGroupFormValue): void => {
     const productGroup: TypeProductGroup = {
       id: selectedProductGroupId,
       title: values.title,
-      parent: values.parent ? {id: values.parent.id} : undefined,
+      parent: values.parent ? {id: values.parent} : undefined,
     };
     setIsDrawerOpen(false);
-    editProductGroup(productGroup);
-    setIsUpdateTable(prevState => !prevState);
+    updateProductGroup(productGroup);
+    setIsTableUpdate(prevState => !prevState);
   };
+
+  // Удалить запись из таблицы
+  const handleDeleteProductGroup = (id: number): void => {
+    deleteProductGroupById(id)
+    setIsTableUpdate(prevState => !prevState)
+  }
 
   return (
     <div style={{display: 'grid'}}>
@@ -59,7 +63,7 @@ export const PageProductGroup: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -73,20 +77,22 @@ export const PageProductGroup: React.FC = () => {
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableProductGroup
-        isUpdateTable={isUpdateTable}
+        isUpdateTable={isTableUpdate}
         openDrawer={openDrawer}
+        onDelete={handleDeleteProductGroup}
       />
-      <AddModalProductGroup
+      <CreateModalProductGroup
         isOpen={isModalOpen}
-        addItem={handleAddProductGroup}
+        createItem={handleCreateProductGroup}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerProductGroup
+      <UpdateDrawerProductGroup
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductGroupId}
         updateItem={handleUpdateProductGroup}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

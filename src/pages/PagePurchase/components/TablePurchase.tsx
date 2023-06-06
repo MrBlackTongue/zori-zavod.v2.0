@@ -146,7 +146,7 @@ export const TablePurchase: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllPurchase().then((allPurchase) => {
-      setAllPurchase(allPurchase.map((item, index) => ({...item, key: index})));
+      setAllPurchase(allPurchase);
       setIsLoading(false);
     });
   }, [])
@@ -155,7 +155,7 @@ export const TablePurchase: React.FC<TableProps> = ({
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllPurchaseByTitle(searchText ?? '').then((allPurchase) => {
-      setAllPurchase(allPurchase.map((item, index) => ({...item, key: index})));
+      setAllPurchase(allPurchase);
       setIsLoading(false);
     });
   }, [searchText])
@@ -170,6 +170,7 @@ export const TablePurchase: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allPurchase}

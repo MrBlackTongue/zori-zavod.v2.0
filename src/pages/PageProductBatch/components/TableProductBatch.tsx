@@ -95,7 +95,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductBatch().then((allProductBatch) => {
-      setAllProductBatch(allProductBatch.map((item, index) => ({...item, key: index})));
+      setAllProductBatch(allProductBatch);
       setIsLoading(false);
     });
   }, [])
@@ -106,6 +106,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProductBatch}

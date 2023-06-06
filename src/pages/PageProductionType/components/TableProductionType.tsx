@@ -79,7 +79,7 @@ export const TableProductionType: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductionType().then((allProductionType) => {
-      setAllProductionType(allProductionType.map((item, index) => ({...item, key: index})));
+      setAllProductionType(allProductionType);
       setIsLoading(false);
     });
   }, [])
@@ -90,6 +90,7 @@ export const TableProductionType: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProductionType}

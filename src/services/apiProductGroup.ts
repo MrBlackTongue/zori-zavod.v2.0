@@ -33,7 +33,7 @@ export function getProductGroupById(id: number): Promise<TypeProductGroup | unde
 }
 
 // Добавить новую товарную группу
-export function createNewProductGroup(data: TypeProductGroup): void {
+export function createProductGroup(data: TypeProductGroup): void {
   try {
     fetch(URL + PRODUCT_GROUP + GROUP, {
       method: 'POST',
@@ -61,7 +61,7 @@ export function deleteProductGroupById(id: number): void {
 }
 
 // Редактировать товарную группу
-export function editProductGroup(data: TypeProductGroup): void {
+export function updateProductGroup(data: TypeProductGroup): void {
   try {
     fetch(URL + PRODUCT_GROUP + GROUP, {
       method: 'PUT',

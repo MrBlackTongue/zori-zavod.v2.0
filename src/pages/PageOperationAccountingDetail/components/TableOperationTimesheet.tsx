@@ -85,12 +85,8 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
     if (idDetail) {
       setIsLoading(true);
       getOperationTimesheetByIdOperationAccounting(idDetail).then((allOperationTimesheet) => {
-        if (allOperationTimesheet) {
-          setAllOperationTimesheet(
-            allOperationTimesheet.map((item, index) => ({...item, key: index}))
-          );
-          setIsLoading(false);
-        }
+        setAllOperationTimesheet(allOperationTimesheet);
+        setIsLoading(false);
       });
     }
   }, [idDetail]);
@@ -101,6 +97,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allOperationTimesheet}

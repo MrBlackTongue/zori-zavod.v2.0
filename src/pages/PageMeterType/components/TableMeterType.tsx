@@ -97,7 +97,7 @@ export const TableMeterType: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllMeterType().then((allMeterType) => {
-      setAllMeterType(allMeterType.map((item, index) => ({...item, key: index})));
+      setAllMeterType(allMeterType);
       setIsLoading(false);
     });
   }, [])
@@ -108,6 +108,7 @@ export const TableMeterType: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       columns={columns}
       dataSource={allMeterType}
       loading={isLoading}

@@ -1,13 +1,14 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm, message,} from 'antd';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {deleteProductGroupById, getProductGroupTree} from "../../../services";
+import {getProductGroupTree} from "../../../services";
 import {TableProps, TableParam, TypeProductGroup} from "../../../types";
 
 export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
                                                                             isUpdateTable,
                                                                             openDrawer,
+                                                                            onDelete,
                                                                           }) => {
 
   // Лоудер и список всех групп товаров
@@ -52,7 +53,7 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту группу товаров?"
-              onConfirm={() => handleDelete(id)}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
@@ -92,36 +93,6 @@ export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
       setLoading(false);
     })
   }, [removeEmptyChildren]);
-
-  // Функция для поиска группы товаров по id
-  const findProductGroupById = (allProductGroup: TypeProductGroup[] | undefined, id: number): TypeProductGroup | null => {
-    if (!allProductGroup) {
-      return null;
-    }
-    for (let i = 0; i < allProductGroup.length; i++) {
-      if (allProductGroup[i].id === id) {
-        return allProductGroup[i];
-      }
-      if (allProductGroup[i].children) {
-        const foundGroup = findProductGroupById(allProductGroup[i].children, id);
-        if (foundGroup) return foundGroup;
-      }
-    }
-    return null;
-  };
-
-  // Удалить группу товаров
-  const handleDelete = async (id: number): Promise<void> => {
-    const allProductGroup = await getProductGroupTree();
-
-    const productGroup = findProductGroupById(allProductGroup as TypeProductGroup[], id);
-    if (productGroup && productGroup.children && productGroup.children.length > 0) {
-      message.warning('Невозможно удалить группу товаров с дочерним элементом');
-    } else {
-      deleteProductGroupById(id)
-      handleUpdateTable();
-    }
-  };
 
   useEffect(() => {
     handleUpdateTable()

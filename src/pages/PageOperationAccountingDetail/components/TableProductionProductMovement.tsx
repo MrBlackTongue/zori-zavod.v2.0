@@ -100,13 +100,8 @@ export const TableProductionProductMovement:
     if (idDetail) {
       setIsLoading(true);
       getProductionProductMovementByIdOperationAccounting(idDetail).then((allProductionProductMovement) => {
-        if (allProductionProductMovement) {
-          setAllProductionProductMovement(
-            allProductionProductMovement
-              .map((item, index) => ({...item, key: index}))
-          );
-          setIsLoading(false);
-        }
+        setAllProductionProductMovement(allProductionProductMovement);
+        setIsLoading(false);
       });
     }
   }, [idDetail]);
@@ -117,6 +112,7 @@ export const TableProductionProductMovement:
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProductionProductMovement}

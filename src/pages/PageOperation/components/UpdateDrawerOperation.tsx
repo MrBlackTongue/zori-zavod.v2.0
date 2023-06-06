@@ -25,10 +25,10 @@ export const UpdateDrawerOperation: React.FC<UpdateDrawerProps<TypeOperationForm
   // Функция для получения данных в дравер
   const handleGetOperation = useCallback((): void => {
     if (selectedItemId) {
-      getOperationById(selectedItemId).then((operation) => {
+      getOperationById(selectedItemId).then((data) => {
         form.setFieldsValue({
-          ...operation,
-          unit: operation?.unit?.id === 0 ? '' : operation?.unit?.id,
+          ...data,
+          unit: data?.unit?.id === 0 ? '' : data?.unit?.id,
         })
       })
     }

@@ -100,7 +100,7 @@ export const TableEmployee: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllEmployee().then((allEmployee) => {
-      setAllEmployee(allEmployee.map((item, index) => ({...item, key: index})));
+      setAllEmployee(allEmployee);
       setIsLoading(false);
     });
   }, [])
@@ -111,6 +111,7 @@ export const TableEmployee: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allEmployee}

@@ -89,7 +89,7 @@ export const TableOperation: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllOperation().then((allOperation) => {
-      setAllOperation(allOperation.map((item, index) => ({...item, key: index})));
+      setAllOperation(allOperation);
       setIsLoading(false);
     });
   }, [])
@@ -100,6 +100,7 @@ export const TableOperation: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allOperation}

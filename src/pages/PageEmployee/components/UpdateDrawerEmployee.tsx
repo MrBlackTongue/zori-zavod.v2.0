@@ -19,8 +19,8 @@ export const UpdateDrawerEmployee: React.FC<UpdateDrawerProps<TypeEmployee>> = (
   // Функция для получения данных в дравер
   const handleGetEmployee = useCallback((): void => {
     if (selectedItemId) {
-      getEmployeeById(selectedItemId).then((employee) => {
-        form.setFieldsValue({...employee});
+      getEmployeeById(selectedItemId).then((data) => {
+        form.setFieldsValue({...data});
       })
     }
   }, [selectedItemId, form])

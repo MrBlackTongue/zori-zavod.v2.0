@@ -66,13 +66,15 @@ export const FormProduct: React.FC<FormProductProps> = ({
           filterOption={onSearchProductGroup}
         >
           {allProductGroup && allProductGroup.length > 0 ?
-            allProductGroup.map(productGroup => (
-              <Option key={productGroup.id} value={productGroup.id} label={productGroup.title}>
-                <Tooltip placement="right" title={productGroup.title}>
-                  {productGroup.title}
-                </Tooltip>
-              </Option>
-            )) : null}
+            allProductGroup
+              .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
+              .map(productGroup => (
+                <Option key={productGroup.id} value={productGroup.id} label={productGroup.title}>
+                  <Tooltip placement="right" title={productGroup.title}>
+                    {productGroup.title}
+                  </Tooltip>
+                </Option>
+              )) : null}
         </Select>
       </Form.Item>
     </Form>
