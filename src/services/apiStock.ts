@@ -61,7 +61,7 @@ export function deleteStockById(id: number): void {
 }
 
 // Редактировать остаток на складе
-export function editStock(data: TypeStock): void {
+export function updateStock(data: TypeStock): void {
   try {
     fetch(URL + STOCK, {
       method: 'PUT',

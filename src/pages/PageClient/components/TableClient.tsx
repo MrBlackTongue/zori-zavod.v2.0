@@ -75,8 +75,8 @@ export const TableClient: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllClient().then((allClients) => {
-      setAllClient(allClients);
+    getAllClient().then((allClient) => {
+      setAllClient(allClient);
       setIsLoading(false);
     });
   }, [])
@@ -87,6 +87,7 @@ export const TableClient: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allClient}

@@ -23,4 +23,5 @@ export const SHIPMENT = '/shipment';
 export const PRODUCTION = '/production';
 export const PRODUCTION_TYPE = '/production-type';
 export const METER_TYPE = '/meter-type';
+export const TREE = '/tree';
 export const METER = '/meter';

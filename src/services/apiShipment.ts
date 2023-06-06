@@ -61,7 +61,7 @@ export function deleteShipmentById(id: number): void {
 }
 
 // Редактировать отгрузку
-export function editShipment(data: TypeShipment): void {
+export function updateShipment(data: TypeShipment): void {
   try {
     fetch(URL + SHIPMENT, {
       method: 'PUT',

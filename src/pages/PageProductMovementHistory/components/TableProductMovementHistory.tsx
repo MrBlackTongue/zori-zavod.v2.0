@@ -86,25 +86,29 @@ export const TableProductMovementHistory:
     setTableParams({pagination});
   };
 
+  // Функция для обновления таблицы товаров
+  const handleUpdateTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllProductMovementHistory().then((allProductMovementHistory) => {
+      setAllProductMovementHistory(allProductMovementHistory.map((item, index) => ({...item, key: index})));
+      setIsLoading(false);
+    });
+  }, []);
+
   // Функция для поиска по таблице истории движения товаров
   const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
       getProductMovementHistoryById(filter.id).then((allProductMovementHistory) => {
-        setAllProductMovementHistory(allProductMovementHistory);
-        setIsLoading(false);
+        if (allProductMovementHistory) {
+          setAllProductMovementHistory(
+            allProductMovementHistory.map((item, index) => ({...item, key: index}))
+          );
+          setIsLoading(false);
+        }
       });
     }
   }, [filter]);
-
-  // Функция для обновления таблицы товаров
-  const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllProductMovementHistory().then((allProductMovementHistory) => {
-      setAllProductMovementHistory(allProductMovementHistory);
-      setIsLoading(false);
-    });
-  }, []);
 
   useEffect(() => {
     if (filter?.id) {

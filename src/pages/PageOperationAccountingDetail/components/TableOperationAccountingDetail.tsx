@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
 import {getOperationAccountingById} from "../../../services";
-import {TableProps, TypeOperationAccounting, TypeOperationTimesheet} from "../../../types";
+import {TableProps, TypeOperationAccounting, TypeOperationTimesheet, TypeUnit} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo(({
@@ -21,7 +21,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idOperationAccounting',
     },
     {
       title: 'Дата',
@@ -44,10 +44,8 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
       title: 'Ед. изм.',
       dataIndex: ['operation', 'unit', 'name'],
       key: 'unit',
-      render: (unitName: string, record: TypeOperationAccounting) =>
-        record.operation?.unit ? (
-          <div key={record.operation?.unit.id}>{record.operation?.unit.name}</div>
-        ) : null,
+      render: (unit: TypeUnit) =>
+        unit !== null ? (<div>{unit.name}</div>) : null,
     },
     {
       title: 'Факт',
@@ -126,7 +124,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
   ];
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = useCallback((): void => {
+  const handleUpdateTable = useCallback((): void => {
     if (idDetail) {
       setIsLoading(true);
       getOperationAccountingById(idDetail).then((operationAccounting) => {
@@ -138,12 +136,13 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
 
   useEffect(() => {
     if (idDetail || isUpdateTable) {
-      handleUpdateOperationAccounting()
+      handleUpdateTable()
     }
-  }, [idDetail, isUpdateTable, handleUpdateOperationAccounting]);
+  }, [idDetail, isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={operationAccounting ? [operationAccounting] : []}

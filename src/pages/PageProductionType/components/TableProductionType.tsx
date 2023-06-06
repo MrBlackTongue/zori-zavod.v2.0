@@ -90,6 +90,7 @@ export const TableProductionType: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProductionType}

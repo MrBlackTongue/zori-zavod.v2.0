@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TableParam, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
+import {TableProps, TableParam, TypeUnit, TypeStock, TypeStockFilter, TypeProduct} from "../../../types";
 import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
@@ -29,7 +29,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idStock',
       defaultSortOrder: 'descend',
       sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
     },
@@ -38,8 +38,8 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataIndex: 'product',
       key: 'product',
       sorter: (a, b) => (a.product?.title ?? '') < (b.product?.title ?? '') ? -1 : 1,
-      render: ((product: any) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -61,7 +61,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataIndex: ['product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'Действия',
@@ -77,7 +77,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => (openDrawer && openDrawer(id))}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -85,7 +85,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту ячейку на складе?"
-              onConfirm={() => (onDelete && onDelete(id))}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена"
             >
@@ -151,6 +151,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allStock}

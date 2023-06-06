@@ -24,11 +24,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
       defaultSortOrder: 'ascend',
       sorter: (a, b) =>
         (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
-      render: (employee: TypeEmployee) => (
-        <div>
-          {employee.lastName} {employee.firstName}
-        </div>
-      ),
+      render: (employee: TypeEmployee) => (<div>{employee.lastName} {employee.firstName}</div>),
     },
     {
       title: 'Часы',
@@ -85,7 +81,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
   ];
 
   // Обновить таблицу
-  const updateOperationTimesheet = useCallback(() => {
+  const handleUpdateTable = useCallback(() => {
     if (idDetail) {
       setIsLoading(true);
       getOperationTimesheetByIdOperationAccounting(idDetail).then((allOperationTimesheet) => {
@@ -96,11 +92,12 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
   }, [idDetail]);
 
   useEffect(() => {
-    updateOperationTimesheet();
-  }, [idDetail, isUpdateTable, updateOperationTimesheet]);
+    handleUpdateTable();
+  }, [idDetail, isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allOperationTimesheet}

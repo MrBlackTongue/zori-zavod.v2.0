@@ -12,3 +12,12 @@ export type TypeAcceptance = {
   productBatch?: TypeProductBatch,
   purchase?: TypePurchase;
 }
+
+export type TypeAcceptanceFormValue = {
+  amount?: number,
+  income?: true,
+  stock?: number,
+  date?: string,
+  productBatch?: number,
+  purchase?: number;
+}
