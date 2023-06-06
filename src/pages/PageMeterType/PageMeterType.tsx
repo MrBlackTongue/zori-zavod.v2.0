@@ -2,37 +2,34 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteMeterTypeById, createMeterType, editMeterType} from "../../services";
-import {TypeMeterType} from "../../types";
+import {deleteMeterTypeById, createMeterType, updateMeterType} from "../../services";
+import {TypeMeterType, TypeMeterTypeFormValue} from "../../types";
 import {TableMeterType} from "./components/TableMeterType";
-import {AddModalMeterType} from "./components/AddModalMeterType";
-import {EditDrawerMeterType} from "./components/EditDrawerMeterType";
-
-const {Title} = Typography;
+import {CreateModalMeterType} from "./components/CreateModalMeterType";
+import {UpdateDrawerMeterType} from "./components/UpdateDrawerMeterType";
 
 export const PageMeterType: React.FC = () => {
 
-  // Обновление таблицы, id выбраного типа счетчика
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбраного типа счетчика
+  const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
+
   // Добавить новый тип счетчика
-  const handleAddMeterType = (values: TypeMeterType): void => {
+  const handleCreateMeterType = (values: TypeMeterTypeFormValue): void => {
     const meterType: TypeMeterType = {
       title: values.title,
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
+      unit: {id: values.unit},
       cost: values.cost,
     };
     setIsModalOpen(false)
     createMeterType(meterType)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -42,25 +39,22 @@ export const PageMeterType: React.FC = () => {
   };
 
   // Обновить тип счетчика
-  const handleUpdateMeterType = (values: TypeMeterType): void => {
+  const handleUpdateMeterType = (values: TypeMeterTypeFormValue): void => {
     const meterType: TypeMeterType = {
-      title: values.title,
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
-      cost: values.cost,
       id: selectedMeterTypeId,
+      title: values.title,
+      unit: {id: values.unit},
+      cost: values.cost,
     };
     setIsDrawerOpen(false)
-    editMeterType(meterType)
-    setIsTableUpdate(prevState => !prevState)
+    updateMeterType(meterType)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteMeterType = (id: number): void => {
     deleteMeterTypeById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -71,8 +65,9 @@ export const PageMeterType: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -86,20 +81,20 @@ export const PageMeterType: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableMeterType
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteMeterType}
       />
-      <AddModalMeterType
+      <CreateModalMeterType
         isOpen={isModalOpen}
-        addItem={handleAddMeterType}
+        createItem={handleCreateMeterType}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerMeterType
+      <UpdateDrawerMeterType
         isOpen={isDrawerOpen}
         selectedItemId={selectedMeterTypeId}
         updateItem={handleUpdateMeterType}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

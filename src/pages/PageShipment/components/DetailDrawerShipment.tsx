@@ -1,6 +1,11 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Button, Drawer, Space} from "antd";
-import {DetailDrawerProps, TypeShipment, TypeShipmentProductMovement} from "../../../types";
+import {
+  DetailDrawerProps,
+  TypeShipment,
+  TypeShipmentProductMovement,
+  TypeShipmentProductMovementFormValue
+} from "../../../types";
 import {TableDetailShipment} from "./TableDetailShipment";
 import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
 import {
@@ -8,44 +13,47 @@ import {
   getShipmentById,
   createShipmentProductMovement
 } from "../../../services";
-import {AddModalDetailShipment} from "./AddModalDetailShipment";
-
+import {CreateModalDetailShipment} from "./CreateModalDetailShipment";
 
 export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = ({
                                                                                   isOpen,
-                                                                                  closeDrawer,
+                                                                                  onCancel,
                                                                                   selectedItemId
                                                                                 }) => {
 
-  // Состояния для обновления таблицы, модального окна, выбранная отгрузка
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  // Обновление таблицы, Открыть закрыть модальное окно, Выбранная отгрузка
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Функция добавления нового товара в отгрузку
-  const handleAddShipmentMovement = (values: TypeShipmentProductMovement): void => {
+  const handleCreateShipmentMovement = (values: TypeShipmentProductMovementFormValue): void => {
     const productMovement: TypeShipmentProductMovement = {
-      // date: selectedShipment?.date,
-      stock: values['stock'],
-      amount: values['amount'],
-      shipment: selectedShipment,
+      date: selectedShipment?.date,
+      stock: {
+        id: values.stock,
+      },
+      amount: values.amount,
+      shipment: {
+        id: selectedShipment?.id,
+      },
       income: false
     };
     setIsModalOpen(false)
     createShipmentProductMovement(productMovement)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteShipmentMovement = (id: number): void => {
     deleteShipmentProductMovementById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Функция для получения данных об отгрузке по id и обновления формы
   const handleGetShipment = useCallback((): void => {
     if (selectedItemId) {
-      getShipmentById(selectedItemId).then((shipment) => setSelectedShipment(shipment))
+      getShipmentById(selectedItemId).then((data) => setSelectedShipment(data))
     }
   }, [selectedItemId]);
 
@@ -59,13 +67,13 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
       placement={"bottom"}
       height={400}
       open={isOpen}
-      onClose={closeDrawer}
+      onClose={onCancel}
       extra={
         <Space>
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -81,13 +89,13 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
       }
     >
       <TableDetailShipment
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         idDetail={selectedShipment?.id}
         onDelete={handleDeleteShipmentMovement}
       />
-      <AddModalDetailShipment
+      <CreateModalDetailShipment
         isOpen={isModalOpen}
-        addItem={handleAddShipmentMovement}
+        createItem={handleCreateShipmentMovement}
         onCancel={() => setIsModalOpen(false)}
       />
     </Drawer>

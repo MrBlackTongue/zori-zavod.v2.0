@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех типов счетчика
@@ -61,14 +61,14 @@ export function deleteMeterTypeById(id: number): void {
 }
 
 // Редактировать тип счетчика
-export function editMeterType(data: TypeMeterType): void {
+export function updateMeterType(data: TypeMeterType): void {
   try {
     fetch(URL + METER_TYPE, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

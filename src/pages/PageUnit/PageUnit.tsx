@@ -2,32 +2,32 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteUnitById, createUnit, editUnit} from "../../services";
-import {TypeUnit} from "../../types";
+import {deleteUnitById, createUnit, updateUnit} from "../../services";
+import {TypeUnit, TypeUnitFormValue} from "../../types";
 import {TableUnit} from "./components/TableUnit";
-import {AddModalUnit} from "./components/AddModalUnit";
-import {EditDrawerUnit} from "./components/EditDrawerUnit";
-
-const {Title} = Typography;
+import {CreateModalUnit} from "./components/CreateModalUnit";
+import {UpdateDrawerUnit} from "./components/UpdateDrawerUnit";
 
 export const PageUnit: React.FC = () => {
 
-  // Обновление таблицы, id выбраной единицы измерения
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedUnitId, setSelectedUnitId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбраной единицы измерения
+  const [selectedUnitId, setSelectedUnitId] = useState<number>();
+
   // Добавить новую единицу измерения
-  const handleAddUnit = (values: TypeUnit): void => {
+  const handleCreateUnit = (values: TypeUnitFormValue): void => {
     const unit: TypeUnit = {
       name: values.name,
     };
     setIsModalOpen(false)
     createUnit(unit)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -37,20 +37,20 @@ export const PageUnit: React.FC = () => {
   };
 
   // Обновить единицу измерения
-  const handleUpdateUnit = (values: TypeUnit): void => {
+  const handleUpdateUnit = (values: TypeUnitFormValue): void => {
     const unit: TypeUnit = {
-      name: values.name,
       id: selectedUnitId,
+      name: values.name,
     };
     setIsDrawerOpen(false)
-    editUnit(unit)
-    setIsTableUpdate(prevState => !prevState)
+    updateUnit(unit)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteUnit = (id: number): void => {
     deleteUnitById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -61,8 +61,9 @@ export const PageUnit: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -76,20 +77,20 @@ export const PageUnit: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableUnit
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteUnit}
       />
-      <AddModalUnit
+      <CreateModalUnit
         isOpen={isModalOpen}
-        addItem={handleAddUnit}
+        createItem={handleCreateUnit}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerUnit
+      <UpdateDrawerUnit
         isOpen={isDrawerOpen}
         selectedItemId={selectedUnitId}
         updateItem={handleUpdateUnit}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

@@ -2,32 +2,32 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteClientById, createClient, editClient} from "../../services";
-import {TypeClient} from "../../types";
+import {deleteClientById, createClient, updateClient} from "../../services";
+import {TypeClient, TypeClientFormValue} from "../../types";
 import {TableClient} from "./components/TableClient";
-import {AddModalClient} from "./components/AddModalClient";
-import {EditDrawerClient} from "./components/EditDrawerClient";
-
-const {Title} = Typography;
+import {CreateModalClient} from "./components/CreateModalClient";
+import {UpdateDrawerClient} from "./components/UpdateDrawerClient";
 
 export const PageClient: React.FC = () => {
 
-  // Обновление таблицы, id выбраного клиента
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedClientId, setSelectedClientId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбраного клиента
+  const [selectedClientId, setSelectedClientId] = useState<number>();
+
   // Добавить нового клиента
-  const handleAddClient = (values: TypeClient): void => {
+  const handleCreateClient = (values: TypeClientFormValue): void => {
     const client: TypeClient = {
       title: values.title,
     };
     setIsModalOpen(false)
     createClient(client)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -37,20 +37,20 @@ export const PageClient: React.FC = () => {
   };
 
   // Обновить клиента
-  const handleUpdateClient = (values: TypeClient): void => {
+  const handleUpdateClient = (values: TypeClientFormValue): void => {
     const client: TypeClient = {
       id: selectedClientId,
       title: values.title,
     };
     setIsDrawerOpen(false)
-    editClient(client)
-    setIsTableUpdate(prevState => !prevState)
+    updateClient(client)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteClient = (id: number): void => {
     deleteClientById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -61,8 +61,9 @@ export const PageClient: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -76,20 +77,20 @@ export const PageClient: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableClient
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteClient}
       />
-      <AddModalClient
+      <CreateModalClient
         isOpen={isModalOpen}
-        addItem={handleAddClient}
+        createItem={handleCreateClient}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerClient
+      <UpdateDrawerClient
         isOpen={isDrawerOpen}
         selectedItemId={selectedClientId}
         updateItem={handleUpdateClient}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

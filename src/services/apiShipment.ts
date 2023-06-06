@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех отгрузок
@@ -61,14 +61,14 @@ export function deleteShipmentById(id: number): void {
 }
 
 // Редактировать отгрузку
-export function editShipment(data: TypeShipment): void {
+export function updateShipment(data: TypeShipment): void {
   try {
     fetch(URL + SHIPMENT, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

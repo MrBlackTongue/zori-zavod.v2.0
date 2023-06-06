@@ -1,46 +1,53 @@
-import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Input, Select, FloatButton} from 'antd';
+import React, {useState} from 'react';
+import {Typography, Space, Button, Input, Select, FloatButton, Tooltip} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {getAllProductGroup, createNewStock, editStock, deleteStockById} from '../../services';
-import {TypeProductGroup, TypeStock} from '../../types';
+import {createStock, updateStock, deleteStockById} from '../../services';
+import {TypeStock, TypeStockFormValue} from '../../types';
 import {TableStock} from "./components/TableStock";
-import {AddModalStock} from "./components/AddModalStock";
-import {EditDrawerStock} from "./components/EditDrawerStock";
-
-const {Title} = Typography;
-const {Option} = Select;
+import {CreateModalStock} from "./components/CreateModalStock";
+import {UpdateDrawerStock} from "./components/UpdateDrawerStock";
+import {useFetchAllData} from "../../hooks";
 
 export const PageStock: React.FC = () => {
 
-  // Обновление таблицы
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const {Title} = Typography;
+  const {Option} = Select;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Все группы товаров, id выбранной группы товаров
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
-  const [selectedGroupId, setSelectedGroupId] = useState<number>();
+  // Хук для получения данных
+  const {allProductGroup} = useFetchAllData();
 
-  // id выбранной ячейка на складе
+  // id выбранной группы товаров, id выбранной ячейка на складе
+  const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState("");
 
+  // Изменить выбранную группу товаров
+  const onChangeProductGroup = (value: any): void => {
+    setSelectedProductGroupId(value ? value : undefined);
+  };
+
+  // Поиск по селекту
+  const onSearchSelect = (searchText: string, option: any) => {
+    return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
+  }
+
   // Добавить новую ячейку на складе
-  const handleAddStock = (values: TypeStock): void => {
+  const handleCreateStock = (values: TypeStockFormValue): void => {
     const stock: TypeStock = {
       amount: values.amount,
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
     };
     setIsModalOpen(false);
-    createNewStock(stock);
-    setIsTableUpdate(prevState => !prevState)
+    createStock(stock);
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -49,36 +56,23 @@ export const PageStock: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Изменить выбранную группу товаров
-  const onChangeProductGroup = (value: string, option: any): void => {
-    setSelectedGroupId(value !== undefined ? option.id : undefined);
-  };
-
   // Обновить товар на складе
-  const handleUpdateStock = (values: TypeStock): void => {
+  const handleUpdateStock = (values: TypeStockFormValue): void => {
     const stock: TypeStock = {
       id: selectedStockId,
       amount: values.amount,
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
     };
     setIsDrawerOpen(false);
-    editStock(stock);
-    setIsTableUpdate(prevState => !prevState)
+    updateStock(stock);
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDelete = (id: number): void => {
+  const handleDeleteStock = (id: number): void => {
     deleteStockById(id)
-    setIsTableUpdate(prevState => !prevState);
+    setIsUpdateTable(prevState => !prevState);
   };
-
-  useEffect(() => {
-    getAllProductGroup().then((allStockGroup) => {
-      setAllProductGroup(allStockGroup);
-    });
-  }, []);
 
   return (
     <div style={{display: 'grid'}}>
@@ -95,23 +89,26 @@ export const PageStock: React.FC = () => {
           <Select
             showSearch
             allowClear
-            placeholder='Товарная группа'
+            placeholder='Выберите товарную группу'
+            style={{'width': '250px'}}
             onChange={onChangeProductGroup}
-            style={{'width': '300px'}}
+            filterOption={onSearchSelect}
           >
             {allProductGroup && allProductGroup.length > 0 ?
               allProductGroup
                 .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
                 .map(productGroup => (
-                  <Option id={productGroup.id} key={productGroup.id} value={productGroup.title}>
-                    {productGroup.title}
+                  <Option key={productGroup.id} value={productGroup.id} label={productGroup.title}>
+                    <Tooltip placement="right" title={productGroup.title}>
+                      {productGroup.title}
+                    </Tooltip>
                   </Option>
                 )) : null}
           </Select>
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className="greenButton"
           >
             Обновить
@@ -127,22 +124,22 @@ export const PageStock: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableStock
-        isUpdateTable={isTableUpdate}
-        onDelete={handleDelete}
+        isUpdateTable={isUpdateTable}
+        onDelete={handleDeleteStock}
         openDrawer={openDrawer}
         searchText={searchText}
-        filter={{id: selectedGroupId}}
+        filter={{id: selectedProductGroupId}}
       />
-      <AddModalStock
+      <CreateModalStock
         isOpen={isModalOpen}
-        addItem={handleAddStock}
+        createItem={handleCreateStock}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerStock
+      <UpdateDrawerStock
         isOpen={isDrawerOpen}
         selectedItemId={selectedStockId}
         updateItem={handleUpdateStock}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

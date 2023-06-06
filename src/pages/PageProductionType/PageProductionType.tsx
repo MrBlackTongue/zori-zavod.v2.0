@@ -4,35 +4,35 @@ import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
   createProductionType,
-  editProductionType,
+  updateProductionType,
   deleteProductionTypeById,
 } from "../../services";
-import {TypeProductionType} from "../../types";
+import {TypeProductionType, TypeProductionTypeFormValue} from "../../types";
 import {TableProductionType} from "./components/TableProductionType";
-import {AddModalProductionType} from "./components/AddModalProductionType";
-import {EditDrawerProductionType} from "./components/EditDrawerProductionType";
-
-const {Title} = Typography;
+import {CreateModalProductionType} from "./components/CreateModalProductionType";
+import {UpdateDrawerProductionType} from "./components/UpdateDrawerProductionType";
 
 export const PageProductionType: React.FC = () => {
 
-  // Обновление таблицы, id выбраного типа производства
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбраного типа производства
+  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
+
   // Добавить запись в таблицу
-  const handleAddProductionType = (values: TypeProductionType): void => {
+  const handleCreateProductionType = (values: TypeProductionTypeFormValue): void => {
     const productionType: TypeProductionType = {
       title: values.title,
       description: values.description,
     };
     setIsModalOpen(false)
     createProductionType(productionType)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -42,21 +42,21 @@ export const PageProductionType: React.FC = () => {
   };
 
   // Обновить запись в таблице
-  const handleUpdateProductionType = (values: TypeProductionType): void => {
+  const handleUpdateProductionType = (values: TypeProductionTypeFormValue): void => {
     const productionType: TypeProductionType = {
       id: selectedProductionTypeId,
       title: values.title,
       description: values.description,
     };
     setIsDrawerOpen(false)
-    editProductionType(productionType)
-    setIsTableUpdate(prevState => !prevState)
+    updateProductionType(productionType)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductionType = (id: number): void => {
     deleteProductionTypeById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -67,7 +67,7 @@ export const PageProductionType: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -83,20 +83,20 @@ export const PageProductionType: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProductionType
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteProductionType}
       />
-      <AddModalProductionType
+      <CreateModalProductionType
         isOpen={isModalOpen}
-        addItem={handleAddProductionType}
+        createItem={handleCreateProductionType}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerProductionType
+      <UpdateDrawerProductionType
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductionTypeId}
         updateItem={handleUpdateProductionType}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );
