@@ -2,7 +2,7 @@ import React from "react";
 import {Form, Modal} from "antd";
 import {CreateModalProps, TypeMeterTypeFormValue} from "../../../types";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormOperation} from "./FormMeterType";
+import {FormMeterType} from "./FormMeterType";
 
 export const CreateModalMeterType: React.FC<CreateModalProps<TypeMeterTypeFormValue>> = ({
                                                                                            isOpen,
@@ -30,7 +30,7 @@ export const CreateModalMeterType: React.FC<CreateModalProps<TypeMeterTypeFormVa
       onOk={handleSubmit}
       onCancel={handleReset}
     >
-      <FormOperation
+      <FormMeterType
         form={form}
         allUnit={allUnit}
         onChangeUnit={onChangeSelect}

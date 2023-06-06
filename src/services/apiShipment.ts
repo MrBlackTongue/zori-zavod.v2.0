@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех отгрузок
@@ -68,7 +68,7 @@ export function updateShipment(data: TypeShipment): void {
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

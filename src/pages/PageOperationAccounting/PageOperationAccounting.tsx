@@ -23,7 +23,7 @@ export const PageOperationAccounting: React.FC = () => {
   const {Option} = Select;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -69,7 +69,7 @@ export const PageOperationAccounting: React.FC = () => {
     };
     setIsModalOpen(false)
     createOperationAccounting(operationAccounting)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -90,13 +90,13 @@ export const PageOperationAccounting: React.FC = () => {
     };
     setIsDrawerOpen(false)
     updateOperationAccounting(operationAccounting)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOperationAccounting = (id: number): void => {
     deleteOperationAccountingById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -147,7 +147,7 @@ export const PageOperationAccounting: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             className='greenButton'
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
           >
             Обновить
           </Button>
@@ -162,7 +162,7 @@ export const PageOperationAccounting: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOperationAccounting
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteOperationAccounting}
         filter={{

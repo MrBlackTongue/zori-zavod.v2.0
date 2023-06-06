@@ -13,7 +13,7 @@ export const PageProduct: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -30,7 +30,7 @@ export const PageProduct: React.FC = () => {
     };
     setIsModalOpen(false)
     createProduct(product)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -49,13 +49,13 @@ export const PageProduct: React.FC = () => {
     };
     setIsDrawerOpen(false)
     updateProduct(product)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProduct = (id: number): void => {
     deleteProductById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -74,7 +74,7 @@ export const PageProduct: React.FC = () => {
             type="dashed"
             className='greenButton'
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
           >
             Обновить
           </Button>
@@ -89,7 +89,7 @@ export const PageProduct: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProduct
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteProduct}
         searchText={searchText}

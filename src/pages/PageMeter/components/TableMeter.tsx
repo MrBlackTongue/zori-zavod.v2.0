@@ -2,14 +2,14 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TableParam, TypeMeter} from "../../../types";
+import {TableProps, TableParam, TypeMeter, TypeMeterType} from "../../../types";
 import {getAllMeter} from "../../../services";
 
-export const TableMeter: React.FC<TableProps<TypeMeter>> = ({
-                                                              isUpdateTable,
-                                                              openDrawer,
-                                                              onDelete,
-                                                            }) => {
+export const TableMeter: React.FC<TableProps> = ({
+                                                   isUpdateTable,
+                                                   openDrawer,
+                                                   onDelete,
+                                                 }) => {
 
   // Лоудер и список всех счётчиков
   const [loading, setLoading] = useState(false);
@@ -28,9 +28,9 @@ export const TableMeter: React.FC<TableProps<TypeMeter>> = ({
     {
       title: 'Тип счётчика',
       dataIndex: 'meterTypeDto',
-      key: 'meterTypeDto',
-      render: ((meterTypeDto: any) =>
-        meterTypeDto !== null ? (<div key={meterTypeDto.id}>{meterTypeDto.title}</div>) : null)
+      key: 'meterType',
+      render: ((meterTypeDto: TypeMeterType) =>
+        meterTypeDto !== null ? (<div>{meterTypeDto.title}</div>) : null)
     },
     {
       title: 'Описание',
@@ -89,21 +89,22 @@ export const TableMeter: React.FC<TableProps<TypeMeter>> = ({
     setTableParams({pagination});
   };
 
-  // Функция для обновления таблицы счётчиков
-  const updateTable = useCallback(() => {
+  // Функция для обновления таблицы
+  const handleUpdateTable = useCallback((): void => {
     setLoading(true);
-    getAllMeter().then((allMeter) => {
-      setAllMeter(allMeter);
+    getAllMeter().then((data) => {
+      setAllMeter(data);
       setLoading(false);
     });
   }, []);
 
   useEffect(() => {
-    updateTable();
-  }, [updateTable, isUpdateTable]);
+    handleUpdateTable();
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allMeter}

@@ -11,6 +11,7 @@ import {
   TypeProductGroup,
   TypeClient,
   TypeEmployee,
+  TypeMeterType,
 } from "../types";
 import {
   getAllStock,
@@ -24,6 +25,7 @@ import {
   getAllProductGroup,
   getAllClient,
   getAllEmployee,
+  getAllMeterType,
 } from "../services";
 
 export const useFetchAllData = () => {
@@ -38,6 +40,7 @@ export const useFetchAllData = () => {
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
   const [allClient, setAllClient] = useState<TypeClient[]>([]);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>([]);
+  const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>([]);
 
   useEffect(() => {
     getAllStock().then((allStock) => {
@@ -106,6 +109,12 @@ export const useFetchAllData = () => {
     });
   }, []);
 
+  useEffect(() => {
+    getAllMeterType().then((allMeterType) => {
+      setAllMeterType(allMeterType);
+    });
+  }, []);
+
   return {
     allStock,
     allPurchase,
@@ -118,5 +127,6 @@ export const useFetchAllData = () => {
     allProductGroup,
     allClient,
     allEmployee,
+    allMeterType,
   };
 }

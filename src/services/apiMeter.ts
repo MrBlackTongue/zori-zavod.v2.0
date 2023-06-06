@@ -7,10 +7,10 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
-// Получить список всех счётчиков
+// Получить список всех счетчиков
 export function getAllMeter(): Promise<TypeMeter[]> {
   try {
     return fetch(URL + METER)
@@ -21,22 +21,18 @@ export function getAllMeter(): Promise<TypeMeter[]> {
   }
 }
 
-// Изменение существующего счётчика
-export function editMeter(data: TypeMeter): void {
+// Получить данные счетчика по id
+export function getMeterById(id: number): Promise<TypeMeter | undefined> {
   try {
-    fetch(URL + METER, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseEdit)
-      .catch(handleError)
+    return fetch(URL + METER + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    void handleCatchError(error);
+    return handleCatchError(error);
   }
 }
 
-// Создание нового счётчика
+// Создать новый счетчик
 export function createMeter(data: TypeMeter): void {
   try {
     fetch(URL + METER, {
@@ -51,18 +47,7 @@ export function createMeter(data: TypeMeter): void {
   }
 }
 
-// Получить счётчик по id
-export function getMeterById(id: number): Promise<TypeMeter | undefined> {
-  try {
-    return fetch(URL + METER + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
-}
-
-// Удаление счётчика по id
+// Удалить счетчик по id
 export function deleteMeterById(id: number): void {
   try {
     fetch(URL + METER + `/${id}`, {
@@ -70,6 +55,21 @@ export function deleteMeterById(id: number): void {
     })
       .then(handleResponseDelete)
       .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
+  }
+}
+
+// Редактировать счетчик
+export function updateMeter(data: TypeMeter): void {
+  try {
+    fetch(URL + METER, {
+      method: 'PUT',
+      headers: BASE_HEADERS,
+      body: JSON.stringify(data),
+    })
+      .then(handleResponseUpdate)
+      .catch(handleError)
   } catch (error) {
     void handleCatchError(error);
   }

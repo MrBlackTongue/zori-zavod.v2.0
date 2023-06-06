@@ -5,11 +5,11 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getProductGroupTree} from "../../../services";
 import {TableProps, TableParam, TypeProductGroup} from "../../../types";
 
-export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
-                                                                            isUpdateTable,
-                                                                            openDrawer,
-                                                                            onDelete,
-                                                                          }) => {
+export const TableProductGroup: React.FC<TableProps> = ({
+                                                          isUpdateTable,
+                                                          openDrawer,
+                                                          onDelete,
+                                                        }) => {
 
   // Лоудер и список всех групп товаров
   const [loading, setLoading] = useState(false);

@@ -3,7 +3,7 @@ import {Button, Drawer, Form, Space} from "antd";
 import {UpdateDrawerProps, TypeMeterTypeFormValue} from "../../../types";
 import {getMeterTypeById} from "../../../services";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormOperation} from "./FormMeterType";
+import {FormMeterType} from "./FormMeterType";
 
 export const UpdateDrawerMeterType: React.FC<UpdateDrawerProps<TypeMeterTypeFormValue>> = ({
                                                                                              isOpen,
@@ -55,7 +55,7 @@ export const UpdateDrawerMeterType: React.FC<UpdateDrawerProps<TypeMeterTypeForm
         </Space>
       }
     >
-      <FormOperation
+      <FormMeterType
         form={form}
         allUnit={allUnit}
         onChangeUnit={onChangeSelect}

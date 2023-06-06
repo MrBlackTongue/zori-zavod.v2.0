@@ -17,7 +17,7 @@ export const PageProductionType: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -32,7 +32,7 @@ export const PageProductionType: React.FC = () => {
     };
     setIsModalOpen(false)
     createProductionType(productionType)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -50,13 +50,13 @@ export const PageProductionType: React.FC = () => {
     };
     setIsDrawerOpen(false)
     updateProductionType(productionType)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductionType = (id: number): void => {
     deleteProductionTypeById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -67,7 +67,7 @@ export const PageProductionType: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -83,7 +83,7 @@ export const PageProductionType: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProductionType
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteProductionType}
       />

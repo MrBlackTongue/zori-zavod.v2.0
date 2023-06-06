@@ -14,7 +14,7 @@ export type TypeMeterTypeFormValue = {
   unit?: number;
 }
 
-export interface FormTypeMeterTypeProps {
+export interface FormMeterTypeProps {
   form: any
   allUnit: TypeUnit[];
   onChangeUnit: (value: string) => void;

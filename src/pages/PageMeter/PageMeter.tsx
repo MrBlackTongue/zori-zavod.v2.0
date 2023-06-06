@@ -2,67 +2,59 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {createMeter, editMeter, deleteMeterById} from '../../services';
-import {TypeMeter} from '../../types';
+import {createMeter, updateMeter, deleteMeterById} from '../../services';
+import {TypeMeter, TypeMeterFormValue} from '../../types';
 import {TableMeter} from "./components/TableMeter";
-import {AddModalMeter} from "./components/AddModalMeter";
-import {EditDrawerMeter} from "./components/EditDrawerMeter";
-
-const {Title} = Typography;
+import {CreateModalMeter} from "./components/CreateModalMeter";
+import {UpdateDrawerMeter} from "./components/UpdateDrawerMeter";
 
 export const PageMeter: React.FC = () => {
-  // Обновление таблицы
-  const [updateTable, setUpdateTable] = useState(false);
 
-  // Открыть закрыть модальное окно, дравер
+  const {Title} = Typography;
+
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Выбран счётчик по id
+  // id выбраного счётчика
   const [selectedMeterId, setSelectedMeterId] = useState<number>();
 
   // Добавить новый счётчик
-  const addMeter = (values: TypeMeter): TypeMeter => {
-    console.log('values:', values);
+  const handleCreateMeter = (values: TypeMeterFormValue): void => {
     const meter: TypeMeter = {
-      id: values.id,
       serialNumber: values.serialNumber,
       description: values.description,
-      meterTypeDto: values.meterTypeDto,
+      meterTypeDto: {id: values.meterTypeDto},
     };
     setIsModalOpen(false);
-
     createMeter(meter);
-    setUpdateTable(prevState => !prevState);
-    return meter;
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть дравер
-  const openDrawer = (MeterId: number) => {
-    setSelectedMeterId(MeterId);
+  const openDrawer = (meterId: number): void => {
+    setSelectedMeterId(meterId);
     setIsDrawerOpen(true);
   };
 
   // Обновить счетчик
-  const handleUpdateMeter = (values: TypeMeter): TypeMeter => {
+  const handleUpdateMeter = (values: TypeMeterFormValue): void => {
     const meter: TypeMeter = {
       id: selectedMeterId,
       serialNumber: values.serialNumber,
       description: values.description,
-      meterTypeDto: {
-        id: values.meterTypeDto?.id,
-      },
+      meterTypeDto: {id: values.meterTypeDto},
     };
     setIsDrawerOpen(false);
-    editMeter(meter);
-    setUpdateTable(!updateTable);
-    return meter;
+    updateMeter(meter);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
-  const handleDelete = (id: number) => {
+  const handleDeleteMeter = (id: number): void => {
     deleteMeterById(id);
-    setUpdateTable(!updateTable);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
@@ -73,7 +65,7 @@ export const PageMeter: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className="greenButton"
           >
             Обновить
@@ -89,20 +81,20 @@ export const PageMeter: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableMeter
-        isUpdateTable={updateTable}
-        onDelete={handleDelete}
+        isUpdateTable={isUpdateTable}
+        onDelete={handleDeleteMeter}
         openDrawer={openDrawer}
       />
-      <AddModalMeter
+      <CreateModalMeter
         isOpen={isModalOpen}
-        addItem={addMeter}
+        createItem={handleCreateMeter}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerMeter
+      <UpdateDrawerMeter
         isOpen={isDrawerOpen}
         selectedItemId={selectedMeterId}
         updateItem={handleUpdateMeter}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

@@ -13,7 +13,7 @@ export const PageMeterType: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -29,7 +29,7 @@ export const PageMeterType: React.FC = () => {
     };
     setIsModalOpen(false)
     createMeterType(meterType)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -41,20 +41,20 @@ export const PageMeterType: React.FC = () => {
   // Обновить тип счетчика
   const handleUpdateMeterType = (values: TypeMeterTypeFormValue): void => {
     const meterType: TypeMeterType = {
+      id: selectedMeterTypeId,
       title: values.title,
       unit: {id: values.unit},
       cost: values.cost,
-      id: selectedMeterTypeId,
     };
     setIsDrawerOpen(false)
     updateMeterType(meterType)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteMeterType = (id: number): void => {
     deleteMeterTypeById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -65,7 +65,7 @@ export const PageMeterType: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -81,7 +81,7 @@ export const PageMeterType: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableMeterType
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteMeterType}
       />

@@ -14,7 +14,7 @@ export const PageAcceptance: React.FC = () => {
   const {Title} = Typography;
 
   // Обновить таблицу, Открыть закрыть модальное окно, текст поиска
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
@@ -35,13 +35,13 @@ export const PageAcceptance: React.FC = () => {
     }
     setIsModalOpen(false)
     createAcceptance(acceptance)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteAcceptance = (id: number): void => {
     deleteAcceptanceById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -59,7 +59,7 @@ export const PageAcceptance: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -76,7 +76,7 @@ export const PageAcceptance: React.FC = () => {
       <FloatButton.BackTop/>
       <TableAcceptance
         searchText={searchText}
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         onDelete={handleDeleteAcceptance}
       />
       <CreateModalAcceptance

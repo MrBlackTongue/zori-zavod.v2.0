@@ -21,7 +21,7 @@ export function handleResponseCreate(response: Response) {
   }
 }
 
-export function handleResponseEdit(response: Response) {
+export function handleResponseUpdate(response: Response) {
   if (response.ok) {
     return message.success('Запись изменена');
   } else {
