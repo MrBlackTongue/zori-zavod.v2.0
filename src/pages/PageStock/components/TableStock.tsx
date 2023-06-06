@@ -155,9 +155,9 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       bordered
       columns={columns}
       dataSource={allStock}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

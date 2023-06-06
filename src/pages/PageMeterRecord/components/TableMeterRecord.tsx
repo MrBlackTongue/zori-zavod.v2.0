@@ -2,18 +2,18 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllOutput} from "../../../services";
-import {TableProps, TypeOutput, TableParam, TypeProduct} from "../../../types";
-import dayjs from 'dayjs';
+import {getAllMeterRecord} from "../../../services"
+import {TableProps, TypeMeterRecord, TableParam, TypeMeter} from "../../../types";
+import dayjs from "dayjs";
 
-export const TableOutput: React.FC<TableProps> = ({
-                                                    isUpdateTable,
-                                                    openDrawer,
-                                                    onDelete,
-                                                  }) => {
-  // Лоудер и список всех единиц измерения
+export const TableMeterRecord: React.FC<TableProps> = ({
+                                                         isUpdateTable,
+                                                         openDrawer,
+                                                         onDelete,
+                                                       }) => {
+  // Лоудер и список всех типов счетчиков
   const [isLoading, setIsLoading] = useState(false);
-  const [allOutput, setAllOutput] = useState<TypeOutput[]>();
+  const [allMeterRecord, setAllMeterRecord] = useState<TypeMeterRecord[]>();
 
   // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
@@ -24,26 +24,33 @@ export const TableOutput: React.FC<TableProps> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeOutput> = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'idOutput',
-      defaultSortOrder: 'ascend',
-    },
+  const columns: ColumnsType<TypeMeterRecord> = [
     {
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
       render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>) : null),
     },
     {
-      title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: ((product: TypeProduct) =>
-        product !== null ? (<div>{product.title}</div>) : null)
+      title: 'Счетчик',
+      dataIndex: 'meterDto',
+      key: 'meterDto',
+      render: (meterDto: TypeMeter) =>
+        meterDto !== null ? (<div>{meterDto.description}</div>) : null,
+    },
+    {
+      title: 'Показания',
+      dataIndex: 'value',
+      key: 'value',
+      render: ((value: number | null) =>
+        value !== null ? (
+          <div>
+            {value.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
     {
       title: 'Действия',
@@ -66,7 +73,7 @@ export const TableOutput: React.FC<TableProps> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот выпуск продукции?"
+              title="Вы действительно хотите удалить эту запись счетчика?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
@@ -81,7 +88,7 @@ export const TableOutput: React.FC<TableProps> = ({
     },
   ];
 
-  // Параметры изменения таблицы
+// Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setTableParams({pagination});
   };
@@ -89,14 +96,14 @@ export const TableOutput: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllOutput().then((allOutput) => {
-      setAllOutput(allOutput);
+    getAllMeterRecord().then((data) => {
+      setAllMeterRecord(data);
       setIsLoading(false);
     });
   }, [])
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
@@ -104,7 +111,7 @@ export const TableOutput: React.FC<TableProps> = ({
       rowKey="id"
       bordered
       columns={columns}
-      dataSource={allOutput}
+      dataSource={allMeterRecord}
       loading={isLoading}
       onChange={handleChangeTable}
       pagination={{...tableParams.pagination, position: ['bottomCenter']}}

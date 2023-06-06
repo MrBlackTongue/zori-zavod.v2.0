@@ -110,9 +110,9 @@ export const TableProductBatch: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allProductBatch}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

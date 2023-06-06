@@ -115,9 +115,9 @@ export const TableEmployee: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allEmployee}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

@@ -25,3 +25,4 @@ export const PRODUCTION_TYPE = '/production-type';
 export const METER_TYPE = '/meter-type';
 export const TREE = '/tree';
 export const METER = '/meter';
+export const METER_RECORD = '/meter-record';

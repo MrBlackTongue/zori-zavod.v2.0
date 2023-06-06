@@ -119,7 +119,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
     });
   }, [])
 
-  // Функция для поиска приёмки
+  // Функция для поиска приемки
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
@@ -142,9 +142,9 @@ export const TableAcceptance: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allAcceptance}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

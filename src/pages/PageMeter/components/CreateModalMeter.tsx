@@ -22,7 +22,7 @@ export const CreateModalMeter: React.FC<CreateModalProps<TypeMeterFormValue>> = 
 
   return (
     <Modal
-      title={`Добавление нового счётчика`}
+      title={`Добавление нового счетчика`}
       okText={"Сохранить"}
       cancelText={"Отмена"}
       width={600}

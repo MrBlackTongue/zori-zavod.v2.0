@@ -11,7 +11,7 @@ export const TableMeter: React.FC<TableProps> = ({
                                                    onDelete,
                                                  }) => {
 
-  // Лоудер и список всех счётчиков
+  // Лоудер и список всех счетчиков
   const [loading, setLoading] = useState(false);
   const [allMeter, setAllMeter] = useState<TypeMeter[]>();
 
@@ -26,7 +26,7 @@ export const TableMeter: React.FC<TableProps> = ({
   // Колонки в таблице
   const columns: ColumnsType<TypeMeter> = [
     {
-      title: 'Тип счётчика',
+      title: 'Тип счетчика',
       dataIndex: 'meterTypeDto',
       key: 'meterType',
       render: ((meterTypeDto: TypeMeterType) =>
@@ -63,7 +63,7 @@ export const TableMeter: React.FC<TableProps> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот счётчик?"
+              title="Вы действительно хотите удалить этот счетчик?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена"
@@ -108,9 +108,9 @@ export const TableMeter: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allMeter}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={loading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };
