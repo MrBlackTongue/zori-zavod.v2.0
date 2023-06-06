@@ -54,7 +54,7 @@ export const CreateModalDetailShipment: React.FC<CreateModalProps<TypeShipmentPr
     getAllStock().then((allStock) => {
       setAllStock(allStock);
     });
-  }, [onCancel]);
+  }, [isOpen]);
 
   return (
     <Modal

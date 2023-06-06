@@ -18,8 +18,8 @@ export const UpdateDrawerUnit: React.FC<UpdateDrawerProps<TypeUnitFormValue>> = 
 
   const handleGetUnit = useCallback((): void => {
     if (selectedItemId) {
-      getUnitById(selectedItemId).then((unit) => {
-        form.setFieldsValue({...unit});
+      getUnitById(selectedItemId).then((data) => {
+        form.setFieldsValue({...data});
       })
     }
   }, [selectedItemId, form])

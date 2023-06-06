@@ -2,17 +2,18 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllOperation} from "../../../services";
-import {TableProps, TypeOperation, TableParam, TypeUnit} from "../../../types";
+import {getProductGroupTree} from "../../../services";
+import {TableProps, TableParam, TypeProductGroup} from "../../../types";
 
-export const TableOperation: React.FC<TableProps> = ({
-                                                       isUpdateTable,
-                                                       openDrawer,
-                                                       onDelete,
-                                                     }) => {
-  // Лоудер и список всех операций
-  const [isLoading, setIsLoading] = useState(false);
-  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
+export const TableProductGroup: React.FC<TableProps<TypeProductGroup>> = ({
+                                                                            isUpdateTable,
+                                                                            openDrawer,
+                                                                            onDelete,
+                                                                          }) => {
+
+  // Лоудер и список всех групп товаров
+  const [loading, setLoading] = useState(false);
+  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
 
   // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
@@ -23,26 +24,12 @@ export const TableOperation: React.FC<TableProps> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeOperation> = [
+  const columns: ColumnsType<TypeProductGroup> = [
     {
-      title: 'Операция',
+      title: 'Название',
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
-    },
-    {
-      title: 'Единица измерения',
-      dataIndex: 'unit',
-      key: 'unit',
-      render: ((unit: TypeUnit) =>
-        unit !== null ? (<div> {unit.name}</div>) : null),
-    },
-    {
-      title: 'Норма',
-      dataIndex: 'rate',
-      key: 'rate',
-      sorter: (a, b) => (a.rate ?? 0) < (b.rate ?? 0) ? -1 : 1,
     },
     {
       title: 'Действия',
@@ -65,7 +52,7 @@ export const TableOperation: React.FC<TableProps> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить эту операцию?"
+              title="Вы действительно хотите удалить эту группу товаров?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
@@ -85,14 +72,27 @@ export const TableOperation: React.FC<TableProps> = ({
     setTableParams({pagination});
   };
 
+  // Рекурсивная функция для удаления пустых дочерних элементов
+  const removeEmptyChildren = useCallback((productGroup: TypeProductGroup): TypeProductGroup => {
+    if (productGroup.children && productGroup.children.length === 0) {
+      const {children, ...rest} = productGroup;
+      return rest;
+    }
+    if (productGroup.children) {
+      return {...productGroup, children: productGroup.children.map(removeEmptyChildren)};
+    }
+    return productGroup;
+  }, [])
+
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllOperation().then((allOperation) => {
-      setAllOperation(allOperation);
-      setIsLoading(false);
-    });
-  }, [])
+    setLoading(true);
+    getProductGroupTree().then((allProductGroup) => {
+      const updatedProductGroup = allProductGroup.map(removeEmptyChildren);
+      setAllProductGroup(updatedProductGroup);
+      setLoading(false);
+    })
+  }, [removeEmptyChildren]);
 
   useEffect(() => {
     handleUpdateTable()
@@ -103,9 +103,9 @@ export const TableOperation: React.FC<TableProps> = ({
       rowKey="id"
       bordered
       columns={columns}
-      dataSource={allOperation}
+      dataSource={allProductGroup}
       pagination={{...tableParams.pagination, position: ['bottomCenter']}}
-      loading={isLoading}
+      loading={loading}
       onChange={handleChangeTable}
     />
   );

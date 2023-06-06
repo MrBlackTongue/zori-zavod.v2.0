@@ -25,10 +25,10 @@ export const UpdateDrawerProductBatch: React.FC<UpdateDrawerProps<TypeProductBat
   // Функция для получения данных в дравер
   const handleGetProductBatch = useCallback((): void => {
     if (selectedItemId) {
-      getProductBatchById(selectedItemId).then((productBatch) => {
+      getProductBatchById(selectedItemId).then((data) => {
         form.setFieldsValue({
-          ...productBatch,
-          product: productBatch?.product?.id === 0 ? '' : productBatch?.product?.id,
+          ...data,
+          product: data?.product?.id === 0 ? '' : data?.product?.id,
         });
       })
     }

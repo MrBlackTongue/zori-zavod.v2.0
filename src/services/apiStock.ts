@@ -33,7 +33,7 @@ export function getStockById(id: number): Promise<TypeStock | undefined> {
 }
 
 // Добавить новый остаток на складе
-export function createNewStock(data: TypeStock): void {
+export function createStock(data: TypeStock): void {
   try {
     fetch(URL + STOCK, {
       method: 'POST',

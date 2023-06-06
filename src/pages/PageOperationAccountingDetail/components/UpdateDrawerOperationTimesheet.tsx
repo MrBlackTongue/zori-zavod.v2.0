@@ -26,10 +26,10 @@ export const UpdateDrawerOperationTimesheet:
   // Функция для получения данных в дравер
   const handleGetOperationTimesheet = useCallback((): void => {
     if (selectedItemId) {
-      getOperationTimesheetById(selectedItemId).then((operationTimesheet) => {
+      getOperationTimesheetById(selectedItemId).then((data) => {
         form.setFieldsValue({
-          ...operationTimesheet,
-          employee: operationTimesheet?.employee?.id === 0 ? '' : operationTimesheet?.employee?.id,
+          ...data,
+          employee: data?.employee?.id === 0 ? '' : data?.employee?.id,
         })
       })
     }

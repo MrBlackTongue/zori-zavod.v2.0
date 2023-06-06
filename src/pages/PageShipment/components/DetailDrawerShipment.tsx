@@ -53,7 +53,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
   // Функция для получения данных об отгрузке по id и обновления формы
   const handleGetShipment = useCallback((): void => {
     if (selectedItemId) {
-      getShipmentById(selectedItemId).then((shipment) => setSelectedShipment(shipment))
+      getShipmentById(selectedItemId).then((data) => setSelectedShipment(data))
     }
   }, [selectedItemId]);
 

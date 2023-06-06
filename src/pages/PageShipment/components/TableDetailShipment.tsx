@@ -75,12 +75,8 @@ export const TableDetailShipment: React.FC<TableProps> = ({
     setIsLoading(true);
     if (idDetail) {
       getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
-        if (allShipmentMovement) {
-          setAllShipmentMovement(
-            allShipmentMovement.map((item, index) => ({...item, key: index}))
-          )
-          setIsLoading(false);
-        }
+        setAllShipmentMovement(allShipmentMovement)
+        setIsLoading(false);
       });
     }
   }, [idDetail])
@@ -91,6 +87,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       size={"small"}
       columns={columns}

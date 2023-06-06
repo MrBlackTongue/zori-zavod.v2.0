@@ -77,7 +77,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => (openDrawer && openDrawer(id))}>
+              onClick={() => openDrawer && openDrawer(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -85,7 +85,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту ячейку на складе?"
-              onConfirm={() => (onDelete && onDelete(id))}
+              onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена"
             >
@@ -114,7 +114,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllStock().then((allStock) => {
-      setAllStock(allStock.map((item, index) => ({...item, key: index})));
+      setAllStock(allStock);
       setIsLoading(false);
     });
   }, []);
@@ -123,7 +123,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllStockByTitle(searchText || "").then((allStock) => {
-      setAllStock(allStock.map((item, index) => ({...item, key: index})));
+      setAllStock(allStock);
       setIsLoading(false);
     });
   }, [searchText]);
@@ -133,10 +133,8 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     if (filter?.id) {
       setIsLoading(true);
       getAllStockByFilter(filter.id).then((allStock) => {
-        if (allStock) {
-          setAllStock(allStock.map((item, index) => ({...item, key: index})));
-          setIsLoading(false);
-        }
+        setAllStock(allStock);
+        setIsLoading(false);
       });
     }
   }, [filter]);
@@ -153,6 +151,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allStock}

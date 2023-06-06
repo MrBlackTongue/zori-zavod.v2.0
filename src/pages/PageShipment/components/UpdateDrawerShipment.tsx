@@ -27,11 +27,11 @@ export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormVa
   // Функция для получения данных об отгрузке по id и обновления формы
   const handleGetShipment = useCallback(() => {
     if (selectedItemId) {
-      getShipmentById(selectedItemId).then((shipment) => {
+      getShipmentById(selectedItemId).then((data) => {
         form.setFieldsValue({
-          ...shipment,
-          date: dayjs(shipment?.date),
-          client: shipment?.client?.id === 0 ? '' : shipment?.client?.id
+          ...data,
+          date: dayjs(data?.date),
+          client: data?.client?.id === 0 ? '' : data?.client?.id
         });
       })
     }

@@ -36,11 +36,11 @@ export const UpdateDrawerProduct: React.FC<UpdateDrawerProps<TypeProductFormValu
   // Функция для получения данных в дравер
   const handleGetProduct = useCallback((): void => {
     if (selectedItemId) {
-      getProductById(selectedItemId).then((product) => {
+      getProductById(selectedItemId).then((data) => {
         form.setFieldsValue({
-          ...product,
-          unit: product?.unit?.id === 0 ? '' : product?.unit?.id,
-          productGroup: product?.productGroup?.id === 0 ? '' : product?.productGroup?.id,
+          ...data,
+          unit: data?.unit?.id === 0 ? '' : data?.unit?.id,
+          productGroup: data?.productGroup?.id === 0 ? '' : data?.productGroup?.id,
         })
       })
     }

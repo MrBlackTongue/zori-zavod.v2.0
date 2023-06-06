@@ -103,7 +103,7 @@ export const TableShipment: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllShipment().then((allShipment) => {
-      setAllShipment(allShipment.map((item, index) => ({...item, key: index})));
+      setAllShipment(allShipment);
       setIsLoading(false);
     });
   }, [])
@@ -114,6 +114,7 @@ export const TableShipment: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allShipment}

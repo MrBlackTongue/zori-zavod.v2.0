@@ -25,10 +25,10 @@ export const UpdateDrawerStock: React.FC<UpdateDrawerProps<TypeStockFormValue>> 
   // Функция для получения данных
   const handleGetStock = useCallback((): void => {
     if (selectedItemId) {
-      getStockById(selectedItemId).then((stock) => {
+      getStockById(selectedItemId).then((data) => {
         form.setFieldsValue({
-          ...stock,
-          product: stock?.product?.id === 0 ? '' : stock?.product?.id,
+          ...data,
+          product: data?.product?.id === 0 ? '' : data?.product?.id,
         });
       });
     }

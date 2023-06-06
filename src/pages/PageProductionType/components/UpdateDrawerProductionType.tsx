@@ -19,8 +19,8 @@ export const UpdateDrawerProductionType: React.FC<UpdateDrawerProps<TypeProducti
   // Функция для получения информации выбранной записи и установления значений полей формы
   const handleGetProductionType = useCallback((): void => {
     if (selectedItemId) {
-      getProductionTypeById(selectedItemId).then((productionType) => {
-        form.setFieldsValue({...productionType});
+      getProductionTypeById(selectedItemId).then((data) => {
+        form.setFieldsValue({...data});
       })
     }
   }, [selectedItemId, form]);

@@ -128,10 +128,8 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
     if (idDetail) {
       setIsLoading(true);
       getOperationAccountingById(idDetail).then((operationAccounting) => {
-        if (operationAccounting) {
-          setOperationAccounting({...operationAccounting, key: idDetail})
-          setIsLoading(false);
-        }
+        setOperationAccounting(operationAccounting)
+        setIsLoading(false);
       })
     }
   }, [idDetail]);
@@ -144,6 +142,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={operationAccounting ? [operationAccounting] : []}

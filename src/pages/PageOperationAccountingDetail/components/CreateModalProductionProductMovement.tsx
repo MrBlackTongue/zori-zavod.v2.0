@@ -51,7 +51,7 @@ export const CreateModalProductionProductMovement:
     getAllStock().then((allStock) => {
       setAllStock(allStock);
     });
-  }, [onCancel]);
+  }, [isOpen]);
 
   return (
     <Modal
