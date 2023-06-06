@@ -15,7 +15,7 @@ export const PageShipment: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
 
   // Состояния для контроля открытия/закрытия модалки и драверов
   const [openState, setOpenState] = useState({
@@ -35,7 +35,7 @@ export const PageShipment: React.FC = () => {
     };
     setOpenState({...openState, isModalOpen: false});
     createShipment(shipment);
-    setIsTableUpdate(prevState => !prevState);
+    setIsUpdateTable(prevState => !prevState);
   }
 
   // Функция открытия дравера редактирования отгрузки
@@ -59,13 +59,13 @@ export const PageShipment: React.FC = () => {
     };
     setOpenState({...openState, isDrawerOpen: false});
     updateShipment(shipment);
-    setIsTableUpdate(prevState => !prevState);
+    setIsUpdateTable(prevState => !prevState);
   }
 
   // Удалить запись из таблицы
   const handleDeleteShipment = (id: number): void => {
     deleteShipmentById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -76,7 +76,7 @@ export const PageShipment: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -92,7 +92,7 @@ export const PageShipment: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableShipment
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteShipment}
         openDetailDrawer={openDetailShipment}

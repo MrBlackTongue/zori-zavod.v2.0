@@ -96,8 +96,8 @@ export const TableMeterType: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllMeterType().then((allMeterType) => {
-      setAllMeterType(allMeterType);
+    getAllMeterType().then((data) => {
+      setAllMeterType(data);
       setIsLoading(false);
     });
   }, [])
@@ -109,12 +109,12 @@ export const TableMeterType: React.FC<TableProps> = ({
   return (
     <Table
       rowKey="id"
+      bordered
       columns={columns}
       dataSource={allMeterType}
       loading={isLoading}
       onChange={handleChangeTable}
       pagination={{...tableParams.pagination, position: ['bottomCenter']}}
-      bordered
     />
   );
 };

@@ -14,7 +14,7 @@ export const PageOutput: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -29,7 +29,7 @@ export const PageOutput: React.FC = () => {
     };
     setIsModalOpen(false)
     createOutput(output)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -41,19 +41,19 @@ export const PageOutput: React.FC = () => {
   // Обновить выпуск продукции
   const handleUpdateOutput = (values: TypeOutputFormValue): void => {
     const output: TypeOutput = {
+      id: selectedOutputId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       product: {id: values.product},
-      id: selectedOutputId,
     };
     setIsDrawerOpen(false)
     updateChangeOutput(output)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOutput = (id: number): void => {
     deleteOutputById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -64,7 +64,7 @@ export const PageOutput: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -80,7 +80,7 @@ export const PageOutput: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOutput
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteOutput}
       />

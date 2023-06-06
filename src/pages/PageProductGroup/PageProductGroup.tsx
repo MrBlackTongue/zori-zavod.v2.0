@@ -13,7 +13,7 @@ export const PageProductGroup: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть/закрыть модальное окно, дравер
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -28,7 +28,7 @@ export const PageProductGroup: React.FC = () => {
     };
     setIsModalOpen(false)
     createProductGroup(productGroup)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -46,13 +46,13 @@ export const PageProductGroup: React.FC = () => {
     };
     setIsDrawerOpen(false);
     updateProductGroup(productGroup);
-    setIsTableUpdate(prevState => !prevState);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductGroup = (id: number): void => {
     deleteProductGroupById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   }
 
   return (
@@ -63,7 +63,7 @@ export const PageProductGroup: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -79,7 +79,7 @@ export const PageProductGroup: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProductGroup
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteProductGroup}
       />

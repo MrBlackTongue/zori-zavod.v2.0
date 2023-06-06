@@ -15,7 +15,7 @@ export const PageStock: React.FC = () => {
   const {Option} = Select;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -47,7 +47,7 @@ export const PageStock: React.FC = () => {
     };
     setIsModalOpen(false);
     createStock(stock);
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -65,13 +65,13 @@ export const PageStock: React.FC = () => {
     };
     setIsDrawerOpen(false);
     updateStock(stock);
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDelete = (id: number): void => {
+  const handleDeleteStock = (id: number): void => {
     deleteStockById(id)
-    setIsTableUpdate(prevState => !prevState);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
@@ -108,7 +108,7 @@ export const PageStock: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className="greenButton"
           >
             Обновить
@@ -124,8 +124,8 @@ export const PageStock: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableStock
-        isUpdateTable={isTableUpdate}
-        onDelete={handleDelete}
+        isUpdateTable={isUpdateTable}
+        onDelete={handleDeleteStock}
         openDrawer={openDrawer}
         searchText={searchText}
         filter={{id: selectedProductGroupId}}

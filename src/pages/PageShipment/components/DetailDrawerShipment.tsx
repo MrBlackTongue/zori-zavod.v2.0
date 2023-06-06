@@ -22,7 +22,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
                                                                                 }) => {
 
   // Обновление таблицы, Открыть закрыть модальное окно, Выбранная отгрузка
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
@@ -41,13 +41,13 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
     };
     setIsModalOpen(false)
     createShipmentProductMovement(productMovement)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteShipmentMovement = (id: number): void => {
     deleteShipmentProductMovementById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Функция для получения данных об отгрузке по id и обновления формы
@@ -73,7 +73,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -89,7 +89,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
       }
     >
       <TableDetailShipment
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         idDetail={selectedShipment?.id}
         onDelete={handleDeleteShipmentMovement}
       />

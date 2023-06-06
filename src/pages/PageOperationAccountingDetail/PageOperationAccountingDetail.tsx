@@ -35,7 +35,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const {Title} = Typography;
 
   // Состояние и методы для учетной операции
-  const [isAllTableUpdate, setIsAllTableUpdate] = useState(false);
+  const [isUpdateAllTable, setIsUpdateAllTable] = useState(false);
   const [isDrawerOperationAccountingOpen, setIsDrawerOperationAccountingOpen] = useState(false);
 
   // Состояние и методы для табеля учета рабочего времени
@@ -58,7 +58,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
     };
     setIsDrawerOperationAccountingOpen(false)
     updateOperationAccounting(operationAccounting)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить запись из таблицы
@@ -77,7 +77,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
     };
     setIsModalOperationTimesheetOpen(false)
     createOperationTimesheet(operationTimesheet)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Обновить сотрудника в табеле учета рабочего времени
@@ -91,13 +91,13 @@ export const PageOperationAccountingDetail: React.FC = () => {
     };
     setIsDrawerOperationTimesheetOpen(false)
     updateOperationTimesheet(operationTimesheet)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
   const handleDeleteOperationTimesheet = (id: number): void => {
     deleteOperationTimesheetById(id)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Открыть дравер табеля учета рабочего времени
@@ -124,13 +124,13 @@ export const PageOperationAccountingDetail: React.FC = () => {
     };
     setIsModalProductionProductMovementOpen(false)
     createProductionProductMovement(productionProductMovement)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить запись движения товара на производстве
   const handleDeleteProductionProductMovement = (id: number): void => {
     deleteProductionProductMovementById(id)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Переход на другую страницу по адресу
@@ -156,7 +156,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsAllTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateAllTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -165,7 +165,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOperationAccountingDetail
-        isUpdateTable={isAllTableUpdate}
+        isUpdateTable={isUpdateAllTable}
         openDrawer={() => setIsDrawerOperationAccountingOpen(true)}
         onDelete={handleDeleteOperationAccounting}
         idDetail={id ? +id : undefined}
@@ -192,7 +192,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Space>
       </div>
       <TableOperationTimesheet
-        isUpdateTable={isAllTableUpdate}
+        isUpdateTable={isUpdateAllTable}
         openDrawer={openDrawerOperationTimesheet}
         onDelete={handleDeleteOperationTimesheet}
         idDetail={id ? +id : undefined}
@@ -224,7 +224,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Space>
       </div>
       <TableProductionProductMovement
-        isUpdateTable={isAllTableUpdate}
+        isUpdateTable={isUpdateAllTable}
         onDelete={handleDeleteProductionProductMovement}
         idDetail={id ? +id : undefined}
       />

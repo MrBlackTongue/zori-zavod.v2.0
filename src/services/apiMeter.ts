@@ -1,5 +1,5 @@
-import {TypeShipment} from "../types";
-import {URL, SHIPMENT} from "./apiEndpoints";
+import {TypeMeter} from "../types";
+import {URL, METER} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -10,10 +10,10 @@ import {
   handleResponseUpdate,
 } from '../utils';
 
-// Получить список всех отгрузок
-export function getAllShipment(): Promise<TypeShipment[]> {
+// Получить список всех счетчиков
+export function getAllMeter(): Promise<TypeMeter[]> {
   try {
-    return fetch(URL + SHIPMENT)
+    return fetch(URL + METER)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -21,10 +21,10 @@ export function getAllShipment(): Promise<TypeShipment[]> {
   }
 }
 
-// Получить данные отгрузки по id
-export function getShipmentById(id: number): Promise<TypeShipment | undefined> {
+// Получить данные счетчика по id
+export function getMeterById(id: number): Promise<TypeMeter | undefined> {
   try {
-    return fetch(URL + SHIPMENT + `/${id}`)
+    return fetch(URL + METER + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -32,10 +32,10 @@ export function getShipmentById(id: number): Promise<TypeShipment | undefined> {
   }
 }
 
-// Добавить новую отгрузку
-export function createShipment(data: TypeShipment): void {
+// Создать новый счетчик
+export function createMeter(data: TypeMeter): void {
   try {
-    fetch(URL + SHIPMENT, {
+    fetch(URL + METER, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -47,11 +47,11 @@ export function createShipment(data: TypeShipment): void {
   }
 }
 
-// Удалить отгрузку по id
-export function deleteShipmentById(id: number): void {
+// Удалить счетчик по id
+export function deleteMeterById(id: number): void {
   try {
-    fetch(URL + SHIPMENT + `/${id}`, {
-      method: 'DELETE',
+    fetch(URL + METER + `/${id}`, {
+      method: "DELETE",
     })
       .then(handleResponseDelete)
       .catch(handleError);
@@ -60,10 +60,10 @@ export function deleteShipmentById(id: number): void {
   }
 }
 
-// Редактировать отгрузку
-export function updateShipment(data: TypeShipment): void {
+// Редактировать счетчик
+export function updateMeter(data: TypeMeter): void {
   try {
-    fetch(URL + SHIPMENT, {
+    fetch(URL + METER, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),

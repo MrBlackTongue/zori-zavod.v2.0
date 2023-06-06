@@ -11,7 +11,7 @@ export const PageProductMovementHistory: React.FC = () => {
   const {Option} = Select;
 
   // Обновление таблицы
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
 
   // Хук для получения данных
   const {allStock} = useFetchAllData();
@@ -54,7 +54,7 @@ export const PageProductMovementHistory: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -63,7 +63,7 @@ export const PageProductMovementHistory: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProductMovementHistory
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         filter={{id: selectedStockId}}
       />
     </div>

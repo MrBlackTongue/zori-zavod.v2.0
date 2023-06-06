@@ -14,7 +14,7 @@ export const PagePurchase: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -35,7 +35,7 @@ export const PagePurchase: React.FC = () => {
     };
     setIsModalOpen(false);
     createPurchase(purchase);
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -56,13 +56,13 @@ export const PagePurchase: React.FC = () => {
     };
     setIsDrawerOpen(false);
     updatePurchase(purchase);
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeletePurchase = (id: number): void => {
     deletePurchaseById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -81,7 +81,7 @@ export const PagePurchase: React.FC = () => {
             type="dashed"
             className="greenButton"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
           >
             Обновить
           </Button>
@@ -96,7 +96,7 @@ export const PagePurchase: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TablePurchase
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeletePurchase}
         searchText={searchText}
