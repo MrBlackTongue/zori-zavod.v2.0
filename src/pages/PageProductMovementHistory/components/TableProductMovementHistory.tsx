@@ -89,8 +89,8 @@ export const TableProductMovementHistory:
   // Функция для обновления таблицы товаров
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductMovementHistory().then((allProductMovementHistory) => {
-      setAllProductMovementHistory(allProductMovementHistory.map((item, index) => ({...item, key: index})));
+    getAllProductMovementHistory().then((data) => {
+      setAllProductMovementHistory(data.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, []);
@@ -99,10 +99,10 @@ export const TableProductMovementHistory:
   const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
-      getProductMovementHistoryById(filter.id).then((allProductMovementHistory) => {
-        if (allProductMovementHistory) {
+      getProductMovementHistoryById(filter.id).then((data) => {
+        if (data) {
           setAllProductMovementHistory(
-            allProductMovementHistory.map((item, index) => ({...item, key: index}))
+            data.map((item, index) => ({...item, key: index}))
           );
           setIsLoading(false);
         }

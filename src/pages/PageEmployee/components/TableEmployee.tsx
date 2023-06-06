@@ -99,8 +99,8 @@ export const TableEmployee: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllEmployee().then((allEmployee) => {
-      setAllEmployee(allEmployee);
+    getAllEmployee().then((data) => {
+      setAllEmployee(data);
       setIsLoading(false);
     });
   }, [])

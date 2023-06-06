@@ -145,8 +145,8 @@ export const TablePurchase: React.FC<TableProps> = ({
   // Функция для обновления таблицы закупок
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllPurchase().then((allPurchase) => {
-      setAllPurchase(allPurchase);
+    getAllPurchase().then((data) => {
+      setAllPurchase(data);
       setIsLoading(false);
     });
   }, [])
@@ -154,8 +154,8 @@ export const TablePurchase: React.FC<TableProps> = ({
   // Функция для поиска по таблице закупок
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllPurchaseByTitle(searchText ?? '').then((allPurchase) => {
-      setAllPurchase(allPurchase);
+    getAllPurchaseByTitle(searchText ?? '').then((data) => {
+      setAllPurchase(data);
       setIsLoading(false);
     });
   }, [searchText])

@@ -84,8 +84,8 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
   const handleUpdateTable = useCallback(() => {
     if (idDetail) {
       setIsLoading(true);
-      getOperationTimesheetByIdOperationAccounting(idDetail).then((allOperationTimesheet) => {
-        setAllOperationTimesheet(allOperationTimesheet);
+      getOperationTimesheetByIdOperationAccounting(idDetail).then((data) => {
+        setAllOperationTimesheet(data);
         setIsLoading(false);
       });
     }

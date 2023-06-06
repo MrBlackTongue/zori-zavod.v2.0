@@ -113,8 +113,8 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   // Функция для обновления таблицы склада
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllStock().then((allStock) => {
-      setAllStock(allStock);
+    getAllStock().then((data) => {
+      setAllStock(data);
       setIsLoading(false);
     });
   }, []);
@@ -122,8 +122,8 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   // Функция для поиска по таблице склада
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllStockByTitle(searchText || "").then((allStock) => {
-      setAllStock(allStock);
+    getAllStockByTitle(searchText || "").then((data) => {
+      setAllStock(data);
       setIsLoading(false);
     });
   }, [searchText]);
@@ -132,8 +132,8 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
-      getAllStockByFilter(filter.id).then((allStock) => {
-        setAllStock(allStock);
+      getAllStockByFilter(filter.id).then((data) => {
+        setAllStock(data);
         setIsLoading(false);
       });
     }

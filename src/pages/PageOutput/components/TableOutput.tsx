@@ -89,8 +89,8 @@ export const TableOutput: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllOutput().then((allOutput) => {
-      setAllOutput(allOutput);
+    getAllOutput().then((data) => {
+      setAllOutput(data);
       setIsLoading(false);
     });
   }, [])

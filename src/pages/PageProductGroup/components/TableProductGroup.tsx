@@ -87,9 +87,9 @@ export const TableProductGroup: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setLoading(true);
-    getProductGroupTree().then((allProductGroup) => {
-      const updatedProductGroup = allProductGroup.map(removeEmptyChildren);
-      setAllProductGroup(updatedProductGroup);
+    getProductGroupTree().then((data) => {
+      const updatedData = data.map(removeEmptyChildren);
+      setAllProductGroup(updatedData);
       setLoading(false);
     })
   }, [removeEmptyChildren]);

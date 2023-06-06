@@ -78,8 +78,8 @@ export const TableProductionType: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductionType().then((allProductionType) => {
-      setAllProductionType(allProductionType);
+    getAllProductionType().then((data) => {
+      setAllProductionType(data);
       setIsLoading(false);
     });
   }, [])

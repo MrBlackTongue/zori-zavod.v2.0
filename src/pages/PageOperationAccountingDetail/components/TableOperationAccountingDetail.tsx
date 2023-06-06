@@ -127,8 +127,8 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
   const handleUpdateTable = useCallback((): void => {
     if (idDetail) {
       setIsLoading(true);
-      getOperationAccountingById(idDetail).then((operationAccounting) => {
-        setOperationAccounting(operationAccounting)
+      getOperationAccountingById(idDetail).then((data) => {
+        setOperationAccounting(data)
         setIsLoading(false);
       })
     }

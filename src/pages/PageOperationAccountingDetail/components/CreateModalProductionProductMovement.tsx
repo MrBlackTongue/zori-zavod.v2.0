@@ -48,8 +48,8 @@ export const CreateModalProductionProductMovement:
   };
 
   useEffect(() => {
-    getAllStock().then((allStock) => {
-      setAllStock(allStock);
+    getAllStock().then((data) => {
+      setAllStock(data);
     });
   }, [isOpen]);
 

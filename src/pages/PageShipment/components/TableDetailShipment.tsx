@@ -74,8 +74,8 @@ export const TableDetailShipment: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     if (idDetail) {
-      getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
-        setAllShipmentMovement(allShipmentMovement)
+      getAllProductMovementByShipmentId(idDetail).then((data) => {
+        setAllShipmentMovement(data)
         setIsLoading(false);
       });
     }

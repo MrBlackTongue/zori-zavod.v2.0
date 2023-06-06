@@ -41,8 +41,8 @@ export const UpdateDrawerProductGroup: React.FC<UpdateDrawerProps<TypeProductGro
   }, [isOpen, selectedItemId, handleGetParent]);
 
   useEffect(() => {
-    getAllProductGroup().then(allProductGroup => {
-      setAllProductGroup(allProductGroup);
+    getAllProductGroup().then(data => {
+      setAllProductGroup(data);
     });
   }, [isOpen]);
 

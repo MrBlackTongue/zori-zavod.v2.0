@@ -113,8 +113,8 @@ export const TableAcceptance: React.FC<TableProps> = ({
   // Функция для обновления таблицы приемок
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllAcceptance().then((allAcceptance) => {
-      setAllAcceptance(allAcceptance);
+    getAllAcceptance().then((data) => {
+      setAllAcceptance(data);
       setIsLoading(false);
     });
   }, [])
@@ -122,8 +122,8 @@ export const TableAcceptance: React.FC<TableProps> = ({
   // Функция для поиска приемки
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
-      setAllAcceptance(allAcceptance);
+    getAllAcceptanceByTitle(searchText ?? '').then((data) => {
+      setAllAcceptance(data);
       setIsLoading(false);
     });
   }, [searchText])

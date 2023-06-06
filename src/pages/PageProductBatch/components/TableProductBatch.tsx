@@ -94,8 +94,8 @@ export const TableProductBatch: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductBatch().then((allProductBatch) => {
-      setAllProductBatch(allProductBatch);
+    getAllProductBatch().then((data) => {
+      setAllProductBatch(data);
       setIsLoading(false);
     });
   }, [])

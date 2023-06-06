@@ -102,8 +102,8 @@ export const TableShipment: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllShipment().then((allShipment) => {
-      setAllShipment(allShipment);
+    getAllShipment().then((data) => {
+      setAllShipment(data);
       setIsLoading(false);
     });
   }, [])

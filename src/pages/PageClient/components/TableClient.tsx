@@ -75,8 +75,8 @@ export const TableClient: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllClient().then((allClient) => {
-      setAllClient(allClient);
+    getAllClient().then((data) => {
+      setAllClient(data);
       setIsLoading(false);
     });
   }, [])

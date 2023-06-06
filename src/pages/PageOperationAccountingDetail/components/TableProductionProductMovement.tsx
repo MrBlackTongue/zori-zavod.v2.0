@@ -99,8 +99,8 @@ export const TableProductionProductMovement:
   const handleUpdateTable = useCallback(() => {
     if (idDetail) {
       setIsLoading(true);
-      getProductionProductMovementByIdOperationAccounting(idDetail).then((allProductionProductMovement) => {
-        setAllProductionProductMovement(allProductionProductMovement);
+      getProductionProductMovementByIdOperationAccounting(idDetail).then((data) => {
+        setAllProductionProductMovement(data);
         setIsLoading(false);
       });
     }

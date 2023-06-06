@@ -100,8 +100,8 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для обновления таблицы товаров
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProduct().then((allProduct) => {
-      setAllProduct(allProduct.map((item, index) => ({...item, key: index})));
+    getAllProduct().then((data) => {
+      setAllProduct(data.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -109,15 +109,15 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для поиска по таблице товаров
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductByTitle(searchText ?? '').then((allProduct) => {
-      setAllProduct(allProduct);
+    getAllProductByTitle(searchText ?? '').then((data) => {
+      setAllProduct(data);
       setIsLoading(false);
     });
   }, [searchText]);
 
   useEffect(() => {
-    getAllProductGroup().then((allProductGroup) => {
-      setAllProductGroup(allProductGroup);
+    getAllProductGroup().then((data) => {
+      setAllProductGroup(data);
     });
   }, []);
 

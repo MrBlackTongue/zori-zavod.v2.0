@@ -22,8 +22,8 @@ export const CreateModalProductGroup: React.FC<CreateModalProps<TypeProductGroup
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'productGroup');
 
   useEffect(() => {
-    getAllProductGroup().then(allProductGroup => {
-      setAllProductGroup(allProductGroup);
+    getAllProductGroup().then(data => {
+      setAllProductGroup(data);
     });
   }, [isOpen]);
 

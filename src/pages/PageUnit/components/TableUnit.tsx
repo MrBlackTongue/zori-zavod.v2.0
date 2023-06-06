@@ -75,8 +75,8 @@ export const TableUnit: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
+    getAllUnit().then((data) => {
+      setAllUnit(data);
       setIsLoading(false);
     });
   }, [])

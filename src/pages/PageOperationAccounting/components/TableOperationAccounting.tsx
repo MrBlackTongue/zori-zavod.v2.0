@@ -204,8 +204,8 @@ export const TableOperationAccounting:
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllOperationAccounting().then((allOperationAccounting) => {
-      setAllOperationAccounting(allOperationAccounting);
+    getAllOperationAccounting().then((data) => {
+      setAllOperationAccounting(data);
       setIsLoading(false);
     });
   }, [])
@@ -219,8 +219,8 @@ export const TableOperationAccounting:
         operationId: filter.operationId || undefined,
         productionTypeId: filter.productionTypeId || undefined,
       })
-        .then((allOperationAccounting) => {
-          setAllOperationAccounting(allOperationAccounting);
+        .then((data) => {
+          setAllOperationAccounting(data);
           setIsLoading(false);
         });
     }
