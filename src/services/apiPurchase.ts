@@ -61,7 +61,7 @@ export function deletePurchaseById(id: number): void {
 }
 
 // Редактировать закупку
-export function editPurchase(data: TypePurchase): void {
+export function updatePurchase(data: TypePurchase): void {
   try {
     fetch(URL + PURCHASE, {
       method: 'PUT',

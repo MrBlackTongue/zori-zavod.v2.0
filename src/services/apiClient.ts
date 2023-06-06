@@ -61,7 +61,7 @@ export function deleteClientById(id: number): void {
 }
 
 // Редактировать клиента
-export function editClient(data: TypeClient): void {
+export function updateClient(data: TypeClient): void {
   try {
     fetch(URL + CLIENT, {
       method: 'PUT',

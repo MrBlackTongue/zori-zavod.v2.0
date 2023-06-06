@@ -2,37 +2,35 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {deletePurchaseById, createPurchase, editPurchase} from '../../services';
-import {TypePurchase} from '../../types';
+import {deletePurchaseById, createPurchase, updatePurchase} from '../../services';
+import {TypePurchase, TypePurchaseFormValue} from '../../types';
 import {TablePurchase} from "./components/TablePurchase";
-import {AddModalPurchase} from "./components/AddModalPurchase";
-import {EditDrawerPurchase} from "./components/EditDrawerPurchase";
+import {CreateModalPurchase} from "./components/CreateModalPurchase";
+import {UpdateDrawerPurchase} from "./components/UpdateDrawerPurchase";
 import dayjs from "dayjs";
-
-const {Title} = Typography;
 
 export const PagePurchase: React.FC = () => {
 
-  // Обновление таблицы, id выбраной закупки
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // id выбраной закупки
+  const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState("");
 
   // Добавить новую закупку
-  const handleAddPurchase = (values: TypePurchase): void => {
+  const handleCreatePurchase = (values: TypePurchaseFormValue): void => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      product: {
-        id: values.product?.id,
-      },
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      product: {id: values.product},
       paid: values.paid,
     };
     setIsModalOpen(false);
@@ -47,19 +45,17 @@ export const PagePurchase: React.FC = () => {
   };
 
   // Обновить закупку
-  const handleUpdatePurchase = (values: TypePurchase): void => {
+  const handleUpdatePurchase = (values: TypePurchaseFormValue): void => {
     const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
       cost: values.cost,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      product: {
-        id: values.product?.id,
-      },
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      product: {id: values.product},
       paid: values.paid,
     };
     setIsDrawerOpen(false);
-    editPurchase(purchase);
+    updatePurchase(purchase);
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -105,16 +101,16 @@ export const PagePurchase: React.FC = () => {
         onDelete={handleDeletePurchase}
         searchText={searchText}
       />
-      <AddModalPurchase
+      <CreateModalPurchase
         isOpen={isModalOpen}
-        addItem={handleAddPurchase}
+        createItem={handleCreatePurchase}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerPurchase
+      <UpdateDrawerPurchase
         isOpen={isDrawerOpen}
         selectedItemId={selectedPurchaseId}
         updateItem={handleUpdatePurchase}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );
