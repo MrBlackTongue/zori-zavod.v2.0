@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Input, InputNumber, Select, Tooltip} from "antd";
+import {Form, Input, Select, Tooltip} from "antd";
 import {FormMeterProps} from "../../../types";
 
 export const FormMeter: React.FC<FormMeterProps> = ({
@@ -7,7 +7,7 @@ export const FormMeter: React.FC<FormMeterProps> = ({
                                                       allMeterType,
                                                       onChangeMeterType,
                                                       onClearMeterType,
-                                                      onSearchMeterType
+                                                      onSearchMeterType,
                                                     }) => {
   const {Option} = Select;
 
@@ -19,9 +19,16 @@ export const FormMeter: React.FC<FormMeterProps> = ({
       style={{marginTop: 30}}
     >
       <Form.Item
-        label="Тип счётчика"
+        label="Название"
+        name="description"
+        rules={[{required: true, message: "введите описание"}]}
+      >
+        <Input placeholder='Название'/>
+      </Form.Item>
+      <Form.Item
+        label="Тип счетчика"
         name="meterTypeDto"
-        rules={[{required: true, message: 'выберите счётчик'}]}
+        rules={[{required: true, message: 'выберите счетчик'}]}
       >
         <Select
           showSearch
@@ -46,14 +53,7 @@ export const FormMeter: React.FC<FormMeterProps> = ({
         name="serialNumber"
         rules={[{required: true, message: "введите серийный номер"}]}
       >
-        <InputNumber placeholder='Серийный номер счетчика' style={{width: "100%"}} min={0}/>
-      </Form.Item>
-      <Form.Item
-        label="Описание"
-        name="description"
-        rules={[{required: true, message: "введите описание"}]}
-      >
-        <Input.TextArea/>
+        <Input placeholder='Серийный номер счетчика'/>
       </Form.Item>
     </Form>
   );

@@ -2,67 +2,60 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteMeterRecordById, createMeterRecord, editMeterRecord} from "../../services";
-import {TypeMeterRecord, TypeMeterType} from "../../types";
+import {createMeterRecord, updateMeterRecord, deleteMeterRecordById} from "../../services";
+import {TypeMeterRecord, TypeMeterRecordFormValue} from "../../types";
 import {TableMeterRecord} from "./components/TableMeterRecord";
-import {AddModalMeterRecord} from "./components/AddModalMeterRecord";
+import {CreateModalMeterRecord} from "./components/CreateModalMeterRecord";
+import {UpdateDrawerMeterRecord} from "./components/UpdateDrawerMeterRecord";
 import dayjs from "dayjs";
-// import {EditDrawerMeterRecord} from "./components/EditDrawerMeterRecord";
-
-const {Title} = Typography;
 
 export const PageMeterRecord: React.FC = () => {
 
-  // Обновление таблицы, id выбраного типа счетчика
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedMeterRecordId, setSelectedMeterRecordId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбраного типа счетчика
+  const [selectedMeterRecordId, setSelectedMeterRecordId] = useState<number>();
+
   // Добавить новый тип счетчика
-  const handleAddMeterRecord = (values: TypeMeterRecord): void => {
+  const handleCreateMeterRecord = (values: TypeMeterRecordFormValue): void => {
     const meterRecord: TypeMeterRecord = {
       value: values.value,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      // meterDto: {
-      //   id: values.meterDto?.id,
-      //   serialNumber: values.meterDto?.serialNumber,
-      //   description: values.meterDto.description,
-      // },
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DDTHH:mm:ss') : undefined,
+      meterDto: {id: values.meterDto},
     };
     setIsModalOpen(false)
     createMeterRecord(meterRecord)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (meterTypeId: number): void => {
-    setSelectedMeterRecordId(meterTypeId)
+  const openDrawer = (id: number): void => {
+    setSelectedMeterRecordId(id)
     setIsDrawerOpen(true);
   };
 
-  // Обновить тип счетчика
-  // const handleUpdateMeterRecord = (values: TypeMeterRecord): void => {
-  //   const meterRecord: TypeMeterRecord = {
-  //     title: values.title,
-  //     unit: {
-  //       id: values.unit?.id,
-  //       name: values.unit?.name,
-  //     },
-  //     cost: values.cost,
-  //     id: selectedMeterRecordId,
-  //   };
-  //   setIsDrawerOpen(false)
-  //   editMeterRecord(meterRecord)
-  //   setIsTableUpdate(prevState => !prevState)
-  // };
+  // Обновить запись счетчика
+  const handleUpdateMeterRecord = (values: TypeMeterRecordFormValue): void => {
+    const meterRecord: TypeMeterRecord = {
+      id: selectedMeterRecordId,
+      value: values.value,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DDTHH:mm:ss') : undefined,
+      meterDto: {id: values.meterDto},
+    };
+    setIsDrawerOpen(false)
+    updateMeterRecord(meterRecord)
+    setIsUpdateTable(prevState => !prevState)
+  };
 
   // Удалить запись из таблицы
   const handleDeleteMeterRecord = (id: number): void => {
     deleteMeterRecordById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -73,8 +66,9 @@ export const PageMeterRecord: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -88,21 +82,21 @@ export const PageMeterRecord: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableMeterRecord
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteMeterRecord}
       />
-      <AddModalMeterRecord
+      <CreateModalMeterRecord
         isOpen={isModalOpen}
-        addItem={handleAddMeterRecord}
+        createItem={handleCreateMeterRecord}
         onCancel={() => setIsModalOpen(false)}
       />
-      {/*<EditDrawerMeterType*/}
-      {/*  isOpen={isDrawerOpen}*/}
-      {/*  selectedItemId={selectedMeterRecordId}*/}
-      {/*  updateItem={handleUpdateMeterRecord}*/}
-      {/*  closeDrawer={() => setIsDrawerOpen(false)}*/}
-      {/*/>*/}
+      <UpdateDrawerMeterRecord
+        isOpen={isDrawerOpen}
+        selectedItemId={selectedMeterRecordId}
+        updateItem={handleUpdateMeterRecord}
+        onCancel={() => setIsDrawerOpen(false)}
+      />
     </div>
   );
 };

@@ -17,10 +17,10 @@ export const PageMeter: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // id выбраного счётчика
+  // id выбраного счетчика
   const [selectedMeterId, setSelectedMeterId] = useState<number>();
 
-  // Добавить новый счётчик
+  // Добавить новый счетчик
   const handleCreateMeter = (values: TypeMeterFormValue): void => {
     const meter: TypeMeter = {
       serialNumber: values.serialNumber,
@@ -33,8 +33,8 @@ export const PageMeter: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (meterId: number): void => {
-    setSelectedMeterId(meterId);
+  const openDrawer = (id: number): void => {
+    setSelectedMeterId(id);
     setIsDrawerOpen(true);
   };
 
@@ -60,7 +60,7 @@ export const PageMeter: React.FC = () => {
   return (
     <div style={{display: 'grid'}}>
       <div className="centerTitle">
-        <Title level={3}>Счётчики</Title>
+        <Title level={3}>Счетчики</Title>
         <Space>
           <Button
             type="dashed"
@@ -82,8 +82,8 @@ export const PageMeter: React.FC = () => {
       <FloatButton.BackTop/>
       <TableMeter
         isUpdateTable={isUpdateTable}
-        onDelete={handleDeleteMeter}
         openDrawer={openDrawer}
+        onDelete={handleDeleteMeter}
       />
       <CreateModalMeter
         isOpen={isModalOpen}

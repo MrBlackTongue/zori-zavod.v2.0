@@ -240,10 +240,10 @@ export const TableOperationAccounting:
       bordered
       columns={columns}
       dataSource={allOperationAccounting}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 }

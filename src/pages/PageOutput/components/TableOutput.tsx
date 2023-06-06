@@ -105,9 +105,9 @@ export const TableOutput: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allOutput}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

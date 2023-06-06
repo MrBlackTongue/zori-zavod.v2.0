@@ -12,6 +12,7 @@ import {
   TypeClient,
   TypeEmployee,
   TypeMeterType,
+  TypeMeter,
 } from "../types";
 import {
   getAllStock,
@@ -26,6 +27,7 @@ import {
   getAllClient,
   getAllEmployee,
   getAllMeterType,
+  getAllMeter,
 } from "../services";
 
 export const useFetchAllData = () => {
@@ -41,77 +43,84 @@ export const useFetchAllData = () => {
   const [allClient, setAllClient] = useState<TypeClient[]>([]);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>([]);
   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>([]);
+  const [allMeter, setAllMeter] = useState<TypeMeter[]>([]);
 
   useEffect(() => {
-    getAllStock().then((allStock) => {
-      setAllStock(allStock);
+    getAllStock().then((data) => {
+      setAllStock(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllPurchase().then((allPurchase) => {
-      setAllPurchase(allPurchase);
+    getAllPurchase().then((data) => {
+      setAllPurchase(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductBatch().then((allProductBatch) => {
-      setAllProductBatch(allProductBatch);
+    getAllProductBatch().then((data) => {
+      setAllProductBatch(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllUnit().then((allUnit) => {
-      setAllUnit(allUnit);
+    getAllUnit().then((data) => {
+      setAllUnit(data);
     });
   }, []);
 
 
   useEffect(() => {
-    getAllOperation().then((allOperation) => {
-      setAllOperation(allOperation);
+    getAllOperation().then((data) => {
+      setAllOperation(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductionType().then((allProductionType) => {
-      setAllProductionType(allProductionType);
+    getAllProductionType().then((data) => {
+      setAllProductionType(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllOutput().then((allOutput) => {
-      setAllOutput(allOutput);
+    getAllOutput().then((data) => {
+      setAllOutput(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllProduct().then((allProduct) => {
-      setAllProduct(allProduct);
+    getAllProduct().then((data) => {
+      setAllProduct(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllProductGroup().then((allProductGroup) => {
-      setAllProductGroup(allProductGroup);
+    getAllProductGroup().then((data) => {
+      setAllProductGroup(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllClient().then((allClient) => {
-      setAllClient(allClient);
+    getAllClient().then((data) => {
+      setAllClient(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllEmployee().then((allEmployee) => {
-      setAllEmployee(allEmployee);
+    getAllEmployee().then((data) => {
+      setAllEmployee(data);
     });
   }, []);
 
   useEffect(() => {
-    getAllMeterType().then((allMeterType) => {
-      setAllMeterType(allMeterType);
+    getAllMeterType().then((data) => {
+      setAllMeterType(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    getAllMeter().then((data) => {
+      setAllMeter(data);
     });
   }, []);
 
@@ -128,5 +137,6 @@ export const useFetchAllData = () => {
     allClient,
     allEmployee,
     allMeterType,
+    allMeter,
   };
 }

@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех записей счетчика
@@ -21,18 +21,14 @@ export function getAllMeterRecord(): Promise<TypeMeterRecord[]> {
   }
 }
 
-// Редактировать существующую запись счетчика
-export function editMeterRecord(data: TypeMeterRecord): void {
+// Получить запись счетчика по id
+export function getMeterRecordById(id: number): Promise<TypeMeterRecord | undefined> {
   try {
-    fetch(URL + METER_RECORD, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseEdit)
-      .catch(handleError)
+    return fetch(URL + METER_RECORD + `/${id}`)
+      .then(handleResponseGet)
+      .catch(handleError);
   } catch (error) {
-    void handleCatchError(error);
+    return handleCatchError(error);
   }
 }
 
@@ -50,18 +46,8 @@ export function createMeterRecord(data: TypeMeterRecord): void {
     void handleCatchError(error);
   }
 }
-// Получить запись счетчика по id
-export function getMeterRecordById(id: number): Promise<TypeMeterRecord | undefined> {
-  try {
-    return fetch(URL + METER_RECORD + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
-}
 
-// Удалить запись счетчика
+// Удалить запись счетчика по id
 export function deleteMeterRecordById(id: number): void {
   try {
     fetch(URL + METER_RECORD + `/${id}`, {
@@ -69,6 +55,21 @@ export function deleteMeterRecordById(id: number): void {
     })
       .then(handleResponseDelete)
       .catch(handleError);
+  } catch (error) {
+    void handleCatchError(error);
+  }
+}
+
+// Редактировать запись счетчика
+export function updateMeterRecord(data: TypeMeterRecord): void {
+  try {
+    fetch(URL + METER_RECORD, {
+      method: 'PUT',
+      headers: BASE_HEADERS,
+      body: JSON.stringify(data),
+    })
+      .then(handleResponseUpdate)
+      .catch(handleError)
   } catch (error) {
     void handleCatchError(error);
   }

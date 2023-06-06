@@ -118,9 +118,9 @@ export const TableShipment: React.FC<TableProps> = ({
       bordered
       columns={columns}
       dataSource={allShipment}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

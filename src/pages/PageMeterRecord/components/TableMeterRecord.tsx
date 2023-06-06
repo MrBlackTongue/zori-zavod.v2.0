@@ -3,14 +3,14 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterRecord} from "../../../services"
-import {TableProps, TypeMeterRecord, TableParam} from "../../../types";
+import {TableProps, TypeMeterRecord, TableParam, TypeMeter} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableMeterRecord: React.FC<TableProps> = ({
-                                                       isUpdateTable,
-                                                       openDrawer,
-                                                       onDelete,
-                                                     }) => {
+                                                         isUpdateTable,
+                                                         openDrawer,
+                                                         onDelete,
+                                                       }) => {
   // Лоудер и список всех типов счетчиков
   const [isLoading, setIsLoading] = useState(false);
   const [allMeterRecord, setAllMeterRecord] = useState<TypeMeterRecord[]>();
@@ -30,17 +30,27 @@ export const TableMeterRecord: React.FC<TableProps> = ({
       dataIndex: 'date',
       key: 'date',
       render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm')}</div>) : null),
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>) : null),
     },
     {
       title: 'Счетчик',
-      dataIndex: 'id', // нужно поменять на meterDto
-      key: 'id',
+      dataIndex: 'meterDto',
+      key: 'meterDto',
+      render: (meterDto: TypeMeter) =>
+        meterDto !== null ? (<div>{meterDto.description}</div>) : null,
     },
     {
       title: 'Показания',
       dataIndex: 'value',
       key: 'value',
+      render: ((value: number | null) =>
+        value !== null ? (
+          <div>
+            {value.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
     {
       title: 'Действия',
@@ -63,7 +73,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот тип счётчика?"
+              title="Вы действительно хотите удалить эту запись счетчика?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
@@ -86,8 +96,8 @@ export const TableMeterRecord: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllMeterRecord().then((meterRecord) => {
-      setAllMeterRecord(meterRecord);
+    getAllMeterRecord().then((data) => {
+      setAllMeterRecord(data);
       setIsLoading(false);
     });
   }, [])
@@ -98,12 +108,13 @@ export const TableMeterRecord: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
+      bordered
       columns={columns}
       dataSource={allMeterRecord}
       loading={isLoading}
       onChange={handleChangeTable}
       pagination={{...tableParams.pagination, position: ['bottomCenter']}}
-      bordered
     />
   );
 };

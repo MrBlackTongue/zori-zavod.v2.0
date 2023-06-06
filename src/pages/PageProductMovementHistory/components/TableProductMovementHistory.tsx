@@ -123,9 +123,9 @@ export const TableProductMovementHistory:
       bordered
       columns={columns}
       dataSource={allProductMovementHistory}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 }
