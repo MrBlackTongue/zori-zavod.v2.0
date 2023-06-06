@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined, DownOutlined} from '@ant-design/icons';
 import {getAllShipment} from "../../../services";
-import {TableProps, TypeShipment, TableParam} from "../../../types";
+import {TableProps, TypeShipment, TableParam, TypeClient} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableShipment: React.FC<TableProps> = ({
@@ -12,11 +12,11 @@ export const TableShipment: React.FC<TableProps> = ({
                                                       onDelete,
                                                       openDetailDrawer
                                                     }) => {
-  // Состояния для загрузки данных и списка всех отгрузок
+  // Лоудер и список всех отгрузок
   const [isLoading, setIsLoading] = useState(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
-  // Состояние для параметров пагинации
+  // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -29,7 +29,7 @@ export const TableShipment: React.FC<TableProps> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idShipment',
     },
     {
       title: 'Дата',
@@ -43,8 +43,8 @@ export const TableShipment: React.FC<TableProps> = ({
       dataIndex: 'client',
       key: 'client',
       sorter: (a, b) => (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
-      render: ((client: any) =>
-        client !== null ? (<div key={client.id}>{client.title}</div>) : null)
+      render: ((client: TypeClient) =>
+        client !== null ? (<div>{client.title}</div>) : null)
     },
     {
       title: 'Действия',
@@ -103,7 +103,7 @@ export const TableShipment: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllShipment().then((allShipment) => {
-      setAllShipment(allShipment);
+      setAllShipment(allShipment.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])

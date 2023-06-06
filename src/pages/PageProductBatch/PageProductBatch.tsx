@@ -5,31 +5,30 @@ import '../../App.css'
 import {
   deleteProductBatchById,
   createProductBatch,
-  editProductBatch
+  updateProductBatch
 } from "../../services";
-import {TypeProductBatch} from '../../types';
+import {TypeProductBatch, TypeProductBatchFormValue} from '../../types';
 import {TableProductBatch} from "./components/TableProductBatch";
-import {AddModalProductBatch} from "./components/AddModalProductBatch";
-import {EditDrawerProductBatch} from "./components/EditDrawerProductBatch";
+import {CreateModalProductBatch} from "./components/CreateModalProductBatch";
+import {UpdateDrawerProductBatch} from "./components/UpdateDrawerProductBatch";
 
-const {Title} = Typography;
 
 export const PageProductBatch: React.FC = () => {
 
-  // Обновление таблицы, id выбраной партии товаров
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбраной партии товаров
+  const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
+
   // Добавить новую партию товаров
-  const handleAddProductBatch = (values: TypeProductBatch): void => {
+  const handleCreateProductBatch = (values: TypeProductBatchFormValue): void => {
     const productBatch: TypeProductBatch = {
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
       amount: values.amount,
     };
     setIsModalOpen(false)
@@ -44,16 +43,14 @@ export const PageProductBatch: React.FC = () => {
   };
 
   // Обновление партии товаров
-  const handleUpdateProductBatch = (values: TypeProductBatch): void => {
+  const handleUpdateProductBatch = (values: TypeProductBatchFormValue): void => {
     const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,
-      product: {
-        id: values.product?.id,
-      },
+      product: {id: values.product},
       amount: values.amount,
     };
     setIsDrawerOpen(false)
-    editProductBatch(productBatch)
+    updateProductBatch(productBatch)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -72,7 +69,8 @@ export const PageProductBatch: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -90,16 +88,16 @@ export const PageProductBatch: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteProductBatch}
       />
-      <AddModalProductBatch
+      <CreateModalProductBatch
         isOpen={isModalOpen}
-        addItem={handleAddProductBatch}
+        createItem={handleCreateProductBatch}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerProductBatch
+      <UpdateDrawerProductBatch
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductBatchId}
         updateItem={handleUpdateProductBatch}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

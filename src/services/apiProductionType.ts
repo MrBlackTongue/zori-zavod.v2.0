@@ -60,7 +60,7 @@ export function deleteProductionTypeById(id: number): void {
 }
 
 // Редактировать тип производства
-export function editProductionType(data: TypeProductionType): void {
+export function updateProductionType(data: TypeProductionType): void {
   try {
     fetch(URL + PRODUCTION_TYPE, {
       method: 'PUT',

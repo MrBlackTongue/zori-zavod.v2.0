@@ -2,32 +2,29 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteOperationById, createOperation, editOperation} from "../../services";
-import {TypeOperation} from "../../types";
+import {deleteOperationById, createOperation, updateOperation} from "../../services";
+import {TypeOperation, TypeOperationFormValue} from "../../types";
 import {TableOperation} from "./components/TableOperation";
-import {AddModalOperation} from "./components/AddModalOperation";
-import {EditDrawerOperation} from "./components/EditDrawerOperation";
-
-const {Title} = Typography;
+import {CreateModalOperation} from "./components/CreateModalOperation";
+import {UpdateDrawerOperation} from "./components/UpdateDrawerOperation";
 
 export const PageOperation: React.FC = () => {
 
-  // Обновление таблицы, id выбраной операции
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedOperationId, setSelectedOperationId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбраной операции
+  const [selectedOperationId, setSelectedOperationId] = useState<number>();
+
   // Добавить новую операцию
-  const handleAddOperation = (values: TypeOperation): void => {
+  const handleCreateOperation = (values: TypeOperationFormValue): void => {
     const operation: TypeOperation = {
       title: values.title,
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
+      unit: {id: values.unit},
       rate: values.rate,
     };
     setIsModalOpen(false)
@@ -42,18 +39,15 @@ export const PageOperation: React.FC = () => {
   };
 
   // Обновить операцию
-  const handleUpdateOperation = (values: TypeOperation): void => {
+  const handleUpdateOperation = (values: TypeOperationFormValue): void => {
     const operation: TypeOperation = {
-      title: values.title,
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
-      rate: values.rate,
       id: selectedOperationId,
+      title: values.title,
+      unit: {id: values.unit},
+      rate: values.rate,
     };
     setIsDrawerOpen(false)
-    editOperation(operation)
+    updateOperation(operation)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -72,7 +66,8 @@ export const PageOperation: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -90,16 +85,16 @@ export const PageOperation: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteOperation}
       />
-      <AddModalOperation
+      <CreateModalOperation
         isOpen={isModalOpen}
-        addItem={handleAddOperation}
+        createItem={handleCreateOperation}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerOperation
+      <UpdateDrawerOperation
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationId}
         updateItem={handleUpdateOperation}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

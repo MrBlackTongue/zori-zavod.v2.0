@@ -61,7 +61,7 @@ export function deleteOperationAccountingById(id: number): void {
 }
 
 // Редактировать учетную операцию
-export function editOperationAccounting(data: TypeOperationAccounting): void {
+export function updateOperationAccounting(data: TypeOperationAccounting): void {
   try {
     fetch(URL + OPERATION_ACCOUNTING, {
       method: 'PUT',

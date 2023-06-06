@@ -61,7 +61,7 @@ export function deleteProductBatchById(id: number): void {
 }
 
 // Редактировать партию товаров
-export function editProductBatch(data: TypeProductBatch): void {
+export function updateProductBatch(data: TypeProductBatch): void {
   try {
     fetch(URL + PRODUCT + BATCH, {
       method: 'PUT',

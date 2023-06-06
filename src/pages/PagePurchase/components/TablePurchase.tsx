@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypePurchase, TableParam, TypeUnit} from "../../../types";
+import {TableProps, TypePurchase, TableParam, TypeUnit, TypeProduct} from "../../../types";
 import {getAllPurchase, getAllPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
 
@@ -29,7 +29,7 @@ export const TablePurchase: React.FC<TableProps> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idPurchase',
     },
     {
       title: 'Дата',
@@ -42,8 +42,8 @@ export const TablePurchase: React.FC<TableProps> = ({
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: any) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -65,7 +65,7 @@ export const TablePurchase: React.FC<TableProps> = ({
       dataIndex: ['product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'Цена за единицу',
@@ -145,8 +145,8 @@ export const TablePurchase: React.FC<TableProps> = ({
   // Функция для обновления таблицы закупок
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllPurchase().then((allPurchases) => {
-      setAllPurchase(allPurchases);
+    getAllPurchase().then((allPurchase) => {
+      setAllPurchase(allPurchase.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -154,8 +154,8 @@ export const TablePurchase: React.FC<TableProps> = ({
   // Функция для поиска по таблице закупок
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllPurchaseByTitle(searchText ?? '').then((allPurchases) => {
-      setAllPurchase(allPurchases);
+    getAllPurchaseByTitle(searchText ?? '').then((allPurchase) => {
+      setAllPurchase(allPurchase.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [searchText])

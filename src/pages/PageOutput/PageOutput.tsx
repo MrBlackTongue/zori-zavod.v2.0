@@ -2,32 +2,30 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteOutputById, createOutput, editChangeOutput} from "../../services";
-import {TypeOutput} from "../../types";
+import {deleteOutputById, createOutput, updateChangeOutput} from "../../services";
+import {TypeOutput, TypeOutputFormValue} from "../../types";
 import {TableOutput} from "./components/TableOutput";
-import {AddModalOutput} from "./components/AddModalOutput";
-import {EditDrawerOutput} from "./components/EditDrawerOutput";
+import {CreateModalOutput} from "./components/CreateModalOutput";
+import {UpdateDrawerOutput} from "./components/UpdateDrawerOutput";
 import dayjs from "dayjs";
-
-const {Title} = Typography;
 
 export const PageOutput: React.FC = () => {
 
-  // Обновление таблицы, id выбраного выпуска продукции
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedOutputId, setSelectedOutputId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isTableUpdate, setIsTableUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // id выбраного выпуска продукции
+  const [selectedOutputId, setSelectedOutputId] = useState<number>();
+
   // Добавить новый выпуск продукции
-  const handleAddOutput = (values: TypeOutput): void => {
+  const handleCreateOutput = (values: TypeOutputFormValue): void => {
     const output: TypeOutput = {
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      product: {
-        id: values.product?.id,
-      }
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      product: {id: values.product}
     };
     setIsModalOpen(false)
     createOutput(output)
@@ -41,16 +39,14 @@ export const PageOutput: React.FC = () => {
   };
 
   // Обновить выпуск продукции
-  const handleUpdateOutput = (values: TypeOutput): void => {
+  const handleUpdateOutput = (values: TypeOutputFormValue): void => {
     const output: TypeOutput = {
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      product: {
-        id: values.product?.id,
-      },
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      product: {id: values.product},
       id: selectedOutputId,
     };
     setIsDrawerOpen(false)
-    editChangeOutput(output)
+    updateChangeOutput(output)
     setIsTableUpdate(prevState => !prevState)
   };
 
@@ -69,7 +65,8 @@ export const PageOutput: React.FC = () => {
             type="dashed"
             icon={<SyncOutlined/>}
             onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -87,16 +84,16 @@ export const PageOutput: React.FC = () => {
         openDrawer={openDrawer}
         onDelete={handleDeleteOutput}
       />
-      <AddModalOutput
+      <CreateModalOutput
         isOpen={isModalOpen}
-        addItem={handleAddOutput}
+        createItem={handleCreateOutput}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerOutput
+      <UpdateDrawerOutput
         isOpen={isDrawerOpen}
         selectedItemId={selectedOutputId}
         updateItem={handleUpdateOutput}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

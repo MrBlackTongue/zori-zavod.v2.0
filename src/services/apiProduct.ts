@@ -61,7 +61,7 @@ export function deleteProductById(id: number): void {
 }
 
 // Редактировать товар
-export function editProduct(data: TypeProduct): void {
+export function updateProduct(data: TypeProduct): void {
   try {
     fetch(URL + PRODUCT, {
       method: 'PUT',

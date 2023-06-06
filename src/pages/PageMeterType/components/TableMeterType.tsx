@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterType} from "../../../services";
-import {TableProps, TypeMeterType, TableParam} from "../../../types";
+import {TableProps, TypeMeterType, TableParam, TypeUnit} from "../../../types";
 
 export const TableMeterType: React.FC<TableProps> = ({
                                                        isUpdateTable,
@@ -49,8 +49,8 @@ export const TableMeterType: React.FC<TableProps> = ({
       title: 'Единица измерения',
       dataIndex: 'unit',
       key: 'unit',
-      render: ((unit: any) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+      render: ((unit: TypeUnit) =>
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Действия',
@@ -96,8 +96,8 @@ export const TableMeterType: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllMeterType().then((meterType) => {
-      setAllMeterType(meterType);
+    getAllMeterType().then((allMeterType) => {
+      setAllMeterType(allMeterType.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
