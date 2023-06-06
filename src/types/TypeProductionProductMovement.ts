@@ -12,3 +12,12 @@ export type TypeProductionProductMovement = {
   productBatch?: TypeProductBatch,
   operationAccounting?: TypeOperationAccounting,
 }
+
+export type TypeProductionProductMovementFormValue = {
+  amount?: number,
+  income?: boolean,
+  stock?: number,
+  date?: string,
+  productBatch?: number,
+  operationAccounting?: number,
+}

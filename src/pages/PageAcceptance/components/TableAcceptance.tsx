@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {getAllAcceptance, getAllAcceptanceByTitle} from "../../../services";
-import {TableProps, TypeAcceptance, TableParam, TypeUnit} from "../../../types";
+import {TableProps, TypeAcceptance, TableParam, TypeUnit, TypeStock, TypeProduct, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableAcceptance: React.FC<TableProps> = ({
@@ -36,34 +36,42 @@ export const TableAcceptance: React.FC<TableProps> = ({
       title: 'ID ячейки',
       dataIndex: 'stock',
       key: 'stock',
-      render: ((stock: any) =>
-        stock !== null ? (<div key={stock.id}>{stock.id}</div>) : null)
+      render: ((stock: TypeStock) =>
+        stock !== null ? (<div>{stock.id}</div>) : null)
     },
     {
       title: 'Товар',
-      dataIndex: 'stock',
+      dataIndex: ['stock', 'product'],
       key: 'product',
-      render: ((stock: any) =>
-        stock !== null ? (<div key={stock?.id}>{stock?.product?.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product?.title}</div>) : null)
     },
     {
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
+      render: ((amount: number | null) =>
+        amount !== null ? (
+          <div>
+            {amount.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : null)
     },
     {
       title: 'Ед. изм',
       dataIndex: ['stock', 'product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'ID закупки',
       dataIndex: 'purchase',
       key: 'purchase',
-      render: ((stock: any) =>
-        stock !== null ? (<div key={stock.id}>{stock.id}</div>) : null)
+      render: ((purchase: TypePurchase) =>
+        purchase !== null ? (<div>{purchase.id}</div>) : null)
     },
     {
       title: 'Действия',
@@ -79,9 +87,15 @@ export const TableAcceptance: React.FC<TableProps> = ({
               title="Вы действительно хотите удалить эту приемку?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
-              cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
+              cancelText="Отмена"
+            >
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{color: 'tomato', borderColor: 'tomato'}}
+                ghost
+              >
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -100,7 +114,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptance().then((allAcceptance) => {
-      setAllAcceptance(allAcceptance);
+      setAllAcceptance(allAcceptance.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -109,7 +123,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptanceByTitle(searchText ?? '').then((allAcceptance) => {
-      setAllAcceptance(allAcceptance);
+      setAllAcceptance(allAcceptance.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [searchText])

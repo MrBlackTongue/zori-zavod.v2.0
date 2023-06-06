@@ -8,5 +8,10 @@ export type TypeShipmentProductMovement = {
   income?: boolean,
   stock?: TypeStock,
   date?: Dayjs | string,
-  shipment?: TypeShipment
+  shipment?: TypeShipment,
+}
+
+export type TypeShipmentProductMovementFormValue = {
+  amount?: number,
+  stock?: number,
 }

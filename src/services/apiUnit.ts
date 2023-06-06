@@ -61,7 +61,7 @@ export function deleteUnitById(id: number): void {
 }
 
 // Редактировать единицу измерения
-export function editUnit(data: TypeUnit): void {
+export function updateUnit(data: TypeUnit): void {
   try {
     fetch(URL + UNIT, {
       method: 'PUT',

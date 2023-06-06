@@ -9,7 +9,7 @@ import {
   TypeOperationAccounting,
   TableParam,
   TypeOperationTimesheet,
-  TypeOperationAccountingFilter,
+  TypeOperationAccountingFilter, TypeUnit,
 } from "../../../types";
 import dayjs from "dayjs";
 
@@ -44,7 +44,7 @@ export const TableOperationAccounting:
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idOperationAccounting',
     },
     {
       title: 'Дата',
@@ -67,10 +67,8 @@ export const TableOperationAccounting:
       title: 'Ед. изм.',
       dataIndex: ['operation', 'unit', 'name'],
       key: 'unit',
-      render: (unitName: string, record: TypeOperationAccounting) =>
-        record.operation?.unit ? (
-          <div key={record.operation?.unit.id}>{record.operation?.unit.name}</div>
-        ) : null,
+      render: (unit: TypeUnit) =>
+        unit !== null ? (<div>{unit.name}</div>) : null,
     },
     {
       title: 'Факт',
@@ -207,7 +205,7 @@ export const TableOperationAccounting:
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllOperationAccounting().then((allOperationAccounting) => {
-      setAllOperationAccounting(allOperationAccounting);
+      setAllOperationAccounting(allOperationAccounting.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -221,7 +219,7 @@ export const TableOperationAccounting:
         operationId: filter.operationId || undefined,
         productionTypeId: filter.productionTypeId || undefined,
       }).then((allOperationAccounting) => {
-        setAllOperationAccounting(allOperationAccounting);
+        setAllOperationAccounting(allOperationAccounting.map((item, index) => ({...item, key: index})));
         setIsLoading(false);
       });
     }

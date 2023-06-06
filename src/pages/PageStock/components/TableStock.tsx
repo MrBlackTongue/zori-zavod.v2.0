@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TableParam, TypeUnit, TypeStock, TypeStockFilter} from "../../../types";
+import {TableProps, TableParam, TypeUnit, TypeStock, TypeStockFilter, TypeProduct} from "../../../types";
 import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
 
 export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
@@ -29,7 +29,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idStock',
       defaultSortOrder: 'descend',
       sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
     },
@@ -38,8 +38,8 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataIndex: 'product',
       key: 'product',
       sorter: (a, b) => (a.product?.title ?? '') < (b.product?.title ?? '') ? -1 : 1,
-      render: ((product: any) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -61,7 +61,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataIndex: ['product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'Действия',
@@ -114,7 +114,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllStock().then((allStock) => {
-      setAllStock(allStock);
+      setAllStock(allStock.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, []);
@@ -123,7 +123,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllStockByTitle(searchText || "").then((allStock) => {
-      setAllStock(allStock);
+      setAllStock(allStock.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [searchText]);
@@ -133,8 +133,10 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     if (filter?.id) {
       setIsLoading(true);
       getAllStockByFilter(filter.id).then((allStock) => {
-        setAllStock(allStock);
-        setIsLoading(false);
+        if (allStock) {
+          setAllStock(allStock.map((item, index) => ({...item, key: index})));
+          setIsLoading(false);
+        }
       });
     }
   }, [filter]);

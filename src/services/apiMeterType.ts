@@ -61,7 +61,7 @@ export function deleteMeterTypeById(id: number): void {
 }
 
 // Редактировать тип счетчика
-export function editMeterType(data: TypeMeterType): void {
+export function updateMeterType(data: TypeMeterType): void {
   try {
     fetch(URL + METER_TYPE, {
       method: 'PUT',

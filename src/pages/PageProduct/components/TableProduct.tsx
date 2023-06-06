@@ -4,13 +4,13 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
-import {TableProps, TypeProduct, TableParam} from "../../../types";
+import {TableProps, TypeProduct, TableParam, TypeUnit, TypeProductGroup} from "../../../types";
 
 export const TableProduct: React.FC<TableProps> = ({
                                                      isUpdateTable,
                                                      openDrawer,
                                                      onDelete,
-                                                     searchText
+                                                     searchText,
                                                    }) => {
   // Лоудер и список всех товаров
   const [isLoading, setIsLoading] = useState(false);
@@ -41,8 +41,8 @@ export const TableProduct: React.FC<TableProps> = ({
       dataIndex: 'unit',
       key: 'unit',
       width: 200,
-      render: ((unit: any) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+      render: ((unit: TypeUnit) =>
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Товарная группа',
@@ -53,8 +53,8 @@ export const TableProduct: React.FC<TableProps> = ({
         value: productGroup.title!
       })),
       onFilter: (value, record) => record.productGroup?.title === value,
-      render: ((productGroup: any) => productGroup !== null ? (
-        <div key={productGroup.id}> {productGroup.title}</div>) : null),
+      render: ((productGroup: TypeProductGroup) => productGroup !== null ? (
+        <div> {productGroup.title}</div>) : null),
     },
     {
       title: 'Действия',
@@ -100,8 +100,8 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для обновления таблицы товаров
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProduct().then((allProducts) => {
-      setAllProduct(allProducts);
+    getAllProduct().then((allProduct) => {
+      setAllProduct(allProduct.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -109,15 +109,15 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для поиска по таблице товаров
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductByTitle(searchText ?? '').then((allProducts) => {
-      setAllProduct(allProducts);
+    getAllProductByTitle(searchText ?? '').then((allProduct) => {
+      setAllProduct(allProduct.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [searchText]);
 
   useEffect(() => {
-    getAllProductGroup().then((productGroups) => {
-      setAllProductGroup(productGroups);
+    getAllProductGroup().then((allProductGroup) => {
+      setAllProductGroup(allProductGroup);
     });
   }, []);
 
@@ -127,7 +127,7 @@ export const TableProduct: React.FC<TableProps> = ({
     } else {
       handleUpdateTable();
     }
-  }, [searchText, isUpdateTable,handleUpdateTable, handleSearchTable]);
+  }, [searchText, isUpdateTable, handleUpdateTable, handleSearchTable]);
 
   return (
     <Table
