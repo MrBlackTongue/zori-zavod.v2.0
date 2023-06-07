@@ -11,7 +11,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
                                                             idDetail,
                                                             onDelete,
                                                           }) => {
-  // Состояния для лоадера и списка всех товаров в отгрузке
+  // Лоудер и списка всех товаров в отгрузке
   const [isLoading, setIsLoading] = useState(false);
   const [allShipmentMovement, setAllShipmentMovement] = useState<TypeShipmentProductMovement[]>();
 
@@ -74,8 +74,8 @@ export const TableDetailShipment: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     if (idDetail) {
-      getAllProductMovementByShipmentId(idDetail).then((allShipmentMovement) => {
-        setAllShipmentMovement(allShipmentMovement);
+      getAllProductMovementByShipmentId(idDetail).then((data) => {
+        setAllShipmentMovement(data)
         setIsLoading(false);
       });
     }
@@ -87,6 +87,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       size={"small"}
       columns={columns}

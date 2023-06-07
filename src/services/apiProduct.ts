@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех товаров
@@ -61,14 +61,14 @@ export function deleteProductById(id: number): void {
 }
 
 // Редактировать товар
-export function editProduct(data: TypeProduct): void {
+export function updateProduct(data: TypeProduct): void {
   try {
     fetch(URL + PRODUCT, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список типов производства
@@ -60,14 +60,14 @@ export function deleteProductionTypeById(id: number): void {
 }
 
 // Редактировать тип производства
-export function editProductionType(data: TypeProductionType): void {
+export function updateProductionType(data: TypeProductionType): void {
   try {
     fetch(URL + PRODUCTION_TYPE, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

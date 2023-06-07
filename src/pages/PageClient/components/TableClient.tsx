@@ -75,8 +75,8 @@ export const TableClient: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllClient().then((allClients) => {
-      setAllClient(allClients);
+    getAllClient().then((data) => {
+      setAllClient(data);
       setIsLoading(false);
     });
   }, [])
@@ -87,12 +87,13 @@ export const TableClient: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allClient}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

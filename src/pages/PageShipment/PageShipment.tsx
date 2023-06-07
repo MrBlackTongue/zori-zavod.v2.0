@@ -2,21 +2,20 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
 import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
-import {createShipment, editShipment, deleteShipmentById} from "../../services";
-import {TypeShipment} from "../../types";
+import {createShipment, updateShipment, deleteShipmentById} from "../../services";
+import {TypeShipment, TypeShipmentFormValue} from "../../types";
 import {TableShipment} from "./components/TableShipment";
-import {AddModalShipment} from "./components/AddModalShipment";
-import {EditDrawerShipment} from "./components/EditDrawerShipment";
+import {CreateModalShipment} from "./components/CreateModalShipment";
+import {UpdateDrawerShipment} from "./components/UpdateDrawerShipment";
 import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
 import dayjs from "dayjs";
 
-const {Title} = Typography;
-
 export const PageShipment: React.FC = () => {
 
-  // Состояние для обновления таблицы, id выбранной отгрузки
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
+  const {Title} = Typography;
+
+  // Обновление таблицы
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
 
   // Состояния для контроля открытия/закрытия модалки и драверов
   const [openState, setOpenState] = useState({
@@ -25,15 +24,18 @@ export const PageShipment: React.FC = () => {
     isBottomDrawerOpen: false,
   });
 
+  //  id выбранной отгрузки
+  const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
+
   // Функция добавления новой отгрузки
-  const handleAddShipment = (values: TypeShipment): void => {
+  const handleCreateShipment = (values: TypeShipmentFormValue): void => {
     const shipment: TypeShipment = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      client: values.client,
+      client: {id: values.client},
     };
     setOpenState({...openState, isModalOpen: false});
     createShipment(shipment);
-    setIsTableUpdate(prevState => !prevState);
+    setIsUpdateTable(prevState => !prevState);
   }
 
   // Функция открытия дравера редактирования отгрузки
@@ -49,21 +51,21 @@ export const PageShipment: React.FC = () => {
   }
 
   // Функция обновления отгрузки
-  const handleUpdateShipment = (values: TypeShipment): void => {
+  const handleUpdateShipment = (values: TypeShipmentFormValue): void => {
     const shipment: TypeShipment = {
       id: selectedShipmentId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      client: values.client,
+      client: {id: values.client},
     };
     setOpenState({...openState, isDrawerOpen: false});
-    editShipment(shipment);
-    setIsTableUpdate(prevState => !prevState);
+    updateShipment(shipment);
+    setIsUpdateTable(prevState => !prevState);
   }
 
   // Удалить запись из таблицы
   const handleDeleteShipment = (id: number): void => {
     deleteShipmentById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -74,8 +76,9 @@ export const PageShipment: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -89,26 +92,26 @@ export const PageShipment: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableShipment
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteShipment}
         openDetailDrawer={openDetailShipment}
       />
-      <AddModalShipment
+      <CreateModalShipment
         isOpen={openState.isModalOpen}
-        addItem={handleAddShipment}
+        createItem={handleCreateShipment}
         onCancel={() => setOpenState({...openState, isModalOpen: false})}
       />
-      <EditDrawerShipment
+      <UpdateDrawerShipment
         isOpen={openState.isDrawerOpen}
         selectedItemId={selectedShipmentId}
         updateItem={handleUpdateShipment}
-        closeDrawer={() => setOpenState({...openState, isDrawerOpen: false})}
+        onCancel={() => setOpenState({...openState, isDrawerOpen: false})}
       />
       <DetailDrawerShipment
         selectedItemId={selectedShipmentId}
         isOpen={openState.isBottomDrawerOpen}
-        closeDrawer={() => setOpenState({...openState, isBottomDrawerOpen: false})}
+        onCancel={() => setOpenState({...openState, isBottomDrawerOpen: false})}
       />
     </div>
   );

@@ -2,43 +2,35 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteProductById, createProduct, editProduct} from "../../services";
-import {TypeProduct} from "../../types";
+import {deleteProductById, createProduct, updateProduct} from "../../services";
+import {TypeProduct, TypeProductFormValue} from "../../types";
 import {TableProduct} from "./components/TableProduct";
-import {AddModalProduct} from "./components/AddModalProduct";
-import {EditDrawerProduct} from "./components/EditDrawerProduct";
-
-const {Title} = Typography;
+import {CreateModalProduct} from "./components/CreateModalProduct";
+import {UpdateDrawerProduct} from "./components/UpdateDrawerProduct";
 
 export const PageProduct: React.FC = () => {
 
-  // Обновление таблицы, id выбраного товара
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Текст поиска
+  // id выбраного товара, Текст поиска
+  const [selectedProductId, setSelectedProductId] = useState<number>();
   const [searchText, setSearchText] = useState("");
 
   // Добавить новый товар
-  const handleAddProduct = (values: TypeProduct): void => {
+  const handleCreateProduct = (values: TypeProductFormValue): void => {
     const product: TypeProduct = {
       title: values.title,
-      productGroup: {
-        id: values.productGroup?.id,
-        title: values.productGroup?.title,
-      },
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
+      productGroup: {id: values.productGroup},
+      unit: {id: values.unit},
     };
     setIsModalOpen(false)
     createProduct(product)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -48,28 +40,22 @@ export const PageProduct: React.FC = () => {
   };
 
   // Обновить товар
-  const handleUpdateProduct = (values: TypeProduct): void => {
+  const handleUpdateProduct = (values: TypeProductFormValue): void => {
     const product: TypeProduct = {
-      title: values.title,
-      productGroup: {
-        id: values.productGroup?.id,
-        title: values.productGroup?.title,
-      },
-      unit: {
-        id: values.unit?.id,
-        name: values.unit?.name,
-      },
       id: selectedProductId,
+      title: values.title,
+      productGroup: {id: values.productGroup},
+      unit: {id: values.unit},
     };
     setIsDrawerOpen(false)
-    editProduct(product)
-    setIsTableUpdate(prevState => !prevState)
+    updateProduct(product)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProduct = (id: number): void => {
     deleteProductById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -88,7 +74,7 @@ export const PageProduct: React.FC = () => {
             type="dashed"
             className='greenButton'
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
           >
             Обновить
           </Button>
@@ -103,21 +89,21 @@ export const PageProduct: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableProduct
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteProduct}
         searchText={searchText}
       />
-      <AddModalProduct
+      <CreateModalProduct
         isOpen={isModalOpen}
-        addItem={handleAddProduct}
+        createItem={handleCreateProduct}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerProduct
+      <UpdateDrawerProduct
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductId}
         updateItem={handleUpdateProduct}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

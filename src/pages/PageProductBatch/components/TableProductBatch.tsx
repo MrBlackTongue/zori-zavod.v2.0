@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypeProductBatch, TableParam, TypeUnit} from "../../../types";
+import {TableProps, TypeProductBatch, TableParam, TypeUnit, TypeProduct} from "../../../types";
 import {getAllProductBatch} from "../../../services";
 
 export const TableProductBatch: React.FC<TableProps> = ({
@@ -27,15 +27,15 @@ export const TableProductBatch: React.FC<TableProps> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idProductBatch',
       sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
     },
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: any) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -48,7 +48,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       dataIndex: ['product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'Действия',
@@ -94,8 +94,8 @@ export const TableProductBatch: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductBatch().then((allProductBatch) => {
-      setAllProductBatch(allProductBatch);
+    getAllProductBatch().then((data) => {
+      setAllProductBatch(data);
       setIsLoading(false);
     });
   }, [])
@@ -106,12 +106,13 @@ export const TableProductBatch: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProductBatch}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

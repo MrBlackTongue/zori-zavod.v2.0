@@ -4,23 +4,28 @@ import {Space, Button, FloatButton, Divider, Tooltip, Typography} from 'antd';
 import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
-  editOperationAccounting,
+  updateOperationAccounting,
   createOperationTimesheet,
   deleteOperationTimesheetById,
-  editOperationTimesheet,
+  updateOperationTimesheet,
   deleteProductionProductMovementById,
   createProductionProductMovement,
   getOperationAccountingById,
   deleteOperationAccountingById,
 } from "../../services";
-import {TypeOperationAccounting, TypeOperationTimesheet, TypeProductionProductMovement} from "../../types";
+import {
+  TypeOperationAccounting,
+  TypeOperationAccountingFormValue,
+  TypeOperationTimesheet, TypeOperationTimesheetFormValue,
+  TypeProductionProductMovement, TypeProductionProductMovementFormValue
+} from "../../types";
 import {TableOperationAccountingDetail} from "./components/TableOperationAccountingDetail";
-import {AddModalOperationTimesheet} from "./components/AddModalOperationTimesheet";
-import {EditDrawerOperationAccounting} from "../PageOperationAccounting/components/EditDrawerOperationAccounting";
+import {CreateModalOperationTimesheet} from "./components/CreateModalOperationTimesheet";
+import {UpdateDrawerOperationAccounting} from "../PageOperationAccounting/components/UpdateDrawerOperationAccounting";
 import {TableOperationTimesheet} from "./components/TableOperationTimesheet";
-import {EditDrawerOperationTimesheet} from "./components/EditDrawerOperationTimesheet";
+import {UpdateDrawerOperationTimesheet} from "./components/UpdateDrawerOperationTimesheet";
 import {TableProductionProductMovement} from "./components/TableProductionProductMovement";
-import {AddModalProductionProductMovement} from "./components/AddModalProductionProductMovement";
+import {CreateModalProductionProductMovement} from "./components/CreateModalProductionProductMovement";
 import dayjs from "dayjs";
 
 export const PageOperationAccountingDetail: React.FC = () => {
@@ -30,7 +35,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const {Title} = Typography;
 
   // Состояние и методы для учетной операции
-  const [isAllTableUpdate, setIsAllTableUpdate] = useState(false);
+  const [isUpdateAllTable, setIsUpdateAllTable] = useState(false);
   const [isDrawerOperationAccountingOpen, setIsDrawerOperationAccountingOpen] = useState(false);
 
   // Состояние и методы для табеля учета рабочего времени
@@ -38,24 +43,22 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const [isModalOperationTimesheetOpen, setIsModalOperationTimesheetOpen] = useState(false);
   const [isDrawerOperationTimesheetOpen, setIsDrawerOperationTimesheetOpen] = useState(false);
 
-  // Состояние и методы для движения товаров на производстве
+  // Состояние для движения товаров на производстве
   const [isModalProductionProductMovementOpen, setIsModalProductionProductMovementOpen] = useState(false);
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
+  const handleUpdateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: id ? +id : undefined,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      fact: values.fact || 0,
-      operation: {
-        id: values.operation?.id,
-      },
-      output: values.output ? {id: values.output.id} : undefined,
-      productionType: {id: values.productionType?.id},
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      fact: values.fact || undefined,
+      operation: {id: values.operation},
+      output: values.output ? {id: values.output} : undefined,
+      productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOperationAccountingOpen(false)
-    editOperationAccounting(operationAccounting)
-    setIsAllTableUpdate(prevState => !prevState)
+    updateOperationAccounting(operationAccounting)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить запись из таблицы
@@ -65,40 +68,36 @@ export const PageOperationAccountingDetail: React.FC = () => {
   };
 
   // Создать сотрудника в табеле учета рабочего времени
-  const handleAddOperationTimesheet = (values: TypeOperationTimesheet): void => {
+  const handleCreateOperationTimesheet = (values: TypeOperationTimesheetFormValue): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       hours: values.hours,
-      employee: {
-        id: values.employee?.id,
-      },
+      employee: {id: values.employee},
       operationAccountingId: id ? +id : undefined,
       fact: values.fact || 0,
     };
     setIsModalOperationTimesheetOpen(false)
     createOperationTimesheet(operationTimesheet)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Обновить сотрудника в табеле учета рабочего времени
-  const handleUpdateOperationTimesheet = (values: TypeOperationTimesheet): void => {
+  const handleUpdateOperationTimesheet = (values: TypeOperationTimesheetFormValue): void => {
     const operationTimesheet: TypeOperationTimesheet = {
       id: selectedOperationTimesheetId,
       hours: values.hours,
-      employee: {
-        id: values.employee?.id,
-      },
+      employee: {id: values.employee},
       operationAccountingId: id ? +id : undefined,
       fact: values.fact || 0,
     };
     setIsDrawerOperationTimesheetOpen(false)
-    editOperationTimesheet(operationTimesheet)
-    setIsAllTableUpdate(prevState => !prevState)
+    updateOperationTimesheet(operationTimesheet)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
   const handleDeleteOperationTimesheet = (id: number): void => {
     deleteOperationTimesheetById(id)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Открыть дравер табеля учета рабочего времени
@@ -108,7 +107,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }
 
   // Создать запись движения товара на производстве
-  const handleAddProductionProductMovement = async (values: TypeProductionProductMovement): Promise<void> => {
+  const handleCreateProductionProductMovement = async (values: TypeProductionProductMovementFormValue): Promise<void> => {
     if (!id) return;
     const operationAccounting = await getOperationAccountingById(+id);
     let operationDate = operationAccounting?.date;
@@ -116,22 +115,22 @@ export const PageOperationAccountingDetail: React.FC = () => {
     const productionProductMovement: TypeProductionProductMovement = {
       amount: values.amount,
       income: values.income,
-      stock: values.stock,
+      stock: {id: values.stock},
       date: operationDate,
-      productBatch: values.productBatch,
+      productBatch: {id: values.productBatch},
       operationAccounting: {
         id: id ? +id : undefined
       },
     };
     setIsModalProductionProductMovementOpen(false)
     createProductionProductMovement(productionProductMovement)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить запись движения товара на производстве
   const handleDeleteProductionProductMovement = (id: number): void => {
     deleteProductionProductMovementById(id)
-    setIsAllTableUpdate(prevState => !prevState)
+    setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Переход на другую страницу по адресу
@@ -157,7 +156,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsAllTableUpdate(prevState => !prevState)}
+            onClick={() => setIsUpdateAllTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
@@ -166,14 +165,14 @@ export const PageOperationAccountingDetail: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOperationAccountingDetail
-        isUpdateTable={isAllTableUpdate}
+        isUpdateTable={isUpdateAllTable}
         openDrawer={() => setIsDrawerOperationAccountingOpen(true)}
         onDelete={handleDeleteOperationAccounting}
         idDetail={id ? +id : undefined}
       />
-      <EditDrawerOperationAccounting
+      <UpdateDrawerOperationAccounting
         isOpen={isDrawerOperationAccountingOpen}
-        closeDrawer={() => setIsDrawerOperationAccountingOpen(false)}
+        onCancel={() => setIsDrawerOperationAccountingOpen(false)}
         selectedItemId={id ? +id : undefined}
         updateItem={handleUpdateOperationAccounting}
       />
@@ -193,19 +192,19 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Space>
       </div>
       <TableOperationTimesheet
-        isUpdateTable={isAllTableUpdate}
+        isUpdateTable={isUpdateAllTable}
         openDrawer={openDrawerOperationTimesheet}
         onDelete={handleDeleteOperationTimesheet}
         idDetail={id ? +id : undefined}
       />
-      <AddModalOperationTimesheet
+      <CreateModalOperationTimesheet
         isOpen={isModalOperationTimesheetOpen}
-        addItem={handleAddOperationTimesheet}
+        createItem={handleCreateOperationTimesheet}
         onCancel={() => setIsModalOperationTimesheetOpen(false)}
       />
-      <EditDrawerOperationTimesheet
+      <UpdateDrawerOperationTimesheet
         isOpen={isDrawerOperationTimesheetOpen}
-        closeDrawer={() => setIsDrawerOperationTimesheetOpen(false)}
+        onCancel={() => setIsDrawerOperationTimesheetOpen(false)}
         selectedItemId={selectedOperationTimesheetId}
         updateItem={handleUpdateOperationTimesheet}
       />
@@ -225,13 +224,13 @@ export const PageOperationAccountingDetail: React.FC = () => {
         </Space>
       </div>
       <TableProductionProductMovement
-        isUpdateTable={isAllTableUpdate}
+        isUpdateTable={isUpdateAllTable}
         onDelete={handleDeleteProductionProductMovement}
         idDetail={id ? +id : undefined}
       />
-      <AddModalProductionProductMovement
+      <CreateModalProductionProductMovement
         isOpen={isModalProductionProductMovementOpen}
-        addItem={handleAddProductionProductMovement}
+        createItem={handleCreateProductionProductMovement}
         onCancel={() => setIsModalProductionProductMovementOpen(false)}
       />
     </div>

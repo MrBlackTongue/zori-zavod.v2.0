@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterType} from "../../../services";
-import {TableProps, TypeMeterType, TableParam} from "../../../types";
+import {TableProps, TypeMeterType, TableParam, TypeUnit} from "../../../types";
 
 export const TableMeterType: React.FC<TableProps> = ({
                                                        isUpdateTable,
@@ -49,8 +49,8 @@ export const TableMeterType: React.FC<TableProps> = ({
       title: 'Единица измерения',
       dataIndex: 'unit',
       key: 'unit',
-      render: ((unit: any) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+      render: ((unit: TypeUnit) =>
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Действия',
@@ -73,7 +73,7 @@ export const TableMeterType: React.FC<TableProps> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот тип счётчика?"
+              title="Вы действительно хотите удалить этот тип счетчика?"
               onConfirm={() => onDelete && onDelete(id)}
               okText="Да"
               cancelText="Отмена">
@@ -96,8 +96,8 @@ export const TableMeterType: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllMeterType().then((meterType) => {
-      setAllMeterType(meterType);
+    getAllMeterType().then((data) => {
+      setAllMeterType(data);
       setIsLoading(false);
     });
   }, [])
@@ -108,12 +108,13 @@ export const TableMeterType: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
+      bordered
       columns={columns}
       dataSource={allMeterType}
       loading={isLoading}
       onChange={handleChangeTable}
       pagination={{...tableParams.pagination, position: ['bottomCenter']}}
-      bordered
     />
   );
 };

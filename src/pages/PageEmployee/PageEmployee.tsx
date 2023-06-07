@@ -2,26 +2,26 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteEmployeeById, createEmployee, editEmployee} from "../../services";
-import {TypeEmployee} from "../../types";
+import {deleteEmployeeById, createEmployee, updateEmployee} from "../../services";
+import {TypeEmployee, TypeEmployeeFormValue} from "../../types";
 import {TableEmployee} from "./components/TableEmployee";
-import {AddModalEmployee} from "./components/AddModalEmployee";
-import {EditDrawerEmployee} from "./components/EditDrawerEmployee";
-
-const {Title} = Typography;
+import {CreateModalEmployee} from "./components/CreateModalEmployee";
+import {UpdateDrawerEmployee} from "./components/UpdateDrawerEmployee";
 
 export const PageEmployee: React.FC = () => {
 
-  // Обновление таблицы, id выбраного сотрудника
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
+  const {Title} = Typography;
 
-  // Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  //  id выбраного сотрудника
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
+
   // Добавить нового сотрудника
-  const handleAddEmployee = (values: TypeEmployee): void => {
+  const handleCreateEmployee = (values: TypeEmployeeFormValue): void => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -31,7 +31,7 @@ export const PageEmployee: React.FC = () => {
     };
     setIsModalOpen(false)
     createEmployee(employee)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -41,24 +41,24 @@ export const PageEmployee: React.FC = () => {
   };
 
   // Обновить сотрудника
-  const handleUpdateEmployee = (values: TypeEmployee): void => {
+  const handleUpdateEmployee = (values: TypeEmployeeFormValue): void => {
     const employee: TypeEmployee = {
+      id: selectedEmployeeId,
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
       salaryRate: values.salaryRate,
       hired: values.hired,
-      id: selectedEmployeeId,
     };
     setIsDrawerOpen(false)
-    editEmployee(employee)
-    setIsTableUpdate(prevState => !prevState)
+    updateEmployee(employee)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteEmployee = (id: number): void => {
     deleteEmployeeById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -69,8 +69,9 @@ export const PageEmployee: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -84,20 +85,20 @@ export const PageEmployee: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableEmployee
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteEmployee}
       />
-      <AddModalEmployee
+      <CreateModalEmployee
         isOpen={isModalOpen}
-        addItem={handleAddEmployee}
+        createItem={handleCreateEmployee}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerEmployee
+      <UpdateDrawerEmployee
         isOpen={isDrawerOpen}
         selectedItemId={selectedEmployeeId}
         updateItem={handleUpdateEmployee}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

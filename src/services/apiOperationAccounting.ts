@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех учетных операций
@@ -61,14 +61,14 @@ export function deleteOperationAccountingById(id: number): void {
 }
 
 // Редактировать учетную операцию
-export function editOperationAccounting(data: TypeOperationAccounting): void {
+export function updateOperationAccounting(data: TypeOperationAccounting): void {
   try {
     fetch(URL + OPERATION_ACCOUNTING, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

@@ -75,8 +75,8 @@ export const TableUnit: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllUnit().then((allUnits) => {
-      setAllUnit(allUnits);
+    getAllUnit().then((data) => {
+      setAllUnit(data);
       setIsLoading(false);
     });
   }, [])
@@ -87,12 +87,13 @@ export const TableUnit: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allUnit}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

@@ -52,10 +52,7 @@ export const TableEmployee: React.FC<TableProps> = ({
       title: 'Нанят',
       dataIndex: 'hired',
       key: 'hired',
-      render: ((hired) => {
-        if (hired) return 'Да'
-        else return 'Нет'
-      }),
+      render: (hired => hired ? 'Да' : 'Нет'),
       sorter: (a, b) => (Number(a.hired) ?? 0) - (Number(b.hired) ?? 0)
     },
     {
@@ -102,8 +99,8 @@ export const TableEmployee: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllEmployee().then((allEmployees) => {
-      setAllEmployee(allEmployees);
+    getAllEmployee().then((data) => {
+      setAllEmployee(data);
       setIsLoading(false);
     });
   }, [])
@@ -114,12 +111,13 @@ export const TableEmployee: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allEmployee}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

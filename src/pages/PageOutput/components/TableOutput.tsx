@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllOutput} from "../../../services";
-import {TableProps, TypeOutput, TableParam} from "../../../types";
+import {TableProps, TypeOutput, TableParam, TypeProduct} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableOutput: React.FC<TableProps> = ({
@@ -28,7 +28,7 @@ export const TableOutput: React.FC<TableProps> = ({
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idOutput',
       defaultSortOrder: 'ascend',
     },
     {
@@ -42,8 +42,8 @@ export const TableOutput: React.FC<TableProps> = ({
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: any) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Действия',
@@ -89,8 +89,8 @@ export const TableOutput: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllOutput().then((allOutputs) => {
-      setAllOutput(allOutputs);
+    getAllOutput().then((data) => {
+      setAllOutput(data);
       setIsLoading(false);
     });
   }, [])
@@ -101,12 +101,13 @@ export const TableOutput: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allOutput}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

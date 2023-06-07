@@ -86,25 +86,29 @@ export const TableProductMovementHistory:
     setTableParams({pagination});
   };
 
+  // Функция для обновления таблицы товаров
+  const handleUpdateTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllProductMovementHistory().then((data) => {
+      setAllProductMovementHistory(data.map((item, index) => ({...item, key: index})));
+      setIsLoading(false);
+    });
+  }, []);
+
   // Функция для поиска по таблице истории движения товаров
   const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
-      getProductMovementHistoryById(filter.id).then((allProductMovementHistory) => {
-        setAllProductMovementHistory(allProductMovementHistory);
-        setIsLoading(false);
+      getProductMovementHistoryById(filter.id).then((data) => {
+        if (data) {
+          setAllProductMovementHistory(
+            data.map((item, index) => ({...item, key: index}))
+          );
+          setIsLoading(false);
+        }
       });
     }
-  }, [filter]);
-
-  // Функция для обновления таблицы товаров
-  const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllProductMovementHistory().then((allProductMovementHistory) => {
-      setAllProductMovementHistory(allProductMovementHistory);
-      setIsLoading(false);
-    });
-  }, []);
+  }, [filter?.id]);
 
   useEffect(() => {
     if (filter?.id) {
@@ -112,16 +116,16 @@ export const TableProductMovementHistory:
     } else {
       handleUpdateTable();
     }
-  }, [filter, isUpdateTable, handleFilterTable, handleUpdateTable]);
+  }, [filter?.id, isUpdateTable, handleFilterTable, handleUpdateTable]);
 
   return (
     <Table
       bordered
       columns={columns}
       dataSource={allProductMovementHistory}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 }

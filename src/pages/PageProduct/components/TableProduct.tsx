@@ -3,21 +3,22 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {ColumnFilterItem} from 'antd/es/table/interface';
-import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
-import {TableProps, TypeProduct, TableParam} from "../../../types";
+import {getAllProduct, getAllProductByTitle} from "../../../services";
+import {TableProps, TypeProduct, TableParam, TypeUnit, TypeProductGroup} from "../../../types";
+import {useFetchAllData} from "../../../hooks";
 
 export const TableProduct: React.FC<TableProps> = ({
                                                      isUpdateTable,
                                                      openDrawer,
                                                      onDelete,
-                                                     searchText
+                                                     searchText,
                                                    }) => {
   // Лоудер и список всех товаров
   const [isLoading, setIsLoading] = useState(false);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
-  // Все товарные группы
-  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
+  // Хук для получения данных
+  const {allProductGroup} = useFetchAllData({depsProductGroup: true});
 
   // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
@@ -41,8 +42,8 @@ export const TableProduct: React.FC<TableProps> = ({
       dataIndex: 'unit',
       key: 'unit',
       width: 200,
-      render: ((unit: any) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+      render: ((unit: TypeUnit) =>
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Товарная группа',
@@ -53,8 +54,8 @@ export const TableProduct: React.FC<TableProps> = ({
         value: productGroup.title!
       })),
       onFilter: (value, record) => record.productGroup?.title === value,
-      render: ((productGroup: any) => productGroup !== null ? (
-        <div key={productGroup.id}> {productGroup.title}</div>) : null),
+      render: ((productGroup: TypeProductGroup) => productGroup !== null ? (
+        <div> {productGroup.title}</div>) : null),
     },
     {
       title: 'Действия',
@@ -100,8 +101,8 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для обновления таблицы товаров
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProduct().then((allProducts) => {
-      setAllProduct(allProducts);
+    getAllProduct().then((data) => {
+      setAllProduct(data.map((item, index) => ({...item, key: index})));
       setIsLoading(false);
     });
   }, [])
@@ -109,17 +110,11 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для поиска по таблице товаров
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductByTitle(searchText ?? '').then((allProducts) => {
-      setAllProduct(allProducts);
+    getAllProductByTitle(searchText ?? '').then((data) => {
+      setAllProduct(data);
       setIsLoading(false);
     });
   }, [searchText]);
-
-  useEffect(() => {
-    getAllProductGroup().then((productGroups) => {
-      setAllProductGroup(productGroups);
-    });
-  }, []);
 
   useEffect(() => {
     if (searchText) {
@@ -127,16 +122,17 @@ export const TableProduct: React.FC<TableProps> = ({
     } else {
       handleUpdateTable();
     }
-  }, [searchText, isUpdateTable,handleUpdateTable, handleSearchTable]);
+  }, [searchText, isUpdateTable, handleUpdateTable, handleSearchTable]);
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProduct}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 };

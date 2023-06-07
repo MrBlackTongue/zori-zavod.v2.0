@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех остатков со склада
@@ -33,7 +33,7 @@ export function getStockById(id: number): Promise<TypeStock | undefined> {
 }
 
 // Добавить новый остаток на складе
-export function createNewStock(data: TypeStock): void {
+export function createStock(data: TypeStock): void {
   try {
     fetch(URL + STOCK, {
       method: 'POST',
@@ -61,14 +61,14 @@ export function deleteStockById(id: number): void {
 }
 
 // Редактировать остаток на складе
-export function editStock(data: TypeStock): void {
+export function updateStock(data: TypeStock): void {
   try {
     fetch(URL + STOCK, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

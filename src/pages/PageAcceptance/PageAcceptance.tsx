@@ -3,47 +3,45 @@ import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {deleteAcceptanceById, createAcceptance} from "../../services";
-import {TypeAcceptance} from "../../types";
+import {TypeAcceptance, TypeAcceptanceFormValue} from "../../types";
 import {TableAcceptance} from "./components/TableAcceptance";
-import {AddModalAcceptance} from "./components/AddModalAcceptance";
+import {CreateModalAcceptance} from "./components/CreateModalAcceptance";
 import dayjs from "dayjs";
-
-const {Title} = Typography;
+import {useFetchAllData} from "../../hooks";
 
 export const PageAcceptance: React.FC = () => {
 
-  // Обновить таблицу, открыть закрыть модальное окно, текст поиска
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
+  const {Title} = Typography;
+
+  // Обновить таблицу, Открыть закрыть модальное окно, текст поиска
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
+  // Хук для получения данных
+  const {allStock, allPurchase} = useFetchAllData({depsStock: true, depsPurchase: true});
+
   // Создать новую приемку товаров
-  const handleAddAcceptance = (values: TypeAcceptance): void => {
+  const handleCreateAcceptance = (values: TypeAcceptanceFormValue): void => {
+    const stock = allStock.find((item) => item.id === values.stock);
+    const purchase = allPurchase.find((item) => item.id === values.purchase);
     const acceptance: TypeAcceptance = {
       amount: values.amount || 0,
       income: true,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-      stock: values.stock && {
-        id: values.stock?.id,
-        amount: values.stock?.amount,
-        product: values.stock?.product,
-      },
-      purchase: values.purchase && {
-        id: values.purchase?.id,
-        amount: values.amount,
-        date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
-        product: values.purchase?.product,
-      },
-    };
+      date: dayjs(values.date).format('YYYY-MM-DD'),
+      stock: stock,
+      productBatch: {id: values.productBatch},
+      purchase: purchase,
+    }
     setIsModalOpen(false)
     createAcceptance(acceptance)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteAcceptance = (id: number): void => {
     deleteAcceptanceById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -61,8 +59,9 @@ export const PageAcceptance: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
@@ -77,12 +76,12 @@ export const PageAcceptance: React.FC = () => {
       <FloatButton.BackTop/>
       <TableAcceptance
         searchText={searchText}
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         onDelete={handleDeleteAcceptance}
       />
-      <AddModalAcceptance
+      <CreateModalAcceptance
         isOpen={isModalOpen}
-        addItem={handleAddAcceptance}
+        createItem={handleCreateAcceptance}
         onCancel={() => setIsModalOpen(false)}
       />
     </div>

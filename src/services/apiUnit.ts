@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех единиц измерения
@@ -61,14 +61,14 @@ export function deleteUnitById(id: number): void {
 }
 
 // Редактировать единицу измерения
-export function editUnit(data: TypeUnit): void {
+export function updateUnit(data: TypeUnit): void {
   try {
     fetch(URL + UNIT, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

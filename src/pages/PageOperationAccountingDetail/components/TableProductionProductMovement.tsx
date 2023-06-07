@@ -40,14 +40,14 @@ export const TableProductionProductMovement:
       sorter: (a, b) =>
         (a.stock?.id ?? 0) < (b.stock?.id ?? 0) ? -1 : 1,
       render: ((stock: TypeStock) =>
-        stock !== null ? (<div key={stock.id}>{stock.id}</div>) : null)
+        stock !== null ? (<div>{stock.id}</div>) : null)
     },
     {
       title: 'Товар',
       dataIndex: ['stock', 'product'],
       key: 'product',
       render: ((product: TypeProduct) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Тип движения',
@@ -67,7 +67,7 @@ export const TableProductionProductMovement:
       dataIndex: ['stock', 'product', 'unit'],
       key: 'unit',
       render: ((unit: TypeUnit) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'Действия',
@@ -96,22 +96,23 @@ export const TableProductionProductMovement:
   ];
 
   // Обновить таблицу
-  const updateProductionProductMovement = useCallback(() => {
+  const handleUpdateTable = useCallback(() => {
     if (idDetail) {
       setIsLoading(true);
-      getProductionProductMovementByIdOperationAccounting(idDetail).then((allProductionProductMovement) => {
-        setAllProductionProductMovement(allProductionProductMovement);
+      getProductionProductMovementByIdOperationAccounting(idDetail).then((data) => {
+        setAllProductionProductMovement(data);
         setIsLoading(false);
       });
     }
   }, [idDetail]);
 
   useEffect(() => {
-    updateProductionProductMovement();
-  }, [idDetail, isUpdateTable, updateProductionProductMovement]);
+    handleUpdateTable();
+  }, [idDetail, isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProductionProductMovement}

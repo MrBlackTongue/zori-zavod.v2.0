@@ -1,69 +1,75 @@
-import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Select, DatePicker, FloatButton} from 'antd';
+import React, {useState} from 'react';
+import {Typography, Space, Button, Select, DatePicker, FloatButton, Tooltip} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
-  getAllOperation,
   createOperationAccounting,
-  editOperationAccounting,
+  updateOperationAccounting,
   deleteOperationAccountingById,
-  getAllProductionType,
 } from "../../services";
-import {TypeOperation, TypeOperationAccounting, TypeProductionType} from "../../types";
+import {
+  TypeOperationAccounting,
+  TypeOperationAccountingFormValue,
+} from "../../types";
 import {TableOperationAccounting} from "./components/TableOperationAccounting";
-import {AddModalOperationAccounting} from "./components/AddModalOperationAccounting";
-import {EditDrawerOperationAccounting} from "./components/EditDrawerOperationAccounting";
+import {CreateModalOperationAccounting} from "./components/CreateModalOperationAccounting";
+import {UpdateDrawerOperationAccounting} from "./components/UpdateDrawerOperationAccounting";
 import dayjs from "dayjs";
-
-const {Title} = Typography;
-const {Option} = Select;
+import {useFetchAllData} from "../../hooks";
 
 export const PageOperationAccounting: React.FC = () => {
 
-  // Обновление таблицы, id выбраной учетной операции
-  const [isTableUpdate, setIsTableUpdate] = useState(false);
-  const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
+  const {Title} = Typography;
+  const {Option} = Select;
 
-  // Открыть закрыть модальное окно, дравер, дата
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [date, setDate] = useState<any>();
 
-  // Все операции, id выбранной операции
-  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
+  // id выбраной учетной операции, Выбранная дата
+  const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
+  const [selectedDate, setSelectedDate] = useState<any>();
+
+  // Хук для получения данных
+  const {allOperation, allProductionType} = useFetchAllData({depsOperation: true, depsProductionType: true});
+
+  // id выбранной операции, id выбранного типа производства
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
-
-  // Все типы производства, id выбранного типа производства
-  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
+  // Изменить выбранную дату
+  const onChangeDate = (value: any): void => {
+    setSelectedDate(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
+  }
+
+  // Изменить выбранную операцию
+  const onChangeOperation = (value: any): void => {
+    setSelectedOperationId(value ? value : undefined);
+  };
+
+  // Изменить выбранный тип производства
+  const onChangeProductionType = (value: any): void => {
+    setSelectedProductionTypeId(value ? value : undefined);
+  };
+
+  // Поиск по селекту
+  const onSearchSelect = (searchText: string, option: any) => {
+    return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
+  }
+
   // Добавить новую учетную операцию
-  const handleAddOperationAccounting = (values: TypeOperationAccounting): void => {
+  const handleCreateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
     const operationAccounting: TypeOperationAccounting = {
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       fact: values.fact || undefined,
-      operation: {
-        id: values.operation?.id,
-        title: values.operation?.title,
-      },
-      output: values.output
-        ? {
-          id: values.output.id,
-          date: values.output.date,
-          product: {
-            id: values.output?.product?.id,
-            productGroup: values.output?.product?.productGroup,
-            title: values.output?.product?.title,
-            unit: values.output?.product?.unit,
-          }
-        }
-        : undefined,
-      productionType: values.productionType,
+      operation: {id: values.operation},
+      output: values.output ? {id: values.output} : undefined,
+      productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsModalOpen(false)
     createOperationAccounting(operationAccounting)
-    setDate(date)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
@@ -72,51 +78,26 @@ export const PageOperationAccounting: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Изменить выбранную операцию
-  const onChangeOperation = (value: string, option: any): void => {
-    setSelectedOperationId(value !== undefined ? option.id : undefined);
-  };
-
-  // Изменить выбранный тип производства
-  const onChangeProductionType = (value: string, option: any): void => {
-    setSelectedProductionTypeId(value !== undefined ? option.id : undefined);
-  };
-
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: TypeOperationAccounting): void => {
+  const handleUpdateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingId,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD'): undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       fact: values.fact || undefined,
-      operation: {
-        id: values.operation?.id,
-      },
-      output: values.output ? {id: values.output.id} : undefined,
-      productionType: {id: values.productionType?.id},
+      operation: {id: values.operation},
+      output: values.output ? {id: values.output} : undefined,
+      productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOpen(false)
-    editOperationAccounting(operationAccounting)
-    setDate(date)
-    setIsTableUpdate(prevState => !prevState)
+    updateOperationAccounting(operationAccounting)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOperationAccounting = (id: number): void => {
     deleteOperationAccountingById(id)
-    setIsTableUpdate(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState)
   };
-
-  useEffect(() => {
-    getAllOperation().then((allOperation) => {
-      setAllOperation(allOperation);
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllProductionType().then((allProductionType) => {
-      setAllProductionType(allProductionType);
-    });
-  }, []);
 
   return (
     <div style={{display: 'grid'}}>
@@ -126,43 +107,47 @@ export const PageOperationAccounting: React.FC = () => {
           <DatePicker
             style={{width: '150px'}}
             format='DD.MM.YYYY'
-            onChange={(value) => {
-              setDate(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
-            }}
+            onChange={onChangeDate}
           />
           <Select
             showSearch
             allowClear
-            placeholder='Операция'
-            onChange={onChangeOperation}
+            placeholder='Выберите операцию'
             style={{'width': '300px'}}
+            onChange={onChangeOperation}
+            filterOption={onSearchSelect}
           >
             {allOperation && allOperation.length > 0 ?
               allOperation.map(operation => (
-                <Option id={operation.id} key={operation.id} value={operation.title}>
-                  {operation.title}
+                <Option key={operation.id} value={operation.id} label={operation.title}>
+                  <Tooltip placement="right" title={operation.title}>
+                    {operation.title}
+                  </Tooltip>
                 </Option>
               )) : null}
           </Select>
           <Select
             showSearch
             allowClear
-            placeholder='Тип производства'
-            onChange={onChangeProductionType}
+            placeholder='Выберите тип производства'
             style={{'width': '250px'}}
+            onChange={onChangeProductionType}
+            filterOption={onSearchSelect}
           >
             {allProductionType && allProductionType.length > 0 ?
               allProductionType.map(productionType => (
-                <Option id={productionType.id} key={productionType.id} value={productionType.title}>
-                  {productionType.title}
+                <Option key={productionType.id} value={productionType.id} label={productionType.title}>
+                  <Tooltip placement="right" title={productionType.title}>
+                    {productionType.title}
+                  </Tooltip>
                 </Option>
               )) : null}
           </Select>
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsTableUpdate(prevState => !prevState)}
             className='greenButton'
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
           >
             Обновить
           </Button>
@@ -177,25 +162,25 @@ export const PageOperationAccounting: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOperationAccounting
-        isUpdateTable={isTableUpdate}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteOperationAccounting}
         filter={{
-          date: date,
+          date: selectedDate,
           operationId: selectedOperationId,
           productionTypeId: selectedProductionTypeId,
         }}
       />
-      <AddModalOperationAccounting
+      <CreateModalOperationAccounting
         isOpen={isModalOpen}
-        addItem={handleAddOperationAccounting}
+        createItem={handleCreateOperationAccounting}
         onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerOperationAccounting
+      <UpdateDrawerOperationAccounting
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationAccountingId}
         updateItem={handleUpdateOperationAccounting}
-        closeDrawer={() => setIsDrawerOpen(false)}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

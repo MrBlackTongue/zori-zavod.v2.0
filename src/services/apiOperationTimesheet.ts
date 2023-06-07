@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех сотрудников в табеле рабочего времени по id учетной операции
@@ -62,14 +62,14 @@ export function deleteOperationTimesheetById(id: number): void {
 }
 
 // Редактировать сотрудника в табеле учета рабочего времени
-export function editOperationTimesheet(data: TypeOperationTimesheet): void {
+export function updateOperationTimesheet(data: TypeOperationTimesheet): void {
   try {
     fetch(URL + OPERATION_TIMESHEET, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

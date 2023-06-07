@@ -7,7 +7,7 @@ import {
   handleCatchError,
   handleResponseCreate,
   handleResponseDelete,
-  handleResponseEdit,
+  handleResponseUpdate,
 } from '../utils';
 
 // Получить список всех сотрудников
@@ -61,14 +61,14 @@ export function deleteEmployeeById(id: number): void {
 }
 
 // Редактировать сотрудника
-export function editEmployee(data: TypeEmployee): void {
+export function updateEmployee(data: TypeEmployee): void {
   try {
     fetch(URL + EMPLOYEE, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
-      .then(handleResponseEdit)
+      .then(handleResponseUpdate)
       .catch(handleError)
   } catch (error) {
     void handleCatchError(error);

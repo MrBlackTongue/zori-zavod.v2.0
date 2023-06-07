@@ -78,8 +78,8 @@ export const TableProductionType: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductionType().then((allProductionType) => {
-      setAllProductionType(allProductionType);
+    getAllProductionType().then((data) => {
+      setAllProductionType(data);
       setIsLoading(false);
     });
   }, [])
@@ -90,12 +90,13 @@ export const TableProductionType: React.FC<TableProps> = ({
 
   return (
     <Table
+      rowKey="id"
       bordered
       columns={columns}
       dataSource={allProductionType}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
       loading={isLoading}
       onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
     />
   );
 }
