@@ -62,7 +62,7 @@ export const PageProductionType: React.FC = () => {
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
-        <Title level={3}>Тип производства</Title>
+        <Title level={3}>Типы производства</Title>
         <Space>
           <Button
             type="dashed"
