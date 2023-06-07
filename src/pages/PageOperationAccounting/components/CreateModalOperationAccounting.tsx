@@ -13,7 +13,11 @@ export const CreateModalOperationAccounting:
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allOperation, allProductionType, allOutput} = useFetchAllData();
+  const {allOperation, allProductionType, allOutput} = useFetchAllData({
+    depsOperation: isOpen,
+    depsProductionType: isOpen,
+    depsOutput: isOpen,
+  });
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);

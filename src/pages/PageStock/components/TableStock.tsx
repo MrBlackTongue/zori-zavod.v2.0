@@ -132,7 +132,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
-      getAllStockByFilter(filter.id).then((data) => {
+      getAllStockByFilter(filter?.id).then((data) => {
         setAllStock(data);
         setIsLoading(false);
       });

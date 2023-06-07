@@ -12,7 +12,7 @@ export const CreateModalMeterRecord: React.FC<CreateModalProps<TypeMeterRecordFo
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allMeter} = useFetchAllData();
+  const {allMeter} = useFetchAllData({depsMeter: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);

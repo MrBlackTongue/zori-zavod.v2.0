@@ -12,7 +12,7 @@ export const CreateModalShipment: React.FC<CreateModalProps<TypeShipmentFormValu
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allClient} = useFetchAllData();
+  const {allClient} = useFetchAllData({depsClient: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);

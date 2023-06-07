@@ -3,8 +3,9 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {ColumnFilterItem} from 'antd/es/table/interface';
-import {getAllProduct, getAllProductByTitle, getAllProductGroup,} from "../../../services";
+import {getAllProduct, getAllProductByTitle} from "../../../services";
 import {TableProps, TypeProduct, TableParam, TypeUnit, TypeProductGroup} from "../../../types";
+import {useFetchAllData} from "../../../hooks";
 
 export const TableProduct: React.FC<TableProps> = ({
                                                      isUpdateTable,
@@ -16,8 +17,8 @@ export const TableProduct: React.FC<TableProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
-  // Все товарные группы
-  const [allProductGroup, setAllProductGroup] = useState<TypeProduct[]>();
+  // Хук для получения данных
+  const {allProductGroup} = useFetchAllData({depsProductGroup: true});
 
   // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
@@ -114,12 +115,6 @@ export const TableProduct: React.FC<TableProps> = ({
       setIsLoading(false);
     });
   }, [searchText]);
-
-  useEffect(() => {
-    getAllProductGroup().then((data) => {
-      setAllProductGroup(data);
-    });
-  }, []);
 
   useEffect(() => {
     if (searchText) {

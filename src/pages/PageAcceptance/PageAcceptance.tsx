@@ -19,7 +19,7 @@ export const PageAcceptance: React.FC = () => {
   const [searchText, setSearchText] = useState("");
 
   // Хук для получения данных
-  const {allStock, allPurchase} = useFetchAllData();
+  const {allStock, allPurchase} = useFetchAllData({depsStock: true, depsPurchase: true});
 
   // Создать новую приемку товаров
   const handleCreateAcceptance = (values: TypeAcceptanceFormValue): void => {

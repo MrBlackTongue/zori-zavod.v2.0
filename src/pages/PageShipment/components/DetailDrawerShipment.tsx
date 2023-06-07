@@ -30,13 +30,9 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
   const handleCreateShipmentMovement = (values: TypeShipmentProductMovementFormValue): void => {
     const productMovement: TypeShipmentProductMovement = {
       date: selectedShipment?.date,
-      stock: {
-        id: values.stock,
-      },
+      stock: {id: values.stock},
       amount: values.amount,
-      shipment: {
-        id: selectedShipment?.id,
-      },
+      shipment: {id: selectedShipment?.id},
       income: false
     };
     setIsModalOpen(false)

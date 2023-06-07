@@ -15,7 +15,7 @@ export const UpdateDrawerOperationTimesheet:
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allEmployee} = useFetchAllData();
+  const {allEmployee} = useFetchAllData({depsEmployee: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);

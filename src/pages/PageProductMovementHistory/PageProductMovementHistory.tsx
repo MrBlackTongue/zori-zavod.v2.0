@@ -14,7 +14,7 @@ export const PageProductMovementHistory: React.FC = () => {
   const [isUpdateTable, setIsUpdateTable] = useState(false);
 
   // Хук для получения данных
-  const {allStock} = useFetchAllData();
+  const {allStock} = useFetchAllData({depsStock: true});
 
   // id выбранного остатка на складе
   const [selectedStockId, setSelectedStockId] = useState<number>();

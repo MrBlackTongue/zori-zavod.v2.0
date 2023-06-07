@@ -13,7 +13,11 @@ export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceForm
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allStock, allPurchase, allProductBatch} = useFetchAllData();
+  const {allStock, allPurchase, allProductBatch} = useFetchAllData({
+    depsStock: isOpen,
+    depsPurchase: isOpen,
+    depsProductBatch: isOpen,
+  });
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);

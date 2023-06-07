@@ -12,7 +12,7 @@ export const CreateModalMeterType: React.FC<CreateModalProps<TypeMeterTypeFormVa
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit} = useFetchAllData();
+  const {allUnit} = useFetchAllData({depsUnit: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);

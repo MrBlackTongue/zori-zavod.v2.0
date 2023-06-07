@@ -15,7 +15,7 @@ export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormVa
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allClient} = useFetchAllData();
+  const {allClient} = useFetchAllData({depsClient: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -23,15 +23,14 @@ export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormVa
   // Хук для управления полем client
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'client');
 
-
-  // Функция для получения данных об отгрузке по id и обновления формы
-  const handleGetShipment = useCallback(() => {
+  // Функция для получения данных
+  const handleGetShipment = useCallback((): void => {
     if (selectedItemId) {
       getShipmentById(selectedItemId).then((data) => {
         form.setFieldsValue({
           ...data,
           date: dayjs(data?.date),
-          client: data?.client?.id === 0 ? '' : data?.client?.id
+          client: data?.client?.id === 0 ? '' : data?.client?.id,
         });
       })
     }

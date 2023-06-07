@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {Form, Modal} from "antd";
-import {CreateModalProps, TypeProductGroup, TypeProductGroupFormValue} from "../../../types";
-import {useFormHandler, useFormSelect} from "../../../hooks";
+import {CreateModalProps, TypeProductGroupFormValue} from "../../../types";
+import {useFetchAllData, useFormHandler, useFormSelect} from "../../../hooks";
 import {FormProductGroup} from "./FormProductGroup";
-import {getAllProductGroup} from "../../../services";
 
 export const CreateModalProductGroup: React.FC<CreateModalProps<TypeProductGroupFormValue>> = ({
                                                                                                  isOpen,
@@ -12,20 +11,14 @@ export const CreateModalProductGroup: React.FC<CreateModalProps<TypeProductGroup
                                                                                                }) => {
   const [form] = Form.useForm();
 
-  // Все группы товаров
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
+  // Хук для получения данных
+  const {allProductGroup} = useFetchAllData({depsProductGroup: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем productGroup
   const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'productGroup');
-
-  useEffect(() => {
-    getAllProductGroup().then(data => {
-      setAllProductGroup(data);
-    });
-  }, [isOpen]);
 
   return (
     <Modal

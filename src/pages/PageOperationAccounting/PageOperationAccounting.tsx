@@ -32,7 +32,7 @@ export const PageOperationAccounting: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<any>();
 
   // Хук для получения данных
-  const {allOperation, allProductionType} = useFetchAllData();
+  const {allOperation, allProductionType} = useFetchAllData({depsOperation: true, depsProductionType: true});
 
   // id выбранной операции, id выбранного типа производства
   const [selectedOperationId, setSelectedOperationId] = useState<number>();

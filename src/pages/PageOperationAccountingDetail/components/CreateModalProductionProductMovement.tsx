@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {CreateModalProps, TypeProductionProductMovementFormValue, TypeStock} from "../../../types";
+import React from "react";
+import {CreateModalProps, TypeProductionProductMovementFormValue} from "../../../types";
 import {Form, InputNumber, message, Modal, Select, Tooltip} from "antd";
-import {getAllStock} from "../../../services";
-import {useFormSelect, useFormHandler} from "../../../hooks";
+import {useFormSelect, useFormHandler, useFetchAllData} from "../../../hooks";
 
 export const CreateModalProductionProductMovement:
   React.FC<CreateModalProps<TypeProductionProductMovementFormValue>> = ({
@@ -13,8 +12,8 @@ export const CreateModalProductionProductMovement:
   const [form] = Form.useForm();
   const {Option} = Select;
 
-  // Все остатки на складе
-  const [allStock, setAllStock] = useState<TypeStock[]>([]);
+  // Хук для получения данных
+  const {allStock} = useFetchAllData({depsStock: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
@@ -46,12 +45,6 @@ export const CreateModalProductionProductMovement:
       handleSubmit();
     }
   };
-
-  useEffect(() => {
-    getAllStock().then((data) => {
-      setAllStock(data);
-    });
-  }, [isOpen]);
 
   return (
     <Modal

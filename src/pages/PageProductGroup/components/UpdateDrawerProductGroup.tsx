@@ -1,8 +1,8 @@
-import React, {useEffect, useCallback, useState} from "react";
+import React, {useEffect, useCallback} from "react";
 import {Form, Drawer, Space, Button} from "antd";
-import {UpdateDrawerProps, TypeProductGroupFormValue, TypeProductGroup} from "../../../types";
-import {getAllProductGroup, getProductGroupById} from "../../../services";
-import {useFormHandler, useFormSelect} from "../../../hooks";
+import {UpdateDrawerProps, TypeProductGroupFormValue} from "../../../types";
+import {getProductGroupById} from "../../../services";
+import {useFetchAllData, useFormHandler, useFormSelect} from "../../../hooks";
 import {FormProductGroup} from "./FormProductGroup";
 
 export const UpdateDrawerProductGroup: React.FC<UpdateDrawerProps<TypeProductGroupFormValue>> = ({
@@ -13,8 +13,8 @@ export const UpdateDrawerProductGroup: React.FC<UpdateDrawerProps<TypeProductGro
                                                                                                  }) => {
   const [form] = Form.useForm();
 
-  // Все группы товаров
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>([]);
+  // Хук для получения данных
+  const {allProductGroup} = useFetchAllData({depsProductGroup: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
@@ -39,12 +39,6 @@ export const UpdateDrawerProductGroup: React.FC<UpdateDrawerProps<TypeProductGro
       handleGetParent();
     }
   }, [isOpen, selectedItemId, handleGetParent]);
-
-  useEffect(() => {
-    getAllProductGroup().then(data => {
-      setAllProductGroup(data);
-    });
-  }, [isOpen]);
 
   return (
     <Drawer

@@ -12,7 +12,7 @@ export const CreateModalProductBatch: React.FC<CreateModalProps<TypeProductBatch
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchAllData();
+  const {allProduct} = useFetchAllData({depsProduct: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);

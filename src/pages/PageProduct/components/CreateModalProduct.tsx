@@ -12,7 +12,7 @@ export const CreateModalProduct: React.FC<CreateModalProps<TypeProductFormValue>
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit, allProductGroup} = useFetchAllData();
+  const {allUnit, allProductGroup} = useFetchAllData({depsUnit: isOpen, depsProductGroup: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);

@@ -16,7 +16,7 @@ export const UpdateDrawerMeterRecord: React.FC<UpdateDrawerProps<TypeMeterRecord
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allMeter} = useFetchAllData();
+  const {allMeter} = useFetchAllData({depsMeter: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);

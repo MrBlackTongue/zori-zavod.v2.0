@@ -108,7 +108,7 @@ export const TableProductMovementHistory:
         }
       });
     }
-  }, [filter]);
+  }, [filter?.id]);
 
   useEffect(() => {
     if (filter?.id) {
@@ -116,7 +116,7 @@ export const TableProductMovementHistory:
     } else {
       handleUpdateTable();
     }
-  }, [filter, isUpdateTable, handleFilterTable, handleUpdateTable]);
+  }, [filter?.id, isUpdateTable, handleFilterTable, handleUpdateTable]);
 
   return (
     <Table

@@ -135,9 +135,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
   }, [idDetail]);
 
   useEffect(() => {
-    if (idDetail || isUpdateTable) {
-      handleUpdateTable()
-    }
+    handleUpdateTable()
   }, [idDetail, isUpdateTable, handleUpdateTable]);
 
   return (

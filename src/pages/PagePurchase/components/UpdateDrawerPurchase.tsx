@@ -15,7 +15,7 @@ export const UpdateDrawerPurchase: React.FC<UpdateDrawerProps<TypePurchaseFormVa
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchAllData();
+  const {allProduct} = useFetchAllData({depsProduct: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);

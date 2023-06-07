@@ -1,12 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {
-  CreateModalProps,
-  TypeStock,
-  TypeShipmentProductMovementFormValue
-} from "../../../types";
+import React from "react";
+import {CreateModalProps, TypeShipmentProductMovementFormValue} from "../../../types";
 import {Form, InputNumber, message, Modal, Select, Tooltip} from "antd";
-import {getAllStock} from "../../../services";
-import {useFormSelect, useFormHandler} from "../../../hooks";
+import {useFormSelect, useFormHandler, useFetchAllData} from "../../../hooks";
 
 export const CreateModalDetailShipment: React.FC<CreateModalProps<TypeShipmentProductMovementFormValue>> = ({
                                                                                                               isOpen,
@@ -16,8 +11,8 @@ export const CreateModalDetailShipment: React.FC<CreateModalProps<TypeShipmentPr
   const [form] = Form.useForm();
   const {Option} = Select;
 
-  // Все остатки на складе
-  const [allStock, setAllStock] = useState<TypeStock[]>([]);
+  // Хук для получения данных
+  const {allStock} = useFetchAllData({depsStock: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
@@ -49,12 +44,6 @@ export const CreateModalDetailShipment: React.FC<CreateModalProps<TypeShipmentPr
       handleSubmit();
     }
   };
-
-  useEffect(() => {
-    getAllStock().then((data) => {
-      setAllStock(data);
-    });
-  }, [isOpen]);
 
   return (
     <Modal

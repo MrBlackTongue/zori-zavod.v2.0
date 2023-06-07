@@ -30,7 +30,23 @@ import {
   getAllMeter,
 } from "../services";
 
-export const useFetchAllData = () => {
+export const useFetchAllData = (
+  deps: {
+    depsStock?: boolean,
+    depsPurchase?: boolean,
+    depsProductBatch?: boolean,
+    depsUnit?: boolean,
+    depsOperation?: boolean,
+    depsProductionType?: boolean,
+    depsOutput?: boolean,
+    depsProduct?: boolean,
+    depsProductGroup?: boolean,
+    depsClient?: boolean,
+    depsEmployee?: boolean,
+    depsMeterType?: boolean,
+    depsMeter?: boolean,
+  }
+) => {
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>([]);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>([]);
@@ -46,83 +62,108 @@ export const useFetchAllData = () => {
   const [allMeter, setAllMeter] = useState<TypeMeter[]>([]);
 
   useEffect(() => {
-    getAllStock().then((data) => {
-      setAllStock(data);
-    });
-  }, []);
+    if (deps.depsStock) {
+      getAllStock().then((data) => {
+        setAllStock(data);
+      });
+    }
+  }, [deps.depsStock]);
 
   useEffect(() => {
-    getAllPurchase().then((data) => {
-      setAllPurchase(data);
-    });
-  }, []);
+    if (deps.depsPurchase) {
+      getAllPurchase().then((data) => {
+        setAllPurchase(data);
+      });
+    }
+  }, [deps.depsPurchase]);
 
   useEffect(() => {
-    getAllProductBatch().then((data) => {
-      setAllProductBatch(data);
-    });
-  }, []);
+    if (deps.depsProductBatch) {
+      getAllProductBatch().then((data) => {
+        setAllProductBatch(data);
+      });
+    }
+  }, [deps.depsProductBatch]);
 
   useEffect(() => {
-    getAllUnit().then((data) => {
-      setAllUnit(data);
-    });
-  }, []);
-
-
-  useEffect(() => {
-    getAllOperation().then((data) => {
-      setAllOperation(data);
-    });
-  }, []);
+    if (deps.depsUnit) {
+      getAllUnit().then((data) => {
+        setAllUnit(data);
+      });
+    }
+  }, [deps.depsUnit]);
 
   useEffect(() => {
-    getAllProductionType().then((data) => {
-      setAllProductionType(data);
-    });
-  }, []);
+    if (deps.depsOperation) {
+      getAllOperation().then((data) => {
+        setAllOperation(data);
+      });
+    }
+  }, [deps.depsOperation]);
 
   useEffect(() => {
-    getAllOutput().then((data) => {
-      setAllOutput(data);
-    });
-  }, []);
+    if (deps.depsProductionType) {
+      getAllProductionType().then((data) => {
+        setAllProductionType(data);
+      });
+    }
+  }, [deps.depsProductionType]);
 
   useEffect(() => {
-    getAllProduct().then((data) => {
-      setAllProduct(data);
-    });
-  }, []);
+    if (deps.depsOutput) {
+      getAllOutput().then((data) => {
+        setAllOutput(data);
+      });
+    }
+  }, [deps.depsOutput]);
 
   useEffect(() => {
-    getAllProductGroup().then((data) => {
-      setAllProductGroup(data);
-    });
-  }, []);
+    if (deps.depsProduct) {
+      getAllProduct().then((data) => {
+        setAllProduct(data);
+      });
+    }
+  }, [deps.depsProduct]);
 
   useEffect(() => {
-    getAllClient().then((data) => {
-      setAllClient(data);
-    });
-  }, []);
+    if (deps.depsProductGroup) {
+      getAllProductGroup().then((data) => {
+        setAllProductGroup(data);
+      });
+    }
+  }, [deps.depsProductGroup]);
 
   useEffect(() => {
-    getAllEmployee().then((data) => {
-      setAllEmployee(data);
-    });
-  }, []);
+    if (deps.depsClient) {
+      getAllClient().then((data) => {
+        setAllClient(data);
+      });
+    }
+  }, [deps.depsClient]);
 
   useEffect(() => {
-    getAllMeterType().then((data) => {
-      setAllMeterType(data);
-    });
-  }, []);
+    if (deps.depsEmployee) {
+      getAllEmployee().then((data) => {
+        setAllEmployee(data);
+      });
+    }
+  }, [deps.depsEmployee]);
 
   useEffect(() => {
-    getAllMeter().then((data) => {
-      setAllMeter(data);
-    });
-  }, []);
+    if (deps.depsMeterType) {
+      getAllMeterType().then((data) => {
+        setAllMeterType(data);
+      });
+    }
+  }, [deps.depsMeterType]);
+
+  useEffect(() => {
+    if (deps.depsMeter) {
+      getAllMeter().then((data) => {
+        setAllMeter(data);
+      });
+    }
+  }, [deps.depsMeter]);
 
   return {
     allStock,

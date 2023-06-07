@@ -20,7 +20,7 @@ export const PageStock: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Хук для получения данных
-  const {allProductGroup} = useFetchAllData();
+  const {allProductGroup} = useFetchAllData({depsProductGroup: true});
 
   // id выбранной группы товаров, id выбранной ячейка на складе
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
