@@ -5,7 +5,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import {Layout, theme} from 'antd';
+import {Layout, Spin, theme} from 'antd';
 import {MenuMain} from "./components/MenuMain/MenuMain";
 import {AppRoutes} from "./components/AppRoutes/AppRoutes";
 import {PageLoginForm} from "./pages/PageLoginForm/PageLoginForm";
@@ -18,7 +18,8 @@ function App() {
   const location = useLocation();
   const {token: {colorBgContainer}} = theme.useToken();
 
-  const {isAuthenticated, logIn} = useContext(AuthContext);
+  const {isAuthenticated, logIn, logOut} = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (location.pathname === '/operation-accounting') {
@@ -27,6 +28,30 @@ function App() {
       setCollapsed(false)
     }
   }, [location]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/isAuthenticated`, {
+      method: 'GET',
+      credentials: 'include', // включает отправку cookies
+    })
+      .then(response => {
+        if (response.ok) {
+          logIn();
+        } else {
+          logOut();
+        }
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        logOut();
+        setIsLoading(false);
+      });
+  }, [logIn, logOut]);
+
+  if (isLoading) {
+    return <Spin/>;  // можно заменить на кастомный компонент загрузки
+  }
 
   if (!isAuthenticated) {
     return (

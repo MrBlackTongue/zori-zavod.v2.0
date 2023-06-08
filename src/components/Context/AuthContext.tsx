@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, {ReactNode} from 'react';
 
 export type TypeAuthContext = {
   isAuthenticated: boolean;
@@ -33,11 +33,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   const logIn = () => {
     setIsAuthenticated(true);
   }
-
-  useEffect(() => {
-    const jwtToken = getCookie('jwt');
-    setIsAuthenticated(Boolean(jwtToken));
-  }, []);
 
   return (
     <AuthContext.Provider value={{isAuthenticated, logOut, logIn}}>

@@ -13,7 +13,9 @@ import {
 // Получить список всех единиц измерения
 export function getAllUnit(): Promise<TypeUnit[]> {
   try {
-    return fetch(API_URL + UNIT)
+    return fetch(API_URL + UNIT, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

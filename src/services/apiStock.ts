@@ -13,7 +13,9 @@ import {
 // Получить список всех остатков со склада
 export function getAllStock(): Promise<TypeStock[]> {
   try {
-    return fetch(API_URL + STOCK)
+    return fetch(API_URL + STOCK, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

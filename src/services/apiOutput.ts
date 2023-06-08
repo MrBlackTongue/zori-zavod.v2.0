@@ -13,7 +13,9 @@ import {
 // Получить список всех единиц измерения
 export function getAllOutput(): Promise<TypeOutput[]> {
   try {
-    return fetch(API_URL + OUTPUT)
+    return fetch(API_URL + OUTPUT, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

@@ -13,7 +13,9 @@ import {
 // Получить список всех типов счетчика
 export function getAllMeterType(): Promise<TypeMeterType[]> {
   try {
-    return fetch(API_URL + METER_TYPE)
+    return fetch(API_URL + METER_TYPE, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

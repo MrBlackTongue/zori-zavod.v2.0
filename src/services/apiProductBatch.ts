@@ -13,7 +13,9 @@ import {
 // Получить все партии товаров
 export function getAllProductBatch(): Promise<TypeProductBatch[]> {
   try {
-    return fetch(API_URL + PRODUCT + BATCH)
+    return fetch(API_URL + PRODUCT + BATCH, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

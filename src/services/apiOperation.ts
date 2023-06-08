@@ -13,7 +13,9 @@ import {
 // Получить список всех типов операций
 export function getAllOperation(): Promise<TypeOperation[]> {
   try {
-    return fetch(API_URL + OPERATION)
+    return fetch(API_URL + OPERATION, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

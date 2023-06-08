@@ -13,7 +13,9 @@ import {
 // Получить список всех закупок
 export function getAllPurchase(): Promise<TypePurchase[]> {
   try {
-    return fetch(API_URL + PURCHASE)
+    return fetch(API_URL + PURCHASE, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

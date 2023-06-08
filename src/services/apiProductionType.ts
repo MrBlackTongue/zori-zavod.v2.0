@@ -13,7 +13,9 @@ import {
 // Получить список типов производства
 export function getAllProductionType(): Promise<TypeProductionType[]> {
   try {
-    return fetch(API_URL + PRODUCTION_TYPE)
+    return fetch(API_URL + PRODUCTION_TYPE, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

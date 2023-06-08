@@ -12,7 +12,9 @@ import {
 // Получить список всех приемок товаров
 export function getAllAcceptance(): Promise<TypeAcceptance[]> {
   try {
-    return fetch(API_URL + MOVEMENT + ACCEPTANCE)
+    return fetch(API_URL + MOVEMENT + ACCEPTANCE, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

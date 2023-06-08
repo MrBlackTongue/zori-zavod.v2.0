@@ -9,7 +9,9 @@ import {
 // Получить всю историю движения товаров
 export function getAllProductMovementHistory(): Promise<TypeProductMovementHistory[]> {
   try {
-    return fetch(API_URL + PRODUCT_MOVEMENT + HISTORY)
+    return fetch(API_URL + PRODUCT_MOVEMENT + HISTORY, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

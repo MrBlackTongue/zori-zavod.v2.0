@@ -13,7 +13,9 @@ import {
 // Получить список всех записей счетчика
 export function getAllMeterRecord(): Promise<TypeMeterRecord[]> {
   try {
-    return fetch(API_URL + METER_RECORD)
+    return fetch(API_URL + METER_RECORD, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

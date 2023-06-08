@@ -13,7 +13,9 @@ import {
 // Получить список всех отгрузок
 export function getAllShipment(): Promise<TypeShipment[]> {
   try {
-    return fetch(API_URL + SHIPMENT)
+    return fetch(API_URL + SHIPMENT, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

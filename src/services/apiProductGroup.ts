@@ -13,7 +13,9 @@ import {
 // Получить список всех товарных групп
 export function getAllProductGroup(): Promise<TypeProductGroup[]> {
   try {
-    return fetch(API_URL + PRODUCT_GROUP + GROUP)
+    return fetch(API_URL + PRODUCT_GROUP + GROUP, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -78,7 +80,9 @@ export function updateProductGroup(data: TypeProductGroup): void {
 // Получить дерево группы товаров
 export function getProductGroupTree(): Promise<TypeProductGroup[]> {
   try {
-    return fetch(API_URL + PRODUCT_GROUP + GROUP + TREE)
+    return fetch(API_URL + PRODUCT_GROUP + GROUP + TREE, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

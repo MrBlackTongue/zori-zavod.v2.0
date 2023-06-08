@@ -13,7 +13,9 @@ import {
 // Получить список всех учетных операций
 export function getAllOperationAccounting(): Promise<TypeOperationAccounting[]> {
   try {
-    return fetch(API_URL + OPERATION_ACCOUNTING)
+    return fetch(API_URL + OPERATION_ACCOUNTING, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

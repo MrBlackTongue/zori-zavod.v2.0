@@ -13,7 +13,9 @@ import {
 // Получить список всех товаров
 export function getAllProduct(): Promise<TypeProduct[]> {
   try {
-    return fetch(API_URL + PRODUCT)
+    return fetch(API_URL + PRODUCT, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
