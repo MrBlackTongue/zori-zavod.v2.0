@@ -1,5 +1,5 @@
 import {TypePurchase} from "../types";
-import {URL, PRODUCT, PURCHASE} from "./apiEndpoints";
+import {API_URL, PRODUCT, PURCHASE} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех закупок
 export function getAllPurchase(): Promise<TypePurchase[]> {
   try {
-    return fetch(URL + PURCHASE)
+    return fetch(API_URL + PURCHASE)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllPurchase(): Promise<TypePurchase[]> {
 // Получить данные закупки по id
 export function getPurchaseById(id: number): Promise<TypePurchase | undefined> {
   try {
-    return fetch(URL + PURCHASE + `/${id}`)
+    return fetch(API_URL + PURCHASE + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getPurchaseById(id: number): Promise<TypePurchase | undefined> {
 // Добавить новую закупку
 export function createPurchase(data: TypePurchase): void {
   try {
-    fetch(URL + PURCHASE, {
+    fetch(API_URL + PURCHASE, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createPurchase(data: TypePurchase): void {
 // Удалить закупку по id
 export function deletePurchaseById(id: number): void {
   try {
-    fetch(URL + PURCHASE + `/${id}`, {
+    fetch(API_URL + PURCHASE + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deletePurchaseById(id: number): void {
 // Редактировать закупку
 export function updatePurchase(data: TypePurchase): void {
   try {
-    fetch(URL + PURCHASE, {
+    fetch(API_URL + PURCHASE, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -78,7 +78,7 @@ export function updatePurchase(data: TypePurchase): void {
 // Получить список всех отфильтрованных закупок по названию
 export function getAllPurchaseByTitle(title: string): Promise<TypePurchase[]> {
   try {
-    return fetch(URL + PURCHASE + PRODUCT + `/${title}`)
+    return fetch(API_URL + PURCHASE + PRODUCT + `/${title}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

@@ -1,5 +1,5 @@
 import {TypeClient} from "../types";
-import {URL, CLIENT} from "./apiEndpoints";
+import {API_URL, CLIENT} from "./apiEndpoints";
 import {
   handleResponseGet,
   handleError,
@@ -13,7 +13,7 @@ import {
 // Получить список всех клиентов
 export function getAllClient(): Promise<TypeClient[]> {
   try {
-    return fetch(URL + CLIENT)
+    return fetch(API_URL + CLIENT)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllClient(): Promise<TypeClient[]> {
 // Получить данные клиента по id
 export function getClientById(id: number): Promise<TypeClient | undefined> {
   try {
-    return fetch(URL + CLIENT + `/${id}`)
+    return fetch(API_URL + CLIENT + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getClientById(id: number): Promise<TypeClient | undefined> {
 // Добавить нового клиента
 export function createClient(data: TypeClient): void {
   try {
-    fetch(URL + CLIENT, {
+    fetch(API_URL + CLIENT, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createClient(data: TypeClient): void {
 // Удалить клиента по id
 export function deleteClientById(id: number): void {
   try {
-    fetch(URL + CLIENT + `/${id}`, {
+    fetch(API_URL + CLIENT + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteClientById(id: number): void {
 // Редактировать клиента
 export function updateClient(data: TypeClient): void {
   try {
-    fetch(URL + CLIENT, {
+    fetch(API_URL + CLIENT, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),

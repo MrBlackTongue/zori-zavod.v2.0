@@ -1,5 +1,5 @@
 import {TypeProductGroup} from "../types";
-import {URL, PRODUCT_GROUP, GROUP, TREE} from "./apiEndpoints";
+import {API_URL, PRODUCT_GROUP, GROUP, TREE} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех товарных групп
 export function getAllProductGroup(): Promise<TypeProductGroup[]> {
   try {
-    return fetch(URL + PRODUCT_GROUP + GROUP)
+    return fetch(API_URL + PRODUCT_GROUP + GROUP)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllProductGroup(): Promise<TypeProductGroup[]> {
 // Получить товарную группу по id
 export function getProductGroupById(id: number): Promise<TypeProductGroup | undefined> {
   try {
-    return fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`)
+    return fetch(API_URL + PRODUCT_GROUP + GROUP + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getProductGroupById(id: number): Promise<TypeProductGroup | unde
 // Добавить новую товарную группу
 export function createProductGroup(data: TypeProductGroup): void {
   try {
-    fetch(URL + PRODUCT_GROUP + GROUP, {
+    fetch(API_URL + PRODUCT_GROUP + GROUP, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createProductGroup(data: TypeProductGroup): void {
 // Удалить товарную группу по id
 export function deleteProductGroupById(id: number): void {
   try {
-    fetch(URL + PRODUCT_GROUP + GROUP + `/${id}`, {
+    fetch(API_URL + PRODUCT_GROUP + GROUP + `/${id}`, {
       method: "DELETE",
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteProductGroupById(id: number): void {
 // Редактировать товарную группу
 export function updateProductGroup(data: TypeProductGroup): void {
   try {
-    fetch(URL + PRODUCT_GROUP + GROUP, {
+    fetch(API_URL + PRODUCT_GROUP + GROUP, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -78,7 +78,7 @@ export function updateProductGroup(data: TypeProductGroup): void {
 // Получить дерево группы товаров
 export function getProductGroupTree(): Promise<TypeProductGroup[]> {
   try {
-    return fetch(URL + PRODUCT_GROUP + GROUP + TREE)
+    return fetch(API_URL + PRODUCT_GROUP + GROUP + TREE)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

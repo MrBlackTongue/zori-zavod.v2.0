@@ -1,5 +1,5 @@
 import {TypeOperationAccounting, TypeOperationAccountingFilter} from "../types";
-import {URL, OPERATION_ACCOUNTING, FILTER} from "./apiEndpoints";
+import {API_URL, OPERATION_ACCOUNTING, FILTER} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех учетных операций
 export function getAllOperationAccounting(): Promise<TypeOperationAccounting[]> {
   try {
-    return fetch(URL + OPERATION_ACCOUNTING)
+    return fetch(API_URL + OPERATION_ACCOUNTING)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllOperationAccounting(): Promise<TypeOperationAccounting[]> 
 // Получить данные учетной операции по id
 export function getOperationAccountingById(id: number): Promise<TypeOperationAccounting | undefined> {
   try {
-    return fetch(URL + OPERATION_ACCOUNTING + `/${id}`)
+    return fetch(API_URL + OPERATION_ACCOUNTING + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getOperationAccountingById(id: number): Promise<TypeOperationAcc
 // Добавить новую учетную операцию
 export function createOperationAccounting(data: TypeOperationAccounting): void {
   try {
-    fetch(URL + OPERATION_ACCOUNTING, {
+    fetch(API_URL + OPERATION_ACCOUNTING, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createOperationAccounting(data: TypeOperationAccounting): void {
 // Удалить учетную операцию по id
 export function deleteOperationAccountingById(id: number): void {
   try {
-    fetch(URL + OPERATION_ACCOUNTING + `/${id}`, {
+    fetch(API_URL + OPERATION_ACCOUNTING + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteOperationAccountingById(id: number): void {
 // Редактировать учетную операцию
 export function updateOperationAccounting(data: TypeOperationAccounting): void {
   try {
-    fetch(URL + OPERATION_ACCOUNTING, {
+    fetch(API_URL + OPERATION_ACCOUNTING, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -79,7 +79,7 @@ export function updateOperationAccounting(data: TypeOperationAccounting): void {
 export function getAllOperationAccountingByFilter(data: TypeOperationAccountingFilter):
   Promise<TypeOperationAccounting[]> {
   try {
-    return fetch(URL + OPERATION_ACCOUNTING + FILTER, {
+    return fetch(API_URL + OPERATION_ACCOUNTING + FILTER, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),

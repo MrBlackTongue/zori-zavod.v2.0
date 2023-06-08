@@ -29,5 +29,5 @@ export interface DetailDrawerProps<T> {
 }
 
 export interface LoginFormProps {
-  onLogin: () => void;
+  onLogin: (newToken: string) => void;
 }

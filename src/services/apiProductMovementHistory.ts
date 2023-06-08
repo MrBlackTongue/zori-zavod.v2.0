@@ -1,5 +1,5 @@
 import {TypeProductMovementHistory} from "../types";
-import {URL, HISTORY, PRODUCT_MOVEMENT} from "./apiEndpoints";
+import {API_URL, HISTORY, PRODUCT_MOVEMENT} from "./apiEndpoints";
 import {
   handleResponseGet,
   handleError,
@@ -9,7 +9,7 @@ import {
 // Получить всю историю движения товаров
 export function getAllProductMovementHistory(): Promise<TypeProductMovementHistory[]> {
   try {
-    return fetch(URL + PRODUCT_MOVEMENT + HISTORY)
+    return fetch(API_URL + PRODUCT_MOVEMENT + HISTORY)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -20,7 +20,7 @@ export function getAllProductMovementHistory(): Promise<TypeProductMovementHisto
 // Получить всю историю движения товаров по id ячейки товара на складе
 export function getProductMovementHistoryById(id: number): Promise<TypeProductMovementHistory[] | undefined> {
   try {
-    return fetch(URL + PRODUCT_MOVEMENT + HISTORY + `/${id}`)
+    return fetch(API_URL + PRODUCT_MOVEMENT + HISTORY + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

@@ -1,32 +1,49 @@
 import React from 'react';
 import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
-import {Button, Checkbox, Form, Input} from 'antd';
+import {Button, Checkbox, Form, Input, Typography} from 'antd';
+import {loginUser} from "../../services";
 import {LoginFormProps} from "../../types";
 
 export const PageLoginForm: React.FC<LoginFormProps> = ({
                                                           onLogin,
                                                         }) => {
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    // TODO: реализуйте авторизацию и вызовите onLogin, если она успешна
-    onLogin();
+
+  const {Title} = Typography;
+  const [form] = Form.useForm();
+
+  const onFinish = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        loginUser(values).then(response => {
+          if(response && response.jwt) {
+            onLogin(response.jwt);
+          }
+        })
+      })
+      .catch((error) => {
+        console.log('Validate Failed:', error);
+      });
   };
 
   return (
     <Form
-      name="normal_login"
+      form={form}
       className="login-form"
-      initialValues={{remember: true}}
+      // initialValues={{remember: true}}
       onFinish={onFinish}
     >
+      <Form.Item>
+        <Title>Здравствуйте!</Title>
+      </Form.Item>
       <Form.Item
-        name="Логин"
+        name="username"
         rules={[{required: true, message: 'введите ваш логин'}]}
       >
         <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Логин"/>
       </Form.Item>
       <Form.Item
-        name="Пароль"
+        name="password"
         rules={[{required: true, message: 'введите ваш пароль'}]}
       >
         <Input.Password
@@ -45,17 +62,15 @@ export const PageLoginForm: React.FC<LoginFormProps> = ({
 
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
+          Войти
         </Button>
         {/*<a href="">Регистрация</a>*/}
       </Form.Item>
       <Form.Item>
-
-        <a className="login-form-forgot" href="">
-          Забыли пароль
-        </a>
+        {/*<a className="login-form-forgot" href="">*/}
+        {/*  Забыли пароль*/}
+        {/*</a>*/}
       </Form.Item>
-
     </Form>
   );
-};
+}

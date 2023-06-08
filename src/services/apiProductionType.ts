@@ -1,5 +1,5 @@
 import {TypeProductionType} from "../types";
-import {URL, PRODUCTION_TYPE} from "./apiEndpoints";
+import {API_URL, PRODUCTION_TYPE} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список типов производства
 export function getAllProductionType(): Promise<TypeProductionType[]> {
   try {
-    return fetch(URL + PRODUCTION_TYPE)
+    return fetch(API_URL + PRODUCTION_TYPE)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllProductionType(): Promise<TypeProductionType[]> {
 // Получить данные типа производства по id
 export function getProductionTypeById(id: number): Promise<TypeProductionType | undefined> {
   try {
-    return fetch(URL + PRODUCTION_TYPE + `/${id}`)
+    return fetch(API_URL + PRODUCTION_TYPE + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getProductionTypeById(id: number): Promise<TypeProductionType | 
 // Добавить новый тип производства
 export function createProductionType(data: TypeProductionType): void {
   try {
-    fetch(URL + PRODUCTION_TYPE, {
+    fetch(API_URL + PRODUCTION_TYPE, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -49,7 +49,7 @@ export function createProductionType(data: TypeProductionType): void {
 // Удалить тип производства по id
 export function deleteProductionTypeById(id: number): void {
   try {
-    fetch(URL + PRODUCTION_TYPE + `/${id}`, {
+    fetch(API_URL + PRODUCTION_TYPE + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)
@@ -62,7 +62,7 @@ export function deleteProductionTypeById(id: number): void {
 // Редактировать тип производства
 export function updateProductionType(data: TypeProductionType): void {
   try {
-    fetch(URL + PRODUCTION_TYPE, {
+    fetch(API_URL + PRODUCTION_TYPE, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),

@@ -1,5 +1,5 @@
 import {TypeProductionProductMovement} from "../types";
-import {URL, MOVEMENT, PRODUCTION, OPERATION_ACCOUNTING} from "./apiEndpoints";
+import {API_URL, MOVEMENT, PRODUCTION, OPERATION_ACCOUNTING} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 export function getProductionProductMovementByIdOperationAccounting(id: number):
   Promise<TypeProductionProductMovement[] | undefined> {
   try {
-    return fetch(URL + MOVEMENT + PRODUCTION + OPERATION_ACCOUNTING + `/${id}`)
+    return fetch(API_URL + MOVEMENT + PRODUCTION + OPERATION_ACCOUNTING + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getProductionProductMovementByIdOperationAccounting(id: number):
 // Добавить производственное движение товара
 export function createProductionProductMovement(data: TypeProductionProductMovement): void {
   try {
-    fetch(URL + MOVEMENT + PRODUCTION, {
+    fetch(API_URL + MOVEMENT + PRODUCTION, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -39,7 +39,7 @@ export function createProductionProductMovement(data: TypeProductionProductMovem
 // Удалить производственное движение товара по id
 export function deleteProductionProductMovementById(id: number): void {
   try {
-    fetch(URL + MOVEMENT + PRODUCTION + `/${id}`, {
+    fetch(API_URL + MOVEMENT + PRODUCTION + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)

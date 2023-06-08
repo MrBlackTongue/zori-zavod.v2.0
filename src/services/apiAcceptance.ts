@@ -1,4 +1,4 @@
-import {URL, MOVEMENT, ACCEPTANCE, PRODUCT} from "./apiEndpoints";
+import {API_URL, MOVEMENT, ACCEPTANCE, PRODUCT} from "./apiEndpoints";
 import {TypeAcceptance} from "../types";
 import {
   BASE_HEADERS,
@@ -12,7 +12,7 @@ import {
 // Получить список всех приемок товаров
 export function getAllAcceptance(): Promise<TypeAcceptance[]> {
   try {
-    return fetch(URL + MOVEMENT + ACCEPTANCE)
+    return fetch(API_URL + MOVEMENT + ACCEPTANCE)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -23,7 +23,7 @@ export function getAllAcceptance(): Promise<TypeAcceptance[]> {
 // Добавить новую приемку товаров
 export function createAcceptance(data: TypeAcceptance): void {
   try {
-    fetch(URL + MOVEMENT + ACCEPTANCE, {
+    fetch(API_URL + MOVEMENT + ACCEPTANCE, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -38,7 +38,7 @@ export function createAcceptance(data: TypeAcceptance): void {
 // Удалить приемку товаров по id
 export function deleteAcceptanceById(id: number): void {
   try {
-    fetch(URL + MOVEMENT + ACCEPTANCE + `/${id}`, {
+    fetch(API_URL + MOVEMENT + ACCEPTANCE + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)
@@ -51,7 +51,7 @@ export function deleteAcceptanceById(id: number): void {
 // Получить список всех отфильтрованных приемок товара по названию
 export function getAllAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
   try {
-    return fetch(URL + MOVEMENT + ACCEPTANCE + PRODUCT + `/${title}`)
+    return fetch(API_URL + MOVEMENT + ACCEPTANCE + PRODUCT + `/${title}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

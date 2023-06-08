@@ -1,5 +1,5 @@
 import {TypeMeterRecord} from "../types";
-import {URL, METER_RECORD} from "./apiEndpoints";
+import {API_URL, METER_RECORD} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех записей счетчика
 export function getAllMeterRecord(): Promise<TypeMeterRecord[]> {
   try {
-    return fetch(URL + METER_RECORD)
+    return fetch(API_URL + METER_RECORD)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllMeterRecord(): Promise<TypeMeterRecord[]> {
 // Получить запись счетчика по id
 export function getMeterRecordById(id: number): Promise<TypeMeterRecord | undefined> {
   try {
-    return fetch(URL + METER_RECORD + `/${id}`)
+    return fetch(API_URL + METER_RECORD + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getMeterRecordById(id: number): Promise<TypeMeterRecord | undefi
 // Создать новую запись счетчика
 export function createMeterRecord(data: TypeMeterRecord): void {
   try {
-    fetch(URL + METER_RECORD, {
+    fetch(API_URL + METER_RECORD, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createMeterRecord(data: TypeMeterRecord): void {
 // Удалить запись счетчика по id
 export function deleteMeterRecordById(id: number): void {
   try {
-    fetch(URL + METER_RECORD + `/${id}`, {
+    fetch(API_URL + METER_RECORD + `/${id}`, {
       method: "DELETE",
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteMeterRecordById(id: number): void {
 // Редактировать запись счетчика
 export function updateMeterRecord(data: TypeMeterRecord): void {
   try {
-    fetch(URL + METER_RECORD, {
+    fetch(API_URL + METER_RECORD, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),

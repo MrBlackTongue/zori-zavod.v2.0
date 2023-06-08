@@ -1,5 +1,5 @@
 import {TypeProduct} from "../types";
-import {URL, PRODUCT, TITLE} from "./apiEndpoints";
+import {API_URL, PRODUCT, TITLE} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех товаров
 export function getAllProduct(): Promise<TypeProduct[]> {
   try {
-    return fetch(URL + PRODUCT)
+    return fetch(API_URL + PRODUCT)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllProduct(): Promise<TypeProduct[]> {
 // Получить данные товара по id
 export function getProductById(id: number): Promise<TypeProduct | undefined> {
   try {
-    return fetch(URL + PRODUCT + `/${id}`)
+    return fetch(API_URL + PRODUCT + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getProductById(id: number): Promise<TypeProduct | undefined> {
 // Добавить новый товар
 export function createProduct(data: TypeProduct): void {
   try {
-    fetch(URL + PRODUCT, {
+    fetch(API_URL + PRODUCT, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createProduct(data: TypeProduct): void {
 // Удалить товар по id
 export function deleteProductById(id: number): void {
   try {
-    fetch(URL + PRODUCT + `/${id}`, {
+    fetch(API_URL + PRODUCT + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteProductById(id: number): void {
 // Редактировать товар
 export function updateProduct(data: TypeProduct): void {
   try {
-    fetch(URL + PRODUCT, {
+    fetch(API_URL + PRODUCT, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -78,7 +78,7 @@ export function updateProduct(data: TypeProduct): void {
 // Получить список всех отфильтрованных товаров по названию
 export function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
   try {
-    return fetch(URL + PRODUCT + TITLE + `/${title}`)
+    return fetch(API_URL + PRODUCT + TITLE + `/${title}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

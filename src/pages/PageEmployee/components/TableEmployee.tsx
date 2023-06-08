@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllEmployee} from "../../../services";
 import {TableProps, TypeEmployee, TableParam} from "../../../types";
+import {AuthContext} from "../../../components/Context/AuthContext";
 
 export const TableEmployee: React.FC<TableProps> = ({
                                                       isUpdateTable,
@@ -13,6 +14,7 @@ export const TableEmployee: React.FC<TableProps> = ({
   // Лоудер и список всех сотрудников
   const [isLoading, setIsLoading] = useState(false);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
+  const {token} = useContext(AuthContext);
 
   // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
@@ -99,11 +101,13 @@ export const TableEmployee: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllEmployee().then((data) => {
-      setAllEmployee(data);
-      setIsLoading(false);
-    });
-  }, [])
+    if (token) {
+      getAllEmployee(token).then((data) => {
+        setAllEmployee(data);
+        setIsLoading(false);
+      });
+    }
+  }, [token])
 
   useEffect(() => {
     handleUpdateTable()

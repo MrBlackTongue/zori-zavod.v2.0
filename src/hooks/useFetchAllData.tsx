@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {
   TypeStock,
   TypePurchase,
@@ -29,6 +29,7 @@ import {
   getAllMeterType,
   getAllMeter,
 } from "../services";
+import {AuthContext} from "../components/Context/AuthContext";
 
 export const useFetchAllData = (
   deps: {
@@ -47,6 +48,7 @@ export const useFetchAllData = (
     depsMeter?: boolean,
   }
 ) => {
+  const {token} = useContext(AuthContext);
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>([]);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>([]);
@@ -142,12 +144,12 @@ export const useFetchAllData = (
   }, [deps.depsClient]);
 
   useEffect(() => {
-    if (deps.depsEmployee) {
-      getAllEmployee().then((data) => {
+    if (deps.depsEmployee && token) {
+      getAllEmployee(token).then((data) => {
         setAllEmployee(data);
       });
     }
-  }, [deps.depsEmployee]);
+  }, [deps.depsEmployee, token]);
 
   useEffect(() => {
     if (deps.depsMeterType) {

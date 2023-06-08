@@ -1,5 +1,5 @@
 import {TypeOutput} from "../types";
-import {URL, OUTPUT} from "./apiEndpoints";
+import {API_URL, OUTPUT} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех единиц измерения
 export function getAllOutput(): Promise<TypeOutput[]> {
   try {
-    return fetch(URL + OUTPUT)
+    return fetch(API_URL + OUTPUT)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllOutput(): Promise<TypeOutput[]> {
 // Получить данные единицы измерения по id
 export function getOutputById(id: number): Promise<TypeOutput | undefined> {
   try {
-    return fetch(URL + OUTPUT + `/${id}`)
+    return fetch(API_URL + OUTPUT + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getOutputById(id: number): Promise<TypeOutput | undefined> {
 // Добавить новую единицу измерения
 export function createOutput(data: TypeOutput): void {
   try {
-    fetch(URL + OUTPUT, {
+    fetch(API_URL + OUTPUT, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createOutput(data: TypeOutput): void {
 // Удалить единицу измерения по id
 export function deleteOutputById(id: number): void {
   try {
-    fetch(URL + OUTPUT + `/${id}`, {
+    fetch(API_URL + OUTPUT + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteOutputById(id: number): void {
 // Редактировать единицу изремерения
 export function updateChangeOutput(data: TypeOutput): void {
   try {
-    fetch(URL + OUTPUT, {
+    fetch(API_URL + OUTPUT, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),

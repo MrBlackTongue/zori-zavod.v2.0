@@ -1,5 +1,5 @@
 import {TypeMeterType} from "../types";
-import {URL, METER_TYPE} from "./apiEndpoints";
+import {API_URL, METER_TYPE} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех типов счетчика
 export function getAllMeterType(): Promise<TypeMeterType[]> {
   try {
-    return fetch(URL + METER_TYPE)
+    return fetch(API_URL + METER_TYPE)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllMeterType(): Promise<TypeMeterType[]> {
 // Получить данные типа счетчика по id
 export function getMeterTypeById(id: number): Promise<TypeMeterType | undefined> {
   try {
-    return fetch(URL + METER_TYPE + `/${id}`)
+    return fetch(API_URL + METER_TYPE + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getMeterTypeById(id: number): Promise<TypeMeterType | undefined>
 // Добавить новый тип счетчика
 export function createMeterType(data: TypeMeterType): void {
   try {
-    fetch(URL + METER_TYPE, {
+    fetch(API_URL + METER_TYPE, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createMeterType(data: TypeMeterType): void {
 // Удалить тип счетчика по id
 export function deleteMeterTypeById(id: number): void {
   try {
-    fetch(URL + METER_TYPE + `/${id}`, {
+    fetch(API_URL + METER_TYPE + `/${id}`, {
       method: "DELETE",
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteMeterTypeById(id: number): void {
 // Редактировать тип счетчика
 export function updateMeterType(data: TypeMeterType): void {
   try {
-    fetch(URL + METER_TYPE, {
+    fetch(API_URL + METER_TYPE, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),

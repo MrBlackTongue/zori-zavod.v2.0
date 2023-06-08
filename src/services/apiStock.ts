@@ -1,5 +1,5 @@
 import {TypeStock} from "../types";
-import {URL, STOCK, GROUP, TITLE} from "./apiEndpoints";
+import {API_URL, STOCK, GROUP, TITLE} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех остатков со склада
 export function getAllStock(): Promise<TypeStock[]> {
   try {
-    return fetch(URL + STOCK)
+    return fetch(API_URL + STOCK)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllStock(): Promise<TypeStock[]> {
 // Получить данные остатка со склада по id
 export function getStockById(id: number): Promise<TypeStock | undefined> {
   try {
-    return fetch(URL + STOCK + `/${id}`)
+    return fetch(API_URL + STOCK + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getStockById(id: number): Promise<TypeStock | undefined> {
 // Добавить новый остаток на складе
 export function createStock(data: TypeStock): void {
   try {
-    fetch(URL + STOCK, {
+    fetch(API_URL + STOCK, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createStock(data: TypeStock): void {
 // Удалить остаток на складе по id
 export function deleteStockById(id: number): void {
   try {
-    fetch(URL + STOCK + `/${id}`, {
+    fetch(API_URL + STOCK + `/${id}`, {
       method: "DELETE",
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteStockById(id: number): void {
 // Редактировать остаток на складе
 export function updateStock(data: TypeStock): void {
   try {
-    fetch(URL + STOCK, {
+    fetch(API_URL + STOCK, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -78,7 +78,7 @@ export function updateStock(data: TypeStock): void {
 // Получить список всех отфильтрованных остатков на складе по название
 export function getAllStockByTitle(title: string): Promise<TypeStock[]> {
   try {
-    return fetch(URL + STOCK + TITLE + `/${title}`)
+    return fetch(API_URL + STOCK + TITLE + `/${title}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -89,7 +89,7 @@ export function getAllStockByTitle(title: string): Promise<TypeStock[]> {
 // Получить список всех отфильтрованных остаков на складе
 export function getAllStockByFilter(id: number): Promise<TypeStock[] | undefined> {
   try {
-    return fetch(URL + STOCK + GROUP + `/${id}`)
+    return fetch(API_URL + STOCK + GROUP + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {

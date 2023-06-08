@@ -1,4 +1,4 @@
-import {URL, SHIPMENT, MOVEMENT} from "./apiEndpoints";
+import {API_URL, SHIPMENT, MOVEMENT} from "./apiEndpoints";
 import {TypeShipmentProductMovement} from "../types";
 import {
   BASE_HEADERS,
@@ -13,7 +13,7 @@ import {
 export function getAllProductMovementByShipmentId(id: number):
   Promise<TypeShipmentProductMovement[] | undefined> {
   try {
-    return fetch(URL + MOVEMENT + SHIPMENT + SHIPMENT + `/${id}`)
+    return fetch(API_URL + MOVEMENT + SHIPMENT + SHIPMENT + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllProductMovementByShipmentId(id: number):
 // Добавить новый товар в отгрузку
 export function createShipmentProductMovement(data: TypeShipmentProductMovement): void {
   try {
-    fetch(URL + MOVEMENT + SHIPMENT, {
+    fetch(API_URL + MOVEMENT + SHIPMENT, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -39,7 +39,7 @@ export function createShipmentProductMovement(data: TypeShipmentProductMovement)
 // Удалить товар из отгрузки по id
 export function deleteShipmentProductMovementById(id: number): void {
   try {
-    fetch(URL + MOVEMENT + SHIPMENT + `/${id}`, {
+    fetch(API_URL + MOVEMENT + SHIPMENT + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)

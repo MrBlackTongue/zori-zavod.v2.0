@@ -1,5 +1,5 @@
 import {TypeShipment} from "../types";
-import {URL, SHIPMENT} from "./apiEndpoints";
+import {API_URL, SHIPMENT} from "./apiEndpoints";
 import {
   BASE_HEADERS,
   handleResponseGet,
@@ -13,7 +13,7 @@ import {
 // Получить список всех отгрузок
 export function getAllShipment(): Promise<TypeShipment[]> {
   try {
-    return fetch(URL + SHIPMENT)
+    return fetch(API_URL + SHIPMENT)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -24,7 +24,7 @@ export function getAllShipment(): Promise<TypeShipment[]> {
 // Получить данные отгрузки по id
 export function getShipmentById(id: number): Promise<TypeShipment | undefined> {
   try {
-    return fetch(URL + SHIPMENT + `/${id}`)
+    return fetch(API_URL + SHIPMENT + `/${id}`)
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -35,7 +35,7 @@ export function getShipmentById(id: number): Promise<TypeShipment | undefined> {
 // Добавить новую отгрузку
 export function createShipment(data: TypeShipment): void {
   try {
-    fetch(URL + SHIPMENT, {
+    fetch(API_URL + SHIPMENT, {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
@@ -50,7 +50,7 @@ export function createShipment(data: TypeShipment): void {
 // Удалить отгрузку по id
 export function deleteShipmentById(id: number): void {
   try {
-    fetch(URL + SHIPMENT + `/${id}`, {
+    fetch(API_URL + SHIPMENT + `/${id}`, {
       method: 'DELETE',
     })
       .then(handleResponseDelete)
@@ -63,7 +63,7 @@ export function deleteShipmentById(id: number): void {
 // Редактировать отгрузку
 export function updateShipment(data: TypeShipment): void {
   try {
-    fetch(URL + SHIPMENT, {
+    fetch(API_URL + SHIPMENT, {
       method: 'PUT',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),

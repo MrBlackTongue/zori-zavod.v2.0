@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useLocation} from 'react-router-dom';
 import './App.css';
 import {
@@ -9,16 +9,16 @@ import {Layout, theme} from 'antd';
 import {MenuMain} from "./components/MenuMain/MenuMain";
 import {AppRoutes} from "./components/AppRoutes/AppRoutes";
 import {PageLoginForm} from "./pages/PageLoginForm/PageLoginForm";
+import {AuthContext} from "./components/Context/AuthContext";
 
 const {Header, Sider, Content} = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
-  const {
-    token: {colorBgContainer},
-  } = theme.useToken();
+  const {token: {colorBgContainer}} = theme.useToken();
+
+  const {token, logIn} = useContext(AuthContext);
 
   useEffect(() => {
     if (location.pathname === '/operation-accounting') {
@@ -28,10 +28,10 @@ function App() {
     }
   }, [location]);
 
-  if (!isLoggedIn) {
+  if (!token) {
     return (
       <div className="login-form-container">
-        <PageLoginForm onLogin={() => setIsLoggedIn(true)}/>
+        <PageLoginForm onLogin={logIn}/>
       </div>
     )
   }
