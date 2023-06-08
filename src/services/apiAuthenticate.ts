@@ -12,10 +12,14 @@ export function loginUser(data: TypeAuthenticate): Promise<any> {
       method: 'POST',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
+      credentials: 'include', // включает отправку cookies
     })
       .then(response => {
         if (!response.ok) throw new Error(response.statusText);
-        return response.json()
+        return response;
+      })
+      .then(() => {
+        return {jwt: 'Authenticated'}; // токен теперь автоматически включается во все запросы
       })
       .catch(handleError);
   } catch (error) {

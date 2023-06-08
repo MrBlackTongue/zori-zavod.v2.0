@@ -12,11 +12,11 @@ import {
 } from '../utils';
 
 // Получить список всех сотрудников
-export function getAllEmployee(token: string): Promise<TypeEmployee[]> {
+export function getAllEmployee(): Promise<TypeEmployee[]> {
   try {
     return fetch(API_URL + EMPLOYEE, {
       credentials: 'include',
-      headers: getAuthHeaders(token),
+      headers: getAuthHeaders(),
     })
       .then(handleResponseGet)
       .catch(handleError);

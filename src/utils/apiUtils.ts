@@ -2,17 +2,10 @@ import {message} from 'antd';
 
 export const BASE_HEADERS = {'Content-Type': 'application/json'};
 
-export function getAuthHeaders(token: string) {
+export function getAuthHeaders() {
   return {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
   };
-}
-
-export function getCookie(name: string) {
-  const value = '; ' + document.cookie;
-  const parts = value.split('; ' + name + '=');
-  if (parts.length === 2) return parts.pop()?.split(';').shift();
 }
 
 export function handleResponseGet(response: Response) {

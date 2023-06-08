@@ -22,4 +22,4 @@ export * from './TypeMeterType';
 export * from './TypeMeter';
 export * from './TypeMeterRecord';
 export * from './TypeAuthenticate';
-export * from './TypeAuthContext';
+// export * from './TypeAuthContext';

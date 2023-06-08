@@ -1,11 +1,22 @@
-import React, { ReactNode, useEffect } from 'react';
-import { TypeAuthContext } from "../../types";
-import { getCookie } from '../../utils'; // Вспомогательная функция, которую нужно создать
+import React, {ReactNode, useEffect} from 'react';
+// import {TypeAuthContext} from "../../types";
+
+export type TypeAuthContext = {
+  isAuthenticated: boolean;
+  logOut: () => void;
+  logIn: () => void,
+};
+
+export function getCookie(name: string) {
+  const value = '; ' + document.cookie;
+  const parts = value.split('; ' + name + '=');
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+}
 
 export const AuthContext = React.createContext<TypeAuthContext>({
-  token: null,
-  logIn: () => {},
+  isAuthenticated: false,
   logOut: () => {},
+  logIn: () => {},
 });
 
 interface AuthProviderProps {
@@ -13,27 +24,24 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
-  const [token, setToken] = React.useState<string | null>(null);
-
-  const logIn = (newToken: string) => {
-    document.cookie = `jwt=${newToken}; path=/; Secure; HttpOnly`;
-    setToken(newToken);
-  };
+  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
 
   const logOut = () => {
     document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    setToken(null);
+    setIsAuthenticated(false);
   };
 
+  const logIn = () => { // добавлено
+    setIsAuthenticated(true);
+  }
+
   useEffect(() => {
-    const jwtToken = getCookie('jwt'); // Здесь мы читаем cookie
-    if (jwtToken) {
-      setToken(jwtToken);
-    }
+    const jwtToken = getCookie('jwt');
+    setIsAuthenticated(Boolean(jwtToken));
   }, []);
 
   return (
-    <AuthContext.Provider value={{token, logIn, logOut}}>
+    <AuthContext.Provider value={{isAuthenticated, logOut, logIn}}>
       {children}
     </AuthContext.Provider>
   );

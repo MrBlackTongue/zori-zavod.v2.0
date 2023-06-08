@@ -18,7 +18,7 @@ function App() {
   const location = useLocation();
   const {token: {colorBgContainer}} = theme.useToken();
 
-  const {token, logIn} = useContext(AuthContext);
+  const {isAuthenticated, logIn} = useContext(AuthContext);
 
   useEffect(() => {
     if (location.pathname === '/operation-accounting') {
@@ -28,7 +28,7 @@ function App() {
     }
   }, [location]);
 
-  if (!token) {
+  if (!isAuthenticated) {
     return (
       <div className="login-form-container">
         <PageLoginForm onLogin={logIn}/>

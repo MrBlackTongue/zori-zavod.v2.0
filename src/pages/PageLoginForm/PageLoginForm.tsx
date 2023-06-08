@@ -1,6 +1,6 @@
 import React from 'react';
 import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
-import {Button, Checkbox, Form, Input, Typography} from 'antd';
+import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
 import {LoginFormProps} from "../../types";
 
@@ -16,8 +16,8 @@ export const PageLoginForm: React.FC<LoginFormProps> = ({
       .validateFields()
       .then((values) => {
         loginUser(values).then(response => {
-          if(response && response.jwt) {
-            onLogin(response.jwt);
+          if (response && response.jwt) {
+            onLogin('Authenticated');
           }
         })
       })
@@ -54,11 +54,11 @@ export const PageLoginForm: React.FC<LoginFormProps> = ({
           iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}
         />
       </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Запомнить</Checkbox>
-        </Form.Item>
-      </Form.Item>
+      {/*<Form.Item>*/}
+      {/*<Form.Item name="remember" valuePropName="checked" noStyle>*/}
+      {/*  <Checkbox>Запомнить</Checkbox>*/}
+      {/*</Form.Item>*/}
+      {/*</Form.Item>*/}
 
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
