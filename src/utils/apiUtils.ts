@@ -2,12 +2,6 @@ import {message} from 'antd';
 
 export const BASE_HEADERS = {'Content-Type': 'application/json'};
 
-export function getAuthHeaders() {
-  return {
-    'Content-Type': 'application/json',
-  };
-}
-
 export function handleResponseGet(response: Response) {
   if (response.ok) {
     return response.json();

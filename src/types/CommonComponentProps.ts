@@ -28,6 +28,3 @@ export interface DetailDrawerProps<T> {
   updateItem?: (values: T) => void;
 }
 
-export interface LoginFormProps {
-  onLogin: (newToken: string) => void;
-}

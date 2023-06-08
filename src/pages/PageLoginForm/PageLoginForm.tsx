@@ -2,12 +2,14 @@ import React from 'react';
 import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
 import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
-import {LoginFormProps} from "../../types";
+
+export interface LoginFormProps {
+  onLogin: (newToken: string) => void;
+}
 
 export const PageLoginForm: React.FC<LoginFormProps> = ({
                                                           onLogin,
                                                         }) => {
-
   const {Title} = Typography;
   const [form] = Form.useForm();
 

@@ -1,5 +1,4 @@
 import React, {ReactNode, useEffect} from 'react';
-// import {TypeAuthContext} from "../../types";
 
 export type TypeAuthContext = {
   isAuthenticated: boolean;
@@ -24,14 +23,14 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(() => Boolean(getCookie('jwt')));
 
   const logOut = () => {
     document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     setIsAuthenticated(false);
   };
 
-  const logIn = () => { // добавлено
+  const logIn = () => {
     setIsAuthenticated(true);
   }
 

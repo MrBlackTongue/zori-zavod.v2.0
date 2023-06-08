@@ -2,7 +2,6 @@ import {TypeEmployee} from "../types";
 import {API_URL, EMPLOYEE} from "./apiEndpoints";
 import {
   BASE_HEADERS,
-  getAuthHeaders,
   handleResponseGet,
   handleError,
   handleCatchError,
@@ -16,7 +15,6 @@ export function getAllEmployee(): Promise<TypeEmployee[]> {
   try {
     return fetch(API_URL + EMPLOYEE, {
       credentials: 'include',
-      headers: getAuthHeaders(),
     })
       .then(handleResponseGet)
       .catch(handleError);

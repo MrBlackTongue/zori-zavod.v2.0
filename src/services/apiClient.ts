@@ -13,7 +13,9 @@ import {
 // Получить список всех клиентов
 export function getAllClient(): Promise<TypeClient[]> {
   try {
-    return fetch(API_URL + CLIENT)
+    return fetch(API_URL + CLIENT, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
