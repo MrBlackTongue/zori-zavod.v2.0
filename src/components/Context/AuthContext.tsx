@@ -1,13 +1,11 @@
-import React, {ReactNode} from 'react';
-import {TypeAuthContext} from "../../types";
+import React, { ReactNode, useEffect } from 'react';
+import { TypeAuthContext } from "../../types";
+import { getCookie } from '../../utils'; // Вспомогательная функция, которую нужно создать
 
-// Задаем начальные значения и типы для контекста
 export const AuthContext = React.createContext<TypeAuthContext>({
   token: null,
-  logIn: () => {
-  },
-  logOut: () => {
-  },
+  logIn: () => {},
+  logOut: () => {},
 });
 
 interface AuthProviderProps {
@@ -18,7 +16,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   const [token, setToken] = React.useState<string | null>(null);
 
   const logIn = (newToken: string) => {
-    document.cookie = `jwt=${newToken}; path=/;`;
+    document.cookie = `jwt=${newToken}; path=/; Secure; HttpOnly`;
     setToken(newToken);
   };
 
@@ -26,6 +24,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     setToken(null);
   };
+
+  useEffect(() => {
+    const jwtToken = getCookie('jwt'); // Здесь мы читаем cookie
+    if (jwtToken) {
+      setToken(jwtToken);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{token, logIn, logOut}}>

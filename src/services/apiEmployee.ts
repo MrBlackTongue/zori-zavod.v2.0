@@ -15,6 +15,7 @@ import {
 export function getAllEmployee(token: string): Promise<TypeEmployee[]> {
   try {
     return fetch(API_URL + EMPLOYEE, {
+      credentials: 'include',
       headers: getAuthHeaders(token),
     })
       .then(handleResponseGet)
