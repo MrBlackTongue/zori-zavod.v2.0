@@ -33,15 +33,15 @@ export const PageLoginForm: React.FC = () => {
   };
 
   return (
-
-    <div className="login-form-container">
+    <div className="login-form-container" style={{position: 'fixed', width: '100%', height: '100vh', top: '0', left: '0', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999, backgroundColor: 'rgba(0,0,0,0.7)'}}>
       <Form
         form={form}
         className="login-form"
+        style={{backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px'}}
         onFinish={onFinish}
       >
         <Form.Item>
-          <Title>Здравствуйте!</Title>
+          <Title style={{textAlign: 'center'}}>Здравствуйте!</Title>
         </Form.Item>
 
         <Form.Item
