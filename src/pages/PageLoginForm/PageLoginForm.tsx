@@ -1,16 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
 import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
-import {AuthContext} from "../../components/Context/AuthContext";
 import {useNavigate, useLocation} from "react-router-dom";
 
 export const PageLoginForm: React.FC = () => {
 
   const {Title} = Typography;
   const [form] = Form.useForm();
-
-  const {logIn} = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,8 +18,7 @@ export const PageLoginForm: React.FC = () => {
       .then((values) => {
         loginUser(values).then(response => {
           if (response && response.jwt) {
-            logIn();
-            const from = location.state?.from || '/default-path-after-login';
+            const from = location.state?.from || '/';
             navigate(from);
           }
         })
@@ -33,11 +29,23 @@ export const PageLoginForm: React.FC = () => {
   };
 
   return (
-    <div className="login-form-container" style={{position: 'fixed', width: '100%', height: '100vh', top: '0', left: '0', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999, backgroundColor: 'rgba(0,0,0,0.7)'}}>
+    <div className="login-form-container" style={{
+      position: 'fixed',
+      width: '100%',
+      height: '100vh',
+      top: '0',
+      left: '0',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 9999,
+      backgroundColor: '#f5f5f5'
+      // backgroundColor: 'rgba(0,0,0,0.6)' // прозрачный серый фон
+    }}>
       <Form
         form={form}
         className="login-form"
-        style={{backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px'}}
+        style={{backgroundColor: '#ffffff', padding: '20px', borderRadius: '10px'}}
         onFinish={onFinish}
       >
         <Form.Item>

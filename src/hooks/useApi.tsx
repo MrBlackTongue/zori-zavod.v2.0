@@ -8,16 +8,16 @@ interface ApiError extends Error {
 const useApi = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendRequest = async (requestFunc: any) => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       const response = await requestFunc();
-      setLoading(false);
+      setIsLoading(false);
       return response;
     } catch (err) {
-      setLoading(false);
+      setIsLoading(false);
       const apiError = err as ApiError;
       if (apiError.status === 401) {
         navigate('/login', {state: {from: location}});
@@ -27,7 +27,7 @@ const useApi = () => {
     }
   };
 
-  return {sendRequest, loading};
+  return {sendRequest, isLoading};
 };
 
 export default useApi;

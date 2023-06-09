@@ -26,7 +26,9 @@ export function getAllEmployee(): Promise<TypeEmployee[]> {
 // Получить данные сотрудника по id
 export function getEmployeeById(id: number): Promise<TypeEmployee | undefined> {
   try {
-    return fetch(URL + EMPLOYEE + `/${id}`)
+    return fetch(API_URL + EMPLOYEE + `/${id}`, {
+      credentials: 'include',
+    })
       .then(handleResponseGet)
       .catch(handleError);
   } catch (error) {
@@ -37,8 +39,9 @@ export function getEmployeeById(id: number): Promise<TypeEmployee | undefined> {
 // Добавить нового сотрудника
 export function createEmployee(data: TypeEmployee): void {
   try {
-    fetch(URL + EMPLOYEE, {
+    fetch(API_URL + EMPLOYEE, {
       method: 'POST',
+      credentials: 'include',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
@@ -52,8 +55,9 @@ export function createEmployee(data: TypeEmployee): void {
 // Удалить сотрудника по id
 export function deleteEmployeeById(id: number): void {
   try {
-    fetch(URL + EMPLOYEE + `/${id}`, {
+    fetch(API_URL + EMPLOYEE + `/${id}`, {
       method: 'DELETE',
+      credentials: 'include',
     })
       .then(handleResponseDelete)
       .catch(handleError);
@@ -65,8 +69,9 @@ export function deleteEmployeeById(id: number): void {
 // Редактировать сотрудника
 export function updateEmployee(data: TypeEmployee): void {
   try {
-    fetch(URL + EMPLOYEE, {
+    fetch(API_URL + EMPLOYEE, {
       method: 'PUT',
+      credentials: 'include',
       headers: BASE_HEADERS,
       body: JSON.stringify(data),
     })
