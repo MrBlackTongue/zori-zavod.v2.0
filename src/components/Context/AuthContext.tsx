@@ -17,18 +17,16 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(() => {
-    return Boolean(localStorage.getItem('isAuthenticated'));
-  });
+  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(true);
 
   const logOut = () => {
     document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    localStorage.setItem('isAuthenticated', 'false');
+    // localStorage.setItem('isAuthenticated', 'false');
     setIsAuthenticated(false);
   };
 
   const logIn = () => {
-    localStorage.setItem('isAuthenticated', 'true');
+    // localStorage.setItem('isAuthenticated', 'true');
     setIsAuthenticated(true);
   }
 

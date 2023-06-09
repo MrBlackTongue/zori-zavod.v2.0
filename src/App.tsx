@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 import './App.css';
 import {
@@ -7,9 +7,7 @@ import {
 } from '@ant-design/icons';
 import {Layout, theme} from 'antd';
 import {MenuMain} from "./components/MenuMain/MenuMain";
-import {AppRoutes} from "./components/AppRoutes/AppRoutes";
-import {AuthContext} from "./components/Context/AuthContext";
-import {PageLoginForm} from "./pages/PageLoginForm/PageLoginForm";
+import {ContentRoutes} from "./components/ContentRoutes/ContentRoutes";
 
 const {Header, Sider, Content} = Layout;
 
@@ -18,8 +16,6 @@ function App() {
   const location = useLocation();
   const {token: {colorBgContainer}} = theme.useToken();
 
-  // Получите значение isAuthenticated из контекста AuthContext
-  const {isAuthenticated} = useContext(AuthContext);
 
   useEffect(() => {
     if (location.pathname === '/operation-accounting') {
@@ -30,32 +26,28 @@ function App() {
   }, [location]);
 
   return (
-    isAuthenticated ? (
-      <div>
-        <Layout>
-          <Sider trigger={null} collapsible collapsed={collapsed} width={240} theme="light">
-            {/*<div className="logo" />*/}
-            <Header style={{padding: 0, background: colorBgContainer}}>
-              {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                className: 'trigger',
-                onClick: () => setCollapsed(!collapsed),
-              })}
-            </Header>
-            <MenuMain/>
-          </Sider>
-          <Layout className="site-layout" style={{minHeight: '100vh', height: '100vh', overflow: 'auto'}}>
-            <Header style={{padding: 0, background: colorBgContainer}}>
-              {/*<Title level={3}></Title>*/}
-            </Header>
-            <Content className='context-style'>
-              <AppRoutes/>
-            </Content>
-          </Layout>
+    <div>
+      <Layout>
+        <Sider trigger={null} collapsible collapsed={collapsed} width={240} theme="light">
+          {/*<div className="logo" />*/}
+          <Header style={{padding: 0, background: colorBgContainer}}>
+            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: () => setCollapsed(!collapsed),
+            })}
+          </Header>
+          <MenuMain/>
+        </Sider>
+        <Layout className="site-layout" style={{minHeight: '100vh', height: '100vh', overflow: 'auto'}}>
+          <Header style={{padding: 0, background: colorBgContainer}}>
+            {/*<Title level={3}></Title>*/}
+          </Header>
+          <Content className='context-style'>
+            <ContentRoutes/>
+          </Content>
         </Layout>
-      </div>
-    ) : (
-      <PageLoginForm/>
-    )
+      </Layout>
+    </div>
   );
 }
 

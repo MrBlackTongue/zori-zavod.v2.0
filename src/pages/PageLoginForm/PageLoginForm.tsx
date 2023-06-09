@@ -3,6 +3,7 @@ import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant
 import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
 import {AuthContext} from "../../components/Context/AuthContext";
+import {useNavigate, useLocation} from "react-router-dom";
 
 export const PageLoginForm: React.FC = () => {
 
@@ -11,6 +12,9 @@ export const PageLoginForm: React.FC = () => {
 
   const {logIn} = useContext(AuthContext);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const onFinish = () => {
     form
       .validateFields()
@@ -18,6 +22,8 @@ export const PageLoginForm: React.FC = () => {
         loginUser(values).then(response => {
           if (response && response.jwt) {
             logIn();
+            const from = location.state?.from || '/default-path-after-login';
+            navigate(from);
           }
         })
       })

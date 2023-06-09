@@ -4,6 +4,8 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllEmployee} from "../../../services";
 import {TableProps, TypeEmployee, TableParam} from "../../../types";
+import {useNavigate} from "react-router-dom";
+import useApi from "../../../components/Context/useApi";
 
 export const TableEmployee: React.FC<TableProps> = ({
                                                       isUpdateTable,
@@ -13,6 +15,9 @@ export const TableEmployee: React.FC<TableProps> = ({
   // Лоудер и список всех сотрудников
   const [isLoading, setIsLoading] = useState(false);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
+
+  const { sendRequest, loading } = useApi();
+  const navigate = useNavigate();
 
   // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
@@ -97,17 +102,26 @@ export const TableEmployee: React.FC<TableProps> = ({
   };
 
   // Функция для обновления таблицы
-  const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllEmployee().then((data) => {
-      setAllEmployee(data);
-      setIsLoading(false);
-    });
-  }, [])
+  // const handleUpdateTable = useCallback((): void => {
+  //   setIsLoading(true);
+  //   getAllEmployee().then((data) => {
+  //     setAllEmployee(data);
+  //     setIsLoading(false);
+  //   });
+  // }, [])
+  //
+  // useEffect(() => {
+  //   handleUpdateTable()
+  // }, [isUpdateTable, handleUpdateTable]);
 
   useEffect(() => {
-    handleUpdateTable()
-  }, [isUpdateTable, handleUpdateTable]);
+    sendRequest(getAllEmployee)
+      .then((data) => {
+        setAllEmployee(data);
+      })
+      .catch((error) => {
+      });
+  }, [isUpdateTable]);
 
   return (
     <Table

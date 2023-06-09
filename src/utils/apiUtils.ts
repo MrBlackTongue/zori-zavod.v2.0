@@ -7,8 +7,8 @@ export function handleResponseGet(response: Response) {
     return response.json();
   } else {
     console.error(response.statusText);
-    void message.error('Ошибка при выполнении запроса');
-    return Promise.reject(response.statusText);
+    // void message.error('Ошибка при выполнении запроса');
+    return Promise.reject({ status: response.status, text: response.statusText });
   }
 }
 
@@ -41,7 +41,7 @@ export function handleResponseDelete(response: Response) {
 
 export function handleError(error: any) {
   console.error(error);
-  void message.error('Произошла ошибка при попытке выполнить запрос');
+  // void message.error('Произошла ошибка при попытке выполнить запрос');
   return Promise.reject(error);
 }
 

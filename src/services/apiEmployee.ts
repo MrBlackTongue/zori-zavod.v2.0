@@ -12,7 +12,6 @@ import {
 
 // Получить список всех сотрудников
 export function getAllEmployee(): Promise<TypeEmployee[]> {
-  // const handleResponseGet = useHandleResponseGet();
   try {
     return fetch(API_URL + EMPLOYEE, {
       credentials: 'include',
