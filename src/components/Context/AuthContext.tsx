@@ -6,12 +6,6 @@ export type TypeAuthContext = {
   logIn: () => void,
 };
 
-export function getCookie(name: string) {
-  const value = '; ' + document.cookie;
-  const parts = value.split('; ' + name + '=');
-  if (parts.length === 2) return parts.pop()?.split(';').shift();
-}
-
 export const AuthContext = React.createContext<TypeAuthContext>({
   isAuthenticated: false,
   logOut: () => {},
@@ -23,14 +17,18 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(() => Boolean(getCookie('jwt')));
+  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(() => {
+    return Boolean(localStorage.getItem('isAuthenticated'));
+  });
 
   const logOut = () => {
     document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.setItem('isAuthenticated', 'false');
     setIsAuthenticated(false);
   };
 
   const logIn = () => {
+    localStorage.setItem('isAuthenticated', 'true');
     setIsAuthenticated(true);
   }
 
