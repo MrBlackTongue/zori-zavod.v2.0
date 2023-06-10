@@ -1,3 +1,4 @@
+import { AxiosInstance } from 'axios';
 import {TypeEmployee} from "../types";
 import {API_URL, EMPLOYEE} from "./apiEndpoints";
 import {
@@ -9,18 +10,28 @@ import {
   handleResponseDelete,
   handleResponseUpdate,
 } from '../utils';
+// import {api} from "./api";
 
 // Получить список всех сотрудников
-export function getAllEmployee(): Promise<TypeEmployee[]> {
-  try {
-    return fetch(API_URL + EMPLOYEE, {
-      credentials: 'include',
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+// export function getAllEmployee(): Promise<TypeEmployee[]> {
+//   try {
+//     return fetch(API_URL + EMPLOYEE, {
+//       credentials: 'include',
+//     })
+//       .then(handleResponseGet)
+//       .catch(handleError);
+//   } catch (error) {
+//     return handleCatchError(error);
+//   }
+// }
+
+// Получить список всех сотрудников
+export function getAllEmployee(api: AxiosInstance): Promise<TypeEmployee[]> {
+  return api.get(EMPLOYEE, {withCredentials: true})
+    .then(response => response.data)
+    .catch(error => {
+      return handleCatchError(error);
+    });
 }
 
 // Получить данные сотрудника по id

@@ -47,6 +47,6 @@ export function handleError(error: any) {
 
 export function handleCatchError(error: any) {
   console.error(error);
-  void message.error('Произошла ошибка при выполнении операции');
+  // void message.error('Произошла ошибка при выполнении операции');
   return Promise.reject(error);
 }
