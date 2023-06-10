@@ -1,4 +1,4 @@
-import {useState, useEffect, useMemo} from 'react';
+import {useState, useEffect} from 'react';
 import {
   TypeStock,
   TypePurchase,
@@ -27,9 +27,8 @@ import {
   getAllClient,
   getAllEmployee,
   getAllMeterType,
-  getAllMeter, createApi,
+  getAllMeter,
 } from "../services";
-import {useLocation, useNavigate} from "react-router-dom";
 
 export const useFetchAllData = (
   deps: {
@@ -48,14 +47,6 @@ export const useFetchAllData = (
     depsMeter?: boolean,
   }
 ) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  // Создаем экземпляр API
-  const api = useMemo(() => createApi(() => {
-    navigate('/login', {state: {from: location}});
-  }), [navigate, location]);
-
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>([]);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>([]);
@@ -152,11 +143,11 @@ export const useFetchAllData = (
 
   useEffect(() => {
     if (deps.depsEmployee) {
-      getAllEmployee(api).then((data) => {
+      getAllEmployee().then((data) => {
         setAllEmployee(data);
       });
     }
-  }, [deps.depsEmployee, api, location]);
+  }, [deps.depsEmployee]);
 
   useEffect(() => {
     if (deps.depsMeterType) {

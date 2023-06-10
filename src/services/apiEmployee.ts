@@ -1,4 +1,3 @@
-import { AxiosInstance } from 'axios';
 import {TypeEmployee} from "../types";
 import {API_URL, EMPLOYEE} from "./apiEndpoints";
 import {
@@ -10,7 +9,7 @@ import {
   handleResponseDelete,
   handleResponseUpdate,
 } from '../utils';
-// import {api} from "./api";
+import {api} from "./api";
 
 // Получить список всех сотрудников
 // export function getAllEmployee(): Promise<TypeEmployee[]> {
@@ -26,7 +25,7 @@ import {
 // }
 
 // Получить список всех сотрудников
-export function getAllEmployee(api: AxiosInstance): Promise<TypeEmployee[]> {
+export function getAllEmployee(): Promise<TypeEmployee[]> {
   return api.get(EMPLOYEE, {withCredentials: true})
     .then(response => response.data)
     .catch(error => {
