@@ -2,7 +2,7 @@ import React from 'react';
 import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
 import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
-import {useNavigate, useLocation} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export const PageLoginForm: React.FC = () => {
 
@@ -10,7 +10,6 @@ export const PageLoginForm: React.FC = () => {
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const onFinish = () => {
     form
@@ -18,8 +17,7 @@ export const PageLoginForm: React.FC = () => {
       .then((values) => {
         loginUser(values).then(response => {
           if (response && response.jwt) {
-            const from = location.state?.from || '/';
-            navigate(from);
+            navigate('/');
           }
         })
       })

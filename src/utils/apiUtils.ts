@@ -8,7 +8,7 @@ export function handleResponseGet(response: Response) {
   } else {
     console.error(response.statusText);
     // void message.error('Ошибка при выполнении запроса');
-    return Promise.reject({ status: response.status, text: response.statusText });
+    return Promise.reject({status: response.status, text: response.statusText});
   }
 }
 
@@ -49,4 +49,31 @@ export function handleCatchError(error: any) {
   console.error(error);
   // void message.error('Произошла ошибка при выполнении операции');
   return Promise.reject(error);
+}
+
+export function handleResponseCreateMessage(response: any) {
+  if (response.status === 200) {
+    void message.success('Запись добавлена')
+  } else {
+    void message.error('Ошибка при добавлении записи');
+  }
+  return response.data;
+}
+
+export function handleResponseDeleteMessage(response: any) {
+  if (response.status === 200) {
+    void message.success('Запись удалена')
+  } else {
+    void message.error('Ошибка при удалении записи');
+  }
+  return response.data;
+}
+
+export function handleResponseUpdateMessage(response: any) {
+  if (response.status === 200) {
+    void message.success('Запись изменена')
+  } else {
+    void message.error('Ошибка при изменении записи');
+  }
+  return response.data;
 }

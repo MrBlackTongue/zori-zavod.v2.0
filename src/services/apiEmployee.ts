@@ -1,32 +1,16 @@
 import {TypeEmployee} from "../types";
-import {API_URL, EMPLOYEE} from "./apiEndpoints";
+import {EMPLOYEE} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
   handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
 import {api} from "./api";
 
 // Получить список всех сотрудников
-// export function getAllEmployee(): Promise<TypeEmployee[]> {
-//   try {
-//     return fetch(API_URL + EMPLOYEE, {
-//       credentials: 'include',
-//     })
-//       .then(handleResponseGet)
-//       .catch(handleError);
-//   } catch (error) {
-//     return handleCatchError(error);
-//   }
-// }
-
-// Получить список всех сотрудников
 export function getAllEmployee(): Promise<TypeEmployee[]> {
-  return api.get(EMPLOYEE, {withCredentials: true})
+  return api.get(EMPLOYEE)
     .then(response => response.data)
     .catch(error => {
       return handleCatchError(error);
@@ -35,59 +19,36 @@ export function getAllEmployee(): Promise<TypeEmployee[]> {
 
 // Получить данные сотрудника по id
 export function getEmployeeById(id: number): Promise<TypeEmployee | undefined> {
-  try {
-    return fetch(API_URL + EMPLOYEE + `/${id}`, {
-      credentials: 'include',
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${EMPLOYEE}/${id}`)
+    .then(response => response.data)
+    .catch(error => {
+      return handleCatchError(error);
+    });
 }
 
 // Добавить нового сотрудника
-export function createEmployee(data: TypeEmployee): void {
-  try {
-    fetch(API_URL + EMPLOYEE, {
-      method: 'POST',
-      credentials: 'include',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createEmployee(data: TypeEmployee): Promise<any> {
+  return api.post(EMPLOYEE, data)
+    .then(handleResponseCreateMessage)
+    .catch(error => {
+      return handleCatchError(error);
+    });
 }
 
 // Удалить сотрудника по id
-export function deleteEmployeeById(id: number): void {
-  try {
-    fetch(API_URL + EMPLOYEE + `/${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteEmployeeById(id: number): Promise<any> {
+  return api.delete(`${EMPLOYEE}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(error => {
+      return handleCatchError(error);
+    });
 }
 
 // Редактировать сотрудника
-export function updateEmployee(data: TypeEmployee): void {
-  try {
-    fetch(API_URL + EMPLOYEE, {
-      method: 'PUT',
-      credentials: 'include',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateEmployee(data: TypeEmployee): Promise<any> {
+  return api.put(EMPLOYEE, data)
+    .then(handleResponseUpdateMessage)
+    .catch(error => {
+      return handleCatchError(error);
+    });
 }

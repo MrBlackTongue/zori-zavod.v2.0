@@ -1,28 +1,20 @@
-import {API_URL, AUTHENTICATE} from "./apiEndpoints";
-import {
-  handleError,
-  BASE_HEADERS,
-  handleCatchError,
-} from '../utils';
+import {api} from './api';
+import {AUTHENTICATE} from "./apiEndpoints";
 import {TypeAuthenticate} from "../types";
+import {handleCatchError} from "../utils";
 
+// Запрос для авторизации пользователя
 export function loginUser(data: TypeAuthenticate): Promise<any> {
-  try {
-    return fetch(API_URL + AUTHENTICATE, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-      credentials: 'include', // включает отправку cookies
+  return api.post(AUTHENTICATE, data)
+    .then(response => {
+      if (response.status === 200) {
+        return {jwt: 'Authenticated'};
+      } else {
+        throw new Error(response.statusText);
+      }
     })
-      .then(response => {
-        if (!response.ok) throw new Error(response.statusText);
-        return response;
-      })
-      .then(() => {
-        return {jwt: 'Authenticated'}; // токен теперь автоматически включается во все запросы
-      })
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+    .catch(error => {
+      console.error(error);
+      return handleCatchError(error);
+    });
 }
