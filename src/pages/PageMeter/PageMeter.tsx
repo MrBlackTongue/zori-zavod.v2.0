@@ -28,7 +28,7 @@ export const PageMeter: React.FC = () => {
       meterTypeDto: {id: values.meterTypeDto},
     };
     setIsModalOpen(false);
-    createMeter(meter);
+    void createMeter(meter);
     setIsUpdateTable(prevState => !prevState);
   };
 
@@ -47,13 +47,13 @@ export const PageMeter: React.FC = () => {
       meterTypeDto: {id: values.meterTypeDto},
     };
     setIsDrawerOpen(false);
-    updateMeter(meter);
+    void updateMeter(meter);
     setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteMeter = (id: number): void => {
-    deleteMeterById(id);
+    void deleteMeterById(id);
     setIsUpdateTable(prevState => !prevState);
   };
 

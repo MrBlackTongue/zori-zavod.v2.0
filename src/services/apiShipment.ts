@@ -1,78 +1,44 @@
-import {TypeShipment} from "../types";
-import {API_URL, SHIPMENT} from "./apiEndpoints";
+import {TypeShipment, TypeApiResponse} from "../types";
+import {SHIPMENT} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех отгрузок
 export function getAllShipment(): Promise<TypeShipment[]> {
-  try {
-    return fetch(API_URL + SHIPMENT, {
-      credentials: 'include',
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(SHIPMENT)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные отгрузки по id
 export function getShipmentById(id: number): Promise<TypeShipment | undefined> {
-  try {
-    return fetch(API_URL + SHIPMENT + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${SHIPMENT}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новую отгрузку
-export function createShipment(data: TypeShipment): void {
-  try {
-    fetch(API_URL + SHIPMENT, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createShipment(data: TypeShipment): Promise<TypeApiResponse> {
+  return api.post(SHIPMENT, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить отгрузку по id
-export function deleteShipmentById(id: number): void {
-  try {
-    fetch(API_URL + SHIPMENT + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteShipmentById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${SHIPMENT}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать отгрузку
-export function updateShipment(data: TypeShipment): void {
-  try {
-    fetch(API_URL + SHIPMENT, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateShipment(data: TypeShipment): Promise<TypeApiResponse> {
+  return api.put(SHIPMENT, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

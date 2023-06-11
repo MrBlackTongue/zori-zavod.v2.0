@@ -1,78 +1,44 @@
-import {TypeOutput} from "../types";
-import {API_URL, OUTPUT} from "./apiEndpoints";
+import {TypeApiResponse, TypeOutput} from "../types";
+import {OUTPUT} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех единиц измерения
 export function getAllOutput(): Promise<TypeOutput[]> {
-  try {
-    return fetch(API_URL + OUTPUT, {
-      credentials: 'include',
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(OUTPUT)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные единицы измерения по id
 export function getOutputById(id: number): Promise<TypeOutput | undefined> {
-  try {
-    return fetch(API_URL + OUTPUT + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${OUTPUT}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новую единицу измерения
-export function createOutput(data: TypeOutput): void {
-  try {
-    fetch(API_URL + OUTPUT, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createOutput(data: TypeOutput): Promise<TypeApiResponse> {
+  return api.post(OUTPUT, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить единицу измерения по id
-export function deleteOutputById(id: number): void {
-  try {
-    fetch(API_URL + OUTPUT + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteOutputById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${OUTPUT}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
-// Редактировать единицу изремерения
-export function updateChangeOutput(data: TypeOutput): void {
-  try {
-    fetch(API_URL + OUTPUT, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+// Редактировать единицу измерения
+export function updateOutput(data: TypeOutput): Promise<TypeApiResponse> {
+  return api.put(OUTPUT, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

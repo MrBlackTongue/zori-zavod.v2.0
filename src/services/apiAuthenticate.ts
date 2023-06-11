@@ -1,7 +1,7 @@
 import {api} from './api';
 import {AUTHENTICATE} from "./apiEndpoints";
 import {TypeAuthenticate} from "../types";
-import {handleCatchError} from "../utils";
+import {handleErrorResponseMessage} from "../utils";
 
 // Запрос для авторизации пользователя
 export function loginUser(data: TypeAuthenticate): Promise<any> {
@@ -13,8 +13,5 @@ export function loginUser(data: TypeAuthenticate): Promise<any> {
         throw new Error(response.statusText);
       }
     })
-    .catch(error => {
-      console.error(error);
-      return handleCatchError(error);
-    });
+    .catch(handleErrorResponseMessage);
 }

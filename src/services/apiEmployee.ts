@@ -1,7 +1,7 @@
-import {TypeEmployee} from "../types";
+import {TypeApiResponse, TypeEmployee} from "../types";
 import {EMPLOYEE} from "./apiEndpoints";
 import {
-  handleCatchError,
+  handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
@@ -12,43 +12,33 @@ import {api} from "./api";
 export function getAllEmployee(): Promise<TypeEmployee[]> {
   return api.get(EMPLOYEE)
     .then(response => response.data)
-    .catch(error => {
-      return handleCatchError(error);
-    });
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные сотрудника по id
 export function getEmployeeById(id: number): Promise<TypeEmployee | undefined> {
   return api.get(`${EMPLOYEE}/${id}`)
     .then(response => response.data)
-    .catch(error => {
-      return handleCatchError(error);
-    });
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить нового сотрудника
-export function createEmployee(data: TypeEmployee): Promise<any> {
+export function createEmployee(data: TypeEmployee): Promise<TypeApiResponse> {
   return api.post(EMPLOYEE, data)
     .then(handleResponseCreateMessage)
-    .catch(error => {
-      return handleCatchError(error);
-    });
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить сотрудника по id
-export function deleteEmployeeById(id: number): Promise<any> {
+export function deleteEmployeeById(id: number): Promise<TypeApiResponse> {
   return api.delete(`${EMPLOYEE}/${id}`)
     .then(handleResponseDeleteMessage)
-    .catch(error => {
-      return handleCatchError(error);
-    });
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать сотрудника
-export function updateEmployee(data: TypeEmployee): Promise<any> {
+export function updateEmployee(data: TypeEmployee): Promise<TypeApiResponse> {
   return api.put(EMPLOYEE, data)
     .then(handleResponseUpdateMessage)
-    .catch(error => {
-      return handleCatchError(error);
-    });
+    .catch(handleErrorResponseMessage);
 }

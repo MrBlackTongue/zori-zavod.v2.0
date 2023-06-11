@@ -1,91 +1,51 @@
-import {TypeProductGroup} from "../types";
-import {API_URL, PRODUCT_GROUP, GROUP, TREE} from "./apiEndpoints";
+import {TypeApiResponse, TypeProductGroup} from "../types";
+import {PRODUCT_GROUP, GROUP, TREE} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех товарных групп
 export function getAllProductGroup(): Promise<TypeProductGroup[]> {
-  try {
-    return fetch(API_URL + PRODUCT_GROUP + GROUP, {
-      credentials: 'include',
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${PRODUCT_GROUP}${GROUP}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить товарную группу по id
 export function getProductGroupById(id: number): Promise<TypeProductGroup | undefined> {
-  try {
-    return fetch(API_URL + PRODUCT_GROUP + GROUP + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${PRODUCT_GROUP}${GROUP}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новую товарную группу
-export function createProductGroup(data: TypeProductGroup): void {
-  try {
-    fetch(API_URL + PRODUCT_GROUP + GROUP, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createProductGroup(data: TypeProductGroup): Promise<TypeApiResponse> {
+  return api.post(`${PRODUCT_GROUP}${GROUP}`, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить товарную группу по id
-export function deleteProductGroupById(id: number): void {
-  try {
-    fetch(API_URL + PRODUCT_GROUP + GROUP + `/${id}`, {
-      method: "DELETE",
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteProductGroupById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${PRODUCT_GROUP}${GROUP}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать товарную группу
-export function updateProductGroup(data: TypeProductGroup): void {
-  try {
-    fetch(API_URL + PRODUCT_GROUP + GROUP, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateProductGroup(data: TypeProductGroup): Promise<TypeApiResponse> {
+  return api.put(`${PRODUCT_GROUP}${GROUP}`, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить дерево группы товаров
 export function getProductGroupTree(): Promise<TypeProductGroup[]> {
-  try {
-    return fetch(API_URL + PRODUCT_GROUP + GROUP + TREE, {
-      credentials: 'include',
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${PRODUCT_GROUP}${GROUP}${TREE}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }

@@ -1,77 +1,44 @@
-import {TypeOperationTimesheet} from "../types";
-import {API_URL, OPERATION_ACCOUNTING, OPERATION_TIMESHEET} from "./apiEndpoints";
+import {TypeApiResponse, TypeOperationTimesheet} from "../types";
+import {OPERATION_ACCOUNTING, OPERATION_TIMESHEET} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех сотрудников в табеле рабочего времени по id учетной операции
-export function getOperationTimesheetByIdOperationAccounting(id: number):
-  Promise<TypeOperationTimesheet[] | undefined> {
-  try {
-    return fetch(API_URL + OPERATION_TIMESHEET + OPERATION_ACCOUNTING + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+export function getOperationTimesheetByIdOperationAccounting(id: number): Promise<TypeOperationTimesheet[]> {
+  return api.get(`${OPERATION_TIMESHEET}${OPERATION_ACCOUNTING}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные сотрудника из табеля учета рабочего времени по id
 export function getOperationTimesheetById(id: number): Promise<TypeOperationTimesheet | undefined> {
-  try {
-    return fetch(API_URL + OPERATION_TIMESHEET + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${OPERATION_TIMESHEET}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить сотрудника в табель учета рабочего времени
-export function createOperationTimesheet(data: TypeOperationTimesheet): void {
-  try {
-    fetch(API_URL + OPERATION_TIMESHEET, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createOperationTimesheet(data: TypeOperationTimesheet): Promise<TypeApiResponse> {
+  return api.post(OPERATION_TIMESHEET, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить сотрудника из табеля учета рабочего времени по id
-export function deleteOperationTimesheetById(id: number): void {
-  try {
-    fetch(API_URL + OPERATION_TIMESHEET + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteOperationTimesheetById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${OPERATION_TIMESHEET}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать сотрудника в табеле учета рабочего времени
-export function updateOperationTimesheet(data: TypeOperationTimesheet): void {
-  try {
-    fetch(API_URL + OPERATION_TIMESHEET, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateOperationTimesheet(data: TypeOperationTimesheet): Promise<TypeApiResponse> {
+  return api.put(OPERATION_TIMESHEET, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

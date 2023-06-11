@@ -28,6 +28,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       title: 'ID',
       dataIndex: 'id',
       key: 'idProductBatch',
+      defaultSortOrder: 'descend',
       sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
     },
     {

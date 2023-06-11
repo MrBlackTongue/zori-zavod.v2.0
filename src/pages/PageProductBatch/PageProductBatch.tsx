@@ -32,7 +32,7 @@ export const PageProductBatch: React.FC = () => {
       amount: values.amount,
     };
     setIsModalOpen(false)
-    createProductBatch(productBatch)
+    void createProductBatch(productBatch)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -50,13 +50,13 @@ export const PageProductBatch: React.FC = () => {
       amount: values.amount,
     };
     setIsDrawerOpen(false)
-    updateProductBatch(productBatch)
+    void updateProductBatch(productBatch)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductBatch = (id: number): void => {
-    deleteProductBatchById(id)
+    void deleteProductBatchById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

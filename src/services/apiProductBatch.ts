@@ -1,78 +1,44 @@
-import {API_URL, PRODUCT, BATCH} from "./apiEndpoints";
-import {TypeProductBatch} from "../types";
+import {TypeApiResponse, TypeProductBatch} from "../types";
+import {PRODUCT, BATCH} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить все партии товаров
 export function getAllProductBatch(): Promise<TypeProductBatch[]> {
-  try {
-    return fetch(API_URL + PRODUCT + BATCH, {
-      credentials: 'include',
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${PRODUCT}${BATCH}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные партии товаров по id
 export function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
-  try {
-    return fetch(API_URL + PRODUCT + BATCH + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${PRODUCT}${BATCH}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новую партию товаров
-export function createProductBatch(data: TypeProductBatch): void {
-  try {
-    fetch(API_URL + PRODUCT + BATCH, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createProductBatch(data: TypeProductBatch): Promise<TypeApiResponse> {
+  return api.post(`${PRODUCT}${BATCH}`, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить партию товаров по id
-export function deleteProductBatchById(id: number): void {
-  try {
-    fetch(API_URL + PRODUCT + BATCH + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteProductBatchById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${PRODUCT}${BATCH}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать партию товаров
-export function updateProductBatch(data: TypeProductBatch): void {
-  try {
-    fetch(API_URL + PRODUCT + BATCH, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateProductBatch(data: TypeProductBatch): Promise<TypeApiResponse> {
+  return api.put(`${PRODUCT}${BATCH}`, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

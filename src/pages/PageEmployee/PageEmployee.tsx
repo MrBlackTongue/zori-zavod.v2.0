@@ -30,7 +30,7 @@ export const PageEmployee: React.FC = () => {
       hired: values.hired,
     };
     setIsModalOpen(false)
-    createEmployee(employee)
+    void createEmployee(employee)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -51,13 +51,13 @@ export const PageEmployee: React.FC = () => {
       hired: values.hired,
     };
     setIsDrawerOpen(false)
-    updateEmployee(employee)
+    void updateEmployee(employee)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteEmployee = (id: number): void => {
-    deleteEmployeeById(id)
+    void deleteEmployeeById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

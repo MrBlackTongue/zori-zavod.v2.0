@@ -10,7 +10,7 @@ export const TableShipment: React.FC<TableProps> = ({
                                                       isUpdateTable,
                                                       openDrawer,
                                                       onDelete,
-                                                      openDetailDrawer
+                                                      openDetailDrawer,
                                                     }) => {
   // Лоудер и список всех отгрузок
   const [isLoading, setIsLoading] = useState(false);

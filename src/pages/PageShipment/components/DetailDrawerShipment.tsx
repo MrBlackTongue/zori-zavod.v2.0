@@ -36,20 +36,20 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
       income: false
     };
     setIsModalOpen(false)
-    createShipmentProductMovement(productMovement)
+    void createShipmentProductMovement(productMovement)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteShipmentMovement = (id: number): void => {
-    deleteShipmentProductMovementById(id)
+    void deleteShipmentProductMovementById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Функция для получения данных об отгрузке по id и обновления формы
   const handleGetShipment = useCallback((): void => {
     if (selectedItemId) {
-      getShipmentById(selectedItemId).then((data) => setSelectedShipment(data))
+      void getShipmentById(selectedItemId).then((data) => setSelectedShipment(data))
     }
   }, [selectedItemId]);
 

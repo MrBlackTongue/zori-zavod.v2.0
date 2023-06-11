@@ -26,7 +26,7 @@ export const PageAcceptance: React.FC = () => {
     const stock = allStock.find((item) => item.id === values.stock);
     const purchase = allPurchase.find((item) => item.id === values.purchase);
     const acceptance: TypeAcceptance = {
-      amount: values.amount || 0,
+      amount: values.amount ?? 0,
       income: true,
       date: dayjs(values.date).format('YYYY-MM-DD'),
       stock: stock,
@@ -34,13 +34,13 @@ export const PageAcceptance: React.FC = () => {
       purchase: purchase,
     }
     setIsModalOpen(false)
-    createAcceptance(acceptance)
+    void createAcceptance(acceptance)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteAcceptance = (id: number): void => {
-    deleteAcceptanceById(id)
+    void deleteAcceptanceById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

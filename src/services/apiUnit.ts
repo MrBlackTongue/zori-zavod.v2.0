@@ -1,78 +1,44 @@
-import {TypeUnit} from "../types";
-import {API_URL, UNIT} from "./apiEndpoints";
+import {TypeApiResponse, TypeUnit} from "../types";
+import {UNIT} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех единиц измерения
 export function getAllUnit(): Promise<TypeUnit[]> {
-  try {
-    return fetch(API_URL + UNIT, {
-      credentials: 'include',
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(UNIT)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные единицы измерения по id
 export function getUnitById(id: number): Promise<TypeUnit | undefined> {
-  try {
-    return fetch(API_URL + UNIT + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${UNIT}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новую единицу измерения
-export function createUnit(data: TypeUnit): void {
-  try {
-    fetch(API_URL + UNIT, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createUnit(data: TypeUnit): Promise<TypeApiResponse> {
+  return api.post(UNIT, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить единицу измерения по id
-export function deleteUnitById(id: number): void {
-  try {
-    fetch(API_URL + UNIT + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteUnitById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${UNIT}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать единицу измерения
-export function updateUnit(data: TypeUnit): void {
-  try {
-    fetch(API_URL + UNIT, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateUnit(data: TypeUnit): Promise<TypeApiResponse> {
+  return api.put(UNIT, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

@@ -34,7 +34,7 @@ export const PagePurchase: React.FC = () => {
       paid: values.paid,
     };
     setIsModalOpen(false);
-    createPurchase(purchase);
+    void createPurchase(purchase);
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -55,13 +55,13 @@ export const PagePurchase: React.FC = () => {
       paid: values.paid,
     };
     setIsDrawerOpen(false);
-    updatePurchase(purchase);
+    void updatePurchase(purchase);
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeletePurchase = (id: number): void => {
-    deletePurchaseById(id)
+    void deletePurchaseById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 
