@@ -27,3 +27,4 @@ export interface DetailDrawerProps<T> {
   selectedItemId: number | undefined;
   updateItem?: (values: T) => void;
 }
+

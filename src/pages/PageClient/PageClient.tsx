@@ -26,7 +26,7 @@ export const PageClient: React.FC = () => {
       title: values.title,
     };
     setIsModalOpen(false)
-    createClient(client)
+    void createClient(client)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -43,13 +43,13 @@ export const PageClient: React.FC = () => {
       title: values.title,
     };
     setIsDrawerOpen(false)
-    updateClient(client)
+    void updateClient(client)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteClient = (id: number): void => {
-    deleteClientById(id)
+    void deleteClientById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

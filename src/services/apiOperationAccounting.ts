@@ -1,92 +1,51 @@
-import {TypeOperationAccounting, TypeOperationAccountingFilter} from "../types";
-import {URL, OPERATION_ACCOUNTING, FILTER} from "./apiEndpoints";
+import {TypeApiResponse, TypeOperationAccounting, TypeOperationAccountingFilter} from "../types";
+import {OPERATION_ACCOUNTING, FILTER} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех учетных операций
 export function getAllOperationAccounting(): Promise<TypeOperationAccounting[]> {
-  try {
-    return fetch(URL + OPERATION_ACCOUNTING)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(OPERATION_ACCOUNTING)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные учетной операции по id
 export function getOperationAccountingById(id: number): Promise<TypeOperationAccounting | undefined> {
-  try {
-    return fetch(URL + OPERATION_ACCOUNTING + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${OPERATION_ACCOUNTING}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новую учетную операцию
-export function createOperationAccounting(data: TypeOperationAccounting): void {
-  try {
-    fetch(URL + OPERATION_ACCOUNTING, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createOperationAccounting(data: TypeOperationAccounting): Promise<TypeApiResponse> {
+  return api.post(OPERATION_ACCOUNTING, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить учетную операцию по id
-export function deleteOperationAccountingById(id: number): void {
-  try {
-    fetch(URL + OPERATION_ACCOUNTING + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteOperationAccountingById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${OPERATION_ACCOUNTING}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать учетную операцию
-export function updateOperationAccounting(data: TypeOperationAccounting): void {
-  try {
-    fetch(URL + OPERATION_ACCOUNTING, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateOperationAccounting(data: TypeOperationAccounting): Promise<TypeApiResponse> {
+  return api.put(OPERATION_ACCOUNTING, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить список всех отфильтрованных учетных операций
-export function getAllOperationAccountingByFilter(data: TypeOperationAccountingFilter):
-  Promise<TypeOperationAccounting[]> {
-  try {
-    return fetch(URL + OPERATION_ACCOUNTING + FILTER, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+export function getAllOperationAccountingByFilter(data: TypeOperationAccountingFilter): Promise<TypeOperationAccounting[]> {
+  return api.post(`${OPERATION_ACCOUNTING}${FILTER}`, data)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }

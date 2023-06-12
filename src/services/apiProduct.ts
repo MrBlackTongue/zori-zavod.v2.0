@@ -1,87 +1,51 @@
-import {TypeProduct} from "../types";
-import {URL, PRODUCT, TITLE} from "./apiEndpoints";
+import {TypeApiResponse, TypeProduct} from "../types";
+import {PRODUCT, TITLE} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех товаров
 export function getAllProduct(): Promise<TypeProduct[]> {
-  try {
-    return fetch(URL + PRODUCT)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(PRODUCT)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные товара по id
 export function getProductById(id: number): Promise<TypeProduct | undefined> {
-  try {
-    return fetch(URL + PRODUCT + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${PRODUCT}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новый товар
-export function createProduct(data: TypeProduct): void {
-  try {
-    fetch(URL + PRODUCT, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createProduct(data: TypeProduct): Promise<TypeApiResponse> {
+  return api.post(PRODUCT, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить товар по id
-export function deleteProductById(id: number): void {
-  try {
-    fetch(URL + PRODUCT + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteProductById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${PRODUCT}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать товар
-export function updateProduct(data: TypeProduct): void {
-  try {
-    fetch(URL + PRODUCT, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateProduct(data: TypeProduct): Promise<TypeApiResponse> {
+  return api.put(PRODUCT, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить список всех отфильтрованных товаров по названию
 export function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
-  try {
-    return fetch(URL + PRODUCT + TITLE + `/${title}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${PRODUCT}${TITLE}/${title}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }

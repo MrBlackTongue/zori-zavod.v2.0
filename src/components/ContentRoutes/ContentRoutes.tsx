@@ -20,8 +20,9 @@ import {PageProductGroup} from "../../pages/PageProductGroup/PageProductGroup";
 import {PageMeterType} from "../../pages/PageMeterType/PageMeterType";
 import {PageMeter} from "../../pages/PageMeter/PageMeter";
 import {PageMeterRecord} from "../../pages/PageMeterRecord/PageMeterRecord";
+import {PageLoginForm} from "../../pages/PageLoginForm/PageLoginForm";
 
-export const AppRoutes: React.FC = () => {
+export const ContentRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<PageHome/>}/>
@@ -44,6 +45,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/meter-type" element={<PageMeterType/>}/>
       <Route path="/meter" element={<PageMeter/>}/>
       <Route path="/meter-record" element={<PageMeterRecord/>}/>
+      <Route path="/login" element={<PageLoginForm/>}/>
     </Routes>
   );
 };

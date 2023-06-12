@@ -31,7 +31,7 @@ export const PageProductionType: React.FC = () => {
       description: values.description,
     };
     setIsModalOpen(false)
-    createProductionType(productionType)
+    void createProductionType(productionType)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -49,13 +49,13 @@ export const PageProductionType: React.FC = () => {
       description: values.description,
     };
     setIsDrawerOpen(false)
-    updateProductionType(productionType)
+    void updateProductionType(productionType)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductionType = (id: number): void => {
-    deleteProductionTypeById(id)
+    void deleteProductionTypeById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

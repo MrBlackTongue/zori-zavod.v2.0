@@ -69,7 +69,7 @@ export const TableEmployee: React.FC<TableProps> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer && openDrawer(id)}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -77,7 +77,7 @@ export const TableEmployee: React.FC<TableProps> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этого сотрудника?"
-              onConfirm={() => onDelete && onDelete(id)}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
@@ -99,10 +99,11 @@ export const TableEmployee: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllEmployee().then((data) => {
-      setAllEmployee(data);
-      setIsLoading(false);
-    });
+    getAllEmployee()
+      .then((data) => {
+        setAllEmployee(data);
+        setIsLoading(false);
+      })
   }, [])
 
   useEffect(() => {

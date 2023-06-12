@@ -1,76 +1,44 @@
-import {TypeMeter} from "../types";
-import {URL, METER} from "./apiEndpoints";
+import {TypeApiResponse, TypeMeter} from "../types";
+import {METER} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
-  handleResponseUpdate,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех счетчиков
 export function getAllMeter(): Promise<TypeMeter[]> {
-  try {
-    return fetch(URL + METER)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(METER)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные счетчика по id
 export function getMeterById(id: number): Promise<TypeMeter | undefined> {
-  try {
-    return fetch(URL + METER + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${METER}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Создать новый счетчик
-export function createMeter(data: TypeMeter): void {
-  try {
-    fetch(URL + METER, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createMeter(data: TypeMeter): Promise<TypeApiResponse> {
+  return api.post(METER, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить счетчик по id
-export function deleteMeterById(id: number): void {
-  try {
-    fetch(URL + METER + `/${id}`, {
-      method: "DELETE",
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteMeterById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${METER}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать счетчик
-export function updateMeter(data: TypeMeter): void {
-  try {
-    fetch(URL + METER, {
-      method: 'PUT',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseUpdate)
-      .catch(handleError)
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function updateMeter(data: TypeMeter): Promise<TypeApiResponse> {
+  return api.put(METER, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

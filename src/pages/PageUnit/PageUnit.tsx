@@ -26,7 +26,7 @@ export const PageUnit: React.FC = () => {
       name: values.name,
     };
     setIsModalOpen(false)
-    createUnit(unit)
+    void createUnit(unit)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -43,13 +43,13 @@ export const PageUnit: React.FC = () => {
       name: values.name,
     };
     setIsDrawerOpen(false)
-    updateUnit(unit)
+    void updateUnit(unit)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteUnit = (id: number): void => {
-    deleteUnitById(id)
+    void deleteUnitById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

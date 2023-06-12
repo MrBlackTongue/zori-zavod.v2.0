@@ -29,7 +29,7 @@ export const PageProduct: React.FC = () => {
       unit: {id: values.unit},
     };
     setIsModalOpen(false)
-    createProduct(product)
+    void createProduct(product)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -48,13 +48,13 @@ export const PageProduct: React.FC = () => {
       unit: {id: values.unit},
     };
     setIsDrawerOpen(false)
-    updateProduct(product)
+    void updateProduct(product)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteProduct = (id: number): void => {
-    deleteProductById(id)
+    void deleteProductById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

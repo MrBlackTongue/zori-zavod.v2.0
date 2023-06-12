@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteOutputById, createOutput, updateChangeOutput} from "../../services";
+import {deleteOutputById, createOutput, updateOutput} from "../../services";
 import {TypeOutput, TypeOutputFormValue} from "../../types";
 import {TableOutput} from "./components/TableOutput";
 import {CreateModalOutput} from "./components/CreateModalOutput";
@@ -28,7 +28,7 @@ export const PageOutput: React.FC = () => {
       product: {id: values.product}
     };
     setIsModalOpen(false)
-    createOutput(output)
+    void createOutput(output)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -46,13 +46,13 @@ export const PageOutput: React.FC = () => {
       product: {id: values.product},
     };
     setIsDrawerOpen(false)
-    updateChangeOutput(output)
+    void updateOutput(output)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOutput = (id: number): void => {
-    deleteOutputById(id)
+    void deleteOutputById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

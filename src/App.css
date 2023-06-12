@@ -90,3 +90,22 @@
   background: white;
   overflow: auto;
 }
+
+.login-form {
+  max-width: 400px;
+  width: 100%;
+}
+.login-form-forgot {
+  /*float: right;*/
+  float: left;
+}
+
+.login-form-button {
+  width: 100%;
+}
+.login-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
