@@ -66,7 +66,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer && openDrawer(id)}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -74,7 +74,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту запись счетчика?"
-              onConfirm={() => onDelete && onDelete(id)}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
