@@ -58,7 +58,7 @@ export const TableOperation: React.FC<TableProps> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer && openDrawer(id)}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -66,7 +66,7 @@ export const TableOperation: React.FC<TableProps> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту операцию?"
-              onConfirm={() => onDelete && onDelete(id)}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

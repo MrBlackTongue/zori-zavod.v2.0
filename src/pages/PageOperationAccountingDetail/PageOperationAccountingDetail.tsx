@@ -51,19 +51,19 @@ export const PageOperationAccountingDetail: React.FC = () => {
     const operationAccounting: TypeOperationAccounting = {
       id: id ? +id : undefined,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      fact: values.fact || undefined,
+      fact: values.fact ?? undefined,
       operation: {id: values.operation},
       output: values.output ? {id: values.output} : undefined,
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOperationAccountingOpen(false)
-    updateOperationAccounting(operationAccounting)
+    void updateOperationAccounting(operationAccounting)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить запись из таблицы
   const handleDeleteOperationAccounting = (id: number): void => {
-    deleteOperationAccountingById(id)
+    void deleteOperationAccountingById(id)
     handleBack()
   };
 
@@ -73,10 +73,10 @@ export const PageOperationAccountingDetail: React.FC = () => {
       hours: values.hours,
       employee: {id: values.employee},
       operationAccountingId: id ? +id : undefined,
-      fact: values.fact || 0,
+      fact: values.fact ?? 0,
     };
     setIsModalOperationTimesheetOpen(false)
-    createOperationTimesheet(operationTimesheet)
+    void createOperationTimesheet(operationTimesheet)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
@@ -87,16 +87,16 @@ export const PageOperationAccountingDetail: React.FC = () => {
       hours: values.hours,
       employee: {id: values.employee},
       operationAccountingId: id ? +id : undefined,
-      fact: values.fact || 0,
+      fact: values.fact ?? 0,
     };
     setIsDrawerOperationTimesheetOpen(false)
-    updateOperationTimesheet(operationTimesheet)
+    void updateOperationTimesheet(operationTimesheet)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
   const handleDeleteOperationTimesheet = (id: number): void => {
-    deleteOperationTimesheetById(id)
+    void deleteOperationTimesheetById(id)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
@@ -123,13 +123,13 @@ export const PageOperationAccountingDetail: React.FC = () => {
       },
     };
     setIsModalProductionProductMovementOpen(false)
-    createProductionProductMovement(productionProductMovement)
+    await createProductionProductMovement(productionProductMovement)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить запись движения товара на производстве
   const handleDeleteProductionProductMovement = (id: number): void => {
-    deleteProductionProductMovementById(id)
+    void deleteProductionProductMovementById(id)
     setIsUpdateAllTable(prevState => !prevState)
   }
 

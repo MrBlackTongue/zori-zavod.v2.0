@@ -1,4 +1,4 @@
-export const URL = 'http://localhost:8081/api'
+export const API_URL = 'http://localhost:8080/api'
 
 export const EMPLOYEE = '/employee'
 export const OPERATION = '/operation'
@@ -26,3 +26,4 @@ export const METER_TYPE = '/meter-type';
 export const TREE = '/tree';
 export const METER = '/meter';
 export const METER_RECORD = '/meter-record';
+export const AUTHENTICATE = '/authenticate';

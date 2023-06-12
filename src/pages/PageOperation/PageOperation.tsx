@@ -28,7 +28,7 @@ export const PageOperation: React.FC = () => {
       rate: values.rate,
     };
     setIsModalOpen(false)
-    createOperation(operation)
+    void createOperation(operation)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -47,13 +47,13 @@ export const PageOperation: React.FC = () => {
       rate: values.rate,
     };
     setIsDrawerOpen(false)
-    updateOperation(operation)
+    void updateOperation(operation)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOperation = (id: number): void => {
-    deleteOperationById(id)
+    void deleteOperationById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

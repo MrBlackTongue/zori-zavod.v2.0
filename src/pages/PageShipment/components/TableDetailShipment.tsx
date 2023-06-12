@@ -54,8 +54,8 @@ export const TableDetailShipment: React.FC<TableProps> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить этот товар?"
-              onConfirm={() => onDelete && onDelete(id)}
+              title="Вы действительно хотите удалить этот отгруженный товар?"
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена"
             >

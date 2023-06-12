@@ -27,7 +27,7 @@ export const PageProductGroup: React.FC = () => {
       parent: values.parent ? {id: values.parent} : undefined,
     };
     setIsModalOpen(false)
-    createProductGroup(productGroup)
+    void createProductGroup(productGroup)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -45,13 +45,13 @@ export const PageProductGroup: React.FC = () => {
       parent: values.parent ? {id: values.parent} : undefined,
     };
     setIsDrawerOpen(false);
-    updateProductGroup(productGroup);
+    void updateProductGroup(productGroup);
     setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductGroup = (id: number): void => {
-    deleteProductGroupById(id)
+    void deleteProductGroupById(id)
     setIsUpdateTable(prevState => !prevState)
   }
 

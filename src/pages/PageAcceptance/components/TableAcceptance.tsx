@@ -85,7 +85,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту приемку?"
-              onConfirm={() => onDelete && onDelete(id)}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена"
             >

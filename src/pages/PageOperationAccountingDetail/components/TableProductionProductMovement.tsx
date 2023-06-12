@@ -81,7 +81,7 @@ export const TableProductionProductMovement:
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить это движение товара на производстве?"
-              onConfirm={() => onDelete && onDelete(id)}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"

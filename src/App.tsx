@@ -7,16 +7,15 @@ import {
 } from '@ant-design/icons';
 import {Layout, theme} from 'antd';
 import {MenuMain} from "./components/MenuMain/MenuMain";
-import {AppRoutes} from "./components/AppRoutes/AppRoutes";
+import {ContentRoutes} from "./components/ContentRoutes/ContentRoutes";
 
 const {Header, Sider, Content} = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
-  const {
-    token: {colorBgContainer},
-  } = theme.useToken();
+  const {token: {colorBgContainer}} = theme.useToken();
+
 
   useEffect(() => {
     if (location.pathname === '/operation-accounting') {
@@ -44,7 +43,7 @@ function App() {
             {/*<Title level={3}></Title>*/}
           </Header>
           <Content className='context-style'>
-            <AppRoutes/>
+            <ContentRoutes/>
           </Content>
         </Layout>
       </Layout>

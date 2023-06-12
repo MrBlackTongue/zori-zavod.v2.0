@@ -34,7 +34,7 @@ export const PageShipment: React.FC = () => {
       client: {id: values.client},
     };
     setOpenState({...openState, isModalOpen: false});
-    createShipment(shipment);
+    void createShipment(shipment);
     setIsUpdateTable(prevState => !prevState);
   }
 
@@ -45,7 +45,7 @@ export const PageShipment: React.FC = () => {
   }
 
   // Функция открытия детального дравера отгрузки с использованием useCallback
-  const openDetailShipment = (shipmentId: number) => {
+  const openDetailShipment = (shipmentId: number): void => {
     setSelectedShipmentId(shipmentId);
     setOpenState({...openState, isBottomDrawerOpen: true});
   }
@@ -58,13 +58,13 @@ export const PageShipment: React.FC = () => {
       client: {id: values.client},
     };
     setOpenState({...openState, isDrawerOpen: false});
-    updateShipment(shipment);
+    void updateShipment(shipment);
     setIsUpdateTable(prevState => !prevState);
   }
 
   // Удалить запись из таблицы
   const handleDeleteShipment = (id: number): void => {
-    deleteShipmentById(id)
+    void deleteShipmentById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -109,8 +109,8 @@ export const PageShipment: React.FC = () => {
         onCancel={() => setOpenState({...openState, isDrawerOpen: false})}
       />
       <DetailDrawerShipment
-        selectedItemId={selectedShipmentId}
         isOpen={openState.isBottomDrawerOpen}
+        selectedItemId={selectedShipmentId}
         onCancel={() => setOpenState({...openState, isBottomDrawerOpen: false})}
       />
     </div>

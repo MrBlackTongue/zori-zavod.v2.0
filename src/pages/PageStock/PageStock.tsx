@@ -46,7 +46,7 @@ export const PageStock: React.FC = () => {
       product: {id: values.product},
     };
     setIsModalOpen(false);
-    createStock(stock);
+    void createStock(stock);
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -64,13 +64,13 @@ export const PageStock: React.FC = () => {
       product: {id: values.product},
     };
     setIsDrawerOpen(false);
-    updateStock(stock);
+    void updateStock(stock);
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteStock = (id: number): void => {
-    deleteStockById(id)
+    void deleteStockById(id)
     setIsUpdateTable(prevState => !prevState);
   };
 

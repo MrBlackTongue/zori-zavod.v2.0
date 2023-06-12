@@ -1,50 +1,30 @@
-import {TypeProductionProductMovement} from "../types";
-import {URL, MOVEMENT, PRODUCTION, OPERATION_ACCOUNTING} from "./apiEndpoints";
+import {TypeApiResponse, TypeProductionProductMovement} from "../types";
+import {MOVEMENT, PRODUCTION, OPERATION_ACCOUNTING} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех производственных движений товара по id учетной операции
 export function getProductionProductMovementByIdOperationAccounting(id: number):
   Promise<TypeProductionProductMovement[] | undefined> {
-  try {
-    return fetch(URL + MOVEMENT + PRODUCTION + OPERATION_ACCOUNTING + `/${id}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${MOVEMENT}${PRODUCTION}${OPERATION_ACCOUNTING}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить производственное движение товара
-export function createProductionProductMovement(data: TypeProductionProductMovement): void {
-  try {
-    fetch(URL + MOVEMENT + PRODUCTION, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createProductionProductMovement(data: TypeProductionProductMovement): Promise<TypeApiResponse> {
+  return api.post(`${MOVEMENT}${PRODUCTION}`, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить производственное движение товара по id
-export function deleteProductionProductMovementById(id: number): void {
-  try {
-    fetch(URL + MOVEMENT + PRODUCTION + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteProductionProductMovementById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${MOVEMENT}${PRODUCTION}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }

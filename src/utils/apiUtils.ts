@@ -1,52 +1,43 @@
 import {message} from 'antd';
 
-export const BASE_HEADERS = {'Content-Type': 'application/json'};
-
-export function handleResponseGet(response: Response) {
-  if (response.ok) {
-    return response.json();
+export function handleResponseCreateMessage(response: any) {
+  if (response.status === 200) {
+    void message.success('Запись добавлена')
   } else {
-    console.error(response.statusText);
-    void message.error('Ошибка при выполнении запроса');
-    return Promise.reject(response.statusText);
+    void message.error('Ошибка при добавлении записи');
   }
+  return response.data;
 }
 
-export function handleResponseCreate(response: Response) {
-  if (response.ok) {
-    return message.success('Запись добавлена');
+export function handleResponseDeleteMessage(response: any) {
+  if (response.status === 200) {
+    void message.success('Запись удалена')
   } else {
-    console.error(response.statusText);
-    return message.error('Ошибка при добавлении записи');
+    void message.error('Ошибка при удалении записи');
   }
+  return response.data;
 }
 
-export function handleResponseUpdate(response: Response) {
-  if (response.ok) {
-    return message.success('Запись изменена');
+export function handleResponseUpdateMessage(response: any) {
+  if (response.status === 200) {
+    void message.success('Запись изменена')
   } else {
-    console.error(response.statusText);
-    return message.error('Ошибка при изменении записи');
+    void message.error('Ошибка при изменении записи');
   }
+  return response.data;
 }
 
-export function handleResponseDelete(response: Response) {
-  if (response.ok) {
-    return message.success('Запись удалена');
-  } else {
-    console.error(response.statusText);
-    return message.error('Ошибка при удалении записи');
-  }
-}
-
-export function handleError(error: any) {
+export function handleErrorResponseMessage(error: any) {
   console.error(error);
-  void message.error('Произошла ошибка при попытке выполнить запрос');
-  return Promise.reject(error);
-}
 
-export function handleCatchError(error: any) {
-  console.error(error);
-  void message.error('Произошла ошибка при выполнении операции');
+  // В зависимости от статуса ошибки, вы можете отобразить разные сообщения
+  if (error.response && error.response.status === 400) {
+    void message.error('Ошибка в запросе');
+  } else if (error.response && error.response.status === 500) {
+    void message.error('Ошибка сервера');
+  } else {
+    void message.error('Произошла неизвестная ошибка');
+  }
+
   return Promise.reject(error);
 }

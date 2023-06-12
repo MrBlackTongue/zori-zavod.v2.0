@@ -1,60 +1,36 @@
-import {URL, MOVEMENT, ACCEPTANCE, PRODUCT} from "./apiEndpoints";
-import {TypeAcceptance} from "../types";
+import {TypeAcceptance, TypeApiResponse} from "../types";
+import {MOVEMENT, ACCEPTANCE, PRODUCT} from "./apiEndpoints";
 import {
-  BASE_HEADERS,
-  handleResponseGet,
-  handleError,
-  handleCatchError,
-  handleResponseCreate,
-  handleResponseDelete,
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
 } from '../utils';
+import {api} from "./api";
 
 // Получить список всех приемок товаров
 export function getAllAcceptance(): Promise<TypeAcceptance[]> {
-  try {
-    return fetch(URL + MOVEMENT + ACCEPTANCE)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${MOVEMENT}${ACCEPTANCE}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новую приемку товаров
-export function createAcceptance(data: TypeAcceptance): void {
-  try {
-    fetch(URL + MOVEMENT + ACCEPTANCE, {
-      method: 'POST',
-      headers: BASE_HEADERS,
-      body: JSON.stringify(data),
-    })
-      .then(handleResponseCreate)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function createAcceptance(data: TypeAcceptance): Promise<TypeApiResponse> {
+  return api.post(`${MOVEMENT}${ACCEPTANCE}`, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить приемку товаров по id
-export function deleteAcceptanceById(id: number): void {
-  try {
-    fetch(URL + MOVEMENT + ACCEPTANCE + `/${id}`, {
-      method: 'DELETE',
-    })
-      .then(handleResponseDelete)
-      .catch(handleError);
-  } catch (error) {
-    void handleCatchError(error);
-  }
+export function deleteAcceptanceById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${MOVEMENT}${ACCEPTANCE}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить список всех отфильтрованных приемок товара по названию
 export function getAllAcceptanceByTitle(title: string): Promise<TypeAcceptance[]> {
-  try {
-    return fetch(URL + MOVEMENT + ACCEPTANCE + PRODUCT + `/${title}`)
-      .then(handleResponseGet)
-      .catch(handleError);
-  } catch (error) {
-    return handleCatchError(error);
-  }
+  return api.get(`${MOVEMENT}${ACCEPTANCE}${PRODUCT}/${title}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }

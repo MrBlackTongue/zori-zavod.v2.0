@@ -62,13 +62,13 @@ export const PageOperationAccounting: React.FC = () => {
   const handleCreateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
     const operationAccounting: TypeOperationAccounting = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      fact: values.fact || undefined,
+      fact: values.fact ?? undefined,
       operation: {id: values.operation},
       output: values.output ? {id: values.output} : undefined,
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsModalOpen(false)
-    createOperationAccounting(operationAccounting)
+    void createOperationAccounting(operationAccounting)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -83,19 +83,19 @@ export const PageOperationAccounting: React.FC = () => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      fact: values.fact || undefined,
+      fact: values.fact ?? undefined,
       operation: {id: values.operation},
       output: values.output ? {id: values.output} : undefined,
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOpen(false)
-    updateOperationAccounting(operationAccounting)
+    void updateOperationAccounting(operationAccounting)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
   const handleDeleteOperationAccounting = (id: number): void => {
-    deleteOperationAccountingById(id)
+    void deleteOperationAccountingById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

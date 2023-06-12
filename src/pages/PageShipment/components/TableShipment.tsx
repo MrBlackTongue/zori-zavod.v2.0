@@ -10,7 +10,7 @@ export const TableShipment: React.FC<TableProps> = ({
                                                       isUpdateTable,
                                                       openDrawer,
                                                       onDelete,
-                                                      openDetailDrawer
+                                                      openDetailDrawer,
                                                     }) => {
   // Лоудер и список всех отгрузок
   const [isLoading, setIsLoading] = useState(false);
@@ -70,7 +70,7 @@ export const TableShipment: React.FC<TableProps> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer && openDrawer(id)}
+              onClick={() => openDrawer?.(id)}
             >
               <EditOutlined/>
             </Button>
@@ -79,7 +79,7 @@ export const TableShipment: React.FC<TableProps> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту отгрузку?"
-              onConfirm={() => onDelete && onDelete(id)}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена"
             >
