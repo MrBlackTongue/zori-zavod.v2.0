@@ -14,7 +14,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'scp -r build/* root@91.105.199.36:/var/www/zolotenkov/front'
+                withCredentials([sshUserPrivateKey(credentialsId: 'my-ssh-key', keyFileVariable: 'sshKey')]) {
+                    sh 'scp -i $sshKey -r build/* root@91.105.199.36:/var/www/zolotenkov/front'
+                }
             }
         }
     }
