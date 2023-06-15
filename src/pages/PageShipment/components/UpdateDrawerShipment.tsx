@@ -26,13 +26,15 @@ export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormVa
   // Функция для получения данных
   const handleGetShipment = useCallback((): void => {
     if (selectedItemId) {
-      getShipmentById(selectedItemId).then((data) => {
-        form.setFieldsValue({
-          ...data,
-          date: dayjs(data?.date),
-          client: data?.client?.id === 0 ? '' : data?.client?.id,
-        });
-      })
+      getShipmentById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({
+            ...data,
+            date: dayjs(data?.date),
+            client: data?.client?.id === 0 ? '' : data?.client?.id,
+          });
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
     }
   }, [selectedItemId, form]);
 

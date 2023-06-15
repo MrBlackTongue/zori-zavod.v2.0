@@ -82,7 +82,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
           ? (
             <div>
               {timeSheets
-                .reduce((acc, timeSheet) => acc + (timeSheet.hours || 0), 0)
+                .reduce((acc, timeSheet) => acc + (timeSheet.hours ?? 0), 0)
                 .toLocaleString('ru-RU')}
             </div>
           ) : 0,
@@ -127,10 +127,12 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
   const handleUpdateTable = useCallback((): void => {
     if (idDetail) {
       setIsLoading(true);
-      getOperationAccountingById(idDetail).then((data) => {
-        setOperationAccounting(data)
-        setIsLoading(false);
-      })
+      getOperationAccountingById(idDetail)
+        .then((data) => {
+          setOperationAccounting(data)
+          setIsLoading(false);
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
     }
   }, [idDetail]);
 

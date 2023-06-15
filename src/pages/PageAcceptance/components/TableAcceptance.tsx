@@ -113,19 +113,23 @@ export const TableAcceptance: React.FC<TableProps> = ({
   // Функция для обновления таблицы приемок
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllAcceptance().then((data) => {
-      setAllAcceptance(data);
-      setIsLoading(false);
-    });
+    getAllAcceptance()
+      .then((data) => {
+        setAllAcceptance(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [])
 
   // Функция для поиска приемки
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllAcceptanceByTitle(searchText ?? '').then((data) => {
-      setAllAcceptance(data);
-      setIsLoading(false);
-    });
+    getAllAcceptanceByTitle(searchText ?? '')
+      .then((data) => {
+        setAllAcceptance(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [searchText])
 
   useEffect(() => {

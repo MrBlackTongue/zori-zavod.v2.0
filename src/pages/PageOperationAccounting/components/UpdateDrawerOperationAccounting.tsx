@@ -49,15 +49,17 @@ export const UpdateDrawerOperationAccounting:
   // Функция для получения данных в дравер
   const handleGetOperationAccounting = useCallback((): void => {
     if (selectedItemId) {
-      getOperationAccountingById(selectedItemId).then((data) => {
-        form.setFieldsValue({
-          ...data,
-          date: dayjs(data?.date),
-          operation: data?.operation?.id === 0 ? '' : data?.operation?.id,
-          output: data?.output?.id === 0 ? '' : data?.output?.id,
-          productionType: data?.productionType?.id === 0 ? '' : data?.productionType?.id,
-        });
-      })
+      getOperationAccountingById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({
+            ...data,
+            date: dayjs(data?.date),
+            operation: data?.operation?.id === 0 ? '' : data?.operation?.id,
+            output: data?.output?.id === 0 ? '' : data?.output?.id,
+            productionType: data?.productionType?.id === 0 ? '' : data?.productionType?.id,
+          });
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
     }
   }, [selectedItemId, form])
 

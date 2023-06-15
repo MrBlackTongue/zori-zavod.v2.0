@@ -105,7 +105,7 @@ export const TableOperationAccounting:
           ? (
             <div>
               {timeSheets
-                .reduce((acc, timeSheet) => acc + (timeSheet.hours || 0), 0)
+                .reduce((acc, timeSheet) => acc + (timeSheet.hours ?? 0), 0)
                 .toLocaleString('ru-RU')}
             </div>
           ) : 0,
@@ -168,12 +168,12 @@ export const TableOperationAccounting:
     let totalAverage = 0
 
     allOperationAccounting.forEach(({fact, average, timeSheets}: TypeOperationAccounting) => {
-      totalFact += fact || 0;
-      totalAverage += average || 0
+      totalFact += fact ?? 0;
+      totalAverage += average ?? 0
 
       if (timeSheets) {
         timeSheets.forEach((timeSheet: TypeOperationTimesheet) => {
-          totalTimeSheets += timeSheet.hours || 0;
+          totalTimeSheets += timeSheet.hours ?? 0;
         });
       }
     });
@@ -204,10 +204,12 @@ export const TableOperationAccounting:
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllOperationAccounting().then((data) => {
-      setAllOperationAccounting(data);
-      setIsLoading(false);
-    });
+    getAllOperationAccounting()
+      .then((data) => {
+        setAllOperationAccounting(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
   }, [])
 
   // Функция для фильтрации таблицы
@@ -215,14 +217,15 @@ export const TableOperationAccounting:
     if (filter) {
       setIsLoading(true);
       getAllOperationAccountingByFilter({
-        date: filter.date || undefined,
-        operationId: filter.operationId || undefined,
-        productionTypeId: filter.productionTypeId || undefined,
+        date: filter.date ?? undefined,
+        operationId: filter.operationId ?? undefined,
+        productionTypeId: filter.productionTypeId ?? undefined,
       })
         .then((data) => {
           setAllOperationAccounting(data);
           setIsLoading(false);
-        });
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
     }
   }, [filter]);
 

@@ -25,12 +25,14 @@ export const UpdateDrawerMeterType: React.FC<UpdateDrawerProps<TypeMeterTypeForm
   // Функция для получения данных в дравер
   const handleGetMeterType = useCallback((): void => {
     if (selectedItemId) {
-      getMeterTypeById(selectedItemId).then((data) => {
-        form.setFieldsValue({
-          ...data,
-          unit: data?.unit?.id === 0 ? '' : data?.unit?.id,
+      getMeterTypeById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({
+            ...data,
+            unit: data?.unit?.id === 0 ? '' : data?.unit?.id,
+          })
         })
-      })
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
     }
   }, [selectedItemId, form])
 

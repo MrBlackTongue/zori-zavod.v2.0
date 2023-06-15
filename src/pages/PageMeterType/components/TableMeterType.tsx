@@ -96,10 +96,12 @@ export const TableMeterType: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllMeterType().then((data) => {
-      setAllMeterType(data);
-      setIsLoading(false);
-    });
+    getAllMeterType()
+      .then((data) => {
+        setAllMeterType(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [])
 
   useEffect(() => {

@@ -113,29 +113,35 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   // Функция для обновления таблицы склада
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllStock().then((data) => {
-      setAllStock(data);
-      setIsLoading(false);
-    });
+    getAllStock()
+      .then((data) => {
+        setAllStock(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, []);
 
   // Функция для поиска по таблице склада
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllStockByTitle(searchText || "").then((data) => {
-      setAllStock(data);
-      setIsLoading(false);
-    });
+    getAllStockByTitle(searchText ?? "")
+      .then((data) => {
+        setAllStock(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [searchText]);
 
   // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
-      getAllStockByFilter(filter?.id).then((data) => {
-        setAllStock(data);
-        setIsLoading(false);
-      });
+      getAllStockByFilter(filter?.id)
+        .then((data) => {
+          setAllStock(data);
+          setIsLoading(false);
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
     }
   }, [filter]);
 

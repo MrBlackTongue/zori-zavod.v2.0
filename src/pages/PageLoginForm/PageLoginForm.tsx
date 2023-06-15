@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
 import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
@@ -11,15 +11,21 @@ export const PageLoginForm: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const iconRender = useCallback(
+    (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
+  );
+
   const onFinish = () => {
     form
       .validateFields()
       .then((values) => {
-        loginUser(values).then(response => {
-          if (response && response.jwt) {
-            navigate('/');
-          }
-        })
+        loginUser(values)
+          .then(response => {
+            if (response?.jwt) {
+              navigate('/');
+            }
+          })
+          .catch((error) => console.error("Ошибка при авторизации: ", error));
       })
       .catch((error) => {
         console.log('Validate Failed:', error);
@@ -66,7 +72,7 @@ export const PageLoginForm: React.FC = () => {
             type="password"
             placeholder="Пароль"
             visibilityToggle
-            iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}
+            iconRender={iconRender}
           />
         </Form.Item>
 

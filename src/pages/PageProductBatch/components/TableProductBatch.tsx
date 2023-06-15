@@ -95,10 +95,12 @@ export const TableProductBatch: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductBatch().then((data) => {
-      setAllProductBatch(data);
-      setIsLoading(false);
-    });
+    getAllProductBatch()
+      .then((data) => {
+        setAllProductBatch(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [])
 
   useEffect(() => {

@@ -107,25 +107,27 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }
 
   // Создать запись движения товара на производстве
-  const handleCreateProductionProductMovement = async (values: TypeProductionProductMovementFormValue): Promise<void> => {
-    if (!id) return;
-    const operationAccounting = await getOperationAccountingById(+id);
-    let operationDate = operationAccounting?.date;
+  const handleCreateProductionProductMovement = (values: TypeProductionProductMovementFormValue): void => {
+    (async () => {
+      if (!id) return;
+      const operationAccounting = await getOperationAccountingById(+id);
+      let operationDate = operationAccounting?.date;
 
-    const productionProductMovement: TypeProductionProductMovement = {
-      amount: values.amount,
-      income: values.income,
-      stock: {id: values.stock},
-      date: operationDate,
-      productBatch: {id: values.productBatch},
-      operationAccounting: {
-        id: id ? +id : undefined
-      },
-    };
-    setIsModalProductionProductMovementOpen(false)
-    await createProductionProductMovement(productionProductMovement)
-    setIsUpdateAllTable(prevState => !prevState)
-  }
+      const productionProductMovement: TypeProductionProductMovement = {
+        amount: values.amount,
+        income: values.income,
+        stock: {id: values.stock},
+        date: operationDate,
+        productBatch: {id: values.productBatch},
+        operationAccounting: {
+          id: id ? +id : undefined
+        },
+      };
+      setIsModalProductionProductMovementOpen(false)
+      await createProductionProductMovement(productionProductMovement)
+      setIsUpdateAllTable(prevState => !prevState)
+    })();
+  };
 
   // Удалить запись движения товара на производстве
   const handleDeleteProductionProductMovement = (id: number): void => {

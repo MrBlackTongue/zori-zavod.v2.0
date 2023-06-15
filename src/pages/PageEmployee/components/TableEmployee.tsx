@@ -104,6 +104,7 @@ export const TableEmployee: React.FC<TableProps> = ({
         setAllEmployee(data);
         setIsLoading(false);
       })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [])
 
   useEffect(() => {

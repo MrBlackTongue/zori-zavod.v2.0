@@ -67,7 +67,6 @@ export const FormProduct: React.FC<FormProductProps> = ({
         >
           {allProductGroup && allProductGroup.length > 0 ?
             allProductGroup
-              .sort((a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1)
               .map(productGroup => (
                 <Option key={productGroup.id} value={productGroup.id} label={productGroup.title}>
                   <Tooltip placement="right" title={productGroup.title}>

@@ -99,10 +99,12 @@ export const TableProductionProductMovement:
   const handleUpdateTable = useCallback(() => {
     if (idDetail) {
       setIsLoading(true);
-      getProductionProductMovementByIdOperationAccounting(idDetail).then((data) => {
-        setAllProductionProductMovement(data);
-        setIsLoading(false);
-      });
+      getProductionProductMovementByIdOperationAccounting(idDetail)
+        .then((data) => {
+          setAllProductionProductMovement(data);
+          setIsLoading(false);
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
     }
   }, [idDetail]);
 

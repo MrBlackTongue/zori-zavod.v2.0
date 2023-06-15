@@ -26,12 +26,14 @@ export const UpdateDrawerMeter: React.FC<UpdateDrawerProps<TypeMeterFormValue>> 
   // Функция для получения данных в дравер
   const handleGetMeter = useCallback((): void => {
     if (selectedItemId) {
-      getMeterById(selectedItemId).then((data) => {
-        form.setFieldsValue({
-          ...data,
-          meterTypeDto: data?.meterTypeDto?.id === 0 ? '' : data?.meterTypeDto?.id,
+      getMeterById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({
+            ...data,
+            meterTypeDto: data?.meterTypeDto?.id === 0 ? '' : data?.meterTypeDto?.id,
+          })
         })
-      })
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
     }
   }, [selectedItemId, form])
 

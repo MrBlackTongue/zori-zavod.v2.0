@@ -84,10 +84,12 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
   const handleUpdateTable = useCallback(() => {
     if (idDetail) {
       setIsLoading(true);
-      getOperationTimesheetByIdOperationAccounting(idDetail).then((data) => {
-        setAllOperationTimesheet(data);
-        setIsLoading(false);
-      });
+      getOperationTimesheetByIdOperationAccounting(idDetail)
+        .then((data) => {
+          setAllOperationTimesheet(data);
+          setIsLoading(false);
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
     }
   }, [idDetail]);
 

@@ -26,12 +26,14 @@ export const UpdateDrawerOutput: React.FC<UpdateDrawerProps<TypeOutputFormValue>
   // Функция для получения данных о выпуске продукции по id и обновления формы
   const handleGetOutput = useCallback((): void => {
     if (selectedItemId) {
-      getOutputById(selectedItemId).then((data) => {
-        form.setFieldsValue({
-          date: dayjs(data?.date),
-          product: data?.product?.id === 0 ? '' : data?.product?.id,
-        });
-      })
+      getOutputById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({
+            date: dayjs(data?.date),
+            product: data?.product?.id === 0 ? '' : data?.product?.id,
+          });
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
     }
   }, [selectedItemId, form]);
 

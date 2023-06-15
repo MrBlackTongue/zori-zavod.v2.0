@@ -87,11 +87,13 @@ export const TableProductGroup: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setLoading(true);
-    getProductGroupTree().then((data) => {
-      const updatedData = data.map(removeEmptyChildren);
-      setAllProductGroup(updatedData);
-      setLoading(false);
-    })
+    getProductGroupTree()
+      .then((data) => {
+        const updatedData = data.map(removeEmptyChildren);
+        setAllProductGroup(updatedData);
+        setLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
   }, [removeEmptyChildren]);
 
   useEffect(() => {

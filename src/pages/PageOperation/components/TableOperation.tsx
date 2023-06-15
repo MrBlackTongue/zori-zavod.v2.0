@@ -88,10 +88,12 @@ export const TableOperation: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllOperation().then((data) => {
-      setAllOperation(data);
-      setIsLoading(false);
-    });
+    getAllOperation()
+      .then((data) => {
+        setAllOperation(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [])
 
   useEffect(() => {

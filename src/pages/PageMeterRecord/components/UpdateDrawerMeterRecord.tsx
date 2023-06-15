@@ -27,13 +27,15 @@ export const UpdateDrawerMeterRecord: React.FC<UpdateDrawerProps<TypeMeterRecord
   // Функция для получения данных в дравер
   const handleGetMeterRecord = useCallback((): void => {
     if (selectedItemId) {
-      getMeterRecordById(selectedItemId).then((data) => {
-        form.setFieldsValue({
-          ...data,
-          date: dayjs(data?.date),
-          meterDto: data?.meterDto?.id === 0 ? '' : data?.meterDto?.id,
+      getMeterRecordById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({
+            ...data,
+            date: dayjs(data?.date),
+            meterDto: data?.meterDto?.id === 0 ? '' : data?.meterDto?.id,
+          })
         })
-      })
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
     }
   }, [selectedItemId, form])
 

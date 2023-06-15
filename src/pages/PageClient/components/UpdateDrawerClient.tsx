@@ -19,9 +19,11 @@ export const UpdateDrawerClient: React.FC<UpdateDrawerProps<TypeClientFormValue>
   // Функция для получения данных в дравер
   const handleGetClient = useCallback((): void => {
     if (selectedItemId) {
-      getClientById(selectedItemId).then((data) => {
-        form.setFieldsValue({...data});
-      })
+      getClientById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({...data});
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
     }
   }, [selectedItemId, form])
 

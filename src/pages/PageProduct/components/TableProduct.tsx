@@ -101,19 +101,23 @@ export const TableProduct: React.FC<TableProps> = ({
   // Функция для обновления таблицы товаров
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProduct().then((data) => {
-      setAllProduct(data.map((item, index) => ({...item, key: index})));
-      setIsLoading(false);
-    });
+    getAllProduct()
+      .then((data) => {
+        setAllProduct(data.map((item, index) => ({...item, key: index})));
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
   }, [])
 
   // Функция для поиска по таблице товаров
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductByTitle(searchText ?? '').then((data) => {
-      setAllProduct(data);
-      setIsLoading(false);
-    });
+    getAllProductByTitle(searchText ?? '')
+      .then((data) => {
+        setAllProduct(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
   }, [searchText]);
 
   useEffect(() => {

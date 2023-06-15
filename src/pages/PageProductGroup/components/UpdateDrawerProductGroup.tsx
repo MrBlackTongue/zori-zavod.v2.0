@@ -25,12 +25,14 @@ export const UpdateDrawerProductGroup: React.FC<UpdateDrawerProps<TypeProductGro
   // Функция для получения данных в дравер
   const handleGetParent = useCallback((): void => {
     if (selectedItemId) {
-      getProductGroupById(selectedItemId).then((data) => {
-        form.setFieldsValue({
-          ...data,
-          parent: data?.parent?.id === 0 ? '' : data?.parent?.id,
-        });
-      });
+      getProductGroupById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({
+            ...data,
+            parent: data?.parent?.id === 0 ? '' : data?.parent?.id,
+          });
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
     }
   }, [selectedItemId, form]);
 

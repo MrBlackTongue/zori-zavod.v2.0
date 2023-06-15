@@ -145,19 +145,23 @@ export const TablePurchase: React.FC<TableProps> = ({
   // Функция для обновления таблицы закупок
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllPurchase().then((data) => {
-      setAllPurchase(data);
-      setIsLoading(false);
-    });
+    getAllPurchase()
+      .then((data) => {
+        setAllPurchase(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
   }, [])
 
   // Функция для поиска по таблице закупок
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllPurchaseByTitle(searchText ?? '').then((data) => {
-      setAllPurchase(data);
-      setIsLoading(false);
-    });
+    getAllPurchaseByTitle(searchText ?? '')
+      .then((data) => {
+        setAllPurchase(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
   }, [searchText])
 
   useEffect(() => {

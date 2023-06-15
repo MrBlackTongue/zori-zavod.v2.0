@@ -89,24 +89,28 @@ export const TableProductMovementHistory:
   // Функция для обновления таблицы товаров
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllProductMovementHistory().then((data) => {
-      setAllProductMovementHistory(data.map((item, index) => ({...item, key: index})));
-      setIsLoading(false);
-    });
+    getAllProductMovementHistory()
+      .then((data) => {
+        setAllProductMovementHistory(data.map((item, index) => ({...item, key: index})));
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, []);
 
   // Функция для поиска по таблице истории движения товаров
   const handleFilterTable = useCallback((): void => {
     if (filter?.id) {
       setIsLoading(true);
-      getProductMovementHistoryById(filter.id).then((data) => {
-        if (data) {
-          setAllProductMovementHistory(
-            data.map((item, index) => ({...item, key: index}))
-          );
-          setIsLoading(false);
-        }
-      });
+      getProductMovementHistoryById(filter.id)
+        .then((data) => {
+          if (data) {
+            setAllProductMovementHistory(
+              data.map((item, index) => ({...item, key: index}))
+            );
+            setIsLoading(false);
+          }
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
     }
   }, [filter?.id]);
 

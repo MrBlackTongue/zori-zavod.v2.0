@@ -26,14 +26,16 @@ export const UpdateDrawerPurchase: React.FC<UpdateDrawerProps<TypePurchaseFormVa
   // Функция для получения данных о закупке по id и обновления формы
   const handleGetPurchase = useCallback((): void => {
     if (selectedItemId) {
-      getPurchaseById(selectedItemId).then((data) => {
-        form.setFieldsValue({
-          ...data,
-          date: dayjs(data?.date),
-          product: data?.product?.id === 0 ? '' : data?.product?.id,
-          paid: data?.paid || false,
-        });
-      })
+      getPurchaseById(selectedItemId)
+        .then((data) => {
+          form.setFieldsValue({
+            ...data,
+            date: dayjs(data?.date),
+            product: data?.product?.id === 0 ? '' : data?.product?.id,
+            paid: data?.paid ?? false,
+          });
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
     }
   }, [selectedItemId, form]);
 

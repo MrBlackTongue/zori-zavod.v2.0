@@ -3,9 +3,9 @@ export interface TableProps<F = {}> {
   openDrawer?: (id: number) => void;
   openDetailDrawer?: (id: number) => void;
   onDelete?: (id: number) => void;
-  searchText?: string | undefined;
+  searchText?: string;
   filter?: F;
-  idDetail?: number | undefined;
+  idDetail?: number;
 }
 
 export interface CreateModalProps<T> {
