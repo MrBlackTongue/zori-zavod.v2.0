@@ -1,4 +1,4 @@
-export const API_URL = 'https://www.zolotenkov.ru/api'
+export const API_URL = 'https://zolotenkov.ru/api'
 
 export const EMPLOYEE = '/employee'
 export const OPERATION = '/operation'
