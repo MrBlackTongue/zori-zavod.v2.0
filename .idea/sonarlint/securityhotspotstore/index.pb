@@ -144,8 +144,6 @@ E
 src/services/index.ts,7/b/7ba1cbb8718370dad0382bce376c85fcbda3b656
 h
 8src/pages/PageMeterRecord/components/FormMeterRecord.tsx,6/9/69ee05c7d48dfb3f881789fdd2d6da31faf7257b
-K
-src/services/apiEmployee.ts,f/4/f45f1cf2306f5c1831ebb4a64f5fe632d8a4fce4
 Y
 )src/services/apiProductMovementHistory.ts,4/8/482022f15c651bad5d23965eff092017198bf39c
 J
@@ -314,8 +312,6 @@ c
 -src/pages/PageStock/components/TableStock.tsx,3/4/34b1cf1a7c5033297e7fd9ace761defe2ffd1353
 i
 9src/pages/PageShipment/components/TableDetailShipment.tsx,5/c/5cadf32fc4514fee18b77da3843a8f022d035efa
-L
-src/services/apiEndpoints.ts,e/9/e906fd4a088ec1a60eebf4e6f0f6e709c311f4cd
 T
 $src/components/MenuMain/MenuMain.tsx,d/c/dcb0da053e05144e48aae46e6232541af8f2e2a2
 c
