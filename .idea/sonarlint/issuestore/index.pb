@@ -1941,9 +1941,6 @@ W
 src/index.tsx,5/a/5ab44fe33ca96299f51ad4778a73e425b92bf439
 =
 tsconfig.json,6/1/61ebb9fd6e8cf9082658121d5d81e297791dacd0
-:
-
-.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
 O
 src/pages/PageHome/PageHome.tsx,f/4/f47eb108fbf64d9179d7de921d07c158fbdfe55d
 <
