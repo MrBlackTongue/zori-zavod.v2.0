@@ -1,4 +1,4 @@
-export const API_URL = 'https://http://91.105.199.36/api'
+export const API_URL = 'https://91.105.199.36/api'
 // export const API_URL = 'https://zolotenkov.ru/api'
 // export const API_URL = 'http://localhost:8090/api'
 
