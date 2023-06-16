@@ -1996,8 +1996,6 @@ O
 src/services/apiAuthenticate.ts,d/8/d8fab8ff1ed0037328cc86260dbea74f7205c275
 k
 ;src/pages/PageProductBatch/components/TableProductBatch.tsx,a/d/ad58cbd88cef4d146cae4ac7dd94222425fe1e19
-C
-src/services/api.ts,5/6/5639ba02c96106fc6655a4e97e24c0100bad7926
 Y
 )src/pages/PageLoginForm/PageLoginForm.tsx,4/3/433bf069137e00cf67a33699c1049ab41cc2bb37
 ^
