@@ -1,5 +1,5 @@
-export const API_URL = 'https://zolotenkov.ru/api'
-// export const API_URL = 'http://localhost:8090/api'
+export const API_URL = 'https://zolotenkov.ru/api'      // для билда на сервере
+// export const API_URL = 'http://localhost:8090/api'  // для локальной работы
 
 export const EMPLOYEE = '/employee'
 export const OPERATION = '/operation'
