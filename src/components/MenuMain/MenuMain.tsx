@@ -79,7 +79,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/employee">Сотрудники</Link>
         </Menu.Item>
 
-        <SubMenu key="01" icon={<RightOutlined style={{visibility: 'hidden'}}/>} title="Операции">
+        <SubMenu key="01" icon={<RightOutlined/>} title="Операции">
           <Menu.Item key="/operation-accounting" icon={<FormOutlined/>}>
             <Link to="/operation-accounting">Учет операций</Link>
           </Menu.Item>
@@ -91,7 +91,7 @@ export const MenuMain: React.FC = () => {
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu key="02" icon={<RightOutlined style={{visibility: 'hidden'}}/>} title="Отчеты">
+        <SubMenu key="02" icon={<RightOutlined/>} title="Отчеты">
           <Menu.Item key="/operation-report" icon={<ReconciliationOutlined/>}>
             <Link to="/operation-report">По операциям</Link>
           </Menu.Item>
@@ -106,7 +106,7 @@ export const MenuMain: React.FC = () => {
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu key="03" icon={<RightOutlined style={{visibility: 'hidden'}}/>} title="Товары">
+        <SubMenu key="03" icon={<RightOutlined/>} title="Товары">
           <Menu.Item key="/product" icon={<AppstoreOutlined/>}>
             <Link to="/product">Товары</Link>
           </Menu.Item>
@@ -115,7 +115,7 @@ export const MenuMain: React.FC = () => {
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu key="04" icon={<RightOutlined style={{visibility: 'hidden'}}/>} title="Счетчики">
+        <SubMenu key="04" icon={<RightOutlined/>} title="Счетчики">
           <Menu.Item key="/meter-record" icon={<BookOutlined/>}>
             <Link to="/meter-record">Записи счетчиков</Link>
           </Menu.Item>
@@ -137,7 +137,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/shipment">Отгрузки</Link>
         </Menu.Item>
 
-        <SubMenu key="05" icon={<RightOutlined style={{visibility: 'hidden'}}/>} title="Закупки">
+        <SubMenu key="05" icon={<RightOutlined/>} title="Закупки">
           <Menu.Item key="/purchase" icon={<AppstoreAddOutlined/>}>
             <Link to="/purchase">Заказы на закупки</Link>
           </Menu.Item>
