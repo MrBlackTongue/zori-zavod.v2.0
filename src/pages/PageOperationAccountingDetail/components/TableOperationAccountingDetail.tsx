@@ -42,7 +42,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
     },
     {
       title: 'Ед. изм.',
-      dataIndex: ['operation', 'unit', 'name'],
+      dataIndex: ['operation', 'unit'],
       key: 'unit',
       render: (unit: TypeUnit) =>
         unit !== null ? (<div>{unit.name}</div>) : null,
