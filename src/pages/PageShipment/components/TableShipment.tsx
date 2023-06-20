@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined, DownOutlined} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import {getAllShipment} from "../../../services";
 import {TableProps, TypeShipment, TableParam, TypeClient} from "../../../types";
 import dayjs from 'dayjs';
@@ -61,7 +61,7 @@ export const TableShipment: React.FC<TableProps> = ({
               shape="circle"
               onClick={() => openDetailDrawer && id && openDetailDrawer(id)}
             >
-              <DownOutlined/>
+              <EllipsisOutlined/>
             </Button>
           </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
