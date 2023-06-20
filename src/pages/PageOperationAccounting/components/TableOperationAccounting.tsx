@@ -55,7 +55,7 @@ export const TableOperationAccounting:
     },
     {
       title: 'ID выпуска',
-      dataIndex: ['operation', 'id'],
+      dataIndex: ['output', 'id'],
       key: 'operationId',
     },
     {

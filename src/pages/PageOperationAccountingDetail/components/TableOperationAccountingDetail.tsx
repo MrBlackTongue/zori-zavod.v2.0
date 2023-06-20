@@ -32,7 +32,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
     },
     {
       title: 'ID выпуска',
-      dataIndex: ['operation', 'id'],
+      dataIndex: ['output', 'id'],
       key: 'operationId',
     },
     {
