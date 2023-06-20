@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Table } from "antd";
 import type { ColumnsType, TablePaginationConfig } from "antd/es/table/interface";
-import { getAllOperationReportByFilter } from "../../../services";
+import { getAllOperationReportByFilter} from "../../../services";
 import { TableParam, TableProps, TypeOperationReport, TypeOperationReportFilter } from "../../../types";
 
-export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter>> = ({ isUpdateTable, filter }) => {
+export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter>> = ({
+                                                                                        isUpdateTable,
+                                                                                        filter
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [allOperationReports, setAllOperationReports] = useState<TypeOperationReport[]>();
 
@@ -42,6 +45,7 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
     setTableParams({ pagination });
   };
 
+  // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     if (filter) {
@@ -54,9 +58,29 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
     }
   }, [filter]);
 
+// Функция для фильтрации таблицы
+  const handleFilterTable = useCallback((): void => {
+    if (filter) {
+      setIsLoading(true);
+      getAllOperationReportByFilter({
+        dateFrom: filter.dateFrom ?? undefined,
+        dateTo: filter.dateTo ?? undefined,
+      })
+          .then((data) => {
+            setAllOperationReports(data);
+            setIsLoading(false);
+          })
+          .catch((error) => console.error("Ошибка при получении данных: ", error))
+    }
+  }, [filter]);
+
   useEffect(() => {
-    handleUpdateTable();
-  }, [filter, isUpdateTable, handleUpdateTable]);
+    if (filter?.dateFrom || filter?.dateTo) {
+      handleFilterTable();
+    } else {
+      handleUpdateTable();
+    }
+  }, [filter, isUpdateTable, handleUpdateTable, handleFilterTable]);
 
   return (
     <Table
