@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import {Typography, Space, Button, Select, DatePicker, FloatButton, Tooltip} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
@@ -37,6 +37,13 @@ export const PageOperationAccounting: React.FC = () => {
   // id выбранной операции, id выбранного типа производства
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
+
+  // Создание объекта фильтра с использованием useMemo
+  const filter = useMemo(() => ({
+    date: selectedDate,
+    operationId: selectedOperationId,
+    productionTypeId: selectedProductionTypeId,
+  }), [selectedDate, selectedOperationId, selectedProductionTypeId]);
 
   // Изменить выбранную дату
   const onChangeDate = (value: any): void => {
@@ -165,11 +172,7 @@ export const PageOperationAccounting: React.FC = () => {
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteOperationAccounting}
-        filter={{
-          date: selectedDate,
-          operationId: selectedOperationId,
-          productionTypeId: selectedProductionTypeId,
-        }}
+        filter={filter}
       />
       <CreateModalOperationAccounting
         isOpen={isModalOpen}
