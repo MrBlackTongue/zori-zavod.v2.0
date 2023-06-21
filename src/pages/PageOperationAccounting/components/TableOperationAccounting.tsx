@@ -7,9 +7,9 @@ import {getAllOperationAccountingByFilter} from "../../../services";
 import {
   TableProps,
   TypeOperationAccounting,
-  TableParam,
   TypeOperationTimesheet,
-  TypeOperationAccountingFilter, TypeUnit,
+  TypeOperationAccountingFilter,
+  TypeUnit,
 } from "../../../types";
 import dayjs from "dayjs";
 
@@ -27,12 +27,19 @@ export const TableOperationAccounting:
   const [allOperationAccounting, setAllOperationAccounting] = useState<TypeOperationAccounting[]>();
 
   // Параментры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  // const [tableParams, setTableParams] = useState<TableParam>({
+  //   pagination: {
+  //     current: 1,
+  //     pageSize: 10,
+  //   },
+  // });
+
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
+
+  const [total, setTotal] = useState(0);
 
   // Переход на другую страницу по адресу
   const handleMoreDetail = (id: number) => {
@@ -157,7 +164,11 @@ export const TableOperationAccounting:
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination({
+      current: pagination.current ?? 1,
+      pageSize: pagination.pageSize ?? 10,
+    });
+    // setPagination({pagination});
   };
 
   // Функция для расчета итоговых значений
@@ -203,24 +214,32 @@ export const TableOperationAccounting:
 
   // Функция для фильтрации и обновления таблицы
   const handleFilterTable = useCallback((): void => {
-    if (filter) {
-      setIsLoading(true);
-      getAllOperationAccountingByFilter({
-        date: filter?.date,
-        operationId: filter?.operationId,
-        productionTypeId: filter?.productionTypeId,
+    setIsLoading(true);
+    getAllOperationAccountingByFilter({
+      date: filter?.date,
+      operationId: filter?.operationId,
+      productionTypeId: filter?.productionTypeId,
+      pageNumber: pagination?.current,
+      pageSize: pagination?.pageSize,
+    })
+      .then((data) => {
+        setAllOperationAccounting(data.items);
+        setTotal(data.total);
+        // setTableParams(prevParams => ({
+        //   ...prevParams,
+        //   pagination: {
+        //     ...prevParams.pagination,
+        //     total: data.total,
+        //   },
+        // }));
+        setIsLoading(false);
       })
-        .then((data) => {
-          setAllOperationAccounting(data);
-          setIsLoading(false);
-        })
-        .catch((error) => console.error("Ошибка при получении данных: ", error))
-    }
-  }, [filter]);
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
+  }, [filter, pagination]);
 
   useEffect(() => {
     handleFilterTable();
-  }, [isUpdateTable, filter, handleFilterTable]);
+  }, [isUpdateTable, handleFilterTable, filter, pagination]);
 
   return (
     <Table
@@ -231,7 +250,7 @@ export const TableOperationAccounting:
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...pagination, total, position: ['bottomCenter']}}
     />
   );
 }

@@ -103,7 +103,7 @@ export const TableProduct: React.FC<TableProps> = ({
     setIsLoading(true);
     getAllProduct()
       .then((data) => {
-        setAllProduct(data.map((item, index) => ({...item, key: index})));
+        setAllProduct(data);
         setIsLoading(false);
       })
       .catch((error) => console.error("Ошибка при получении данных: ", error))
