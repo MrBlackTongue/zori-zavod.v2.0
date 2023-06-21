@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Typography, Space, Button, FloatButton, DatePicker} from 'antd';
 import {SyncOutlined} from "@ant-design/icons";
 import '../../App.css'
@@ -15,6 +15,13 @@ export const PageOperationReport: React.FC = () => {
     //Выбранные даты
     const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
     const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
+
+    // Создание объекта фильтра с использованием useMemo
+    const filter = useMemo(() => ({
+        dateFrom: selectedDateFrom,
+        dateTo: selectedDateTo,
+
+    }), [selectedDateFrom, selectedDateTo]);
 
     // Изменить выбранную дату
     const onChangeDateFrom = (value: any): void => {
@@ -55,10 +62,7 @@ export const PageOperationReport: React.FC = () => {
       <FloatButton.BackTop/>
       <TableOperationReport
           isUpdateTable={isUpdateTable}
-          filter={{
-              dateFrom: selectedDateFrom,
-              dateTo: selectedDateTo,
-          }}
+          filter={filter}
       />
     </div>
   );
