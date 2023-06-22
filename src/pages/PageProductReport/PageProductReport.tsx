@@ -50,7 +50,6 @@ export const PageProductReport: React.FC = () => {
     setSelectedProductId(value ? value : undefined);
   };
 
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>

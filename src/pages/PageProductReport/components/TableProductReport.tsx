@@ -13,7 +13,6 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
                                                                                     isUpdateTable,
                                                                                     filter
                                                                                   }) => {
-
   // Лоудер и список всех отчетов
   const [isLoading, setIsLoading] = useState(false);
   const [allProductReports, setAllProductReports] = useState<TypeProductReport[]>();
@@ -37,14 +36,14 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       key: "fact",
     },
     {
-      title: "Часы",
-      dataIndex: "hours",
-      key: "hours",
-    },
-    {
       title: "Ед.изм",
       dataIndex: "unit",
       key: "unit",
+    },
+    {
+      title: "Часы",
+      dataIndex: "hours",
+      key: "hours",
     },
 
   ];
@@ -63,21 +62,19 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       totalHours += hours ?? 0;
     });
 
-
     return (
       <>
         <Table.Summary.Row>
           <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
           <Table.Summary.Cell index={1}></Table.Summary.Cell>
-          <Table.Summary.Cell index={2}><strong>{
+          <Table.Summary.Cell index={2}></Table.Summary.Cell>
+          <Table.Summary.Cell index={3}><strong>{
             totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
           }</strong></Table.Summary.Cell>
-          <Table.Summary.Cell index={3}></Table.Summary.Cell>
         </Table.Summary.Row>
       </>
     );
   };
-
 
 // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
@@ -97,9 +94,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
   }, [filter]);
 
   useEffect(() => {
-    if (filter?.dateFrom || filter?.dateTo || filter?.productId) {
-      handleFilterTable();
-    }
+    handleFilterTable();
   }, [filter, isUpdateTable, handleFilterTable]);
 
   return (
