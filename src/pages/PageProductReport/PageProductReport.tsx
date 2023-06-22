@@ -1,91 +1,104 @@
 import React, {useMemo, useState} from 'react';
-import {Typography, Space, Button, FloatButton, DatePicker, Input, Select} from 'antd';
-import {SearchOutlined, SyncOutlined} from "@ant-design/icons";
+import {Typography, Space, Button, FloatButton, DatePicker, Select, Tooltip} from 'antd';
+import {SyncOutlined} from "@ant-design/icons";
+import {TableProductReport} from "./components/TableProductReport";
 import '../../App.css'
 import dayjs from "dayjs";
+import {useFetchAllData} from "../../hooks";
 
 export const PageProductReport: React.FC = () => {
 
-    const {Title} = Typography;
-    const {Option} = Select;
+  const {Title} = Typography;
+  const {Option} = Select;
 
-    // Обновление таблицы
-    const [isUpdateTable, setIsUpdateTable] = useState(false);
+  // Обновление таблицы
+  const [isUpdateTable, setIsUpdateTable] = useState(false);
 
-    //Выбранные даты
-    const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
-    const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
+  //Выбранные даты
+  const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
+  const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
 
-    // id выбраного товара
-    const [selectedProductId, setSelectedProductId] = useState<number>();
+  // id выбраного товара
+  const [selectedProductId, setSelectedProductId] = useState<number | undefined>();
 
-    // Создание объекта фильтра с использованием useMemo
-    const filter = useMemo(() => ({
-        dateFrom: selectedDateFrom,
-        dateTo: selectedDateTo,
-        product: selectedProductId,
+  // Хук для получения данных
+  const {allProduct} = useFetchAllData({depsProduct: true});
 
-    }), [selectedDateFrom, selectedDateTo]);
+  // Создание объекта фильтра с использованием useMemo
+  const filter = useMemo(() => ({
+    dateFrom: selectedDateFrom,
+    dateTo: selectedDateTo,
+    productId: selectedProductId,
 
-    // Поиск по селекту
-    const onSearchSelect = (searchText: string, option: any) => {
-        return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
-    }
+  }), [selectedDateFrom, selectedDateTo, selectedProductId]);
 
-    // Изменить выбранную дату
-    const onChangeDateFrom = (value: any): void => {
-        setSelectedDateFrom(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
-    }
-    const onChangeDateTo = (value: any): void => {
-        setSelectedDateTo(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
-    }
+  // Поиск по селекту
+  const onSearchSelect = (searchText: string, option: any) => {
+    return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
+  }
 
-    // Изменить выбранный тип производства
-    const onChangeProduct = (value: any): void => {
-        setSelectedProductId(value ? value : undefined);
-    };
+  // Изменить выбранную дату
+  const onChangeDateFrom = (value: any): void => {
+    setSelectedDateFrom(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
+  }
+  const onChangeDateTo = (value: any): void => {
+    setSelectedDateTo(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
+  }
+
+  // Изменить выбранный тип производства
+  const onChangeProduct = (value: any): void => {
+    setSelectedProductId(value ? value : undefined);
+  };
 
 
-    return (
-        <div style={{display: 'grid'}}>
-            <div className='centerTitle'>
-                <Title level={3}>Отчет по товарам</Title>
-                <Space>
-                    <Input
-                        allowClear
-                        style={{width: '210px'}}
-                        placeholder="Поиск по товарам"
-                        onChange={onChangeProduct}
-                        // filterOption={onSearchSelect}
-                        prefix={<SearchOutlined/>}
-                    />
-                    <DatePicker
-                        placeholder='Дата от'
-                        style={{width: '150px'}}
-                        format='DD.MM.YYYY'
-                        onChange={onChangeDateFrom}
-                    />
-                    <DatePicker
-                        placeholder='Дата до'
-                        style={{width: '150px'}}
-                        format='DD.MM.YYYY'
-                        onChange={onChangeDateTo}
-                    />
-                    <Button
-                        type="dashed"
-                        icon={<SyncOutlined/>}
-                        onClick={() => setIsUpdateTable(prevState => !prevState)}
-                        className='greenButton'
-                    >
-                        Обновить
-                    </Button>
-                </Space>
-            </div>
-            <FloatButton.BackTop/>
-            {/*<TableOperationReport*/}
-            {/*    isUpdateTable={isUpdateTable}*/}
-            {/*    filter={filter}*/}
-            {/*/>*/}
-        </div>
-    );
+  return (
+    <div style={{display: 'grid'}}>
+      <div className='centerTitle'>
+        <Title level={3}>Отчет по товарам</Title>
+        <Space>
+          <Select
+            allowClear
+            style={{width: '210px'}}
+            placeholder="Поиск по товарам"
+            onChange={onChangeProduct}
+            filterOption={onSearchSelect}
+          >
+            {allProduct && allProduct.length > 0 ?
+              allProduct.map(product => (
+                <Option key={product.id} value={product.id} label={product.title}>
+                  <Tooltip placement="right" title={product.title}>
+                    {product.title}
+                  </Tooltip>
+                </Option>
+              )) : null}
+          </Select>
+          <DatePicker
+            placeholder='Дата от'
+            style={{width: '150px'}}
+            format='DD.MM.YYYY'
+            onChange={onChangeDateFrom}
+          />
+          <DatePicker
+            placeholder='Дата до'
+            style={{width: '150px'}}
+            format='DD.MM.YYYY'
+            onChange={onChangeDateTo}
+          />
+          <Button
+            type="dashed"
+            icon={<SyncOutlined/>}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
+            Обновить
+          </Button>
+        </Space>
+      </div>
+      <FloatButton.BackTop/>
+      <TableProductReport
+        isUpdateTable={isUpdateTable}
+        filter={filter}
+      />
+    </div>
+  );
 };
