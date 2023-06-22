@@ -12,43 +12,41 @@ export const PageOperationReport: React.FC = () => {
   // Обновление таблицы
   const [isUpdateTable, setIsUpdateTable] = useState(false);
 
-    //Выбранные даты
-    const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
-    const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
+  //Выбранные даты
+  const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
+  const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
 
-    // Создание объекта фильтра с использованием useMemo
-    const filter = useMemo(() => ({
-        dateFrom: selectedDateFrom,
-        dateTo: selectedDateTo,
+  // Создание объекта фильтра с использованием useMemo
+  const filter = useMemo(() => ({
+    dateFrom: selectedDateFrom,
+    dateTo: selectedDateTo,
+  }), [selectedDateFrom, selectedDateTo]);
 
-    }), [selectedDateFrom, selectedDateTo]);
-
-    // Изменить выбранную дату
-    const onChangeDateFrom = (value: any): void => {
-        setSelectedDateFrom(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
-    }
-    const onChangeDateTo = (value: any): void => {
-        setSelectedDateTo(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
-    }
-
+  // Изменить выбранную дату
+  const onChangeDateFrom = (value: any): void => {
+    setSelectedDateFrom(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
+  }
+  const onChangeDateTo = (value: any): void => {
+    setSelectedDateTo(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
+  }
 
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
         <Title level={3}>Отчет по операциям</Title>
         <Space>
-            <DatePicker
-                placeholder='Дата от'
-                style={{width: '150px'}}
-                format='DD.MM.YYYY'
-                onChange={onChangeDateFrom}
-            />
-            <DatePicker
-                placeholder='Дата до'
-                style={{width: '150px'}}
-                format='DD.MM.YYYY'
-                onChange={onChangeDateTo}
-            />
+          <DatePicker
+            placeholder='Дата от'
+            style={{width: '150px'}}
+            format='DD.MM.YYYY'
+            onChange={onChangeDateFrom}
+          />
+          <DatePicker
+            placeholder='Дата до'
+            style={{width: '150px'}}
+            format='DD.MM.YYYY'
+            onChange={onChangeDateTo}
+          />
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
@@ -61,8 +59,8 @@ export const PageOperationReport: React.FC = () => {
       </div>
       <FloatButton.BackTop/>
       <TableOperationReport
-          isUpdateTable={isUpdateTable}
-          filter={filter}
+        isUpdateTable={isUpdateTable}
+        filter={filter}
       />
     </div>
   );
