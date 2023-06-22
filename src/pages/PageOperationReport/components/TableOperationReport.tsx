@@ -95,9 +95,7 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
   }, [filter]);
 
   useEffect(() => {
-    if (filter?.dateFrom || filter?.dateTo) {
       handleFilterTable();
-    }
   }, [filter, isUpdateTable, handleFilterTable]);
 
   return (
