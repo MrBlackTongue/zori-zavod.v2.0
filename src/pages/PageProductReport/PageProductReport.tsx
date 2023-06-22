@@ -57,6 +57,7 @@ export const PageProductReport: React.FC = () => {
         <Title level={3}>Отчет по товарам</Title>
         <Space>
           <Select
+            showSearch
             allowClear
             style={{width: '210px'}}
             placeholder="Поиск по товарам"

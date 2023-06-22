@@ -78,18 +78,6 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
     );
   };
 
-  // Функция для обновления таблицы
-  const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    if (filter) {
-      getAllProductReportByFilter(filter)
-        .then((data) => {
-          setAllProductReports(data?.map((item, index) => ({...item, key: index})));
-          setIsLoading(false);
-        })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
-    }
-  }, [filter]);
 
 // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
@@ -101,7 +89,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
         productId: filter.productId ?? undefined,
       })
         .then((data) => {
-          setAllProductReports(data);
+          setAllProductReports(data?.map((item, index) => ({...item, key: index})));
           setIsLoading(false);
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error))
@@ -111,10 +99,8 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
   useEffect(() => {
     if (filter?.dateFrom || filter?.dateTo || filter?.productId) {
       handleFilterTable();
-    } else {
-      handleUpdateTable();
     }
-  }, [filter, isUpdateTable, handleUpdateTable, handleFilterTable]);
+  }, [filter, isUpdateTable, handleFilterTable]);
 
   return (
     <Table
