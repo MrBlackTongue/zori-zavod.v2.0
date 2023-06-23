@@ -15,8 +15,9 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
                                                                                   }) => {
   // Лоудер и список всех отчетов
   const [isLoading, setIsLoading] = useState(false);
-  const [allProductReports, setAllProductReports] = useState<TypeProductReport[]>();
+  const [allProductReport, setAllProductReport] = useState<TypeProductReport[]>();
 
+  // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -24,6 +25,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeProductReport> = [
     {
       title: "Операция",
@@ -45,7 +47,6 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       dataIndex: "hours",
       key: "hours",
     },
-
   ];
 
   // Параметры изменения таблицы
@@ -55,10 +56,10 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
 
   // Функция для расчета итоговых значений
   const renderSummaryRow = () => {
-    if (!allProductReports) return null
+    if (!allProductReport) return null
     let totalHours = 0;
 
-    allProductReports.forEach(({hours}: TypeProductReport) => {
+    allProductReport.forEach(({hours}: TypeProductReport) => {
       totalHours += hours ?? 0;
     });
 
@@ -75,8 +76,8 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       </>
     );
   };
-
-// Функция для фильтрации таблицы
+  
+  // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
     if (filter) {
       setIsLoading(true);
@@ -86,7 +87,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
         productId: filter.productId ?? undefined,
       })
         .then((data) => {
-          setAllProductReports(data?.map((item, index) => ({...item, key: index})));
+          setAllProductReport(data?.map((item, index) => ({...item, key: index})));
           setIsLoading(false);
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error))
@@ -101,7 +102,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
     <Table
       bordered
       columns={columns}
-      dataSource={allProductReports}
+      dataSource={allProductReport}
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}

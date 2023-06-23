@@ -14,12 +14,12 @@ export const PageProductReport: React.FC = () => {
   // Обновление таблицы
   const [isUpdateTable, setIsUpdateTable] = useState(false);
 
-  //Выбранные даты
+  // Выбранные даты
   const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
   const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
 
   // id выбраного товара
-  const [selectedProductId, setSelectedProductId] = useState<number | undefined>();
+  const [selectedProductId, setSelectedProductId] = useState<number | undefined>(103);
 
   // Хук для получения данных
   const {allProduct} = useFetchAllData({depsProduct: true});
@@ -29,7 +29,6 @@ export const PageProductReport: React.FC = () => {
     dateFrom: selectedDateFrom,
     dateTo: selectedDateTo,
     productId: selectedProductId,
-
   }), [selectedDateFrom, selectedDateTo, selectedProductId]);
 
   // Поиск по селекту
@@ -45,7 +44,7 @@ export const PageProductReport: React.FC = () => {
     setSelectedDateTo(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
   }
 
-  // Изменить выбранный тип производства
+  // Изменить выбранный товар
   const onChangeProduct = (value: any): void => {
     setSelectedProductId(value ? value : undefined);
   };
@@ -62,6 +61,7 @@ export const PageProductReport: React.FC = () => {
             placeholder="Поиск по товарам"
             onChange={onChangeProduct}
             filterOption={onSearchSelect}
+            defaultValue={selectedProductId}
           >
             {allProduct && allProduct.length > 0 ?
               allProduct.map(product => (
