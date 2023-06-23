@@ -78,7 +78,7 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
     );
   };
 
-// Функция для фильтрации таблицы
+  // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
     if (filter) {
       setIsLoading(true);
@@ -95,7 +95,7 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
   }, [filter]);
 
   useEffect(() => {
-      handleFilterTable();
+    handleFilterTable();
   }, [filter, isUpdateTable, handleFilterTable]);
 
   return (
