@@ -72,7 +72,6 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
           }</strong></Table.Summary.Cell>
           <Table.Summary.Cell index={2}></Table.Summary.Cell>
           <Table.Summary.Cell index={3}></Table.Summary.Cell>
-          <Table.Summary.Cell index={4}></Table.Summary.Cell>
         </Table.Summary.Row>
       </>
     );
