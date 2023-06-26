@@ -1,19 +1,21 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {getAllOutput} from "../../../services";
+import {getAllProductReportByFilter} from "../../../services";
 import {
   TableParam,
+  TableProps,
   TypeOutput,
   TypeOutputReportFilter,
 } from "../../../types";
+import dayjs from "dayjs";
 
-type TableOutputReportProps = {
-  filter: TypeOutputReportFilter;
-  isUpdateTable: boolean;
-}
+// type TableOutputReportProps = {
+//   filter: TypeOutputReportFilter;
+//   isUpdateTable: boolean;
+// }
 
-export const TableOutputReport: React.FC<TableOutputReportProps> = ({
+export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = ({
                                                                       filter,
                                                                       isUpdateTable,
                                                                     }) => {
@@ -33,11 +35,28 @@ export const TableOutputReport: React.FC<TableOutputReportProps> = ({
       title: "Дата",
       dataIndex: "date",
       key: "date",
+      render: ((date: any) =>
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
-      title: "Продукт",
-      dataIndex: ["product", "title"],
-      key: "product",
+      title: "Операция",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Результат",
+      dataIndex: "fact",
+      key: "fact",
+    },
+    {
+      title: "Ед.изм",
+      dataIndex: "unit",
+      key: "unit",
+    },
+    {
+      title: "Часы",
+      dataIndex: "hours",
+      key: "hours",
     },
   ];
 
@@ -50,7 +69,12 @@ export const TableOutputReport: React.FC<TableOutputReportProps> = ({
   const handleFilterTable = useCallback((): void => {
     if (filter) {
       setIsLoading(true);
-      getAllOutput().then((data) => {
+      getAllProductReportByFilter({
+        outputId: filter.outputId ?? undefined,
+        withGrouping:  filter.withGrouping ?? undefined,
+        }
+      )
+        .then((data) => {
           setAllOutputs(data?.map((item, index) => ({...item, key: index})));
           setIsLoading(false);
         })

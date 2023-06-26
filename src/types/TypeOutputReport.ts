@@ -1,15 +1,15 @@
 import {Dayjs} from "dayjs";
+import {TypeOutput} from "./TypeOutput";
 
 export type TypeOutputReport = {
   date?: Dayjs | string,
-  operationName?: string,
+  title?: TypeOutput,
   fact?: number,
+  hours?: number,
   unit?: string,
-  hours?: number
 }
 
 export type TypeOutputReportFilter = {
-  dateFrom?: string;
-  dateTo?: string;
   outputId?: number;
+  withGrouping?: boolean;
 }

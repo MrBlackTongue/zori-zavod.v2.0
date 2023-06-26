@@ -7,7 +7,7 @@ import {api} from "./api";
 
 export function getAllProductReportByFilter(data: TypeOutputReportFilter):
   Promise<TypeOutputReport[] | undefined> {
-  return api.post(`${OUTPUT}${REPORT}`, data)
+  return api.post(`${REPORT}${OUTPUT}`, data)
     .then(response => response.data)
     .catch(handleErrorResponseMessage);
 }
