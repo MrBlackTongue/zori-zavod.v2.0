@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllOperationAccounting, getAllOperationAccountingByFilter,} from "../../../services";
+import {getAllOperationAccountingByFilter} from "../../../services";
 import {
   TableProps,
   TypeOperationAccounting,
@@ -55,8 +55,8 @@ export const TableOperationAccounting:
     },
     {
       title: 'ID выпуска',
-      dataIndex: ['operation', 'id'],
-      key: 'operationId',
+      dataIndex: ['output', 'id'],
+      key: 'outputId',
     },
     {
       title: 'Операция',
@@ -65,7 +65,7 @@ export const TableOperationAccounting:
     },
     {
       title: 'Ед. изм.',
-      dataIndex: ['operation', 'unit', 'name'],
+      dataIndex: ['operation', 'unit'],
       key: 'unit',
       render: (unit: TypeUnit) =>
         unit !== null ? (<div>{unit.name}</div>) : null,
@@ -201,25 +201,14 @@ export const TableOperationAccounting:
     );
   };
 
-  // Функция для обновления таблицы
-  const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllOperationAccounting()
-      .then((data) => {
-        setAllOperationAccounting(data);
-        setIsLoading(false);
-      })
-      .catch((error) => console.error("Ошибка при получении данных: ", error))
-  }, [])
-
-  // Функция для фильтрации таблицы
+  // Функция для фильтрации и обновления таблицы
   const handleFilterTable = useCallback((): void => {
     if (filter) {
       setIsLoading(true);
       getAllOperationAccountingByFilter({
-        date: filter.date ?? undefined,
-        operationId: filter.operationId ?? undefined,
-        productionTypeId: filter.productionTypeId ?? undefined,
+        date: filter?.date,
+        operationId: filter?.operationId,
+        productionTypeId: filter?.productionTypeId,
       })
         .then((data) => {
           setAllOperationAccounting(data);
@@ -230,12 +219,8 @@ export const TableOperationAccounting:
   }, [filter]);
 
   useEffect(() => {
-    if (filter?.date || filter?.operationId || filter?.productionTypeId) {
-      handleFilterTable();
-    } else {
-      handleUpdateTable();
-    }
-  }, [filter, isUpdateTable, handleUpdateTable, handleFilterTable]);
+    handleFilterTable();
+  }, [isUpdateTable, filter, handleFilterTable]);
 
   return (
     <Table

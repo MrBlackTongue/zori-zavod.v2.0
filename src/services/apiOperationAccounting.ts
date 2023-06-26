@@ -9,11 +9,11 @@ import {
 import {api} from "./api";
 
 // Получить список всех учетных операций
-export function getAllOperationAccounting(): Promise<TypeOperationAccounting[]> {
-  return api.get(OPERATION_ACCOUNTING)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
-}
+// export function getAllOperationAccounting(): Promise<TypeOperationAccounting[]> {
+//   return api.get(OPERATION_ACCOUNTING)
+//     .then(response => response.data)
+//     .catch(handleErrorResponseMessage);
+// }
 
 // Получить данные учетной операции по id
 export function getOperationAccountingById(id: number): Promise<TypeOperationAccounting | undefined> {
