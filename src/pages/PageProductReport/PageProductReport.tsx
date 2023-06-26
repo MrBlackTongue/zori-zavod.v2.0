@@ -19,7 +19,7 @@ export const PageProductReport: React.FC = () => {
   const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
 
   // id выбраного товара
-  const [selectedProductId, setSelectedProductId] = useState<number | undefined>(103);
+  const [selectedProductId, setSelectedProductId] = useState<number | undefined>();
 
   // Хук для получения данных
   const {allProduct} = useFetchAllData({depsProduct: true});
@@ -61,7 +61,6 @@ export const PageProductReport: React.FC = () => {
             placeholder="Поиск по товарам"
             onChange={onChangeProduct}
             filterOption={onSearchSelect}
-            defaultValue={selectedProductId}
           >
             {allProduct && allProduct.length > 0 ?
               allProduct.map(product => (
