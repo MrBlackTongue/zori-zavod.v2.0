@@ -28,7 +28,14 @@ function App() {
   return (
     <div>
       <Layout>
-        <Sider trigger={null} collapsible collapsed={collapsed} width={240} theme="light">
+        <Sider
+          style={{position: 'fixed', height: '100vh', zIndex: 1}}
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          width={240}
+          theme="light"
+        >
           {/*<div className="logo" />*/}
           <Header style={{padding: 0, background: colorBgContainer}}>
             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
@@ -38,7 +45,7 @@ function App() {
           </Header>
           <MenuMain/>
         </Sider>
-        <Layout className="site-layout" style={{minHeight: '100vh', height: '100vh', overflow: 'auto'}}>
+        <Layout className="site-layout" style={{marginLeft: collapsed ? 80 : 240}}>
           <Header style={{padding: 0, background: colorBgContainer}}>
             {/*<Title level={3}></Title>*/}
           </Header>

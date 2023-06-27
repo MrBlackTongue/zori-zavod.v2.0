@@ -27,3 +27,4 @@ export const TREE = '/tree';
 export const METER = '/meter';
 export const METER_RECORD = '/meter-record';
 export const AUTHENTICATE = '/authenticate';
+export const REPORT = '/report';

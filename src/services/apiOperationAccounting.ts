@@ -1,4 +1,9 @@
-import {TypeApiResponse, TypeOperationAccounting, TypeOperationAccountingFilter} from "../types";
+import {
+  TypeApiResponse,
+  TypeGetAllOperationAccountingResponse,
+  TypeOperationAccounting,
+  TypeOperationAccountingFilter
+} from "../types";
 import {OPERATION_ACCOUNTING, FILTER} from "./apiEndpoints";
 import {
   handleErrorResponseMessage,
@@ -7,13 +12,6 @@ import {
   handleResponseUpdateMessage,
 } from '../utils';
 import {api} from "./api";
-
-// Получить список всех учетных операций
-// export function getAllOperationAccounting(): Promise<TypeOperationAccounting[]> {
-//   return api.get(OPERATION_ACCOUNTING)
-//     .then(response => response.data)
-//     .catch(handleErrorResponseMessage);
-// }
 
 // Получить данные учетной операции по id
 export function getOperationAccountingById(id: number): Promise<TypeOperationAccounting | undefined> {
@@ -44,7 +42,8 @@ export function updateOperationAccounting(data: TypeOperationAccounting): Promis
 }
 
 // Получить список всех отфильтрованных учетных операций
-export function getAllOperationAccountingByFilter(data: TypeOperationAccountingFilter): Promise<TypeOperationAccounting[]> {
+export function getAllOperationAccountingByFilter(data: TypeOperationAccountingFilter):
+  Promise<TypeGetAllOperationAccountingResponse> {
   return api.post(`${OPERATION_ACCOUNTING}${FILTER}`, data)
     .then(response => response.data)
     .catch(handleErrorResponseMessage);
