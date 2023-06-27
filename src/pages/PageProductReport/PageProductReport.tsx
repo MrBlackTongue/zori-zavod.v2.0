@@ -36,6 +36,11 @@ export const PageProductReport: React.FC = () => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   }
 
+  // Изменить выбранный товар
+  const onChangeProduct = (value: any): void => {
+    setSelectedProductId(value ? value : undefined);
+  };
+
   // Изменить выбранную дату
   const onChangeDateFrom = (value: any): void => {
     setSelectedDateFrom(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
@@ -43,11 +48,6 @@ export const PageProductReport: React.FC = () => {
   const onChangeDateTo = (value: any): void => {
     setSelectedDateTo(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
   }
-
-  // Изменить выбранный товар
-  const onChangeProduct = (value: any): void => {
-    setSelectedProductId(value ? value : undefined);
-  };
 
   return (
     <div style={{display: 'grid'}}>
@@ -58,7 +58,7 @@ export const PageProductReport: React.FC = () => {
             showSearch
             allowClear
             style={{width: '210px'}}
-            placeholder="Поиск по товарам"
+            placeholder="Выберите товар"
             onChange={onChangeProduct}
             filterOption={onSearchSelect}
           >
