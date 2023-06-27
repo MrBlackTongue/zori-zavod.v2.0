@@ -24,3 +24,4 @@ export * from './TypeMeterRecord';
 export * from './TypeAuthenticate';
 export * from './TypeApiResponse';
 export * from './TypeProductReport';
+export * from './TypeOperationReport';
