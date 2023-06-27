@@ -136,7 +136,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }
 
   // Переход на другую страницу по адресу
-  const handleBack = () => {
+  const handleBack = (): void => {
     navigate(`/operation-accounting`);
   };
 

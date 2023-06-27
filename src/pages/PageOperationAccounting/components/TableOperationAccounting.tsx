@@ -27,22 +27,16 @@ export const TableOperationAccounting:
   const [allOperationAccounting, setAllOperationAccounting] = useState<TypeOperationAccounting[]>();
 
   // Параментры для пагинации
-  // const [tableParams, setTableParams] = useState<TableParam>({
-  //   pagination: {
-  //     current: 1,
-  //     pageSize: 10,
-  //   },
-  // });
-
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
 
+  // Сколько всего записей в таблице
   const [total, setTotal] = useState(0);
 
   // Переход на другую страницу по адресу
-  const handleMoreDetail = (id: number) => {
+  const handleMoreDetail = (id: number): void => {
     navigate(`/operation-accounting/${id}/detail`);
   };
 
@@ -130,7 +124,8 @@ export const TableOperationAccounting:
               type="primary"
               size="small"
               shape="circle"
-              onClick={() => handleMoreDetail(id)}>
+              onClick={() => handleMoreDetail(id)}
+            >
               <EllipsisOutlined/>
             </Button>
           </Tooltip>
@@ -140,7 +135,8 @@ export const TableOperationAccounting:
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer?.(id)}>
+              onClick={() => openDrawer?.(id)}
+            >
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -150,7 +146,8 @@ export const TableOperationAccounting:
               title="Вы действительно хотите удалить эту учетную операцию?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
-              cancelText="Отмена">
+              cancelText="Отмена"
+            >
               <Button type="primary" size="small" shape="circle"
                       style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
@@ -168,7 +165,6 @@ export const TableOperationAccounting:
       current: pagination.current ?? 1,
       pageSize: pagination.pageSize ?? 10,
     });
-    // setPagination({pagination});
   };
 
   // Функция для расчета итоговых значений
@@ -225,13 +221,6 @@ export const TableOperationAccounting:
       .then((data) => {
         setAllOperationAccounting(data.items);
         setTotal(data.total);
-        // setTableParams(prevParams => ({
-        //   ...prevParams,
-        //   pagination: {
-        //     ...prevParams.pagination,
-        //     total: data.total,
-        //   },
-        // }));
         setIsLoading(false);
       })
       .catch((error) => console.error("Ошибка при получении данных: ", error))
