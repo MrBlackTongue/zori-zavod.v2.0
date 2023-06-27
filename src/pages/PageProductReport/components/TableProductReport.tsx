@@ -31,21 +31,25 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       title: "Операция",
       dataIndex: "title",
       key: "title",
+      width: 300,
     },
     {
       title: "Результат",
       dataIndex: "fact",
       key: "fact",
+      width: 130,
     },
     {
       title: "Ед.изм",
       dataIndex: "unit",
       key: "unit",
+      width: 100,
     },
     {
       title: "Часы",
       dataIndex: "hours",
       key: "hours",
+      width: 100,
     },
   ];
 
@@ -99,14 +103,16 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
   }, [filter, isUpdateTable, handleFilterTable]);
 
   return (
-    <Table
-      bordered
-      columns={columns}
-      dataSource={allProductReport}
-      loading={isLoading}
-      onChange={handleChangeTable}
-      summary={renderSummaryRow}
-      pagination={{...tableParams.pagination, position: ["bottomCenter"]}}
-    />
+    <div>
+      <Table
+        bordered
+        columns={columns}
+        dataSource={allProductReport}
+        loading={isLoading}
+        onChange={handleChangeTable}
+        summary={renderSummaryRow}
+        pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      />
+    </div>
   );
 };

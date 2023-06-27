@@ -108,7 +108,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
       dataSource={allProductGroup}
       loading={loading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

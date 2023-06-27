@@ -239,7 +239,7 @@ export const TableOperationAccounting:
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}
-      pagination={{...pagination, total, position: ['bottomCenter']}}
+      pagination={{...pagination, total, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 }

@@ -57,7 +57,7 @@ export const PageProductReport: React.FC = () => {
           <Select
             showSearch
             allowClear
-            style={{width: '210px'}}
+            style={{width: '250px'}}
             placeholder="Выберите товар"
             onChange={onChangeProduct}
             filterOption={onSearchSelect}

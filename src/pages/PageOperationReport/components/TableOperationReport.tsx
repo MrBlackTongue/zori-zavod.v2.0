@@ -31,21 +31,25 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
       title: "Тип операции",
       dataIndex: "operationName",
       key: "operationName",
+      width: 300,
     },
     {
       title: "Часы",
       dataIndex: "hours",
       key: "hours",
+      width: 130,
     },
     {
       title: "Результат",
       dataIndex: "fact",
       key: "fact",
+      width: 130,
     },
     {
       title: "Ед.изм",
       dataIndex: "unit",
       key: "unit",
+      width: 100,
     },
   ];
 
@@ -105,7 +109,7 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}
-      pagination={{...tableParams.pagination, position: ["bottomCenter"]}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };
