@@ -6,7 +6,6 @@ import {TypeOperationTimesheet} from "./TypeOperationTimesheet";
 import {TypeProductionType} from "./TypeProductionType";
 
 export type TypeOperationAccounting = {
-  key?: number,
   id?: number,
   date?: Dayjs | string,
   plan?: number,
@@ -19,10 +18,19 @@ export type TypeOperationAccounting = {
   productionType?: TypeProductionType,
 }
 
+export type TypeGetAllOperationAccountingResponse = {
+  items: TypeOperationAccounting[],
+  pageNumber: number,
+  pageSize: number,
+  total: number,
+}
+
 export type TypeOperationAccountingFilter = {
   date?: Dayjs | string,
   operationId?: number,
   productionTypeId?: number,
+  pageNumber?: number,
+  pageSize?: number,
 }
 
 export type TypeOperationAccountingFormValue = {
