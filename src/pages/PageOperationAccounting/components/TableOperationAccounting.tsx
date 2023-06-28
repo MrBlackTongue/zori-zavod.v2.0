@@ -23,10 +23,10 @@ export const TableOperationAccounting:
   const navigate = useNavigate();
 
   // Лоудер и список всех учетных операций
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOperationAccounting, setAllOperationAccounting] = useState<TypeOperationAccounting[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,

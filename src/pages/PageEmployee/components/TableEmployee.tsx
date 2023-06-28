@@ -11,10 +11,10 @@ export const TableEmployee: React.FC<TableProps> = ({
                                                       onDelete,
                                                     }) => {
   // Лоудер и список всех сотрудников
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,

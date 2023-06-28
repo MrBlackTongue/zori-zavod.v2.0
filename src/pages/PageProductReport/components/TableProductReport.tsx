@@ -14,10 +14,10 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
                                                                                     filter
                                                                                   }) => {
   // Лоудер и список всех отчетов
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductReport, setAllProductReport] = useState<TypeProductReport[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -102,9 +102,9 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
     if (filter) {
       setIsLoading(true);
       getAllProductReportByFilter({
-        dateFrom: filter.dateFrom ?? undefined,
-        dateTo: filter.dateTo ?? undefined,
-        productId: filter.productId ?? undefined,
+        dateFrom: filter?.dateFrom,
+        dateTo: filter?.dateTo,
+        productId: filter?.productId,
       })
         .then((data) => {
           setAllProductReport(data?.map((item, index) => ({...item, key: index})));

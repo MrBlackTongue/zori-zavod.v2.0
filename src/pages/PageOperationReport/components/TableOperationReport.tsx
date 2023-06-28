@@ -14,7 +14,7 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
                                                                                         filter
                                                                                       }) => {
   // Лоудер и список всех отчетов по операциям
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOperationReport, setAllOperationReport] = useState<TypeOperationReport[]>();
 
   // Параметры для пагинации
@@ -102,8 +102,8 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
     if (filter) {
       setIsLoading(true);
       getAllOperationReportByFilter({
-        dateFrom: filter.dateFrom ?? undefined,
-        dateTo: filter.dateTo ?? undefined,
+        dateFrom: filter?.dateFrom,
+        dateTo: filter?.dateTo,
       })
         .then((data) => {
           setAllOperationReport(data?.map((item, index) => ({...item, key: index})));

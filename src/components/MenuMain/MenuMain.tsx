@@ -150,7 +150,7 @@ export const MenuMain: React.FC = () => {
         </SubMenu>
 
         <Menu.Item key="/product-movement-history" icon={<CalendarOutlined/>}>
-          <Link to="/product-movement-history">Товарная история</Link>
+          <Link to="/product-movement-history">История товаров</Link>
         </Menu.Item>
 
         <Menu.Item key="/output" icon={<LogoutOutlined/>}>

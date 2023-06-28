@@ -11,10 +11,10 @@ export const TableOperation: React.FC<TableProps> = ({
                                                        onDelete,
                                                      }) => {
   // Лоудер и список всех операций
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,

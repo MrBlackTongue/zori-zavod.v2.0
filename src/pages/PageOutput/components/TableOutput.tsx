@@ -12,10 +12,10 @@ export const TableOutput: React.FC<TableProps> = ({
                                                     onDelete,
                                                   }) => {
   // Лоудер и список всех единиц измерения
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,

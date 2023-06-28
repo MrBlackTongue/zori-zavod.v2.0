@@ -15,7 +15,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
   const [loading, setLoading] = useState(false);
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,

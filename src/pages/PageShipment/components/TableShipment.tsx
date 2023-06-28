@@ -13,10 +13,10 @@ export const TableShipment: React.FC<TableProps> = ({
                                                       openDetailDrawer,
                                                     }) => {
   // Лоудер и список всех отгрузок
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,

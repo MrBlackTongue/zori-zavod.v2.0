@@ -11,10 +11,10 @@ export const TableProductionType: React.FC<TableProps> = ({
                                                             onDelete,
                                                           }) => {
   // Лоудер и список типов производства
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,

@@ -11,10 +11,10 @@ export const TableProductBatch: React.FC<TableProps> = ({
                                                           onDelete,
                                                         }) => {
   // Лоудер и список всех партий товаров
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,

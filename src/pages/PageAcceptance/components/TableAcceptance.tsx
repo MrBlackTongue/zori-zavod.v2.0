@@ -12,7 +12,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
                                                         onDelete,
                                                       }) => {
   // Лоудер и список всех приемок
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allAcceptance, setAllAcceptance] = useState<TypeAcceptance[]>();
 
   // Параметры для пагинации

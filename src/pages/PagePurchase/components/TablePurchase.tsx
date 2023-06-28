@@ -13,10 +13,10 @@ export const TablePurchase: React.FC<TableProps> = ({
                                                       searchText,
                                                     }) => {
   // Лоудер и список всех закупок
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
