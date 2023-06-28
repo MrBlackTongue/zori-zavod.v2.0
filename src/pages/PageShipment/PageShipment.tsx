@@ -15,7 +15,7 @@ export const PageShipment: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // Состояния для контроля открытия/закрытия модалки и драверов
   const [openState, setOpenState] = useState({

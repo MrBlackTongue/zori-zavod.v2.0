@@ -12,7 +12,7 @@ export const PageProductReport: React.FC = () => {
   const {Option} = Select;
 
   // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // Выбранные даты
   const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();

@@ -23,9 +23,9 @@ export const PageOperationAccounting: React.FC = () => {
   const {Option} = Select;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // id выбраной учетной операции, Выбранная дата
   const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();

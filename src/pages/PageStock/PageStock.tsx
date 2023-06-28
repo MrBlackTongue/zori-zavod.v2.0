@@ -15,9 +15,9 @@ export const PageStock: React.FC = () => {
   const {Option} = Select;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // Хук для получения данных
   const {allProductGroup} = useFetchAllData({depsProductGroup: true});
@@ -27,7 +27,7 @@ export const PageStock: React.FC = () => {
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
   // Текст поиска
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState<string>("");
 
   // Изменить выбранную группу товаров
   const onChangeProductGroup = (value: any): void => {

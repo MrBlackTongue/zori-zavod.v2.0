@@ -10,7 +10,7 @@ export const PageOperationReport: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // Выбранные даты
   const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
