@@ -38,12 +38,28 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
       dataIndex: "hours",
       key: "hours",
       width: 130,
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
     {
       title: "Результат",
       dataIndex: "fact",
       key: "fact",
       width: 130,
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
     {
       title: "Ед.изм",

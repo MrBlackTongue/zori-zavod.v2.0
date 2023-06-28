@@ -38,6 +38,14 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       dataIndex: "fact",
       key: "fact",
       width: 130,
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
     {
       title: "Ед.изм",
@@ -50,6 +58,14 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       dataIndex: "hours",
       key: "hours",
       width: 100,
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
   ];
 
