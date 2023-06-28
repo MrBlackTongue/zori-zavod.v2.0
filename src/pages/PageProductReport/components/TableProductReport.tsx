@@ -119,7 +119,6 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
   }, [filter, isUpdateTable, handleFilterTable]);
 
   return (
-    <div>
       <Table
         bordered
         columns={columns}
@@ -129,6 +128,5 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
         summary={renderSummaryRow}
         pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
       />
-    </div>
   );
 };

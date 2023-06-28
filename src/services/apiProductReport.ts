@@ -3,7 +3,7 @@ import {PRODUCT, REPORT} from "./apiEndpoints";
 import {handleErrorResponseMessage,} from '../utils';
 import {api} from "./api";
 
-// Получить список всех отфильтрованных учетных операций
+// Получить список всех отфильтрованных товаров
 export function getAllProductReportByFilter(data: TypeProductReportFilter):
   Promise<TypeProductReport[] | undefined> {
   return api.post(`${REPORT}${PRODUCT}`, data)
