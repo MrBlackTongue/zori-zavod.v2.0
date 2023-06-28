@@ -7,7 +7,6 @@ import {useFetchAllData} from "../../hooks";
 import {TypeOutputReportFilter} from "../../types";
 import dayjs from "dayjs";
 
-
 export const PageOutputReport: React.FC = () => {
 
   const {Title} = Typography;
@@ -74,7 +73,6 @@ export const PageOutputReport: React.FC = () => {
                 </Option>
               )) : null}
           </Select>
-
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
