@@ -5,6 +5,8 @@ import {TableOutputReport} from "./components/TableOutputReport";
 import '../../App.css'
 import {useFetchAllData} from "../../hooks";
 import {TypeOutputReportFilter} from "../../types";
+import dayjs from "dayjs";
+
 
 export const PageOutputReport: React.FC = () => {
 
@@ -48,16 +50,26 @@ export const PageOutputReport: React.FC = () => {
           <Select
             showSearch
             allowClear
-            style={{width: '210px'}}
+            style={{width: '330px'}}
             placeholder="Поиск по выпускам"
             onChange={onChangeOutput}
             filterOption={onSearchSelect}
           >
             {allOutput && allOutput.length > 0 ?
               allOutput.map(output => (
-                <Option key={output.id} value={output.id} label={output.product?.title}>
-                  <Tooltip placement="right" title={output.product?.title}>
-                    {output.product?.title}
+                <Option key={output.id}
+                        value={output.id}
+                        label={`${output.product?.title}, ${output.date}, ${output.id}`}>
+                  <Tooltip
+                    placement="right"
+                    title={`
+                    ${dayjs(output.date).format('DD.MM')},
+                    ${output.product?.title},
+                    ID: ${output.id}`}
+                  >
+                    {`${dayjs(output.date).format('DD.MM')},
+                    ${output.product?.title},
+                    ID: ${output.id}`}
                   </Tooltip>
                 </Option>
               )) : null}
