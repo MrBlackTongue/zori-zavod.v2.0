@@ -5,7 +5,7 @@ import {getAllProductReportByFilter} from "../../../services";
 import {
   TableParam,
   TableProps,
-  TypeOutput,
+  TypeOutputReport,
   TypeOutputReportFilter,
 } from "../../../types";
 import dayjs from "dayjs";
@@ -16,7 +16,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
                                                                                 }) => {
   // Лоудер и список всех output
   const [isLoading, setIsLoading] = useState(false);
-  const [allOutputs, setAllOutputs] = useState<TypeOutput[]>();
+  const [allOutputsReport, setAllOutputsReport] = useState<TypeOutputReport[]>();
 
   // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
@@ -27,7 +27,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeOutput> = [
+  const columns: ColumnsType<TypeOutputReport> = [
     {
       title: "Дата",
       dataIndex: "date",
@@ -83,6 +83,30 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
     setTableParams({pagination});
   };
 
+  // Функция для расчета итоговых значений
+  const renderSummaryRow = () => {
+    if (!allOutputsReport) return null
+    let totalHours = 0;
+
+    allOutputsReport.forEach(({hours}: TypeOutputReport) => {
+      totalHours += hours ?? 0;
+    });
+
+    return (
+      <>
+        <Table.Summary.Row>
+          <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={1}></Table.Summary.Cell>
+          <Table.Summary.Cell index={2}></Table.Summary.Cell>
+          <Table.Summary.Cell index={3}></Table.Summary.Cell>
+          <Table.Summary.Cell index={4}><strong>{
+            totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
+          }</strong></Table.Summary.Cell>
+        </Table.Summary.Row>
+      </>
+    );
+  };
+
   // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
     if (filter) {
@@ -93,7 +117,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
         }
       )
         .then((data) => {
-          setAllOutputs(data?.map((item, index) => ({...item, key: index})));
+          setAllOutputsReport(data?.map((item, index) => ({...item, key: index})));
           setIsLoading(false);
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error))
@@ -108,9 +132,10 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
     <Table
       bordered
       columns={columns}
-      dataSource={allOutputs}
+      dataSource={allOutputsReport}
       loading={isLoading}
       onChange={handleChangeTable}
+      summary={renderSummaryRow}
       pagination={{...tableParams.pagination, position: ["bottomCenter"], totalBoundaryShowSizeChanger: 10}}
     />
   );
