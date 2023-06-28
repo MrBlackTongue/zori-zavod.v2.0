@@ -10,19 +10,15 @@ import {
 } from "../../../types";
 import dayjs from "dayjs";
 
-// type TableOutputReportProps = {
-//   filter: TypeOutputReportFilter;
-//   isUpdateTable: boolean;
-// }
-
 export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = ({
-                                                                      filter,
-                                                                      isUpdateTable,
-                                                                    }) => {
+                                                                                  filter,
+                                                                                  isUpdateTable,
+                                                                                }) => {
   // Лоудер и список всех output
   const [isLoading, setIsLoading] = useState(false);
   const [allOutputs, setAllOutputs] = useState<TypeOutput[]>();
 
+  // Параментры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -30,11 +26,13 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
     },
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeOutput> = [
     {
       title: "Дата",
       dataIndex: "date",
       key: "date",
+      width: 100,
       render: ((date: any) =>
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
@@ -42,21 +40,41 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
       title: "Операция",
       dataIndex: "title",
       key: "title",
+      width: 300,
     },
     {
       title: "Результат",
       dataIndex: "fact",
       key: "fact",
+      width: 100,
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
     {
       title: "Ед.изм",
       dataIndex: "unit",
       key: "unit",
+      width: 100,
     },
     {
       title: "Часы",
       dataIndex: "hours",
       key: "hours",
+      width: 80,
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
   ];
 
@@ -70,8 +88,8 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
     if (filter) {
       setIsLoading(true);
       getAllProductReportByFilter({
-        outputId: filter.outputId ?? undefined,
-        withGrouping:  filter.withGrouping ?? undefined,
+          outputId: filter.outputId ?? undefined,
+          withGrouping: filter.withGrouping ?? undefined,
         }
       )
         .then((data) => {
@@ -93,7 +111,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
       dataSource={allOutputs}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ["bottomCenter"]}}
+      pagination={{...tableParams.pagination, position: ["bottomCenter"], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };
