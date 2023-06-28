@@ -95,7 +95,7 @@ export const TableUnit: React.FC<TableProps> = ({
       dataSource={allUnit}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

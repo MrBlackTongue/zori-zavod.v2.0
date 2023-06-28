@@ -21,6 +21,7 @@ import {PageMeterType} from "../../pages/PageMeterType/PageMeterType";
 import {PageMeter} from "../../pages/PageMeter/PageMeter";
 import {PageMeterRecord} from "../../pages/PageMeterRecord/PageMeterRecord";
 import {PageLoginForm} from "../../pages/PageLoginForm/PageLoginForm";
+import {PageProductReport} from "../../pages/PageProductReport/PageProductReport";
 import {PageOperationReport} from "../../pages/PageOperationReport/PageOperationReport";
 
 export const ContentRoutes: React.FC = () => {
@@ -47,6 +48,7 @@ export const ContentRoutes: React.FC = () => {
       <Route path="/meter" element={<PageMeter/>}/>
       <Route path="/meter-record" element={<PageMeterRecord/>}/>
       <Route path="/login" element={<PageLoginForm/>}/>
+      <Route path="/product-report" element={<PageProductReport/>}/>
       <Route path="/operation-report" element={<PageOperationReport/>}/>
     </Routes>
   );

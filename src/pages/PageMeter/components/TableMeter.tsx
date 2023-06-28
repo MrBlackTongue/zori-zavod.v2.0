@@ -112,7 +112,7 @@ export const TableMeter: React.FC<TableProps> = ({
       dataSource={allMeter}
       loading={loading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };
