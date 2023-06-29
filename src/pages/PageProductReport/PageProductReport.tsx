@@ -22,7 +22,7 @@ export const PageProductReport: React.FC = () => {
   const [selectedProductId, setSelectedProductId] = useState<number | undefined>();
 
   // Хук для получения данных
-  const {allProduct} = useFetchAllData({depsProduct: true});
+  const {allProductOutput} = useFetchAllData({depsProductOutput: true});
 
   // Создание объекта фильтра с использованием useMemo
   const filter = useMemo(() => ({
@@ -62,11 +62,11 @@ export const PageProductReport: React.FC = () => {
             onChange={onChangeProduct}
             filterOption={onSearchSelect}
           >
-            {allProduct && allProduct.length > 0 ?
-              allProduct.map(product => (
-                <Option key={product.id} value={product.id} label={product.title}>
-                  <Tooltip placement="right" title={product.title}>
-                    {product.title}
+            {allProductOutput && allProductOutput.length > 0 ?
+              allProductOutput.map(productOutput => (
+                <Option key={productOutput.id} value={productOutput.id} label={productOutput.title}>
+                  <Tooltip placement="right" title={productOutput.title}>
+                    {productOutput.title}
                   </Tooltip>
                 </Option>
               )) : null}
