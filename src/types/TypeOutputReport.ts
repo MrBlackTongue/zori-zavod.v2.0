@@ -1,9 +1,8 @@
 import {Dayjs} from "dayjs";
-import {TypeOutput} from "./TypeOutput";
 
 export type TypeOutputReport = {
   date?: Dayjs | string,
-  title?: TypeOutput,
+  title?: string,
   fact?: number,
   hours?: number,
   unit?: string,

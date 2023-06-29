@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {getAllProductReportByFilter} from "../../../services";
+import {getAllOutputReportByFilter} from "../../../services";
 import {
   TableParam,
   TableProps,
@@ -15,10 +15,10 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
                                                                                   isUpdateTable,
                                                                                 }) => {
   // Лоудер и список всех output
-  const [isLoading, setIsLoading] = useState(false);
-  const [allOutputsReport, setAllOutputsReport] = useState<TypeOutputReport[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allOutputReport, setAllOutputReport] = useState<TypeOutputReport[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -85,10 +85,10 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
 
   // Функция для расчета итоговых значений
   const renderSummaryRow = () => {
-    if (!allOutputsReport) return null
+    if (!allOutputReport) return null
     let totalHours = 0;
 
-    allOutputsReport.forEach(({hours}: TypeOutputReport) => {
+    allOutputReport.forEach(({hours}: TypeOutputReport) => {
       totalHours += hours ?? 0;
     });
 
@@ -111,13 +111,13 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
   const handleFilterTable = useCallback((): void => {
     if (filter) {
       setIsLoading(true);
-      getAllProductReportByFilter({
+      getAllOutputReportByFilter({
           outputId: filter.outputId ?? undefined,
           withGrouping: filter.withGrouping ?? undefined,
         }
       )
         .then((data) => {
-          setAllOutputsReport(data?.map((item, index) => ({...item, key: index})));
+          setAllOutputReport(data?.map((item, index) => ({...item, key: index})));
           setIsLoading(false);
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error))
@@ -132,7 +132,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
     <Table
       bordered
       columns={columns}
-      dataSource={allOutputsReport}
+      dataSource={allOutputReport}
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}

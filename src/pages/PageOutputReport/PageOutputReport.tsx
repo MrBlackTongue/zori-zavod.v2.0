@@ -13,13 +13,13 @@ export const PageOutputReport: React.FC = () => {
   const {Option} = Select;
 
   // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // id выбранного output
   const [selectedOutputId, setSelectedOutputId] = useState<number | undefined>();
 
   // Флаг группировки
-  const [withGrouping, setWithGrouping] = useState(false);
+  const [withGrouping, setWithGrouping] = useState<boolean>(false);
 
   // Хук для получения данных
   const {allOutput} = useFetchAllData({depsOutput: true});
@@ -45,20 +45,27 @@ export const PageOutputReport: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Отчет по выпускам</Title>
         <Space>
-          <Checkbox checked={withGrouping} onChange={(e) => setWithGrouping(e.target.checked)}>Группировать</Checkbox>
+          <Checkbox
+            checked={withGrouping}
+            onChange={(e) => setWithGrouping(e.target.checked)}
+          >
+            Группировать
+          </Checkbox>
           <Select
             showSearch
             allowClear
             style={{width: '330px'}}
-            placeholder="Поиск по выпускам"
+            placeholder="Выберите выпуск продукции"
             onChange={onChangeOutput}
             filterOption={onSearchSelect}
           >
             {allOutput && allOutput.length > 0 ?
               allOutput.map(output => (
-                <Option key={output.id}
-                        value={output.id}
-                        label={`${output.product?.title}, ${output.date}, ${output.id}`}>
+                <Option
+                  key={output.id}
+                  value={output.id}
+                  label={`${output.product?.title}, ${output.date}, ${output.id}`}
+                >
                   <Tooltip
                     placement="right"
                     title={`
@@ -76,7 +83,7 @@ export const PageOutputReport: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(!isUpdateTable)}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
             className='greenButton'
           >
             Обновить
