@@ -11,7 +11,7 @@ export const PageProductMovementHistory: React.FC = () => {
   const {Option} = Select;
 
   // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // Хук для получения данных
   const {allStock} = useFetchAllData({depsStock: true});

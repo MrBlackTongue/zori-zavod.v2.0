@@ -11,10 +11,10 @@ export const TableMeterType: React.FC<TableProps> = ({
                                                        onDelete,
                                                      }) => {
   // Лоудер и список всех типов счетчиков
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -116,7 +116,7 @@ export const TableMeterType: React.FC<TableProps> = ({
       dataSource={allMeterType}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

@@ -11,10 +11,10 @@ export const TableClient: React.FC<TableProps> = ({
                                                     onDelete,
                                                   }) => {
   // Лоудер и список всех клиентов
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allClient, setAllClient] = useState<TypeClient[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -95,7 +95,7 @@ export const TableClient: React.FC<TableProps> = ({
       dataSource={allClient}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

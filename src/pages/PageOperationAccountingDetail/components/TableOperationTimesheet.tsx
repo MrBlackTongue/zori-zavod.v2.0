@@ -12,7 +12,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
                                                                            idDetail,
                                                                          }) => {
   // Лоудер и весь табель учета рабочего времени
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOperationTimesheet, setAllOperationTimesheet] = useState<TypeOperationTimesheet[]>();
 
   // Колонки в таблице

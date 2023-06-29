@@ -22,8 +22,8 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = (
                                                                                 }) => {
 
   // Обновление таблицы, Открыть закрыть модальное окно, Выбранная отгрузка
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Функция добавления нового товара в отгрузку

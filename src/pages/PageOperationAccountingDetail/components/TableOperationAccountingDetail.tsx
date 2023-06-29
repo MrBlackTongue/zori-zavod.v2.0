@@ -13,7 +13,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
                                                                                   idDetail,
                                                                                 }) => {
   // Лоудер и учетная операция
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [operationAccounting, setOperationAccounting] = useState<TypeOperationAccounting>();
 
   // Колонки в таблице

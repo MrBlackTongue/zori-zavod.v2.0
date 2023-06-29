@@ -13,10 +13,10 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
                                                                     filter,
                                                                   }) => {
   // Лоудер и список всех остатков
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allStock, setAllStock] = useState<TypeStock[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -163,7 +163,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataSource={allStock}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10,}}
     />
   );
 };

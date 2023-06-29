@@ -16,10 +16,10 @@ export const TableProductMovementHistory:
                                                               filter,
                                                             }) => {
   // Лоудер и список всей истории движения товаров
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductMovementHistory, setAllProductMovementHistory] = useState<TypeProductMovementHistory[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -129,7 +129,7 @@ export const TableProductMovementHistory:
       dataSource={allProductMovementHistory}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 }
