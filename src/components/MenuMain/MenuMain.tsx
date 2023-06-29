@@ -127,7 +127,7 @@ export const MenuMain: React.FC = () => {
           </Menu.Item>
         </SubMenu>
 
-        <Menu.Item key="client" icon={<SolutionOutlined/>}>
+        <Menu.Item key="/client" icon={<SolutionOutlined/>}>
           <Link to="/client">Клиенты</Link>
         </Menu.Item>
         <Menu.Item key="/stock" icon={<DatabaseOutlined/>}>
