@@ -50,6 +50,7 @@ export function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
     .catch(handleErrorResponseMessage);
 }
 
+//получить все выпущенные товары
 export function getAllProductOutput(): Promise<TypeProduct[]> {
   return api.get(`${PRODUCT}${OUTPUT}`)
     .then(response => response.data)
