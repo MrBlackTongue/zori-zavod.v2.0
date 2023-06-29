@@ -1,48 +1,34 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import React, {useState, useEffect, useCallback} from 'react';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import {
-  getAllOutputs,
-  deleteOutputById,
-} from "../../../services";
-import {TableProps, OutputType, TableParams} from "../../../types/_index";
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {getAllOutput} from "../../../services";
+import {TableProps, TypeOutput, TableParam, TypeProduct} from "../../../types";
 import dayjs from 'dayjs';
 
-export const TableOutput: React.FC<TableProps<OutputType>> = ({
-                                                                isUpdateTable,
-                                                                openDrawer,
-                                                              }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
+export const TableOutput: React.FC<TableProps> = ({
+                                                    isUpdateTable,
+                                                    openDrawer,
+                                                    onDelete,
+                                                  }) => {
   // Лоудер и список всех единиц измерения
-  const [loading, setLoading] = useState(false);
-  const [allOutputs, setAllOutputs] = useState<OutputType[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allOutput, setAllOutput] = useState<TypeOutput[]>();
 
-  // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  // Параметры для пагинации
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
 
-  const columns: ColumnsType<OutputType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeOutput> = [
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idOutput',
       defaultSortOrder: 'ascend',
     },
     {
@@ -56,14 +42,15 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: any) =>
-      product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Действия',
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -72,9 +59,7 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -82,15 +67,11 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этот выпуск продукции?"
-              onConfirm={() => {
-                deleteOutputById(id).then(() => {
-                  getAllOutputs().then((allOutputs) => setAllOutputs(allOutputs))
-                })
-              }}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -101,34 +82,34 @@ export const TableOutput: React.FC<TableProps<OutputType>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<OutputType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOutputs([]);
-    }
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setTableParams({pagination});
   };
 
+  // Функция для обновления таблицы
+  const handleUpdateTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllOutput()
+      .then((data) => {
+        setAllOutput(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
+  }, [])
+
   useEffect(() => {
-    setLoading(true);
-    getAllOutputs().then((allOutputs) => {
-      setAllOutputs(allOutputs);
-      setLoading(false);
-    });
-  }, [!isUpdateTable]);
+    handleUpdateTable()
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
+      bordered
       columns={columns}
-      dataSource={allOutputs}
-      pagination={{position: [bottom]}}
-      loading={loading}
-      onChange={handleTableChange}
+      dataSource={allOutput}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

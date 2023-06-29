@@ -1,55 +1,42 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import React, {useState, useEffect, useCallback} from 'react';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import {
-  getAllUnits,
-  deleteUnitById,
-} from "../../../services";
-import {TableProps, UnitType, TableParams} from "../../../types/_index";
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {getAllUnit} from "../../../services";
+import {TableProps, TypeUnit, TableParam} from "../../../types";
 
-export const TableUnit: React.FC<TableProps<UnitType>> = ({
-                                                        isUpdateTable,
-                                                        openDrawer,
-                                                      }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
+export const TableUnit: React.FC<TableProps> = ({
+                                                  isUpdateTable,
+                                                  openDrawer,
+                                                  onDelete,
+                                                }) => {
   // Лоудер и список всех единиц измерения
-  const [loading, setLoading] = useState(false);
-  const [allUnits, setAllUnits] = useState<UnitType[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
-  // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  // Параметры для пагинации
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
 
-  const columns: ColumnsType<UnitType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeUnit> = [
     {
       title: 'Имя',
       dataIndex: 'name',
       key: 'name',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.name < b.name ? -1 : 1,
+      sorter: (a, b) => (a.name ?? '') < (b.name ?? '') ? -1 : 1,
     },
     {
       title: 'Действия',
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -58,9 +45,7 @@ export const TableUnit: React.FC<TableProps<UnitType>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -68,16 +53,11 @@ export const TableUnit: React.FC<TableProps<UnitType>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту единицу измерения?"
-              onConfirm={() => {
-                deleteUnitById(id).then(() => {
-                  getAllUnits().then((allUnits) => setAllUnits(allUnits))
-                })
-              }}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
-                      onClick={() => {
-                      }}>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -88,34 +68,34 @@ export const TableUnit: React.FC<TableProps<UnitType>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<UnitType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllUnits([]);
-    }
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setTableParams({pagination});
   };
 
+  // Функция для обновления таблицы
+  const handleUpdateTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllUnit()
+      .then((data) => {
+        setAllUnit(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
+  }, [])
+
   useEffect(() => {
-    setLoading(true);
-    getAllUnits().then((allUnits) => {
-      setAllUnits(allUnits);
-      setLoading(false);
-    });
-  }, [!isUpdateTable]);
+    handleUpdateTable()
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
+      bordered
       columns={columns}
-      dataSource={allUnits}
-      pagination={{position: [bottom]}}
-      loading={loading}
-      onChange={handleTableChange}
+      dataSource={allUnit}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

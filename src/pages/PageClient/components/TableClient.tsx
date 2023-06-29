@@ -1,51 +1,42 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import React, {useState, useEffect, useCallback} from 'react';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import {getAllClients, deleteClientById} from "../../../services";
-import {TableProps, ClientType, TableParams} from "../../../types/_index";
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {getAllClient} from "../../../services";
+import {TableProps, TypeClient, TableParam} from "../../../types";
 
-export const TableClient: React.FC<TableProps<ClientType>> = ({
-                                                                      isUpdateTable,
-                                                                      openDrawer,
-                                                                    }) => {
-  type TablePaginationPosition = 'bottomCenter'
+export const TableClient: React.FC<TableProps> = ({
+                                                    isUpdateTable,
+                                                    openDrawer,
+                                                    onDelete,
+                                                  }) => {
   // Лоудер и список всех клиентов
-  const [loading, setLoading] = useState(false);
-  const [allClients, setAllClients] = useState<ClientType[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allClient, setAllClient] = useState<TypeClient[]>();
 
-  // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  // Параметры для пагинации
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
 
-  const columns: ColumnsType<ClientType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeClient> = [
     {
       title: 'Имя',
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.title < b.title ? -1 : 1,
+      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
     },
     {
       title: 'Действия',
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -54,9 +45,7 @@ export const TableClient: React.FC<TableProps<ClientType>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -64,16 +53,11 @@ export const TableClient: React.FC<TableProps<ClientType>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этого клиента?"
-              onConfirm={() => {
-                deleteClientById(id).then(() => {
-                  getAllClients().then((allClients) => setAllClients(allClients))
-                })
-              }}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -84,34 +68,34 @@ export const TableClient: React.FC<TableProps<ClientType>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<ClientType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllClients([]);
-    }
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setTableParams({pagination});
   };
 
+  // Функция для обновления таблицы
+  const handleUpdateTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllClient()
+      .then((data) => {
+        setAllClient(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
+  }, [])
+
   useEffect(() => {
-    setLoading(true);
-    getAllClients().then((allClients) => {
-      setAllClients(allClients);
-      setLoading(false);
-    });
-  }, [!isUpdateTable]);
+    handleUpdateTable()
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
+      bordered
       columns={columns}
-      dataSource={allClients}
-      pagination={{position: [bottom]}}
-      loading={loading}
-      onChange={handleTableChange}
+      dataSource={allClient}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

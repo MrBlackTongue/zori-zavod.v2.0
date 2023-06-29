@@ -1,71 +1,56 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewUnit, putChangeUnit} from "../../services";
-import {UnitType} from "../../types/_index";
+import {deleteUnitById, createUnit, updateUnit} from "../../services";
+import {TypeUnit, TypeUnitFormValue} from "../../types";
 import {TableUnit} from "./components/TableUnit";
-import {AddModalUnit} from "./components/AddModalUnit";
-import {EditDrawerUnit} from "./components/EditDrawerUnit";
-
-const {Title} = Typography;
+import {CreateModalUnit} from "./components/CreateModalUnit";
+import {UpdateDrawerUnit} from "./components/UpdateDrawerUnit";
 
 export const PageUnit: React.FC = () => {
 
-  const [form] = Form.useForm();
+  const {Title} = Typography;
 
-  // Ед измерения в таблице, обновить таблицу
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // Создать новую единицу измерения
-  const [unit] = useState<UnitType | null>(null);
-
-  // Открыть закрыть модальное окно, дравер
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Открыть ед измерения по id
+  // id выбраной единицы измерения
   const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
-  const addUnit = (values: { [key: string]: any }): UnitType => {
-    const unit: UnitType = {
+  // Добавить новую единицу измерения
+  const handleCreateUnit = (values: TypeUnitFormValue): void => {
+    const unit: TypeUnit = {
       name: values.name,
     };
     setIsModalOpen(false)
-    postNewUnit(unit)
-    setUpdateTable(!updateTable)
-    return unit;
+    void createUnit(unit)
+    setIsUpdateTable(prevState => !prevState)
   };
 
-  useEffect(() => {
-    if (unit) {
-      form.setFieldsValue(unit);
-    }
-  }, [unit, form]);
-
-  // Drawer
-  const openDrawer = (unitId: number) => {
+  // Открыть дравер
+  const openDrawer = (unitId: number): void => {
     setSelectedUnitId(unitId)
     setIsDrawerOpen(true);
   };
 
-  const updateUnit = (values: { [key: string]: any }): UnitType => {
-    const unit: UnitType = {
-      name: values.name,
+  // Обновить единицу измерения
+  const handleUpdateUnit = (values: TypeUnitFormValue): void => {
+    const unit: TypeUnit = {
       id: selectedUnitId,
+      name: values.name,
     };
     setIsDrawerOpen(false)
-    putChangeUnit(unit)
-    setUpdateTable(!updateTable)
-    return unit
+    void updateUnit(unit)
+    setIsUpdateTable(prevState => !prevState)
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteUnit = (id: number): void => {
+    void deleteUnitById(id)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -76,39 +61,36 @@ export const PageUnit: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableUnit
-        isUpdateTable={updateTable}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteUnit}
       />
-      <AddModalUnit
+      <CreateModalUnit
         isOpen={isModalOpen}
-        addItem={addUnit}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        createItem={handleCreateUnit}
+        onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerUnit
+      <UpdateDrawerUnit
         isOpen={isDrawerOpen}
         selectedItemId={selectedUnitId}
-        updateItem={updateUnit}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        updateItem={handleUpdateUnit}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

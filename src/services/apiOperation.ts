@@ -1,97 +1,44 @@
-import {OperationType} from "../types/_index";
-import {message} from "antd";
-import {URL, OPERATION} from "./apiEndpoints";
+import {TypeApiResponse, TypeOperation} from "../types";
+import {OPERATION} from "./apiEndpoints";
+import {
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
+} from '../utils';
+import {api} from "./api";
 
 // Получить список всех типов операций
-export async function getAllOperations(): Promise<OperationType[]> {
-  try {
-    const res = await fetch(URL + OPERATION);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as OperationType[];
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+export function getAllOperation(): Promise<TypeOperation[]> {
+  return api.get(OPERATION)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные типа операции по id
-export async function getOperationById(id: number): Promise<OperationType | undefined> {
-  try {
-    const response = await fetch(URL + OPERATION + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+export function getOperationById(id: number): Promise<TypeOperation | undefined> {
+  return api.get(`${OPERATION}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новый тип операции
-export function postNewOperation(data: OperationType) {
-  try {
-    const config = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    };
-    fetch(URL + OPERATION, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error))
-  } catch (error) {
-    console.error(error);
-  }
+export function createOperation(data: TypeOperation): Promise<TypeApiResponse> {
+  return api.post(OPERATION, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить тип операции по id
-export async function deleteOperationById(id: number) {
-  try {
-    const response = await fetch(URL + OPERATION + `/${id}`, {
-      method: 'DELETE',
-    });
-    const data = await response.json();
-    if (data.success) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-  }
+export function deleteOperationById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${OPERATION}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать тип операции
-export function putChangeOperation(data: OperationType) {
-  try {
-    const config = {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    };
-    fetch(URL + OPERATION, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
-  } catch (error) {
-    console.error(error);
-  }
+export function updateOperation(data: TypeOperation): Promise<TypeApiResponse> {
+  return api.put(OPERATION, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

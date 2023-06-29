@@ -1,18 +1,30 @@
-export interface TableProps<T> {
+export interface TableProps<F = {}> {
   isUpdateTable: boolean;
-  openDrawer: (id: number) => void;
-  searchText?: string | undefined;
+  openDrawer?: (id: number) => void;
+  openDetailDrawer?: (id: number) => void;
+  onDelete?: (id: number) => void;
+  searchText?: string;
+  filter?: F;
+  idDetail?: number;
 }
 
-export interface AddModalProps<T> {
+export interface CreateModalProps<T> {
   isOpen: boolean;
   onCancel: () => void;
-  addItem: (values: T) => void;
+  createItem: (values: T) => void;
 }
 
-export interface EditDrawerProps<T> {
+export interface UpdateDrawerProps<T> {
   isOpen: boolean;
-  closeDrawer: () => void;
+  onCancel: () => void;
   selectedItemId: number | undefined;
   updateItem: (values: T) => void;
 }
+
+export interface DetailDrawerProps<T> {
+  isOpen: boolean;
+  onCancel: () => void;
+  selectedItemId: number | undefined;
+  updateItem?: (values: T) => void;
+}
+

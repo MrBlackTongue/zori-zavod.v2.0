@@ -1,97 +1,44 @@
-import {message} from "antd";
-import {URL, PRODUCT, BATCH} from "./apiEndpoints";
-import {ProductBatchType} from "../types/_index";
+import {TypeApiResponse, TypeProductBatch} from "../types";
+import {PRODUCT, BATCH} from "./apiEndpoints";
+import {
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
+} from '../utils';
+import {api} from "./api";
 
 // Получить все партии товаров
-export async function getAllProductBatch(): Promise<ProductBatchType[]> {
-  try {
-    const res = await fetch(URL + PRODUCT + BATCH);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as ProductBatchType[];
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+export function getAllProductBatch(): Promise<TypeProductBatch[]> {
+  return api.get(`${PRODUCT}${BATCH}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
-// Редактировать партию товара
-export function putChangeProductBatch(data: ProductBatchType) {
-  try {
-    const config = {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT + BATCH, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
-  } catch (error) {
-    console.error(error);
-  }
+// Получить данные партии товаров по id
+export function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
+  return api.get(`${PRODUCT}${BATCH}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
-// Добавить новую партию товара
-export function postNewProductBatch(data: ProductBatchType) {
-  try {
-    const config = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    };
-    fetch(URL + PRODUCT + BATCH, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
-  } catch (error) {
-    console.error(error);
-  }
+// Добавить новую партию товаров
+export function createProductBatch(data: TypeProductBatch): Promise<TypeApiResponse> {
+  return api.post(`${PRODUCT}${BATCH}`, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
-// Получить данные партии товара по id
-export async function getProductBatchById(id: number): Promise<ProductBatchType | undefined> {
-  try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+// Удалить партию товаров по id
+export function deleteProductBatchById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${PRODUCT}${BATCH}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
-// Удалить партию товара по id
-export async function deleteProductBatchById(id: number) {
-  try {
-    const response = await fetch(URL + PRODUCT + BATCH + `/${id}`, {
-      method: 'DELETE',
-    });
-    const data = await response.json();
-    if (data.success) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-  }
+// Редактировать партию товаров
+export function updateProductBatch(data: TypeProductBatch): Promise<TypeApiResponse> {
+  return api.put(`${PRODUCT}${BATCH}`, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

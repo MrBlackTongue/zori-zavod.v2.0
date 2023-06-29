@@ -1,85 +1,61 @@
-import React, {useState, useEffect} from 'react';
-import {Typography, Space, Button, Form, Input,} from 'antd';
+import React, {useState} from 'react';
+import {Typography, Space, Button, Input, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewProduct, putChangeProduct} from "../../services";
-import {ProductType} from "../../types/_index";
+import {deleteProductById, createProduct, updateProduct} from "../../services";
+import {TypeProduct, TypeProductFormValue} from "../../types";
 import {TableProduct} from "./components/TableProduct";
-import {AddModalProduct} from "./components/AddModalProduct";
-import {EditDrawerProduct} from "./components/EditDrawerProduct";
-
-const {Title} = Typography;
+import {CreateModalProduct} from "./components/CreateModalProduct";
+import {UpdateDrawerProduct} from "./components/UpdateDrawerProduct";
 
 export const PageProduct: React.FC = () => {
 
-  const [form] = Form.useForm();
+  const {Title} = Typography;
 
-  // Товары в таблице, обновить таблицу
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // Создать новый товар
-  const [product] = useState<ProductType | null>(null);
-
-  // Открыть закрыть модальное окно, дравер
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Открыть товар по id
+  // id выбраного товара, Текст поиска
   const [selectedProductId, setSelectedProductId] = useState<number>();
+  const [searchText, setSearchText] = useState<string>("");
 
-  const addProduct = (values: { [key: string]: any }): ProductType => {
-    const product: ProductType = {
+  // Добавить новый товар
+  const handleCreateProduct = (values: TypeProductFormValue): void => {
+    const product: TypeProduct = {
       title: values.title,
-      productGroup: {
-        id: values.productGroup.id,
-        title: values.productGroup.title,
-      },
-      unit: {
-        id: values.unit.id,
-        name: values.unit.name,
-      },
+      productGroup: {id: values.productGroup},
+      unit: {id: values.unit},
     };
     setIsModalOpen(false)
-    postNewProduct(product)
-    setUpdateTable(!updateTable)
-    return product;
+    void createProduct(product)
+    setIsUpdateTable(prevState => !prevState)
   };
 
-  useEffect(() => {
-    if (product) {
-      form.setFieldsValue(product);
-    }
-  }, [product, form]);
-
-  // Drawer
-  const openDrawer = (productId: number) => {
+  // Открыть дравер
+  const openDrawer = (productId: number): void => {
     setSelectedProductId(productId)
     setIsDrawerOpen(true);
   };
 
-  const [searchText, setSearchText] = useState("");
-
-  const searchTable = (value: string) => {
-    setSearchText(value);
-  }
-
-  const updateProduct = (values: { [key: string]: any }): ProductType => {
-    const product: ProductType = {
-      title: values.title,
-      productGroup: {
-        id: values.productGroup.id,
-        title: values.productGroup.title,
-      },
-      unit: {
-        id: values.unit.id,
-        name: values.unit.name,
-      },
+  // Обновить товар
+  const handleUpdateProduct = (values: TypeProductFormValue): void => {
+    const product: TypeProduct = {
       id: selectedProductId,
+      title: values.title,
+      productGroup: {id: values.productGroup},
+      unit: {id: values.unit},
     };
     setIsDrawerOpen(false)
-    putChangeProduct(product)
-    setUpdateTable(!updateTable)
-    return product
+    void updateProduct(product)
+    setIsUpdateTable(prevState => !prevState)
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteProduct = (id: number): void => {
+    void deleteProductById(id)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -88,49 +64,46 @@ export const PageProduct: React.FC = () => {
         <Title level={3}>Товары</Title>
         <Space>
           <Input
-            placeholder="Поиск по товарам"
-            onChange={(event) => searchTable(event.target.value)}
-            style={{width: '210px'}}
             allowClear
+            style={{width: '210px'}}
+            placeholder="Поиск по товарам"
+            onChange={(event) => setSearchText(event.target.value)}
             prefix={<SearchOutlined/>}
           />
           <Button
             type="dashed"
+            className='greenButton'
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+          >
             Обновить
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableProduct
-        isUpdateTable={updateTable}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteProduct}
         searchText={searchText}
       />
-      <AddModalProduct
+      <CreateModalProduct
         isOpen={isModalOpen}
-        addItem={addProduct}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        createItem={handleCreateProduct}
+        onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerProduct
+      <UpdateDrawerProduct
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductId}
-        updateItem={updateProduct}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        updateItem={handleUpdateProduct}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

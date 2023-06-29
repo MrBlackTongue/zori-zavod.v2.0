@@ -1,77 +1,59 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewOutput, putChangeOutput} from "../../services";
-import {OutputType} from "../../types/_index";
+import {deleteOutputById, createOutput, updateOutput} from "../../services";
+import {TypeOutput, TypeOutputFormValue} from "../../types";
 import {TableOutput} from "./components/TableOutput";
-import {AddModalOutput} from "./components/AddModalOutput";
-import {EditDrawerOutput} from "./components/EditDrawerOutput";
-
-const {Title} = Typography;
+import {CreateModalOutput} from "./components/CreateModalOutput";
+import {UpdateDrawerOutput} from "./components/UpdateDrawerOutput";
+import dayjs from "dayjs";
 
 export const PageOutput: React.FC = () => {
 
-  const [form] = Form.useForm();
+  const {Title} = Typography;
 
-  // Выпуски продукции в таблице, обновить таблицу
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // Создать новый выпуск продукции
-  const [output] = useState<OutputType | null>(null);
-
-  // Открыть закрыть модальное окно, дравер
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Открыть выпуск продукции по id
+  // id выбраного выпуска продукции
   const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
-  const addOutput = (values: { [key: string]: any }): OutputType => {
-    const output: OutputType = {
-      date: values['date'].format('YYYY-MM-DD'),
-      product: {
-        id: values.product,
-      }
+  // Добавить новый выпуск продукции
+  const handleCreateOutput = (values: TypeOutputFormValue): void => {
+    const output: TypeOutput = {
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      product: {id: values.product}
     };
     setIsModalOpen(false)
-    postNewOutput(output)
-    setUpdateTable(!updateTable)
-    return output;
+    void createOutput(output)
+    setIsUpdateTable(prevState => !prevState)
   };
 
-  useEffect(() => {
-    if (output) {
-      form.setFieldsValue(output);
-    }
-  }, [output, form]);
-
-  // Drawer
-  const openDrawer = (outputId: number) => {
+  // Открыть дравер
+  const openDrawer = (outputId: number): void => {
     setSelectedOutputId(outputId)
     setIsDrawerOpen(true);
   };
 
-  const updateOutput = (values: { [key: string]: any }): OutputType => {
-    const output: OutputType = {
-      date: values['date'].format('YYYY-MM-DD'),
-      product: {
-        id: values.product,
-      },
+  // Обновить выпуск продукции
+  const handleUpdateOutput = (values: TypeOutputFormValue): void => {
+    const output: TypeOutput = {
       id: selectedOutputId,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      product: {id: values.product},
     };
     setIsDrawerOpen(false)
-    putChangeOutput(output)
-    setUpdateTable(!updateTable)
-    return output
+    void updateOutput(output)
+    setIsUpdateTable(prevState => !prevState)
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteOutput = (id: number): void => {
+    void deleteOutputById(id)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -82,39 +64,36 @@ export const PageOutput: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableOutput
-        isUpdateTable={updateTable}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteOutput}
       />
-      <AddModalOutput
+      <CreateModalOutput
         isOpen={isModalOpen}
-        addItem={addOutput}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        createItem={handleCreateOutput}
+        onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerOutput
+      <UpdateDrawerOutput
         isOpen={isDrawerOpen}
         selectedItemId={selectedOutputId}
-        updateItem={updateOutput}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        updateItem={handleUpdateOutput}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

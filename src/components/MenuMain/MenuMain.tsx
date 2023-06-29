@@ -1,101 +1,165 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Menu} from 'antd';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {
-  AccountBookOutlined,
-  CopyOutlined,
+  ScheduleOutlined,
+  ProjectOutlined,
   DatabaseOutlined,
-  DollarCircleOutlined,
+  AppstoreAddOutlined,
   FormOutlined,
-  FunctionOutlined,
-  PicLeftOutlined,
+  TranslationOutlined,
+  BulbOutlined,
   TeamOutlined,
-  TrophyOutlined,
-  UnorderedListOutlined,
-  UploadOutlined
+  RightOutlined,
+  SnippetsOutlined,
+  CalendarOutlined,
+  LogoutOutlined,
+  SolutionOutlined,
+  OrderedListOutlined,
+  SlidersOutlined,
+  AppstoreOutlined,
+  ApartmentOutlined,
+  BookOutlined,
+  ContactsOutlined,
+  ControlOutlined,
+  ClusterOutlined,
+  ReconciliationOutlined,
+  TableOutlined,
 } from "@ant-design/icons";
 
 export const MenuMain: React.FC = () => {
+
+  const subMenuRoutes = {
+    "01": ["/operation-accounting", "/operation", "/production-type"],
+    "02": ["/operation-report", "/output-report", "/product-report", "/employee-report"],
+    "03": ["/product", "/product-group"],
+    "04": ["/meter-record", "/meter", "/meter-type"],
+    "05": ["/purchase", "/product-batch", "/acceptance"],
+  };
+
+  const findSubMenuKey = (pathname: any) => {
+    for (const [key, routes] of Object.entries(subMenuRoutes)) {
+      if (routes.includes(pathname)) {
+        return key;
+      }
+    }
+    return "";
+  };
+
+  const {SubMenu} = Menu;
+  const location = useLocation();
+  const defaultOpenKeys = findSubMenuKey(location.pathname);
+  const [openKeys, setOpenKeys] = useState([defaultOpenKeys]);
+
+  // Функция-обработчик изменения openKeys
+  const onOpenChange = (keys: any) => {
+    const latestOpenKey = keys.find((key: any) => openKeys.indexOf(key) === -1);
+    if (Object.keys(subMenuRoutes).indexOf(latestOpenKey) === -1) {
+      setOpenKeys(keys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    }
+  };
+
   return (
-    <div style={{'height': 'calc(100vh - 10px)', 'overflowY': 'auto'}}>
+    <div style={{'height': 'calc(100vh - 100px)', 'overflowY': 'auto'}}>
       <Menu
         theme="light"
-        mode="inline">
-        <Menu.Item key="1" icon={<TeamOutlined/>}>
+        mode="inline"
+        selectedKeys={[location.pathname]}
+        openKeys={openKeys}
+        onOpenChange={onOpenChange}
+        onSelect={({key}) => {
+          if (!Object.values(subMenuRoutes).flat().includes(key)) {
+            setOpenKeys([]);
+          }
+        }}
+      >
+        <Menu.Item key="/employee" icon={<TeamOutlined/>}>
           <Link to="/employee">Сотрудники</Link>
         </Menu.Item>
-        <Menu.Item key="2" icon={<UnorderedListOutlined/>}>
-          <Link to="/operation_accounting">Учет операций</Link>
-        </Menu.Item>
-        <Menu.Item key="3" icon={<UnorderedListOutlined/>}>
-          <Link to="/operation">Типы операций</Link>
-        </Menu.Item>
-        <Menu.Item key="4" icon={<CopyOutlined/>}>
-          <Link to="/operation-report">По операциям</Link>
-        </Menu.Item>
-        <Menu.Item key="5" icon={<UnorderedListOutlined/>}>
-          <Link to="/output-report">По выпускам</Link>
-        </Menu.Item>
-        <Menu.Item key="6" icon={<DatabaseOutlined/>}>
-          <Link to="/product-report">По продуктам</Link>
-        </Menu.Item>
-        <Menu.Item key="7" icon={<UnorderedListOutlined/>}>
-          <Link to="/employee-report">По сотрудникам</Link>
-        </Menu.Item>
-        <Menu.Item key="8" icon={<TrophyOutlined/>}>
-          <Link to="/product">Товары</Link>
-        </Menu.Item>
-        <Menu.Item key="9" icon={<FormOutlined/>}>
-          <Link to="/product-group">Группы товаров</Link>
-        </Menu.Item>
-        <Menu.Item key="10" icon={<TrophyOutlined/>}>
-          <Link to="/meter-record">Записи счетчиков</Link>
-        </Menu.Item>
-        <Menu.Item key="11" icon={<PicLeftOutlined/>}>
-          <Link to="/meter">Счетчики</Link>
-        </Menu.Item>
-        <Menu.Item key="12" icon={<TrophyOutlined/>}>
-          <Link to="/meter-type">Типы счетчиков</Link>
-        </Menu.Item>
-        <Menu.Item key="13" icon={<FunctionOutlined/>}>
+
+        <SubMenu key="01" icon={<RightOutlined/>} title="Операции">
+          <Menu.Item key="/operation-accounting" icon={<FormOutlined/>}>
+            <Link to="/operation-accounting">Учет операций</Link>
+          </Menu.Item>
+          <Menu.Item key="/operation" icon={<OrderedListOutlined/>}>
+            <Link to="/operation">Типы операций</Link>
+          </Menu.Item>
+          <Menu.Item key="/production-type" icon={<SlidersOutlined/>}>
+            <Link to="/production-type">Типы производства</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <SubMenu key="02" icon={<RightOutlined/>} title="Отчеты">
+          <Menu.Item key="/operation-report" icon={<ReconciliationOutlined/>}>
+            <Link to="/operation-report">По операциям</Link>
+          </Menu.Item>
+          <Menu.Item key="/output-report" icon={<ProjectOutlined/>}>
+            <Link to="/output-report">По выпускам</Link>
+          </Menu.Item>
+          <Menu.Item key="/product-report" icon={<TableOutlined/>}>
+            <Link to="/product-report">По товарам</Link>
+          </Menu.Item>
+          <Menu.Item key="/employee-report" icon={<SnippetsOutlined/>}>
+            <Link to="/employee-report">По сотрудникам</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <SubMenu key="03" icon={<RightOutlined/>} title="Товары">
+          <Menu.Item key="/product" icon={<AppstoreOutlined/>}>
+            <Link to="/product">Товары</Link>
+          </Menu.Item>
+          <Menu.Item key="/product-group" icon={<ApartmentOutlined/>}>
+            <Link to="/product-group">Группы товаров</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <SubMenu key="04" icon={<RightOutlined/>} title="Счетчики">
+          <Menu.Item key="/meter-record" icon={<BookOutlined/>}>
+            <Link to="/meter-record">Записи счетчиков</Link>
+          </Menu.Item>
+          <Menu.Item key="/meter" icon={<BulbOutlined/>}>
+            <Link to="/meter">Счетчики</Link>
+          </Menu.Item>
+          <Menu.Item key="/meter-type" icon={<ControlOutlined/>}>
+            <Link to="/meter-type">Типы счетчиков</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <Menu.Item key="/client" icon={<SolutionOutlined/>}>
           <Link to="/client">Клиенты</Link>
         </Menu.Item>
-        <Menu.Item key="14" icon={<DollarCircleOutlined/>}>
+        <Menu.Item key="/stock" icon={<DatabaseOutlined/>}>
           <Link to="/stock">Склад</Link>
         </Menu.Item>
-        <Menu.Item key="15" icon={<DollarCircleOutlined/>}>
+        <Menu.Item key="/shipment" icon={<ContactsOutlined/>}>
           <Link to="/shipment">Отгрузки</Link>
         </Menu.Item>
-        <Menu.Item key="16" icon={<FunctionOutlined/>}>
-          <Link to="/purchase">Заказы на закупки</Link>
+
+        <SubMenu key="05" icon={<RightOutlined/>} title="Закупки">
+          <Menu.Item key="/purchase" icon={<AppstoreAddOutlined/>}>
+            <Link to="/purchase">Заказы на закупки</Link>
+          </Menu.Item>
+          <Menu.Item key="/product-batch" icon={<ClusterOutlined/>}>
+            <Link to="/product-batch">Партии товаров</Link>
+          </Menu.Item>
+          <Menu.Item key="/acceptance" icon={<ScheduleOutlined/>}>
+            <Link to="/acceptance">Приемка товаров</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <Menu.Item key="/product-movement-history" icon={<CalendarOutlined/>}>
+          <Link to="/product-movement-history">История товаров</Link>
         </Menu.Item>
-        <Menu.Item key="17" icon={<FunctionOutlined/>}>
-          <Link to="/product-batch">Партии товаров</Link>
-        </Menu.Item>
-        <Menu.Item key="18" icon={<AccountBookOutlined/>}>
-          <Link to="/product-acceptance">Приемка товаров</Link>
-        </Menu.Item>
-        <Menu.Item key="19" icon={<AccountBookOutlined/>}>
-          <Link to="/product-movement">На производстве</Link>
-        </Menu.Item>
-        <Menu.Item key="20" icon={<UploadOutlined/>}>
-          <Link to="/product-movement-history">История</Link>
-        </Menu.Item>
-        <Menu.Item key="21" icon={<AccountBookOutlined/>}>
+
+        <Menu.Item key="/output" icon={<LogoutOutlined/>}>
           <Link to="/output">Выпуски продукции</Link>
         </Menu.Item>
-        <Menu.Item key="22" icon={<FunctionOutlined/>}>
+        <Menu.Item key="/unit" icon={<TranslationOutlined/>}>
           <Link to="/unit">Единицы измерения</Link>
         </Menu.Item>
-        <Menu.Item key="23" icon={<FunctionOutlined/>}>
-          <Link to="/transformation-record">Записи трансформаций</Link>
-        </Menu.Item>
-        <Menu.Item key="24" icon={<FunctionOutlined/>}>
-          <Link to="/transformation">Трансформации</Link>
-        </Menu.Item>
-        <Menu.Item key="25" icon={<FunctionOutlined/>}>
-          <Link to="/transformation-step">Шаги трансформаций</Link>
-        </Menu.Item>
+
       </Menu>
     </div>
   )

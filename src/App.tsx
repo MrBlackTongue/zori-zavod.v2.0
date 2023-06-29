@@ -1,25 +1,41 @@
-import './App.css';
 import React, {useState} from 'react';
+// import {useLocation} from 'react-router-dom';
+import './App.css';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import {Layout, theme} from 'antd';
 import {MenuMain} from "./components/MenuMain/MenuMain";
-import {AppRoutes} from "./components/AppRoutes/AppRoutes";
+import {ContentRoutes} from "./components/ContentRoutes/ContentRoutes";
 
 const {Header, Sider, Content} = Layout;
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: {colorBgContainer},
-  } = theme.useToken();
+  // const location = useLocation();
+  const {token: {colorBgContainer}} = theme.useToken();
+
+  // Сворачивать меню на станице учет операций
+  // useEffect(() => {
+  //   if (location.pathname === '/operation-accounting') {
+  //     setCollapsed(true);
+  //   } else {
+  //     setCollapsed(false)
+  //   }
+  // }, [location]);
 
   return (
     <div>
       <Layout>
-        <Sider trigger={null} collapsible collapsed={collapsed} width={240} theme="light">
+        <Sider
+          style={{position: 'fixed', height: '100vh', zIndex: 1}}
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          width={240}
+          theme="light"
+        >
           {/*<div className="logo" />*/}
           <Header style={{padding: 0, background: colorBgContainer}}>
             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
@@ -29,12 +45,12 @@ function App() {
           </Header>
           <MenuMain/>
         </Sider>
-        <Layout className="site-layout">
+        <Layout className="site-layout" style={{marginLeft: collapsed ? 80 : 240}}>
           <Header style={{padding: 0, background: colorBgContainer}}>
             {/*<Title level={3}></Title>*/}
           </Header>
           <Content className='context-style'>
-            <AppRoutes/>
+            <ContentRoutes/>
           </Content>
         </Layout>
       </Layout>

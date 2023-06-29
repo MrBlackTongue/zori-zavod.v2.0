@@ -1,42 +1,28 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewEmployee, putChangeEmployee} from "../../services";
-import {EmployeeType} from "../../types/_index";
+import {deleteEmployeeById, createEmployee, updateEmployee} from "../../services";
+import {TypeEmployee, TypeEmployeeFormValue} from "../../types";
 import {TableEmployee} from "./components/TableEmployee";
-import {AddModalEmployee} from "./components/AddModalEmployee";
-import {EditDrawerEmployee} from "./components/EditDrawerEmployee";
-
-const {Title} = Typography;
+import {CreateModalEmployee} from "./components/CreateModalEmployee";
+import {UpdateDrawerEmployee} from "./components/UpdateDrawerEmployee";
 
 export const PageEmployee: React.FC = () => {
 
-  const [form] = Form.useForm();
+  const {Title} = Typography;
 
-  // Сотрудники в таблице, обновить сотрудников
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // Создать нового сотрудника
-  const [employee] = useState<EmployeeType | null>(null);
-
-  // Открыть закрыть модальное окно, дравер
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Открыть сотрудника по id
+  //  id выбраного сотрудника
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
-  const addEmployee = (values: { [key: string]: any }): EmployeeType => {
-    const employee: EmployeeType = {
+  // Добавить нового сотрудника
+  const handleCreateEmployee = (values: TypeEmployeeFormValue): void => {
+    const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
@@ -44,36 +30,35 @@ export const PageEmployee: React.FC = () => {
       hired: values.hired,
     };
     setIsModalOpen(false)
-    postNewEmployee(employee)
-    setUpdateTable(!updateTable)
-    return employee;
+    void createEmployee(employee)
+    setIsUpdateTable(prevState => !prevState)
   };
 
-  useEffect(() => {
-    if (employee) {
-      form.setFieldsValue(employee);
-    }
-  }, [employee, form]);
-
-  // Drawer
-  const openDrawer = (employeeId: number) => {
+  // Открыть дравер
+  const openDrawer = (employeeId: number): void => {
     setSelectedEmployeeId(employeeId)
     setIsDrawerOpen(true);
   };
 
-  const updateEmployee = (values: { [key: string]: any }): EmployeeType => {
-    const employee: EmployeeType = {
+  // Обновить сотрудника
+  const handleUpdateEmployee = (values: TypeEmployeeFormValue): void => {
+    const employee: TypeEmployee = {
+      id: selectedEmployeeId,
       firstName: values.firstName,
       lastName: values.lastName,
       phone: values.phone,
       salaryRate: values.salaryRate,
       hired: values.hired,
-      id: selectedEmployeeId,
     };
     setIsDrawerOpen(false)
-    putChangeEmployee(employee)
-    setUpdateTable(!updateTable)
-    return employee
+    void updateEmployee(employee)
+    setIsUpdateTable(prevState => !prevState)
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteEmployee = (id: number): void => {
+    void deleteEmployeeById(id)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -84,39 +69,36 @@ export const PageEmployee: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableEmployee
-        isUpdateTable={updateTable}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteEmployee}
       />
-      <AddModalEmployee
+      <CreateModalEmployee
         isOpen={isModalOpen}
-        addItem={addEmployee}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        createItem={handleCreateEmployee}
+        onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerEmployee
+      <UpdateDrawerEmployee
         isOpen={isDrawerOpen}
         selectedItemId={selectedEmployeeId}
-        updateItem={updateEmployee}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        updateItem={handleUpdateEmployee}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );

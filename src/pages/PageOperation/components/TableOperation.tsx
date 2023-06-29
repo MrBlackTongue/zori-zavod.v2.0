@@ -1,68 +1,55 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-} from 'antd';
+import React, {useState, useEffect, useCallback} from 'react';
+import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult} from 'antd/es/table/interface';
-import {
-  EditOutlined,
-  DeleteOutlined,
-} from '@ant-design/icons';
-import {
-  getAllOperations,
-  deleteOperationById,
-} from "../../../services";
-import {TableProps, OperationType, TableParams} from "../../../types/_index";
+import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {getAllOperation} from "../../../services";
+import {TableProps, TypeOperation, TableParam, TypeUnit} from "../../../types";
 
-export const TableOperation: React.FC<TableProps<OperationType>> = ({
-                                                                  isUpdateTable,
-                                                                  openDrawer,
-                                                                }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
+export const TableOperation: React.FC<TableProps> = ({
+                                                       isUpdateTable,
+                                                       openDrawer,
+                                                       onDelete,
+                                                     }) => {
   // Лоудер и список всех операций
-  const [loading, setLoading] = useState(false);
-  const [allOperations, setAllOperations] = useState<OperationType[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allOperation, setAllOperation] = useState<TypeOperation[]>();
 
-  // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  // Параметры для пагинации
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
 
-  const columns: ColumnsType<OperationType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeOperation> = [
     {
       title: 'Операция',
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.title < b.title ? -1 : 1,
+      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
     },
     {
       title: 'Единица измерения',
       dataIndex: 'unit',
       key: 'unit',
-      render: ((unit: any) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+      render: ((unit: TypeUnit) =>
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Норма',
       dataIndex: 'rate',
       key: 'rate',
-      sorter: (a, b) => a.rate - b.rate,
+      sorter: (a, b) => (a.rate ?? 0) < (b.rate ?? 0) ? -1 : 1,
     },
     {
       title: 'Действия',
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -71,9 +58,7 @@ export const TableOperation: React.FC<TableProps<OperationType>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -81,15 +66,11 @@ export const TableOperation: React.FC<TableProps<OperationType>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту операцию?"
-              onConfirm={() => {
-                deleteOperationById(id).then(() => {
-                  getAllOperations().then((allOperations) => setAllOperations(allOperations))
-                })
-              }}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -100,34 +81,34 @@ export const TableOperation: React.FC<TableProps<OperationType>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<OperationType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllOperations([]);
-    }
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setTableParams({pagination});
   };
 
+  // Функция для обновления таблицы
+  const handleUpdateTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllOperation()
+      .then((data) => {
+        setAllOperation(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error));
+  }, [])
+
   useEffect(() => {
-    setLoading(true);
-    getAllOperations().then((allOperations) => {
-      setAllOperations(allOperations);
-      setLoading(false);
-    });
-  }, [!isUpdateTable]);
+    handleUpdateTable()
+  }, [isUpdateTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
+      bordered
       columns={columns}
-      dataSource={allOperations}
-      pagination={{position: [bottom]}}
-      loading={loading}
-      onChange={handleTableChange}
+      dataSource={allOperation}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

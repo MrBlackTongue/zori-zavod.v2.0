@@ -1,112 +1,51 @@
-import {PurchaseType} from "../types/_index";
-import {message} from "antd";
-import {PRODUCT, PURCHASE, URL} from "./apiEndpoints";
+import {TypeApiResponse, TypePurchase} from "../types";
+import { PURCHASE, PRODUCT} from "./apiEndpoints";
+import {
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
+} from '../utils';
+import {api} from "./api";
 
-// Получить все закупки
-export async function getAllPurchases(): Promise<PurchaseType[]> {
-  try {
-    const res = await fetch(URL + PURCHASE);
-    if (!res.ok) {
-      console.error(res.statusText);
-      return Promise.reject();
-    }
-    return await res.json() as PurchaseType[];
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+// Получить список всех закупок
+export function getAllPurchase(): Promise<TypePurchase[]> {
+  return api.get(PURCHASE)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные закупки по id
-export async function getPurchaseById(id: number): Promise<PurchaseType | undefined> {
-  try {
-    const response = await fetch(URL + PURCHASE + `/${id}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+export function getPurchaseById(id: number): Promise<TypePurchase | undefined> {
+  return api.get(`${PURCHASE}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить новую закупку
-export function postNewPurchase(data: PurchaseType) {
-  try {
-    const config = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    };
-    fetch(URL + PURCHASE, config)
-      .then((response) => {
-        if (response.ok) {
-          return message.success('Запись добавлена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при добавлении записи');
-        }
-      })
-      .catch((error) => console.error(error));
-  } catch (error) {
-    console.error(error);
-  }
+export function createPurchase(data: TypePurchase): Promise<TypeApiResponse> {
+  return api.post(PURCHASE, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить закупку по id
-export async function deletePurchaseById(id: number) {
-  try {
-    const response = await fetch(URL + PURCHASE + `/${id}`, {
-      method: 'DELETE',
-    });
-    const data = await response.json();
-    if (data.success) {
-      return message.success('Запись удалена');
-    } else {
-      console.error(response.statusText);
-      return message.error('Ошибка при удалении записи');
-    }
-  } catch (err) {
-    console.error(err);
-  }
+export function deletePurchaseById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${PURCHASE}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать закупку
-export function putChangePurchase(data: PurchaseType) {
-  try {
-    const config = {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    };
-    fetch(URL + PURCHASE, config)
-      .then(response => {
-        if (response.ok) {
-          return message.success('Запись изменена');
-        } else {
-          console.error(response.statusText);
-          return message.error('Ошибка при изменении записи');
-        }
-      })
-      .catch(error => console.error(error))
-  } catch (error) {
-    console.error(error);
-  }
+export function updatePurchase(data: TypePurchase): Promise<TypeApiResponse> {
+  return api.put(PURCHASE, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
-// Поиск по товару
-export async function getPurchaseByTitle(title: string): Promise<PurchaseType[]> {
-  try {
-    const response = await fetch(URL + PURCHASE + PRODUCT + `/${title}`);
-    if (!response.ok) {
-      console.error(response.statusText);
-      return Promise.reject();
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
+// Получить список всех отфильтрованных закупок по названию
+export function getAllPurchaseByTitle(title: string): Promise<TypePurchase[]> {
+  return api.get(`${PURCHASE + PRODUCT}/${title}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }

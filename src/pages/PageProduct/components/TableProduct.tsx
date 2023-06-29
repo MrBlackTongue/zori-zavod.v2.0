@@ -1,35 +1,35 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {SorterResult, ColumnFilterItem} from 'antd/es/table/interface';
-import {getAllProducts, deleteProductById, getProductsByTitle, getAllProductGroups,} from "../../../services";
-import {TableProps, ProductType, TableParams} from "../../../types/_index";
+import type {ColumnFilterItem} from 'antd/es/table/interface';
+import {getAllProduct, getAllProductByTitle} from "../../../services";
+import {TableProps, TypeProduct, TableParam, TypeUnit, TypeProductGroup} from "../../../types";
+import {useFetchAllData} from "../../../hooks";
 
-export const TableProduct: React.FC<TableProps<ProductType>> = ({
-                                                                        isUpdateTable,
-                                                                        openDrawer,
-                                                                        searchText
-                                                                      }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
+export const TableProduct: React.FC<TableProps> = ({
+                                                     isUpdateTable,
+                                                     openDrawer,
+                                                     onDelete,
+                                                     searchText,
+                                                   }) => {
   // Лоудер и список всех товаров
-  const [loading, setLoading] = useState(false);
-  const [allProducts, setAllProducts] = useState<ProductType[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
-  // Товарная группа
-  const [productGroups, setProductGroups] = useState<ProductType[]>();
+  // Хук для получения данных
+  const {allProductGroup} = useFetchAllData({depsProductGroup: true});
 
-  // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  // Параметры для пагинации
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
 
-  const columns: ColumnsType<ProductType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypeProduct> = [
     {
       title: 'Название',
       dataIndex: 'title',
@@ -42,26 +42,27 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
       dataIndex: 'unit',
       key: 'unit',
       width: 200,
-      render: ((unit: any) =>
-        unit !== null ? (<div key={unit.id}> {unit.name}</div>) : null),
+      render: ((unit: TypeUnit) =>
+        unit !== null ? (<div> {unit.name}</div>) : null),
     },
     {
       title: 'Товарная группа',
       dataIndex: 'productGroup',
       key: 'productGroup',
-      filters: productGroups?.map((productGroup): ColumnFilterItem => ({
+      filters: allProductGroup?.map((productGroup): ColumnFilterItem => ({
         text: productGroup.title,
         value: productGroup.title!
       })),
       onFilter: (value, record) => record.productGroup?.title === value,
-      render: ((productGroup: any) => productGroup !== null ? (
-        <div key={productGroup.id}> {productGroup.title}</div>) : null),
+      render: ((productGroup: TypeProductGroup) => productGroup !== null ? (
+        <div> {productGroup.title}</div>) : null),
     },
     {
       title: 'Действия',
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -70,9 +71,7 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -80,16 +79,11 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить этот товар?"
-              onConfirm={() => {
-                deleteProductById(id).then(() => {
-                  getAllProducts().then((allProducts) => setAllProducts(allProducts))
-                })
-              }}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle" style={{color: 'tomato', borderColor: 'tomato'}} ghost
-                      onClick={() => {
-                      }}>
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -100,64 +94,49 @@ export const TableProduct: React.FC<TableProps<ProductType>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<ProductType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllProducts([]);
-    }
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы товаров
-  const updateTable = () => {
-    setLoading(true);
-    getAllProducts().then((allProducts) => {
-      setAllProducts(allProducts);
-      setLoading(false);
-    });
-  }
+  const handleUpdateTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllProduct()
+      .then((data) => {
+        setAllProduct(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
+  }, [])
 
   // Функция для поиска по таблице товаров
-  const searchTable = () => {
-    setLoading(true);
-    getProductsByTitle(searchText ?? '').then((allProducts) => {
-      setAllProducts(allProducts);
-      setLoading(false);
-    });
-  }
+  const handleSearchTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllProductByTitle(searchText ?? '')
+      .then((data) => {
+        setAllProduct(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
+  }, [searchText]);
 
-  useEffect(() => {
-    getAllProductGroups().then((productGroups) => {
-      setProductGroups(productGroups);
-    });
-  }, []);
-
-  // Обновление таблицы товаров
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
-
-  // Поиск по таблице товаров
   useEffect(() => {
     if (searchText) {
-      searchTable();
+      handleSearchTable();
     } else {
-      updateTable();
+      handleUpdateTable();
     }
-  }, [searchText]);
+  }, [searchText, isUpdateTable, handleUpdateTable, handleSearchTable]);
 
   return (
     <Table
+      rowKey="id"
+      bordered
       columns={columns}
-      dataSource={allProducts}
-      pagination={{position: [bottom]}}
-      loading={loading}
-      onChange={handleTableChange}
+      dataSource={allProduct}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

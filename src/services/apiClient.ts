@@ -1,97 +1,44 @@
-import {ClientType} from "../types/_index";
-import {message} from "antd";
-import {URL, CLIENT} from "./apiEndpoints";
+import {TypeApiResponse, TypeClient} from "../types";
+import {CLIENT} from "./apiEndpoints";
+import {
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
+} from '../utils';
+import {api} from "./api";
 
 // Получить список всех клиентов
-export async function getAllClients(): Promise<ClientType[]> {
-    try {
-        const response = await fetch(URL + CLIENT);
-        if (!response.ok) {
-            console.error(response.statusText);
-            return Promise.reject();
-        }
-        return await response.json() as ClientType[];
-    } catch (error) {
-        console.error(error);
-        return Promise.reject(error);
-    }
+export function getAllClient(): Promise<TypeClient[]> {
+  return api.get(CLIENT)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Получить данные клиента по id
-export async function getClientById(id: number): Promise<ClientType | undefined> {
-    try {
-        const response = await fetch(URL + CLIENT + `/${id}`);
-        if (!response.ok) {
-            console.error(response.statusText);
-            return Promise.reject();
-        }
-        return await response.json();
-    } catch (error) {
-        console.error(error);
-        return Promise.reject(error);
-    }
+export function getClientById(id: number): Promise<TypeClient | undefined> {
+  return api.get(`${CLIENT}/${id}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
 }
 
 // Добавить нового клиента
-export function postNewClient(data: ClientType) {
-    try {
-        const config = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data),
-        };
-        fetch(URL + CLIENT, config)
-            .then((response) => {
-                if (response.ok) {
-                    return message.success('Запись добавлена');
-                } else {
-                    console.error(response.statusText);
-                    return message.error('Ошибка при добавлении записи');
-                }
-            })
-            .catch((error) => console.error(error))
-    } catch (error) {
-        console.error(error);
-    }
+export function createClient(data: TypeClient): Promise<TypeApiResponse> {
+  return api.post(CLIENT, data)
+    .then(handleResponseCreateMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Удалить клиента по id
-export async function deleteClientById(id: number) {
-    try {
-        const response = await fetch(URL + CLIENT + `/${id}`, {
-            method: 'DELETE',
-        });
-        const data = await response.json();
-        if (data.success) {
-            return message.success('Запись удалена');
-        } else {
-            console.error(response.statusText);
-            return message.error('Ошибка при удалении записи');
-        }
-    } catch (err) {
-        console.error(err);
-    }
+export function deleteClientById(id: number): Promise<TypeApiResponse> {
+  return api.delete(`${CLIENT}/${id}`)
+    .then(handleResponseDeleteMessage)
+    .catch(handleErrorResponseMessage);
 }
 
 // Редактировать клиента
-export function putChangeClient(data: ClientType) {
-    try {
-        const config = {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data),
-        };
-        fetch(URL + CLIENT, config)
-            .then(response => {
-                if (response.ok) {
-                    return message.success('Запись изменена');
-                } else {
-                    console.error(response.statusText);
-                    return message.error('Ошибка при изменении записи');
-                }
-            })
-            .catch(error => console.error(error))
-    } catch (error) {
-        console.error(error);
-    }
+export function updateClient(data: TypeClient): Promise<TypeApiResponse> {
+  return api.put(CLIENT, data)
+    .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
 }

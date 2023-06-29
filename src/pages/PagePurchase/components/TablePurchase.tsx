@@ -1,36 +1,35 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig, SorterResult} from "antd/es/table/interface";
-import {TableProps, PurchaseType, TableParams, UnitType} from "../../../types/_index";
-import {deletePurchaseById, getAllPurchases, getPurchaseByTitle} from "../../../services";
+import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
+import {TableProps, TypePurchase, TableParam, TypeUnit, TypeProduct} from "../../../types";
+import {getAllPurchase, getAllPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
 
-export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
-                                                                         isUpdateTable,
-                                                                         openDrawer,
-                                                                         searchText,
-                                                                       }) => {
-  type TablePaginationPosition = 'bottomCenter'
-
+export const TablePurchase: React.FC<TableProps> = ({
+                                                      isUpdateTable,
+                                                      openDrawer,
+                                                      onDelete,
+                                                      searchText,
+                                                    }) => {
   // Лоудер и список всех закупок
-  const [loading, setLoading] = useState(false);
-  const [allPurchases, setAllPurchases] = useState<PurchaseType[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
 
-  // Параментры для пагинации
-  const [bottom] = useState<TablePaginationPosition>('bottomCenter');
-  const [tableParams, setTableParams] = useState<TableParams>({
+  // Параметры для пагинации
+  const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
 
-  const columns: ColumnsType<PurchaseType> = [
+  // Колонки в таблице
+  const columns: ColumnsType<TypePurchase> = [
     {
       title: 'ID',
       dataIndex: 'id',
-      key: 'id',
+      key: 'idPurchase',
     },
     {
       title: 'Дата',
@@ -43,8 +42,8 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: any) =>
-        product !== null ? (<div key={product.id}>{product.title}</div>) : null)
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
       title: 'Количество',
@@ -65,8 +64,8 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: UnitType) =>
-        unit !== null ? (<div key={unit.id}>{unit.name}</div>) : null)
+      render: ((unit: TypeUnit) =>
+        unit !== null ? (<div>{unit.name}</div>) : null)
     },
     {
       title: 'Цена за единицу',
@@ -107,6 +106,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
       dataIndex: 'id',
       key: 'id',
       width: 100,
+      align: 'center',
       render: ((id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -115,9 +115,7 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => {
-                openDrawer(id)
-              }}>
+              onClick={() => openDrawer?.(id)}>
               <EditOutlined/>
             </Button>
           </Tooltip>
@@ -125,16 +123,11 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
             <Popconfirm
               placement="topRight"
               title="Вы действительно хотите удалить эту закупку?"
-              onConfirm={() => {
-                deletePurchaseById(id).then(() => {
-                  getAllPurchases().then((allPurchases) => setAllPurchases(allPurchases))
-                })
-              }}
+              onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
               <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost onClick={() => {
-              }}>
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
@@ -145,58 +138,49 @@ export const TablePurchase: React.FC<TableProps<PurchaseType>> = ({
   ];
 
   // Параметры изменения таблицы
-  const handleTableChange = (
-    pagination: TablePaginationConfig,
-    sorter: SorterResult<PurchaseType>,
-  ) => {
-    setTableParams({
-      pagination,
-      ...sorter,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setAllPurchases([]);
-    }
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setTableParams({pagination});
   };
 
   // Функция для обновления таблицы закупок
-  const updateTable = () => {
-    setLoading(true);
-    getAllPurchases().then((allPurchases) => {
-      setAllPurchases(allPurchases);
-      setLoading(false);
-    });
-  }
+  const handleUpdateTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllPurchase()
+      .then((data) => {
+        setAllPurchase(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
+  }, [])
 
   // Функция для поиска по таблице закупок
-  const searchTable = () => {
-    setLoading(true);
-    getPurchaseByTitle(searchText ?? '').then((allPurchases) => {
-      setAllPurchases(allPurchases);
-      setLoading(false);
-    });
-  }
+  const handleSearchTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllPurchaseByTitle(searchText ?? '')
+      .then((data) => {
+        setAllPurchase(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
+  }, [searchText])
 
-  // Обновление таблицы покупок
-  useEffect(() => {
-    updateTable();
-  }, [!isUpdateTable]);
-
-  // Поиск по таблице закупок
   useEffect(() => {
     if (searchText) {
-      searchTable();
+      handleSearchTable();
     } else {
-      updateTable();
+      handleUpdateTable();
     }
-  }, [searchText]);
+  }, [searchText, isUpdateTable, handleSearchTable, handleUpdateTable]);
 
   return (
     <Table
+      rowKey="id"
+      bordered
       columns={columns}
-      dataSource={allPurchases}
-      pagination={{position: [bottom]}}
-      loading={loading}
-      onChange={handleTableChange}
+      dataSource={allPurchase}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

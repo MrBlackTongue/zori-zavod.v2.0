@@ -1,81 +1,60 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Typography,
-  Space,
-  Button,
-  Form,
-} from 'antd';
-import {
-  SyncOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton,} from 'antd';
+import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {postNewOperation, putChangeOperation} from "../../services";
-import {OperationType} from "../../types/_index";
+import {deleteOperationById, createOperation, updateOperation} from "../../services";
+import {TypeOperation, TypeOperationFormValue} from "../../types";
 import {TableOperation} from "./components/TableOperation";
-import {AddModalOperation} from "./components/AddModalOperation";
-import {EditDrawerOperation} from "./components/EditDrawerOperation";
-
-const {Title} = Typography;
+import {CreateModalOperation} from "./components/CreateModalOperation";
+import {UpdateDrawerOperation} from "./components/UpdateDrawerOperation";
 
 export const PageOperation: React.FC = () => {
 
-  const [form] = Form.useForm();
+  const {Title} = Typography;
 
-  // Типы операций в таблице, обновить таблицу
-  const [updateTable, setUpdateTable] = useState(false);
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // Создать новый тип операции
-  const [operation] = useState<OperationType | null>(null);
-
-  // Открыть закрыть модальное окно, дравер
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // Открыть тип операции по id
+  // id выбраной операции
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
 
-  const addOperation = (values: { [key: string]: any }): OperationType => {
-    const operation: OperationType = {
+  // Добавить новую операцию
+  const handleCreateOperation = (values: TypeOperationFormValue): void => {
+    const operation: TypeOperation = {
       title: values.title,
-      unit: {
-        id: values.unit.id,
-        name: values.unit.name,
-      },
+      unit: {id: values.unit},
       rate: values.rate,
     };
     setIsModalOpen(false)
-    postNewOperation(operation)
-    setUpdateTable(!updateTable)
-    return operation;
+    void createOperation(operation)
+    setIsUpdateTable(prevState => !prevState)
   };
 
-  useEffect(() => {
-    if (operation) {
-      form.setFieldsValue(operation);
-    }
-  }, [operation, form]);
-
-  // Drawer
-  const openDrawer = (operationId: number) => {
+  // Открыть дравер
+  const openDrawer = (operationId: number): void => {
     setSelectedOperationId(operationId)
     setIsDrawerOpen(true);
   };
 
-  const updateOperation = (values: { [key: string]: any }): OperationType => {
-    const operation: OperationType = {
-      title: values.title,
-      unit: {
-        id: values.unit.id,
-        name: values.unit.name,
-      },
-      rate: values.rate,
+  // Обновить операцию
+  const handleUpdateOperation = (values: TypeOperationFormValue): void => {
+    const operation: TypeOperation = {
       id: selectedOperationId,
+      title: values.title,
+      unit: {id: values.unit},
+      rate: values.rate,
     };
     setIsDrawerOpen(false)
-    putChangeOperation(operation)
-    setUpdateTable(!updateTable)
-    return operation
+    void updateOperation(operation)
+    setIsUpdateTable(prevState => !prevState)
+  };
+
+  // Удалить запись из таблицы
+  const handleDeleteOperation = (id: number): void => {
+    void deleteOperationById(id)
+    setIsUpdateTable(prevState => !prevState)
   };
 
   return (
@@ -86,39 +65,36 @@ export const PageOperation: React.FC = () => {
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
-            onClick={() => setUpdateTable(!updateTable)}
-            className='greenButton'>
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
             Обновить
           </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}
-            onClick={() => {
-              setIsModalOpen(true)
-            }}
+            onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
+      <FloatButton.BackTop/>
       <TableOperation
-        isUpdateTable={updateTable}
+        isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
+        onDelete={handleDeleteOperation}
       />
-      <AddModalOperation
+      <CreateModalOperation
         isOpen={isModalOpen}
-        addItem={addOperation}
-        onCancel={() => {
-          setIsModalOpen(false)
-        }}
+        createItem={handleCreateOperation}
+        onCancel={() => setIsModalOpen(false)}
       />
-      <EditDrawerOperation
+      <UpdateDrawerOperation
         isOpen={isDrawerOpen}
         selectedItemId={selectedOperationId}
-        updateItem={updateOperation}
-        closeDrawer={() => {
-          setIsDrawerOpen(false);
-        }}
+        updateItem={handleUpdateOperation}
+        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );
