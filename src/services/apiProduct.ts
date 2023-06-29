@@ -1,5 +1,5 @@
 import {TypeApiResponse, TypeProduct} from "../types";
-import {PRODUCT, TITLE} from "./apiEndpoints";
+import {OUTPUT, PRODUCT, TITLE} from "./apiEndpoints";
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -46,6 +46,13 @@ export function updateProduct(data: TypeProduct): Promise<TypeApiResponse> {
 // Получить список всех отфильтрованных товаров по названию
 export function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
   return api.get(`${PRODUCT}${TITLE}/${title}`)
+    .then(response => response.data)
+    .catch(handleErrorResponseMessage);
+}
+
+// Получить все выпущенные товары
+export function getAllProductOutput(): Promise<TypeProduct[]> {
+  return api.get(`${PRODUCT}${OUTPUT}`)
     .then(response => response.data)
     .catch(handleErrorResponseMessage);
 }
