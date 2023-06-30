@@ -11,10 +11,10 @@ export const TableUnit: React.FC<TableProps> = ({
                                                   onDelete,
                                                 }) => {
   // Лоудер и список всех единиц измерения
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -95,7 +95,7 @@ export const TableUnit: React.FC<TableProps> = ({
       dataSource={allUnit}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

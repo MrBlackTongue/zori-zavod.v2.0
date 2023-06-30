@@ -20,7 +20,7 @@ export const TableProductionProductMovement:
                                      }) => {
 
   // Лоудер и все движение товара на производстве
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductionProductMovement, setAllProductionProductMovement] = useState<TypeProductionProductMovement[]>();
 
   // Колонки в таблице

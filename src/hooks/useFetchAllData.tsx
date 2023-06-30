@@ -28,6 +28,7 @@ import {
   getAllEmployee,
   getAllMeterType,
   getAllMeter,
+  getAllProductOutput,
 } from "../services";
 
 export const useFetchAllData = (
@@ -45,6 +46,7 @@ export const useFetchAllData = (
     depsEmployee?: boolean,
     depsMeterType?: boolean,
     depsMeter?: boolean,
+    depsProductOutput?: boolean,
   }
 ) => {
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
@@ -60,6 +62,7 @@ export const useFetchAllData = (
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>([]);
   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>([]);
   const [allMeter, setAllMeter] = useState<TypeMeter[]>([]);
+  const [allProductOutput, setAllProductOutput] = useState<TypeProduct[]>([]);
 
   useEffect(() => {
     if (deps.depsStock) {
@@ -165,6 +168,14 @@ export const useFetchAllData = (
     }
   }, [deps.depsMeter]);
 
+  useEffect(() => {
+    if (deps.depsProductOutput) {
+      getAllProductOutput()
+        .then((data) => setAllProductOutput(data))
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
+    }
+  }, [deps.depsProductOutput]);
+
   return {
     allStock,
     allPurchase,
@@ -179,5 +190,6 @@ export const useFetchAllData = (
     allEmployee,
     allMeterType,
     allMeter,
+    allProductOutput,
   };
 }

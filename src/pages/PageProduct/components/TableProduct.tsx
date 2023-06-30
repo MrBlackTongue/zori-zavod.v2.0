@@ -14,13 +14,13 @@ export const TableProduct: React.FC<TableProps> = ({
                                                      searchText,
                                                    }) => {
   // Лоудер и список всех товаров
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
   // Хук для получения данных
   const {allProductGroup} = useFetchAllData({depsProductGroup: true});
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -136,7 +136,7 @@ export const TableProduct: React.FC<TableProps> = ({
       dataSource={allProduct}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

@@ -14,9 +14,9 @@ export const PageAcceptance: React.FC = () => {
   const {Title} = Typography;
 
   // Обновить таблицу, Открыть закрыть модальное окно, текст поиска
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [searchText, setSearchText] = useState<string>("");
 
   // Хук для получения данных
   const {allStock, allPurchase} = useFetchAllData({depsStock: true, depsPurchase: true});

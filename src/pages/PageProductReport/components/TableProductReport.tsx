@@ -1,21 +1,21 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {getAllOperationReportByFilter} from "../../../services";
+import {getAllProductReportByFilter} from "../../../services";
 import {
   TableParam,
   TableProps,
-  TypeOperationReport,
-  TypeOperationReportFilter,
+  TypeProductReport,
+  TypeProductReportFilter,
 } from "../../../types";
 
-export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter>> = ({
-                                                                                        isUpdateTable,
-                                                                                        filter
-                                                                                      }) => {
-  // Лоудер и список всех отчетов по операциям
+export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> = ({
+                                                                                    isUpdateTable,
+                                                                                    filter
+                                                                                  }) => {
+  // Лоудер и список всех отчетов
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allOperationReport, setAllOperationReport] = useState<TypeOperationReport[]>();
+  const [allProductReport, setAllProductReport] = useState<TypeProductReport[]>();
 
   // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
@@ -26,26 +26,12 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeOperationReport> = [
+  const columns: ColumnsType<TypeProductReport> = [
     {
-      title: "Тип операции",
-      dataIndex: "operationName",
-      key: "operationName",
+      title: "Операция",
+      dataIndex: "title",
+      key: "title",
       width: 300,
-    },
-    {
-      title: "Часы",
-      dataIndex: "hours",
-      key: "hours",
-      width: 130,
-      render: ((fact: number | null) =>
-        fact !== null ? (
-          <div>
-            {fact.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
     },
     {
       title: "Результат",
@@ -67,6 +53,20 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
       key: "unit",
       width: 100,
     },
+    {
+      title: "Часы",
+      dataIndex: "hours",
+      key: "hours",
+      width: 100,
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
+    },
   ];
 
   // Параметры изменения таблицы
@@ -76,10 +76,10 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
 
   // Функция для расчета итоговых значений
   const renderSummaryRow = () => {
-    if (!allOperationReport) return null
+    if (!allProductReport) return null
     let totalHours = 0;
 
-    allOperationReport.forEach(({hours}: TypeOperationReport) => {
+    allProductReport.forEach(({hours}: TypeProductReport) => {
       totalHours += hours ?? 0;
     });
 
@@ -87,26 +87,27 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
       <>
         <Table.Summary.Row>
           <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
-          <Table.Summary.Cell index={1}><strong>{
+          <Table.Summary.Cell index={1}></Table.Summary.Cell>
+          <Table.Summary.Cell index={2}></Table.Summary.Cell>
+          <Table.Summary.Cell index={3}><strong>{
             totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
           }</strong></Table.Summary.Cell>
-          <Table.Summary.Cell index={2}></Table.Summary.Cell>
-          <Table.Summary.Cell index={3}></Table.Summary.Cell>
         </Table.Summary.Row>
       </>
     );
   };
-
+  
   // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
     if (filter) {
       setIsLoading(true);
-      getAllOperationReportByFilter({
+      getAllProductReportByFilter({
         dateFrom: filter?.dateFrom,
         dateTo: filter?.dateTo,
+        productId: filter?.productId,
       })
         .then((data) => {
-          setAllOperationReport(data?.map((item, index) => ({...item, key: index})));
+          setAllProductReport(data?.map((item, index) => ({...item, key: index})));
           setIsLoading(false);
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error))
@@ -118,14 +119,14 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
   }, [filter, isUpdateTable, handleFilterTable]);
 
   return (
-    <Table
-      bordered
-      columns={columns}
-      dataSource={allOperationReport}
-      loading={isLoading}
-      onChange={handleChangeTable}
-      summary={renderSummaryRow}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
-    />
+      <Table
+        bordered
+        columns={columns}
+        dataSource={allProductReport}
+        loading={isLoading}
+        onChange={handleChangeTable}
+        summary={renderSummaryRow}
+        pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      />
   );
 };

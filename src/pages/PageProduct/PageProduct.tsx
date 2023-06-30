@@ -13,13 +13,13 @@ export const PageProduct: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isUpdateTable, setIsUpdateTable] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // id выбраного товара, Текст поиска
   const [selectedProductId, setSelectedProductId] = useState<number>();
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState<string>("");
 
   // Добавить новый товар
   const handleCreateProduct = (values: TypeProductFormValue): void => {

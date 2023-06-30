@@ -15,7 +15,7 @@ export const TableMeter: React.FC<TableProps> = ({
   const [loading, setLoading] = useState(false);
   const [allMeter, setAllMeter] = useState<TypeMeter[]>();
 
-  // Параментры для пагинации
+  // Параметры для пагинации
   const [tableParams, setTableParams] = useState<TableParam>({
     pagination: {
       current: 1,
@@ -112,7 +112,7 @@ export const TableMeter: React.FC<TableProps> = ({
       dataSource={allMeter}
       loading={loading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter']}}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };
