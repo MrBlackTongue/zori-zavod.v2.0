@@ -111,56 +111,56 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
 
     allEmployeeReport.forEach(({hours}: TypeEmployeeReport) => {
       totalHours += hours ?? 0;
-      });
-
-      return (
-        <>
-          <Table.Summary.Row>
-            <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
-            <Table.Summary.Cell index={1}></Table.Summary.Cell>
-            <Table.Summary.Cell index={2}></Table.Summary.Cell>
-            <Table.Summary.Cell index={3}></Table.Summary.Cell>
-            <Table.Summary.Cell index={4}></Table.Summary.Cell>
-            <Table.Summary.Cell index={5}><strong>{
-              totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
-            }</strong></Table.Summary.Cell>
-            <Table.Summary.Cell index={6}></Table.Summary.Cell>
-          </Table.Summary.Row>
-        </>
-      );
-    };
-
-    // Функция для фильтрации таблицы
-    const handleFilterTable = useCallback((): void => {
-      if (filter) {
-        setIsLoading(true);
-        getAllEmployeeReportByFilter({
-          employeeId: filter.employeeId,
-          operationId: filter.operationId,
-          dateFrom: filter?.dateFrom,
-          dateTo: filter?.dateTo,
-        })
-          .then((data) => {
-            setAllEmployeeReport(data?.map((item, index) => ({...item, key: index})));
-            setIsLoading(false);
-          })
-          .catch((error) => console.error("Ошибка при получении данных: ", error))
-      }
-    }, [filter]);
-
-    useEffect(() => {
-      handleFilterTable();
-    }, [filter, isUpdateTable, handleFilterTable]);
+    });
 
     return (
-      <Table
-        bordered
-        columns={columns}
-        dataSource={allEmployeeReport}
-        loading={isLoading}
-        onChange={handleChangeTable}
-        summary={renderSummaryRow}
-        pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
-      />
+      <>
+        <Table.Summary.Row>
+          <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={1}></Table.Summary.Cell>
+          <Table.Summary.Cell index={2}></Table.Summary.Cell>
+          <Table.Summary.Cell index={3}></Table.Summary.Cell>
+          <Table.Summary.Cell index={4}></Table.Summary.Cell>
+          <Table.Summary.Cell index={5}><strong>{
+            totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
+          }</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={6}></Table.Summary.Cell>
+        </Table.Summary.Row>
+      </>
     );
   };
+
+  // Функция для фильтрации таблицы
+  const handleFilterTable = useCallback((): void => {
+    if (filter) {
+      setIsLoading(true);
+      getAllEmployeeReportByFilter({
+        employeeId: filter?.employeeId,
+        operationId: filter?.operationId,
+        dateFrom: filter?.dateFrom,
+        dateTo: filter?.dateTo,
+      })
+        .then((data) => {
+          setAllEmployeeReport(data?.map((item, index) => ({...item, key: index})));
+          setIsLoading(false);
+        })
+        .catch((error) => console.error("Ошибка при получении данных: ", error))
+    }
+  }, [filter]);
+
+  useEffect(() => {
+    handleFilterTable();
+  }, [filter, isUpdateTable, handleFilterTable]);
+
+  return (
+    <Table
+      bordered
+      columns={columns}
+      dataSource={allEmployeeReport}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      summary={renderSummaryRow}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+    />
+  );
+};
