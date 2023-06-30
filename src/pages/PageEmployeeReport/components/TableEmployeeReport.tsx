@@ -49,7 +49,6 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       title: 'Фамилия',
       dataIndex: 'lastName',
       key: 'lastName',
-      defaultSortOrder: 'ascend',
       width: 100,
       sorter: (a, b) => (a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1,
     },
