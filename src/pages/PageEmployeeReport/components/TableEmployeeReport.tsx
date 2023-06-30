@@ -51,7 +51,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       title: "Тип операции",
       dataIndex: "title",
       key: "title",
-      width: 300,
+      width: 350,
       sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
     },
     {
