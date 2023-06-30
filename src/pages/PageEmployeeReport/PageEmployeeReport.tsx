@@ -1,10 +1,10 @@
 import React, {useMemo, useState} from 'react';
 import {Typography, Space, Button, FloatButton, DatePicker, Select, Tooltip} from 'antd';
 import {SyncOutlined} from "@ant-design/icons";
-// import {TableProductReport} from "./components/TableProductReport";
 import '../../App.css'
 import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
+import {TableEmployeeReport} from "./components/TableEmployeeReport";
 
 export const PageEmployeeReport: React.FC = () => {
 
@@ -131,10 +131,10 @@ export const PageEmployeeReport: React.FC = () => {
   </Space>
   </div>
   <FloatButton.BackTop/>
-  {/*<TableProductReport*/}
-  {/*  isUpdateTable={isUpdateTable}*/}
-  {/*filter={filter}*/}
-  {/*/>*/}
+  <TableEmployeeReport
+    isUpdateTable={isUpdateTable}
+  filter={filter}
+  />
   </div>
 );
 };
