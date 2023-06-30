@@ -2,7 +2,13 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllEmployeeReportByFilter} from "../../../services";
-import {TableParam, TableProps, TypeEmployeeReport, TypeEmployeeReportFilter, TypeOperationReport,} from "../../../types";
+import {
+  TableParam,
+  TableProps,
+  TypeEmployeeReport,
+  TypeEmployeeReportFilter,
+  TypeOperationReport,
+} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>> = ({
@@ -28,7 +34,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       dataIndex: "date",
       key: "date",
       width: 100,
-      sorter: (a, b) => (a.date ?? '') < (b.date ?? '') ? -1 : 1,
+      sorter: (a, b) => dayjs(a.date).unix() - dayjs(b.date).unix(),
       render: ((date: any) =>
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
@@ -129,8 +135,8 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       if (filter) {
         setIsLoading(true);
         getAllEmployeeReportByFilter({
-          employeeId: filter.employeeId ?? undefined,
-          operationId: filter.operationId ?? undefined,
+          employeeId: filter.employeeId,
+          operationId: filter.operationId,
           dateFrom: filter?.dateFrom,
           dateTo: filter?.dateTo,
         })

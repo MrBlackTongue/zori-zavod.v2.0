@@ -20,7 +20,7 @@ export const PageEmployeeReport: React.FC = () => {
 
   // id выбраного товара
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | undefined>();
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Хук для получения данных
   const {allOperation, allEmployee} = useFetchAllData({depsOperation: true, depsEmployee: true});
@@ -58,83 +58,76 @@ export const PageEmployeeReport: React.FC = () => {
 
   return (
     <div style={{display: 'grid'}}>
-  <div className='centerTitle'>
-  <Title level={3}>Отчет по сотрудникам</Title>
-  <Space>
-    <Select
-      showSearch
-      allowClear
-      style={{width: '250px'}}
-      placeholder="Выберите сотрудника"
-      onChange={onChangeEmployee}
-      filterOption={onSearchSelect}
-    >
-      {allEmployee && allEmployee.length > 0 ?
-        allEmployee.map(employee => (
-          <Option
-            key={employee.id}
-            value={employee.id}
-            label={`${employee.firstName}, ${employee.lastName}`}
+      <div className='centerTitle'>
+        <Title level={3}>Отчет по сотрудникам</Title>
+        <Space>
+          <Select
+            showSearch
+            allowClear
+            style={{width: '250px'}}
+            placeholder="Выберите сотрудника"
+            onChange={onChangeEmployee}
+            filterOption={onSearchSelect}
           >
-            <Tooltip
-              placement="right"
-              title={`
-    ${employee.firstName},
-    ${employee.lastName}
-    `}
-            >
-              {`
-    ${employee.firstName}
-    ${employee.lastName}
-    `}
-            </Tooltip>
-          </Option>
-        )) : null}
-    </Select>
-    <Select
-      showSearch
-      allowClear
-      placeholder='Выберите операцию'
-      style={{'width': '300px'}}
-      onChange={onChangeOperation}
-      filterOption={onSearchSelect}
-    >
-      {allOperation && allOperation.length > 0 ?
-        allOperation.map(operation => (
-          <Option key={operation.id} value={operation.id} label={operation.title}>
-            <Tooltip placement="right" title={operation.title}>
-              {operation.title}
-            </Tooltip>
-          </Option>
-        )) : null}
-    </Select>
-  <DatePicker
-  placeholder='Дата от'
-  style={{width: '150px'}}
-  format='DD.MM.YYYY'
-  onChange={onChangeDateFrom}
-  />
-  <DatePicker
-  placeholder='Дата до'
-  style={{width: '150px'}}
-  format='DD.MM.YYYY'
-  onChange={onChangeDateTo}
-  />
-  <Button
-  type="dashed"
-  icon={<SyncOutlined/>}
-  onClick={() => setIsUpdateTable(prevState => !prevState)}
-  className='greenButton'
-  >
-  Обновить
-  </Button>
-  </Space>
-  </div>
-  <FloatButton.BackTop/>
-  <TableEmployeeReport
-    isUpdateTable={isUpdateTable}
-  filter={filter}
-  />
-  </div>
-);
+            {allEmployee && allEmployee.length > 0 ?
+              allEmployee.map(employee => (
+                <Option
+                  key={employee.id}
+                  value={employee.id}
+                  label={`${employee.firstName}, ${employee.lastName}`}
+                >
+                  <Tooltip
+                    placement="right"
+                    title={`${employee.firstName},${employee.lastName}`}>
+                    {`${employee.firstName} ${employee.lastName}`}
+                  </Tooltip>
+                </Option>
+              )) : null}
+          </Select>
+          <Select
+            showSearch
+            allowClear
+            placeholder='Выберите операцию'
+            style={{'width': '300px'}}
+            onChange={onChangeOperation}
+            filterOption={onSearchSelect}
+          >
+            {allOperation && allOperation.length > 0 ?
+              allOperation.map(operation => (
+                <Option key={operation.id} value={operation.id} label={operation.title}>
+                  <Tooltip placement="right" title={operation.title}>
+                    {operation.title}
+                  </Tooltip>
+                </Option>
+              )) : null}
+          </Select>
+          <DatePicker
+            placeholder='Дата от'
+            style={{width: '150px'}}
+            format='DD.MM.YYYY'
+            onChange={onChangeDateFrom}
+          />
+          <DatePicker
+            placeholder='Дата до'
+            style={{width: '150px'}}
+            format='DD.MM.YYYY'
+            onChange={onChangeDateTo}
+          />
+          <Button
+            type="dashed"
+            icon={<SyncOutlined/>}
+            onClick={() => setIsUpdateTable(prevState => !prevState)}
+            className='greenButton'
+          >
+            Обновить
+          </Button>
+        </Space>
+      </div>
+      <FloatButton.BackTop/>
+      <TableEmployeeReport
+        isUpdateTable={isUpdateTable}
+        filter={filter}
+      />
+    </div>
+  );
 };

@@ -1,9 +1,8 @@
 import {Dayjs} from "dayjs";
-import {TypeEmployee} from "./TypeEmployee";
 
 export type TypeEmployeeReport = {
-  firstName?: TypeEmployee,
-  lastName?: TypeEmployee,
+  firstName?: string,
+  lastName?: string,
   title?: string,
   date?: Dayjs | string,
   hours?: number,
