@@ -28,6 +28,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       dataIndex: "date",
       key: "date",
       width: 100,
+      sorter: (a, b) => (a.date ?? '') < (b.date ?? '') ? -1 : 1,
       render: ((date: any) =>
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
@@ -51,12 +52,14 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       dataIndex: "title",
       key: "title",
       width: 300,
+      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
     },
     {
       title: "Результат",
       dataIndex: "fact",
       key: "fact",
       width: 100,
+      sorter: (a, b) => (a.fact ?? 0) - (b.fact ?? 0),
       render: ((fact: number | null) =>
         fact !== null ? (
           <div>
@@ -71,6 +74,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       dataIndex: "hours",
       key: "hours",
       width: 100,
+      sorter: (a, b) => (a.hours ?? 0) - (b.hours ?? 0),
       render: ((fact: number | null) =>
         fact !== null ? (
           <div>
@@ -85,6 +89,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       dataIndex: "performance",
       key: "performance",
       width: 100,
+      sorter: (a, b) => (a.performance ?? 0) - (b.performance ?? 0),
     },
   ];
 
@@ -97,13 +102,9 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
   const renderSummaryRow = () => {
     if (!allEmployeeReport) return null
     let totalHours = 0;
-    let totalPerformance = 0;
-    let totalFact = 0;
 
-    allEmployeeReport.forEach(({hours, performance, fact}: TypeEmployeeReport) => {
+    allEmployeeReport.forEach(({hours}: TypeEmployeeReport) => {
       totalHours += hours ?? 0;
-        totalPerformance += performance ?? 0;
-      totalFact += fact ?? 0;
       });
 
       return (
@@ -113,15 +114,11 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
             <Table.Summary.Cell index={1}></Table.Summary.Cell>
             <Table.Summary.Cell index={2}></Table.Summary.Cell>
             <Table.Summary.Cell index={3}></Table.Summary.Cell>
-            <Table.Summary.Cell index={4}><strong>{
-              totalFact.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
-            }</strong></Table.Summary.Cell>
+            <Table.Summary.Cell index={4}></Table.Summary.Cell>
             <Table.Summary.Cell index={5}><strong>{
               totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
             }</strong></Table.Summary.Cell>
-            <Table.Summary.Cell index={6}><strong>{
-              totalPerformance.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
-            }</strong></Table.Summary.Cell>
+            <Table.Summary.Cell index={6}></Table.Summary.Cell>
           </Table.Summary.Row>
         </>
       );
