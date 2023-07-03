@@ -34,6 +34,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       dataIndex: "date",
       key: "date",
       width: 100,
+      defaultSortOrder: 'descend',
       sorter: (a, b) => dayjs(a.date).unix() - dayjs(b.date).unix(),
       render: ((date: any) =>
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
@@ -95,6 +96,14 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "performance",
       width: 100,
       sorter: (a, b) => (a.performance ?? 0) - (b.performance ?? 0),
+      render: ((fact: number | null) =>
+        fact !== null ? (
+          <div>
+            {fact.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
   ];
 

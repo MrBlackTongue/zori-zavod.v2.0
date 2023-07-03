@@ -80,7 +80,7 @@ export const PageEmployeeReport: React.FC = () => {
                     placement="right"
                     title={`${employee.firstName},${employee.lastName}`}
                   >
-                    {`${employee.firstName} ${employee.lastName}`}
+                    {`${employee.lastName} ${employee.firstName}`}
                   </Tooltip>
                 </Option>
               )) : null}
