@@ -78,7 +78,7 @@ export const PageEmployeeReport: React.FC = () => {
                 >
                   <Tooltip
                     placement="right"
-                    title={`${employee.firstName},${employee.lastName}`}
+                    title={`${employee.firstName}, ${employee.lastName}`}
                   >
                     {`${employee.lastName} ${employee.firstName}`}
                   </Tooltip>
