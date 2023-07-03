@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 
 export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>> = ({
                                                                                       isUpdateTable,
-                                                                                      filter
+                                                                                      filter,
                                                                                     }) => {
   // Лоудер и список всех отчетов по операциям
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -157,7 +157,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
 
   useEffect(() => {
     handleFilterTable();
-  }, [filter, isUpdateTable, handleFilterTable]);
+  }, [isUpdateTable, filter, handleFilterTable]);
 
   return (
     <Table

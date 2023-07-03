@@ -11,7 +11,7 @@ import {
 
 export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> = ({
                                                                                     isUpdateTable,
-                                                                                    filter
+                                                                                    filter,
                                                                                   }) => {
   // Лоудер и список всех отчетов
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -96,7 +96,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       </>
     );
   };
-  
+
   // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
     if (filter) {
@@ -116,17 +116,17 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
 
   useEffect(() => {
     handleFilterTable();
-  }, [filter, isUpdateTable, handleFilterTable]);
+  }, [isUpdateTable, filter, handleFilterTable]);
 
   return (
-      <Table
-        bordered
-        columns={columns}
-        dataSource={allProductReport}
-        loading={isLoading}
-        onChange={handleChangeTable}
-        summary={renderSummaryRow}
-        pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
-      />
+    <Table
+      bordered
+      columns={columns}
+      dataSource={allProductReport}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      summary={renderSummaryRow}
+      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+    />
   );
 };

@@ -11,7 +11,7 @@ import {
 
 export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter>> = ({
                                                                                         isUpdateTable,
-                                                                                        filter
+                                                                                        filter,
                                                                                       }) => {
   // Лоудер и список всех отчетов по операциям
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -115,7 +115,7 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
 
   useEffect(() => {
     handleFilterTable();
-  }, [filter, isUpdateTable, handleFilterTable]);
+  }, [isUpdateTable, filter, handleFilterTable]);
 
   return (
     <Table

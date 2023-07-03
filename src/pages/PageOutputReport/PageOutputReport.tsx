@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import {Typography, Space, Button, Select, Checkbox, Tooltip} from 'antd';
 import {SyncOutlined} from "@ant-design/icons";
 import {TableOutputReport} from "./components/TableOutputReport";
