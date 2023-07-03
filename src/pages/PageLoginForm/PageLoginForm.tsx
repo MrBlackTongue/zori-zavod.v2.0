@@ -22,7 +22,7 @@ export const PageLoginForm: React.FC = () => {
         loginUser(values)
           .then(response => {
             if (response?.jwt) {
-              navigate('/');
+              navigate('/employee');
             }
           })
           .catch((error) => console.error("Ошибка при авторизации: ", error));
