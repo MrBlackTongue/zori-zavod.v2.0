@@ -65,10 +65,10 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "fact",
       width: 100,
       sorter: (a, b) => (a.fact ?? 0) - (b.fact ?? 0),
-      render: ((performance: number | null) =>
-        performance !== null ? (
+      render: ((fact: number | null) =>
+        fact !== null ? (
           <div>
-            {performance.toLocaleString('ru-RU', {
+            {fact.toLocaleString('ru-RU', {
               maximumFractionDigits: 2,
             })}
           </div>
@@ -80,10 +80,10 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "hours",
       width: 100,
       sorter: (a, b) => (a.hours ?? 0) - (b.hours ?? 0),
-      render: ((fact: number | null) =>
-        fact !== null ? (
+      render: ((hours: number | null) =>
+        hours !== null ? (
           <div>
-            {fact.toLocaleString('ru-RU', {
+            {hours.toLocaleString('ru-RU', {
               maximumFractionDigits: 2,
             })}
           </div>
@@ -95,10 +95,10 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "performance",
       width: 100,
       sorter: (a, b) => (a.performance ?? 0) - (b.performance ?? 0),
-      render: ((fact: number | null) =>
-        fact !== null ? (
+      render: ((performance: number | null) =>
+        performance !== null ? (
           <div>
-            {fact.toLocaleString('ru-RU', {
+            {performance.toLocaleString('ru-RU', {
               maximumFractionDigits: 2,
             })}
           </div>

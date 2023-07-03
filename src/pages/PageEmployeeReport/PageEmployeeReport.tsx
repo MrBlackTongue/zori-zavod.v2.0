@@ -74,11 +74,11 @@ export const PageEmployeeReport: React.FC = () => {
                 <Option
                   key={employee.id}
                   value={employee.id}
-                  label={`${employee.firstName}, ${employee.lastName}`}
+                  label={`${employee.lastName}, ${employee.firstName}`}
                 >
                   <Tooltip
                     placement="right"
-                    title={`${employee.firstName}, ${employee.lastName}`}
+                    title={`${employee.lastName}, ${employee.firstName}`}
                   >
                     {`${employee.lastName} ${employee.firstName}`}
                   </Tooltip>
