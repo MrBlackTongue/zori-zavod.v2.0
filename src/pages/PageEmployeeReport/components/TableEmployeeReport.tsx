@@ -49,7 +49,6 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       title: 'Фамилия',
       dataIndex: 'lastName',
       key: 'lastName',
-      defaultSortOrder: 'ascend',
       width: 100,
       sorter: (a, b) => (a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1,
     },
@@ -81,10 +80,10 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "hours",
       width: 100,
       sorter: (a, b) => (a.hours ?? 0) - (b.hours ?? 0),
-      render: ((fact: number | null) =>
-        fact !== null ? (
+      render: ((hours: number | null) =>
+        hours !== null ? (
           <div>
-            {fact.toLocaleString('ru-RU', {
+            {hours.toLocaleString('ru-RU', {
               maximumFractionDigits: 2,
             })}
           </div>
@@ -96,6 +95,14 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "performance",
       width: 100,
       sorter: (a, b) => (a.performance ?? 0) - (b.performance ?? 0),
+      render: ((performance: number | null) =>
+        performance !== null ? (
+          <div>
+            {performance.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
   ];
 
