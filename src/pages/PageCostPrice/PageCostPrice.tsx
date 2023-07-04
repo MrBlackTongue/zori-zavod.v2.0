@@ -1,13 +1,13 @@
 import React, {useState, useMemo} from 'react';
-import {Typography, Space, Button, Select, Checkbox, Tooltip} from 'antd';
+import {Typography, Space, Button, FloatButton, Tooltip, Select} from 'antd';
 import {SyncOutlined} from "@ant-design/icons";
-import {TableOutputReport} from "./components/TableOutputReport";
 import '../../App.css'
+import {TableCostPrice} from "./components/TableCostPrice";
 import {useFetchAllData} from "../../hooks";
-import {TypeOutputReportFilter} from "../../types";
 import dayjs from "dayjs";
+import {TypeCostPriceFilter} from "../../types";
 
-export const PageOutputReport: React.FC = () => {
+export const PageCostPrice: React.FC = () => {
 
   const {Title} = Typography;
   const {Option} = Select;
@@ -15,42 +15,32 @@ export const PageOutputReport: React.FC = () => {
   // Обновление таблицы
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
-  // id выбранного output
+  // id выбранного выпуска продукции
   const [selectedOutputId, setSelectedOutputId] = useState<number | undefined>();
-
-  // Флаг группировки
-  const [withGrouping, setWithGrouping] = useState<boolean>(false);
 
   // Хук для получения данных
   const {allOutput} = useFetchAllData({depsOutput: true});
 
   // Создание объекта фильтра с использованием useMemo
-  const filter: TypeOutputReportFilter = useMemo(() => ({
+  const filter: TypeCostPriceFilter = useMemo(() => ({
     outputId: selectedOutputId,
-    withGrouping: withGrouping,
-  }), [selectedOutputId, withGrouping]);
+  }), [selectedOutputId]);
+
+  // Изменить выбранный выпуск продукции
+  const onChangeOutput = (value: any): void => {
+    setSelectedOutputId(value ? value : undefined);
+  };
 
   // Поиск по селекту
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   }
 
-  // Изменить выбранный output
-  const onChangeOutput = (value: any): void => {
-    setSelectedOutputId(value ? value : undefined);
-  };
-
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
-        <Title level={3}>Отчет по выпускам</Title>
+        <Title level={3}>Отчет по себестоимости</Title>
         <Space>
-          <Checkbox
-            checked={withGrouping}
-            onChange={(e) => setWithGrouping(e.target.checked)}
-          >
-            Группировать
-          </Checkbox>
           <Select
             showSearch
             allowClear
@@ -68,14 +58,11 @@ export const PageOutputReport: React.FC = () => {
                 >
                   <Tooltip
                     placement="right"
-                    title={`
-                    ${dayjs(output.date).format('DD.MM')},
-                    ${output.product?.title},
-                    ID: ${output.id}`}
+                    title={
+                      `${dayjs(output.date).format('DD.MM')}, ${output.product?.title}, ID: ${output.id}`
+                    }
                   >
-                    {`${dayjs(output.date).format('DD.MM')},
-                    ${output.product?.title},
-                    ID: ${output.id}`}
+                    {`${dayjs(output.date).format('DD.MM')}, ${output.product?.title}, ID: ${output.id}`}
                   </Tooltip>
                 </Option>
               )) : null}
@@ -90,10 +77,11 @@ export const PageOutputReport: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <TableOutputReport
+      <FloatButton.BackTop/>
+      <TableCostPrice
         isUpdateTable={isUpdateTable}
         filter={filter}
       />
     </div>
-  )
-};
+  );
+}
