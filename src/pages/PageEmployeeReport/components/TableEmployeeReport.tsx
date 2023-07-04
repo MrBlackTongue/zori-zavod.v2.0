@@ -1,16 +1,17 @@
 import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {getAllProductReportByFilter} from "../../../services";
-import {TableProps, TypeProductReport, TypeProductReportFilter,} from "../../../types";
+import {getAllEmployeeReportByFilter} from "../../../services";
+import {TableProps, TypeEmployeeReport, TypeEmployeeReportFilter, TypeOperationReport,} from "../../../types";
+import dayjs from "dayjs";
 
-export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> = ({
-                                                                                    isUpdateTable,
-                                                                                    filter,
-                                                                                  }) => {
-  // Лоудер и список всех отчетов
+export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>> = ({
+                                                                                      isUpdateTable,
+                                                                                      filter,
+                                                                                    }) => {
+  // Лоудер и список всех отчетов по операциям
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allProductReport, setAllProductReport] = useState<TypeProductReport[]>();
+  const [allEmployeeReport, setAllEmployeeReport] = useState<TypeOperationReport[]>();
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -19,18 +20,43 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeProductReport> = [
+  const columns: ColumnsType<TypeEmployeeReport> = [
     {
-      title: "Операция",
+      title: "Дата",
+      dataIndex: "date",
+      key: "date",
+      width: 100,
+      sorter: (a, b) => dayjs(a.date).unix() - dayjs(b.date).unix(),
+      render: ((date: any) =>
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+    },
+    {
+      title: 'Имя',
+      dataIndex: 'firstName',
+      key: 'firstName',
+      width: 100,
+      sorter: (a, b) => (a.firstName ?? '') < (b.firstName ?? '') ? -1 : 1,
+    },
+    {
+      title: 'Фамилия',
+      dataIndex: 'lastName',
+      key: 'lastName',
+      width: 100,
+      sorter: (a, b) => (a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1,
+    },
+    {
+      title: "Тип операции",
       dataIndex: "title",
       key: "title",
-      width: 300,
+      width: 350,
+      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
     },
     {
       title: "Результат",
       dataIndex: "fact",
       key: "fact",
-      width: 130,
+      width: 100,
+      sorter: (a, b) => (a.fact ?? 0) - (b.fact ?? 0),
       render: ((fact: number | null) =>
         fact !== null ? (
           <div>
@@ -41,20 +67,30 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
         ) : 0)
     },
     {
-      title: "Ед.изм",
-      dataIndex: "unit",
-      key: "unit",
-      width: 100,
-    },
-    {
       title: "Часы",
       dataIndex: "hours",
       key: "hours",
       width: 100,
+      sorter: (a, b) => (a.hours ?? 0) - (b.hours ?? 0),
       render: ((hours: number | null) =>
         hours !== null ? (
           <div>
             {hours.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
+    },
+    {
+      title: "Производительность",
+      dataIndex: "performance",
+      key: "performance",
+      width: 100,
+      sorter: (a, b) => (a.performance ?? 0) - (b.performance ?? 0),
+      render: ((performance: number | null) =>
+        performance !== null ? (
+          <div>
+            {performance.toLocaleString('ru-RU', {
               maximumFractionDigits: 2,
             })}
           </div>
@@ -72,10 +108,10 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
 
   // Функция для расчета итоговых значений
   const renderSummaryRow = () => {
-    if (!allProductReport) return null
+    if (!allEmployeeReport) return null
     let totalHours = 0;
 
-    allProductReport.forEach(({hours}: TypeProductReport) => {
+    allEmployeeReport.forEach(({hours}: TypeEmployeeReport) => {
       totalHours += hours ?? 0;
     });
 
@@ -85,11 +121,14 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
           <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
           <Table.Summary.Cell index={1}></Table.Summary.Cell>
           <Table.Summary.Cell index={2}></Table.Summary.Cell>
-          <Table.Summary.Cell index={3}>
+          <Table.Summary.Cell index={3}></Table.Summary.Cell>
+          <Table.Summary.Cell index={4}></Table.Summary.Cell>
+          <Table.Summary.Cell index={5}>
             <strong>
               {totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})}
             </strong>
           </Table.Summary.Cell>
+          <Table.Summary.Cell index={6}></Table.Summary.Cell>
         </Table.Summary.Row>
       </>
     );
@@ -99,13 +138,14 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
   const handleFilterTable = useCallback((): void => {
     if (filter) {
       setIsLoading(true);
-      getAllProductReportByFilter({
+      getAllEmployeeReportByFilter({
+        employeeId: filter?.employeeId,
+        operationId: filter?.operationId,
         dateFrom: filter?.dateFrom,
         dateTo: filter?.dateTo,
-        productId: filter?.productId,
       })
         .then((data) => {
-          setAllProductReport(data?.map((item, index) => ({...item, key: index})));
+          setAllEmployeeReport(data?.map((item, index) => ({...item, key: index})));
           setIsLoading(false);
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error))
@@ -120,7 +160,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
     <Table
       bordered
       columns={columns}
-      dataSource={allProductReport}
+      dataSource={allEmployeeReport}
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}

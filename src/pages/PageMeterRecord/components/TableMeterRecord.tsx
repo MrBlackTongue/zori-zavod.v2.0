@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterRecord} from "../../../services"
-import {TableProps, TypeMeterRecord, TableParam, TypeMeter} from "../../../types";
+import {TableProps, TypeMeterRecord, TypeMeter} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableMeterRecord: React.FC<TableProps> = ({
@@ -16,11 +16,9 @@ export const TableMeterRecord: React.FC<TableProps> = ({
   const [allMeterRecord, setAllMeterRecord] = useState<TypeMeterRecord[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -90,7 +88,10 @@ export const TableMeterRecord: React.FC<TableProps> = ({
 
 // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для обновления таблицы
@@ -116,7 +117,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
       dataSource={allMeterRecord}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

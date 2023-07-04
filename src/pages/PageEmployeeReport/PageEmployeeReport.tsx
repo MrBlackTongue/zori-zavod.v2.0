@@ -1,12 +1,12 @@
 import React, {useState, useMemo} from 'react';
 import {Typography, Space, Button, FloatButton, DatePicker, Select, Tooltip} from 'antd';
 import {SyncOutlined} from "@ant-design/icons";
-import {TableProductReport} from "./components/TableProductReport";
 import '../../App.css'
 import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
+import {TableEmployeeReport} from "./components/TableEmployeeReport";
 
-export const PageProductReport: React.FC = () => {
+export const PageEmployeeReport: React.FC = () => {
 
   const {Title} = Typography;
   const {Option} = Select;
@@ -19,26 +19,33 @@ export const PageProductReport: React.FC = () => {
   const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
 
   // id выбраного товара
-  const [selectedProductId, setSelectedProductId] = useState<number | undefined>();
+  const [selectedOperationId, setSelectedOperationId] = useState<number>();
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Хук для получения данных
-  const {allProductOutput} = useFetchAllData({depsProductOutput: true});
+  const {allOperation, allEmployee} = useFetchAllData({depsOperation: true, depsEmployee: true});
 
   // Создание объекта фильтра с использованием useMemo
   const filter = useMemo(() => ({
     dateFrom: selectedDateFrom,
     dateTo: selectedDateTo,
-    productId: selectedProductId,
-  }), [selectedDateFrom, selectedDateTo, selectedProductId]);
+    operationId: selectedOperationId,
+    employeeId: selectedEmployeeId,
+  }), [selectedDateFrom, selectedDateTo, selectedOperationId, selectedEmployeeId]);
 
   // Поиск по селекту
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   }
 
-  // Изменить выбранный товар
-  const onChangeProduct = (value: any): void => {
-    setSelectedProductId(value ? value : undefined);
+  // Изменить выбранную операцию
+  const onChangeOperation = (value: any): void => {
+    setSelectedOperationId(value ? value : undefined);
+  };
+
+  // Изменить выбранного сотрудника
+  const onChangeEmployee = (value: any): void => {
+    setSelectedEmployeeId(value ? value : undefined);
   };
 
   // Изменить выбранную дату
@@ -52,21 +59,45 @@ export const PageProductReport: React.FC = () => {
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
-        <Title level={3}>Отчет по товарам</Title>
+        <Title level={3}>Отчет по сотрудникам</Title>
         <Space>
           <Select
             showSearch
             allowClear
             style={{width: '250px'}}
-            placeholder="Выберите товар"
-            onChange={onChangeProduct}
+            placeholder="Выберите сотрудника"
+            onChange={onChangeEmployee}
             filterOption={onSearchSelect}
           >
-            {allProductOutput && allProductOutput.length > 0 ?
-              allProductOutput.map(productOutput => (
-                <Option key={productOutput.id} value={productOutput.id} label={productOutput.title}>
-                  <Tooltip placement="right" title={productOutput.title}>
-                    {productOutput.title}
+            {allEmployee && allEmployee.length > 0 ?
+              allEmployee.map(employee => (
+                <Option
+                  key={employee.id}
+                  value={employee.id}
+                  label={`${employee.lastName}, ${employee.firstName}`}
+                >
+                  <Tooltip
+                    placement="right"
+                    title={`${employee.lastName}, ${employee.firstName}`}
+                  >
+                    {`${employee.lastName} ${employee.firstName}`}
+                  </Tooltip>
+                </Option>
+              )) : null}
+          </Select>
+          <Select
+            showSearch
+            allowClear
+            placeholder='Выберите операцию'
+            style={{'width': '300px'}}
+            onChange={onChangeOperation}
+            filterOption={onSearchSelect}
+          >
+            {allOperation && allOperation.length > 0 ?
+              allOperation.map(operation => (
+                <Option key={operation.id} value={operation.id} label={operation.title}>
+                  <Tooltip placement="right" title={operation.title}>
+                    {operation.title}
                   </Tooltip>
                 </Option>
               )) : null}
@@ -94,7 +125,7 @@ export const PageProductReport: React.FC = () => {
         </Space>
       </div>
       <FloatButton.BackTop/>
-      <TableProductReport
+      <TableEmployeeReport
         isUpdateTable={isUpdateTable}
         filter={filter}
       />

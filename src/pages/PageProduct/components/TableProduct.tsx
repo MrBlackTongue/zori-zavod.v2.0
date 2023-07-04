@@ -4,7 +4,7 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import type {ColumnFilterItem} from 'antd/es/table/interface';
 import {getAllProduct, getAllProductByTitle} from "../../../services";
-import {TableProps, TypeProduct, TableParam, TypeUnit, TypeProductGroup} from "../../../types";
+import {TableProps, TypeProduct, TypeUnit, TypeProductGroup} from "../../../types";
 import {useFetchAllData} from "../../../hooks";
 
 export const TableProduct: React.FC<TableProps> = ({
@@ -21,11 +21,9 @@ export const TableProduct: React.FC<TableProps> = ({
   const {allProductGroup} = useFetchAllData({depsProductGroup: true});
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -95,7 +93,10 @@ export const TableProduct: React.FC<TableProps> = ({
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для обновления таблицы товаров
@@ -136,7 +137,7 @@ export const TableProduct: React.FC<TableProps> = ({
       dataSource={allProduct}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

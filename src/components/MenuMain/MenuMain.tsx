@@ -25,13 +25,14 @@ import {
   ClusterOutlined,
   ReconciliationOutlined,
   TableOutlined,
+  FundOutlined,
 } from "@ant-design/icons";
 
 export const MenuMain: React.FC = () => {
 
   const subMenuRoutes = {
     "01": ["/operation-accounting", "/operation", "/production-type"],
-    "02": ["/operation-report", "/output-report", "/product-report", "/employee-report"],
+    "02": ["/operation-report", "/output-report", "/product-report", "/employee-report", '/cost-report'],
     "03": ["/product", "/product-group"],
     "04": ["/meter-record", "/meter", "/meter-type"],
     "05": ["/purchase", "/product-batch", "/acceptance"],
@@ -103,6 +104,9 @@ export const MenuMain: React.FC = () => {
           </Menu.Item>
           <Menu.Item key="/employee-report" icon={<SnippetsOutlined/>}>
             <Link to="/employee-report">По сотрудникам</Link>
+          </Menu.Item>
+          <Menu.Item key="/cost-report" icon={<FundOutlined />}>
+            <Link to="/cost-report">По себестоимости</Link>
           </Menu.Item>
         </SubMenu>
 
