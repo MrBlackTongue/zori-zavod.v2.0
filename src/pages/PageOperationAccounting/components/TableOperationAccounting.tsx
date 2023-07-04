@@ -161,10 +161,10 @@ export const TableOperationAccounting:
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination({
-      current: pagination.current ?? 1,
-      pageSize: pagination.pageSize ?? 10,
-    });
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для расчета итоговых значений

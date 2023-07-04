@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getProductGroupTree} from "../../../services";
-import {TableProps, TableParam, TypeProductGroup} from "../../../types";
+import {TableProps, TypeProductGroup} from "../../../types";
 
 export const TableProductGroup: React.FC<TableProps> = ({
                                                           isUpdateTable,
@@ -16,11 +16,9 @@ export const TableProductGroup: React.FC<TableProps> = ({
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -69,7 +67,10 @@ export const TableProductGroup: React.FC<TableProps> = ({
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Рекурсивная функция для удаления пустых дочерних элементов
@@ -108,7 +109,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
       dataSource={allProductGroup}
       loading={loading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

@@ -3,12 +3,7 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import dayjs from "dayjs";
 import {getAllProductMovementHistory, getProductMovementHistoryById} from "../../../services";
-import {
-  TableParam,
-  TableProps,
-  TypeProductMovementHistory,
-  TypeProductMovementHistoryFilter
-} from "../../../types";
+import {TableProps, TypeProductMovementHistory, TypeProductMovementHistoryFilter} from "../../../types";
 
 export const TableProductMovementHistory:
   React.FC<TableProps<TypeProductMovementHistoryFilter>> = ({
@@ -20,11 +15,9 @@ export const TableProductMovementHistory:
   const [allProductMovementHistory, setAllProductMovementHistory] = useState<TypeProductMovementHistory[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -83,7 +76,10 @@ export const TableProductMovementHistory:
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для обновления таблицы товаров
@@ -129,7 +125,7 @@ export const TableProductMovementHistory:
       dataSource={allProductMovementHistory}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 }

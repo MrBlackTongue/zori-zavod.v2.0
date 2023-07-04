@@ -2,29 +2,21 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllEmployeeReportByFilter} from "../../../services";
-import {
-  TableParam,
-  TableProps,
-  TypeEmployeeReport,
-  TypeEmployeeReportFilter,
-  TypeOperationReport,
-} from "../../../types";
+import {TableProps, TypeEmployeeReport, TypeEmployeeReportFilter, TypeOperationReport,} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>> = ({
                                                                                       isUpdateTable,
-                                                                                      filter
+                                                                                      filter,
                                                                                     }) => {
   // Лоудер и список всех отчетов по операциям
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allEmployeeReport, setAllEmployeeReport] = useState<TypeOperationReport[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -108,7 +100,10 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для расчета итоговых значений
@@ -128,9 +123,11 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
           <Table.Summary.Cell index={2}></Table.Summary.Cell>
           <Table.Summary.Cell index={3}></Table.Summary.Cell>
           <Table.Summary.Cell index={4}></Table.Summary.Cell>
-          <Table.Summary.Cell index={5}><strong>{
-            totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
-          }</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={5}>
+            <strong>
+              {totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})}
+            </strong>
+          </Table.Summary.Cell>
           <Table.Summary.Cell index={6}></Table.Summary.Cell>
         </Table.Summary.Row>
       </>
@@ -157,7 +154,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
 
   useEffect(() => {
     handleFilterTable();
-  }, [filter, isUpdateTable, handleFilterTable]);
+  }, [isUpdateTable, filter, handleFilterTable]);
 
   return (
     <Table
@@ -167,7 +164,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };
