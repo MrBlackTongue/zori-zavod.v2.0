@@ -113,8 +113,30 @@
 }
 
 .landing-form-button {
-  display: flex;
+  width: 200px;
+  height: 40px;
+  /*display: flex;*/
   justify-content: center;
   margin-top: 20px;
+  margin-left: 150px;
   text-align: center;
+}
+
+.landing-form {
+  text-align: justify;
+  width: 300px;
+  margin-left: 150px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.container {
+  display: block;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.container-jumbotron {
+  align-self: flex-start;
 }
