@@ -13,34 +13,35 @@ export const PageHome = () => {
   };
 
   return (
-    <div style={{
+    <div className={'container-all'}
+      style={{
       position: 'fixed',
       width: '100%',
       height: '100vh',
       top: '0',
       left: '0',
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       alignItems: 'left',
-      padding: '30px',
+      padding: '50px',
       zIndex: 9999,
       backgroundColor: '#ffffff'
-    }} className={'container'}>
-      <div style={{ marginLeft: '100px' }} className={'container'}>
+    }} >
+      <div  className={'container1'}>
         <img src="/logo.png" alt="Logo" style={{ height: '170px', marginTop: '-63px', marginLeft: '20px' }} />
       </div>
-      <div className={'container'}>
-        <Title level={1} className={'landing-form'}>Здарова заебал</Title>
-        <p className={'landing-form'}>Купи наше приложение для ровных пацанов и отведай этих тёплых, мягких французских булок </p>
+      <div className={'container2'}>
+        <Title style={{fontSize: '46px'}} level={1}>Очень крутое приложение</Title>
+        <p style={{fontSize: '16px'}}>настоятельно рекомендую его купить, вот прям серьёзно</p>
         <Space>
-          <Button type="primary" onClick={handleStartWork} className={'landing-form-button'}>начать работу</Button>
+          <Button type="primary" onClick={handleStartWork}>начать работу</Button>
         </Space>
-      </div>
-      <div>
+        </div>
+      <div className={'container-jumbotron'}>
         <img src="/Analyse.png" alt="Analyse"
-             style={{ height: '300px', marginTop: '70px', marginRight: '60px' }}
+             style={{ height: '250px'}}
         />
       </div>
-    </div>
+      </div>
   );
 };
