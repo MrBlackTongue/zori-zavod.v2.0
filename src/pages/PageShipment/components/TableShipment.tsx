@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import {getAllShipment} from "../../../services";
-import {TableProps, TypeShipment, TableParam, TypeClient} from "../../../types";
+import {TableProps, TypeShipment, TypeClient} from "../../../types";
 import dayjs from 'dayjs';
 
 export const TableShipment: React.FC<TableProps> = ({
@@ -17,11 +17,9 @@ export const TableShipment: React.FC<TableProps> = ({
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -96,7 +94,10 @@ export const TableShipment: React.FC<TableProps> = ({
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для обновления таблицы
@@ -122,7 +123,7 @@ export const TableShipment: React.FC<TableProps> = ({
       dataSource={allShipment}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

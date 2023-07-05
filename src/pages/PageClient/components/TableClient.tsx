@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllClient} from "../../../services";
-import {TableProps, TypeClient, TableParam} from "../../../types";
+import {TableProps, TypeClient} from "../../../types";
 
 export const TableClient: React.FC<TableProps> = ({
                                                     isUpdateTable,
@@ -15,11 +15,9 @@ export const TableClient: React.FC<TableProps> = ({
   const [allClient, setAllClient] = useState<TypeClient[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -69,7 +67,10 @@ export const TableClient: React.FC<TableProps> = ({
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для обновления таблицы
@@ -95,7 +96,7 @@ export const TableClient: React.FC<TableProps> = ({
       dataSource={allClient}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

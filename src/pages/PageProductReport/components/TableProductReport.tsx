@@ -2,27 +2,20 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllProductReportByFilter} from "../../../services";
-import {
-  TableParam,
-  TableProps,
-  TypeProductReport,
-  TypeProductReportFilter,
-} from "../../../types";
+import {TableProps, TypeProductReport, TypeProductReportFilter,} from "../../../types";
 
 export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> = ({
                                                                                     isUpdateTable,
-                                                                                    filter
+                                                                                    filter,
                                                                                   }) => {
   // Лоудер и список всех отчетов
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductReport, setAllProductReport] = useState<TypeProductReport[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -58,10 +51,10 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       dataIndex: "hours",
       key: "hours",
       width: 100,
-      render: ((fact: number | null) =>
-        fact !== null ? (
+      render: ((hours: number | null) =>
+        hours !== null ? (
           <div>
-            {fact.toLocaleString('ru-RU', {
+            {hours.toLocaleString('ru-RU', {
               maximumFractionDigits: 2,
             })}
           </div>
@@ -71,7 +64,10 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для расчета итоговых значений
@@ -89,14 +85,16 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
           <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
           <Table.Summary.Cell index={1}></Table.Summary.Cell>
           <Table.Summary.Cell index={2}></Table.Summary.Cell>
-          <Table.Summary.Cell index={3}><strong>{
-            totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})
-          }</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={3}>
+            <strong>
+              {totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})}
+            </strong>
+          </Table.Summary.Cell>
         </Table.Summary.Row>
       </>
     );
   };
-  
+
   // Функция для фильтрации таблицы
   const handleFilterTable = useCallback((): void => {
     if (filter) {
@@ -116,17 +114,17 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
 
   useEffect(() => {
     handleFilterTable();
-  }, [filter, isUpdateTable, handleFilterTable]);
+  }, [isUpdateTable, filter, handleFilterTable]);
 
   return (
-      <Table
-        bordered
-        columns={columns}
-        dataSource={allProductReport}
-        loading={isLoading}
-        onChange={handleChangeTable}
-        summary={renderSummaryRow}
-        pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
-      />
+    <Table
+      bordered
+      columns={columns}
+      dataSource={allProductReport}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      summary={renderSummaryRow}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+    />
   );
 };

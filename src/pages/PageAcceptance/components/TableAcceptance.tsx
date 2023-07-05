@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {getAllAcceptance, getAllAcceptanceByTitle} from "../../../services";
-import {TableProps, TypeAcceptance, TableParam, TypeUnit, TypeStock, TypeProduct, TypePurchase} from "../../../types";
+import {TableProps, TypeAcceptance, TypeUnit, TypeStock, TypeProduct, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
 
 export const TableAcceptance: React.FC<TableProps> = ({
@@ -16,11 +16,9 @@ export const TableAcceptance: React.FC<TableProps> = ({
   const [allAcceptance, setAllAcceptance] = useState<TypeAcceptance[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -107,7 +105,10 @@ export const TableAcceptance: React.FC<TableProps> = ({
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для обновления таблицы приемок
@@ -148,7 +149,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
       dataSource={allAcceptance}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };

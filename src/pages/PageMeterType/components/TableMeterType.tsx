@@ -3,7 +3,7 @@ import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterType} from "../../../services";
-import {TableProps, TypeMeterType, TableParam, TypeUnit} from "../../../types";
+import {TableProps, TypeMeterType, TypeUnit} from "../../../types";
 
 export const TableMeterType: React.FC<TableProps> = ({
                                                        isUpdateTable,
@@ -15,11 +15,9 @@ export const TableMeterType: React.FC<TableProps> = ({
   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>();
 
   // Параметры для пагинации
-  const [tableParams, setTableParams] = useState<TableParam>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   // Колонки в таблице
@@ -90,7 +88,10 @@ export const TableMeterType: React.FC<TableProps> = ({
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setTableParams({pagination});
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
   };
 
   // Функция для обновления таблицы
@@ -116,7 +117,7 @@ export const TableMeterType: React.FC<TableProps> = ({
       dataSource={allMeterType}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...tableParams.pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
   );
 };
