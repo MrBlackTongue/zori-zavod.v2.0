@@ -143,7 +143,6 @@ export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceForm
         <Form.Item
           label="Партия товара"
           name="productBatch"
-          rules={[{required: true, message: 'выберите партию товара'}]}
         >
           <Select
             showSearch

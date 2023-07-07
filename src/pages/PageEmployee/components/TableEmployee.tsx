@@ -51,7 +51,7 @@ export const TableEmployee: React.FC<TableProps> = ({
       dataIndex: 'hired',
       key: 'hired',
       render: (hired => hired ? 'Да' : 'Нет'),
-      sorter: (a, b) => (Number(a.hired) ?? 0) - (Number(b.hired) ?? 0)
+      sorter: (a, b) => Number(a.hired) - Number(b.hired)
     },
     {
       title: 'Действия',
