@@ -108,80 +108,73 @@
 .container-all {
   display: flex;
   flex-direction: column;
-  /*flex-basis: 500px;*/
+  overflow: auto;
 }
 
 .container1 {
-  display: block;
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: flex-end;
-  /*height: 300px;*/
-  margin-top: -300px;
-  margin-bottom: 30px;
-  /*margin-right: -10px;*/
-  /*width: 100%;*/
+  align-items: flex-start;
+  height: 2500px;
 }
+
 
 .containerLogo {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  /*margin-left: 50px;*/
-  /*margin-top: 60px;*/
-  /*margin-bottom: 0px;*/
-  margin-right: 800px;
-  /*left: 20px;*/
-  /*flex-basis: 300px;*/
-}
-
-.containerButton {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: -120px;
-  margin-left: 800px;
-  margin-bottom: 100px;
-  /*right: 100px;*/
-  /*flex-basis: 300px;*/
-}
-
-.containerBlock {
-  display: block;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  /*height: 100px;*/
-  /*margin-top: 90px;*/
-  /*margin-right: -10px;*/
-  /*flex-basis: 300px;*/
-  /*width: 100%;*/
-
-}
-
-
-.containerText {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   /*align-self: flex-start;*/
-  /*margin-top: 60px;*/
-  /*margin-left: -500px;*/
-  /*margin-right: 500px;*/
-  margin-right: 30vw;
+  /*margin-left: 20%;*/
+  /*padding-right: 40%;*/
+  position: relative;
+  right: 17vw;
+  top: -15%;
+
 }
 
+.containerButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  align-self: flex-start;
+  /*margin-left: 49%;*/
+  position: relative;
+  /*top: -40%;*/
+  left: 15vw;
+}
 
+.containerBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*margin-bottom: 10%;*/
+}
+
+.containerText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-basis: 300px;
+  /*margin-right: 5%;*/
+  /*margin-left: 25%;*/
+}
 
 .container-jumbotron {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+  /*margin-right: 5%;*/
+}
+
+.containerBlock2 {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  margin-top: -30vh;
-  margin-left: 40vw;
-  /*margin-right: 90px;*/
+  position: relative;
+  top: 30%;
 }

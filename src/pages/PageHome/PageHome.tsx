@@ -23,13 +23,15 @@ export const PageHome = () => {
            display: 'flex',
            justifyContent: 'center',
            // alignItems: 'left',
-           // padding: '50px',
+           padding: '50px',
            zIndex: 9999,
            backgroundColor: '#ffffff'
          }}>
       <div className={'container1'}>
         <div className={'containerLogo'}>
-          <img src="/logo.png" alt="Logo" style={{height: '170px'}}/>
+          <img src="/logo.png" alt="Logo"
+               style={{height: '170px'}}
+          />
         </div>
         <div className={'containerButton'}>
           <Button type="primary" onClick={handleStartWork}>Войти</Button>
@@ -47,6 +49,11 @@ export const PageHome = () => {
           <img src="/Analyse.png" alt="Analyse"
                style={{height: '40vh'}}
           />
+        </div>
+      </div>
+      <div className={'containerBlock2'}>
+        <div>
+          <p>ничего не потеряете</p>
         </div>
       </div>
     </div>
