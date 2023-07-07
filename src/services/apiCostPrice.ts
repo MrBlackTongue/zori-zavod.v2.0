@@ -1,6 +1,6 @@
 import {TypeCostPrice, TypeCostPriceFilter} from "../types";
 import {api} from "./api";
-import { REPORT, COST_PRICE} from "./apiEndpoints";
+import {REPORT, COST_PRICE} from "./apiEndpoints";
 import {handleErrorResponseMessage} from "../utils";
 
 // Получить список всех отчетов по себестоимости
