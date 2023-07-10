@@ -33,14 +33,17 @@ export const PageHome = () => {
                style={{height: '170px'}}
           />
         </div>
+        <div className={'ButtonRegistration'}>
+          <Button type="primary">Зарегестрироваться</Button>
+        </div>
         <div className={'containerButton'}>
-          <Button type="primary" onClick={handleStartWork}>Войти</Button>
+          <Button type="dashed" onClick={handleStartWork}>Войти</Button>
         </div>
       </div>
       <div className={'containerBlock'}>
         <div className={'containerText'}>
           <Title style={{fontSize: '36px'}} level={1}>Очень крутое приложение</Title>
-          <p style={{fontSize: '16px'}}>настоятельно рекомендую его купить, вот прям серьёзно</p>
+          <p style={{fontSize: '16px'}}>для учёта вашего успешного успеха</p>
           <Space>
             <Button type="primary" onClick={handleStartWork}>начать работу</Button>
           </Space>
@@ -52,8 +55,9 @@ export const PageHome = () => {
         </div>
       </div>
       <div className={'containerBlock2'}>
-        <div>
-          <p>ничего не потеряете</p>
+        <div className={'containerText2'}>
+          <Title level={1} style={{fontSize: '52px'}}>Кому выгодно?</Title>
+          <p style={{fontSize: '24px'}}>производствам, всяким бизнесам и в целом ровным пацанам</p>
         </div>
       </div>
     </div>
