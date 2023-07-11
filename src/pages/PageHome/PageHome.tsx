@@ -1,7 +1,7 @@
 import React from 'react';
 import {Typography, Button, Space} from 'antd';
 import {useNavigate} from 'react-router-dom';
-import '../../App.css';
+import '../PageHome/PageHome.css';
 
 const {Title} = Typography;
 
@@ -13,53 +13,38 @@ export const PageHome = () => {
   };
 
   return (
-    <div className={'container-all'}
-         style={{
-           position: 'fixed',
-           width: '100%',
-           height: '100vh',
-           top: '0',
-           left: '0',
-           display: 'flex',
-           justifyContent: 'center',
-           // alignItems: 'left',
-           padding: '50px',
-           zIndex: 9999,
-           backgroundColor: '#ffffff'
-         }}>
-      <div className={'container1'}>
-        <div className={'containerLogo'}>
-          <img src="/logo.png" alt="Logo"
-               style={{height: '170px'}}
-          />
-        </div>
-        <div className={'ButtonRegistration'}>
-          <Button type="primary">Зарегестрироваться</Button>
-        </div>
-        <div className={'containerButton'}>
+    <div className='container-all'>
+      <div className='container-header'>
+        {/*<div className='container-logo'>*/}
+        <img src="/logo.png" alt="Logo" className='logo-style'/>
+        {/*</div>*/}
+        <Space>
+          {/*<div className='button-registration'>*/}
+          <Button type="primary">Зарегистрироваться</Button>
+          {/*</div>*/}
+          {/*<div className='button-login'>*/}
           <Button type="dashed" onClick={handleStartWork}>Войти</Button>
-        </div>
+          {/*</div>*/}
+        </Space>
       </div>
-      <div className={'containerBlock'}>
-        <div className={'containerText'}>
-          <Title style={{fontSize: '32px'}} level={1}>Увеличте продуктивность вашего производства</Title>
-          <p style={{fontSize: '16px'}}>
+      <div className='container-block'>
+        <div className='container-text'>
+          <Title className='title-style-1'>Увеличте продуктивность вашего производства</Title>
+          <p className='text-style-1'>
             Новый инструмент менеджмента помогает в планировании, коммуникации и управлении процессами
           </p>
           <Space>
             <Button type="primary" onClick={handleStartWork}>начать работу</Button>
           </Space>
         </div>
-        <div className={'container-jumbotron'}>
-          <img src="/Analyse.png" alt="Analyse"
-               style={{height: '40vh'}}
-          />
+        <div className='container-jumbotron'>
+          <img src="/Analyse.png" alt="Analyse" className='img-main'/>
         </div>
       </div>
-      <div className={'containerBlock2'}>
-        <div className={'containerText2'}>
-          <Title level={1} style={{fontSize: '52px'}}>Кому выгодно?</Title>
-          <p style={{fontSize: '24px'}}>производствам, всяким бизнесам и в целом ровным пацанам и пацанессам</p>
+      <div className='containerBlock2'>
+        <div className='containerText2'>
+          <Title className='title-style-2'>Кому выгодно?</Title>
+          <p className='text-style-2'>производствам, всяким бизнесам и в целом ровным пацанам и пацанессам</p>
         </div>
       </div>
     </div>
