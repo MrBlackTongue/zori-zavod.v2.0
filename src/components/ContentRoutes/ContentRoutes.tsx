@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, Routes} from 'react-router-dom';
-import {PageHome} from "../../pages/PageHome/PageHome";
 import {PageEmployee} from "../../pages/PageEmployee/PageEmployee";
 import {PageOperation} from "../../pages/PageOperation/PageOperation";
 import {PageProduct} from "../../pages/PageProduct/PageProduct";
@@ -20,7 +19,6 @@ import {PageProductGroup} from "../../pages/PageProductGroup/PageProductGroup";
 import {PageMeterType} from "../../pages/PageMeterType/PageMeterType";
 import {PageMeter} from "../../pages/PageMeter/PageMeter";
 import {PageMeterRecord} from "../../pages/PageMeterRecord/PageMeterRecord";
-import {PageLoginForm} from "../../pages/PageLoginForm/PageLoginForm";
 import {PageProductReport} from "../../pages/PageProductReport/PageProductReport";
 import {PageOutputReport} from "../../pages/PageOutputReport/PageOutputReport";
 import {PageOperationReport} from "../../pages/PageOperationReport/PageOperationReport";
@@ -30,7 +28,6 @@ import {PageCostPrice} from "../../pages/PageCostPrice/PageCostPrice";
 export const ContentRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<PageHome/>}/>
       <Route path="/employee" element={<PageEmployee/>}/>
       <Route path="/operation" element={<PageOperation/>}/>
       <Route path="/product" element={<PageProduct/>}/>
@@ -50,7 +47,6 @@ export const ContentRoutes: React.FC = () => {
       <Route path="/meter-type" element={<PageMeterType/>}/>
       <Route path="/meter" element={<PageMeter/>}/>
       <Route path="/meter-record" element={<PageMeterRecord/>}/>
-      <Route path="/login" element={<PageLoginForm/>}/>
       <Route path="/product-report" element={<PageProductReport/>}/>
       <Route path="/output-report" element={<PageOutputReport/>}/>
       <Route path="/operation-report" element={<PageOperationReport/>}/>
