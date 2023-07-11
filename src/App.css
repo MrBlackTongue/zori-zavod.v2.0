@@ -118,21 +118,19 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  height: 500px;
+  /*height: 500px;*/
 }
 
 
 .containerLogo {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: flex-start;
-  /*margin-left: 20%;*/
   padding-right: 10vw;
   position: relative;
-  /*right: 17vw;*/
-  top: -25%;
+  bottom: 4vh;
 }
 
 .ButtonRegistration {
@@ -142,7 +140,8 @@
   align-items: center;
   align-self: flex-start;
   margin-left: 20vw;
-  /*position: relative;*/
+  position: relative;
+  margin-top: 1vh;
 }
 
 .containerButton {
@@ -152,26 +151,25 @@
   align-items: center;
   align-self: flex-start;
   margin-left: 1vw;
-  /*position: relative;*/
-  /*top: -40%;*/
-  /*left: 15vw;*/
+  position: relative;
+  margin-top: 1vh;
 }
 
 .containerBlock {
   display: flex;
   justify-content: center;
   align-items: center;
-  /*margin-bottom: 10%;*/
 }
 
 .containerText {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  flex-basis: 300px;
-  /*margin-right: 5%;*/
-  /*margin-left: 25%;*/
+  /*justify-content: flex-start;*/
+  /*align-items: flex-start;*/
+  align-self: flex-start;
+  flex-basis: 400px;
+  position: relative;
+  bottom: 25px;
 }
 
 .container-jumbotron {
@@ -196,5 +194,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /*flex-basis: 300px;*/
+  position: relative;
+  bottom: 4vh;
 }

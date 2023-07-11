@@ -42,8 +42,10 @@ export const PageHome = () => {
       </div>
       <div className={'containerBlock'}>
         <div className={'containerText'}>
-          <Title style={{fontSize: '36px'}} level={1}>Очень крутое приложение</Title>
-          <p style={{fontSize: '16px'}}>для учёта вашего успешного успеха</p>
+          <Title style={{fontSize: '32px'}} level={1}>Увеличте продуктивность вашего производства</Title>
+          <p style={{fontSize: '16px'}}>
+            Новый инструмент менеджмента помогает в планировании, коммуникации и управлении процессами
+          </p>
           <Space>
             <Button type="primary" onClick={handleStartWork}>начать работу</Button>
           </Space>
@@ -57,7 +59,7 @@ export const PageHome = () => {
       <div className={'containerBlock2'}>
         <div className={'containerText2'}>
           <Title level={1} style={{fontSize: '52px'}}>Кому выгодно?</Title>
-          <p style={{fontSize: '24px'}}>производствам, всяким бизнесам и в целом ровным пацанам</p>
+          <p style={{fontSize: '24px'}}>производствам, всяким бизнесам и в целом ровным пацанам и пацанессам</p>
         </div>
       </div>
     </div>
