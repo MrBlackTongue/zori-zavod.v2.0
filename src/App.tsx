@@ -25,7 +25,7 @@ function App() {
           width={240}
           theme="light"
         >
-          {/*<div className="logo" />*/} // Для логотипа на странице
+          {/*/!*<div className="logo" />*!/ // Для логотипа на странице*/}
           <Header style={{padding: 0, background: colorBgContainer}}>
             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
               className: 'trigger',
@@ -36,7 +36,7 @@ function App() {
         </Sider>
         <Layout className="site-layout" style={{marginLeft: collapsed ? 80 : 240}}>
           <Header style={{padding: 0, background: colorBgContainer}}>
-            {/*<Title level={3}>Заголовок</Title>*/} // Для личного кабинета и так далее
+            {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
           </Header>
           <Content className='context-style'>
             <ContentRoutes/>
