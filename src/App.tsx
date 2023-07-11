@@ -1,29 +1,18 @@
 import React, {useState} from 'react';
-// import {useLocation} from 'react-router-dom';
 import './App.css';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import {Layout, theme} from 'antd';
+import {Layout, theme,} from 'antd';
 import {MenuMain} from "./components/MenuMain/MenuMain";
 import {ContentRoutes} from "./components/ContentRoutes/ContentRoutes";
 
-const {Header, Sider, Content} = Layout;
-
 function App() {
-  const [collapsed, setCollapsed] = useState(false);
-  // const location = useLocation();
-  const {token: {colorBgContainer}} = theme.useToken();
+  const {Header, Sider, Content} = Layout;
 
-  // Сворачивать меню на станице учет операций
-  // useEffect(() => {
-  //   if (location.pathname === '/operation-accounting') {
-  //     setCollapsed(true);
-  //   } else {
-  //     setCollapsed(false)
-  //   }
-  // }, [location]);
+  const [collapsed, setCollapsed] = useState(false);
+  const {token: {colorBgContainer}} = theme.useToken();
 
   return (
     <div>
@@ -36,7 +25,7 @@ function App() {
           width={240}
           theme="light"
         >
-          {/*<div className="logo" />*/}
+          {/*<div className="logo" />*/} // Для логотипа на странице
           <Header style={{padding: 0, background: colorBgContainer}}>
             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
               className: 'trigger',
@@ -47,7 +36,7 @@ function App() {
         </Sider>
         <Layout className="site-layout" style={{marginLeft: collapsed ? 80 : 240}}>
           <Header style={{padding: 0, background: colorBgContainer}}>
-            {/*<Title level={3}></Title>*/}
+            {/*<Title level={3}>Заголовок</Title>*/} // Для личного кабинета и так далее
           </Header>
           <Content className='context-style'>
             <ContentRoutes/>

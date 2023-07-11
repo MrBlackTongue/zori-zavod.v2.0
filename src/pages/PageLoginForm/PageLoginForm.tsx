@@ -33,19 +33,20 @@ export const PageLoginForm: React.FC = () => {
   };
 
   return (
-    <div className="login-form-container" style={{
-      position: 'fixed',
-      width: '100%',
-      height: '100vh',
-      top: '0',
-      left: '0',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 9999,
-      backgroundColor: '#f5f5f5'
-      // backgroundColor: 'rgba(0,0,0,0.6)' // прозрачный серый фон
-    }}>
+    <div
+      style={{
+        position: 'fixed',
+        width: '100%',
+        height: '100vh',
+        top: '0',
+        left: '0',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,
+        backgroundColor: '#f5f5f5'
+        // backgroundColor: 'rgba(0,0,0,0.6)' // прозрачный серый фон
+      }}>
       <Form
         form={form}
         className="login-form"

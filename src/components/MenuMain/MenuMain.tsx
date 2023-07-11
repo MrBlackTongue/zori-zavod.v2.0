@@ -105,7 +105,7 @@ export const MenuMain: React.FC = () => {
           <Menu.Item key="/employee-report" icon={<SnippetsOutlined/>}>
             <Link to="/employee-report">По сотрудникам</Link>
           </Menu.Item>
-          <Menu.Item key="/cost-report" icon={<FundOutlined />}>
+          <Menu.Item key="/cost-report" icon={<FundOutlined/>}>
             <Link to="/cost-report">По себестоимости</Link>
           </Menu.Item>
         </SubMenu>
