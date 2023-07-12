@@ -1,9 +1,10 @@
 import React from 'react';
-import {Typography, Button, Space} from 'antd';
+import {Typography, Button, Space, Card} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import '../PageHome/PageHome.css';
 
 const {Title} = Typography;
+const {Meta} = Card;
 
 export const PageHome = () => {
   const navigate = useNavigate();
@@ -34,7 +35,8 @@ export const PageHome = () => {
             Новый инструмент менеджмента помогает в планировании, коммуникации и управлении процессами
           </p>
           <Space>
-            <Button type="primary" size={'large'} className='start-button' onClick={handleStartWork}>Начать работу</Button>
+            <Button type="primary" size={'large'} className='start-button' onClick={handleStartWork}>Начать
+              работу</Button>
           </Space>
         </div>
         <div className='container-jumbotron'>
@@ -44,8 +46,28 @@ export const PageHome = () => {
       <div className='containerBlock2'>
         <div className='containerText2'>
           <Title className='title-style-2'>Кому выгодно?</Title>
-          <p className='text-style-2'>производствам, всяким бизнесам и в целом ровным пацанам и пацанессам</p>
+          {/*<p className='text-style-2'>производствам, всяким бизнесам и в целом ровным пацанам и пацанессам</p>*/}
         </div>
+        <div className='container-card'>
+            <Card
+              className='card-style'
+              cover={<img alt="manufacture" src="/manufacture1.png"/>}
+            >
+              <Meta title="Производствам"/>
+            </Card>
+            <Card
+              className='card-style'
+              cover={<img alt="manufacture" src="/manufacture1.png"/>}
+            >
+              <Meta title="Производствам"/>
+            </Card>
+            <Card
+              className='card-style'
+              cover={<img alt="manufacture" src="/manufacture1.png"/>}
+            >
+              <Meta title="Производствам"/>
+            </Card>
+          </div>
       </div>
     </div>
   );
