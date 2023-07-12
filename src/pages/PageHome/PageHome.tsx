@@ -34,7 +34,7 @@ export const PageHome = () => {
             Новый инструмент менеджмента помогает в планировании, коммуникации и управлении процессами
           </p>
           <Space>
-            <Button type="primary" onClick={handleStartWork}>начать работу</Button>
+            <Button type="primary" size={'large'} className='start-button' onClick={handleStartWork}>Начать работу</Button>
           </Space>
         </div>
         <div className='container-jumbotron'>
