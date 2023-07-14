@@ -1,167 +1,171 @@
 @media (min-width: 1000px) {
 
-  .container-all {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 1000px;
-    margin: 0 auto;
-  }
+    .container-all {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /*width: 1000px;*/
+        margin: 0 auto;
+    }
 
-  .container-header {
-    align-items: center;
-    /*!*align-content: center;*!*/
-    /*!*flex-direction: row;*!*/
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 80px;
+    .container-header {
+        align-items: center;
+        /*!*align-content: center;*!*/
+        /*!*flex-direction: row;*!*/
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 80px;
+        width: 1000px;
+        margin: 0 auto;
+    }
 
-  }
+    .logo-style {
+        height: 110px;
+    }
 
-  /*.container-logo {*/
-  /*  display: flex;*/
-  /*  flex-direction: column;*/
-  /*  justify-content: center;*/
-  /*  align-items: center;*/
-  /*  align-self: flex-start;*/
-  /*  padding-right: 10vw;*/
-  /*  position: relative;*/
-  /*  bottom: 4vh;*/
-  /*}*/
-  .logo-style {
-    height: 110px;
-  }
+    .title-style-1 {
+        font-size: 32px;
+    }
 
-  .title-style-1 {
-    font-size: 32px;
-  }
+    .text-style-1 {
+        font-size: 16px;
+    }
 
-  .text-style-1 {
-    font-size: 16px;
-  }
+    .img-main {
+        height: 40vh;
+    }
 
-  .img-main {
-    height: 40vh;
-  }
+    .space-style {
+        display: flex;
+        flex-direction: column;
+        height: 170px;
+    }
 
-  .space-style {
-    display: flex;
-    flex-direction: column;
-    height: 170px;
-  }
+    .container-block {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /*margin-top: 100px;*/
+        margin: 100px auto;
+        width: 1000px;
+    }
 
-  .button-registration {
-    /*  display: flex;*/
-    /*  flex-direction: row;*/
-    /*  justify-content: center;*/
-    /*  align-items: center;*/
-    /*  align-self: flex-start;*/
-    /*  margin-left: 20vw;*/
-    /*  position: relative;*/
-    /*  margin-top: 1vh;*/
-  }
+    .container-text {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        /*width: 500px;*/
+    }
 
-  /*.button-login {*/
-  /*  display: flex;*/
-  /*  flex-direction: row;*/
-  /*  justify-content: center;*/
-  /*  align-items: center;*/
-  /*  align-self: flex-start;*/
-  /*  margin-left: 1vw;*/
-  /*  position: relative;*/
-  /*  margin-top: 1vh;*/
-  /*}*/
-  .container-block {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 100px;
-  }
+    .start-button {
+        margin-top: 20px;
+    }
 
-  .container-text {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 500px;
-  }
+    .container-jumbotron {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        /*margin-right: 5%;*/
+    }
 
-  .start-button {
-    margin-top: 20px;
-  }
+    .containerBlock2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+        margin-top: 10px;
+        width: 1000px;
+    }
 
-  .container-jumbotron {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    /*margin-right: 5%;*/
-  }
+    .containerText2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        /*position: relative;*/
+    }
 
-  .containerBlock2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
-    margin-top: 90px;
-    width: 1000px;
-  }
+    .title-style-2 {
+        font-size: 52px;
+    }
 
-  .containerText2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    /*position: relative;*/
-  }
-
-  .title-style-2 {
-    font-size: 52px;
-  }
-
-  .text-style-2 {
-    font-size: 24px;
-  }
+    .text-style-2 {
+        font-size: 24px;
+    }
 }
+
 .container-card {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  margin-top: 60px;
-  margin-bottom: 40px;
-  width: 1000px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 60px;
+    margin-bottom: 40px;
+    width: 1000px;
 }
 
 .card-style {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 170px;
-  border: solid 3px #c3e6ff;
-  border-radius: 10px;
-  padding: 15px 0 0 0;
-  box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 170px;
+    border: solid 3px #c3e6ff;
+    border-radius: 10px;
+    padding: 15px 0 0 0;
+    box-sizing: border-box;
 }
 
 .card-image {
-  /*transform: scaleX(-1);*/
-  height: 100px;
+    /*transform: scaleX(-1);*/
+    height: 100px;
 }
 
 .card-title {
-  font-size: 18px;
+    font-size: 18px;
 }
 
 .containerBlock3 {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
-  margin-top: 90px;
-  width: 1000px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    margin-top: 50px;
+    width: 1000px;
+}
+
+.containerBlock4 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*align-self: center;*/
+    margin-top: 90px;
+    width: 100%;
+    /*height: 1000px;*/
+    background-color: #f4f7f9;
+    padding: 10px 0;
+}
+
+.text-style-3 {
+    font-size: 16px;
+    width: 500px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.card-grid {
+    margin: 30px auto;
+    width: 1000px;
+}
+
+.card-style-2 {
+    height: 300px;
+    /*white-space: normal;*/
+    /*width: 200px;*/
 }
