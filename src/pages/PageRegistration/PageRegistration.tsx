@@ -1,11 +1,19 @@
 import React, {useCallback} from 'react';
-import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
+import {
+  LockOutlined,
+  UserOutlined,
+  EyeTwoTone,
+  EyeInvisibleOutlined,
+  MailOutlined,
+  PhoneOutlined
+} from '@ant-design/icons';
 import {Button, Form, Input, Typography} from 'antd';
-import {loginUser} from "../../services";
+import {registrationUser} from "../../services";
 import {useNavigate} from "react-router-dom";
+import '../../App.css'
 import {TypeProfile} from "../../types";
 
-export const PageLoginForm: React.FC<TypeProfile> = () => {
+export const PageRegistration: React.FC<TypeProfile> = () => {
 
   const {Title} = Typography;
   const [form] = Form.useForm();
@@ -20,13 +28,11 @@ export const PageLoginForm: React.FC<TypeProfile> = () => {
     form
       .validateFields()
       .then((values) => {
-        loginUser(values)
-          .then(response => {
-            if (response?.jwt) {
-              navigate('/employee');
-            }
+        registrationUser(values)
+          .then(() => {
+            navigate('/login');
           })
-          .catch((error) => console.error("Ошибка при авторизации: ", error));
+          .catch((error) => console.error("Ошибка при регистрации: ", error));
       })
       .catch((error) => {
         console.log('Validate Failed:', error);
@@ -43,20 +49,39 @@ export const PageLoginForm: React.FC<TypeProfile> = () => {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#f5f5f5'
-        // backgroundColor: 'rgba(0,0,0,0.6)' // прозрачный серый фон
       }}>
       <Form
         form={form}
-        className="login-form"
+        className="registration-form"
         onFinish={onFinish}
       >
         <Form.Item>
-          <Title style={{textAlign: 'center'}}>Здравствуйте!</Title>
+          <Title style={{textAlign: 'center'}}>Регистрация</Title>
+        </Form.Item>
+
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              type: 'email',
+              message: 'введите верный Email адрес',
+            },
+            {
+              required: true,
+              message: 'введите свой Email',
+            },
+          ]}
+        >
+          <Input
+            size="large"
+            prefix={<MailOutlined className="input-prefix-icon"/>}
+            placeholder="Email"
+          />
         </Form.Item>
 
         <Form.Item
           name="username"
-          rules={[{required: true, message: 'введите ваш логин'}]}
+          // rules={[{required: true, message: 'введите ваш логин'}]}
         >
           <Input
             size="large"
@@ -79,6 +104,23 @@ export const PageLoginForm: React.FC<TypeProfile> = () => {
           />
         </Form.Item>
 
+        <Form.Item
+          name="phone"
+        >
+          <Input
+            size="large"
+            prefix={<PhoneOutlined className="input-prefix-icon"/>}
+            placeholder="Телефон"
+            style={{width: '100%'}}
+            maxLength={11}
+            onKeyPress={(e) => {
+              if (!/\d/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
+          />
+        </Form.Item>
+
         <Form.Item>
           <Button
             size="large"
@@ -86,7 +128,7 @@ export const PageLoginForm: React.FC<TypeProfile> = () => {
             htmlType="submit"
             className="login-form-button"
           >
-            Войти
+            Зарегистрироваться
           </Button>
         </Form.Item>
       </Form>
