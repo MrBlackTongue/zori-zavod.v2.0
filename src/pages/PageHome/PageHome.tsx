@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography, Button, Space, Card, Row, Col} from 'antd';
+import {Typography, Button, Space, Card, Row, Col, Input} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import '../PageHome/PageHome.css';
 
@@ -105,63 +105,85 @@ export const PageHome = () => {
           Мы предлагаем вашей команде полный сет инструментов для создания лучших проектных решений
         </p>
         <div className='card-grid'>
-          {/*<div className='card-style-2'>*/}
             <Row gutter={[30, 30]} justify="center" align="top">
               <Col span={7}>
-                <Card title={<div style={{whiteSpace: 'normal'}}>Работайте на любом устройстве</div>} bordered={false}
-                      className='card-style-2'>
+                <Card bordered={false} className='card-style-2'>
+                  <div>
+                    <img alt="smartphone" src="/smartphone.png" className="card-image-2" />
+                    <div className='card-title-2'>Работайте на любом устройстве</div>
+                  </div>
                   Интерфейс Gerda адаптивный.
                   Теперь вы можете быть в курсе всех новостей по текущим проектам
                   вне зависимости от вашего местоположения.
                 </Card>
               </Col>
               <Col span={7}>
-                <Card title={<div style={{whiteSpace: 'normal'}}>Используйте понятный интерфейс</div>} bordered={false}
-                      className='card-style-2'>
+                <Card bordered={false} className='card-style-2'>
+                  <div>
+                    <img alt="tap" src="/tap.png" className="card-image-2" />
+                    <div className='card-title-2'>Используйте понятный интерфейс</div>
+                  </div>
                   Мы разработали интуитивный и простой интерфейс,
                   к которому можно легко привыкнуть за минимальное количество времени.
                 </Card>
               </Col>
               <Col span={7}>
-                <Card title={<div style={{whiteSpace: 'normal'}}>Держите документы в порядке</div>} bordered={false}
-                      className='card-style-2'>
+                <Card bordered={false} className='card-style-2'>
+                  <div>
+                    <img alt="file" src="/file.png" className="card-image-2" />
+                    <div className='card-title-2'>Держите документы впорядке</div>
+                  </div>
                   Вы можете загружать документы и файлы в проекты,
                   борды и дискуссии и делиться ими с коллегами.
                   Также Gerda может служить архивом для файлов вашего проекта.
                 </Card>
               </Col>
-          {/*  </Row>*/}
-          {/*</div>*/}
-          {/*<div className='card-grid'>*/}
-            {/*<div>*/}
-            {/*  <Row gutter={30} justify="center">*/}
                 <Col span={7}>
-                  <Card title={<div style={{whiteSpace: 'normal'}}>Работайте в любой точке планеты</div>}
-                        bordered={false} className='card-style-2'>
+                  <Card bordered={false} className='card-style-2'>
+                    <div>
+                      <img alt="international" src="/international.png" className="card-image-2" />
+                      <div className='card-title-2'>Работайте в любой точке планеты</div>
+                    </div>
                     Ваша команда работает по всему миру?
                     Сохраняйте связь с коллегами вне зависимости от места положения и коммуницируйте синхронно,
                     не упуская деталей проекта.
                   </Card>
                 </Col>
                 <Col span={7}>
-                  <Card title={<div style={{whiteSpace: 'normal'}}>Получайте ежемесячные отчеты</div>} bordered={false}
-                        className='card-style-2'>
+                  <Card bordered={false} className='card-style-2'>
+                    <div>
+                      <img alt="file2" src="/file2.png" className="card-image-2" />
+                      <div className='card-title-2'>Получайте ежемесячные отчёты</div>
+                    </div>
                     Регулярные отчеты состоят из всех необходимых вам деталей и информации по проекту.
                     Вы можете их использовать для анализа своей продуктивности и делиться ими с коллегами.
                   </Card>
                 </Col>
                 <Col span={7}>
-                  <Card title={<div style={{whiteSpace: 'normal'}}>Используйте интеграции</div>} bordered={false}
-                        className='card-style-2'>
+                  <Card bordered={false} className='card-style-2'>
+                    <div>
+                      <img alt="management" src="/management.png" className="card-image-2" />
+                      <div className='card-title-2'>Используйте интеграции</div>
+                    </div>
                     Интегрируйте ваши проекты с инструментами Google и другими популярными сервисами.
                     Вы также можете подключить множество сервисов с помощью Zapier или API.
                   </Card>
                 </Col>
               </Row>
-            {/*</div>*/}
-          {/*</div>*/}
         </div>
       </div>
+      <div className='containerBlock5'>
+        <div className='containerText2'>
+          <Title level={2}>Попробуйте использовать наш инструмент, это бесплатно</Title>
+        </div>
+        <p className='text-style-3'>
+          Срок пробного периода — 2 недели, кредитная карта не нужна
+        </p>
+        <Space.Compact className='combine-input'>
+          <Input defaultValue="Введите почту" />
+          <Button type="primary">Начать работу</Button>
+        </Space.Compact>
+        </div>
     </div>
   );
 };
