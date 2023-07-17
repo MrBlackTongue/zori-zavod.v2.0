@@ -179,8 +179,8 @@ export const PageHome = () => {
         <p className='text-style-3'>
           Срок пробного периода — 2 недели, кредитная карта не нужна
         </p>
-        <Space.Compact className='combine-input'>
-          <Input defaultValue="Введите почту" />
+        <Space.Compact className='combine-input' size={'large'}>
+          <Input placeholder="Введите почту"/>
           <Button type="primary">Начать работу</Button>
         </Space.Compact>
         </div>
