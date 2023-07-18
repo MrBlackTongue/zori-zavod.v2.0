@@ -172,18 +172,29 @@ export const PageHome = () => {
               </Row>
         </div>
       </div>
-      <div className='containerBlock5'>
-        <div className='containerText2'>
-          <Title level={2}>Попробуйте использовать наш инструмент, это бесплатно</Title>
+      <div className='container-block5'>
+        <div>
+          <img alt="Retail-Business" src="/Retail-Business.png" className="container-image-free" />
         </div>
-        <p className='text-style-3'>
-          Срок пробного периода — 2 недели, кредитная карта не нужна
-        </p>
+      <div className='container-block-column'>
+        <div className='containerText2'>
+          <Title level={1}>Попробуйте Zolotenkov учёт прямо сейчас!</Title>
+        </div>
         <Space>
-          <Button type="primary"  className='start-button' onClick={handleStartWork}>Начать
-            работу</Button>
+          <Button type="primary"  className='start-button' onClick={handleStartWork}>Бесплатная версия</Button>
         </Space>
         </div>
+        <div>
+          <img alt="empresarial" src="/empresarial.png" className="container-image-free" />
+        </div>
+      </div>
+      <div className='container-footer'>
+        <p className='text-footer'>Телефон: +7 (916) 051-63-23</p>
+        <a href="https://t.me/AlAlon369" rel="noopener noreferrer">
+          <Button type="dashed" className='footer-button'>Связаться с нами</Button>
+        </a>
+        <p className='text-footer2'>© Zolotenkov 2023</p>
+      </div>
     </div>
   );
 };
