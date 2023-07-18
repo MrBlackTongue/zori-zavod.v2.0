@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography, Button, Space, Card, Row, Col, Input} from 'antd';
+import {Typography, Button, Space, Card, Row, Col} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import '../PageHome/PageHome.css';
 
@@ -29,7 +29,7 @@ export const PageHome = () => {
             Новый инструмент менеджмента помогает в планировании, коммуникации и управлении процессами
           </p>
           <Space>
-            <Button type="primary" size={'large'} className='start-button' onClick={handleStartWork}>Начать
+            <Button type="primary" className='start-button' onClick={handleStartWork}>Начать
               работу</Button>
           </Space>
         </div>
@@ -179,10 +179,10 @@ export const PageHome = () => {
         <p className='text-style-3'>
           Срок пробного периода — 2 недели, кредитная карта не нужна
         </p>
-        <Space.Compact className='combine-input' size={'large'}>
-          <Input placeholder="Введите почту"/>
-          <Button type="primary">Начать работу</Button>
-        </Space.Compact>
+        <Space>
+          <Button type="primary"  className='start-button' onClick={handleStartWork}>Начать
+            работу</Button>
+        </Space>
         </div>
     </div>
   );
