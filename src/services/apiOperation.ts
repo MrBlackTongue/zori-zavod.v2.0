@@ -1,5 +1,5 @@
 import {TypeApiResponse, TypeOperation} from "../types";
-import {OPERATION} from "./apiEndpoints";
+import {OPERATION, TITLE} from "./apiEndpoints";
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -40,5 +40,12 @@ export function deleteOperationById(id: number): Promise<TypeApiResponse> {
 export function updateOperation(data: TypeOperation): Promise<TypeApiResponse> {
   return api.put(OPERATION, data)
     .then(handleResponseUpdateMessage)
+    .catch(handleErrorResponseMessage);
+}
+
+// Получить список всех отфильтрованных операций по названию
+export function getAllOperationByTitle(title: string): Promise<TypeOperation[]> {
+  return api.get(`${OPERATION}${TITLE}/${title}`)
+    .then(response => response.data)
     .catch(handleErrorResponseMessage);
 }
