@@ -4,14 +4,11 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        /*width: 1000px;*/
         margin: 0 auto;
     }
 
     .container-header {
         align-items: center;
-        /*!*align-content: center;*!*/
-        /*!*flex-direction: row;*!*/
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -30,10 +27,6 @@
 
     .text-style-1 {
         font-size: 16px;
-    }
-
-    .img-main {
-        height: 40vh;
     }
 
     .space-style {
@@ -59,9 +52,9 @@
 
     .start-button {
         margin-top: 20px;
-        height: 45px;
-        width: 250px;
-        font-size: 16px;
+        height: 48px;
+        width: 260px;
+        font-size: 14px;
         font-weight: bold;
     }
 
@@ -70,9 +63,10 @@
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
+        height: 40vh;
     }
 
-    .containerBlock2 {
+    .container-Block-2 {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -82,22 +76,17 @@
         width: 1000px;
     }
 
-    .containerText2 {
+    .container-Text-2 {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        /*position: relative;*/
         width: 600px;
         text-align: center;
     }
 
     .title-style-2 {
         font-size: 52px;
-    }
-
-    .text-style-2 {
-        font-size: 24px;
     }
 
     .container-card {
@@ -131,25 +120,26 @@
         font-size: 18px;
     }
 
-    .containerBlock3 {
+    .container-Block-3 {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
         align-self: center;
         margin-top: 50px;
+        margin-bottom: 50px;
         width: 1000px;
     }
 
-    .containerBlock4 {
+    .container-Block-4 {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-top: 90px;
         width: 100%;
         background-color: #f4f7f9;
-        padding-top: 70px;
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .text-style-3 {
@@ -173,7 +163,6 @@
         font-size: 16px;
         font-weight: bold;
         margin-top: 25px;
-        margin-bottom: 10px;
     }
 
     .card-image-2 {
@@ -183,28 +172,19 @@
     .container-block5 {
         display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: space-between;
-        margin: 60px auto;
-        /*width: 1000px;*/
+        margin: 50px auto;
     }
 
-    .container-image-free1 {
+    .container-image-free {
         height: 200px;
         width: 270px;
-        /*margin: 0 40px;*/
-    }
-
-    .container-image-free2 {
-        height: 200px;
-        width: 270px;
-        /*margin: 0 55px;*/
     }
 
     .container-block-column {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         margin: 0 auto;
     }
@@ -223,16 +203,17 @@
         font-size: 18px;
     }
 
-    .footer-button {
+    .text-footer2 {
         margin: 10px auto;
-        height: 40px;
-        width: 160px;
         font-size: 16px;
-        background-color: #f4f7f9;
     }
 
-    .text-footer2 {
+    .text-footer3 {
         margin: 30px auto 20px;
         font-size: 14px;
+    }
+
+    .telegram-logo {
+        height: 35px;
     }
 }
