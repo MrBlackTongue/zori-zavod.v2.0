@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography, Button, Space, Card, Row, Col, Input} from 'antd';
+import {Typography, Button, Space, Card, Row, Col} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import '../PageHome/PageHome.css';
 
@@ -29,7 +29,7 @@ export const PageHome = () => {
             Новый инструмент менеджмента помогает в планировании, коммуникации и управлении процессами
           </p>
           <Space>
-            <Button type="primary" size={'large'} className='start-button' onClick={handleStartWork}>Начать
+            <Button type="primary" className='start-button' onClick={handleStartWork}>Начать
               работу</Button>
           </Space>
         </div>
@@ -172,18 +172,29 @@ export const PageHome = () => {
               </Row>
         </div>
       </div>
-      <div className='containerBlock5'>
+      <div className='container-block5'>
+        <div>
+          <img alt="Retail-Business" src="/Retail-Business.png" className="container-image-free" />
+        </div>
+      <div className='container-block-column'>
         <div className='containerText2'>
-          <Title level={2}>Попробуйте использовать наш инструмент, это бесплатно</Title>
+          <Title level={1}>Попробуйте Zolotenkov учёт прямо сейчас!</Title>
         </div>
-        <p className='text-style-3'>
-          Срок пробного периода — 2 недели, кредитная карта не нужна
-        </p>
-        <Space.Compact className='combine-input' size={'large'}>
-          <Input placeholder="Введите почту"/>
-          <Button type="primary">Начать работу</Button>
-        </Space.Compact>
+        <Space>
+          <Button type="primary"  className='start-button' onClick={handleStartWork}>Бесплатная версия</Button>
+        </Space>
         </div>
+        <div>
+          <img alt="empresarial" src="/empresarial.png" className="container-image-free" />
+        </div>
+      </div>
+      <div className='container-footer'>
+        <p className='text-footer'>Телефон: +7 (916) 051-63-23</p>
+        <a href="https://t.me/AlAlon369" rel="noopener noreferrer">
+          <Button type="dashed" className='footer-button'>Связаться с нами</Button>
+        </a>
+        <p className='text-footer2'>© Zolotenkov 2023</p>
+      </div>
     </div>
   );
 };
