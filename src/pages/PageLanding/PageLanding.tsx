@@ -23,9 +23,9 @@ export const PageLanding = () => {
       </div>
       <div className='container-block'>
         <div className='container-text'>
-          <Title className='title-style-1'>Увеличте продуктивность вашего производства</Title>
+          <Title className='title-style-1'>Производство, склад, ERP в облаке</Title>
           <p className='text-style-1'>
-            Новый инструмент менеджмента помогает в планировании, коммуникации и управлении процессами
+            Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
             <Button type="primary" className='start-button' onClick={handleStartWork}>
@@ -36,43 +36,51 @@ export const PageLanding = () => {
         <img src="/Analyse.png" alt="Analyse" className='container-jumbotron'/>
       </div>
       <div className='container-Block-2'>
-        <Title className='title-style-2 container-Text-2'>Кому выгодно?</Title>
-        <div className='container-card'>
-          <div className='card-style'>
-            <img alt="conveyor" src="/conveyor.png" className='card-image'/>
-            <p className='card-title'>Производствам</p>
-          </div>
-          <div className='card-style'>
-            <img alt="onlineShopping" src="/onlineShopping.png" className='card-image'/>
-            <p className='card-title'>Онлайн магазинам</p>
-          </div>
-          <div className='card-style'>
-            <img alt="store" src="/store.png" className='card-image'/>
-            <p className='card-title'>Розничной торговле</p>
-          </div>
-          <div className='card-style'>
-            <img alt="warehouse" src="/warehouse.png" className='card-image'/>
-            <p className='card-title'>Оптовой торговле</p>
-          </div>
+        <Title className='title-style-2'>Идеально подойдёт всем малым производственным предприятиям</Title>
+        <div className='container-Text-2'>
+          <p>
+            Zolotenkov равноценно полезен всем,
+            кто управляет производством. Никаких сложных настроек или загадочных процедур.
+            15 минут - и у вас есть ваша собственная,
+            персонализированная ERP-система для производственной деятельности.
+            Она управляет рабочим процессом и функционирует онлайн.
+          </p>
+          {/*<div className='card-style'>*/}
+          {/*  <img alt="conveyor" src="/conveyor.png" className='card-image'/>*/}
+          {/*  <p className='card-title'>Производствам</p>*/}
+          {/*</div>*/}
+          {/*<div className='card-style'>*/}
+          {/*  <img alt="onlineShopping" src="/onlineShopping.png" className='card-image'/>*/}
+          {/*  <p className='card-title'>Онлайн магазинам</p>*/}
+          {/*</div>*/}
+          {/*<div className='card-style'>*/}
+          {/*  <img alt="store" src="/store.png" className='card-image'/>*/}
+          {/*  <p className='card-title'>Розничной торговле</p>*/}
+          {/*</div>*/}
+          {/*<div className='card-style'>*/}
+          {/*  <img alt="warehouse" src="/warehouse.png" className='card-image'/>*/}
+          {/*  <p className='card-title'>Оптовой торговле</p>*/}
+          {/*</div>*/}
         </div>
       </div>
       <div className='container-Block-3'>
         <img src="/info.png" alt="info" className='container-jumbotron'/>
         <div className='container-text'>
-          <Title className='title-style-1'>Управление задачами</Title>
+          <Title className='title-style-1'>Учёт операций</Title>
           <p className='text-style-1'>
-            Используйте листы задач, расписание команды и календарь.
-            Добавляйте файлы, комментарии и делитесь своими разработками с командой.
+            Отслеживайте операции, результаты,
+            время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании системе.
+            Повышайте эффективность и контролируйте производственные процессы.
           </p>
         </div>
       </div>
       <div className='container-Block-3'>
         <div className='container-text'>
-          <Title className='title-style-1'>Управление временем</Title>
+          <Title className='title-style-1'>Управление закупками</Title>
           <p className='text-style-1'>
-            Следите за задачами, над которыми вы ежедневно работаете и анализируйте,
-            сколько времени вы потратили на каждый проект.
-            Вы можете использовать автоматический таймер или управлять им вручную.
+           Контролируйте все ваши заказы: от количества и цены до даты поставки.
+            Мы также предлагаем функционал для приемки товаров,
+            помогающий вам без проблем учитывать все закупленные товары.
           </p>
         </div>
         <img src="/info2.png" alt="info2" className='container-jumbotron'/>
@@ -80,10 +88,13 @@ export const PageLanding = () => {
       <div className='container-Block-3'>
         <img src="/info3.png" alt="info3" className='container-jumbotron'/>
         <div className='container-text'>
-          <Title className='title-style-1'>Коммуникация команды</Title>
+          <Title className='title-style-1'>Ведение склада</Title>
           <p className='text-style-1'>
-            Онлайн-дискуссии и комментарии позволят вашей команде
-            коммуницировать и быть в курсе всех обновлений и новостей проекта.
+            Легко создавайте товары и добавлять их на склад,
+            учитывайте количество товаров и списывайте их со склада.
+            Благодаря интеграции с производственными операциями,
+            отгрузками и приемками товаров,
+            вы всегда будете в курсе актуального баланса на вашем складе.
           </p>
         </div>
       </div>
@@ -94,15 +105,15 @@ export const PageLanding = () => {
         </p>
         <div className='card-grid'>
           <Row gutter={[30, 30]} justify="center" align="top">
-            <Col span={7}>
-              <Card bordered={false} className='card-style-2'>
-                <img alt="smartphone" src="/smartphone.png" className="card-image-2"/>
-                <div className='card-title-2'>Работайте на любом устройстве</div>
-                Интерфейс Gerda адаптивный.
-                Теперь вы можете быть в курсе всех новостей по текущим проектам
-                вне зависимости от вашего местоположения.
-              </Card>
-            </Col>
+            {/*<Col span={7}>*/}
+            {/*  <Card bordered={false} className='card-style-2'>*/}
+            {/*    <img alt="smartphone" src="/smartphone.png" className="card-image-2"/>*/}
+            {/*    <div className='card-title-2'>Работайте на любом устройстве</div>*/}
+            {/*    Интерфейс Gerda адаптивный.*/}
+            {/*    Теперь вы можете быть в курсе всех новостей по текущим проектам*/}
+            {/*    вне зависимости от вашего местоположения.*/}
+            {/*  </Card>*/}
+            {/*</Col>*/}
             <Col span={7}>
               <Card bordered={false} className='card-style-2'>
                 <img alt="tap" src="/tap.png" className="card-image-2"/>
@@ -111,15 +122,15 @@ export const PageLanding = () => {
                 к которому можно легко привыкнуть за минимальное количество времени.
               </Card>
             </Col>
-            <Col span={7}>
-              <Card bordered={false} className='card-style-2'>
-                <img alt="file" src="/file.png" className="card-image-2"/>
-                <div className='card-title-2'>Держите документы впорядке</div>
-                Вы можете загружать документы и файлы в проекты,
-                борды и дискуссии и делиться ими с коллегами.
-                Также Gerda может служить архивом для файлов вашего проекта.
-              </Card>
-            </Col>
+            {/*<Col span={7}>*/}
+            {/*  <Card bordered={false} className='card-style-2'>*/}
+            {/*    <img alt="file" src="/file.png" className="card-image-2"/>*/}
+            {/*    <div className='card-title-2'>Держите документы впорядке</div>*/}
+            {/*    Вы можете загружать документы и файлы в проекты,*/}
+            {/*    борды и дискуссии и делиться ими с коллегами.*/}
+            {/*    Также Gerda может служить архивом для файлов вашего проекта.*/}
+            {/*  </Card>*/}
+            {/*</Col>*/}
             <Col span={7}>
               <Card bordered={false} className='card-style-2'>
                 <img alt="international" src="/international.png" className="card-image-2"/>
@@ -137,14 +148,14 @@ export const PageLanding = () => {
                 Вы можете их использовать для анализа своей продуктивности и делиться ими с коллегами.
               </Card>
             </Col>
-            <Col span={7}>
-              <Card bordered={false} className='card-style-2'>
-                <img alt="management" src="/management.png" className="card-image-2"/>
-                <div className='card-title-2'>Используйте интеграции</div>
-                Интегрируйте ваши проекты с инструментами Google и другими популярными сервисами.
-                Вы также можете подключить множество сервисов с помощью Zapier или API.
-              </Card>
-            </Col>
+            {/*<Col span={7}>*/}
+            {/*  <Card bordered={false} className='card-style-2'>*/}
+            {/*    <img alt="management" src="/management.png" className="card-image-2"/>*/}
+            {/*    <div className='card-title-2'>Используйте интеграции</div>*/}
+            {/*    Интегрируйте ваши проекты с инструментами Google и другими популярными сервисами.*/}
+            {/*    Вы также можете подключить множество сервисов с помощью Zapier или API.*/}
+            {/*  </Card>*/}
+            {/*</Col>*/}
           </Row>
         </div>
       </div>
