@@ -17,8 +17,8 @@ export const PageLanding = () => {
       <div className='container-header'>
         <img src="/logo.png" alt="Logo" className='logo-style'/>
         <Space>
-          <Button type="dashed" onClick={handleStartWork}>Войти</Button>
-          <Button type="primary">Зарегистрироваться</Button>
+          <Button type="default"  className='button-login' onClick={handleStartWork}>Войти</Button>
+          <Button type="primary"  className='button-registration'>Регистрация</Button>
         </Space>
       </div>
       <div className='container-block'>
@@ -33,10 +33,12 @@ export const PageLanding = () => {
             </Button>
           </Space>
         </div>
-        <img src="/Analyse.png" alt="Analyse" className='container-jumbotron'/>
+        <img src="/manufacture_blue.png" alt="image_manufacture" className='container-jumbotron'/>
       </div>
       <div className='container-Block-2'>
-        <Title className='title-style-2'>Идеально подойдёт всем малым производственным предприятиям</Title>
+        <img src="/factoryApp.png" alt="factoryApp" className='container-jumbotron2'/>
+        <div className='container-block-column'>
+        <Title className='title-style-2' level={2}>Идеально подойдёт всем малым производственным предприятиям</Title>
         <div className='container-Text-2'>
           <p>
             Zolotenkov равноценно полезен всем,
@@ -45,6 +47,7 @@ export const PageLanding = () => {
             персонализированная ERP-система для производственной деятельности.
             Она управляет рабочим процессом и функционирует онлайн.
           </p>
+          </div>
           {/*<div className='card-style'>*/}
           {/*  <img alt="conveyor" src="/conveyor.png" className='card-image'/>*/}
           {/*  <p className='card-title'>Производствам</p>*/}
@@ -62,6 +65,7 @@ export const PageLanding = () => {
           {/*  <p className='card-title'>Оптовой торговле</p>*/}
           {/*</div>*/}
         </div>
+        <img src="/money.png" alt="money" className='container-jumbotron2'/>
       </div>
       <div className='container-Block-3'>
         <img src="/info.png" alt="info" className='container-jumbotron'/>
@@ -90,7 +94,7 @@ export const PageLanding = () => {
         <div className='container-text'>
           <Title className='title-style-1'>Ведение склада</Title>
           <p className='text-style-1'>
-            Легко создавайте товары и добавлять их на склад,
+            Легко создавайте товары и добавляйте их на склад,
             учитывайте количество товаров и списывайте их со склада.
             Благодаря интеграции с производственными операциями,
             отгрузками и приемками товаров,
@@ -99,9 +103,10 @@ export const PageLanding = () => {
         </div>
       </div>
       <div className='container-Block-4'>
-        <Title level={2} className='container-Text-2'>Мы поможем вам работать более эффективно</Title>
+        <Title level={2} className='title-style-2'>Оптимизируйте ваше производство</Title>
         <p className='text-style-3'>
-          Мы предлагаем вашей команде полный сет инструментов для создания лучших проектных решений
+          Мы предлагаем вашей команде всестороннее решение для эффективного управления ресурсами
+          и контроля над процессами производства.
         </p>
         <div className='card-grid'>
           <Row gutter={[30, 30]} justify="center" align="top">
@@ -117,9 +122,9 @@ export const PageLanding = () => {
             <Col span={7}>
               <Card bordered={false} className='card-style-2'>
                 <img alt="tap" src="/tap.png" className="card-image-2"/>
-                <div className='card-title-2'>Используйте понятный интерфейс</div>
-                Мы разработали интуитивный и простой интерфейс,
-                к которому можно легко привыкнуть за минимальное количество времени.
+                <div className='card-title-2'>Простота в управлении</div>
+                Мы создали доступный и удобный интерфейс,
+                обеспечивающий быстрое освоение и комфортную работу с нашей системой учета производственных операций.
               </Card>
             </Col>
             {/*<Col span={7}>*/}
@@ -134,18 +139,17 @@ export const PageLanding = () => {
             <Col span={7}>
               <Card bordered={false} className='card-style-2'>
                 <img alt="international" src="/international.png" className="card-image-2"/>
-                <div className='card-title-2'>Работайте в любой точке планеты</div>
-                Ваша команда работает по всему миру?
-                Сохраняйте связь с коллегами вне зависимости от места положения и коммуницируйте синхронно,
-                не упуская деталей проекта.
+                <div className='card-title-2'>Проводите учет где угодно</div>
+                С нашей системой вы сможете управлять производством,
+                не зависимо от географии, сохраняя полный контроль над каждой деталью.
               </Card>
             </Col>
             <Col span={7}>
               <Card bordered={false} className='card-style-2'>
                 <img alt="file2" src="/file2.png" className="card-image-2"/>
-                <div className='card-title-2'>Получайте ежемесячные отчёты</div>
-                Регулярные отчеты состоят из всех необходимых вам деталей и информации по проекту.
-                Вы можете их использовать для анализа своей продуктивности и делиться ими с коллегами.
+                <div className='card-title-2'>Отчёты в реальном времени</div>
+                Автоматизированные отчеты отображают детали ваших производственных операций.
+                Идеальный инструмент для оптимизации процессов и координации команды.
               </Card>
             </Col>
             {/*<Col span={7}>*/}
@@ -162,7 +166,9 @@ export const PageLanding = () => {
       <div className='container-block5'>
         <img alt="Retail-Business" src="/Retail-Business.png" className="container-image-free"/>
         <div className='container-block-column'>
-          <Title level={1} className='container-Text-2'>Попробуйте Zolotenkov учёт прямо сейчас!</Title>
+          <Title level={1} className='title-style-3'>Попробуйте Zolotenkov
+            прямо сейчас!
+          </Title>
           <Space>
             <Button type="primary" className='start-button' onClick={handleStartWork}>Бесплатная версия</Button>
           </Space>

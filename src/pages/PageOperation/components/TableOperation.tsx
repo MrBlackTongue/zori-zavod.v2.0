@@ -2,13 +2,14 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllOperation} from "../../../services";
+import {getAllOperation, getAllOperationByTitle} from "../../../services";
 import {TableProps, TypeOperation, TypeUnit} from "../../../types";
 
 export const TableOperation: React.FC<TableProps> = ({
                                                        isUpdateTable,
                                                        openDrawer,
                                                        onDelete,
+                                                       searchText,
                                                      }) => {
   // Лоудер и список всех операций
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -97,9 +98,24 @@ export const TableOperation: React.FC<TableProps> = ({
       .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [])
 
+  // Функция для поиска по таблице
+  const handleSearchTable = useCallback((): void => {
+    setIsLoading(true);
+    getAllOperationByTitle(searchText ?? '')
+      .then((data) => {
+        setAllOperation(data);
+        setIsLoading(false);
+      })
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
+  }, [searchText]);
+
   useEffect(() => {
-    handleUpdateTable()
-  }, [isUpdateTable, handleUpdateTable]);
+    if (searchText) {
+      handleSearchTable();
+    } else {
+      handleUpdateTable()
+    }
+  }, [isUpdateTable, searchText, handleUpdateTable, handleSearchTable]);
 
   return (
     <Table
