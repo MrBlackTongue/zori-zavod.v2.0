@@ -33,10 +33,10 @@ export const PageLanding = () => {
             </Button>
           </Space>
         </div>
-        <img src="/manufacture_blue.png" alt="image_manufacture" className='container-jumbotron'/>
+        <img src="/manufacture_blue.png" alt="manufacture_blue" className='container-jumbotron'/>
       </div>
       <div className='container-Block-2'>
-        <img src="/factoryApp.png" alt="factoryApp" className='container-jumbotron2'/>
+        <img src="/factory2.png" alt="factoryApp" className='container-jumbotron2'/>
         <div className='container-block-column'>
         <Title className='title-style-2' level={2}>Идеально подойдёт всем малым производственным предприятиям</Title>
         <div className='container-Text-2'>
@@ -48,27 +48,11 @@ export const PageLanding = () => {
             Она управляет рабочим процессом и функционирует онлайн.
           </p>
           </div>
-          {/*<div className='card-style'>*/}
-          {/*  <img alt="conveyor" src="/conveyor.png" className='card-image'/>*/}
-          {/*  <p className='card-title'>Производствам</p>*/}
-          {/*</div>*/}
-          {/*<div className='card-style'>*/}
-          {/*  <img alt="onlineShopping" src="/onlineShopping.png" className='card-image'/>*/}
-          {/*  <p className='card-title'>Онлайн магазинам</p>*/}
-          {/*</div>*/}
-          {/*<div className='card-style'>*/}
-          {/*  <img alt="store" src="/store.png" className='card-image'/>*/}
-          {/*  <p className='card-title'>Розничной торговле</p>*/}
-          {/*</div>*/}
-          {/*<div className='card-style'>*/}
-          {/*  <img alt="warehouse" src="/warehouse.png" className='card-image'/>*/}
-          {/*  <p className='card-title'>Оптовой торговле</p>*/}
-          {/*</div>*/}
         </div>
-        <img src="/money.png" alt="money" className='container-jumbotron2'/>
+        <img src="/people_working.png" alt="people_working" className='container-jumbotron3'/>
       </div>
       <div className='container-Block-3'>
-        <img src="/info.png" alt="info" className='container-jumbotron'/>
+        <img src="/workingPeople.png" alt="info" className='container-jumbotron3'/>
         <div className='container-text'>
           <Title className='title-style-1'>Учёт операций</Title>
           <p className='text-style-1'>
