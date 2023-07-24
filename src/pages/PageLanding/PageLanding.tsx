@@ -33,7 +33,7 @@ export const PageLanding = () => {
             </Button>
           </Space>
         </div>
-        <img src="/manufacture_blue.png" alt="manufacture_blue" className='container-jumbotron'/>
+        <img src="/web-app_manufacturing.png" alt="web-app_manufacturing" className='container-jumbotron'/>
       </div>
       <div className='container-Block-2'>
         <img src="/factory2.png" alt="factoryApp" className='container-jumbotron2'/>
@@ -49,10 +49,10 @@ export const PageLanding = () => {
           </p>
           </div>
         </div>
-        <img src="/people_working.png" alt="people_working" className='container-jumbotron3'/>
+        <img src="/people_working.png" alt="people_working" className='container-jumbotron2'/>
       </div>
       <div className='container-Block-3'>
-        <img src="/workingPeople.png" alt="info" className='container-jumbotron3'/>
+        <img src="/accounting.png" alt="accounting" className='container-jumbotron3'/>
         <div className='container-text'>
           <Title className='title-style-1'>Учёт операций</Title>
           <p className='text-style-1'>
@@ -71,10 +71,10 @@ export const PageLanding = () => {
             помогающий вам без проблем учитывать все закупленные товары.
           </p>
         </div>
-        <img src="/info2.png" alt="info2" className='container-jumbotron'/>
+        <img src="/Procurement_management.png" alt="Procurement_management" className='container-jumbotron2'/>
       </div>
       <div className='container-Block-3'>
-        <img src="/info3.png" alt="info3" className='container-jumbotron'/>
+        <img src="/warehouse_management.png" alt="warehouse_management" className='container-jumbotron2'/>
         <div className='container-text'>
           <Title className='title-style-1'>Ведение склада</Title>
           <p className='text-style-1'>
@@ -162,7 +162,7 @@ export const PageLanding = () => {
       <div className='container-footer'>
         <p className='text-footer'>Телефон: +7 (968) 614-15-72</p>
         <p className='text-footer2'>Связаться с нами:</p>
-        <a href="https://t.me/AlAlon369" rel="noopener noreferrer">
+        <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
             <img alt="icon-telegram" src="/icon-telegram.png" className="telegram-logo"/>
         </a>
         <p className='text-footer3'>© Zolotenkov 2022</p>
