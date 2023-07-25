@@ -15,7 +15,7 @@ export const PageLanding = () => {
   return (
     <div className='container-all'>
       <div className='container-header'>
-        <img src="/logo.png" alt="Logo" className='logo-style'/>
+        <img src="/logo2.png" alt="Logo" className='logo-style'/>
         <Space>
           <Button type="default"  className='button-login' onClick={handleStartWork}>Войти</Button>
           <Button type="primary"  className='button-registration'>Регистрация</Button>
@@ -23,7 +23,7 @@ export const PageLanding = () => {
       </div>
       <div className='container-block'>
         <div className='container-text'>
-          <Title className='title-style-1'>Производство, склад, ERP в облаке</Title>
+          <div  className='title-style-1'>Производство, склад, ERP в облаке</div>
           <p className='text-style-1'>
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
@@ -122,7 +122,7 @@ export const PageLanding = () => {
             {/*</Col>*/}
             <Col span={7}>
               <Card bordered={false} className='card-style-2'>
-                <img alt="international" src="/international.png" className="card-image-2"/>
+                <img alt="earth" src="/earth.png" className="card-image-2"/>
                 <div className='card-title-2'>Проводите учет где угодно</div>
                 С нашей системой вы сможете управлять производством,
                 не зависимо от географии, сохраняя полный контроль над каждой деталью.
@@ -148,7 +148,7 @@ export const PageLanding = () => {
         </div>
       </div>
       <div className='container-block5'>
-        <img alt="Retail-Business" src="/Retail-Business.png" className="container-image-free"/>
+        <img alt="meeting" src="/meeting.png" className="container-image-free"/>
         <div className='container-block-column'>
           <Title level={1} className='title-style-3'>Попробуйте Zolotenkov
             прямо сейчас!
@@ -157,7 +157,7 @@ export const PageLanding = () => {
             <Button type="primary" className='start-button' onClick={handleStartWork}>Бесплатная версия</Button>
           </Space>
         </div>
-        <img alt="empresarial" src="/empresarial.png" className="container-image-free"/>
+        <img alt="transactions" src="/transactions.png" className="container-image-free"/>
       </div>
       <div className='container-footer'>
         <p className='text-footer'>Телефон: +7 (968) 614-15-72</p>

@@ -18,7 +18,7 @@
   }
 
   .logo-style {
-    height: 110px;
+    height: 30px;
   }
 
   .button-login {
@@ -32,7 +32,8 @@
   }
 
   .title-style-1 {
-    font-size: 32px;
+    font-size: 42px;
+    font-weight: bold;
   }
 
   .text-style-1 {
@@ -58,8 +59,8 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    text-align: justify;
-    margin: 10px auto;
+    /*text-align: justify;*/
+    /*margin: 10px auto;*/
     /*width: 450px;*/
   }
 
@@ -221,8 +222,7 @@
   }
 
   .container-image-free {
-    height: 200px;
-    width: 270px;
+    height: 300px;
   }
 
   .container-block-column {
@@ -230,7 +230,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0 25px;
+    margin: 0 5px;
   }
 
   .container-footer {
