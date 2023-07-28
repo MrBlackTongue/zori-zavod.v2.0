@@ -18,7 +18,7 @@ export const PageLanding = () => {
         <img src="/logo2.png" alt="Logo" className='logo'/>
         <Space>
           <Button type="default" className='button-login' onClick={handleStartWork}>Войти</Button>
-          <Button type="primary" className='button-register'>Регистрация</Button>
+          <Button type="primary" className='button-register' onClick={handleStartWork}>Регистрация</Button>
         </Space>
       </div>
       <div className='block'>
@@ -136,14 +136,14 @@ export const PageLanding = () => {
       </div>
       <div className='footer'>
         <p className='footer-text-primary'>Телефон: +7 (968) 614-15-72</p>
-        <a href="https:www.flaticon.com/ru/authors/itim2101" className='footer-text-secondary'>
-          <Button type={"ghost"}>Иконки от itim2101 - Flaticon</Button>
-        </a>
         <p className='footer-text-secondary'>Связаться с нами:</p>
         <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
           <img alt="icon-telegram" src="/icon-telegram.png" className="logo-telegram"/>
         </a>
-        <p className='footer-text-tertiary'>© Zolotenkov 2022</p>
+        <p className='footer-text-tertiary'>© Zolotenkov 2022-2023</p>
+        {/*<a href="https:www.flaticon.com/ru/authors/itim2101" className='footer-text-secondary'>*/}
+        {/*  <Button type={"ghost"}>Иконки от itim2101 - Flaticon</Button>*/}
+        {/*</a>*/}
       </div>
     </div>
   );
