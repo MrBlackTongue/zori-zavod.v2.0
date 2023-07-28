@@ -1,13 +1,13 @@
 @media (min-width: 1000px) {
 
-  .container-all {
+  .page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 0 auto;
   }
 
-  .container-header {
+  .header {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -17,7 +17,7 @@
     margin: 0 auto;
   }
 
-  .logo-style {
+  .logo {
     height: 30px;
   }
 
@@ -26,27 +26,27 @@
     height: 35px;
   }
 
-  .button-registration {
+  .button-register {
     width: 130px;
     height: 35px;
   }
 
-  .title-style-1 {
+  .title-primary {
     font-size: 42px;
     font-weight: bold;
   }
 
-  .text-style-1 {
+  .text-primary {
     font-size: 18px;
   }
 
-  .space-style {
+  .space-element {
     display: flex;
     flex-direction: column;
     height: 170px;
   }
 
-  .container-block {
+  .block {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +54,7 @@
     width: 1000px;
   }
 
-  .container-text {
+  .text-block {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -62,7 +62,7 @@
     width: 450px;
   }
 
-  .start-button {
+  .button-start {
     margin-top: 20px;
     height: 48px;
     width: 260px;
@@ -70,7 +70,7 @@
     font-weight: bold;
   }
 
-  .container-jumbotron {
+  .jumbotron {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -79,7 +79,7 @@
     /*max-width: 45%*/
   }
 
-  .container-jumbotron2 {
+  .jumbotron-secondary {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -89,7 +89,7 @@
     /*max-width: 34%;*/
   }
 
-  .container-jumbotron3 {
+  .jumbotron-tertiary {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -99,39 +99,39 @@
     /*max-width: 30%;*/
   }
 
-  .container-Block-2 {
+  .block-secondary {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     align-self: center;
-    margin-top: 30px;
-    margin-bottom: 100px;
+    margin: 30px auto;
     width: 1000px;
   }
 
-  .container-Text-2 {
+  .text-block-secondary {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 400px;
+    width: 340px;
     text-align: center;
     font-size: 16px;
   }
 
-  .title-style-2 {
+  .title-secondary {
     font-size: 38px;
     text-align: center;
+    width: 390px;
   }
 
-  .title-style-3 {
+  .title-tertiary {
     font-size: 52px;
     text-align: center;
     width: 500px;
   }
 
-  .container-card {
+  .card-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -141,7 +141,7 @@
     width: 1000px;
   }
 
-  .card-style {
+  .card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -154,44 +154,44 @@
     box-sizing: border-box;
   }
 
-  .card-image {
+  .card-image-primary {
     height: 100px;
   }
 
-  .card-title {
+  .card-title-primary {
     font-size: 18px;
   }
 
-  .container-Block-123 {
+  .block-group {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin: 30px auto;
   }
 
-  .container-Block-3 {
+  .block-tertiary {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     align-self: center;
-    margin: 30px auto 30px;
+    /*margin: 30px auto;*/
     width: 1000px;
   }
 
-  .container-Block-4 {
+  .block-quaternary {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     background-color: #f4f7f9;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    /*margin: 30px auto;*/
   }
 
-  .text-style-3 {
+  .text-tertiary {
     font-size: 18px;
     width: 500px;
     text-align: center;
@@ -203,42 +203,43 @@
     width: 1000px;
   }
 
-  .card-style-2 {
+  .card-secondary {
     height: 350px;
     width: 280px;
   }
 
-  .card-title-2 {
+  .card-title-secondary {
     font-size: 16px;
     font-weight: bold;
     margin-top: 25px;
     margin-bottom: 20px;
   }
 
-  .card-image-2 {
+  .card-image-secondary {
     height: 50px;
   }
 
-  .container-block5 {
+  .block-quinary {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    margin: 50px auto;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px auto;
   }
 
-  .container-image-free {
+  .image-container {
     height: 300px;
   }
 
-  .container-block-column {
+  .block-column {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: center;
-    margin: 50px 30px 50px;
+    margin: 0 30px 30px;
   }
 
-  .container-footer {
+  .footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -247,26 +248,26 @@
     background-color: #f4f7f9;
   }
 
-  .text-footer {
-    margin: 20px auto 5px;
+  .footer-text-primary {
+    margin: 30px auto 5px;
     font-size: 18px;
   }
 
-  .text-footer2 {
+  .footer-text-secondary {
     margin: 0 auto 10px;
     font-size: 16px;
   }
 
-  .text-footer3 {
+  .footer-text-tertiary {
     margin: 10px auto 20px;
     font-size: 14px;
   }
 
-  .telegram-logo {
+  .logo-telegram {
     height: 35px;
   }
 
-  .telegram-logo:hover {
+  .logo-telegram:hover {
     filter: brightness(80%);
   }
 }
