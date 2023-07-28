@@ -32,7 +32,7 @@
   }
 
   .title-primary {
-    font-size: 42px;
+    font-size: 40px;
     font-weight: bold;
   }
 
@@ -55,15 +55,14 @@
   }
 
   .text-block {
-    display: flex;
     flex-direction: column;
     position: relative;
-    margin: auto 20px;
     width: 450px;
+    /*margin-left: 20px;*/
   }
 
   .button-start {
-    margin-top: 20px;
+    margin-top: 30px;
     height: 48px;
     width: 260px;
     font-size: 14px;
@@ -76,17 +75,12 @@
     justify-content: center;
     align-items: center;
     height: 500px;
-    /*max-width: 45%*/
   }
 
   .jumbotron-secondary {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    /*margin: 0 10px;*/
-    height: 360px;
-    /*max-width: 34%;*/
+    height: 300px;
   }
 
   .jumbotron-tertiary {
@@ -104,42 +98,40 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    align-self: center;
     margin: 30px auto;
     width: 1000px;
   }
 
   .text-block-secondary {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 340px;
+    width: 440px;
     text-align: center;
     font-size: 16px;
   }
 
   .title-secondary {
-    font-size: 38px;
+    font-size: 33px;
     text-align: center;
-    width: 390px;
+    width: 500px;
+    font-weight: bold;
+    margin: 15px auto;
   }
 
   .title-tertiary {
-    font-size: 52px;
+    font-size: 36px;
     text-align: center;
+    font-weight: bold;
     width: 500px;
   }
 
-  .card-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    width: 1000px;
-  }
+  /*.card-container {*/
+  /*  display: flex;*/
+  /*  flex-direction: row;*/
+  /*  align-items: center;*/
+  /*  justify-content: space-around;*/
+  /*  margin-top: 50px;*/
+  /*  margin-bottom: 50px;*/
+  /*  width: 1000px;*/
+  /*}*/
 
   .card {
     display: flex;
@@ -169,13 +161,17 @@
     margin: 30px auto;
   }
 
+  .title-group {
+    font-size: 35px;
+    font-weight: bold;
+  }
+
   .block-tertiary {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     align-self: center;
-    /*margin: 30px auto;*/
     width: 1000px;
   }
 
@@ -206,10 +202,11 @@
   .card-secondary {
     height: 350px;
     width: 280px;
+    font-family: 'Rubik', sans-serif;
   }
 
   .card-title-secondary {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     margin-top: 25px;
     margin-bottom: 20px;
@@ -229,6 +226,7 @@
 
   .image-container {
     height: 300px;
+    margin: 0;
   }
 
   .block-column {
@@ -236,7 +234,7 @@
     flex-direction: column;
     /*justify-content: center;*/
     align-items: center;
-    margin: 0 30px 30px;
+    margin: 0 20px 10px;
   }
 
   .footer {

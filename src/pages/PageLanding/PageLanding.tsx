@@ -1,9 +1,7 @@
 import React from 'react';
-import {Typography, Button, Space, Card, Row, Col} from 'antd';
+import { Button, Space, Card, Row, Col} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import './/PageLanding.css';
-
-const {Title} = Typography;
 
 export const PageLanding = () => {
   const navigate = useNavigate();
@@ -38,7 +36,7 @@ export const PageLanding = () => {
       <div className='block-secondary'>
         <img src="/manufacture_work.png" alt="factoryApp" className='jumbotron-secondary'/>
         <div className='block-column'>
-          <Title className='title-secondary' level={2}>Идеально подойдёт малым производственным предприятиям</Title>
+          <div className='title-secondary' >Идеально подойдёт малым производственным предприятиям</div>
           <div className='text-block-secondary'>
             <p>
               Zolotenkov полезен всем,
@@ -54,7 +52,7 @@ export const PageLanding = () => {
         <div className='block-tertiary'>
           <img src="/accounting.png" alt="accounting" className='jumbotron-tertiary'/>
           <div className='text-block'>
-            <Title className='title-primary'>Учёт операций</Title>
+            <div className='title-group'>Учёт операций</div>
             <p className='text-primary'>
               Отслеживайте операции, результаты,
               время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании системе.
@@ -64,7 +62,7 @@ export const PageLanding = () => {
         </div>
         <div className='block-tertiary'>
           <div className='text-block'>
-            <Title className='title-primary'>Управление закупками</Title>
+            <div className='title-group'>Управление закупками</div>
             <p className='text-primary'>
               Контролируйте все ваши заказы: от количества и цены до даты поставки.
               Мы также предлагаем функционал для приемки товаров,
@@ -76,7 +74,7 @@ export const PageLanding = () => {
         <div className='block-tertiary'>
           <img src="/warehouse_management.png" alt="warehouse_management" className='jumbotron-secondary'/>
           <div className='text-block'>
-            <Title className='title-primary'>Ведение склада</Title>
+            <div className='title-group'>Ведение склада</div>
             <p className='text-primary'>
               Легко создавайте товары и добавляйте их на склад,
               учитывайте количество товаров и списывайте их со склада.
@@ -88,7 +86,7 @@ export const PageLanding = () => {
         </div>
       </div>
       <div className='block-quaternary'>
-        <Title level={2} className='title-secondary'>Оптимизируйте ваше производство</Title>
+        <div className='title-secondary'>Оптимизируйте ваше производство</div>
         <p className='text-tertiary'>
           Мы предлагаем вашей команде всестороннее решение для эффективного управления ресурсами
           и контроля над процессами производства.
@@ -125,9 +123,9 @@ export const PageLanding = () => {
       <div className='block-quinary'>
         <img alt="meeting" src="/meeting.png" className="image-container"/>
         <div className='block-column'>
-          <Title level={1} className='title-tertiary'>Попробуйте Zolotenkov
+          <div className='title-tertiary'>Попробуйте Zolotenkov
             прямо сейчас!
-          </Title>
+          </div>
           <Space>
             <Button type="primary" className='button-start' onClick={handleStartWork}>Бесплатная версия</Button>
           </Space>
@@ -141,9 +139,6 @@ export const PageLanding = () => {
           <img alt="icon-telegram" src="/icon-telegram.png" className="logo-telegram"/>
         </a>
         <p className='footer-text-tertiary'>© Zolotenkov 2022-2023</p>
-        {/*<a href="https:www.flaticon.com/ru/authors/itim2101" className='footer-text-secondary'>*/}
-        {/*  <Button type={"ghost"}>Иконки от itim2101 - Flaticon</Button>*/}
-        {/*</a>*/}
       </div>
     </div>
   );

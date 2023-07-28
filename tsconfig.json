@@ -20,8 +20,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "./src",
+    "noImplicitAny": false
   },
   "include": [
-    "src"
+    "src",
   ]
 }
