@@ -31,7 +31,7 @@ export const PageLanding = () => {
             </Button>
           </Space>
         </div>
-        <img src="/web-app_manufacturing.png" alt="web-app_manufacturing" className='jumbotron'/>
+        <img src="/web-app.png" alt="web-app" className='jumbotron'/>
       </div>
       <div className='block-secondary'>
         <img src="/manufacture_work.png" alt="factoryApp" className='jumbotron-secondary'/>
