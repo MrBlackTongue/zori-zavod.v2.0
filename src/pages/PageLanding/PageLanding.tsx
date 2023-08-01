@@ -100,7 +100,8 @@ export const PageLanding = () => {
                 <img alt="tap" src="/tap.png" className="card-image-secondary"/>
                 <div className='card-title-secondary text-bold'>Простота в управлении</div>
                 Мы создали доступный и удобный интерфейс,
-                обеспечивающий быстрое освоение и комфортную работу с нашей системой учета производственных операций.
+                обеспечивающий быстрое освоение и комфортную работу
+                с нашей системой учета производственных операций.
               </Card>
             </Col>
             <Col span={7}>
@@ -129,7 +130,9 @@ export const PageLanding = () => {
             прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleStartWork}>Бесплатная версия</Button>
+            <Button type="primary" className='button-start text-bold' onClick={handleStartWork}>
+              Бесплатная версия
+            </Button>
           </Space>
         </div>
         <img alt="transactions" src="/transactions.png" className="image-container"/>
