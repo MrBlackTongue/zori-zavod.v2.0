@@ -12,32 +12,32 @@ export const PageLanding = () => {
 
   return (
     <div className='page'>
-      <div className='header'>
+      <div className='header flex row center-row'>
         <img src="/logo2.png" alt="Logo" className='logo'/>
         <Space>
-          <Button type="default" className='button-login' onClick={handleStartWork}>Войти</Button>
-          <Button type="primary" className='button-register' onClick={handleStartWork}>Регистрация</Button>
+          <Button type="default" className='button-login text-bold' onClick={handleStartWork}>Войти</Button>
+          <Button type="primary" className='button-register text-bold' onClick={handleStartWork}>Регистрация</Button>
         </Space>
       </div>
-      <div className='block'>
-        <div className='text-block'>
-          <div className='title-primary'>Производство, склад, ERP в облаке</div>
+      <div className='block flex center-column center-row'>
+        <div className='text-block column'>
+          <div className='title-primary text-bold'>Производство, склад, ERP в облаке</div>
           <p className='text-primary'>
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start' onClick={handleStartWork}>
+            <Button type="primary" className='button-start text-bold' onClick={handleStartWork}>
               Начать работу
             </Button>
           </Space>
         </div>
-        <img src="/web-app.png" alt="web-app" className='jumbotron'/>
+        <img src="/web-app.png" alt="web-app" className='jumbotron flex column center-row center-column'/>
       </div>
-      <div className='block-secondary'>
-        <img src="/manufacture_work.png" alt="factoryApp" className='jumbotron-secondary'/>
-        <div className='block-column'>
-          <div className='title-secondary' >Идеально подойдёт малым производственным предприятиям</div>
-          <div className='text-block-secondary'>
+      <div className='block-secondary flex row center-row center-column'>
+        <img src="/manufacture_work.png" alt="factoryApp" className='jumbotron-secondary center-row center-column'/>
+        <div className='block-column flex column center-column center-row'>
+          <div className='title-secondary center-text text-bold' >Идеально подойдёт малым производствам</div>
+          <div className='text-block-secondary center-text'>
             <p>
               Zolotenkov полезен всем,
               кто управляет производством. Никаких сложных настроек или загадочных процедур.
@@ -48,11 +48,13 @@ export const PageLanding = () => {
         </div>
         <img src="/people_working.png" alt="people_working" className='jumbotron-secondary'/>
       </div>
-      <div className='block-group'>
-        <div className='block-tertiary'>
-          <img src="/accounting.png" alt="accounting" className='jumbotron-tertiary'/>
+      <div className='block-group flex column center-column'>
+        <div className='block-tertiary flex row center-row space-around'>
+          <img src="/accounting.png" alt="accounting"
+               className='jumbotron-tertiary flex column center-row center-column'
+          />
           <div className='text-block'>
-            <div className='title-group'>Учёт операций</div>
+            <div className='title-group text-bold'>Учёт операций</div>
             <p className='text-primary'>
               Отслеживайте операции, результаты,
               время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании системе.
@@ -60,9 +62,9 @@ export const PageLanding = () => {
             </p>
           </div>
         </div>
-        <div className='block-tertiary'>
+        <div className='block-tertiary flex row center-row space-around'>
           <div className='text-block'>
-            <div className='title-group'>Управление закупками</div>
+            <div className='title-group text-bold'>Управление закупками</div>
             <p className='text-primary'>
               Контролируйте все ваши заказы: от количества и цены до даты поставки.
               Мы также предлагаем функционал для приемки товаров,
@@ -71,10 +73,10 @@ export const PageLanding = () => {
           </div>
           <img src="/Procurement_management.png" alt="Procurement_management" className='jumbotron-secondary'/>
         </div>
-        <div className='block-tertiary'>
+        <div className='block-tertiary flex row center-row space-around'>
           <img src="/warehouse_management.png" alt="warehouse_management" className='jumbotron-secondary'/>
           <div className='text-block'>
-            <div className='title-group'>Ведение склада</div>
+            <div className='title-group text-bold'>Ведение склада</div>
             <p className='text-primary'>
               Легко создавайте товары и добавляйте их на склад,
               учитывайте количество товаров и списывайте их со склада.
@@ -85,9 +87,9 @@ export const PageLanding = () => {
           </div>
         </div>
       </div>
-      <div className='block-quaternary'>
-        <div className='title-secondary'>Оптимизируйте ваше производство</div>
-        <p className='text-tertiary'>
+      <div className='block-quaternary flex column center-column center-row'>
+        <div className='title-tertiary center-text text-bold'>Оптимизируйте ваше производство</div>
+        <p className='text-tertiary center-text'>
           Мы предлагаем вашей команде всестороннее решение для эффективного управления ресурсами
           и контроля над процессами производства.
         </p>
@@ -96,7 +98,7 @@ export const PageLanding = () => {
             <Col span={7}>
               <Card bordered={false} className='card-secondary'>
                 <img alt="tap" src="/tap.png" className="card-image-secondary"/>
-                <div className='card-title-secondary'>Простота в управлении</div>
+                <div className='card-title-secondary text-bold'>Простота в управлении</div>
                 Мы создали доступный и удобный интерфейс,
                 обеспечивающий быстрое освоение и комфортную работу с нашей системой учета производственных операций.
               </Card>
@@ -104,7 +106,7 @@ export const PageLanding = () => {
             <Col span={7}>
               <Card bordered={false} className='card-secondary'>
                 <img alt="earth" src="/international.png" className="card-image-secondary"/>
-                <div className='card-title-secondary'>Проводите учет где угодно</div>
+                <div className='card-title-secondary text-bold'>Проводите учет где угодно</div>
                 С нашей системой вы сможете управлять производством,
                 не зависимо от географии, сохраняя полный контроль над каждой деталью.
               </Card>
@@ -112,7 +114,7 @@ export const PageLanding = () => {
             <Col span={7}>
               <Card bordered={false} className='card-secondary'>
                 <img alt="file2" src="/file2.png" className="card-image-secondary"/>
-                <div className='card-title-secondary'>Отчёты в реальном времени</div>
+                <div className='card-title-secondary text-bold'>Отчёты в реальном времени</div>
                 Автоматизированные отчеты отображают детали ваших производственных операций.
                 Идеальный инструмент для оптимизации процессов и координации команды.
               </Card>
@@ -120,19 +122,19 @@ export const PageLanding = () => {
           </Row>
         </div>
       </div>
-      <div className='block-quinary'>
+      <div className='block-quinary flex row center-row space-around'>
         <img alt="meeting" src="/meeting.png" className="image-container"/>
-        <div className='block-column'>
-          <div className='title-tertiary'>Попробуйте Zolotenkov
+        <div className='block-column flex column center-column center-row'>
+          <div className='title-secondary text-bold center-text'>Попробуйте Zolotenkov
             прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start' onClick={handleStartWork}>Бесплатная версия</Button>
+            <Button type="primary" className='button-start text-bold' onClick={handleStartWork}>Бесплатная версия</Button>
           </Space>
         </div>
         <img alt="transactions" src="/transactions.png" className="image-container"/>
       </div>
-      <div className='footer'>
+      <div className='footer flex column center-row center-column'>
         <p className='footer-text-primary'>Телефон: +7 (968) 614-15-72</p>
         <p className='footer-text-secondary'>Связаться с нами:</p>
         <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
