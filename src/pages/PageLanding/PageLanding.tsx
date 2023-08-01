@@ -13,7 +13,7 @@ export const PageLanding = () => {
   return (
     <div className='page'>
       <div className='header flex row center-row'>
-        <img src="/logo2.png" alt="Logo" className='logo'/>
+        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleStartWork}>Войти</Button>
           <Button type="primary" className='button-register text-bold' onClick={handleStartWork}>Регистрация</Button>
@@ -31,10 +31,10 @@ export const PageLanding = () => {
             </Button>
           </Space>
         </div>
-        <img src="/web-app.png" alt="web-app" className='jumbotron flex column center-row center-column'/>
+        <img src="/images/main_image.png" alt="web-app" className='jumbotron flex column center-row center-column'/>
       </div>
       <div className='block-secondary flex row center-row center-column'>
-        <img src="/manufacture_work.png" alt="factoryApp" className='jumbotron-secondary center-row center-column'/>
+        <img src="/images/secondary_Image1.png" alt="factoryApp" className='jumbotron-secondary center-row center-column'/>
         <div className='block-column flex column center-column center-row'>
           <div className='title-secondary center-text text-bold' >Идеально подойдёт малым производствам</div>
           <div className='text-block-secondary center-text'>
@@ -46,11 +46,11 @@ export const PageLanding = () => {
             </p>
           </div>
         </div>
-        <img src="/people_working.png" alt="people_working" className='jumbotron-secondary'/>
+        <img src="/images/secondary_Image2.png" alt="people_working" className='jumbotron-secondary'/>
       </div>
       <div className='block-group flex column center-column'>
         <div className='block-tertiary flex row center-row space-around'>
-          <img src="/accounting.png" alt="accounting"
+          <img src="/images/group_accounting.png" alt="accounting"
                className='jumbotron-tertiary flex column center-row center-column'
           />
           <div className='text-block'>
@@ -71,10 +71,10 @@ export const PageLanding = () => {
               помогающий вам без проблем учитывать все закупленные товары.
             </p>
           </div>
-          <img src="/Procurement_management.png" alt="Procurement_management" className='jumbotron-secondary'/>
+          <img src="/images/group_procurement.png" alt="Procurement_management" className='jumbotron-secondary'/>
         </div>
         <div className='block-tertiary flex row center-row space-around'>
-          <img src="/warehouse_management.png" alt="warehouse_management" className='jumbotron-secondary'/>
+          <img src="/images/group_warehouse.png" alt="warehouse_management" className='jumbotron-secondary'/>
           <div className='text-block'>
             <div className='title-group text-bold'>Ведение склада</div>
             <p className='text-primary'>
@@ -97,7 +97,7 @@ export const PageLanding = () => {
           <Row gutter={[30, 30]} justify="center" align="top">
             <Col span={7}>
               <Card bordered={false} className='card-secondary'>
-                <img alt="tap" src="/tap.png" className="card-image-secondary"/>
+                <img alt="tap" src="/images/card_tap.png" className="card-image-secondary"/>
                 <div className='card-title-secondary text-bold'>Простота в управлении</div>
                 Мы создали доступный и удобный интерфейс,
                 обеспечивающий быстрое освоение и комфортную работу
@@ -106,7 +106,7 @@ export const PageLanding = () => {
             </Col>
             <Col span={7}>
               <Card bordered={false} className='card-secondary'>
-                <img alt="earth" src="/international.png" className="card-image-secondary"/>
+                <img alt="earth" src="/images/card_international.png" className="card-image-secondary"/>
                 <div className='card-title-secondary text-bold'>Проводите учет где угодно</div>
                 С нашей системой вы сможете управлять производством,
                 не зависимо от географии, сохраняя полный контроль над каждой деталью.
@@ -114,7 +114,7 @@ export const PageLanding = () => {
             </Col>
             <Col span={7}>
               <Card bordered={false} className='card-secondary'>
-                <img alt="file2" src="/file2.png" className="card-image-secondary"/>
+                <img alt="file2" src="/images/card_document.png" className="card-image-secondary"/>
                 <div className='card-title-secondary text-bold'>Отчёты в реальном времени</div>
                 Автоматизированные отчеты отображают детали ваших производственных операций.
                 Идеальный инструмент для оптимизации процессов и координации команды.
@@ -124,7 +124,7 @@ export const PageLanding = () => {
         </div>
       </div>
       <div className='block-quinary flex row center-row space-around'>
-        <img alt="meeting" src="/meeting.png" className="image-container"/>
+        <img alt="meeting" src="/images/quinary_meeting.png" className="image-container"/>
         <div className='block-column flex column center-column center-row'>
           <div className='title-secondary text-bold center-text'>Попробуйте Zolotenkov
             прямо сейчас!
@@ -135,13 +135,13 @@ export const PageLanding = () => {
             </Button>
           </Space>
         </div>
-        <img alt="transactions" src="/transactions.png" className="image-container"/>
+        <img alt="transactions" src="/images/quinary_transactions.png" className="image-container"/>
       </div>
       <div className='footer flex column center-row center-column'>
         <p className='footer-text-primary'>Телефон: +7 (968) 614-15-72</p>
         <p className='footer-text-secondary'>Связаться с нами:</p>
         <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
-          <img alt="icon-telegram" src="/icon-telegram.png" className="logo-telegram"/>
+          <img alt="icon-telegram" src="/images/footer_icon_telegram.png" className="logo-telegram"/>
         </a>
         <p className='footer-text-tertiary'>© Zolotenkov 2022-2023</p>
       </div>
