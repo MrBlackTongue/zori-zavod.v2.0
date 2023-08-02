@@ -22,7 +22,7 @@ export const PageLanding = () => {
       <div className='block-one flex center-column center-row'>
         <div className='text-block column'>
           <div className='title-one text-bold'>Производство, склад, ERP в облаке</div>
-          <p className='text-one'>
+          <p className='text'>
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
@@ -35,9 +35,9 @@ export const PageLanding = () => {
       </div>
       <div className='block-two flex row center-row center-column'>
         <img src="/images/secondary_Image.png" alt="factoryApp"
-             className='jumbotron-secondary center-row center-column'/>
+             className='jumbotron-block center-row center-column'/>
         <div className='block-column flex column center-column center-row'>
-          <div className='title-secondary center-text text-bold'>Идеально подойдёт малым производствам</div>
+          <div className='title-mini center-text text-bold'>Идеально подойдёт малым производствам</div>
           <div className='text-block-two center-text'>
             <p>
               Zolotenkov полезен всем,
@@ -47,7 +47,7 @@ export const PageLanding = () => {
             </p>
           </div>
         </div>
-        <img src="/images/secondary_Image_two.png" alt="people_working" className='jumbotron-secondary'/>
+        <img src="/images/secondary_Image_two.png" alt="people_working" className='jumbotron-block'/>
       </div>
       <div className='block-three flex column center-column'>
         <div className='block-group flex row center-row space-around'>
@@ -56,7 +56,7 @@ export const PageLanding = () => {
           />
           <div className='text-block'>
             <div className='title-group text-bold'>Учёт операций</div>
-            <p className='text-one'>
+            <p className='text'>
               Отслеживайте операции, результаты,
               время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании системе.
               Повышайте эффективность и контролируйте производственные процессы.
@@ -66,19 +66,19 @@ export const PageLanding = () => {
         <div className='block-group flex row center-row space-around'>
           <div className='text-block'>
             <div className='title-group text-bold'>Управление закупками</div>
-            <p className='text-one'>
+            <p className='text'>
               Контролируйте все ваши заказы: от количества и цены до даты поставки.
               Мы также предлагаем функционал для приемки товаров,
               помогающий вам без проблем учитывать все закупленные товары.
             </p>
           </div>
-          <img src="/images/group_procurement.png" alt="Procurement_management" className='jumbotron-secondary'/>
+          <img src="/images/group_procurement.png" alt="Procurement_management" className='jumbotron-block'/>
         </div>
         <div className='block-group flex row center-row space-around'>
-          <img src="/images/group_warehouse.png" alt="warehouse_management" className='jumbotron-secondary'/>
+          <img src="/images/group_warehouse.png" alt="warehouse_management" className='jumbotron-block'/>
           <div className='text-block'>
             <div className='title-group text-bold'>Ведение склада</div>
-            <p className='text-one'>
+            <p className='text'>
               Легко создавайте товары и добавляйте их на склад,
               учитывайте количество товаров и списывайте их со склада.
               Благодаря интеграции с производственными операциями,
@@ -98,7 +98,7 @@ export const PageLanding = () => {
           <Row gutter={[30, 30]} justify="center" align="top">
             <Col span={7}>
               <Card bordered={false} className='card'>
-                <img alt="tap" src="/images/card_tap.png" className="card-image-secondary"/>
+                <img alt="tap" src="/images/card_tap.png" className="card-image"/>
                 <div className='card-title text-bold'>Простота в управлении</div>
                 Мы создали доступный и удобный интерфейс,
                 обеспечивающий быстрое освоение и комфортную работу
@@ -107,7 +107,7 @@ export const PageLanding = () => {
             </Col>
             <Col span={7}>
               <Card bordered={false} className='card'>
-                <img alt="earth" src="/images/card_international.png" className="card-image-secondary"/>
+                <img alt="earth" src="/images/card_international.png" className="card-image"/>
                 <div className='card-title text-bold'>Проводите учет где угодно</div>
                 С нашей системой вы сможете управлять производством,
                 не зависимо от географии, сохраняя полный контроль над каждой деталью.
@@ -115,7 +115,7 @@ export const PageLanding = () => {
             </Col>
             <Col span={7}>
               <Card bordered={false} className='card'>
-                <img alt="file2" src="/images/card_document.png" className="card-image-secondary"/>
+                <img alt="file2" src="/images/card_document.png" className="card-image"/>
                 <div className='card-title text-bold'>Отчёты в реальном времени</div>
                 Автоматизированные отчеты отображают детали ваших производственных операций.
                 Идеальный инструмент для оптимизации процессов и координации команды.
@@ -127,7 +127,7 @@ export const PageLanding = () => {
       <div className='block-five flex row center-row space-around'>
         <img alt="meeting" src="/images/quinary_meeting.png" className="image-container"/>
         <div className='block-column flex column center-column center-row'>
-          <div className='title-secondary text-bold center-text'>Попробуйте Zolotenkov
+          <div className='title-mini text-bold center-text'>Попробуйте Zolotenkov
             прямо сейчас!
           </div>
           <Space>
