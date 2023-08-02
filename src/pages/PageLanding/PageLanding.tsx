@@ -19,7 +19,7 @@ export const PageLanding = () => {
           <Button type="primary" className='button-registration text-bold' onClick={handleLogin}>Регистрация</Button>
         </Space>
       </div>
-      <div className='block flex center-column center-row'>
+      <div className='block-one flex center-column center-row'>
         <div className='text-block column'>
           <div className='title-primary text-bold'>Производство, склад, ERP в облаке</div>
           <p className='text-primary'>

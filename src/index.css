@@ -2,6 +2,7 @@
   font-family: 'Rubik';
   src: url('/fonts/Rubik.ttf') format('truetype');
 }
+
 body {
   margin: 0;
   font-family: 'Rubik', sans-serif;
@@ -11,5 +12,5 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
 }
