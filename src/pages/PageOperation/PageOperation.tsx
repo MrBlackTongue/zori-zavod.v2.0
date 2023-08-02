@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
+import {Typography, Space, Button, FloatButton, Input,} from 'antd';
+import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteOperationById, createOperation, updateOperation} from "../../services";
 import {TypeOperation, TypeOperationFormValue} from "../../types";
@@ -17,8 +17,9 @@ export const PageOperation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной операции
+  // id выбраной операции, Текст поиска
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
+  const [searchText, setSearchText] = useState<string>("");
 
   // Добавить новую операцию
   const handleCreateOperation = (values: TypeOperationFormValue): void => {
@@ -62,6 +63,13 @@ export const PageOperation: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Типы операций</Title>
         <Space>
+          <Input
+            allowClear
+            style={{width: '210px'}}
+            placeholder="Поиск по операциям"
+            onChange={(event) => setSearchText(event.target.value)}
+            prefix={<SearchOutlined/>}
+          />
           <Button
             type="dashed"
             icon={<SyncOutlined/>}
@@ -84,6 +92,7 @@ export const PageOperation: React.FC = () => {
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteOperation}
+        searchText={searchText}
       />
       <CreateModalOperation
         isOpen={isModalOpen}
