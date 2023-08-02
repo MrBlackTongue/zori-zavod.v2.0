@@ -57,11 +57,11 @@
     height: 35px;
   }
 
-  .title-primary {
+  .title-one {
     font-size: 40px;
   }
 
-  .text-primary {
+  .text-one {
     font-size: 18px;
     max-width: 27vw;
   }
@@ -83,17 +83,17 @@
     font-size: 15px;
   }
 
-  .jumbotron {
+  .jumbotron-one {
     height: 400px;
     margin-right: -2vw;
   }
 
-  .jumbotron-secondary {
-    height: 300px;
+  .jumbotron-two {
+    height: 320px;
   }
 
-  .jumbotron-tertiary {
-    height: 320px;
+  .jumbotron-secondary {
+    height: 300px;
   }
 
   .block-two {
@@ -101,7 +101,7 @@
     width: 1000px;
   }
 
-  .text-block-second {
+  .text-block-two {
     width: 28vw;
     font-size: 17px;
   }
@@ -112,22 +112,22 @@
     margin: 15px auto;
   }
 
-  .title-tertiary {
+  .title-two {
     font-size: 35px;
     width: 700px;
     margin: 15px auto;
   }
 
-  .block-group {
+  .block-three {
     margin: 30px auto;
+  }
+
+  .block-group {
+    width: 1000px;
   }
 
   .title-group {
     font-size: 35px;
-  }
-
-  .block-three {
-    width: 1000px;
   }
 
   .block-four {
@@ -137,7 +137,7 @@
     padding-bottom: 30px;
   }
 
-  .text-tertiary {
+  .text-two {
     font-size: 18px;
     width: 500px;
     margin-top: 20px;
@@ -148,14 +148,14 @@
     width: 1000px;
   }
 
-  .card-secondary {
+  .card {
     height: 350px;
     width: 280px;
     font-family: 'Rubik', sans-serif;
     font-size: 16px;
   }
 
-  .card-title-secondary {
+  .card-title {
     font-size: 16px;
     margin-top: 25px;
     margin-bottom: 20px;
@@ -184,17 +184,17 @@
     background-color: #f4f7f9;
   }
 
-  .footer-text-primary {
+  .footer-text {
     margin: 30px auto 5px;
     font-size: 18px;
   }
 
-  .footer-text-secondary {
+  .footer-text-two {
     margin: 10px auto 20px;
     font-size: 16px;
   }
 
-  .footer-text-tertiary {
+  .footer-text-three {
     margin: 10px auto 20px;
     font-size: 14px;
   }
