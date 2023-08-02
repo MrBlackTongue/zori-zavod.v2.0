@@ -1,22 +1,22 @@
 import React from 'react';
-import { Button, Space, Card, Row, Col} from 'antd';
+import {Button, Space, Card, Row, Col} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import './/PageLanding.css';
 
 export const PageLanding = () => {
   const navigate = useNavigate();
 
-  const handleStartWork = () => {
+  const handleLogin = () => {
     navigate('/login');
   };
 
   return (
-    <div className='page'>
+    <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Space>
-          <Button type="default" className='button-login text-bold' onClick={handleStartWork}>Войти</Button>
-          <Button type="primary" className='button-register text-bold' onClick={handleStartWork}>Регистрация</Button>
+          <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
+          <Button type="primary" className='button-registration text-bold' onClick={handleLogin}>Регистрация</Button>
         </Space>
       </div>
       <div className='block flex center-column center-row'>
@@ -26,18 +26,19 @@ export const PageLanding = () => {
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleStartWork}>
+            <Button type="primary" className='button-start text-bold' onClick={handleLogin}>
               Начать работу
             </Button>
           </Space>
         </div>
         <img src="/images/main_image.png" alt="web-app" className='jumbotron flex column center-row center-column'/>
       </div>
-      <div className='block-secondary flex row center-row center-column'>
-        <img src="/images/secondary_Image1.png" alt="factoryApp" className='jumbotron-secondary center-row center-column'/>
+      <div className='block-two flex row center-row center-column'>
+        <img src="/images/secondary_Image1.png" alt="factoryApp"
+             className='jumbotron-secondary center-row center-column'/>
         <div className='block-column flex column center-column center-row'>
-          <div className='title-secondary center-text text-bold' >Идеально подойдёт малым производствам</div>
-          <div className='text-block-secondary center-text'>
+          <div className='title-secondary center-text text-bold'>Идеально подойдёт малым производствам</div>
+          <div className='text-block-second center-text'>
             <p>
               Zolotenkov полезен всем,
               кто управляет производством. Никаких сложных настроек или загадочных процедур.
@@ -49,7 +50,7 @@ export const PageLanding = () => {
         <img src="/images/secondary_Image2.png" alt="people_working" className='jumbotron-secondary'/>
       </div>
       <div className='block-group flex column center-column'>
-        <div className='block-tertiary flex row center-row space-around'>
+        <div className='block-three flex row center-row space-around'>
           <img src="/images/group_accounting.png" alt="accounting"
                className='jumbotron-tertiary flex column center-row center-column'
           />
@@ -62,7 +63,7 @@ export const PageLanding = () => {
             </p>
           </div>
         </div>
-        <div className='block-tertiary flex row center-row space-around'>
+        <div className='block-three flex row center-row space-around'>
           <div className='text-block'>
             <div className='title-group text-bold'>Управление закупками</div>
             <p className='text-primary'>
@@ -73,7 +74,7 @@ export const PageLanding = () => {
           </div>
           <img src="/images/group_procurement.png" alt="Procurement_management" className='jumbotron-secondary'/>
         </div>
-        <div className='block-tertiary flex row center-row space-around'>
+        <div className='block-three flex row center-row space-around'>
           <img src="/images/group_warehouse.png" alt="warehouse_management" className='jumbotron-secondary'/>
           <div className='text-block'>
             <div className='title-group text-bold'>Ведение склада</div>
@@ -87,7 +88,7 @@ export const PageLanding = () => {
           </div>
         </div>
       </div>
-      <div className='block-quaternary flex column center-column center-row'>
+      <div className='block-four flex column center-column center-row'>
         <div className='title-tertiary center-text text-bold'>Оптимизируйте ваше производство</div>
         <p className='text-tertiary center-text'>
           Мы предлагаем вашей команде всестороннее решение для эффективного управления ресурсами
@@ -123,14 +124,14 @@ export const PageLanding = () => {
           </Row>
         </div>
       </div>
-      <div className='block-quinary flex row center-row space-around'>
+      <div className='block-five flex row center-row space-around'>
         <img alt="meeting" src="/images/quinary_meeting.png" className="image-container"/>
         <div className='block-column flex column center-column center-row'>
           <div className='title-secondary text-bold center-text'>Попробуйте Zolotenkov
             прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleStartWork}>
+            <Button type="primary" className='button-start text-bold' onClick={handleLogin}>
               Бесплатная версия
             </Button>
           </Space>

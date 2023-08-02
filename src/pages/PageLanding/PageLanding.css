@@ -1,15 +1,13 @@
 @media (min-width: 1000px) {
 
-  .page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .page-landing {
     margin: 0 auto;
   }
 
   .flex {
     display: flex;
   }
+
   .column {
     flex-direction: column;
   }
@@ -54,7 +52,7 @@
     height: 35px;
   }
 
-  .button-register {
+  .button-registration {
     width: 130px;
     height: 35px;
   }
@@ -98,12 +96,12 @@
     height: 320px;
   }
 
-  .block-secondary {
+  .block-two {
     margin: 9vh auto;
     width: 1000px;
   }
 
-  .text-block-secondary {
+  .text-block-second {
     width: 28vw;
     font-size: 17px;
   }
@@ -128,11 +126,11 @@
     font-size: 35px;
   }
 
-  .block-tertiary {
+  .block-three {
     width: 1000px;
   }
 
-  .block-quaternary {
+  .block-four {
     width: 100%;
     background-color: #f4f7f9;
     padding-top: 30px;
@@ -167,7 +165,7 @@
     height: 50px;
   }
 
-  .block-quinary {
+  .block-five {
     margin: 30px auto;
     width: 1000px;
   }
