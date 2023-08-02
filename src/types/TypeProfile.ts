@@ -3,5 +3,5 @@ export type TypeProfile = {
   password?: string,
   email?: string,
   phone?: string,
-  customerId?: number,
+  firstname?: string,
 }

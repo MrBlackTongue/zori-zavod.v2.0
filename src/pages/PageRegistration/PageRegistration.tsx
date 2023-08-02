@@ -105,6 +105,16 @@ export const PageRegistration: React.FC<TypeProfile> = () => {
         </Form.Item>
 
         <Form.Item
+          name="firstname"
+        >
+          <Input
+            size="large"
+            prefix={<UserOutlined className="input-prefix-icon"/>}
+            placeholder="ваше имя"
+          />
+        </Form.Item>
+
+        <Form.Item
           name="phone"
         >
           <Input
