@@ -1,6 +1,7 @@
-import React from 'react';
-import {Button, Space, Card, Row, Col} from 'antd';
+import React, {useState} from 'react';
+import {Button, Space, Card, Row, Col, Modal} from 'antd';
 import {useNavigate} from 'react-router-dom';
+import {ModalRegistrationForm} from "./components/ModalRegistrationForm";
 import './/PageLanding.css';
 
 export const PageLanding = () => {
@@ -10,13 +11,24 @@ export const PageLanding = () => {
     navigate('/login');
   };
 
+  const [visible, setVisible] = useState(false);
+
+  const showRegistrationModal = () => {
+    setVisible(true);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+
   return (
     <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
-          <Button type="primary" className='button-registration text-bold' onClick={handleLogin}>Регистрация</Button>
+          <Button type="primary" className='button-registration text-bold' onClick={showRegistrationModal}>Регистрация</Button>
         </Space>
       </div>
       <div className='block-one flex center-column center-row'>
@@ -26,7 +38,7 @@ export const PageLanding = () => {
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleLogin}>
+            <Button type="primary" className='button-start text-bold' onClick={showRegistrationModal}>
               Начать работу
             </Button>
           </Space>
@@ -131,7 +143,7 @@ export const PageLanding = () => {
             прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleLogin}>
+            <Button type="primary" className='button-start text-bold' onClick={showRegistrationModal}>
               Бесплатная версия
             </Button>
           </Space>
@@ -146,6 +158,14 @@ export const PageLanding = () => {
         </a>
         <p className='footer-text-three'>© Zolotenkov 2022-2023</p>
       </div>
+      <Modal
+        visible={visible}
+        onCancel={handleCancel}
+        footer={null}
+        centered
+      >
+        <ModalRegistrationForm />
+      </Modal>
     </div>
   );
 };

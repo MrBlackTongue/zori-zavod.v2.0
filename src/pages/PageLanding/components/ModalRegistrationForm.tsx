@@ -8,12 +8,12 @@ import {
   PhoneOutlined
 } from '@ant-design/icons';
 import {Button, Form, Input, Typography} from 'antd';
-import {registrationUser} from "../../services";
+import {registrationUser} from "../../../services";
 import {useNavigate} from "react-router-dom";
-import '../../App.css'
-import {TypeProfile} from "../../types";
+import '../../../App.css'
+import {TypeProfile} from "../../../types";
 
-export const PageRegistration: React.FC<TypeProfile> = () => {
+export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
 
   const {Title} = Typography;
   const [form] = Form.useForm();
@@ -40,16 +40,7 @@ export const PageRegistration: React.FC<TypeProfile> = () => {
   };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f5f5f5'
-      }}>
+    <div>
       <Form
         form={form}
         className="registration-form"
@@ -79,30 +70,6 @@ export const PageRegistration: React.FC<TypeProfile> = () => {
           />
         </Form.Item>
 
-        <Form.Item
-          name="username"
-          // rules={[{required: true, message: 'введите ваш логин'}]}
-        >
-          <Input
-            size="large"
-            prefix={<UserOutlined className="input-prefix-icon"/>}
-            placeholder="Логин"
-          />
-        </Form.Item>
-
-        <Form.Item
-          name="password"
-          rules={[{required: true, message: 'введите ваш пароль'}]}
-        >
-          <Input.Password
-            size="large"
-            prefix={<LockOutlined className="input-prefix-icon"/>}
-            type="password"
-            placeholder="Пароль"
-            visibilityToggle
-            iconRender={iconRender}
-          />
-        </Form.Item>
 
         <Form.Item
           name="firstname"
@@ -128,6 +95,31 @@ export const PageRegistration: React.FC<TypeProfile> = () => {
                 e.preventDefault();
               }
             }}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="username"
+          // rules={[{required: true, message: 'введите ваш логин'}]}
+        >
+          <Input
+            size="large"
+            prefix={<UserOutlined className="input-prefix-icon"/>}
+            placeholder="Логин"
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[{required: true, message: 'введите ваш пароль'}]}
+        >
+          <Input.Password
+            size="large"
+            prefix={<LockOutlined className="input-prefix-icon"/>}
+            type="password"
+            placeholder="Пароль"
+            visibilityToggle
+            iconRender={iconRender}
           />
         </Form.Item>
 

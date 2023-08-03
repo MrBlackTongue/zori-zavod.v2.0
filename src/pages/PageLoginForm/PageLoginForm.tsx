@@ -55,13 +55,13 @@ export const PageLoginForm: React.FC<TypeProfile> = () => {
         </Form.Item>
 
         <Form.Item
-          name="username"
-          rules={[{required: true, message: 'введите ваш логин'}]}
+          name="email"
+          rules={[{required: true, message: 'введите вашу почту'}]}
         >
           <Input
             size="large"
             prefix={<UserOutlined className="input-prefix-icon"/>}
-            placeholder="Логин"
+            placeholder="Почта"
           />
         </Form.Item>
 
