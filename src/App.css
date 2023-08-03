@@ -104,10 +104,3 @@
 .login-form-button {
   width: 100%;
 }
-
-.login-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
