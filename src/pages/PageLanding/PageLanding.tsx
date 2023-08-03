@@ -34,7 +34,7 @@ export const PageLanding = () => {
         <img src="/images/main_image.png" alt="web-app" className='jumbotron-one flex column center-row center-column'/>
       </div>
       <div className='block-two flex row center-row center-column'>
-        <img src="/images/secondary_Image.png" alt="factoryApp"
+        <img src="/images/image_one.png" alt="factoryApp"
              className='jumbotron-block center-row center-column'/>
         <div className='block-column flex column center-column center-row'>
           <div className='title-mini center-text text-bold'>Идеально подойдёт малым производствам</div>
@@ -47,7 +47,7 @@ export const PageLanding = () => {
             </p>
           </div>
         </div>
-        <img src="/images/secondary_Image_two.png" alt="people_working" className='jumbotron-block'/>
+        <img src="/images/image_two.png" alt="people_working" className='jumbotron-block'/>
       </div>
       <div className='block-three flex column center-column'>
         <div className='block-group flex row center-row space-around'>
@@ -125,7 +125,7 @@ export const PageLanding = () => {
         </div>
       </div>
       <div className='block-five flex row center-row space-around'>
-        <img alt="meeting" src="/images/quinary_meeting.png" className="image-container"/>
+        <img alt="meeting" src="/images/meeting.png" className="image-container"/>
         <div className='block-column flex column center-column center-row'>
           <div className='title-mini text-bold center-text'>Попробуйте Zolotenkov
             прямо сейчас!
@@ -136,10 +136,10 @@ export const PageLanding = () => {
             </Button>
           </Space>
         </div>
-        <img alt="transactions" src="/images/quinary_transactions.png" className="image-container"/>
+        <img alt="transactions" src="/images/transactions.png" className="image-container"/>
       </div>
       <div className='footer flex column center-row center-column'>
-        <p className='footer-text'>Телефон: +7 (968) 614-15-72</p>
+        <p className='footer-text-one'>Телефон: +7 (968) 614-15-72</p>
         <p className='footer-text-two'>Связаться с нами:</p>
         <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
           <img alt="icon-telegram" src="/images/footer_icon_telegram.png" className="logo-telegram"/>
