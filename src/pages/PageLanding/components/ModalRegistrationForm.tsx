@@ -72,8 +72,6 @@ export const ModalRegistrationForm: React.FC<CreateModalProps<TypeProfile>> = ({
 
         <Form.Item
           name="firstname"
-          rules={[
-            {required: true, message: 'Введите ваше имя',},]}
         >
           <Input
             size="large"
@@ -84,8 +82,6 @@ export const ModalRegistrationForm: React.FC<CreateModalProps<TypeProfile>> = ({
 
         <Form.Item
           name="phone"
-          rules={[
-            {required: true, message: 'Введите ваш телефон',},]}
         >
           <Input
             size="large"
