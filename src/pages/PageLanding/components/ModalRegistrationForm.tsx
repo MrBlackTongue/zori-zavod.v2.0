@@ -39,6 +39,7 @@ export const ModalRegistrationForm: React.FC<CreateModalProps<TypeProfile>> = ({
       onCancel={handleReset}
       footer={null}
       centered
+      maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
     >
       <Form
         form={form}
