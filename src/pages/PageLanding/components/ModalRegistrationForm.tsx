@@ -7,13 +7,17 @@ import {
   MailOutlined,
   PhoneOutlined
 } from '@ant-design/icons';
-import {Button, Form, Input, Typography} from 'antd';
-import {registrationUser} from "../../../services";
+import {Button, Form, Input, Typography, Modal} from 'antd';
 import {useNavigate} from "react-router-dom";
 import '../../../App.css'
-import {TypeProfile} from "../../../types";
+import {CreateModalProps, TypeProfile} from "../../../types";
+import {useFormHandler} from "../../../hooks";
 
-export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
+export const ModalRegistrationForm: React.FC<CreateModalProps<TypeProfile>> = ({
+                                                                                 isOpen,
+                                                                                 createItem,
+                                                                                 onCancel,
+                                                                               }) => {
 
   const {Title} = Typography;
   const [form] = Form.useForm();
@@ -24,28 +28,25 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
     (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
   );
 
-  const onFinish = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        values.username = 'admin';
-        registrationUser(values)
-          .then(() => {
-            navigate('/login');
-          })
-          .catch((error) => console.error("Ошибка при регистрации: ", error));
-      })
-      .catch((error) => {
-        console.log('Validate Failed:', error);
-      });
-  };
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+
 
   return (
-    <div>
+    <Modal
+      width={530}
+      open={isOpen}
+      onCancel={handleReset}
+      footer={null}
+      centered
+    >
       <Form
         form={form}
         className="registration-form"
-        onFinish={onFinish}
+        onFinish={() => {
+          handleSubmit()
+          navigate('/login');
+        }}
       >
         <Form.Item>
           <Title style={{textAlign: 'center'}}>Регистрация</Title>
@@ -58,11 +59,7 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
             //   type: 'email',
             //   message: 'введите верный Email адрес',
             // },
-            {
-              required: true,
-              message: 'введите свой Email',
-            },
-          ]}
+            {required: true, message: 'введите свой Email',},]}
         >
           <Input
             size="large"
@@ -74,6 +71,8 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
 
         <Form.Item
           name="firstname"
+          rules={[
+            {required: true, message: 'Введите ваше имя',},]}
         >
           <Input
             size="large"
@@ -84,6 +83,8 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
 
         <Form.Item
           name="phone"
+          rules={[
+            {required: true, message: 'Введите ваш телефон',},]}
         >
           <Input
             size="large"
@@ -98,17 +99,6 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
             }}
           />
         </Form.Item>
-
-        {/*<Form.Item*/}
-        {/*  name="username"*/}
-        {/*  // rules={[{required: true, message: 'введите ваш логин'}]}*/}
-        {/*>*/}
-        {/*  <Input*/}
-        {/*    size="large"*/}
-        {/*    prefix={<UserOutlined className="input-prefix-icon"/>}*/}
-        {/*    placeholder="Логин"*/}
-        {/*  />*/}
-        {/*</Form.Item>*/}
 
         <Form.Item
           name="password"
@@ -126,15 +116,14 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
 
         <Form.Item>
           <Button
-            size="large"
             type="primary"
             htmlType="submit"
-            className="login-form-button"
+            className="registration-form-button"
           >
             Зарегистрироваться
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </Modal>
   );
 }

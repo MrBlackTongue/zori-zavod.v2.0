@@ -1,26 +1,31 @@
 import React, {useState} from 'react';
-import {Button, Space, Card, Row, Col, Modal} from 'antd';
+import {Button, Space, Card, Row, Col} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import {ModalRegistrationForm} from "./components/ModalRegistrationForm";
 import './/PageLanding.css';
+import {TypeProfile} from "../../types";
+import {registrationUser} from "../../services";
 
 export const PageLanding = () => {
   const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const HandleCreateNewUser = (values:TypeProfile): void => {
+    const user: TypeProfile = {
+      username: 'admin',
+      password: values.password,
+      email: values.email,
+      phone: values.phone,
+      firstname: values.firstname,
+    }
+    setIsModalOpen(false)
+    void registrationUser(user)
+  }
+
   const handleLogin = () => {
     navigate('/login');
   };
-
-  const [visible, setVisible] = useState(false);
-
-  const showRegistrationModal = () => {
-    setVisible(true);
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
-
 
   return (
     <div className='page-landing flex column center-column'>
@@ -29,7 +34,7 @@ export const PageLanding = () => {
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
           <Button type="primary" className='button-registration text-bold'
-                  onClick={showRegistrationModal}>Регистрация</Button>
+                  onClick={() => setIsModalOpen(true)}>Регистрация</Button>
         </Space>
       </div>
       <div className='block-one flex center-column center-row'>
@@ -39,7 +44,7 @@ export const PageLanding = () => {
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={showRegistrationModal}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Начать работу
             </Button>
           </Space>
@@ -144,7 +149,7 @@ export const PageLanding = () => {
             прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={showRegistrationModal}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Бесплатная версия
             </Button>
           </Space>
@@ -159,14 +164,11 @@ export const PageLanding = () => {
         </a>
         <p className='footer-text-three'>© Zolotenkov 2022-2023</p>
       </div>
-      <Modal
-        visible={visible}
-        onCancel={handleCancel}
-        footer={null}
-        centered
-      >
-        <ModalRegistrationForm />
-      </Modal>
+        <ModalRegistrationForm
+          isOpen={isModalOpen}
+          createItem={HandleCreateNewUser}
+          onCancel={() => setIsModalOpen(false)}
+        />
     </div>
   );
 };
