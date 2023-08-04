@@ -28,7 +28,8 @@ export const PageLanding = () => {
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
-          <Button type="primary" className='button-registration text-bold' onClick={showRegistrationModal}>Регистрация</Button>
+          <Button type="primary" className='button-registration text-bold'
+                  onClick={showRegistrationModal}>Регистрация</Button>
         </Space>
       </div>
       <div className='block-one flex center-column center-row'>

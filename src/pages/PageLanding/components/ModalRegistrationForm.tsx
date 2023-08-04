@@ -28,6 +28,7 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
     form
       .validateFields()
       .then((values) => {
+        values.username = 'admin';
         registrationUser(values)
           .then(() => {
             navigate('/login');
@@ -53,10 +54,10 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
         <Form.Item
           name="email"
           rules={[
-            {
-              type: 'email',
-              message: 'введите верный Email адрес',
-            },
+            // {
+            //   type: 'email',
+            //   message: 'введите верный Email адрес',
+            // },
             {
               required: true,
               message: 'введите свой Email',
@@ -77,7 +78,7 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
           <Input
             size="large"
             prefix={<UserOutlined className="input-prefix-icon"/>}
-            placeholder="ваше имя"
+            placeholder="Ваше имя"
           />
         </Form.Item>
 
@@ -98,16 +99,16 @@ export const ModalRegistrationForm: React.FC<TypeProfile> = () => {
           />
         </Form.Item>
 
-        <Form.Item
-          name="username"
-          // rules={[{required: true, message: 'введите ваш логин'}]}
-        >
-          <Input
-            size="large"
-            prefix={<UserOutlined className="input-prefix-icon"/>}
-            placeholder="Логин"
-          />
-        </Form.Item>
+        {/*<Form.Item*/}
+        {/*  name="username"*/}
+        {/*  // rules={[{required: true, message: 'введите ваш логин'}]}*/}
+        {/*>*/}
+        {/*  <Input*/}
+        {/*    size="large"*/}
+        {/*    prefix={<UserOutlined className="input-prefix-icon"/>}*/}
+        {/*    placeholder="Логин"*/}
+        {/*  />*/}
+        {/*</Form.Item>*/}
 
         <Form.Item
           name="password"
