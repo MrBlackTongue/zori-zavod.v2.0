@@ -3,19 +3,20 @@ import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant
 import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
 import {useNavigate} from "react-router-dom";
-import {TypeProfile} from "../../types";
 
-export const PageLoginForm: React.FC<TypeProfile> = () => {
+export const PageLoginForm: React.FC = () => {
 
   const {Title} = Typography;
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
 
+  // Скрыть показать пароль
   const iconRender = useCallback(
     (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
   );
 
+  // Авторизация пользователя
   const onFinish = () => {
     form
       .validateFields()

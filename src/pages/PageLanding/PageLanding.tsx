@@ -1,18 +1,21 @@
 import React, {useState} from 'react';
 import {Button, Space, Card, Row, Col} from 'antd';
 import {useNavigate} from 'react-router-dom';
-import {ModalRegistrationForm} from "./components/ModalRegistrationForm";
+import {CreateModalRegistrationUser} from "./components/CreateModalRegistrationUser";
 import './/PageLanding.css';
-import {TypeProfile} from "../../types";
+import {TypeUserProfile} from "../../types";
 import {registrationUser} from "../../services";
 
 export const PageLanding = () => {
+
   const navigate = useNavigate();
 
+  // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const HandleCreateNewUser = (values:TypeProfile): void => {
-    const user: TypeProfile = {
+  // Создать нового пользователя
+  const handleCreateNewUser = (values: TypeUserProfile): void => {
+    const user: TypeUserProfile = {
       username: 'admin',
       password: values.password,
       email: values.email,
@@ -23,6 +26,7 @@ export const PageLanding = () => {
     void registrationUser(user)
   }
 
+  // Переход на другую страницу по адресу
   const handleLogin = () => {
     navigate('/login');
   };
@@ -70,8 +74,7 @@ export const PageLanding = () => {
       <div className='block-three flex column center-column'>
         <div className='block-group flex row center-row space-around'>
           <img src="/images/group_accounting.png" alt="accounting"
-               className='jumbotron-two flex column center-row center-column'
-          />
+               className='jumbotron-two flex column center-row center-column'/>
           <div className='text-block'>
             <div className='title-group text-bold'>Учёт операций</div>
             <p className='text'>
@@ -145,8 +148,8 @@ export const PageLanding = () => {
       <div className='block-five flex row center-row space-around'>
         <img alt="meeting" src="/images/meeting.png" className="image-container"/>
         <div className='block-column flex column center-column center-row'>
-          <div className='title-mini text-bold center-text'>Попробуйте Zolotenkov
-            прямо сейчас!
+          <div className='title-mini text-bold center-text'>
+            Попробуйте Zolotenkov прямо сейчас!
           </div>
           <Space>
             <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
@@ -164,11 +167,11 @@ export const PageLanding = () => {
         </a>
         <p className='footer-text-three'>© Zolotenkov 2022-2023</p>
       </div>
-        <ModalRegistrationForm
-          isOpen={isModalOpen}
-          createItem={HandleCreateNewUser}
-          onCancel={() => setIsModalOpen(false)}
-        />
+      <CreateModalRegistrationUser
+        isOpen={isModalOpen}
+        createItem={handleCreateNewUser}
+        onCancel={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

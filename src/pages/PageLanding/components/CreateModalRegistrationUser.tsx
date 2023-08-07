@@ -10,36 +10,35 @@ import {
 import {Button, Form, Input, Typography, Modal} from 'antd';
 import {useNavigate} from "react-router-dom";
 import '../../../App.css'
-import {CreateModalProps, TypeProfile} from "../../../types";
+import {CreateModalProps, TypeUserProfile} from "../../../types";
 import {useFormHandler} from "../../../hooks";
 
-export const ModalRegistrationForm: React.FC<CreateModalProps<TypeProfile>> = ({
-                                                                                 isOpen,
-                                                                                 createItem,
-                                                                                 onCancel,
-                                                                               }) => {
-
+export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProfile>> = ({
+                                                                                       isOpen,
+                                                                                       createItem,
+                                                                                       onCancel,
+                                                                                     }) => {
   const {Title} = Typography;
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
 
+  // Хук для отправки формы и отмены ввода
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+
+  // Скрыть показать пароль
   const iconRender = useCallback(
     (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
   );
 
-  // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
-
-
   return (
     <Modal
       width={530}
-      open={isOpen}
-      onCancel={handleReset}
       footer={null}
       centered
-      maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+      open={isOpen}
+      onCancel={handleReset}
+      maskStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
     >
       <Form
         form={form}
@@ -69,10 +68,7 @@ export const ModalRegistrationForm: React.FC<CreateModalProps<TypeProfile>> = ({
           />
         </Form.Item>
 
-
-        <Form.Item
-          name="firstname"
-        >
+        <Form.Item name="firstname">
           <Input
             size="large"
             prefix={<UserOutlined className="input-prefix-icon"/>}
@@ -80,9 +76,7 @@ export const ModalRegistrationForm: React.FC<CreateModalProps<TypeProfile>> = ({
           />
         </Form.Item>
 
-        <Form.Item
-          name="phone"
-        >
+        <Form.Item name="phone">
           <Input
             size="large"
             prefix={<PhoneOutlined className="input-prefix-icon"/>}

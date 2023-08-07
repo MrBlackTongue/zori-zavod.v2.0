@@ -1,4 +1,4 @@
-export type TypeProfile = {
+export type TypeUserProfile = {
   username?: string,
   password?: string,
   email?: string,
