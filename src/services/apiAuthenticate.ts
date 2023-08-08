@@ -1,10 +1,10 @@
 import {api} from './api';
 import {AUTHENTICATE} from "./apiEndpoints";
-import {TypeAuthenticate} from "../types";
+import {TypeUserProfile} from "../types";
 import {handleErrorResponseMessage} from "../utils";
 
 // Запрос для авторизации пользователя
-export function loginUser(data: TypeAuthenticate): Promise<any> {
+export function loginUser(data: TypeUserProfile): Promise<any> {
   return api.post(AUTHENTICATE, data)
     .then(response => {
       if (response.status === 200) {

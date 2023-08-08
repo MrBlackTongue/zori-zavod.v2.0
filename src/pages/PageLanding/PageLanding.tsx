@@ -1,11 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Space, Card, Row, Col} from 'antd';
 import {useNavigate} from 'react-router-dom';
+import {CreateModalRegistrationUser} from "./components/CreateModalRegistrationUser";
 import './/PageLanding.css';
+import {TypeUserProfile} from "../../types";
+import {registrationUser} from "../../services";
 
 export const PageLanding = () => {
+
   const navigate = useNavigate();
 
+  // Открыть закрыть модальное окно
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // Создать нового пользователя
+  const handleCreateNewUser = (values: TypeUserProfile): void => {
+    const user: TypeUserProfile = {
+      username: 'admin',
+      password: values.password,
+      email: values.email,
+      phone: values.phone,
+      firstname: values.firstname,
+    }
+    setIsModalOpen(false)
+    void registrationUser(user)
+  }
+
+  // Переход на другую страницу по адресу
   const handleLogin = () => {
     navigate('/login');
   };
@@ -16,7 +37,8 @@ export const PageLanding = () => {
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
-          <Button type="primary" className='button-registration text-bold' onClick={handleLogin}>Регистрация</Button>
+          <Button type="primary" className='button-registration text-bold'
+                  onClick={() => setIsModalOpen(true)}>Регистрация</Button>
         </Space>
       </div>
       <div className='block-one flex center-column center-row'>
@@ -26,7 +48,7 @@ export const PageLanding = () => {
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleLogin}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Начать работу
             </Button>
           </Space>
@@ -52,8 +74,7 @@ export const PageLanding = () => {
       <div className='block-three flex column center-column'>
         <div className='block-group flex row center-row space-around'>
           <img src="/images/group_accounting.png" alt="accounting"
-               className='jumbotron-two flex column center-row center-column'
-          />
+               className='jumbotron-two flex column center-row center-column'/>
           <div className='text-block'>
             <div className='title-group text-bold'>Учёт операций</div>
             <p className='text'>
@@ -127,11 +148,11 @@ export const PageLanding = () => {
       <div className='block-five flex row center-row space-around'>
         <img alt="meeting" src="/images/meeting.png" className="image-container"/>
         <div className='block-column flex column center-column center-row'>
-          <div className='title-mini text-bold center-text'>Попробуйте Zolotenkov
-            прямо сейчас!
+          <div className='title-mini text-bold center-text'>
+            Попробуйте Zolotenkov прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleLogin}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Бесплатная версия
             </Button>
           </Space>
@@ -146,6 +167,11 @@ export const PageLanding = () => {
         </a>
         <p className='footer-text-three'>© Zolotenkov 2022-2023</p>
       </div>
+      <CreateModalRegistrationUser
+        isOpen={isModalOpen}
+        createItem={handleCreateNewUser}
+        onCancel={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
