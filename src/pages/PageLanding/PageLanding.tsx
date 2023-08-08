@@ -47,7 +47,7 @@ export const PageLanding = () => {
             </p>
           </div>
         </div>
-        <img src="/images/image_two.png" alt="people_working" className='jumbotron-block'/>
+        <img src="/images/image_two.png" alt="people_working" className='jumbotron-block2'/>
       </div>
       <div className='block-three flex column center-column'>
         <div className='block-group flex row center-row space-around'>
@@ -56,29 +56,31 @@ export const PageLanding = () => {
           />
           <div className='text-block'>
             <div className='title-group text-bold'>Учёт операций</div>
-            <p className='text'>
+            <p className='text-group'>
               Отслеживайте операции, результаты,
               время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании системе.
               Повышайте эффективность и контролируйте производственные процессы.
             </p>
           </div>
         </div>
-        <div className='block-group flex row center-row space-around'>
+        <div className='block-group block-group-two flex row center-row space-around'>
           <div className='text-block'>
             <div className='title-group text-bold'>Управление закупками</div>
-            <p className='text'>
+            <p className='text-group'>
               Контролируйте все ваши заказы: от количества и цены до даты поставки.
               Мы также предлагаем функционал для приемки товаров,
               помогающий вам без проблем учитывать все закупленные товары.
             </p>
           </div>
-          <img src="/images/group_procurement.png" alt="Procurement_management" className='jumbotron-block'/>
+          <img src="/images/group_procurement.png" alt="Procurement_management"
+               className='jumbotron-two flex column center-row center-column'/>
         </div>
         <div className='block-group flex row center-row space-around'>
-          <img src="/images/group_warehouse.png" alt="warehouse_management" className='jumbotron-block'/>
+          <img src="/images/group_warehouse.png" alt="warehouse_management"
+               className='jumbotron-two flex column center-row center-column'/>
           <div className='text-block'>
             <div className='title-group text-bold'>Ведение склада</div>
-            <p className='text'>
+            <p className='text-group'>
               Легко создавайте товары и добавляйте их на склад,
               учитывайте количество товаров и списывайте их со склада.
               Благодаря интеграции с производственными операциями,
@@ -96,7 +98,7 @@ export const PageLanding = () => {
         </p>
         <div className='card-grid'>
           <Row gutter={[30, 30]} justify="center" align="top">
-            <Col span={7}>
+            <Col span={7} xs={24} sm={12} md={8} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="tap" src="/images/card_tap.png" className="card-image"/>
                 <div className='card-title text-bold'>Простота в управлении</div>
@@ -105,7 +107,7 @@ export const PageLanding = () => {
                 с нашей системой учета производственных операций.
               </Card>
             </Col>
-            <Col span={7}>
+            <Col span={7} xs={24} sm={12} md={8} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="earth" src="/images/card_international.png" className="card-image"/>
                 <div className='card-title text-bold'>Проводите учет где угодно</div>
@@ -113,7 +115,7 @@ export const PageLanding = () => {
                 не зависимо от географии, сохраняя полный контроль над каждой деталью.
               </Card>
             </Col>
-            <Col span={7}>
+            <Col span={7} xs={24} sm={12} md={8} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="file2" src="/images/card_document.png" className="card-image"/>
                 <div className='card-title text-bold'>Отчёты в реальном времени</div>
@@ -136,7 +138,7 @@ export const PageLanding = () => {
             </Button>
           </Space>
         </div>
-        <img alt="transactions" src="/images/transactions.png" className="image-container"/>
+        <img alt="transactions" src="/images/transactions.png" className="image-container2"/>
       </div>
       <div className='footer flex column center-row center-column'>
         <p className='footer-text-one'>Телефон: +7 (968) 614-15-72</p>
