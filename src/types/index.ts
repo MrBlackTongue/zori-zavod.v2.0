@@ -27,3 +27,4 @@ export * from './TypeOperationReport';
 export * from './TypeEmployeeReport';
 export * from './TypeOutputReport';
 export * from './TypeCostPrice';
+export * from './TypeWriteOff';

@@ -26,6 +26,8 @@ import {
   ReconciliationOutlined,
   TableOutlined,
   FundOutlined,
+  ShoppingCartOutlined,
+  DownSquareOutlined,
 } from "@ant-design/icons";
 
 export const MenuMain: React.FC = () => {
@@ -36,6 +38,7 @@ export const MenuMain: React.FC = () => {
     "03": ["/product", "/product-group"],
     "04": ["/meter-record", "/meter", "/meter-type"],
     "05": ["/purchase", "/product-batch", "/acceptance"],
+    "06": ["/stock", "/write-off", "/movement-write-off"],
   };
 
   const findSubMenuKey = (pathname: any) => {
@@ -134,9 +137,19 @@ export const MenuMain: React.FC = () => {
         <Menu.Item key="/client" icon={<SolutionOutlined/>}>
           <Link to="/client">Клиенты</Link>
         </Menu.Item>
-        <Menu.Item key="/stock" icon={<DatabaseOutlined/>}>
-          <Link to="/stock">Склад</Link>
-        </Menu.Item>
+
+        <SubMenu key="06" icon={<RightOutlined/>} title="Склад">
+          <Menu.Item key="/stock" icon={<DatabaseOutlined/>}>
+            <Link to="/stock">Склад</Link>
+          </Menu.Item>
+          <Menu.Item key="/write-off" icon={<DownSquareOutlined/>}>
+            <Link to="/write-off">Списание</Link>
+          </Menu.Item>
+          <Menu.Item key="/movement-write-off" icon={<ShoppingCartOutlined/>}>
+            <Link to="/movement-write-off">Движение</Link>
+          </Menu.Item>
+        </SubMenu>
+
         <Menu.Item key="/shipment" icon={<ContactsOutlined/>}>
           <Link to="/shipment">Отгрузки</Link>
         </Menu.Item>
@@ -160,6 +173,7 @@ export const MenuMain: React.FC = () => {
         <Menu.Item key="/output" icon={<LogoutOutlined/>}>
           <Link to="/output">Выпуски продукции</Link>
         </Menu.Item>
+
         <Menu.Item key="/unit" icon={<TranslationOutlined/>}>
           <Link to="/unit">Единицы измерения</Link>
         </Menu.Item>

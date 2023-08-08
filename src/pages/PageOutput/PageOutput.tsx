@@ -18,7 +18,7 @@ export const PageOutput: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраного выпуска продукции
+  // id выбранного выпуска продукции
   const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
   // Добавить новый выпуск продукции

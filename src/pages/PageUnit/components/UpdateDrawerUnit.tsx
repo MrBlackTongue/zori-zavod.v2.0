@@ -16,6 +16,7 @@ export const UpdateDrawerUnit: React.FC<UpdateDrawerProps<TypeUnitFormValue>> = 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
+  // Функция для получения данных
   const handleGetUnit = useCallback((): void => {
     if (selectedItemId) {
       getUnitById(selectedItemId)

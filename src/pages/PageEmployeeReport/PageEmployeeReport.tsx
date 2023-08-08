@@ -18,7 +18,7 @@ export const PageEmployeeReport: React.FC = () => {
   const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
   const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
 
-  // id выбраного товара
+  // id выбранного товара
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 

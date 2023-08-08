@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteClientById, createClient, updateClient} from "../../services";
-import {TypeClient, TypeClientFormValue} from "../../types";
-import {TableClient} from "./components/TableClient";
-import {CreateModalClient} from "./components/CreateModalClient";
-import {UpdateDrawerClient} from "./components/UpdateDrawerClient";
+import {deleteWriteOffById, createWriteOff, updateWriteOff} from "../../services";
+import {TypeWriteOff, TypeWriteOffFormValue} from "../../types";
+import {TableWriteOff} from "./components/TableWriteOff";
+import {CreateModalWriteOff} from "./components/CreateModalWriteOff";
+import {UpdateDrawerWriteOff} from "./components/UpdateDrawerWriteOff";
 
-export const PageClient: React.FC = () => {
+export const PageWriteOff: React.FC = () => {
 
   const {Title} = Typography;
 
@@ -17,46 +17,50 @@ export const PageClient: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбранного клиента
-  const [selectedClientId, setSelectedClientId] = useState<number>();
+  // id выбранного списания
+  const [selectedWriteOffId, setSelectedWriteOffId] = useState<number>();
 
-  // Добавить нового клиента
-  const handleCreateClient = (values: TypeClientFormValue): void => {
-    const client: TypeClient = {
-      title: values.title,
+  // Добавить новое списание
+  const handleCreateWriteOff = (values: TypeWriteOffFormValue): void => {
+    const writeOff: TypeWriteOff = {
+      employee: {id: values.employee},
+      productionType: {id: values.productionType},
+      description: values.description,
     };
     setIsModalOpen(false)
-    void createClient(client)
+    void createWriteOff(writeOff)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (clientId: number): void => {
-    setSelectedClientId(clientId)
+  const openDrawer = (writeOffId: number): void => {
+    setSelectedWriteOffId(writeOffId)
     setIsDrawerOpen(true);
   };
 
-  // Обновить клиента
-  const handleUpdateClient = (values: TypeClientFormValue): void => {
-    const client: TypeClient = {
-      id: selectedClientId,
-      title: values.title,
+  // Обновить списание
+  const handleUpdateWriteOff = (values: TypeWriteOffFormValue): void => {
+    const writeOff: TypeWriteOff = {
+      id: selectedWriteOffId,
+      employee: {id: values.employee},
+      productionType: {id: values.productionType},
+      description: values.description,
     };
     setIsDrawerOpen(false)
-    void updateClient(client)
+    void updateWriteOff(writeOff)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteClient = (id: number): void => {
-    void deleteClientById(id)
+  const handleDeleteWriteOff = (id: number): void => {
+    void deleteWriteOffById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
-        <Title level={3}>Клиенты</Title>
+        <Title level={3}> Списание со склада</Title>
         <Space>
           <Button
             type="dashed"
@@ -76,20 +80,20 @@ export const PageClient: React.FC = () => {
         </Space>
       </div>
       <FloatButton.BackTop/>
-      <TableClient
+      <TableWriteOff
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
-        onDelete={handleDeleteClient}
+        onDelete={handleDeleteWriteOff}
       />
-      <CreateModalClient
+      <CreateModalWriteOff
         isOpen={isModalOpen}
-        createItem={handleCreateClient}
+        createItem={handleCreateWriteOff}
         onCancel={() => setIsModalOpen(false)}
       />
-      <UpdateDrawerClient
+      <UpdateDrawerWriteOff
         isOpen={isDrawerOpen}
-        selectedItemId={selectedClientId}
-        updateItem={handleUpdateClient}
+        selectedItemId={selectedWriteOffId}
+        updateItem={handleUpdateWriteOff}
         onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
