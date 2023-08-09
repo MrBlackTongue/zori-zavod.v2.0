@@ -27,6 +27,15 @@ export function handleResponseUpdateMessage(response: any) {
   return response.data;
 }
 
+export function handleRegistrationUserMessage(response: any) {
+  if (response.status === 200) {
+    void message.success('Пользователь добавлен')
+  } else {
+    void message.error('Ошибка при добавлении пользователя');
+  }
+  return response.data;
+}
+
 export function handleErrorResponseMessage(error: any) {
   console.error(error);
 

@@ -11,10 +11,12 @@ export const PageLoginForm: React.FC = () => {
 
   const navigate = useNavigate();
 
+  // Скрыть показать пароль
   const iconRender = useCallback(
     (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
   );
 
+  // Авторизация пользователя
   const onFinish = () => {
     form
       .validateFields()
@@ -38,19 +40,15 @@ export const PageLoginForm: React.FC = () => {
         position: 'fixed',
         width: '100%',
         height: '100vh',
-        top: '0',
-        left: '0',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 9999,
         backgroundColor: '#f5f5f5'
         // backgroundColor: 'rgba(0,0,0,0.6)' // прозрачный серый фон
       }}>
       <Form
         form={form}
         className="login-form"
-        style={{backgroundColor: '#ffffff', padding: '20px', borderRadius: '10px'}}
         onFinish={onFinish}
       >
         <Form.Item>
@@ -58,10 +56,14 @@ export const PageLoginForm: React.FC = () => {
         </Form.Item>
 
         <Form.Item
-          name="username"
-          rules={[{required: true, message: 'введите ваш логин'}]}
+          name="email"
+          rules={[{required: true, message: 'введите вашу почту'}]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Логин"/>
+          <Input
+            size="large"
+            prefix={<UserOutlined className="input-prefix-icon"/>}
+            placeholder="Почта"
+          />
         </Form.Item>
 
         <Form.Item
@@ -69,7 +71,8 @@ export const PageLoginForm: React.FC = () => {
           rules={[{required: true, message: 'введите ваш пароль'}]}
         >
           <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon"/>}
+            size="large"
+            prefix={<LockOutlined className="input-prefix-icon"/>}
             type="password"
             placeholder="Пароль"
             visibilityToggle
@@ -78,7 +81,12 @@ export const PageLoginForm: React.FC = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button
+            size="large"
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
             Войти
           </Button>
         </Form.Item>
