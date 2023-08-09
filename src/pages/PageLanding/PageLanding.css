@@ -260,17 +260,15 @@
     }
 
     .header {
-        justify-content: space-around;
         height: 80px;
-        /*max-width: 70%;*/
-        min-width: 80%;
-        margin: 0 20px;
+        flex-direction: column;
+        width: 100%;
+        margin: 30px auto;
     }
 
     .logo {
-        max-width: 150px;
-        /*height: auto;*/
-        /*margin-right: 15px;*/
+        max-width: 50vw;
+        margin: 0 auto 20px;
     }
 
     .button-login {
@@ -284,61 +282,54 @@
     }
 
     .block-one {
-        margin: 10vh 15vw;
-        /*width: 1000px;*/
-        min-width: 100%;
-        justify-content: space-between;
+        padding: 20px;
     }
 
     .text-block {
-        /*position: relative;*/
-        max-width: 70vw;
-        margin-bottom: 15px;
+        margin: 2vh 6vw;
     }
 
     .title-one {
-        font-size: 6vw;
-        /*max-width: 50vw;*/
+        font-size: 9vw ;
+        font-weight: bold;
     }
 
     .text {
-        font-size: 4vw;
+        font-size: 5vw;
         /*max-width: 50vw;*/
     }
 
     .button-start {
         margin-top: 30px;
         height: 50px;
-        width: 300px;
+        width: 280px;
         font-size: 16px;
     }
 
     .jumbotron-one {
-        max-width: 55%;
+        max-width: 55vw;
         height: auto;
         margin-right: 2vw;
         display: none;
     }
 
     .jumbotron-two {
-        height: 320px;
-        /*display: none;*/
+        max-width: 90vw;
     }
 
     .block-two {
-        margin: 0 auto;
-        min-width: 100%;
+        padding: 20px;
+        /*min-width: 100%;*/
         flex-direction: column;
     }
 
     .jumbotron-block {
-        height: 320px;
+        max-width: 90vw;
         /*display: none;*/
     }
 
     .jumbotron-block2 {
-        max-width: 35%;
-        height: auto;
+        max-width: 90vw;
         display: none;
     }
 
@@ -349,19 +340,17 @@
     }
 
     .title-mini {
-        font-size: 6vw;
-        max-width: 80vw;
+        font-size: 6.8vw;
         margin: 15px auto;
     }
 
     .text-block-two {
         max-width: 70vw;
-        font-size: 3vw;
+        font-size: 4.8vw;
     }
 
     .title-two {
-        font-size: 35px;
-        /*width: 700px;*/
+        font-size: 7.8vw;
         margin: 15px auto;
     }
 
@@ -380,11 +369,11 @@
     }
 
     .title-group {
-        font-size: 6vw;
+        font-size: 8.5vw;
     }
 
     .text-group {
-        font-size: 3vw;
+        font-size: 4.8vw;
     }
 
     .block-four {
@@ -395,7 +384,7 @@
     }
 
     .text-two {
-        font-size: 3vw;
+        font-size: 4.8vw;
         max-width: 70vw;
         margin-top: 20px;
     }
@@ -429,12 +418,12 @@
     }
 
     .image-container {
-        height: 320px;
-        margin: 0;
+        max-width: 90vw;
+        margin: 0 auto;
     }
 
     .image-container2 {
-        height: 320px;
+        max-width: 90vw;
         margin: 0;
         display: none;
     }
