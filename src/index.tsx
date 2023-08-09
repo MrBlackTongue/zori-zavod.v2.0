@@ -14,9 +14,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ConfigProvider locale={ru_RU}>
-        <React.StrictMode>
-          <AppRoutes />
-        </React.StrictMode>
+        <AppRoutes/>
       </ConfigProvider>
     </BrowserRouter>
   </React.StrictMode>
