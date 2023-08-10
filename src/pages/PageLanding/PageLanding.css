@@ -276,20 +276,20 @@
     }
 
     .header {
+        justify-content: space-between;
         height: 80px;
-        flex-direction: column;
-        width: 100%;
-        margin: 30px auto;
+        width: 90%;
+        margin: 0 auto;
+        /*padding: 0 40px;*/
     }
 
     .logo {
-        max-width: 50vw;
-        margin: 0 auto 20px;
+        max-width: 45vw;
     }
 
-    .button-login {
-        width: 100px;
-        height: 35px;
+    .dropdown-menu {
+        width: 150px;
+        height: 150px;
     }
 
     .button-registration {
@@ -298,7 +298,8 @@
     }
 
     .block-one {
-        padding: 20px;
+        margin: 40px auto;
+        padding: 10px;
     }
 
     .text-block {
@@ -318,7 +319,7 @@
     .button-start {
         margin-top: 30px;
         height: 50px;
-        width: 280px;
+        width: 300px;
         font-size: 16px;
     }
 
@@ -352,7 +353,6 @@
     .block-column {
         margin: 0 10px 10px;
         min-width: 100%;
-
     }
 
     .title-mini {
