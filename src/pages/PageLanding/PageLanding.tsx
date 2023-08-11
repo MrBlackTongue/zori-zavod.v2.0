@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Space, Card, Row, Col, Dropdown, Menu} from 'antd';
+import {Button, Space, Card, Row, Col, Dropdown, MenuProps} from 'antd';
 import {MenuOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 import {CreateModalRegistrationUser} from "./components/CreateModalRegistrationUser";
@@ -32,31 +32,43 @@ export const PageLanding = () => {
     navigate('/login');
   };
 
-  const menu = (
-    <Menu className='dropdown-menu'>
-      <Menu.Item key="1" onClick={handleLogin} className=''>
-        Войти
-      </Menu.Item>
-      <Menu.Item
-        key="2"
-        onClick={() => setIsModalOpen(true)}
-        className=''>
-        Регистрация
-      </Menu.Item>
-    </Menu>
-  );
+  //выпадающее меню
+  const items: MenuProps['items'] = [
+    {
+      label:
+        <Button
+          type="default"
+          onClick={handleLogin}
+          className='dropdown-item'>
+          Войти
+        </Button>,
+      key: "1",
+    },
+
+    {
+      label:
+        <Button
+          type="primary"
+          onClick={() => setIsModalOpen(true)}
+          className='dropdown-item'>
+          Регистрация
+        </Button>,
+      key: "2",
+    },
+
+  ];
 
   return (
     <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
-        <Space>
-          <Dropdown overlay={menu} className='dropdown-button-menu'>
-            <Button type="primary">
-              <MenuOutlined/>
-            </Button>
-          </Dropdown>
-        </Space>
+        <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
+            <Space>
+              <Button type="primary" >
+                <MenuOutlined/>
+              </Button>
+            </Space>
+        </Dropdown>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
           <Button type="primary" className='button-registration text-bold' onClick={handleLogin}>Регистрация</Button>
@@ -69,7 +81,7 @@ export const PageLanding = () => {
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(false)}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Начать работу
             </Button>
           </Space>
@@ -142,7 +154,7 @@ export const PageLanding = () => {
         </p>
         <div className='card-grid'>
           <Row gutter={[30, 30]} justify="center" align="top">
-            <Col span={7} xs={24} sm={12} md={8} lg={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="tap" src="/images/card_tap.png" className="card-image"/>
                 <div className='card-title text-bold'>Простота в управлении</div>
@@ -151,7 +163,7 @@ export const PageLanding = () => {
                 с нашей системой учета производственных операций.
               </Card>
             </Col>
-            <Col span={7} xs={24} sm={12} md={8} lg={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="earth" src="/images/card_international.png" className="card-image"/>
                 <div className='card-title text-bold'>Проводите учет где угодно</div>
@@ -159,7 +171,7 @@ export const PageLanding = () => {
                 не зависимо от географии, сохраняя полный контроль над каждой деталью.
               </Card>
             </Col>
-            <Col span={7} xs={24} sm={12} md={8} lg={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="file2" src="/images/card_document.png" className="card-image"/>
                 <div className='card-title text-bold'>Отчёты в реальном времени</div>
@@ -177,7 +189,7 @@ export const PageLanding = () => {
             Попробуйте Zolotenkov прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(false)}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Бесплатная версия
             </Button>
           </Space>

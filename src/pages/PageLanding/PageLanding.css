@@ -5,6 +5,10 @@
   padding: 20px 30px;
   border-radius: 20px;
 }
+.registration-title {
+  text-align: center;
+  margin: 0 auto;
+}
 
 .registration-form-button {
   margin-top: 15px;
@@ -293,24 +297,23 @@
   .header {
     justify-content: space-between;
     height: 80px;
-    /*max-width: 100%;*/
     width: 300px;
     margin: 0 auto;
-    /*padding: 0 30px;*/
   }
 
   .logo {
-    /*max-width: 45vw;*/
     height: 29px;
   }
 
-  .dropdown-menu {
-    /*width: 150px;*/
-    /*height: 150px;*/
+  .dropdown-item {
+    width: 200px;
+    height: 60px;
+    font-size: 16px;
+    font-weight: bold;
   }
 
   .dropdown-button-menu {
-    /*margin-left: 100px;*/
+    margin-left: 100px;
   }
 
   .button-registration {
@@ -327,12 +330,10 @@
 
   .block-one {
     margin: 40px auto;
-    /*padding: 10px;*/
     max-width: 500px;
   }
 
   .text-block {
-    /*margin: 2vh 6vw;*/
     width: 300px;
   }
 
@@ -367,7 +368,6 @@
 
   .block-two {
     padding: 10px;
-    /*min-width: 100%;*/
     width: 300px;
     flex-direction: column;
     margin: 0 auto;
@@ -376,7 +376,6 @@
   .jumbotron-block {
     width: 300px;
     margin: 0 auto;
-    /*display: none;*/
   }
 
   .jumbotron-block2 {
@@ -387,7 +386,6 @@
   .block-column {
     margin: 10px 0;
     width: 300px;
-    /*padding: 10px;*/
   }
 
   .title-mini {
@@ -446,12 +444,11 @@
 
   .card-grid {
     margin: 50px auto;
-    /*width: 100%;*/
   }
 
   .card {
     height: 380px;
-    width: 320px;
+    width: 300px;
     font-family: 'Rubik', sans-serif;
     font-size: 16px;
     margin: 0 auto;
