@@ -5,6 +5,7 @@
   padding: 20px 30px;
   border-radius: 20px;
 }
+
 .registration-title {
   text-align: center;
   margin: 0 auto;
@@ -95,7 +96,6 @@
 
   .block-one {
     margin: 15vh auto;
-    /*max-width: 90%;*/
     width: 1000px;
   }
 

@@ -32,30 +32,30 @@ export const PageLanding = () => {
     navigate('/login');
   };
 
-  //выпадающее меню
+  // Выпадающее меню
   const items: MenuProps['items'] = [
     {
       label:
         <Button
           type="default"
           onClick={handleLogin}
-          className='dropdown-item'>
+          className='dropdown-item'
+        >
           Войти
         </Button>,
       key: "1",
     },
-
     {
       label:
         <Button
           type="primary"
-          onClick={() => setIsModalOpen(true)}
-          className='dropdown-item'>
+          onClick={() => setIsModalOpen(false)}
+          className='dropdown-item'
+        >
           Регистрация
         </Button>,
       key: "2",
     },
-
   ];
 
   return (
@@ -63,11 +63,11 @@ export const PageLanding = () => {
       <div className='header flex row center-row'>
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
-            <Space>
-              <Button type="primary" >
-                <MenuOutlined/>
-              </Button>
-            </Space>
+          <Space>
+            <Button type="primary">
+              <MenuOutlined/>
+            </Button>
+          </Space>
         </Dropdown>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
@@ -81,7 +81,7 @@ export const PageLanding = () => {
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(false)}>
               Начать работу
             </Button>
           </Space>
@@ -189,7 +189,7 @@ export const PageLanding = () => {
             Попробуйте Zolotenkov прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(false)}>
               Бесплатная версия
             </Button>
           </Space>
