@@ -14,10 +14,10 @@ import {CreateModalProps, TypeUserProfile} from "../../../types";
 import {useFormHandler} from "../../../hooks";
 
 export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProfile>> = ({
-                                                                                       isOpen,
-                                                                                       createItem,
-                                                                                       onCancel,
-                                                                                     }) => {
+                                                                                           isOpen,
+                                                                                           createItem,
+                                                                                           onCancel,
+                                                                                         }) => {
   const {Title} = Typography;
   const [form] = Form.useForm();
 
@@ -49,7 +49,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
         }}
       >
         <Form.Item>
-          <Title style={{textAlign: 'center'}}>Регистрация</Title>
+          <Title level={2} className='registration-title'>Регистрация</Title>
         </Form.Item>
 
         <Form.Item
