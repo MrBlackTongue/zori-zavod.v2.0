@@ -71,7 +71,13 @@ export const PageLanding = () => {
         </Dropdown>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
-          <Button type="primary" className='button-registration text-bold' onClick={handleLogin}>Регистрация</Button>
+          <Button
+            type="primary"
+            className='button-registration text-bold'
+            onClick={() => setIsModalOpen(false)}
+          >
+            Регистрация
+          </Button>
         </Space>
       </div>
       <div className='block-one flex center-column center-row'>

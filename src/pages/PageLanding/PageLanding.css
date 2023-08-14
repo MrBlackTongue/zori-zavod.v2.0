@@ -358,8 +358,6 @@
 
   .jumbotron-one {
     width: 300px;
-    /*height: auto;*/
-    /*margin-right: 10px;*/
     display: none;
   }
 
@@ -368,7 +366,6 @@
   }
 
   .block-two {
-    /*padding: 10px;*/
     width: 300px;
     flex-direction: column;
     margin: 0 auto;
@@ -433,8 +430,6 @@
   .block-four {
     width: 100%;
     background-color: #f4f7f9;
-    /*padding-top: 30px;*/
-    /*padding-bottom: 30px;*/
     margin: 20px auto 30px;
   }
 
@@ -458,8 +453,6 @@
 
   .card-title {
     font-size: 16px;
-    /*margin-top: 25px;*/
-    /*margin-bottom: 20px;*/
     margin: 25px auto 20px;
   }
 
