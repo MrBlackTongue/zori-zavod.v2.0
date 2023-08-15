@@ -304,6 +304,8 @@
 
   .logo {
     height: 29px;
+    margin-left: 10px;
+
   }
 
   .dropdown-item {
@@ -314,7 +316,7 @@
   }
 
   .dropdown-button-menu {
-    margin-left: 100px;
+    margin-left: 80px;
   }
 
   .button-registration {
@@ -342,11 +344,15 @@
     font-size: 35px;
     font-weight: bold;
     width: 300px;
+    margin-left: 10px;
+
   }
 
   .text {
     font-size: 16px;
     width: 280px;
+    margin-left: 10px;
+
   }
 
   .button-start {
@@ -418,13 +424,15 @@
   }
 
   .title-group {
-    font-size: 35px;
+    font-size: 34px;
     width: 300px;
+    margin-left: 10px;
   }
 
   .text-group {
     font-size: 16px;
     width: 280px;
+    margin-left: 10px;
   }
 
   .block-four {
