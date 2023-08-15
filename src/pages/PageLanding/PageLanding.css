@@ -23,6 +23,7 @@
 
   .page-landing {
     margin: 0 auto;
+    overflow-x: hidden;
   }
 
   .flex {
@@ -147,7 +148,7 @@
   .title-two {
     font-size: 35px;
     width: 700px;
-    margin: 15px auto;
+    margin: 60px auto 20px;
   }
 
   .block-three {
@@ -165,8 +166,7 @@
   .block-four {
     width: 100%;
     background-color: #f4f7f9;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    margin: 20px auto 30px;
   }
 
   .text-two {
@@ -176,7 +176,7 @@
   }
 
   .card-grid {
-    margin: 50px auto;
+    margin: 50px auto 70px;
     width: 1000px;
   }
 
@@ -260,6 +260,7 @@
 
   .page-landing {
     margin: 0 auto;
+    overflow-x: hidden;
   }
 
   .flex {
@@ -303,6 +304,8 @@
 
   .logo {
     height: 29px;
+    margin-left: 10px;
+
   }
 
   .dropdown-item {
@@ -313,7 +316,7 @@
   }
 
   .dropdown-button-menu {
-    margin-left: 100px;
+    margin-left: 80px;
   }
 
   .button-registration {
@@ -330,7 +333,7 @@
 
   .block-one {
     margin: 40px auto;
-    max-width: 500px;
+    width: 300px;
   }
 
   .text-block {
@@ -341,11 +344,15 @@
     font-size: 35px;
     font-weight: bold;
     width: 300px;
+    margin-left: 10px;
+
   }
 
   .text {
     font-size: 16px;
     width: 280px;
+    margin-left: 10px;
+
   }
 
   .button-start {
@@ -356,9 +363,7 @@
   }
 
   .jumbotron-one {
-    max-width: 55vw;
-    height: auto;
-    margin-right: 2vw;
+    width: 300px;
     display: none;
   }
 
@@ -367,7 +372,6 @@
   }
 
   .block-two {
-    padding: 10px;
     width: 300px;
     flex-direction: column;
     margin: 0 auto;
@@ -379,7 +383,7 @@
   }
 
   .jumbotron-block2 {
-    max-width: 90vw;
+    max-width: 300px;
     display: none;
   }
 
@@ -389,7 +393,7 @@
   }
 
   .title-mini {
-    font-size: 25px;
+    font-size: 24px;
     margin: 15px auto;
     width: 300px;
   }
@@ -401,39 +405,40 @@
 
   .title-two {
     font-size: 28px;
-    margin: 15px auto;
+    margin: 40px auto 20px;
     width: 300px;
   }
 
   .block-three {
     margin: 30px auto;
+    width: 300px;
+
   }
 
   .block-group {
-    width: 100%;
     flex-direction: column
   }
 
   .block-group-two {
-    width: 100%;
     flex-direction: column-reverse;
   }
 
   .title-group {
-    font-size: 35px;
+    font-size: 34px;
     width: 300px;
+    margin-left: 10px;
   }
 
   .text-group {
     font-size: 16px;
     width: 280px;
+    margin-left: 10px;
   }
 
   .block-four {
     width: 100%;
     background-color: #f4f7f9;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    margin: 20px auto 30px;
   }
 
   .text-two {
@@ -443,7 +448,7 @@
   }
 
   .card-grid {
-    margin: 50px auto;
+    margin: 50px auto 70px;
   }
 
   .card {
@@ -456,8 +461,7 @@
 
   .card-title {
     font-size: 16px;
-    margin-top: 25px;
-    margin-bottom: 20px;
+    margin: 25px auto 20px;
   }
 
   .card-image {
@@ -465,19 +469,19 @@
   }
 
   .block-five {
-    margin: 30px auto;
-    flex-direction: column;
+    margin: 10px auto 30px;
+    flex-direction: column-reverse;
   }
 
   .image-container {
     width: 300px;
     margin: 0 auto;
+    display: none;
   }
 
   .image-container2 {
     width: 300px;
     margin: 0;
-    display: none;
   }
 
   .footer {
