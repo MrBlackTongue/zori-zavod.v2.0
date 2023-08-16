@@ -49,7 +49,7 @@ export const PageLanding = () => {
       label:
         <Button
           type="primary"
-          onClick={() => setIsModalOpen(false)}
+          onClick={() => setIsModalOpen(true)}
           className='dropdown-item'
         >
           Регистрация
@@ -71,7 +71,13 @@ export const PageLanding = () => {
         </Dropdown>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
-          <Button type="primary" className='button-registration text-bold' onClick={handleLogin}>Регистрация</Button>
+          <Button
+            type="primary"
+            className='button-registration text-bold'
+            onClick={() => setIsModalOpen(true)}
+          >
+            Регистрация
+          </Button>
         </Space>
       </div>
       <div className='block-one flex center-column center-row'>
@@ -81,7 +87,7 @@ export const PageLanding = () => {
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(false)}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Начать работу
             </Button>
           </Space>
@@ -189,7 +195,7 @@ export const PageLanding = () => {
             Попробуйте Zolotenkov прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(false)}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Бесплатная версия
             </Button>
           </Space>
