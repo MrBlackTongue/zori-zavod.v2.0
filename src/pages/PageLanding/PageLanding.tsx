@@ -1,22 +1,83 @@
-import React from 'react';
-import {Button, Space, Card, Row, Col} from 'antd';
+import React, {useState} from 'react';
+import {Button, Space, Card, Row, Col, Dropdown, MenuProps} from 'antd';
+import {MenuOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
+import {CreateModalRegistrationUser} from "./components/CreateModalRegistrationUser";
 import './/PageLanding.css';
+import {TypeUserProfile} from "../../types";
+import {registrationUser} from "../../services";
 
 export const PageLanding = () => {
+
   const navigate = useNavigate();
 
+  // Открыть закрыть модальное окно
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // Создать нового пользователя
+  const handleCreateNewUser = (values: TypeUserProfile): void => {
+    const user: TypeUserProfile = {
+      username: 'admin',
+      password: values.password,
+      email: values.email,
+      phone: values.phone,
+      firstname: values.firstname,
+    }
+    setIsModalOpen(false)
+    void registrationUser(user)
+  }
+
+  // Переход на другую страницу по адресу
   const handleLogin = () => {
     navigate('/login');
   };
+
+  // Выпадающее меню
+  const items: MenuProps['items'] = [
+    {
+      label:
+        <Button
+          type="default"
+          onClick={handleLogin}
+          className='dropdown-item'
+        >
+          Войти
+        </Button>,
+      key: "1",
+    },
+    {
+      label:
+        <Button
+          type="primary"
+          onClick={() => setIsModalOpen(true)}
+          className='dropdown-item'
+        >
+          Регистрация
+        </Button>,
+      key: "2",
+    },
+  ];
 
   return (
     <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+        <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
+          <Space>
+            <Button type="primary">
+              <MenuOutlined/>
+            </Button>
+          </Space>
+        </Dropdown>
         <Space>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
-          <Button type="primary" className='button-registration text-bold' onClick={handleLogin}>Регистрация</Button>
+          <Button
+            type="primary"
+            className='button-registration text-bold'
+            onClick={() => setIsModalOpen(true)}
+          >
+            Регистрация
+          </Button>
         </Space>
       </div>
       <div className='block-one flex center-column center-row'>
@@ -26,12 +87,13 @@ export const PageLanding = () => {
             Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleLogin}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Начать работу
             </Button>
           </Space>
         </div>
-        <img src="/images/main_image.png" alt="web-app" className='jumbotron-one flex column center-row center-column'/>
+        <img src="/images/main_image.png" alt="web-app"
+             className='jumbotron-one flex column center-row center-column'/>
       </div>
       <div className='block-two flex row center-row center-column'>
         <img src="/images/image_one.png" alt="factoryApp"
@@ -47,38 +109,40 @@ export const PageLanding = () => {
             </p>
           </div>
         </div>
-        <img src="/images/image_two.png" alt="people_working" className='jumbotron-block'/>
+        <img src="/images/image_two.png" alt="people_working" className='jumbotron-block2'/>
       </div>
       <div className='block-three flex column center-column'>
         <div className='block-group flex row center-row space-around'>
           <img src="/images/group_accounting.png" alt="accounting"
-               className='jumbotron-two flex column center-row center-column'
-          />
+               className='jumbotron-two flex column center-row center-column'/>
           <div className='text-block'>
             <div className='title-group text-bold'>Учёт операций</div>
-            <p className='text'>
+            <p className='text-group'>
               Отслеживайте операции, результаты,
-              время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании системе.
+              время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании
+              системе.
               Повышайте эффективность и контролируйте производственные процессы.
             </p>
           </div>
         </div>
-        <div className='block-group flex row center-row space-around'>
+        <div className='block-group block-group-two flex row center-row space-around'>
           <div className='text-block'>
             <div className='title-group text-bold'>Управление закупками</div>
-            <p className='text'>
+            <p className='text-group'>
               Контролируйте все ваши заказы: от количества и цены до даты поставки.
               Мы также предлагаем функционал для приемки товаров,
               помогающий вам без проблем учитывать все закупленные товары.
             </p>
           </div>
-          <img src="/images/group_procurement.png" alt="Procurement_management" className='jumbotron-block'/>
+          <img src="/images/group_procurement.png" alt="Procurement_management"
+               className='jumbotron-two flex column center-row center-column'/>
         </div>
         <div className='block-group flex row center-row space-around'>
-          <img src="/images/group_warehouse.png" alt="warehouse_management" className='jumbotron-block'/>
+          <img src="/images/group_warehouse.png" alt="warehouse_management"
+               className='jumbotron-two flex column center-row center-column'/>
           <div className='text-block'>
             <div className='title-group text-bold'>Ведение склада</div>
-            <p className='text'>
+            <p className='text-group'>
               Легко создавайте товары и добавляйте их на склад,
               учитывайте количество товаров и списывайте их со склада.
               Благодаря интеграции с производственными операциями,
@@ -96,7 +160,7 @@ export const PageLanding = () => {
         </p>
         <div className='card-grid'>
           <Row gutter={[30, 30]} justify="center" align="top">
-            <Col span={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="tap" src="/images/card_tap.png" className="card-image"/>
                 <div className='card-title text-bold'>Простота в управлении</div>
@@ -105,7 +169,7 @@ export const PageLanding = () => {
                 с нашей системой учета производственных операций.
               </Card>
             </Col>
-            <Col span={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="earth" src="/images/card_international.png" className="card-image"/>
                 <div className='card-title text-bold'>Проводите учет где угодно</div>
@@ -113,7 +177,7 @@ export const PageLanding = () => {
                 не зависимо от географии, сохраняя полный контроль над каждой деталью.
               </Card>
             </Col>
-            <Col span={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="file2" src="/images/card_document.png" className="card-image"/>
                 <div className='card-title text-bold'>Отчёты в реальном времени</div>
@@ -127,16 +191,16 @@ export const PageLanding = () => {
       <div className='block-five flex row center-row space-around'>
         <img alt="meeting" src="/images/meeting.png" className="image-container"/>
         <div className='block-column flex column center-column center-row'>
-          <div className='title-mini text-bold center-text'>Попробуйте Zolotenkov
-            прямо сейчас!
+          <div className='title-mini text-bold center-text'>
+            Попробуйте Zolotenkov прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={handleLogin}>
+            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
               Бесплатная версия
             </Button>
           </Space>
         </div>
-        <img alt="transactions" src="/images/transactions.png" className="image-container"/>
+        <img alt="transactions" src="/images/transactions.png" className="image-container2"/>
       </div>
       <div className='footer flex column center-row center-column'>
         <p className='footer-text-one'>Телефон: +7 (968) 614-15-72</p>
@@ -146,6 +210,11 @@ export const PageLanding = () => {
         </a>
         <p className='footer-text-three'>© Zolotenkov 2022-2023</p>
       </div>
+      <CreateModalRegistrationUser
+        isOpen={isModalOpen}
+        createItem={handleCreateNewUser}
+        onCancel={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
