@@ -21,7 +21,6 @@ export const PageLoginForm: React.FC = () => {
     form
       .validateFields()
       .then((values) => {
-        console.log('values', values)
         loginUser(values)
           .then(response => {
             if (response?.jwt) {
