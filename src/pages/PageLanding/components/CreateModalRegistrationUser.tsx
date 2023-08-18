@@ -49,7 +49,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
         }}
       >
         <Form.Item>
-          <Title level={2} className='registration-title'>Регистрация</Title>
+          <Title level={1} className='registration-title'>Регистрация</Title>
         </Form.Item>
 
         <Form.Item

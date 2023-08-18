@@ -1,25 +1,25 @@
-.registration-form {
-  width: 100%;
-  height: 500px;
-  background-color: #ffffff;
-  padding: 20px 30px;
-  border-radius: 20px;
-}
-
-.registration-title {
-  text-align: center;
-  margin: 0 auto;
-}
-
-.registration-form-button {
-  margin-top: 15px;
-  height: 55px;
-  width: 100%;
-  font-size: 17px;
-  font-weight: bold;
-}
-
 @media (min-width: 1000px) {
+
+  .registration-form {
+    width: 100%;
+    height: 500px;
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 20px;
+  }
+
+  .registration-title {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .registration-form-button {
+    margin-top: 15px;
+    height: 55px;
+    width: 100%;
+    font-size: 17px;
+    font-weight: bold;
+  }
 
   .page-landing {
     margin: 0 auto;
@@ -131,18 +131,18 @@
 
   .block-two {
     margin: 9vh auto;
-    min-width: 90%;
+    width: 1000px;
   }
 
   .text-block-two {
-    width: 28vw;
+    width: 400px;
     font-size: 17px;
   }
 
   .title-mini {
     font-size: 33px;
-    width: 500px;
     margin: 15px auto;
+    width: 400px;
   }
 
   .title-two {
@@ -213,8 +213,7 @@
   }
 
   .block-column {
-    margin: 0 30px 10px;
-
+    margin: 0 40px 10px;
   }
 
   .footer {
@@ -256,7 +255,290 @@
   }
 }
 
-@media (min-width: 63px) and (max-width: 1000px) {
+@media (min-width: 761px) and (max-width: 999px) {
+
+  .registration-form {
+    width: 100%;
+    height: 500px;
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 20px;
+  }
+
+  .registration-title {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .registration-form-button {
+    margin-top: 15px;
+    height: 55px;
+    width: 100%;
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .page-landing {
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .column {
+    flex-direction: column;
+  }
+
+  .row {
+    flex-direction: row;
+  }
+
+  .center-row {
+    align-items: center;
+  }
+
+  .center-column {
+    justify-content: center;
+  }
+
+  .center-text {
+    text-align: center;
+  }
+
+  .text-bold {
+    font-weight: bold;
+  }
+
+  .space-around {
+    justify-content: space-around;
+  }
+
+  .header {
+    justify-content: center;
+    height: 80px;
+    width: 768px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    height: 30px;
+  }
+
+  .dropdown-item {
+    width: 200px;
+    height: 60px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .dropdown-button-menu {
+    margin-left: 430px;
+  }
+
+  .button-registration {
+    width: 130px;
+    height: 35px;
+    display: none;
+  }
+
+  .button-login {
+    width: 100px;
+    height: 35px;
+    display: none;
+  }
+
+  .title-one {
+    font-size: 35px;
+    width: 300px;
+  }
+
+  .text {
+    font-size: 16px;
+    width: 280px;
+  }
+
+  .text-group {
+    font-size: 16px;
+    width: 300px;
+  }
+
+  .block-one {
+    margin: 40px auto;
+    width: 768px;
+  }
+
+  .text-block {
+    width: 300px;
+  }
+
+  .button-start {
+    margin-top: 30px;
+    height: 48px;
+    width: 260px;
+    font-size: 15px;
+  }
+
+  .jumbotron-one {
+    height: 280px;
+    margin-right: -20px;
+  }
+
+  .jumbotron-two {
+    height: 300px;
+  }
+
+  .jumbotron-block {
+    height: 400px;
+  }
+
+  .jumbotron-block2 {
+    height: 300px;
+    display: none;
+  }
+
+  .block-two {
+    margin: 0 auto;
+    width: 768px;
+    flex-direction: column;
+  }
+
+  .text-block-two {
+    width: 600px;
+    font-size: 17px;
+  }
+
+  .title-mini {
+    font-size: 35px;
+    margin: 0 auto;
+    width: 530px;
+  }
+
+  .title-two {
+    font-size: 35px;
+    margin: 40px auto 20px;
+    width: 700px;
+  }
+
+  .block-three {
+    margin: 40px auto;
+    width: 768px;
+  }
+
+  .block-group {
+    margin-left: 20px;
+  }
+
+  .title-group {
+    font-size: 30px;
+  }
+
+  .block-four {
+    width: 100%;
+    background-color: #f4f7f9;
+    margin: 20px auto 0;
+  }
+
+  .text-two {
+    font-size: 18px;
+    width: 500px;
+    margin-top: 20px;
+  }
+
+  .card-grid {
+    margin: 50px auto 70px;
+  }
+
+  .card {
+    height: 330px;
+    width: 500px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    margin: 0 auto;
+  }
+
+  .card-title {
+    font-size: 18px;
+    margin: 25px auto 20px;
+  }
+
+  .card-image {
+    height: 60px;
+  }
+
+  .block-five {
+    margin: 0 auto 30px;
+    flex-direction: column-reverse;
+  }
+
+  .image-container {
+    height: 300px;
+    margin: 0;
+    display: none;
+  }
+
+  .image-container2 {
+    height: 400px;
+    margin: 0;
+  }
+
+  .block-column {
+    margin: 0;
+    width: 768px;
+  }
+
+  .footer {
+    width: 100%;
+    background-color: #f4f7f9;
+  }
+
+  .footer-text-one {
+    margin: 30px auto 5px;
+    font-size: 18px;
+  }
+
+  .footer-text-two {
+    margin: 10px auto 20px;
+    font-size: 16px;
+  }
+
+  .footer-text-three {
+    margin: 10px auto 20px;
+    font-size: 14px;
+  }
+
+  .logo-telegram {
+    height: 40px;
+  }
+
+  .logo-telegram:hover {
+    filter: brightness(80%);
+  }
+}
+
+@media (min-width: 63px) and (max-width: 760px) {
+
+  .registration-form {
+    width: 100%;
+    height: 450px;
+    background-color: #ffffff;
+    padding: 10px 5px;
+    border-radius: 10px;
+  }
+
+  .registration-title {
+    text-align: center;
+    margin: 10px auto 0;
+  }
+
+  .registration-form-button {
+    margin-top: 15px;
+    height: 55px;
+    width: 100%;
+    font-size: 17px;
+    font-weight: bold;
+  }
 
   .page-landing {
     margin: 0 auto;
@@ -350,7 +632,6 @@
     font-size: 16px;
     width: 280px;
     margin-left: 10px;
-
   }
 
   .button-start {
@@ -410,7 +691,6 @@
   .block-three {
     margin: 30px auto;
     width: 300px;
-
   }
 
   .block-group {
