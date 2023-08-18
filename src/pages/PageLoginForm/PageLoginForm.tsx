@@ -21,6 +21,7 @@ export const PageLoginForm: React.FC = () => {
     form
       .validateFields()
       .then((values) => {
+        console.log('values', values)
         loginUser(values)
           .then(response => {
             if (response?.jwt) {
@@ -62,7 +63,7 @@ export const PageLoginForm: React.FC = () => {
           <Input
             size="large"
             prefix={<UserOutlined className="input-prefix-icon"/>}
-            placeholder="Почта"
+            placeholder="Логин"
           />
         </Form.Item>
 
