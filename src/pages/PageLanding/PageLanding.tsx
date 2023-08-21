@@ -160,7 +160,7 @@ export const PageLanding = () => {
         </p>
         <div className='card-grid'>
           <Row gutter={[30, 30]} justify="center" align="top">
-            <Col span={7} xs={24}  lg={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="tap" src="/images/card_tap.png" className="card-image"/>
                 <div className='card-title text-bold'>Простота в управлении</div>
@@ -169,7 +169,7 @@ export const PageLanding = () => {
                 с нашей системой учета производственных операций.
               </Card>
             </Col>
-            <Col span={7} xs={24}  lg={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="earth" src="/images/card_international.png" className="card-image"/>
                 <div className='card-title text-bold'>Проводите учет где угодно</div>
@@ -177,7 +177,7 @@ export const PageLanding = () => {
                 не зависимо от географии, сохраняя полный контроль над каждой деталью.
               </Card>
             </Col>
-            <Col span={7} xs={24}  lg={7}>
+            <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="file2" src="/images/card_document.png" className="card-image"/>
                 <div className='card-title text-bold'>Отчёты в реальном времени</div>
