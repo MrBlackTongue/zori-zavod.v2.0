@@ -4,7 +4,7 @@ import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
 import {useNavigate} from "react-router-dom";
 
-export const PageLoginForm: React.FC = () => {
+export const PageLogin: React.FC = () => {
 
   const {Title} = Typography;
   const [form] = Form.useForm();
