@@ -4,7 +4,7 @@ import {Button, Form, Input, Typography} from 'antd';
 import {loginUser} from "../../services";
 import {useNavigate} from "react-router-dom";
 
-export const PageLoginForm: React.FC = () => {
+export const PageLogin: React.FC = () => {
 
   const {Title} = Typography;
   const [form] = Form.useForm();
@@ -56,13 +56,13 @@ export const PageLoginForm: React.FC = () => {
         </Form.Item>
 
         <Form.Item
-          name="email"
-          rules={[{required: true, message: 'введите вашу почту'}]}
+          name="login"
+          rules={[{required: true, message: 'введите ваш логин'}]}
         >
           <Input
             size="large"
             prefix={<UserOutlined className="input-prefix-icon"/>}
-            placeholder="Почта"
+            placeholder="Логин"
           />
         </Form.Item>
 
