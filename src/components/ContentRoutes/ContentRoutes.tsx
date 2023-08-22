@@ -24,6 +24,7 @@ import {PageOutputReport} from "../../pages/PageOutputReport/PageOutputReport";
 import {PageOperationReport} from "../../pages/PageOperationReport/PageOperationReport";
 import {PageEmployeeReport} from "../../pages/PageEmployeeReport/PageEmployeeReport";
 import {PageCostPrice} from "../../pages/PageCostPrice/PageCostPrice";
+import {PageWriteOff} from "../../pages/PageWriteOff/PageWriteOff";
 
 export const ContentRoutes: React.FC = () => {
   return (
@@ -52,6 +53,7 @@ export const ContentRoutes: React.FC = () => {
       <Route path="/operation-report" element={<PageOperationReport/>}/>
       <Route path="/employee-report" element={<PageEmployeeReport/>}/>
       <Route path="/cost-report" element={<PageCostPrice/>}/>
+      <Route path="/write-off" element={<PageWriteOff/>}/>
     </Routes>
   );
 };

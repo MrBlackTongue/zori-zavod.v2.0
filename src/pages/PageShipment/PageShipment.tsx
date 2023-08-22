@@ -44,8 +44,8 @@ export const PageShipment: React.FC = () => {
     setOpenState({...openState, isDrawerOpen: true});
   }
 
-  // Функция открытия детального дравера отгрузки с использованием useCallback
-  const openDetailShipment = (shipmentId: number): void => {
+  // Функция открытия детального дравера отгрузки
+  const openDetailDrawer = (shipmentId: number): void => {
     setSelectedShipmentId(shipmentId);
     setOpenState({...openState, isBottomDrawerOpen: true});
   }
@@ -95,7 +95,7 @@ export const PageShipment: React.FC = () => {
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteShipment}
-        openDetailDrawer={openDetailShipment}
+        openDetailDrawer={openDetailDrawer}
       />
       <CreateModalShipment
         isOpen={openState.isModalOpen}

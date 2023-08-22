@@ -30,3 +30,4 @@ export const AUTHENTICATE = '/authenticate';
 export const REPORT = '/report';
 export const COST_PRICE = '/cost-price';
 export const REGISTRATION = '/register';
+export const WRITE_OFF = '/write-off';

@@ -17,7 +17,7 @@ export const PageClient: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраного клиента
+  // id выбранного клиента
   const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // Добавить нового клиента

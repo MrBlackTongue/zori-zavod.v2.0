@@ -18,7 +18,7 @@ export const PageProductReport: React.FC = () => {
   const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
   const [selectedDateTo, setSelectedDateTo] = useState<string | undefined>();
 
-  // id выбраного товара
+  // id выбранного товара
   const [selectedProductId, setSelectedProductId] = useState<number | undefined>();
 
   // Хук для получения данных

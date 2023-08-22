@@ -21,10 +21,8 @@ export interface UpdateDrawerProps<T> {
   updateItem: (values: T) => void;
 }
 
-export interface DetailDrawerProps<T> {
+export interface DetailDrawerProps {
   isOpen: boolean;
   onCancel: () => void;
   selectedItemId: number | undefined;
-  updateItem?: (values: T) => void;
 }
-

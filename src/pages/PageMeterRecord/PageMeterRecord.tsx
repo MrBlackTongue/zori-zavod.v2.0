@@ -18,7 +18,7 @@ export const PageMeterRecord: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраного типа счетчика
+  // id выбранного типа счетчика
   const [selectedMeterRecordId, setSelectedMeterRecordId] = useState<number>();
 
   // Добавить новый тип счетчика
