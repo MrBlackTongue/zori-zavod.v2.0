@@ -7,15 +7,17 @@ import {TypeWriteOff, TypeWriteOffFormValue} from "../../types";
 import {TableWriteOff} from "./components/TableWriteOff";
 import {CreateModalWriteOff} from "./components/CreateModalWriteOff";
 import {UpdateDrawerWriteOff} from "./components/UpdateDrawerWriteOff";
+import {DetailDrawerWriteOff} from "./components/DetailDrawerWriteOff";
 
 export const PageWriteOff: React.FC = () => {
 
   const {Title} = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер, детальный дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isBottomDrawerOpen, setIsBottomDrawerOpen] = useState<boolean>(false);
 
   // id выбранного списания
   const [selectedWriteOffId, setSelectedWriteOffId] = useState<number>();
@@ -37,6 +39,12 @@ export const PageWriteOff: React.FC = () => {
     setSelectedWriteOffId(writeOffId)
     setIsDrawerOpen(true);
   };
+
+  // Открыть детальный дравер
+  const openDetailDrawer = (writeOffId: number): void => {
+    setSelectedWriteOffId(writeOffId);
+    setIsBottomDrawerOpen(true);
+  }
 
   // Обновить списание
   const handleUpdateWriteOff = (values: TypeWriteOffFormValue): void => {
@@ -84,6 +92,7 @@ export const PageWriteOff: React.FC = () => {
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteWriteOff}
+        openDetailDrawer={openDetailDrawer}
       />
       <CreateModalWriteOff
         isOpen={isModalOpen}
@@ -95,6 +104,11 @@ export const PageWriteOff: React.FC = () => {
         selectedItemId={selectedWriteOffId}
         updateItem={handleUpdateWriteOff}
         onCancel={() => setIsDrawerOpen(false)}
+      />
+      <DetailDrawerWriteOff
+        isOpen={isBottomDrawerOpen}
+        selectedItemId={selectedWriteOffId}
+        onCancel={() => setIsBottomDrawerOpen(false)}
       />
     </div>
   );

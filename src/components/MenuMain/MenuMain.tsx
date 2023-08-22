@@ -26,7 +26,6 @@ import {
   ReconciliationOutlined,
   TableOutlined,
   FundOutlined,
-  ShoppingCartOutlined,
   DownSquareOutlined,
 } from "@ant-design/icons";
 
@@ -38,7 +37,7 @@ export const MenuMain: React.FC = () => {
     "03": ["/product", "/product-group"],
     "04": ["/meter-record", "/meter", "/meter-type"],
     "05": ["/purchase", "/product-batch", "/acceptance"],
-    "06": ["/stock", "/write-off", "/movement-write-off"],
+    "06": ["/stock", "/write-off"],
   };
 
   const findSubMenuKey = (pathname: any) => {
@@ -144,9 +143,6 @@ export const MenuMain: React.FC = () => {
           </Menu.Item>
           <Menu.Item key="/write-off" icon={<DownSquareOutlined/>}>
             <Link to="/write-off">Списание</Link>
-          </Menu.Item>
-          <Menu.Item key="/movement-write-off" icon={<ShoppingCartOutlined/>}>
-            <Link to="/movement-write-off">Движение</Link>
           </Menu.Item>
         </SubMenu>
 

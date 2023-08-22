@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, EllipsisOutlined,} from '@ant-design/icons';
 import {getAllWriteOff} from "../../../services";
 import {TableProps, TypeEmployee, TypeProductionType, TypeWriteOff} from "../../../types";
 
@@ -9,6 +9,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
                                                       isUpdateTable,
                                                       openDrawer,
                                                       onDelete,
+                                                      openDetailDrawer,
                                                     }) => {
   // Лоудер и список всех списаний
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,6 +55,16 @@ export const TableWriteOff: React.FC<TableProps> = ({
       align: 'center',
       render: ((id: number) => (
         <Space>
+          <Tooltip title="Подробнее" placement="bottomRight">
+            <Button
+              type="primary"
+              size="small"
+              shape="circle"
+              onClick={() => id && openDetailDrawer?.(id)}
+            >
+              <EllipsisOutlined/>
+            </Button>
+          </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
               type="primary"
