@@ -115,7 +115,7 @@ export const PageLanding = () => {
         <div className='block-group flex row center-row space-around'>
           <img src="/images/group_accounting.png" alt="accounting"
                className='jumbotron-two flex column center-row center-column'/>
-          <div className='text-block'>
+          <div className='text-block-group'>
             <div className='title-group text-bold'>Учёт операций</div>
             <p className='text-group'>
               Отслеживайте операции, результаты,
@@ -126,7 +126,7 @@ export const PageLanding = () => {
           </div>
         </div>
         <div className='block-group block-group-two flex row center-row space-around'>
-          <div className='text-block'>
+          <div className='text-block-group'>
             <div className='title-group text-bold'>Управление закупками</div>
             <p className='text-group'>
               Контролируйте все ваши заказы: от количества и цены до даты поставки.
@@ -140,7 +140,7 @@ export const PageLanding = () => {
         <div className='block-group flex row center-row space-around'>
           <img src="/images/group_warehouse.png" alt="warehouse_management"
                className='jumbotron-two flex column center-row center-column'/>
-          <div className='text-block'>
+          <div className='text-block-group'>
             <div className='title-group text-bold'>Ведение склада</div>
             <p className='text-group'>
               Легко создавайте товары и добавляйте их на склад,
