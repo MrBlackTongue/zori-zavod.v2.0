@@ -15,12 +15,11 @@ import {
 } from "../../../services";
 import {CreateModalDetailShipment} from "./CreateModalDetailShipment";
 
-export const DetailDrawerShipment: React.FC<DetailDrawerProps<TypeShipment>> = ({
-                                                                                  isOpen,
-                                                                                  onCancel,
-                                                                                  selectedItemId
-                                                                                }) => {
-
+export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({
+                                                                    isOpen,
+                                                                    onCancel,
+                                                                    selectedItemId
+                                                                  }) => {
   // Обновление таблицы, Открыть закрыть модальное окно, Выбранная отгрузка
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

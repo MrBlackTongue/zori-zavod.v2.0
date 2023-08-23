@@ -7,7 +7,7 @@ import './/PageLoginForm.css';
 import {TypeUserProfile} from "../../types";
 import {CreateModalRegistrationUser} from "../PageLanding/components/CreateModalRegistrationUser";
 
-export const PageLoginForm: React.FC = () => {
+export const PageLogin: React.FC = () => {
 
   const [form] = Form.useForm();
 
@@ -39,7 +39,6 @@ export const PageLoginForm: React.FC = () => {
     form
       .validateFields()
       .then((values) => {
-        console.log('values', values)
         loginUser(values)
           .then(response => {
             if (response?.jwt) {

@@ -21,7 +21,7 @@ export const PageProductionType: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраного типа производства
+  // id выбранного типа производства
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Добавить запись в таблицу

@@ -17,7 +17,7 @@ export const PageProduct: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраного товара, Текст поиска
+  // id выбранного товара, Текст поиска
   const [selectedProductId, setSelectedProductId] = useState<number>();
   const [searchText, setSearchText] = useState<string>("");
 
