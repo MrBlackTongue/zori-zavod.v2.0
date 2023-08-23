@@ -106,7 +106,6 @@ export const PageLoginForm: React.FC = () => {
           <Button
             size="large"
             type="link"
-            htmlType="submit"
             className="login-form-button"
             onClick={() => setIsModalOpen(true)}
           >
