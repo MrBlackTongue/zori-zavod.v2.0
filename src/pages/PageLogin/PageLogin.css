@@ -1,0 +1,90 @@
+@media (min-width: 63px) {
+
+  .login-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    height: 100%;
+  }
+
+  .login-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+    width: 100%;
+    margin: 7vh auto;
+  }
+
+  .logo {
+    height: 30px;
+    margin-left: 10px;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 400px;
+    width: 100%;
+    padding: 5vh 20px 12vh;
+    background-color: #ffffff;
+    margin: 5vh 0 5vh;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+  }
+
+  .login-form-button {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .registration-form-button {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .login-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
+    flex: 1;
+    background-color: #f4f7f9;
+  }
+
+  .login-footer-text-one {
+    margin: 30px auto 5px;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .login-footer-text-two {
+    margin: 10px auto 20px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .login-footer-text-three {
+    margin: 10px auto 20px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .login-logo-telegram {
+    height: 35px;
+    align-items: center;
+  }
+
+  .login-logo-telegram:hover {
+    filter: brightness(80%);
+  }
+}

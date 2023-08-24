@@ -60,7 +60,6 @@
   display: flex;
   align-content: center;
   justify-content: space-between;
-  /*margin-bottom: 10px;*/
 }
 
 .greenButton {
@@ -89,30 +88,6 @@
   border-radius: 8px;
   background: white;
   overflow: auto;
-}
-
-.login-form {
-  max-width: 400px;
-  width: 100%;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.login-form-forgot {
-  /*float: right;*/
-  float: left;
-}
-
-.login-form-button {
-  width: 100%;
-}
-
-.login-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
 .input-prefix-icon {
