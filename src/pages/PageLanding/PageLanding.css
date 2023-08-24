@@ -71,6 +71,12 @@
     height: 30px;
   }
 
+  .rate-button {
+    width: 90px;
+    font-weight: bold;
+    height: 35px;
+  }
+
   .button-login {
     width: 100px;
     height: 35px;
@@ -342,6 +348,13 @@
     margin-left: 430px;
   }
 
+  .rate-button {
+    width: 100%;
+    font-weight: bold;
+    height: 35px;
+    display: none;
+  }
+
   .button-registration {
     width: 130px;
     height: 35px;
@@ -601,6 +614,13 @@
 
   .dropdown-button-menu {
     margin-left: 320px;
+  }
+
+  .rate-button {
+    width: 100%;
+    font-weight: bold;
+    height: 35px;
+    display: none;
   }
 
   .button-registration {
@@ -872,6 +892,13 @@
 
   .dropdown-button-menu {
     margin-left: 80px;
+  }
+
+  .rate-button {
+    width: 100%;
+    font-weight: bold;
+    height: 35px;
+    display: none;
   }
 
   .button-registration {

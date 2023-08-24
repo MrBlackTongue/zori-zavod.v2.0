@@ -32,6 +32,10 @@ export const PageLanding = () => {
     navigate('/login');
   };
 
+  const handleRate = () => {
+    navigate('/Rate');
+  };
+
   // Выпадающее меню
   const items: MenuProps['items'] = [
     {
@@ -48,11 +52,22 @@ export const PageLanding = () => {
     {
       label:
         <Button
-          type="primary"
+          type="default"
           onClick={() => setIsModalOpen(true)}
           className='dropdown-item'
         >
           Регистрация
+        </Button>,
+      key: "2",
+    },
+    {
+      label:
+        <Button
+          type="default"
+          onClick={handleRate}
+          className='dropdown-item'
+        >
+          Тариф
         </Button>,
       key: "2",
     },
@@ -70,6 +85,7 @@ export const PageLanding = () => {
           </Space>
         </Dropdown>
         <Space>
+          <Button type="link"  size="large" className='rate-button' onClick={handleRate}>Тариф</Button>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
           <Button
             type="primary"
