@@ -104,6 +104,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
             iconRender={iconRender}
           />
         </Form.Item>
+
         <Form.Item>
           <Button
             type="primary"

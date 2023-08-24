@@ -1,16 +1,15 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
 import {loginUser, registrationUser} from "../../services";
 import {useNavigate} from "react-router-dom";
-import './/PageLoginForm.css';
+import './/PageLogin.css';
 import {TypeUserProfile} from "../../types";
 import {CreateModalRegistrationUser} from "../PageLanding/components/CreateModalRegistrationUser";
 
 export const PageLogin: React.FC = () => {
 
   const [form] = Form.useForm();
-
   const navigate = useNavigate();
 
   // Открыть закрыть модальное окно
@@ -101,6 +100,7 @@ export const PageLogin: React.FC = () => {
             Войти
           </Button>
         </Form.Item>
+
         <Form.Item>
           <Button
             size="large"
@@ -108,7 +108,7 @@ export const PageLogin: React.FC = () => {
             className="login-form-button"
             onClick={() => setIsModalOpen(true)}
           >
-            Зарегестрироваться
+            Зарегистрироваться
           </Button>
         </Form.Item>
       </Form>

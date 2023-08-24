@@ -60,7 +60,6 @@
   display: flex;
   align-content: center;
   justify-content: space-between;
-  /*margin-bottom: 10px;*/
 }
 
 .greenButton {
@@ -90,9 +89,6 @@
   background: white;
   overflow: auto;
 }
-
-
-
 
 .input-prefix-icon {
   margin-right: 10px;
