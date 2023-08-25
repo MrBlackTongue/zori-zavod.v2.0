@@ -25,15 +25,15 @@ export const TableMeter: React.FC<TableProps> = ({
   const columns: ColumnsType<TypeMeter> = [
     {
       title: 'Тип счетчика',
-      dataIndex: 'meterTypeDto',
+      dataIndex: 'meterType',
       key: 'meterType',
-      render: ((meterTypeDto: TypeMeterType) =>
-        meterTypeDto !== null ? (<div>{meterTypeDto.title}</div>) : null)
+      render: ((meterType: TypeMeterType) =>
+        meterType !== null ? (<div>{meterType.title}</div>) : null)
     },
     {
-      title: 'Описание',
-      dataIndex: 'description',
-      key: 'description',
+      title: 'Название',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
       title: 'Серийный номер',

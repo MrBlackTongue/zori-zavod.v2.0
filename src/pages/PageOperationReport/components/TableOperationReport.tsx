@@ -21,7 +21,7 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
   // Колонки в таблице
   const columns: ColumnsType<TypeOperationReport> = [
     {
-      title: "Тип операции",
+      title: "Название операции",
       dataIndex: "operationName",
       key: "operationName",
       width: 300,

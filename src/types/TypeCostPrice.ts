@@ -1,5 +1,5 @@
 export type TypeCostPrice = {
-  title?: string,
+  operationTitle?: string,
   salaryExpenses?: number,
   materialExpenses?: number,
 }

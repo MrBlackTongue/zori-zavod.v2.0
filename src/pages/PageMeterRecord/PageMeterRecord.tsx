@@ -26,7 +26,7 @@ export const PageMeterRecord: React.FC = () => {
     const meterRecord: TypeMeterRecord = {
       value: values.value,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DDTHH:mm:ss') : undefined,
-      meterDto: {id: values.meterDto},
+      meter: {id: values.meter},
     };
     setIsModalOpen(false)
     void createMeterRecord(meterRecord)
@@ -45,8 +45,9 @@ export const PageMeterRecord: React.FC = () => {
       id: selectedMeterRecordId,
       value: values.value,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DDTHH:mm:ss') : undefined,
-      meterDto: {id: values.meterDto},
+      meter: {id: values.meter},
     };
+    console.log('meterRecord', meterRecord)
     setIsDrawerOpen(false)
     void updateMeterRecord(meterRecord)
     setIsUpdateTable(prevState => !prevState)

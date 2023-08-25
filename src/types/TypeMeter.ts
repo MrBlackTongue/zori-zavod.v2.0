@@ -3,15 +3,15 @@ import {TypeMeterType} from "./TypeMeterType";
 export type TypeMeter = {
   id?: number,
   serialNumber?: string,
-  description?: string,
-  meterTypeDto?: TypeMeterType,
+  title?: string,
+  meterType?: TypeMeterType,
 }
 
 export type TypeMeterFormValue = {
   id?: number,
   serialNumber?: string,
-  description?: string,
-  meterTypeDto?: number,
+  title?: string,
+  meterType?: number,
 }
 
 export interface FormMeterProps {

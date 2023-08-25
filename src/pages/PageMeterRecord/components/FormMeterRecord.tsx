@@ -20,7 +20,7 @@ export const FormMeterRecord: React.FC<FormMeterRecordProps> = ({
     >
       <Form.Item
         label="Счетчик"
-        name="meterDto"
+        name="meter"
         rules={[{required: true, message: 'выберите единицу измерения'}]}
       >
         <Select
@@ -33,9 +33,9 @@ export const FormMeterRecord: React.FC<FormMeterRecordProps> = ({
         >
           {allMeter && allMeter.length > 0 ?
             allMeter.map(meter => (
-              <Option key={meter.id} value={meter.id} label={meter.description}>
-                <Tooltip placement="right" title={meter.description}>
-                  {meter.description}
+              <Option key={meter.id} value={meter.id} label={meter.title}>
+                <Tooltip placement="right" title={meter.title}>
+                  {meter.title}
                 </Tooltip>
               </Option>
             )) : null}

@@ -21,9 +21,9 @@ export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
   // Колонки в таблице
   const columns: ColumnsType<TypeCostPrice> = [
     {
-      title: "Операции",
-      dataIndex: "title",
-      key: "title",
+      title: "Название операции",
+      dataIndex: "operationTitle",
+      key: "operationTitle",
       width: 300,
     },
     {
