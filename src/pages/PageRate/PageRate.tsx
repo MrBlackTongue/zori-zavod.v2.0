@@ -70,7 +70,7 @@ export const PageRate = () => {
 
   return (
     <div className='page-rate flex column center-column'>
-      <div className='header flex row center-row'>
+      <div className='rate-header flex row center-row'>
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
           <Space>
@@ -80,7 +80,6 @@ export const PageRate = () => {
           </Space>
         </Dropdown>
         <Space>
-          <Button type="link" size="large" className='rate-button'>Тариф</Button>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
           <Button
             type="primary"
@@ -91,31 +90,41 @@ export const PageRate = () => {
           </Button>
         </Space>
       </div>
-      <div className='rate-text-block flex  column  center-row'>
-      <div className='rate-title'>Пробный период на 14 дней</div>
-      <div className='rate-text'>
-        Мы уверены в эффективности нашего приложения и хотим, чтобы вы лично убедились в этом.
-        Поэтому предоставляем <span className='text-bold'>бесплатный доступ к полному функционалу на 14 дней. </span>
-        Используйте все возможности,
-        оцените удобство и преимущества работы с нашим приложением.
-      </div>
-        <div className='rate-title'>Подписка после пробного периода</div>
-        <div className='rate-text'>
-          После завершения пробного периода вы сможете
-          продолжить пользоваться нашим приложением за <span className='text-bold'>2990 рублей в месяц. </span>
-          Мы предлагаем высокое качество, надежность и постоянные обновления,
-          чтобы вы получали максимальную отдачу от инвестиций в ваш бизнес.
+      <div className='rate-block flex row center-row'>
+        <div className='rate-text-block flex  column  center-column'>
+          <div className='rate-title'>Пробный период на 14 дней</div>
+          <div className='rate-text'>
+            Мы уверены в эффективности нашего приложения и хотим, чтобы вы лично убедились в этом.
+            Поэтому предоставляем <span
+            className='text-bold'>бесплатный доступ к полному функционалу на 14 дней. </span>
+            После завершения пробного периода вы сможете
+            продолжить пользоваться нашим приложением за <span className='text-bold'>2990 рублей в месяц. </span>
+
+          </div>
+          <div className='button-block flex column'>
+            <Button type="primary" className='button-buy'>14 дней бесплатно</Button>
+            <div className='mini-text center-text'>Далее 2990 ₽ в месяц</div>
+          </div>
         </div>
-        <Button  type="primary" className='button-buy'>14 дней бесплатно</Button>
-        <div>Далее 2990 ₽ в месяц</div>
+        <img src="/images/rate_image2.png" alt="rate"
+             className='rate-jumbotron flex column center-row center-column'/>
       </div>
-      <div className='rate-footer flex column center-row center-column'>
-        <p className='rate-footer-text-one'>Телефон: +7 (968) 614-15-72</p>
-        <p className='rate-footer-text-two'>Связаться с нами:</p>
-        <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
-          <img alt="icon-telegram" src="/images/footer_icon_telegram.png" className="logo-telegram"/>
-        </a>
-        <p className='rate-footer-text-three'>© Zolotenkov 2022-2023</p>
+      <div className='rate-footer flex row center-row center-column'>
+        <div className='footer-group flex row center-row'>
+          <div className='rate-footer-block2 column'>
+            <p className='rate-footer-text-one'>Лазарь Олег Михайлович</p>
+            <p className='rate-footer-text-two'>Телефон: +7 (968) 614-15-72</p>
+            <p className='rate-footer-text-two'>ИНН: 7710140679</p>
+            <p className='rate-footer-text-two'>Email: aloneofnight@mail.ru</p>
+          </div>
+          <div className='footer-block flex column center-column'>
+            <p className='rate-footer-text-two'>Связаться с нами:</p>
+            <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
+              <img alt="icon-telegram" src="/images/footer_icon_telegram.png" className="rate-footer-telegram"/>
+            </a>
+            <p className='rate-footer-text-three'>© Zolotenkov 2022-2023</p>
+          </div>
+        </div>
       </div>
       <CreateModalRegistrationUser
         isOpen={isModalOpen}
