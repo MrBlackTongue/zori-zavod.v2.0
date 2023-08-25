@@ -20,14 +20,14 @@ export const FormMeter: React.FC<FormMeterProps> = ({
     >
       <Form.Item
         label="Название"
-        name="description"
+        name="title"
         rules={[{required: true, message: "введите описание"}]}
       >
         <Input placeholder='Название'/>
       </Form.Item>
       <Form.Item
         label="Тип счетчика"
-        name="meterTypeDto"
+        name="meterType"
         rules={[{required: true, message: 'выберите счетчик'}]}
       >
         <Select

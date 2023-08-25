@@ -3,7 +3,7 @@ import {Dayjs} from "dayjs";
 export type TypeEmployeeReport = {
   firstName?: string,
   lastName?: string,
-  title?: string,
+  operationTitle?: string,
   date?: Dayjs | string,
   hours?: number,
   fact?: number,

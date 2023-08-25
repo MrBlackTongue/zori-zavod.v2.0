@@ -21,8 +21,8 @@ export const UpdateDrawerMeterRecord: React.FC<UpdateDrawerProps<TypeMeterRecord
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
-  // Хук для управления полем meterDto
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'meterDto');
+  // Хук для управления полем meter
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'meter');
 
   // Функция для получения данных в дравер
   const handleGetMeterRecord = useCallback((): void => {
@@ -32,7 +32,7 @@ export const UpdateDrawerMeterRecord: React.FC<UpdateDrawerProps<TypeMeterRecord
           form.setFieldsValue({
             ...data,
             date: dayjs(data?.date),
-            meterDto: data?.meterDto?.id === 0 ? '' : data?.meterDto?.id,
+            meter: data?.meter?.id === 0 ? '' : data?.meter?.id,
           })
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error));

@@ -32,10 +32,10 @@ export const TableMeterRecord: React.FC<TableProps> = ({
     },
     {
       title: 'Счетчик',
-      dataIndex: 'meterDto',
-      key: 'meterDto',
-      render: (meterDto: TypeMeter) =>
-        meterDto !== null ? (<div>{meterDto.description}</div>) : null,
+      dataIndex: 'meter',
+      key: 'meter',
+      render: (meter: TypeMeter) =>
+        meter !== null ? (<div>{meter.title}</div>) : null,
     },
     {
       title: 'Показания',

@@ -30,7 +30,7 @@ export const UpdateDrawerMeter: React.FC<UpdateDrawerProps<TypeMeterFormValue>> 
         .then((data) => {
           form.setFieldsValue({
             ...data,
-            meterTypeDto: data?.meterTypeDto?.id === 0 ? '' : data?.meterTypeDto?.id,
+            meterType: data?.meterType?.id === 0 ? '' : data?.meterType?.id,
           })
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error));
