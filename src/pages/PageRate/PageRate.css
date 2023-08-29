@@ -133,9 +133,9 @@
 
   .rate-text {
     font-size: 18px;
-    line-height: 35px;
+    line-height: 33px;
     margin: 4vh 0 4vh;
-    width: 550px;
+    width: 500px;
   }
 
   .button-block {
@@ -297,11 +297,11 @@
   }
 
   .rate-text {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 35px;
     margin: 4vh auto 4vh;
-    width: 400px;
-    text-align: center;
+    width: 500px;
+    text-align: left;
   }
 
   .button-block {

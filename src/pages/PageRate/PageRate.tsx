@@ -94,11 +94,10 @@ export const PageRate = () => {
         <div className='rate-text-block flex  column'>
           <div className='rate-title'>Пробный период на 14 дней</div>
           <div className='rate-text'>
-            Мы уверены в эффективности нашего приложения и хотим, чтобы вы лично убедились в этом.
-            Поэтому предоставляем <span
-            className='text-bold'>бесплатный доступ к полному функционалу на 14 дней. </span>
-            После завершения пробного периода вы сможете
-            продолжить пользоваться нашим приложением за <span className='text-bold'>2990 рублей в месяц. </span>
+            Пользуйтесь всем функционалом нашего приложения <span
+            className='text-bold'>бесплатно в течение 14 дней. </span>
+            После пробного периода подписка составит<span className='text-bold'> 2990 рублей в месяц. </span>
+            Не упустите шанс оптимизировать ваш бизнес!
           </div>
           <div className='button-block flex column'>
             <Button type="primary" className='button-buy' onClick={() => setIsModalOpen(true)}>
