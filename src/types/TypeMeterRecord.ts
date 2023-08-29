@@ -5,14 +5,14 @@ export type TypeMeterRecord = {
   id?: number,
   value?: number,
   date?: Dayjs | string,
-  meterDto?: TypeMeter,
+  meter?: TypeMeter,
 }
 
 export type TypeMeterRecordFormValue = {
   id?: number,
   value?: number,
   date?: string,
-  meterDto?: number,
+  meter?: number,
 }
 
 export interface FormMeterRecordProps {

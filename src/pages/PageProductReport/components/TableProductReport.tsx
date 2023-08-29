@@ -21,7 +21,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
   // Колонки в таблице
   const columns: ColumnsType<TypeProductReport> = [
     {
-      title: "Операция",
+      title: "Название операции",
       dataIndex: "title",
       key: "title",
       width: 300,

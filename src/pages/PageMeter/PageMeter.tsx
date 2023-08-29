@@ -24,8 +24,8 @@ export const PageMeter: React.FC = () => {
   const handleCreateMeter = (values: TypeMeterFormValue): void => {
     const meter: TypeMeter = {
       serialNumber: values.serialNumber,
-      description: values.description,
-      meterTypeDto: {id: values.meterTypeDto},
+      title: values.title,
+      meterType: {id: values.meterType},
     };
     setIsModalOpen(false);
     void createMeter(meter);
@@ -43,8 +43,8 @@ export const PageMeter: React.FC = () => {
     const meter: TypeMeter = {
       id: selectedMeterId,
       serialNumber: values.serialNumber,
-      description: values.description,
-      meterTypeDto: {id: values.meterTypeDto},
+      title: values.title,
+      meterType: {id: values.meterType},
     };
     setIsDrawerOpen(false);
     void updateMeter(meter);

@@ -17,8 +17,8 @@ export const CreateModalMeterRecord: React.FC<CreateModalProps<TypeMeterRecordFo
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
-  // Хук для управления полем meterDto
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'meterDto');
+  // Хук для управления полем meter
+  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'meter');
 
   return (
     <Modal

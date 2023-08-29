@@ -30,7 +30,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
-      title: "Операция",
+      title: "Название операции",
       dataIndex: "title",
       key: "title",
       width: 300,
