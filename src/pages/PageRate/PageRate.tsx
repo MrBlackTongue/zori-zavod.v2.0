@@ -72,7 +72,7 @@ export const PageRate = () => {
     <div className='page-rate flex column center-column'>
       <div className='rate-header flex row center-row'>
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
-        <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
+        <Dropdown menu={{items}} trigger={['click']} className='rate-dropdown-button-menu'>
           <Space>
             <Button type="primary">
               <MenuOutlined/>
@@ -99,7 +99,7 @@ export const PageRate = () => {
             После пробного периода подписка составит<span className='text-bold'> 2990 рублей в месяц. </span>
             Не упустите шанс оптимизировать ваш бизнес!
           </div>
-          <div className='button-block flex column'>
+          <div className='flex column'>
             <Button type="primary" className='button-buy' onClick={() => setIsModalOpen(true)}>
               14 дней бесплатно
             </Button>
