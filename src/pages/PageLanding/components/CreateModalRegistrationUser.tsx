@@ -113,6 +113,9 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
           >
             Зарегистрироваться
           </Button>
+          <div className='registration-text-offer'>
+            Регистрируясь в сервисе Zolotenkov, вы принимаете условия договора-оферты
+          </div>
         </Form.Item>
       </Form>
     </Modal>
