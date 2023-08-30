@@ -69,8 +69,8 @@ export const PageRate = () => {
   ];
 
   return (
-    <div className='page-rate flex column center-column'>
-      <div className='rate-header flex row center-row'>
+    <div className='page-rate rate-flex rate-column rate-center-column'>
+      <div className='rate-header rate-flex rate-row rate-center-row'>
         <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Dropdown menu={{items}} trigger={['click']} className='rate-dropdown-button-menu'>
           <Space>
@@ -80,53 +80,53 @@ export const PageRate = () => {
           </Space>
         </Dropdown>
         <Space>
-          <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
+          <Button type="default" className='button-login rate-text-bold' onClick={handleLogin}>Войти</Button>
           <Button
             type="primary"
-            className='button-registration text-bold'
+            className='button-registration rate-text-bold'
             onClick={() => setIsModalOpen(true)}
           >
             Регистрация
           </Button>
         </Space>
       </div>
-      <div className='rate-block flex row center-row'>
-        <div className='rate-text-block flex  column'>
+      <div className='rate-block rate-flex rate-row rate-center-row'>
+        <div className='rate-text-block rate-flex  rate-column'>
           <div className='rate-title'>Пробный период на 14 дней</div>
           <div className='rate-text'>
             Пользуйтесь всем функционалом нашего приложения <span
-            className='text-bold'>бесплатно в течение 14 дней. </span>
-            После пробного периода подписка составит<span className='text-bold'> 2990 рублей в месяц. </span>
+            className='rate-text-bold'>бесплатно в течение 14 дней. </span>
+            После пробного периода подписка составит<span className='rate-text-bold'> 2990 рублей в месяц. </span>
             Не упустите шанс оптимизировать ваш бизнес!
           </div>
-          <div className='flex column'>
+          <div className='rate-flex rate-column'>
             <Button type="primary" className='button-buy' onClick={() => setIsModalOpen(true)}>
               14 дней бесплатно
             </Button>
-            <div className='mini-text center-text'>Далее 2990 ₽ в месяц</div>
+            <div className='mini-text rate-center-text'>Далее 2990 ₽ в месяц</div>
           </div>
         </div>
         <img src="/images/rate_image2.png" alt="rate"
-             className='rate-jumbotron flex column'/>
+             className='rate-jumbotron rate-flex rate-column'/>
       </div>
-      <div className='rate-footer flex column center-column'>
-        <div className='footer-group flex row center-row '>
-          <div className='rate-footer-block2 flex column '>
+      <div className='rate-footer rate-flex rate-column rate-center-column'>
+        <div className='footer-group rate-flex rate-row rate-center-row '>
+          <div className='rate-footer-block2 rate-flex rate-column '>
             <p className='rate-footer-text-two'>Лазарь Олег Михайлович</p>
             <p className='rate-footer-text-two'>ИНН: 7710140679</p>
           </div>
-          <div className='rate-footer-block flex column'>
+          <div className='rate-footer-block rate-flex rate-column'>
             <p className='rate-footer-text-two'>Email: support@zolotenkov.ru</p>
             <p className='rate-footer-text-two'>Телефон: +7 (968) 614-15-72</p>
           </div>
-          <div className='rate-footer-text-three flex column center-column'>
+          <div className='rate-footer-text-three rate-flex rate-column rate-center-column'>
             <p className='rate-footer-text-two'>Связаться с нами:</p>
             <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
               <img alt="icon-telegram" src="/images/footer_icon_telegram.png" className="rate-footer-telegram"/>
             </a>
           </div>
         </div>
-        <div className='rate-footer-block flex column'>
+        <div className='rate-footer-block rate-flex rate-column'>
         <p className='rate-footer-text-three'>© Zolotenkov 2022-2023</p>
         </div>
       </div>

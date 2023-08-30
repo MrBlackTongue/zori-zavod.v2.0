@@ -1,34 +1,34 @@
 @media (min-width: 1000px) {
 
-  .flex {
+  .rate-flex {
     display: flex;
   }
 
-  .column {
+  .rate-column {
     flex-direction: column;
   }
 
-  .row {
+  .rate-row {
     flex-direction: row;
   }
 
-  .center-row {
+  .rate-center-row {
     align-items: center;
   }
 
-  .center-column {
+  .rate-center-column {
     justify-content: center;
   }
 
-  .center-text {
+  .rate-center-text {
     text-align: center;
   }
 
-  .text-bold {
+  .rate-text-bold {
     font-weight: bold;
   }
 
-  .space-around {
+  .rate-space-around {
     justify-content: space-around;
   }
 
@@ -149,35 +149,35 @@
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
-  .flex {
+  .rate-flex {
     display: flex;
   }
 
-  .column {
+  .rate-column {
     flex-direction: column;
   }
 
-  .row {
+  .rate-row {
     flex-direction: row;
   }
 
-  .center-row {
+  .rate-center-row {
     align-items: center;
   }
 
-  .center-column {
+  .rate-center-column {
     justify-content: center;
   }
 
-  .center-text {
+  .rate-center-text {
     text-align: center;
   }
 
-  .text-bold {
+  .rate-text-bold {
     font-weight: bold;
   }
 
-  .space-around {
+  .rate-space-around {
     justify-content: space-around;
   }
 
@@ -296,35 +296,35 @@
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
-  .flex {
+  .rate-flex {
     display: flex;
   }
 
-  .column {
+  .rate-column {
     flex-direction: column;
   }
 
-  .row {
+  .rate-row {
     flex-direction: row;
   }
 
-  .center-row {
+  .rate-center-row {
     align-items: center;
   }
 
-  .center-column {
+  .rate-center-column {
     justify-content: center;
   }
 
-  .center-text {
+  .rate-center-text {
     text-align: center;
   }
 
-  .text-bold {
+  .rate-text-bold {
     font-weight: bold;
   }
 
-  .space-around {
+  .rate-space-around {
     justify-content: space-around;
   }
 
@@ -441,35 +441,35 @@
   }
 }
 @media (min-width: 63px) and (max-width: 575px) {
-  .flex {
+  .rate-flex {
     display: flex;
   }
 
-  .column {
+  .rate-column {
     flex-direction: column;
   }
 
-  .row {
+  .rate-row {
     flex-direction: row;
   }
 
-  .center-row {
+  .rate-center-row {
     align-items: center;
   }
 
-  .center-column {
+  .rate-center-column {
     justify-content: center;
   }
 
-  .center-text {
+  .rate-center-text {
     text-align: center;
   }
 
-  .text-bold {
+  .rate-text-bold {
     font-weight: bold;
   }
 
-  .space-around {
+  .rate-space-around {
     justify-content: space-around;
   }
 
