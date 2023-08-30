@@ -71,7 +71,7 @@ export const PageRate = () => {
   return (
     <div className='page-rate rate-flex rate-column rate-center-column'>
       <div className='rate-header rate-flex rate-row rate-center-row'>
-        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+        <img src="/images/header_logo.png" alt="Logo" className='logo' onClick={() => navigate('/')}/>
         <Dropdown menu={{items}} trigger={['click']} className='rate-dropdown-button-menu'>
           <Space>
             <Button type="primary">

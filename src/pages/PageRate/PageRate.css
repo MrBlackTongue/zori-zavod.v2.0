@@ -92,13 +92,14 @@
   }
 
   .rate-jumbotron {
-    width: 600px;
-    margin: 0 0 20px 20px;
+    width: 500px;
+    margin: 0 0 20px 12px;
   }
 
   .rate-footer {
     width: 100%;
     background-color: #f4f7f9;
+    /*border: solid red 2px;*/
   }
 
   .footer-group {

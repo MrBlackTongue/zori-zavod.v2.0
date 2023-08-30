@@ -76,7 +76,7 @@ export const PageLanding = () => {
   return (
     <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
-        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+        <img src="/images/header_logo.png" alt="Logo" className='logo' onClick={() => navigate('/')}/>
         <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
           <Space>
             <Button type="primary">
