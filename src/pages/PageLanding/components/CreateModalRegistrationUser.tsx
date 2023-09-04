@@ -55,10 +55,6 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
         <Form.Item
           name="email"
           rules={[
-            // {
-            //   type: 'email',
-            //   message: 'введите верный Email адрес',
-            // },
             {required: true, message: 'введите свой Email',},]}
         >
           <Input
@@ -115,7 +111,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
           </Button>
           <div className='registration-text-offer'>
             Регистрируясь в сервисе Zolotenkov, вы принимаете условия
-            <a href="" target="_blank" rel="noopener noreferrer"> договора-оферты</a>
+            <a href="/оферта.pdf" target="_blank" rel="noopener noreferrer"> договора-оферты</a>
           </div>
         </Form.Item>
       </Form>

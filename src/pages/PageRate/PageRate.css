@@ -99,7 +99,6 @@
   .rate-footer {
     width: 100%;
     background-color: #f4f7f9;
-    /*border: solid red 2px;*/
   }
 
   .footer-group {
@@ -479,11 +478,8 @@
   }
 
   .rate-header {
-    /*justify-content: space-between;*/
     height: 80px;
-    /*width: 300px;*/
     margin: 0 auto;
-    /*border: solid 2px purple;*/
   }
 
   .rate-dropdown-button-menu {
@@ -494,7 +490,6 @@
     width: 300px;
     margin: 9vh auto;
     flex-direction: column-reverse;
-    /*border: solid 2px blue;*/
   }
 
   .rate-text-block {
@@ -539,28 +534,23 @@
   .rate-footer {
     width: 100%;
     background-color: #f4f7f9;
-    /*border: solid 2px orange;*/
   }
 
   .footer-group {
     width: 300px;
     margin: 30px auto 10px;
-    /*justify-content: space-around;*/
     align-items: center;
-    /*border: solid 2px red;*/
     flex-direction: column;
   }
 
   .rate-footer-block {
     align-items: flex-start;
     margin: 0 auto;
-    /*border: solid 2px yellowgreen;*/
   }
 
   .rate-footer-block2 {
     align-items: flex-start;
     margin: 0 27px 0 0;
-    /*border: solid 2px yellowgreen;*/
   }
 
   .rate-footer-block3 {
@@ -577,7 +567,6 @@
 
   .rate-footer-text-two {
     font-size: 16px;
-    /*border: solid 2px yellowgreen;*/
   }
 
   .rate-footer-text-three {
