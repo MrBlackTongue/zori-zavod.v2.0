@@ -33,11 +33,22 @@ export const PageLanding = () => {
   };
 
   const handleRate = () => {
-    navigate('/Rate');
+    navigate('/rate');
   };
 
   // Выпадающее меню
   const items: MenuProps['items'] = [
+    {
+      label:
+        <Button
+          type="default"
+          onClick={handleRate}
+          className='dropdown-item'
+        >
+          Тарифы
+        </Button>,
+      key: "2",
+    },
     {
       label:
         <Button
@@ -60,23 +71,14 @@ export const PageLanding = () => {
         </Button>,
       key: "2",
     },
-    {
-      label:
-        <Button
-          type="default"
-          onClick={handleRate}
-          className='dropdown-item'
-        >
-          Тариф
-        </Button>,
-      key: "2",
-    },
   ];
 
   return (
     <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
-        <img src="/images/header_logo.png" alt="Logo" className='logo' onClick={() => navigate('/')}/>
+        <a href="/" rel="noopener noreferrer">
+        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+        </a>
         <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
           <Space>
             <Button type="primary">

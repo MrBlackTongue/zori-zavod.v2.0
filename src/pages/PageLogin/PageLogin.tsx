@@ -54,7 +54,9 @@ export const PageLogin: React.FC = () => {
   return (
     <div className='login-form-container'>
       <div className='login-header'>
-        <img src="/images/header_logo.png" alt="Logo" className='logo' onClick={() => navigate('/')}/>
+        <a href="/" rel="noopener noreferrer">
+        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+        </a>
       </div>
       <Form
         form={form}
