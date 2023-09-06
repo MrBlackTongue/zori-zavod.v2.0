@@ -43,9 +43,9 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
       <Form
         form={form}
         className="registration-form"
-        onFinish={() => {
-          handleSubmit()
-          navigate('/login');
+        onFinish={async () => {
+          await handleSubmit()
+          await navigate('/employee');
         }}
       >
         <Form.Item>
