@@ -4,15 +4,21 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import {Layout, theme,} from 'antd';
+import {Button, Layout, Space, theme,} from 'antd';
 import {MenuMain} from "./components/MenuMain/MenuMain";
 import {ContentRoutes} from "./components/ContentRoutes/ContentRoutes";
+import {useNavigate} from "react-router-dom";
 
 function App() {
   const {Header, Sider, Content} = Layout;
+  const navigate = useNavigate();
 
   const [collapsed, setCollapsed] = useState(false);
   const {token: {colorBgContainer}} = theme.useToken();
+
+  const handleAccount = () => {
+    navigate('/account');
+  };
 
   return (
     <div>
@@ -35,8 +41,13 @@ function App() {
           <MenuMain/>
         </Sider>
         <Layout className="site-layout" style={{marginLeft: collapsed ? 80 : 240}}>
-          <Header style={{padding: 0, background: colorBgContainer}}>
+          <Header style={{ display: "flex", flexDirection: 'row', padding: '20px 30px ',
+            justifyContent: 'space-between',alignContent: 'center' , background: colorBgContainer}}>
             {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
+              <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+              <Space>
+            <Button type='default' className='Account-button' onClick={handleAccount}>Личный кабинет</Button>
+              </Space>
           </Header>
           <Content className='context-style'>
             <ContentRoutes/>

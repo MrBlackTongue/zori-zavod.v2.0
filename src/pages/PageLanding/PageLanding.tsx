@@ -32,10 +32,6 @@ export const PageLanding = () => {
     navigate('/login');
   };
 
-  const handleRate = () => {
-    navigate('/Rate');
-  };
-
   // Выпадающее меню
   const items: MenuProps['items'] = [
     {
@@ -52,22 +48,11 @@ export const PageLanding = () => {
     {
       label:
         <Button
-          type="default"
+          type="primary"
           onClick={() => setIsModalOpen(true)}
           className='dropdown-item'
         >
           Регистрация
-        </Button>,
-      key: "2",
-    },
-    {
-      label:
-        <Button
-          type="default"
-          onClick={handleRate}
-          className='dropdown-item'
-        >
-          Тариф
         </Button>,
       key: "2",
     },
@@ -76,7 +61,7 @@ export const PageLanding = () => {
   return (
     <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
-        <img src="/images/header_logo.png" alt="Logo" className='logo' onClick={() => navigate('/')}/>
+        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
           <Space>
             <Button type="primary">
@@ -85,7 +70,6 @@ export const PageLanding = () => {
           </Space>
         </Dropdown>
         <Space>
-          <Button type="link"  size="large" className='rate-button' onClick={handleRate}>Тариф</Button>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
           <Button
             type="primary"

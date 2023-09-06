@@ -43,9 +43,9 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
       <Form
         form={form}
         className="registration-form"
-        onFinish={() => {
-          handleSubmit()
-          navigate('/login');
+        onFinish={async () => {
+          await handleSubmit()
+          await navigate('/employee');
         }}
       >
         <Form.Item>
@@ -55,6 +55,10 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
         <Form.Item
           name="email"
           rules={[
+            // {
+            //   type: 'email',
+            //   message: 'введите верный Email адрес',
+            // },
             {required: true, message: 'введите свой Email',},]}
         >
           <Input
@@ -109,10 +113,6 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
           >
             Зарегистрироваться
           </Button>
-          <div className='registration-text-offer'>
-            Регистрируясь в сервисе Zolotenkov, вы принимаете условия
-            <a href="/оферта.pdf" target="_blank" rel="noopener noreferrer"> договора-оферты</a>
-          </div>
         </Form.Item>
       </Form>
     </Modal>
