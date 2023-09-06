@@ -66,7 +66,6 @@ export const PageLogin: React.FC = () => {
         <Form.Item>
           <div className='title'>Вход</div>
         </Form.Item>
-
         <Form.Item
           name="login"
           rules={[{required: true, message: 'введите ваш логин'}]}
@@ -77,7 +76,6 @@ export const PageLogin: React.FC = () => {
             placeholder="Логин"
           />
         </Form.Item>
-
         <Form.Item
           name="password"
           rules={[{required: true, message: 'введите ваш пароль'}]}
