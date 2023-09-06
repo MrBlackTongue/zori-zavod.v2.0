@@ -55,7 +55,7 @@ export const PageLogin: React.FC = () => {
     <div className='login-form-container'>
       <div className='login-header'>
         <a href="/" rel="noopener noreferrer">
-        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+          <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         </a>
       </div>
       <Form
@@ -91,7 +91,6 @@ export const PageLogin: React.FC = () => {
             iconRender={iconRender}
           />
         </Form.Item>
-
         <Form.Item>
           <Button
             size="large"
@@ -102,17 +101,25 @@ export const PageLogin: React.FC = () => {
             Войти
           </Button>
         </Form.Item>
-
-        <Form.Item>
-          <Button
-            size="large"
-            type="link"
-            className="login-form-button"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Зарегистрироваться
-          </Button>
-        </Form.Item>
+        <div className='login-form-item'>
+          <Form.Item>
+            <a href="/" target="_blank" rel="noopener noreferrer" className='forget-button'>Забыли пароль?</a>
+          </Form.Item>
+          <Form.Item >
+            <Button
+              size="large"
+              type="link"
+              className="login-form-button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Регистрация
+            </Button>
+          </Form.Item>
+        </div>
+        <div className='registration-text-offer'>
+          Используя сервис Zolotenkov, вы принимаете условия
+          <a href="/oferta.pdf" target="_blank" rel="noopener noreferrer"> договора-оферты</a>
+        </div>
       </Form>
       <div className='login-footer'>
         <p className='login-footer-text-one'>Телефон: +7 (968) 614-15-72</p>

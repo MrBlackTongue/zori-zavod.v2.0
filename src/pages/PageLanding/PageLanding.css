@@ -24,8 +24,9 @@
   }
 
   .registration-text-offer {
-    font-size: 11px;
+    font-size: 12px;
     margin: 10px auto;
+    /*text-align: center;*/
   }
 
   .page-landing {

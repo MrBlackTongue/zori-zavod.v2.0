@@ -31,13 +31,17 @@ export const PageRate = () => {
     navigate('/login');
   };
 
+  const handleRate = () => {
+    navigate('/rate');
+  };
+
   // Выпадающее меню
   const items: MenuProps['items'] = [
     {
       label:
         <Button
           type="default"
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleRate}
           className='dropdown-item'
         >
           Тарифы
