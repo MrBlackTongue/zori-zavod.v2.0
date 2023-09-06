@@ -10,7 +10,9 @@
 
   .registration-title {
     text-align: center;
-    margin: 0 auto;
+    margin: 10px auto 0;
+    font-size: 30px;
+    font-weight: bold;
   }
 
   .registration-form-button {
@@ -283,7 +285,9 @@
 
   .registration-title {
     text-align: center;
-    margin: 0 auto;
+    margin: 10px auto 0;
+    font-size: 30px;
+    font-weight: bold;
   }
 
   .registration-form-button {
@@ -556,7 +560,9 @@
 
   .registration-title {
     text-align: center;
-    margin: 0 auto;
+    margin: 10px auto 0;
+    font-size: 30px;
+    font-weight: bold;
   }
 
   .registration-form-button {
