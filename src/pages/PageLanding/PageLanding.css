@@ -2,7 +2,7 @@
 
   .registration-form {
     width: 100%;
-    height: 500px;
+    height: 520px;
     background-color: #ffffff;
     padding: 20px 30px;
     border-radius: 20px;
@@ -10,7 +10,9 @@
 
   .registration-title {
     text-align: center;
-    margin: 0 auto;
+    margin: 10px auto 0;
+    font-size: 30px;
+    font-weight: bold;
   }
 
   .registration-form-button {
@@ -19,6 +21,28 @@
     width: 100%;
     font-size: 17px;
     font-weight: bold;
+  }
+
+  .registration-login {
+    font-size: 14px;
+    margin: 15px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .registration-login-text {
+    text-decoration: underline;
+  }
+
+  .registration-login:hover {
+    text-decoration: none;
+  }
+
+  .registration-text-offer {
+    font-size: 12px;
+    margin: 10px auto 15px;
   }
 
   .page-landing {
@@ -69,6 +93,12 @@
 
   .logo {
     height: 30px;
+  }
+
+  .rate-button {
+    width: 90px;
+    font-weight: bold;
+    height: 35px;
   }
 
   .button-login {
@@ -264,7 +294,7 @@
 
   .registration-form {
     width: 100%;
-    height: 500px;
+    height: 520px;
     background-color: #ffffff;
     padding: 20px 30px;
     border-radius: 20px;
@@ -272,7 +302,9 @@
 
   .registration-title {
     text-align: center;
-    margin: 0 auto;
+    margin: 10px auto 0;
+    font-size: 30px;
+    font-weight: bold;
   }
 
   .registration-form-button {
@@ -281,6 +313,28 @@
     width: 100%;
     font-size: 17px;
     font-weight: bold;
+  }
+
+  .registration-login {
+    font-size: 14px;
+    margin: 15px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .registration-login-text {
+    text-decoration: underline;
+  }
+
+  .registration-login:hover {
+    text-decoration: none;
+  }
+
+  .registration-text-offer {
+    font-size: 12px;
+    margin: 10px auto;
   }
 
   .page-landing {
@@ -340,6 +394,13 @@
 
   .dropdown-button-menu {
     margin-left: 430px;
+  }
+
+  .rate-button {
+    width: 100%;
+    font-weight: bold;
+    height: 35px;
+    display: none;
   }
 
   .button-registration {
@@ -526,14 +587,16 @@
 
   .registration-form {
     width: 100%;
-    height: 500px;
+    height: 520px;
     background-color: #ffffff;
     padding: 20px 30px;
   }
 
   .registration-title {
     text-align: center;
-    margin: 0 auto;
+    margin: 10px auto 0;
+    font-size: 30px;
+    font-weight: bold;
   }
 
   .registration-form-button {
@@ -542,6 +605,28 @@
     width: 100%;
     font-size: 17px;
     font-weight: bold;
+  }
+
+  .registration-login {
+    font-size: 14px;
+    margin: 15px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .registration-login-text {
+    text-decoration: underline;
+  }
+
+  .registration-login:hover {
+    text-decoration: none;
+  }
+
+  .registration-text-offer {
+    font-size: 11px;
+    margin: 10px auto;
   }
 
   .page-landing {
@@ -601,6 +686,13 @@
 
   .dropdown-button-menu {
     margin-left: 320px;
+  }
+
+  .rate-button {
+    width: 100%;
+    font-weight: bold;
+    height: 35px;
+    display: none;
   }
 
   .button-registration {
@@ -795,7 +887,7 @@
 
   .registration-form {
     width: 100%;
-    height: 450px;
+    height: 520px;
     background-color: #ffffff;
     padding: 10px 5px;
     border-radius: 10px;
@@ -804,6 +896,8 @@
   .registration-title {
     text-align: center;
     margin: 10px auto 0;
+    font-size: 30px;
+    font-weight: bold;
   }
 
   .registration-form-button {
@@ -812,6 +906,28 @@
     width: 100%;
     font-size: 17px;
     font-weight: bold;
+  }
+
+  .registration-login {
+    font-size: 14px;
+    margin: 15px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .registration-login-text {
+    text-decoration: underline;
+  }
+
+  .registration-login:hover {
+    text-decoration: none;
+  }
+
+  .registration-text-offer {
+    font-size: 11px;
+    margin: 10px auto;
   }
 
   .page-landing {
@@ -872,6 +988,13 @@
 
   .dropdown-button-menu {
     margin-left: 80px;
+  }
+
+  .rate-button {
+    width: 100%;
+    font-weight: bold;
+    height: 35px;
+    display: none;
   }
 
   .button-registration {

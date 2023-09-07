@@ -54,7 +54,9 @@ export const PageLogin: React.FC = () => {
   return (
     <div className='login-form-container'>
       <div className='login-header'>
-        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+        <a href="/" rel="noopener noreferrer">
+          <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+        </a>
       </div>
       <Form
         form={form}
@@ -64,7 +66,6 @@ export const PageLogin: React.FC = () => {
         <Form.Item>
           <div className='title'>Вход</div>
         </Form.Item>
-
         <Form.Item
           name="login"
           rules={[{required: true, message: 'введите ваш логин'}]}
@@ -75,7 +76,6 @@ export const PageLogin: React.FC = () => {
             placeholder="Логин"
           />
         </Form.Item>
-
         <Form.Item
           name="password"
           rules={[{required: true, message: 'введите ваш пароль'}]}
@@ -89,7 +89,6 @@ export const PageLogin: React.FC = () => {
             iconRender={iconRender}
           />
         </Form.Item>
-
         <Form.Item>
           <Button
             size="large"
@@ -100,17 +99,25 @@ export const PageLogin: React.FC = () => {
             Войти
           </Button>
         </Form.Item>
-
-        <Form.Item>
-          <Button
-            size="large"
-            type="link"
-            className="login-form-button"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Зарегистрироваться
-          </Button>
-        </Form.Item>
+        <div className='login-form-item'>
+          <Form.Item>
+            <a href="" rel="noopener noreferrer" className='forget-button'>Забыли пароль?</a>
+          </Form.Item>
+          <Form.Item >
+            <Button
+              size="large"
+              type="link"
+              className="login-form-button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Регистрация
+            </Button>
+          </Form.Item>
+        </div>
+        <div className='registration-text-offer'>
+          Используя сервис Zolotenkov, вы принимаете условия
+          <a href="/oferta.pdf" target="_blank" rel="noopener noreferrer"> договора-оферты</a>
+        </div>
       </Form>
       <div className='login-footer'>
         <p className='login-footer-text-one'>Телефон: +7 (968) 614-15-72</p>
