@@ -101,13 +101,8 @@ export const PageLogin: React.FC = () => {
         </Form.Item>
         <div className='login-form-item'>
           <Form.Item>
-            <Button
-              type="link"
-              onClick={(e) => e.preventDefault()}
-              className='forget-button'
-            >
-              Забыли пароль?
-            </Button>
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a href="#" rel="noopener noreferrer" className='forget-button'>Забыли пароль?</a>
           </Form.Item>
           <Form.Item >
             <Button
