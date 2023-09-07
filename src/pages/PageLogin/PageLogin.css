@@ -56,6 +56,7 @@
   .forget-button {
     width: 100%;
     font-size: 14px;
+    margin-left: 15px;
   }
 
   .registration-form-button {
