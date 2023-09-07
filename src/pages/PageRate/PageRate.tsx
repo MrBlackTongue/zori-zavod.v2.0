@@ -118,7 +118,7 @@ export const PageRate = () => {
         <div className='footer-group rate-flex rate-row rate-center-row '>
           <div className='rate-footer-block2 rate-flex rate-column '>
             <p className='rate-footer-text-two'>Лазарь Олег Михайлович</p>
-            <p className='rate-footer-text-two'>ИНН: 7710140679</p>
+            <p className='rate-footer-text-two'>ИНН: 143521547685</p>
           </div>
           <div className='rate-footer-block rate-flex rate-column'>
             <p className='rate-footer-text-two'>Email: support@zolotenkov.ru</p>
