@@ -29,9 +29,16 @@
     justify-content: center;
     max-width: 400px;
     width: 100%;
-    padding: 5vh 20px 12vh;
+    padding: 5vh 20px 10vh;
     background-color: #ffffff;
     margin: 5vh 0 5vh;
+  }
+
+  .login-form-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .title {
@@ -44,6 +51,12 @@
   .login-form-button {
     width: 100%;
     font-weight: bold;
+  }
+
+  .forget-button {
+    width: 100%;
+    font-size: 14px;
+    margin-left: 15px;
   }
 
   .registration-form-button {

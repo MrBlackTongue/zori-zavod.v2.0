@@ -31,8 +31,23 @@ export const PageRate = () => {
     navigate('/login');
   };
 
+  const handleRate = () => {
+    navigate('/rate');
+  };
+
   // Выпадающее меню
   const items: MenuProps['items'] = [
+    {
+      label:
+        <Button
+          type="default"
+          onClick={handleRate}
+          className='dropdown-item'
+        >
+          Тарифы
+        </Button>,
+      key: "1",
+    },
     {
       label:
         <Button
@@ -42,7 +57,7 @@ export const PageRate = () => {
         >
           Войти
         </Button>,
-      key: "1",
+      key: "2",
     },
     {
       label:
@@ -53,25 +68,16 @@ export const PageRate = () => {
         >
           Регистрация
         </Button>,
-      key: "2",
-    },
-    {
-      label:
-        <Button
-          type="default"
-          onClick={() => setIsModalOpen(true)}
-          className='dropdown-item'
-        >
-          Тариф
-        </Button>,
-      key: "2",
+      key: "3",
     },
   ];
 
   return (
     <div className='page-rate rate-flex rate-column rate-center-column'>
       <div className='rate-header rate-flex rate-row rate-center-row'>
-        <img src="/images/header_logo.png" alt="Logo" className='logo' onClick={() => navigate('/')}/>
+        <a href="/" rel="noopener noreferrer">
+          <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+        </a>
         <Dropdown menu={{items}} trigger={['click']} className='rate-dropdown-button-menu'>
           <Space>
             <Button type="primary">
@@ -106,8 +112,7 @@ export const PageRate = () => {
             <div className='mini-text rate-center-text'>Далее 2990 ₽ в месяц</div>
           </div>
         </div>
-        <img src="/images/rate_image2.png" alt="rate"
-             className='rate-jumbotron rate-flex rate-column'/>
+        <img src="/images/rate_image.png" alt="rate" className='rate-jumbotron rate-flex rate-column'/>
       </div>
       <div className='rate-footer rate-flex rate-column rate-center-column'>
         <div className='footer-group rate-flex rate-row rate-center-row '>
@@ -127,7 +132,7 @@ export const PageRate = () => {
           </div>
         </div>
         <div className='rate-footer-block rate-flex rate-column'>
-        <p className='rate-footer-text-three'>© Zolotenkov 2022-2023</p>
+          <p className='rate-footer-text-three'>© Zolotenkov 2022-2023</p>
         </div>
       </div>
       <CreateModalRegistrationUser

@@ -7,7 +7,7 @@ import {
   MailOutlined,
   PhoneOutlined
 } from '@ant-design/icons';
-import {Button, Form, Input, Typography, Modal} from 'antd';
+import {Button, Form, Input, Modal} from 'antd';
 import {useNavigate} from "react-router-dom";
 import '../../../App.css'
 import {CreateModalProps, TypeUserProfile} from "../../../types";
@@ -18,7 +18,6 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
                                                                                            createItem,
                                                                                            onCancel,
                                                                                          }) => {
-  const {Title} = Typography;
   const [form] = Form.useForm();
 
   const navigate = useNavigate();
@@ -49,7 +48,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
         }}
       >
         <Form.Item>
-          <Title level={1} className='registration-title'>Регистрация</Title>
+          <div className='registration-title'>Регистрация</div>
         </Form.Item>
 
         <Form.Item
@@ -113,6 +112,13 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
           >
             Зарегистрироваться
           </Button>
+          <div className='registration-login'>
+          <a href="/login" className='registration-login-text'>У меня уже есть аккаунт</a>
+          </div>
+          <div className='registration-text-offer'>
+            Регистрируясь в сервисе Zolotenkov, вы принимаете условия
+            <a href="/oferta.pdf" target="_blank" rel="noopener noreferrer"> договора-оферты</a>
+          </div>
         </Form.Item>
       </Form>
     </Modal>

@@ -243,6 +243,7 @@
   .rate-jumbotron {
     width: 500px;
   }
+
   .rate-footer {
     width: 100%;
     background-color: #f4f7f9;
@@ -342,7 +343,6 @@
   }
 
 
-
   .rate-block {
     width: 500px;
     margin: 9vh auto;
@@ -440,6 +440,7 @@
     filter: brightness(80%);
   }
 }
+
 @media (min-width: 63px) and (max-width: 575px) {
   .rate-flex {
     display: flex;
