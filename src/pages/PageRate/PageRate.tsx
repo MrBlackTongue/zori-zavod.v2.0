@@ -46,7 +46,7 @@ export const PageRate = () => {
         >
           Тарифы
         </Button>,
-      key: "2",
+      key: "1",
     },
     {
       label:
@@ -57,7 +57,7 @@ export const PageRate = () => {
         >
           Войти
         </Button>,
-      key: "1",
+      key: "2",
     },
     {
       label:
@@ -68,7 +68,7 @@ export const PageRate = () => {
         >
           Регистрация
         </Button>,
-      key: "2",
+      key: "3",
     },
   ];
 

@@ -47,7 +47,7 @@ export const PageLanding = () => {
         >
           Тарифы
         </Button>,
-      key: "2",
+      key: "1",
     },
     {
       label:
@@ -58,7 +58,7 @@ export const PageLanding = () => {
         >
           Войти
         </Button>,
-      key: "1",
+      key: "2",
     },
     {
       label:
@@ -69,7 +69,7 @@ export const PageLanding = () => {
         >
           Регистрация
         </Button>,
-      key: "2",
+      key: "3",
     },
   ];
 
