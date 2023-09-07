@@ -2,7 +2,7 @@
 
   .registration-form {
     width: 100%;
-    height: 500px;
+    height: 520px;
     background-color: #ffffff;
     padding: 20px 30px;
     border-radius: 20px;
@@ -24,18 +24,17 @@
   }
 
   .registration-login {
-    font-size: 12px;
-    margin: 10px auto;
-    width: 300px;
+    font-size: 14px;
+    margin: 15px auto;
     align-items: center;
     justify-content: center;
-    /*border: red solid 2px;*/
     text-align: center;
+    font-weight: bold;
   }
 
   .registration-text-offer {
     font-size: 12px;
-    margin: 10px auto;
+    margin: 10px auto 15px;
     /*text-align: center;*/
   }
 
@@ -288,7 +287,7 @@
 
   .registration-form {
     width: 100%;
-    height: 500px;
+    height: 520px;
     background-color: #ffffff;
     padding: 20px 30px;
     border-radius: 20px;
@@ -309,8 +308,17 @@
     font-weight: bold;
   }
 
+  .registration-login {
+    font-size: 14px;
+    margin: 15px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+
   .registration-text-offer {
-    font-size: 11px;
+    font-size: 12px;
     margin: 10px auto;
   }
 
@@ -564,7 +572,7 @@
 
   .registration-form {
     width: 100%;
-    height: 500px;
+    height: 520px;
     background-color: #ffffff;
     padding: 20px 30px;
   }
@@ -581,6 +589,15 @@
     height: 55px;
     width: 100%;
     font-size: 17px;
+    font-weight: bold;
+  }
+
+  .registration-login {
+    font-size: 14px;
+    margin: 15px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     font-weight: bold;
   }
 
@@ -847,7 +864,7 @@
 
   .registration-form {
     width: 100%;
-    height: 500px;
+    height: 520px;
     background-color: #ffffff;
     padding: 10px 5px;
     border-radius: 10px;
@@ -865,6 +882,15 @@
     height: 55px;
     width: 100%;
     font-size: 17px;
+    font-weight: bold;
+  }
+
+  .registration-login {
+    font-size: 14px;
+    margin: 15px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     font-weight: bold;
   }
 

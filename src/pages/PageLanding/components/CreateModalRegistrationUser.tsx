@@ -112,7 +112,9 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
           >
             Зарегистрироваться
           </Button>
-          <a href="/login" className='registration-login'>У меня уже есть аккаунт</a>
+          <div className='registration-login'>
+          <a href="/login" >У меня уже есть аккаунт</a>
+          </div>
           <div className='registration-text-offer'>
             Регистрируясь в сервисе Zolotenkov, вы принимаете условия
             <a href="/oferta.pdf" target="_blank" rel="noopener noreferrer"> договора-оферты</a>
