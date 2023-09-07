@@ -32,6 +32,14 @@
     font-weight: bold;
   }
 
+  .registration-login-text {
+    text-decoration: underline;
+  }
+
+  .registration-login:hover {
+    text-decoration: none;
+  }
+
   .registration-text-offer {
     font-size: 12px;
     margin: 10px auto 15px;
@@ -317,6 +325,14 @@
     font-weight: bold;
   }
 
+  .registration-login-text {
+    text-decoration: underline;
+  }
+
+  .registration-login:hover {
+    text-decoration: none;
+  }
+
   .registration-text-offer {
     font-size: 12px;
     margin: 10px auto;
@@ -599,6 +615,14 @@
     justify-content: center;
     text-align: center;
     font-weight: bold;
+  }
+
+  .registration-login-text {
+    text-decoration: underline;
+  }
+
+  .registration-login:hover {
+    text-decoration: none;
   }
 
   .registration-text-offer {
@@ -892,6 +916,14 @@
     justify-content: center;
     text-align: center;
     font-weight: bold;
+  }
+
+  .registration-login-text {
+    text-decoration: underline;
+  }
+
+  .registration-login:hover {
+    text-decoration: none;
   }
 
   .registration-text-offer {
