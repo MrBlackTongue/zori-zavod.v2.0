@@ -1,28 +1,25 @@
-import React, {useCallback} from 'react';
-import {Button, Form, Input, Modal} from 'antd';
-import {useNavigate} from "react-router-dom";
-import '../../../App.css'
-import {CreateModalProps, TypeAccount} from "../../../types";
+import React from 'react';
+import {Form, InputNumber, Modal} from 'antd';
+import {CreateModalProps, Payment} from "../../../types";
 import {useFormHandler} from "../../../hooks";
-export const CreateModalAccount: React.FC<CreateModalProps<TypeAccount>> = ({
-                                                                                           isOpen,
-                                                                                           createItem,
-                                                                                           onCancel,
-                                                                                         }) => {
+
+export const CreateModalAccount: React.FC<CreateModalProps<Payment>> = ({
+                                                                              isOpen,
+                                                                              createItem,
+                                                                              onCancel,
+                                                                            }) => {
   const [form] = Form.useForm();
 
-  const navigate = useNavigate();
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   return (
     <Modal
-      title={`Новый платёж`}
-      okText={'Сохранить'}
-      cancelText={'Отмена'}
+      title="Новый платёж"
+      okText={"Продолжить"}
+      cancelText={"Отмена"}
       width={530}
-      footer={null}
       centered
       open={isOpen}
       onOk={handleSubmit}
@@ -30,31 +27,20 @@ export const CreateModalAccount: React.FC<CreateModalProps<TypeAccount>> = ({
     >
       <Form
         form={form}
-        // className="registration-form"
-        style={{height: '120px', marginTop: '30px'}}
-        onFinish={async () => {
-          await handleSubmit()
-          await navigate('/employee');
-        }}
+        style={{ height: '120px', marginTop: '30px' }}
       >
-      <Form.Item
-        name="sum"
-        rules={[{required: true, message: 'введите сумму пополнения'}]}
-      >
-        <Input
-          size="large"
-          // prefix={<LockOutlined className="input-prefix-icon"/>}
-          placeholder="Сумма пополнения"
-        />
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="registration-form-button"
+        <Form.Item
+          name="sum"
+          rules={[{required: true, message: 'введите сумму пополнения'}]}
         >
-          Продолжить
-        </Button>
-      </Form.Item>
+          <InputNumber
+            min={1}
+            size="large"
+            placeholder="Сумма пополнения"
+            style={{width: '100%'}}
+          />
+        </Form.Item>
       </Form>
-  </Modal>
-);
-                                                                                         }
+    </Modal>
+  );
+};

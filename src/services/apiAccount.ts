@@ -1,5 +1,5 @@
 import { PAYMENT, SUBSCRIPTION} from "./apiEndpoints";
-import {TypeApiResponse, TypeAccount} from "../types";
+import { PaymentResponse} from "../types";
 import {
   handleErrorResponseMessage,
 } from '../utils';
@@ -15,8 +15,9 @@ export function getBalance(): Promise<number> {
 }
 
 // Пополнить баланс пользователя
-export function replenishBalance(amount: number): Promise<any> { // Замените "any" на реальный тип ответа
-  return api.post('/path/to/replenish', { amount })  // Замените на реальный путь к API
+export function replenishBalance(data: number): Promise<PaymentResponse> {
+  console.log('data', data);
+  return api.post(PAYMENT, data, { headers: { 'Content-Type': 'application/json' }})
     .then(response => response.data)
     .catch(handleErrorResponseMessage);
 }

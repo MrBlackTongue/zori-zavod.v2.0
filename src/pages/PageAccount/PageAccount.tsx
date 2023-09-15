@@ -1,17 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { Typography, Space, Button } from 'antd';
 import '../../App.css';
-import {getBalance, registrationUser, replenishBalance} from "../../services";
-import {CreateModalRegistrationUser} from "../PageLanding/components/CreateModalRegistrationUser";
-import {TypeAccount, TypeUserProfile} from "../../types";
+import { getBalance, replenishBalance} from "../../services";
+import {Payment} from "../../types";
 import {CreateModalAccount} from "./components/CreateModalAccount";
 
 export const PageAccount: React.FC = () => {
   const { Title } = Typography;
   const [balance, setBalance] = useState(0);
-
-  // Сумма для пополнения
-  const [amountToReplenish, setAmountToReplenish] = useState(0);
 
   // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -28,20 +24,22 @@ export const PageAccount: React.FC = () => {
   }, []);
 
   // Создать новый платёж
-  const handleCreateNewPayment = (values: TypeAccount): void => {
-    // const payment: TypeUserProfile = {
-    //   payment: values.payment,
-    // }
-    // setIsModalOpen(false)
-    // void replenishBalance(payment)
-  }
-
-  // const replenishBalance = () => {
-  //   const amountToReplenish = 10; // или получите это значение из состояния/формы
-  //   replenishBalance(amountToReplenish)
-  //     .then((newBalance) => setBalance(newBalance))  // Предположим, что новый баланс возвращается в ответе
-  //     .catch((error) => console.error("Ошибка при пополнении баланса: ", error));
-  // };
+  const handleReplenish = (value: Payment) => {
+    setIsModalOpen(false)
+    if (value?.sum !== undefined) {
+      replenishBalance(value.sum)
+        .then(response => {
+          console.log("Ответ сервера:", response);
+          if (response.confirmation && response.confirmation.confirmation_url) {
+            // Перенаправьте пользователя на страницу платежа
+            window.location.href = response.confirmation.confirmation_url;
+          } else {
+            console.error("Не удалось получить URL для перенаправления.");
+          }
+        })
+        .catch(error => console.error("Ошибка при пополнении баланса:", error));
+    }
+  };
 
   return (
     <div style={{ display: 'grid' }}>
@@ -55,7 +53,7 @@ export const PageAccount: React.FC = () => {
       </Button>
       <CreateModalAccount
       isOpen={isModalOpen}
-       createItem={handleCreateNewPayment}
+      createItem={handleReplenish}
       onCancel={() => setIsModalOpen(false)}
     />
     </div>

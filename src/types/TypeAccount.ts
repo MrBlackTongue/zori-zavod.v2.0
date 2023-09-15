@@ -1,21 +1,17 @@
-export type TypeAccount = {
-  id?: number;
-  customer?: TypeCustomer;
-  plan?: TypePlan;
-  // startDate?: ;
-  // endDate?: ;
+export interface SubscriptionResponse {
+
 }
 
-export type TypeCustomer = {
-  id?: number;
-  title?: string;
-  mainEmailId?: number;
-  balance?: number;
+export type Payment = {
+  sum?: number;
 }
 
-export type TypePlan = {
-  id?: number;
-  title?: string;
-  price?: number;
-  durationDays?: number;
+export interface PaymentResponse {
+  id?: string;
+  status?: string;
+  confirmation?: {
+    type?: string;
+    return_url?: string;
+    confirmation_url?: string;
+  }
 }
