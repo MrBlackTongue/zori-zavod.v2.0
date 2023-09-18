@@ -29,6 +29,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       window.location.assign('/login');
     } else if (error.response?.status === 402 && currentPath !== '/account') {
+      localStorage.setItem('redirectedDueToUnpaidSubscription', 'true');
       window.location.assign('/account');
     }
     return Promise.reject(error);

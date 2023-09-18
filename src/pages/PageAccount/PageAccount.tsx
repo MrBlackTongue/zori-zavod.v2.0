@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Typography, Space, Button } from 'antd';
+import { Typography, Space, Button, notification } from 'antd';
 import '../../App.css';
 import {getBalance, getLogin, replenishBalance} from "../../services";
 import {Payment} from "../../types";
@@ -12,6 +12,25 @@ export const PageAccount: React.FC = () => {
 
   // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // const [showSubscriptionNotice, setShowSubscriptionNotice] = useState(false);
+
+  useEffect(() => {
+    const redirectedDueToUnpaidSubscription = localStorage.getItem('redirectedDueToUnpaidSubscription');
+    if (redirectedDueToUnpaidSubscription === 'true') {
+      // setShowSubscriptionNotice(true); // если вам нужно этот флаг
+      notification.open({
+        message: 'Внимание',
+        description: 'Вам необходимо оплатить подписку!',
+        placement: 'topRight',
+        style: {
+          marginLeft: '-60vw',
+          marginTop: 50
+        },
+      });
+      localStorage.removeItem('redirectedDueToUnpaidSubscription'); // очищаем флаг
+    }
+  }, []);
 
   //текущий логин
   useEffect(() => {
@@ -40,7 +59,6 @@ export const PageAccount: React.FC = () => {
     if (value?.sum !== undefined) {
       replenishBalance(value.sum)
         .then(response => {
-          console.log("Ответ сервера:", response);
           if (response.confirmation && response.confirmation.confirmation_url) {
             window.location.href = response.confirmation.confirmation_url;
           } else {
@@ -59,6 +77,7 @@ export const PageAccount: React.FC = () => {
       </div>
       <p>Учетная запись: {userName}</p>
       <p>Текущий баланс: {balance} Руб</p>
+      {/*{showSubscriptionNotice && <p>Внимание: Вам необходимо оплатить подписку!</p>}*/}
       <Button type="primary" className='Pay-button' onClick={() => setIsModalOpen(true)}>
         Пополнить
       </Button>
