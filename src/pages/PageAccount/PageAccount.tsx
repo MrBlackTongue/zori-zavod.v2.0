@@ -1,18 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import { Typography, Space, Button } from 'antd';
 import '../../App.css';
-import { getBalance, replenishBalance} from "../../services";
+import {getBalance, getLogin, replenishBalance} from "../../services";
 import {Payment} from "../../types";
 import {CreateModalAccount} from "./components/CreateModalAccount";
 
 export const PageAccount: React.FC = () => {
   const { Title } = Typography;
   const [balance, setBalance] = useState(0);
+  const [userName, setUserName] = useState<string>('');
 
   // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  //текущий баланс
+  //текущий логин
+  useEffect(() => {
+    getLogin()
+      .then((data) => {
+        setUserName(data);
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+  }, []);
+
   useEffect(() => {
     getBalance()
       .then((data) => {
@@ -31,7 +42,6 @@ export const PageAccount: React.FC = () => {
         .then(response => {
           console.log("Ответ сервера:", response);
           if (response.confirmation && response.confirmation.confirmation_url) {
-            // Перенаправьте пользователя на страницу платежа
             window.location.href = response.confirmation.confirmation_url;
           } else {
             console.error("Не удалось получить URL для перенаправления.");
@@ -47,6 +57,7 @@ export const PageAccount: React.FC = () => {
         <Title level={3}>Личный кабинет</Title>
         <Space></Space>
       </div>
+      <p>Учетная запись: {userName}</p>
       <p>Текущий баланс: {balance} Руб</p>
       <Button type="primary" className='Pay-button' onClick={() => setIsModalOpen(true)}>
         Пополнить
