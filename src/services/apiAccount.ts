@@ -1,8 +1,5 @@
-import { PAYMENT, SUBSCRIPTION} from "./apiEndpoints";
-import {PaymentResponse} from "../types";
-import {
-  handleErrorResponseMessage,
-} from '../utils';
+import {PAYMENT, SUBSCRIPTION} from "./apiEndpoints";
+import {handleErrorResponseMessage,} from '../utils';
 import {api} from "./api";
 
 // Получить текущий баланс пользователя
@@ -24,7 +21,7 @@ export function getLogin(): Promise<string> {
 }
 
 // Пополнить баланс пользователя
-export function replenishBalance(data: number): Promise<PaymentResponse> {
+export function replenishBalance(data: number): Promise<string> {
   return api.post(PAYMENT, data, { headers: { 'Content-Type': 'application/json' }})
     .then(response => response.data)
     .catch(handleErrorResponseMessage);

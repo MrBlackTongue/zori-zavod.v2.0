@@ -31,5 +31,5 @@ export const REPORT = '/report';
 export const COST_PRICE = '/cost-price';
 export const REGISTRATION = '/registration';
 export const WRITE_OFF = '/write-off';
-export const PAYMENT = '/payment/2';
+export const PAYMENT = '/payment';
 export const SUBSCRIPTION = '/subscription';
