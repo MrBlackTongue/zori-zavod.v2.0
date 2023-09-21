@@ -1,9 +1,9 @@
 import React from 'react';
 import {Form, InputNumber, Modal} from 'antd';
-import {CreateModalProps, Payment} from "../../../types";
+import {CreateModalProps, TypePayment} from "../../../types";
 import {useFormHandler} from "../../../hooks";
 
-export const ReplenishBalanceModal: React.FC<CreateModalProps<Payment>> = ({
+export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePayment>> = ({
                                                                              isOpen,
                                                                              createItem,
                                                                              onCancel,

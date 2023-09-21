@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Typography, Space, Button, notification} from 'antd';
 import '../../App.css';
 import {getUserInfo, replenishBalance} from "../../services";
-import {Payment} from "../../types";
+import {TypePayment} from "../../types";
 import {ReplenishBalanceModal} from "./components/ReplenishBalanceModal";
+import {TableUserProfile} from "./components/TableUserProfile";
 
 export const PageUserProfile: React.FC = () => {
   const {Title} = Typography;
@@ -12,11 +13,12 @@ export const PageUserProfile: React.FC = () => {
   const [balance, setBalance] = useState<number>(0);
   const [userName, setUserName] = useState<string>('');
 
-  // Открыть закрыть модальное окно
+  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  const [isUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Создать новый платёж
-  const handleReplenish = (value: Payment) => {
+  const handleReplenish = (value: TypePayment) => {
     setIsModalOpen(false)
     if (value?.sum !== undefined) {
       replenishBalance(value.sum)
@@ -78,9 +80,12 @@ export const PageUserProfile: React.FC = () => {
       </div>
       <p>Учетная запись: {userName}</p>
       <p>Текущий баланс: {balance} Руб</p>
-      <Button type="primary" className='pay-button' onClick={() => setIsModalOpen(true)}>
+      <Button type="primary" className='pay-button'  onClick={() => setIsModalOpen(true)}>
         Пополнить
       </Button>
+      <TableUserProfile
+        isUpdateTable={isUpdateTable}
+      />
       <ReplenishBalanceModal
         isOpen={isModalOpen}
         createItem={handleReplenish}
