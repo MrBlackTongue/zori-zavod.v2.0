@@ -41,13 +41,15 @@ function App() {
           <MenuMain/>
         </Sider>
         <Layout className="site-layout" style={{marginLeft: collapsed ? 80 : 240}}>
-          <Header style={{ display: "flex", flexDirection: 'row', padding: '20px 30px ',
-            justifyContent: 'space-between',alignContent: 'center' , background: colorBgContainer}}>
+          <Header style={{
+            display: "flex", flexDirection: 'row', padding: '20px 30px ',
+            justifyContent: 'space-between', alignContent: 'center', background: colorBgContainer
+          }}>
             {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
-              <img src="/images/header_logo.png" alt="Logo" className='logo'/>
-              <Space>
-            <Button type='default' className='Account-button' onClick={handleAccount}>Личный кабинет</Button>
-              </Space>
+            <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+            <Space>
+              <Button type='default' className='Account-button' onClick={handleAccount}>Личный кабинет</Button>
+            </Space>
           </Header>
           <Content className='context-style'>
             <ContentRoutes/>

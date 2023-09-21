@@ -1,19 +1,37 @@
 import React, {useEffect, useState} from 'react';
-import { Typography, Space, Button, notification } from 'antd';
+import {Typography, Space, Button, notification} from 'antd';
 import '../../App.css';
 import {getBalance, getLogin, replenishBalance} from "../../services";
 import {Payment} from "../../types";
-import {CreateModalAccount} from "./components/CreateModalAccount";
+import {ReplenishBalanceModal} from "./components/ReplenishBalanceModal";
 
-export const PageAccount: React.FC = () => {
-  const { Title } = Typography;
-  const [balance, setBalance] = useState(0);
+export const PageUserProfile: React.FC = () => {
+  const {Title} = Typography;
+
+  // Состояние текущего баланса
+  const [balance, setBalance] = useState<number>(0);
   const [userName, setUserName] = useState<string>('');
 
   // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  //всплывающее окно с сообщением
+  // Создать новый платёж
+  const handleReplenish = (value: Payment) => {
+    setIsModalOpen(false)
+    if (value?.sum !== undefined) {
+      replenishBalance(value.sum)
+        .then(response => {
+          if (response) {
+            window.location.href = response;
+          } else {
+            console.error("Не удалось получить URL для перенаправления");
+          }
+        })
+        .catch(error => console.error("Ошибка при пополнении баланса:", error));
+    }
+  };
+
+  // Отобразить всплывающее окно с сообщением
   useEffect(() => {
     const redirectedDueToUnpaidSubscription = localStorage.getItem('redirectedDueToUnpaidSubscription');
     if (redirectedDueToUnpaidSubscription === 'true') {
@@ -26,11 +44,11 @@ export const PageAccount: React.FC = () => {
           marginTop: 50
         },
       });
-      localStorage.removeItem('redirectedDueToUnpaidSubscription'); // очищаем флаг
+      localStorage.removeItem('redirectedDueToUnpaidSubscription');
     }
   }, []);
 
-  //текущий логин
+  // Отобразить текущий логин
   useEffect(() => {
     getLogin()
       .then((data) => {
@@ -41,7 +59,7 @@ export const PageAccount: React.FC = () => {
       });
   }, []);
 
-  //текущий баланс
+  // Отобразить текущий баланс
   useEffect(() => {
     getBalance()
       .then((data) => {
@@ -52,38 +70,22 @@ export const PageAccount: React.FC = () => {
       });
   }, []);
 
-  // Создать новый платёж
-  const handleReplenish = (value: Payment) => {
-    setIsModalOpen(false)
-    if (value?.sum !== undefined) {
-      replenishBalance(value.sum)
-        .then(response => {
-          if (response) {
-            window.location.href = response;
-          } else {
-            console.error("Не удалось получить URL для перенаправления.");
-          }
-        })
-        .catch(error => console.error("Ошибка при пополнении баланса:", error));
-    }
-  };
-
   return (
-    <div style={{ display: 'grid' }}>
+    <div style={{display: 'grid'}}>
       <div className='centerTitle'>
         <Title level={3}>Личный кабинет</Title>
         <Space></Space>
       </div>
       <p>Учетная запись: {userName}</p>
       <p>Текущий баланс: {balance} Руб</p>
-      <Button type="primary" className='Pay-button' onClick={() => setIsModalOpen(true)}>
+      <Button type="primary" className='pay-button' onClick={() => setIsModalOpen(true)}>
         Пополнить
       </Button>
-      <CreateModalAccount
-      isOpen={isModalOpen}
-      createItem={handleReplenish}
-      onCancel={() => setIsModalOpen(false)}
-    />
+      <ReplenishBalanceModal
+        isOpen={isModalOpen}
+        createItem={handleReplenish}
+        onCancel={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

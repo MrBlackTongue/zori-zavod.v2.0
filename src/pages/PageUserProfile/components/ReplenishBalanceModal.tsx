@@ -3,13 +3,12 @@ import {Form, InputNumber, Modal} from 'antd';
 import {CreateModalProps, Payment} from "../../../types";
 import {useFormHandler} from "../../../hooks";
 
-export const CreateModalAccount: React.FC<CreateModalProps<Payment>> = ({
-                                                                              isOpen,
-                                                                              createItem,
-                                                                              onCancel,
-                                                                            }) => {
+export const ReplenishBalanceModal: React.FC<CreateModalProps<Payment>> = ({
+                                                                             isOpen,
+                                                                             createItem,
+                                                                             onCancel,
+                                                                           }) => {
   const [form] = Form.useForm();
-
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
@@ -27,16 +26,18 @@ export const CreateModalAccount: React.FC<CreateModalProps<Payment>> = ({
     >
       <Form
         form={form}
-        style={{ height: '120px', marginTop: '30px' }}
+        style={{height: '120px', marginTop: '30px'}}
       >
         <Form.Item
           name="sum"
+          initialValue={500}
           rules={[{required: true, message: 'введите сумму пополнения'}]}
         >
           <InputNumber
             min={1}
             size="large"
-            placeholder="Сумма пополнения"
+            step={100}
+            placeholder="Сумма пополнения в рублях"
             style={{width: '100%'}}
           />
         </Form.Item>
