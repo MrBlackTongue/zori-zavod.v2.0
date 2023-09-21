@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Typography, Space, Button, notification} from 'antd';
 import '../../App.css';
-import {getBalance, getLogin, replenishBalance} from "../../services";
+import {getUserInfo, replenishBalance} from "../../services";
 import {Payment} from "../../types";
 import {ReplenishBalanceModal} from "./components/ReplenishBalanceModal";
 
@@ -50,9 +50,9 @@ export const PageUserProfile: React.FC = () => {
 
   // Отобразить текущий логин
   useEffect(() => {
-    getLogin()
+    getUserInfo()
       .then((data) => {
-        setUserName(data);
+        setUserName(data.customer.title);
       })
       .catch((error) => {
         console.log("Error: ", error);
@@ -61,9 +61,9 @@ export const PageUserProfile: React.FC = () => {
 
   // Отобразить текущий баланс
   useEffect(() => {
-    getBalance()
+    getUserInfo()
       .then((data) => {
-        setBalance(data);
+        setBalance(data.customer.balance);
       })
       .catch((error) => {
         console.log("Error: ", error);

@@ -21,17 +21,18 @@ export const api = axios.create({
 // });
 
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
-    const currentPath = window.location.pathname;
-    if (error.response?.status === 401) {
-      window.location.assign('/login');
-    } else if (error.response?.status === 402 && currentPath !== '/account') {
-      localStorage.setItem('redirectedDueToUnpaidSubscription', 'true');
-      window.location.assign('/account');
+    switch (error.response?.status) {
+      case 401:
+        window.location.assign('/login');
+        break;
+      case 402:
+        localStorage.setItem('redirectedDueToUnpaidSubscription', 'true');
+        window.location.assign('/account');
+        break;
+      default:
+        break;
     }
-    return Promise.reject(error);
   }
 );

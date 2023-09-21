@@ -1,21 +1,13 @@
 import {PAYMENT, SUBSCRIPTION} from "./apiEndpoints";
 import {handleErrorResponseMessage,} from '../utils';
 import {api} from "./api";
+import {TypeSubscription} from "../types";
 
-// Получить текущий баланс пользователя
-export function getBalance(): Promise<number> {
+// Получить текущую информацию о пользователе
+export function getUserInfo(): Promise<TypeSubscription> {
   return api.get(SUBSCRIPTION)
     .then(response => {
-      return response.data.customer.balance;
-    })
-    .catch(handleErrorResponseMessage);
-}
-
-// Получить логин пользователя
-export function getLogin(): Promise<string> {
-  return api.get(SUBSCRIPTION)
-    .then(response => {
-      return response.data.customer.title;
+      return response.data;
     })
     .catch(handleErrorResponseMessage);
 }
