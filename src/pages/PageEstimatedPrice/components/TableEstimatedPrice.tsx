@@ -1,0 +1,119 @@
+import React, {useState, useEffect, useCallback} from 'react';
+import {Table, Button, Space, Tooltip, Popconfirm} from 'antd';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
+import type {ColumnsType, TablePaginationConfig} from 'antd/es/table/interface';
+import {getAllEstimatedPrice} from '../../../services';
+import dayjs from 'dayjs';
+import {TableProps, TypeEstimatedPrice, TypeProduct} from "../../../types";
+
+
+export const TableEstimatedPrice: React.FC<TableProps> = ({
+                                                            isUpdateTable,
+                                                            openDrawer,
+                                                            onDelete
+                                                          }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allEstimatedPrices, setAllEstimatedPrices] = useState<any[]>();
+
+  // Параметры для пагинации
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+  });
+
+  const columns: ColumnsType<TypeEstimatedPrice> = [
+    // Здесь ваши колонки
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'idEstimatedPrice',
+    },
+    {
+      title: 'Дата',
+      dataIndex: 'date',
+      key: 'date',
+      render: ((date: any) => date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+    },
+    {
+      title: 'Товар',
+      dataIndex: 'product',
+      key: 'product',
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
+    },
+    {
+      title: 'Цена',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Действия',
+      dataIndex: 'id',
+      key: 'id',
+      width: 100,
+      align: 'center',
+      render: ((id: number) => (
+        <Space>
+          <Tooltip title="Изменить" placement="bottomRight">
+            <Button
+              type="primary"
+              size="small"
+              shape="circle"
+              ghost
+              onClick={() => openDrawer?.(id)}>
+              <EditOutlined/>
+            </Button>
+          </Tooltip>
+          <Tooltip title="Удалить">
+            <Popconfirm
+              title="Вы уверены, что хотите удалить?"
+              onConfirm={() => onDelete?.(id)}
+              okText="Да"
+              cancelText="Нет">
+              <Button type="primary" size="small" shape="circle" ghost style={{color: 'tomato', borderColor: 'tomato'}}>
+                <DeleteOutlined/>
+              </Button>
+            </Popconfirm>
+          </Tooltip>
+        </Space>
+      )),
+    },
+  ];
+
+  // Параметры изменения таблицы
+  const handleChangeTable = (pagination: TablePaginationConfig): void => {
+    setPagination((prevPagination) => ({
+      current: pagination.current ?? prevPagination.current,
+      pageSize: pagination.pageSize ?? prevPagination.pageSize,
+    }));
+  };
+
+  const handleUpdateTable = useCallback(() => {
+    setIsLoading(true);
+    getAllEstimatedPrice()
+      .then(data => {
+        setAllEstimatedPrices(data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("Ошибка при получении данных: ", err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    handleUpdateTable();
+  }, [isUpdateTable, handleUpdateTable]);
+
+  return (
+    <Table
+      rowKey="id"
+      bordered
+      columns={columns}
+      dataSource={allEstimatedPrices}
+      loading={isLoading}
+      onChange={handleChangeTable}
+      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+    />
+  );
+};

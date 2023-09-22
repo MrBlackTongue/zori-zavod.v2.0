@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Typography, Space, Button, FloatButton } from 'antd';
-import { SyncOutlined, PlusOutlined } from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Typography, Space, Button, FloatButton} from 'antd';
+import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
 import '../../App.css';
-import { deleteEstimatedPriceById, createEstimatedPrice, updateEstimatedPrice } from '../../services';
-import { TypeEstimatedPrice, TypeEstimatedPriceFormValue } from '../../types';
-// import { TableEstimatedPrice } from "./components/TableEstimatedPrice";
-// import { CreateModalEstimatedPrice } from "./components/CreateModalEstimatedPrice";
-// import { UpdateDrawerEstimatedPrice } from "./components/UpdateDrawerEstimatedPrice";
+import {deleteEstimatedPriceById, createEstimatedPrice, updateEstimatedPrice} from '../../services';
+import {TypeEstimatedPrice, TypeEstimatedPriceFormValue} from '../../types';
+import {TableEstimatedPrice} from "./components/TableEstimatedPrice";
+import {CreateModalEstimatedPrice} from "./components/CreateModalEstimatedPrice";
+import {UpdateDrawerEstimatedPrice} from "./components/UpdateDrawerEstimatedPrice";
 import dayjs from "dayjs";
 
 export const PageEstimatedPrice: React.FC = () => {
 
-  const { Title } = Typography;
+  const {Title} = Typography;
 
   // Обновление таблицы, открыть/закрыть модальное окно, драйвер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -23,7 +23,9 @@ export const PageEstimatedPrice: React.FC = () => {
 
   const handleCreateEstimatedPrice = (values: TypeEstimatedPriceFormValue): void => {
     const estimatedPrice: TypeEstimatedPrice = {
-      // Здесь ваш код для инициализации estimatedPrice из values
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      price: values.price,
+      product: {id: values.product}
     };
     setIsModalOpen(false);
     void createEstimatedPrice(estimatedPrice);
@@ -38,7 +40,9 @@ export const PageEstimatedPrice: React.FC = () => {
   const handleUpdateEstimatedPrice = (values: TypeEstimatedPriceFormValue): void => {
     const estimatedPrice: TypeEstimatedPrice = {
       id: selectedEstimatedPriceId,
-      // Здесь ваш код для инициализации остальных полей
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      price: values.price,
+      product: {id: values.product}
     };
     setIsDrawerOpen(false);
     void updateEstimatedPrice(estimatedPrice);
@@ -51,44 +55,44 @@ export const PageEstimatedPrice: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
+    <div style={{display: 'grid'}}>
       <div className="centerTitle">
         <Title level={3}>Расчетные цены</Title>
         <Space>
           <Button
             type="dashed"
             className="greenButton"
-            icon={<SyncOutlined />}
+            icon={<SyncOutlined/>}
             onClick={() => setIsUpdateTable(prevState => !prevState)}
           >
             Обновить
           </Button>
           <Button
             type="primary"
-            icon={<PlusOutlined />}
+            icon={<PlusOutlined/>}
             onClick={() => setIsModalOpen(true)}
           >
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop />
-      {/*<TableEstimatedPrice*/}
-      {/*  isUpdateTable={isUpdateTable}*/}
-      {/*  openDrawer={openDrawer}*/}
-      {/*  onDelete={handleDeleteEstimatedPrice}*/}
-      {/*/>*/}
-      {/*<CreateModalEstimatedPrice*/}
-      {/*  isOpen={isModalOpen}*/}
-      {/*  createItem={handleCreateEstimatedPrice}*/}
-      {/*  onCancel={() => setIsModalOpen(false)}*/}
-      {/*/>*/}
-      {/*<UpdateDrawerEstimatedPrice*/}
-      {/*  isOpen={isDrawerOpen}*/}
-      {/*  selectedItemId={selectedEstimatedPriceId}*/}
-      {/*  updateItem={handleUpdateEstimatedPrice}*/}
-      {/*  onCancel={() => setIsDrawerOpen(false)}*/}
-      {/*/>*/}
+      <FloatButton.BackTop/>
+      <TableEstimatedPrice
+        isUpdateTable={isUpdateTable}
+        openDrawer={openDrawer}
+        onDelete={handleDeleteEstimatedPrice}
+      />
+      <CreateModalEstimatedPrice
+        isOpen={isModalOpen}
+        createItem={handleCreateEstimatedPrice}
+        onCancel={() => setIsModalOpen(false)}
+      />
+      <UpdateDrawerEstimatedPrice
+        isOpen={isDrawerOpen}
+        selectedItemId={selectedEstimatedPriceId}
+        updateItem={handleUpdateEstimatedPrice}
+        onCancel={() => setIsDrawerOpen(false)}
+      />
     </div>
   );
 };
