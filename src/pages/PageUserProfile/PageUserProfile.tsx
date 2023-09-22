@@ -76,16 +76,17 @@ export const PageUserProfile: React.FC = () => {
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
         <Title level={3}>Личный кабинет</Title>
-        <Space></Space>
       </div>
       <p>Учетная запись: {userName}</p>
       <p>Текущий баланс: {balance} Руб</p>
       <Button type="primary" className='pay-button'  onClick={() => setIsModalOpen(true)}>
         Пополнить
       </Button>
+      <Space>
       <TableUserProfile
         isUpdateTable={isUpdateTable}
       />
+      </Space>
       <ReplenishBalanceModal
         isOpen={isModalOpen}
         createItem={handleReplenish}

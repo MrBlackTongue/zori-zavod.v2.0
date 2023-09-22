@@ -1,24 +1,37 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {Table, Typography} from 'antd';
+import {Button, Table, Typography} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import { getPaymentHistory} from "../../../services";
 import {TableProps, TypePayment} from "../../../types";
 import dayjs from "dayjs";
+import {SyncOutlined} from "@ant-design/icons";
 
 export const TableUserProfile: React.FC<TableProps> = ({
                                                       isUpdateTable,
                                                     }) => {
   const { Title } = Typography;
 
+  type StatusMappingType = {
+    [key: string]: string;
+  };
+
   // Лоудер и список всех платежей
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allPayment, setAllPayment] = useState<TypePayment[]>();
+
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
+
+  const statusMapping: StatusMappingType = {
+    "succeeded": "Подтверждён",
+    "pending": "В ожидании",
+    "canceled": "Отменён",
+    "waiting_for_capture": "Ожидает списания",
+  };
 
   // Колонки в таблице
   const columns: ColumnsType<TypePayment> = [
@@ -27,7 +40,7 @@ export const TableUserProfile: React.FC<TableProps> = ({
       dataIndex: 'paymentDate',
       key: 'paymentDate',
       defaultSortOrder: 'ascend',
-      width: 400,
+      width: 250,
       render: ((date: any) =>
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>) : null),
 
@@ -36,14 +49,14 @@ export const TableUserProfile: React.FC<TableProps> = ({
       title: 'Сумма',
       dataIndex: 'amount',
       key: 'amount',
+      width: 200,
       render: ((cost: number | null) =>
         cost !== null ? (
           <div>
             {cost.toLocaleString('ru-RU', {
               style: 'currency',
               currency: 'RUB',
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
+              maximumFractionDigits: 0,
             })}
           </div>
         ) : null)
@@ -52,6 +65,8 @@ export const TableUserProfile: React.FC<TableProps> = ({
       title: 'Статус',
       dataIndex: 'status',
       key: 'status',
+      width: 200,
+      render: (status: string) => statusMapping[status] || status
     },
   ];
 
@@ -80,7 +95,17 @@ export const TableUserProfile: React.FC<TableProps> = ({
 
   return (
     <div>
-    <Title level={4}>История пополнений</Title>
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem'}}>
+        <Title level={4}>История пополнений</Title>
+        <Button
+          type="dashed"
+          icon={<SyncOutlined />}
+          className='greenButton'
+          onClick={handleUpdateTable}
+        >
+          Обновить
+        </Button>
+      </div>
     <Table
       rowKey="id"
       bordered
