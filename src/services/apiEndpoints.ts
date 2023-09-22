@@ -31,3 +31,4 @@ export const REPORT = '/report';
 export const COST_PRICE = '/cost-price';
 export const REGISTRATION = '/registration';
 export const WRITE_OFF = '/write-off';
+export const WORK_HOURS = '/work-hours';
