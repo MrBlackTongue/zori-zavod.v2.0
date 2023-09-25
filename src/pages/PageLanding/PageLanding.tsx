@@ -117,7 +117,7 @@ export const PageLanding = () => {
         <img src="/images/image_one.png" alt="factoryApp"
              className='jumbotron-block center-row center-column'/>
         <div className='block-column flex column center-column center-row'>
-          <div className='title-mini center-text text-bold'>Идеально подойдёт малым производствам</div>
+          <div className='title-mini center-text text-bold'>Идеально подойдет малым производствам</div>
           <div className='text-block-two center-text'>
             <p>
               Zolotenkov полезен всем,
@@ -134,7 +134,7 @@ export const PageLanding = () => {
           <img src="/images/group_accounting.png" alt="accounting"
                className='jumbotron-two flex column center-row center-column'/>
           <div className='text-block-group'>
-            <div className='title-group text-bold'>Учёт операций</div>
+            <div className='title-group text-bold'>Учет операций</div>
             <p className='text-group'>
               Отслеживайте операции, результаты,
               время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании
@@ -198,7 +198,7 @@ export const PageLanding = () => {
             <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="file2" src="/images/card_document.png" className="card-image"/>
-                <div className='card-title text-bold'>Отчёты в реальном времени</div>
+                <div className='card-title text-bold'>Отчеты в реальном времени</div>
                 Автоматизированные отчеты отображают детали ваших производственных операций.
                 Идеальный инструмент для оптимизации процессов и координации команды.
               </Card>
