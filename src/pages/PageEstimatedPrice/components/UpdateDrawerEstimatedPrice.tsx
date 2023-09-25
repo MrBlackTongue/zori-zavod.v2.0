@@ -1,17 +1,18 @@
 import React, {useCallback, useEffect} from "react";
-import {TypeEstimatedPriceFormValue, UpdateDrawerProps} from "../../../types";
 import {Button, Drawer, Form, Space} from "antd";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormEstimatedPrice} from "./FormEstimatedPrice";
+import {TypeEstimatedPriceFormValue, UpdateDrawerProps} from "../../../types";
 import {getEstimatedPriceById} from "../../../services";
 import dayjs from "dayjs";
+import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
+import {FormEstimatedPrice} from "./FormEstimatedPrice";
+
 
 export const UpdateDrawerEstimatedPrice: React.FC<UpdateDrawerProps<TypeEstimatedPriceFormValue>> = ({
-                                                                                         isOpen,
-                                                                                         selectedItemId,
-                                                                                         onCancel,
-                                                                                         updateItem,
-                                                                                       }) => {
+                                                                                                       isOpen,
+                                                                                                       selectedItemId,
+                                                                                                       onCancel,
+                                                                                                       updateItem,
+                                                                                                     }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
@@ -30,7 +31,7 @@ export const UpdateDrawerEstimatedPrice: React.FC<UpdateDrawerProps<TypeEstimate
         .then((data) => {
           form.setFieldsValue({
             ...data,
-            date: data?.date ? dayjs(data?.date).format("YYYY-MM-DD") : null,
+            date: dayjs(data?.date),
             product: data?.product?.id === 0 ? '' : data?.product?.id,
             price: data?.price ?? false,
           });

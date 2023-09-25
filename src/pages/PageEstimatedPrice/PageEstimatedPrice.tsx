@@ -21,6 +21,7 @@ export const PageEstimatedPrice: React.FC = () => {
   // id выбраной расчетной цены
   const [selectedEstimatedPriceId, setSelectedEstimatedPriceId] = useState<number>();
 
+  // Добавить новую расчетную цену
   const handleCreateEstimatedPrice = (values: TypeEstimatedPriceFormValue): void => {
     const estimatedPrice: TypeEstimatedPrice = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
@@ -32,11 +33,13 @@ export const PageEstimatedPrice: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
+  // Открыть дравер
   const openDrawer = (estimatedPriceId: number): void => {
     setSelectedEstimatedPriceId(estimatedPriceId);
     setIsDrawerOpen(true);
   };
 
+  // Обновить расчетную цену
   const handleUpdateEstimatedPrice = (values: TypeEstimatedPriceFormValue): void => {
     const estimatedPrice: TypeEstimatedPrice = {
       id: selectedEstimatedPriceId,
@@ -49,6 +52,7 @@ export const PageEstimatedPrice: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
+  // Удалить запись из таблицы
   const handleDeleteEstimatedPrice = (id: number): void => {
     void deleteEstimatedPriceById(id);
     setIsUpdateTable(prevState => !prevState);

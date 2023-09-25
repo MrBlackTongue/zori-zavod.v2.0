@@ -11,7 +11,7 @@ export const CreateModalEstimatedPrice: React.FC<CreateModalProps<TypeEstimatedP
                                                                                                    }) => {
   const [form] = Form.useForm();
 
-  // Хук для получения данных (предположим, что у вас есть метод для загрузки всех продуктов или других данных, если нужно)
+  // Хук для получения данных
   const {allProduct} = useFetchAllData({depsProduct: isOpen});
 
   // Хук для отправки формы и отмены ввода

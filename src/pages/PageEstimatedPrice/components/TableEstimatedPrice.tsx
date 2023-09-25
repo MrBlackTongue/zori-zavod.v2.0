@@ -2,18 +2,18 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Table, Button, Space, Tooltip, Popconfirm} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table/interface';
+import {TableProps, TypeEstimatedPrice, TypeProduct} from "../../../types";
 import {getAllEstimatedPrice} from '../../../services';
 import dayjs from 'dayjs';
-import {TableProps, TypeEstimatedPrice, TypeProduct} from "../../../types";
-
 
 export const TableEstimatedPrice: React.FC<TableProps> = ({
                                                             isUpdateTable,
                                                             openDrawer,
                                                             onDelete
                                                           }) => {
+  // Лоудер и список всех расчетных цен
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allEstimatedPrices, setAllEstimatedPrices] = useState<any[]>();
+  const [allEstimatedPrice, setAllEstimatedPrices] = useState<TypeEstimatedPrice[]>();
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -21,8 +21,8 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
     pageSize: 10,
   });
 
+  // Колонки в таблице
   const columns: ColumnsType<TypeEstimatedPrice> = [
-    // Здесь ваши колонки
     {
       title: 'ID',
       dataIndex: 'id',
@@ -32,7 +32,8 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
-      render: ((date: any) => date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+      render: ((date: any) =>
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
       title: 'Товар',
@@ -69,14 +70,15 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
               title="Вы уверены, что хотите удалить?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
-              cancelText="Нет">
-              <Button type="primary" size="small" shape="circle" ghost style={{color: 'tomato', borderColor: 'tomato'}}>
+              cancelText="Отмена">
+              <Button type="primary" size="small" shape="circle"
+                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
                 <DeleteOutlined/>
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      )),
+      ))
     },
   ];
 
@@ -88,18 +90,16 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
     }));
   };
 
-  const handleUpdateTable = useCallback(() => {
+  // Функция для обновления таблицы расчетных цен
+  const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllEstimatedPrice()
-      .then(data => {
+      .then((data) => {
         setAllEstimatedPrices(data);
         setIsLoading(false);
       })
-      .catch(err => {
-        console.error("Ошибка при получении данных: ", err);
-        setIsLoading(false);
-      });
-  }, []);
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
+  }, [])
 
   useEffect(() => {
     handleUpdateTable();
@@ -110,7 +110,7 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
       rowKey="id"
       bordered
       columns={columns}
-      dataSource={allEstimatedPrices}
+      dataSource={allEstimatedPrice}
       loading={isLoading}
       onChange={handleChangeTable}
       pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
