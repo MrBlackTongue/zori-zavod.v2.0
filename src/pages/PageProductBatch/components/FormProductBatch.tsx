@@ -46,7 +46,15 @@ export const FormProductBatch: React.FC<FormProductBatchProps> = ({
         name="amount"
         rules={[{required: true, message: 'введите количество'}]}
       >
-        <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
+        <InputNumber
+          placeholder='1'
+          style={{width: "100%"}}
+          min={1}
+          formatter={(value) => `${value}`.replace('.', ',')}
+          parser={(displayValue: string | undefined): number => {
+            if (displayValue === undefined) return 0;
+            return parseFloat(displayValue.replace(',', '.'));
+          }}/>
       </Form.Item>
     </Form>
   );

@@ -41,6 +41,14 @@ export const TableProductBatch: React.FC<TableProps> = ({
       dataIndex: 'amount',
       key: 'amount',
       sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
+      render: ((value: number | null) =>
+        value !== null ? (
+          <div>
+            {value.toLocaleString('ru-RU', {
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : 0)
     },
     {
       title: 'Ед. изм',
