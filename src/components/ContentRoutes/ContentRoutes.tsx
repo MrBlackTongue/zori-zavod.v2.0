@@ -55,7 +55,7 @@ export const ContentRoutes: React.FC = () => {
       <Route path="/employee-report" element={<PageEmployeeReport/>}/>
       <Route path="/cost-report" element={<PageCostPrice/>}/>
       <Route path="/write-off" element={<PageWriteOff/>}/>
-      <Route path="/account" element={<PageUserProfile/>}/>
+      <Route path="/user-profile" element={<PageUserProfile/>}/>
     </Routes>
   );
 };

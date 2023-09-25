@@ -1,19 +1,17 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Button, Table, Typography} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import { getPaymentHistory} from "../../../services";
-import {TableProps, TypePayment} from "../../../types";
+import {getPaymentHistory} from "../../../services";
+import {StatusMappingType, TableProps, TypePayment} from "../../../types";
 import dayjs from "dayjs";
 import {SyncOutlined} from "@ant-design/icons";
 
-export const TableUserProfile: React.FC<TableProps> = ({
-                                                      isUpdateTable,
-                                                    }) => {
-  const { Title } = Typography;
+export const TablePaymentHistory: React.FC<TableProps> = ({
+                                                            isUpdateTable,
+                                                          }) => {
+  const {Title} = Typography;
 
-  type StatusMappingType = {
-    [key: string]: string;
-  };
+
 
   // Лоудер и список всех платежей
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,7 +37,6 @@ export const TableUserProfile: React.FC<TableProps> = ({
       title: 'Дата',
       dataIndex: 'paymentDate',
       key: 'paymentDate',
-      defaultSortOrder: 'ascend',
       width: 250,
       render: ((date: any) =>
         date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>) : null),
@@ -99,22 +96,22 @@ export const TableUserProfile: React.FC<TableProps> = ({
         <Title level={4}>История пополнений</Title>
         <Button
           type="dashed"
-          icon={<SyncOutlined />}
+          icon={<SyncOutlined/>}
           className='greenButton'
           onClick={handleUpdateTable}
         >
           Обновить
         </Button>
       </div>
-    <Table
-      rowKey="id"
-      bordered
-      columns={columns}
-      dataSource={allPayment}
-      loading={isLoading}
-      onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
-    />
+      <Table
+        rowKey="id"
+        bordered
+        columns={columns}
+        dataSource={allPayment}
+        loading={isLoading}
+        onChange={handleChangeTable}
+        pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      />
     </div>
   );
 }

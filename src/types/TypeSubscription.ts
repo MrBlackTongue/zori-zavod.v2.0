@@ -1,3 +1,5 @@
+import {Dayjs} from "dayjs";
+
 export type TypeSubscription = {
   id: number,
   customer: {
@@ -12,6 +14,6 @@ export type TypeSubscription = {
     price: number,
     durationDays: number
   },
-  startDate: string,
-  endDate: string,
+  startDate:  Dayjs | string,
+  endDate:  Dayjs | string,
 }

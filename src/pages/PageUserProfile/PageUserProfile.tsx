@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Typography, Space, Button, notification} from 'antd';
 import '../../App.css';
-import {getUserInfo, replenishBalance} from "../../services";
+import {getUserSubscription, replenishBalance} from "../../services";
 import {TypePayment} from "../../types";
 import {ReplenishBalanceModal} from "./components/ReplenishBalanceModal";
-import {TableUserProfile} from "./components/TableUserProfile";
+import {TablePaymentHistory} from "./components/TablePaymentHistory";
 
 export const PageUserProfile: React.FC = () => {
   const {Title} = Typography;
@@ -13,8 +13,7 @@ export const PageUserProfile: React.FC = () => {
   const [balance, setBalance] = useState<number>(0);
   const [userName, setUserName] = useState<string>('');
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isUpdateTable] = useState<boolean>(false);
+  // Обновление таблицы, Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Создать новый платёж
@@ -50,21 +49,11 @@ export const PageUserProfile: React.FC = () => {
     }
   }, []);
 
-  // Отобразить текущий логин
+  // Отобразить текущий логин и баланс
   useEffect(() => {
-    getUserInfo()
+    getUserSubscription()
       .then((data) => {
         setUserName(data.customer.title);
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
-  }, []);
-
-  // Отобразить текущий баланс
-  useEffect(() => {
-    getUserInfo()
-      .then((data) => {
         setBalance(data.customer.balance);
       })
       .catch((error) => {
@@ -83,8 +72,8 @@ export const PageUserProfile: React.FC = () => {
         Пополнить
       </Button>
       <Space>
-      <TableUserProfile
-        isUpdateTable={isUpdateTable}
+      <TablePaymentHistory
+        isUpdateTable
       />
       </Space>
       <ReplenishBalanceModal

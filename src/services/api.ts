@@ -12,13 +12,6 @@ export const api = axios.create({
 //     window.location.assign('/login');
 //   }
 // });
-//
-// // Перенаправляет на страницу личного кабинета пользователей не оплативших подписку
-// api.interceptors.response.use((response) => response, (error) => {
-//   if (error.response?.status === 402) {
-//     window.location.assign('/account');
-//   }
-// });
 
 api.interceptors.response.use(
   (response) => response,

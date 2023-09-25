@@ -17,7 +17,7 @@ function App() {
   const {token: {colorBgContainer}} = theme.useToken();
 
   const handleAccount = () => {
-    navigate('/account');
+    navigate('/user-profile');
   };
 
   return (
