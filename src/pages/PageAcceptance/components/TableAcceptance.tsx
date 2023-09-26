@@ -5,7 +5,7 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {getAllAcceptance, getAllAcceptanceByTitle} from "../../../services";
 import {TableProps, TypeAcceptance, TypeUnit, TypeStock, TypeProduct, TypePurchase} from "../../../types";
 import dayjs from "dayjs";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableAcceptance: React.FC<TableProps> = ({
                                                         isUpdateTable,

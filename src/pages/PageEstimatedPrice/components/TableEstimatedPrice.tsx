@@ -5,6 +5,7 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table/interface';
 import {TableProps, TypeEstimatedPrice, TypeProduct} from "../../../types";
 import {getAllEstimatedPrice} from '../../../services';
 import dayjs from 'dayjs';
+import {renderAsRuble} from "../../../utils";
 
 export const TableEstimatedPrice: React.FC<TableProps> = ({
                                                             isUpdateTable,
@@ -46,17 +47,8 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
       title: 'Цена',
       dataIndex: 'price',
       key: 'price',
-      render: ((cost: number | null) =>
-        cost !== null ? (
-          <div>
-            {cost.toLocaleString('ru-RU', {
-              style: 'currency',
-              currency: 'RUB',
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : null)
+      sorter: (a, b) => (a.price ?? 0) < (b.price ?? 0) ? -1 : 1,
+      render: renderAsRuble
     },
     {
       title: 'Действия',

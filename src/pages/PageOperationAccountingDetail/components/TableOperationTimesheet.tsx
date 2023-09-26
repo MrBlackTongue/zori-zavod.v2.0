@@ -4,7 +4,7 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
 import {TableProps, TypeOperationTimesheet, TypeEmployee} from "../../../types";
 import {getOperationTimesheetByIdOperationAccounting} from "../../../services";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
                                                                            isUpdateTable,

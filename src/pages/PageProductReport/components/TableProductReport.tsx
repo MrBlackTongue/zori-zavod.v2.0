@@ -3,7 +3,7 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllProductReportByFilter} from "../../../services";
 import {TableProps, TypeProductReport, TypeProductReportFilter,} from "../../../types";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> = ({
                                                                                     isUpdateTable,

@@ -5,7 +5,7 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterRecord} from "../../../services"
 import {TableProps, TypeMeterRecord, TypeMeter} from "../../../types";
 import dayjs from "dayjs";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableMeterRecord: React.FC<TableProps> = ({
                                                          isUpdateTable,

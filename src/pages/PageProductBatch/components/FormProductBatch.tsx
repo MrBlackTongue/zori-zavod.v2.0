@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormProductBatchProps} from "../../../types";
-import {numberFormatter, numberParser} from "../../../utils/numberUtils";
+import {numberFormatter, numberParser} from "../../../utils";
 
 export const FormProductBatch: React.FC<FormProductBatchProps> = ({
                                                                     form,

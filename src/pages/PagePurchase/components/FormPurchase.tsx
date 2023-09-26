@@ -1,7 +1,7 @@
 import React from 'react';
 import {Checkbox, DatePicker, Form, InputNumber, Select, Tooltip} from "antd";
 import {FormPurchaseProps} from "../../../types";
-import {numberFormatter, numberParser} from "../../../utils/numberUtils";
+import {numberFormatter, numberParser} from "../../../utils";
 
 export const FormPurchase: React.FC<FormPurchaseProps> = ({
                                                             form,

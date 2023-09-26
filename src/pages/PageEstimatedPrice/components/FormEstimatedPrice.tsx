@@ -1,6 +1,7 @@
 import React from 'react';
 import {DatePicker, Form, InputNumber, Select, Tooltip} from "antd";
 import {FormEstimatedPriceProps} from "../../../types";
+import {numberFormatter, numberParser} from "../../../utils";
 
 export const FormEstimatedPrice: React.FC<FormEstimatedPriceProps> = ({
                                                                         form,
@@ -46,7 +47,13 @@ export const FormEstimatedPrice: React.FC<FormEstimatedPriceProps> = ({
         name="price"
         rules={[{required: true, message: "Введите расчетную цену"}]}
       >
-        <InputNumber placeholder='100' style={{width: "100%"}} min={0}/>
+        <InputNumber
+          placeholder='1'
+          style={{width: "100%"}}
+          min={1}
+          formatter={numberFormatter}
+          parser={numberParser}
+        />
       </Form.Item>
       <Form.Item
         label="Дата"

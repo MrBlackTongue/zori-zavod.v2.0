@@ -5,7 +5,7 @@ import type {ColumnsType} from 'antd/es/table';
 import {getOperationAccountingById} from "../../../services";
 import {TableProps, TypeOperationAccounting, TypeOperationTimesheet, TypeUnit} from "../../../types";
 import dayjs from "dayjs";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo(({
                                                                                   isUpdateTable,
