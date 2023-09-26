@@ -46,6 +46,17 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
       title: 'Цена',
       dataIndex: 'price',
       key: 'price',
+      render: ((cost: number | null) =>
+        cost !== null ? (
+          <div>
+            {cost.toLocaleString('ru-RU', {
+              style: 'currency',
+              currency: 'RUB',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </div>
+        ) : null)
     },
     {
       title: 'Действия',
