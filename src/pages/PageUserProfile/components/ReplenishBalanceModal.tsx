@@ -1,7 +1,7 @@
 import React from 'react';
-import {Form, InputNumber, Modal, Button} from 'antd';
-import {CreateModalProps, TypePayment} from '../../../types';
-import {useFormHandler} from '../../../hooks';
+import { Form, InputNumber, Modal, Button } from 'antd';
+import { CreateModalProps, TypePayment } from '../../../types';
+import { useFormHandler } from '../../../hooks';
 
 export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePayment>> = ({
                                                                                  isOpen,
@@ -11,11 +11,11 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePayment>> = ({
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(form, createItem, onCancel);
 
   const handleAmountSelection = (amount: number | null) => {
     if (amount !== null) {
-      form.setFieldsValue({sum: amount});
+      form.setFieldsValue({ sum: amount });
     }
   };
 
@@ -30,7 +30,7 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePayment>> = ({
       onOk={handleSubmit}
       onCancel={handleReset}
     >
-      <Form form={form} style={{height: '100px', marginTop: '30px'}}>
+      <Form form={form} style={{ height: '100px', marginTop: '30px' }}>
         <Form.Item
           name="sum"
           label="Сумма"
@@ -39,11 +39,11 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePayment>> = ({
         >
           <InputNumber
             min={1}
-            size="large"
             step={100}
+            size="large"
             placeholder="Сумма пополнения в рублях"
-            formatter={(value) => `${value} ₽`}
-            style={{width: '100%'}}
+            addonAfter={'₽'}
+            style={{ width: '100%' }}
           />
         </Form.Item>
         <div
@@ -51,8 +51,9 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePayment>> = ({
             display: 'flex',
             justifyContent: 'space-around',
             margin: '-15px 0 0 63px',
-            width: '380px'
-        }}>
+            width: '380px',
+          }}
+        >
           <Button type="default" size="middle" onClick={() => handleAmountSelection(500)}>
             500 ₽
           </Button>

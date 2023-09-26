@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Typography, Space, Button, notification} from 'antd';
 import '../../App.css';
 import {getUserSubscription, replenishBalance} from "../../services";
-import {TypePayment} from "../../types";
+import {TypePayment, TypeSubscription} from "../../types";
 import {ReplenishBalanceModal} from "./components/ReplenishBalanceModal";
 import {TablePaymentHistory} from "./components/TablePaymentHistory";
 
@@ -10,8 +10,7 @@ export const PageUserProfile: React.FC = () => {
   const {Title} = Typography;
 
   // Состояние текущего баланса
-  const [balance, setBalance] = useState<number>(0);
-  const [userName, setUserName] = useState<string>('');
+  const [allData, setAllData] = useState<TypeSubscription>();
 
   // Обновление таблицы, Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -53,8 +52,7 @@ export const PageUserProfile: React.FC = () => {
   useEffect(() => {
     getUserSubscription()
       .then((data) => {
-        setUserName(data.customer.title);
-        setBalance(data.customer.balance);
+        setAllData(data)
       })
       .catch((error) => {
         console.log("Error: ", error);
@@ -66,8 +64,8 @@ export const PageUserProfile: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Личный кабинет</Title>
       </div>
-      <p>Учетная запись: {userName}</p>
-      <p>Текущий баланс: {balance} Руб</p>
+      <p>Учетная запись: {allData?.customer.title}</p>
+      <p>Текущий баланс: {allData?.customer.balance} Руб</p>
       <Button type="primary" className='pay-button'  onClick={() => setIsModalOpen(true)}>
         Пополнить
       </Button>
