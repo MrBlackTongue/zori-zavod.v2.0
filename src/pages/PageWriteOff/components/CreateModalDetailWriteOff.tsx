@@ -2,7 +2,7 @@ import React from "react";
 import {CreateModalProps, TypeWriteOffMovementFormValue} from "../../../types";
 import {DatePicker, Form, InputNumber, message, Modal, Select, Tooltip} from "antd";
 import {useFormSelect, useFormHandler, useFetchAllData} from "../../../hooks";
-import {numberFormatter, numberParser} from "../../../utils/numberUtils";
+import {numberFormatter, numberParser} from "../../../utils";
 
 export const CreateModalDetailWriteOff: React.FC<CreateModalProps<TypeWriteOffMovementFormValue>> = ({
                                                                                                        isOpen,
@@ -78,8 +78,9 @@ export const CreateModalDetailWriteOff: React.FC<CreateModalProps<TypeWriteOffMo
             {allStock && allStock.length > 0
               ? allStock.map((stock) => (
                 <Option key={stock.id} value={stock.id} label={`${stock.product?.title}, ${stock.id}`}>
-                  <Tooltip placement="right" title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}>
-                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                  <Tooltip placement="right"
+                           title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount?.toLocaleString('ru-RU', {maximumFractionDigits: 2})}`}>
+                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount?.toLocaleString('ru-RU', {maximumFractionDigits: 2})}`}
                   </Tooltip>
                 </Option>
               ))

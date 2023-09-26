@@ -4,7 +4,7 @@ import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TypeProductBatch, TypeUnit, TypeProduct} from "../../../types";
 import {getAllProductBatch} from "../../../services";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableProductBatch: React.FC<TableProps> = ({
                                                           isUpdateTable,
@@ -41,8 +41,8 @@ export const TableProductBatch: React.FC<TableProps> = ({
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
       render: renderNumber,
+      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
     },
     {
       title: 'Ед. изм',

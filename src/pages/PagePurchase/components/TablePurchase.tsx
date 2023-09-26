@@ -5,7 +5,7 @@ import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TypePurchase, TypeUnit, TypeProduct} from "../../../types";
 import {getAllPurchase, getAllPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
-import {renderAsRuble, renderNumber} from "../../../utils/numberUtils";
+import {renderAsRuble, renderNumber} from "../../../utils";
 
 export const TablePurchase: React.FC<TableProps> = ({
                                                       isUpdateTable,
@@ -48,8 +48,8 @@ export const TablePurchase: React.FC<TableProps> = ({
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
       render: renderNumber,
+      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
     },
     {
       title: 'Ед. изм',
