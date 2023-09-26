@@ -4,6 +4,7 @@ import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllEmployeeReportByFilter} from "../../../services";
 import {TableProps, TypeEmployeeReport, TypeEmployeeReportFilter, TypeOperationReport,} from "../../../types";
 import dayjs from "dayjs";
+import {renderNumber} from "../../../utils/numberUtils";
 
 export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>> = ({
                                                                                       isUpdateTable,
@@ -57,14 +58,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "fact",
       width: 100,
       sorter: (a, b) => (a.fact ?? 0) - (b.fact ?? 0),
-      render: ((fact: number | null) =>
-        fact !== null ? (
-          <div>
-            {fact.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: "Часы",
@@ -72,14 +66,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "hours",
       width: 100,
       sorter: (a, b) => (a.hours ?? 0) - (b.hours ?? 0),
-      render: ((hours: number | null) =>
-        hours !== null ? (
-          <div>
-            {hours.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: "Производительность",
@@ -87,14 +74,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
       key: "performance",
       width: 100,
       sorter: (a, b) => (a.performance ?? 0) - (b.performance ?? 0),
-      render: ((performance: number | null) =>
-        performance !== null ? (
-          <div>
-            {performance.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
   ];
 

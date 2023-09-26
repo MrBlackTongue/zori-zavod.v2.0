@@ -5,6 +5,7 @@ import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TypePurchase, TypeUnit, TypeProduct} from "../../../types";
 import {getAllPurchase, getAllPurchaseByTitle} from "../../../services";
 import dayjs from "dayjs";
+import {renderAsRuble, renderNumber} from "../../../utils/numberUtils";
 
 export const TablePurchase: React.FC<TableProps> = ({
                                                       isUpdateTable,
@@ -48,15 +49,7 @@ export const TablePurchase: React.FC<TableProps> = ({
       dataIndex: 'amount',
       key: 'amount',
       sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
-      render: ((amount: number | null) =>
-        amount !== null ? (
-          <div>
-            {amount.toLocaleString('ru-RU', {
-              currency: 'RUB',
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : null)
+      render: renderNumber,
     },
     {
       title: 'Ед. изм',
@@ -70,17 +63,7 @@ export const TablePurchase: React.FC<TableProps> = ({
       dataIndex: 'cost',
       key: 'cost',
       sorter: (a, b) => (a.cost ?? 0) < (b.cost ?? 0) ? -1 : 1,
-      render: ((cost: number | null) =>
-        cost !== null ? (
-          <div>
-            {cost.toLocaleString('ru-RU', {
-              style: 'currency',
-              currency: 'RUB',
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : null)
+      render: renderAsRuble
     },
     {
       title: 'Стоимость закупки',

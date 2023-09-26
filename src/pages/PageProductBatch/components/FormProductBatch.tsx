@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormProductBatchProps} from "../../../types";
+import {numberFormatter, numberParser} from "../../../utils/numberUtils";
 
 export const FormProductBatch: React.FC<FormProductBatchProps> = ({
                                                                     form,
@@ -50,11 +51,8 @@ export const FormProductBatch: React.FC<FormProductBatchProps> = ({
           placeholder='1'
           style={{width: "100%"}}
           min={1}
-          formatter={(value) => `${value}`.replace('.', ',')}
-          parser={(displayValue: string | undefined): number => {
-            if (displayValue === undefined) return 0;
-            return parseFloat(displayValue.replace(',', '.'));
-          }}/>
+          formatter={numberFormatter}
+          parser={numberParser}/>
       </Form.Item>
     </Form>
   );
