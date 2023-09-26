@@ -2,6 +2,7 @@ import React from "react";
 import {CreateModalProps, TypeWriteOffMovementFormValue} from "../../../types";
 import {DatePicker, Form, InputNumber, message, Modal, Select, Tooltip} from "antd";
 import {useFormSelect, useFormHandler, useFetchAllData} from "../../../hooks";
+import {numberFormatter, numberParser} from "../../../utils/numberUtils";
 
 export const CreateModalDetailWriteOff: React.FC<CreateModalProps<TypeWriteOffMovementFormValue>> = ({
                                                                                                        isOpen,
@@ -90,7 +91,13 @@ export const CreateModalDetailWriteOff: React.FC<CreateModalProps<TypeWriteOffMo
           name="amount"
           rules={[{required: true, message: 'введите количество'}]}
         >
-          <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
+          <InputNumber
+            placeholder='1'
+            style={{width: "100%"}}
+            min={1}
+            formatter={numberFormatter}
+            parser={numberParser}
+          />
         </Form.Item>
         <Form.Item
           label="Тип движения"

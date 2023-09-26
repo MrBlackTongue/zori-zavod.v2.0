@@ -52,7 +52,8 @@ export const FormProductBatch: React.FC<FormProductBatchProps> = ({
           style={{width: "100%"}}
           min={1}
           formatter={numberFormatter}
-          parser={numberParser}/>
+          parser={numberParser}
+        />
       </Form.Item>
     </Form>
   );
