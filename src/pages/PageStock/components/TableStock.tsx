@@ -4,6 +4,7 @@ import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {TableProps, TypeUnit, TypeStock, TypeStockFilter, TypeProduct} from "../../../types";
 import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
+import {renderNumber} from "../../../utils";
 
 export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
                                                                     isUpdateTable,
@@ -43,16 +44,8 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
+      render: renderNumber,
       sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
-      render: ((amount: number | null) =>
-        amount !== null ? (
-          <div>
-            {amount.toLocaleString('ru-RU', {
-              currency: 'RUB',
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : null)
     },
     {
       title: 'Ед. изм',
