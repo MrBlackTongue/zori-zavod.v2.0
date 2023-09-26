@@ -4,6 +4,7 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllClient} from "../../../services";
 import {TableProps, TypeClient} from "../../../types";
+import dayjs from "dayjs";
 
 export const TableClient: React.FC<TableProps> = ({
                                                     isUpdateTable,
@@ -26,8 +27,17 @@ export const TableClient: React.FC<TableProps> = ({
       title: 'Имя',
       dataIndex: 'title',
       key: 'title',
-      defaultSortOrder: 'ascend',
+      width: 300,
       sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
+    },
+    {
+      title: 'Последняя отгрузка',
+      dataIndex: 'lastShipment',
+      key: 'lastShipment',
+      width: 200,
+      sorter: (a, b) => (a.lastShipment ?? '') < (b.lastShipment ?? '') ? -1 : 1,
+      render: ((date: any) =>
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
       title: 'Действия',

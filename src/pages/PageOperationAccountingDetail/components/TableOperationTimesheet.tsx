@@ -4,6 +4,7 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import type {ColumnsType} from 'antd/es/table';
 import {TableProps, TypeOperationTimesheet, TypeEmployee} from "../../../types";
 import {getOperationTimesheetByIdOperationAccounting} from "../../../services";
+import {renderNumber} from "../../../utils/numberUtils";
 
 export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
                                                                            isUpdateTable,
@@ -30,14 +31,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(({
       title: 'Часы',
       dataIndex: 'hours',
       key: 'hours',
-      render: ((hours: number | null) =>
-        hours !== null ? (
-          <div>
-            {hours.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: 'Результат',

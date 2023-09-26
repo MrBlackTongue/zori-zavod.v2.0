@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormProductBatchProps} from "../../../types";
+import {numberFormatter, numberParser} from "../../../utils/numberUtils";
 
 export const FormProductBatch: React.FC<FormProductBatchProps> = ({
                                                                     form,
@@ -46,7 +47,13 @@ export const FormProductBatch: React.FC<FormProductBatchProps> = ({
         name="amount"
         rules={[{required: true, message: 'введите количество'}]}
       >
-        <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
+        <InputNumber
+          placeholder='1'
+          style={{width: "100%"}}
+          min={1}
+          formatter={numberFormatter}
+          parser={numberParser}
+        />
       </Form.Item>
     </Form>
   );

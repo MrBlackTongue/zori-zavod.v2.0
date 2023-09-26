@@ -4,6 +4,7 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterType} from "../../../services";
 import {TableProps, TypeMeterType, TypeUnit} from "../../../types";
+import {renderAsRuble} from "../../../utils/numberUtils";
 
 export const TableMeterType: React.FC<TableProps> = ({
                                                        isUpdateTable,
@@ -31,17 +32,7 @@ export const TableMeterType: React.FC<TableProps> = ({
       title: 'Цена за ед. изм',
       dataIndex: 'cost',
       key: 'cost',
-      render: ((cost: number | null) =>
-        cost !== null ? (
-          <div>
-            {cost.toLocaleString('ru-RU', {
-              style: 'currency',
-              currency: 'RUB',
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : null)
+      render: renderAsRuble,
     },
     {
       title: 'Единица измерения',

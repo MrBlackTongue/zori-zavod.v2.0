@@ -5,6 +5,7 @@ import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterRecord} from "../../../services"
 import {TableProps, TypeMeterRecord, TypeMeter} from "../../../types";
 import dayjs from "dayjs";
+import {renderNumber} from "../../../utils/numberUtils";
 
 export const TableMeterRecord: React.FC<TableProps> = ({
                                                          isUpdateTable,
@@ -41,14 +42,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
       title: 'Показания',
       dataIndex: 'value',
       key: 'value',
-      render: ((value: number | null) =>
-        value !== null ? (
-          <div>
-            {value.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: 'Действия',
