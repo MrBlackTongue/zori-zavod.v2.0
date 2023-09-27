@@ -25,7 +25,7 @@ export const CreateModalEstimatedPrice: React.FC<CreateModalProps<TypeEstimatedP
       title={`Добавление новой оценочной стоимости`}
       okText={"Сохранить"}
       cancelText={"Отмена"}
-      width={500}
+      width={600}
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}
