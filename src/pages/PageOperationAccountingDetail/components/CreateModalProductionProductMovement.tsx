@@ -2,7 +2,7 @@ import React from "react";
 import {CreateModalProps, TypeProductionProductMovementFormValue} from "../../../types";
 import {Form, InputNumber, message, Modal, Select, Tooltip} from "antd";
 import {useFormSelect, useFormHandler, useFetchAllData} from "../../../hooks";
-import {numberFormatter, numberParser} from "../../../utils/numberUtils";
+import {numberFormatter, numberParser} from "../../../utils";
 
 export const CreateModalProductionProductMovement:
   React.FC<CreateModalProps<TypeProductionProductMovementFormValue>> = ({

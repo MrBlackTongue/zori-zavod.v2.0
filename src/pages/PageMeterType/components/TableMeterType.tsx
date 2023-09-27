@@ -4,7 +4,7 @@ import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllMeterType} from "../../../services";
 import {TableProps, TypeMeterType, TypeUnit} from "../../../types";
-import {renderAsRuble} from "../../../utils/numberUtils";
+import {renderAsRuble} from "../../../utils";
 
 export const TableMeterType: React.FC<TableProps> = ({
                                                        isUpdateTable,

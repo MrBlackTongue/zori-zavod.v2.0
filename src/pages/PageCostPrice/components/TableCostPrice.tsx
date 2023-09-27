@@ -3,7 +3,7 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllCostPriceByFilter} from "../../../services";
 import {TableProps, TypeCostPrice, TypeCostPriceFilter,} from "../../../types";
-import {renderAsRuble} from "../../../utils/numberUtils";
+import {renderAsRuble} from "../../../utils";
 
 export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
                                                                             isUpdateTable,

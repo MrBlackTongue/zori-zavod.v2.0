@@ -3,7 +3,7 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllOperationReportByFilter} from "../../../services";
 import {TableProps, TypeOperationReport, TypeOperationReportFilter,} from "../../../types";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter>> = ({
                                                                                         isUpdateTable,

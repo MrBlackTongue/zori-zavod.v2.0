@@ -1,15 +1,15 @@
 import React from 'react';
-import {Checkbox, DatePicker, Form, InputNumber, Select, Tooltip} from "antd";
-import {FormPurchaseProps} from "../../../types";
+import {DatePicker, Form, InputNumber, Select, Tooltip} from "antd";
+import {FormEstimatedPriceProps} from "../../../types";
 import {numberFormatter, numberParser} from "../../../utils";
 
-export const FormPurchase: React.FC<FormPurchaseProps> = ({
-                                                            form,
-                                                            allProduct,
-                                                            onChangeProduct,
-                                                            onClearProduct,
-                                                            onSearchProduct,
-                                                          }) => {
+export const FormEstimatedPrice: React.FC<FormEstimatedPriceProps> = ({
+                                                                        form,
+                                                                        allProduct,
+                                                                        onChangeProduct,
+                                                                        onClearProduct,
+                                                                        onSearchProduct
+                                                                      }) => {
   const {Option} = Select;
 
   return (
@@ -22,7 +22,7 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
       <Form.Item
         label="Товар"
         name="product"
-        rules={[{required: true, message: 'выберите товар'}]}
+        rules={[{required: true, message: 'Выберите товар'}]}
       >
         <Select
           showSearch
@@ -43,16 +43,9 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
         </Select>
       </Form.Item>
       <Form.Item
-        label="Цена"
-        name="cost"
-        rules={[{required: true, message: "введите цену"}]}
-      >
-        <InputNumber placeholder='100' style={{width: "100%"}} min={0}/>
-      </Form.Item>
-      <Form.Item
-        label="Количество"
-        name="amount"
-        rules={[{required: true, message: "введите количество"}]}
+        label="Расчетная цена"
+        name="price"
+        rules={[{required: true, message: "Введите расчетную цену"}]}
       >
         <InputNumber
           placeholder='1'
@@ -65,20 +58,13 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
       <Form.Item
         label="Дата"
         name="date"
-        rules={[{required: true, message: 'выберите дату'}]}
+        rules={[{required: true, message: 'Выберите дату'}]}
       >
         <DatePicker
           style={{width: '100%'}}
           format={'DD.MM.YYYY'}
         />
       </Form.Item>
-      <Form.Item
-        name="paid"
-        valuePropName="checked"
-        wrapperCol={{offset: 8, span: 16}}
-      >
-        <Checkbox>Оплачено</Checkbox>
-      </Form.Item>
     </Form>
   );
-}
+};

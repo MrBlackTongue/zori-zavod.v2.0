@@ -4,7 +4,7 @@ import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllOutputReportByFilter} from "../../../services";
 import {TableProps, TypeOutputReport, TypeOutputReportFilter,} from "../../../types";
 import dayjs from "dayjs";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = ({
                                                                                   isUpdateTable,

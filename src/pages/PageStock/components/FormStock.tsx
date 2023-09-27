@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, InputNumber, Select, Tooltip} from "antd";
 import {FormStockProps} from "../../../types";
-import {numberFormatter, numberParser} from "../../../utils/numberUtils";
+import {numberFormatter, numberParser} from "../../../utils";
 
 export const FormStock: React.FC<FormStockProps> = ({
                                                       form,

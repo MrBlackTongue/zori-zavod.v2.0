@@ -12,7 +12,7 @@ import {
   TypeUnit,
 } from "../../../types";
 import dayjs from "dayjs";
-import {renderNumber} from "../../../utils/numberUtils";
+import {renderNumber} from "../../../utils";
 
 export const TableOperationAccounting:
   React.FC<TableProps<TypeOperationAccountingFilter>> = ({
