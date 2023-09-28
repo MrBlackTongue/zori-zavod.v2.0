@@ -7,7 +7,10 @@ export type TypePayment = {
   amount?: number,
   status?: string,
   tenantId?: number
-  sum?: number;
+}
+
+export type TypePaymentFormValue = {
+  amount: number,
 }
 
 export  type StatusMappingType = {

@@ -11,12 +11,14 @@ import {useNavigate} from "react-router-dom";
 
 function App() {
   const {Header, Sider, Content} = Layout;
-  const navigate = useNavigate();
 
   const [collapsed, setCollapsed] = useState(false);
+
+  const navigate = useNavigate();
+
   const {token: {colorBgContainer}} = theme.useToken();
 
-  const handleAccount = () => {
+  const handleUserProfile = () => {
     navigate('/user-profile');
   };
 
@@ -48,7 +50,7 @@ function App() {
             {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
             <img src="/images/header_logo.png" alt="Logo" className='logo'/>
             <Space>
-              <Button type='default' className='Account-button' onClick={handleAccount}>Личный кабинет</Button>
+              <Button type='default' className='Account-button' onClick={handleUserProfile}>Личный кабинет</Button>
             </Space>
           </Header>
           <Content className='context-style'>

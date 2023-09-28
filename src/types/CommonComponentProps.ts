@@ -1,5 +1,5 @@
 export interface TableProps<F = {}> {
-  isUpdateTable: boolean;
+  isUpdateTable?: boolean;
   openDrawer?: (id: number) => void;
   openDetailDrawer?: (id: number) => void;
   onDelete?: (id: number) => void;

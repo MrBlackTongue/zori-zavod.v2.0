@@ -2,33 +2,32 @@ import React, {useEffect, useState} from 'react';
 import {Typography, Space, Button, notification} from 'antd';
 import '../../App.css';
 import {getUserSubscription, replenishBalance} from "../../services";
-import {TypePayment, TypeSubscription} from "../../types";
+import {TypePaymentFormValue, TypeSubscription} from "../../types";
 import {ReplenishBalanceModal} from "./components/ReplenishBalanceModal";
 import {TablePaymentHistory} from "./components/TablePaymentHistory";
 
 export const PageUserProfile: React.FC = () => {
   const {Title} = Typography;
 
-  // Состояние текущего баланса
-  const [allData, setAllData] = useState<TypeSubscription>();
+  // Информация о подписке
+  const [subscriptionInfo, setSubscriptionInfo] = useState<TypeSubscription>();
 
-  // Обновление таблицы, Открыть закрыть модальное окно
+  // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Создать новый платёж
-  const handleReplenish = (value: TypePayment) => {
+  const handleReplenish = (value: TypePaymentFormValue) => {
+    console.log('value', value);
     setIsModalOpen(false)
-    if (value?.sum !== undefined) {
-      replenishBalance(value.sum)
-        .then(response => {
-          if (response) {
-            window.location.href = response;
-          } else {
-            console.error("Не удалось получить URL для перенаправления");
-          }
-        })
-        .catch(error => console.error("Ошибка при пополнении баланса:", error));
-    }
+    replenishBalance(value.amount)
+      .then(response => {
+        if (response) {
+          window.location.href = response;
+        } else {
+          console.error("Не удалось получить URL для перенаправления");
+        }
+      })
+      .catch(error => console.error("Ошибка при пополнении баланса:", error));
   };
 
   // Отобразить всплывающее окно с сообщением
@@ -48,11 +47,11 @@ export const PageUserProfile: React.FC = () => {
     }
   }, []);
 
-  // Отобразить текущий логин и баланс
+  // Получить информацию о подписке пользователя
   useEffect(() => {
     getUserSubscription()
       .then((data) => {
-        setAllData(data)
+        setSubscriptionInfo(data)
       })
       .catch((error) => {
         console.log("Error: ", error);
@@ -64,15 +63,13 @@ export const PageUserProfile: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Личный кабинет</Title>
       </div>
-      <p>Учетная запись: {allData?.customer.title}</p>
-      <p>Текущий баланс: {allData?.customer.balance} Руб</p>
-      <Button type="primary" className='pay-button'  onClick={() => setIsModalOpen(true)}>
+      <p>Учетная запись: {subscriptionInfo?.customer.title}</p>
+      <p>Текущий баланс: {subscriptionInfo?.customer.balance} Руб</p>
+      <Button type="primary" className='pay-button' onClick={() => setIsModalOpen(true)}>
         Пополнить
       </Button>
       <Space>
-      <TablePaymentHistory
-        isUpdateTable
-      />
+        <TablePaymentHistory/>
       </Space>
       <ReplenishBalanceModal
         isOpen={isModalOpen}

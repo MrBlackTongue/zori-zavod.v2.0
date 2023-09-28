@@ -2,21 +2,16 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Button, Table, Typography} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {getPaymentHistory} from "../../../services";
-import {StatusMappingType, TableProps, TypePayment} from "../../../types";
+import {StatusMappingType, TypePayment} from "../../../types";
 import dayjs from "dayjs";
 import {SyncOutlined} from "@ant-design/icons";
 
-export const TablePaymentHistory: React.FC<TableProps> = ({
-                                                            isUpdateTable,
-                                                          }) => {
+export const TablePaymentHistory: React.FC = () => {
   const {Title} = Typography;
-
-
 
   // Лоудер и список всех платежей
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allPayment, setAllPayment] = useState<TypePayment[]>();
-
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -88,7 +83,7 @@ export const TablePaymentHistory: React.FC<TableProps> = ({
 
   useEffect(() => {
     handleUpdateTable()
-  }, [isUpdateTable, handleUpdateTable]);
+  }, [handleUpdateTable]);
 
   return (
     <div>
