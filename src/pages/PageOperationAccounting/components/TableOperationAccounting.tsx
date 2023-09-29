@@ -34,7 +34,7 @@ export const TableOperationAccounting:
   });
 
   // Сколько всего записей в таблице
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState<number>(0);
 
   // Переход на другую страницу по адресу
   const handleMoreDetail = (id: number): void => {
@@ -201,7 +201,7 @@ export const TableOperationAccounting:
     getAllOperationAccountingByFilter({
       date: filter?.date,
       operationId: filter?.operationId,
-      productionTypeId: filter?.productionTypeId,
+      productionTypeIds: filter?.productionTypeIds,
       pageNumber: pagination?.current,
       pageSize: pagination?.pageSize,
     })
