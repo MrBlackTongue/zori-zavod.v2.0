@@ -28,7 +28,7 @@ export type TypeGetAllOperationAccountingResponse = {
 export type TypeOperationAccountingFilter = {
   date?: Dayjs | string,
   operationId?: number,
-  productionTypeId?: number,
+  productionTypeIds?: number[],
   pageNumber?: number,
   pageSize?: number,
 }

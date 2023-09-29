@@ -34,16 +34,16 @@ export const PageOperationAccounting: React.FC = () => {
   // Хук для получения данных
   const {allOperation, allProductionType} = useFetchAllData({depsOperation: true, depsProductionType: true});
 
-  // id выбранной операции, id выбранного типа производства
+  // id выбранной операции, id выбранных типов производства
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
-  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
+  const [selectedProductionTypeIds, setSelectedProductionTypeIds] = useState<number[]>([]);
 
   // Создание объекта фильтра с использованием useMemo
   const filter = useMemo(() => ({
     date: selectedDate,
     operationId: selectedOperationId,
-    productionTypeId: selectedProductionTypeId,
-  }), [selectedDate, selectedOperationId, selectedProductionTypeId]);
+    productionTypeIds: selectedProductionTypeIds,
+  }), [selectedDate, selectedOperationId, selectedProductionTypeIds]);
 
   // Изменить выбранную дату
   const onChangeDate = (value: any): void => {
@@ -56,8 +56,8 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Изменить выбранный тип производства
-  const onChangeProductionType = (value: any): void => {
-    setSelectedProductionTypeId(value ? value : undefined);
+  const onChangeProductionType = (values: any): void => {
+    setSelectedProductionTypeIds(values ? values : []);
   };
 
   // Поиск по селекту
@@ -136,6 +136,7 @@ export const PageOperationAccounting: React.FC = () => {
           <Select
             showSearch
             allowClear
+            mode="multiple"
             placeholder='Выберите тип производства'
             style={{'width': '250px'}}
             onChange={onChangeProductionType}
