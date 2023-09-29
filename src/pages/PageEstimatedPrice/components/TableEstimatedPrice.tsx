@@ -68,8 +68,9 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
               <EditOutlined/>
             </Button>
           </Tooltip>
-          <Tooltip title="Удалить">
+          <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
+              placement="topRight"
               title="Вы уверены, что хотите удалить эту расчетную цену?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"

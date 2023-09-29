@@ -33,8 +33,8 @@ export const PageOutput: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (outputId: number): void => {
-    setSelectedOutputId(outputId)
+  const openDrawer = (id: number): void => {
+    setSelectedOutputId(id)
     setIsDrawerOpen(true);
   };
 

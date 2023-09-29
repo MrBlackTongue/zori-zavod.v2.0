@@ -47,7 +47,7 @@ export const UpdateDrawerMeterType: React.FC<UpdateDrawerProps<TypeMeterTypeForm
       title="Редактирование типа счетчика"
       width={700}
       open={isOpen}
-      onClose={onCancel}
+      onClose={handleReset}
       extra={
         <Space>
           <Button onClick={handleReset}>Отмена</Button>

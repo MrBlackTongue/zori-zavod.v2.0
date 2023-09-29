@@ -32,8 +32,8 @@ export const PageProductGroup: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (productGroupId: number): void => {
-    setSelectedProductGroupId(productGroupId)
+  const openDrawer = (id: number): void => {
+    setSelectedProductGroupId(id)
     setIsDrawerOpen(true);
   };
 

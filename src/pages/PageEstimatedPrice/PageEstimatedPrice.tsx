@@ -34,8 +34,8 @@ export const PageEstimatedPrice: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (estimatedPriceId: number): void => {
-    setSelectedEstimatedPriceId(estimatedPriceId);
+  const openDrawer = (id: number): void => {
+    setSelectedEstimatedPriceId(id);
     setIsDrawerOpen(true);
   };
 
