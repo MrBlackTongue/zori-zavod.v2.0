@@ -85,7 +85,7 @@ export const TablePurchase: React.FC<TableProps> = ({
     {
       title: 'Статус оплаты',
       key: 'paid',
-      sorter: (a) => a.paid ? -1 : 1,
+      sorter: (a, b) => Number(a.paid) - Number(b.paid),
       render: (record: TypePurchase) => (
         <Tag color={record.paid ? 'green' : 'volcano'}>
           {record.paid ? 'Оплачено' : 'Не оплачено'}

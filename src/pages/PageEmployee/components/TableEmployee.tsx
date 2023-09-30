@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
+import {Space, Button, Table, Tooltip, Popconfirm, Tag,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
 import {getAllEmployee} from "../../../services";
@@ -47,11 +47,15 @@ export const TableEmployee: React.FC<TableProps> = ({
       sorter: (a, b) => (a.salaryRate ?? 0) - (b.salaryRate ?? 0),
     },
     {
-      title: 'Нанят',
+      title: 'Статус найма',
       dataIndex: 'hired',
       key: 'hired',
-      render: (hired => hired ? 'Да' : 'Нет'),
-      sorter: (a, b) => Number(a.hired) - Number(b.hired)
+      sorter: (a, b) => Number(a.hired) - Number(b.hired),
+      render: (hired) => (
+        <Tag color={hired ? 'green' : 'volcano'}>
+          {hired ? 'Работает' : 'Не работает'}
+        </Tag>
+      ),
     },
     {
       title: 'Действия',
