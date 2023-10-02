@@ -31,3 +31,4 @@ export * from './TypeWriteOff';
 export * from './TypeWriteOffMovement';
 export * from './TypePayment';
 export * from './TypeSubscription';
+export * from './TypeEstimatedPrice';

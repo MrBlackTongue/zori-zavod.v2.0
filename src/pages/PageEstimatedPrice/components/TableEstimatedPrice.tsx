@@ -1,20 +1,20 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllMeterRecord} from "../../../services"
-import {TableProps, TypeMeterRecord, TypeMeter} from "../../../types";
-import dayjs from "dayjs";
-import {renderNumber} from "../../../utils";
+import {Table, Button, Space, Tooltip, Popconfirm} from 'antd';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
+import type {ColumnsType, TablePaginationConfig} from 'antd/es/table/interface';
+import {TableProps, TypeEstimatedPrice, TypeProduct} from "../../../types";
+import {getAllEstimatedPrice} from '../../../services';
+import dayjs from 'dayjs';
+import {renderAsRuble} from "../../../utils";
 
-export const TableMeterRecord: React.FC<TableProps> = ({
-                                                         isUpdateTable,
-                                                         openDrawer,
-                                                         onDelete,
-                                                       }) => {
-  // Лоудер и список всех типов счетчиков
+export const TableEstimatedPrice: React.FC<TableProps> = ({
+                                                            isUpdateTable,
+                                                            openDrawer,
+                                                            onDelete
+                                                          }) => {
+  // Лоудер и список всех расчетных цен
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allMeterRecord, setAllMeterRecord] = useState<TypeMeterRecord[]>();
+  const [allEstimatedPrice, setAllEstimatedPrices] = useState<TypeEstimatedPrice[]>();
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -23,26 +23,32 @@ export const TableMeterRecord: React.FC<TableProps> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeMeterRecord> = [
+  const columns: ColumnsType<TypeEstimatedPrice> = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'idEstimatedPrice',
+    },
     {
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
       render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>) : null),
+        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
     },
     {
-      title: 'Счетчик',
-      dataIndex: 'meter',
-      key: 'meter',
-      render: (meter: TypeMeter) =>
-        meter !== null ? (<div>{meter.title}</div>) : null,
+      title: 'Товар',
+      dataIndex: 'product',
+      key: 'product',
+      render: ((product: TypeProduct) =>
+        product !== null ? (<div>{product.title}</div>) : null)
     },
     {
-      title: 'Показания',
-      dataIndex: 'value',
-      key: 'value',
-      render: renderNumber,
+      title: 'Цена',
+      dataIndex: 'price',
+      key: 'price',
+      sorter: (a, b) => (a.price ?? 0) < (b.price ?? 0) ? -1 : 1,
+      render: renderAsRuble
     },
     {
       title: 'Действия',
@@ -65,7 +71,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить эту запись счетчика?"
+              title="Вы уверены, что хотите удалить эту расчетную цену?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
@@ -80,7 +86,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
     },
   ];
 
-// Параметры изменения таблицы
+  // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setPagination((prevPagination) => ({
       current: pagination.current ?? prevPagination.current,
@@ -88,15 +94,15 @@ export const TableMeterRecord: React.FC<TableProps> = ({
     }));
   };
 
-  // Функция для обновления таблицы
+  // Функция для обновления таблицы расчетных цен
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllMeterRecord()
+    getAllEstimatedPrice()
       .then((data) => {
-        setAllMeterRecord(data);
+        setAllEstimatedPrices(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
+      .catch((error) => console.error("Ошибка при получении данных: ", error))
   }, [])
 
   useEffect(() => {
@@ -108,7 +114,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
       rowKey="id"
       bordered
       columns={columns}
-      dataSource={allMeterRecord}
+      dataSource={allEstimatedPrice}
       loading={isLoading}
       onChange={handleChangeTable}
       pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}

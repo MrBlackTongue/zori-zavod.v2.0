@@ -37,8 +37,8 @@ export const PageProductBatch: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (productBatchId: number): void => {
-    setSelectedProductBatchId(productBatchId)
+  const openDrawer = (id: number): void => {
+    setSelectedProductBatchId(id)
     setIsDrawerOpen(true);
   };
 

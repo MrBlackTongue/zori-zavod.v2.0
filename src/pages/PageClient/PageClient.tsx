@@ -31,8 +31,8 @@ export const PageClient: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (clientId: number): void => {
-    setSelectedClientId(clientId)
+  const openDrawer = (id: number): void => {
+    setSelectedClientId(id)
     setIsDrawerOpen(true);
   };
 

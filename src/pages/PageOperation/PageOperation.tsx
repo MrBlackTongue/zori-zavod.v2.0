@@ -34,8 +34,8 @@ export const PageOperation: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (operationId: number): void => {
-    setSelectedOperationId(operationId)
+  const openDrawer = (id: number): void => {
+    setSelectedOperationId(id)
     setIsDrawerOpen(true);
   };
 

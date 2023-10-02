@@ -3,6 +3,7 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllCostPriceByFilter} from "../../../services";
 import {TableProps, TypeCostPrice, TypeCostPriceFilter,} from "../../../types";
+import {renderAsRuble} from "../../../utils";
 
 export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
                                                                             isUpdateTable,
@@ -31,32 +32,14 @@ export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
       dataIndex: "salaryExpenses",
       key: "salaryExpenses",
       width: 150,
-      render: ((salaryExpenses: number | null) =>
-        salaryExpenses !== null ? (
-          <div>
-            {salaryExpenses.toLocaleString('ru-RU', {
-              style: 'currency',
-              currency: 'RUB',
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderAsRuble,
     },
     {
       title: "Материальные расходы",
       dataIndex: "materialExpenses",
       key: "materialExpenses",
       width: 150,
-      render: ((materialExpenses: number | null) =>
-        materialExpenses !== null ? (
-          <div>
-            {materialExpenses.toLocaleString('ru-RU', {
-              style: 'currency',
-              currency: 'RUB',
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderAsRuble,
     },
   ];
 

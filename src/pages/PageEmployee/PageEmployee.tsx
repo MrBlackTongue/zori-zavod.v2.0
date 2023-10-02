@@ -17,7 +17,7 @@ export const PageEmployee: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  //  id выбраного сотрудника
+  //  id выбранного сотрудника
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Добавить нового сотрудника
@@ -35,8 +35,8 @@ export const PageEmployee: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (employeeId: number): void => {
-    setSelectedEmployeeId(employeeId)
+  const openDrawer = (id: number): void => {
+    setSelectedEmployeeId(id)
     setIsDrawerOpen(true);
   };
 

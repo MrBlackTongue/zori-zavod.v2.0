@@ -50,7 +50,7 @@ export const UpdateDrawerMeterRecord: React.FC<UpdateDrawerProps<TypeMeterRecord
       title="Редактирование счетчика"
       width={600}
       open={isOpen}
-      onClose={onCancel}
+      onClose={handleReset}
       extra={
         <Space>
           <Button onClick={handleReset}>Отмена</Button>

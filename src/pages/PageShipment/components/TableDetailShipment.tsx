@@ -5,6 +5,7 @@ import type {ColumnsType} from 'antd/es/table';
 import {getAllProductMovementByShipmentId} from "../../../services";
 import {TableProps, TypeStock, TypeShipmentProductMovement} from "../../../types";
 import dayjs from 'dayjs';
+import {renderNumber} from "../../../utils";
 
 export const TableDetailShipment: React.FC<TableProps> = ({
                                                             isUpdateTable,
@@ -40,6 +41,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
+      render: renderNumber,
       sorter: (a, b) =>
         (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
     },
