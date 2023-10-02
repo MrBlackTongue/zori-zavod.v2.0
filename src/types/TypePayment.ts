@@ -12,7 +12,3 @@ export type TypePayment = {
 export type TypePaymentFormValue = {
   amount: number,
 }
-
-export  type StatusMappingType = {
-  [key: string]: string;
-}

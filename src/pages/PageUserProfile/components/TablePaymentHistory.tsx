@@ -2,9 +2,10 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {Button, Table, Typography} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
 import {getPaymentHistory} from "../../../services";
-import {StatusMappingType, TypePayment} from "../../../types";
+import {TypePayment} from "../../../types";
 import dayjs from "dayjs";
 import {SyncOutlined} from "@ant-design/icons";
+import {renderAsRuble} from "../../../utils";
 
 export const TablePaymentHistory: React.FC = () => {
   const {Title} = Typography;
@@ -19,7 +20,7 @@ export const TablePaymentHistory: React.FC = () => {
     pageSize: 10,
   });
 
-  const statusMapping: StatusMappingType = {
+  const statusMapping: {[key: string] : string} = {
     "succeeded": "Подтверждён",
     "pending": "В ожидании",
     "canceled": "Отменён",
@@ -42,16 +43,7 @@ export const TablePaymentHistory: React.FC = () => {
       dataIndex: 'amount',
       key: 'amount',
       width: 200,
-      render: ((cost: number | null) =>
-        cost !== null ? (
-          <div>
-            {cost.toLocaleString('ru-RU', {
-              style: 'currency',
-              currency: 'RUB',
-              maximumFractionDigits: 0,
-            })}
-          </div>
-        ) : null)
+      render: renderAsRuble,
     },
     {
       title: 'Статус',

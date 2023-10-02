@@ -5,6 +5,7 @@ import {getUserSubscription, replenishBalance} from "../../services";
 import {TypePaymentFormValue, TypeSubscription} from "../../types";
 import {ReplenishBalanceModal} from "./components/ReplenishBalanceModal";
 import {TablePaymentHistory} from "./components/TablePaymentHistory";
+import dayjs from "dayjs";
 
 export const PageUserProfile: React.FC = () => {
   const {Title} = Typography;
@@ -64,6 +65,9 @@ export const PageUserProfile: React.FC = () => {
         <Title level={3}>Личный кабинет</Title>
       </div>
       <p>Учетная запись: {subscriptionInfo?.customer.title}</p>
+      <p>Дата окончания подписки:
+          {subscriptionInfo?.endDate ? dayjs(subscriptionInfo.endDate).format(' DD.MM.YYYY') : " Дата не установлена"}
+      </p>
       <p>Текущий баланс: {subscriptionInfo?.customer.balance} Руб</p>
       <Button type="primary" className='pay-button' onClick={() => setIsModalOpen(true)}>
         Пополнить
