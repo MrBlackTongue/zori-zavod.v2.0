@@ -34,3 +34,4 @@ export const WRITE_OFF = '/write-off';
 export const PAYMENT = '/payment';
 export const SUBSCRIPTION = '/subscription';
 export const ESTIMATED_PRICE = '/estimated-price';
+export const CHECK_AUTHORIZATION = '/check-authorization';
