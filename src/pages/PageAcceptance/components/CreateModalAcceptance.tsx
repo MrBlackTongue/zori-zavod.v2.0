@@ -3,6 +3,7 @@ import {CreateModalProps, TypeAcceptanceFormValue} from "../../../types";
 import {DatePicker, Form, InputNumber, Modal, Select, message, Tooltip} from "antd";
 import dayjs from "dayjs";
 import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
+import {numberFormatter, numberParser} from "../../../utils";
 
 export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceFormValue>> = ({
                                                                                              isOpen,
@@ -98,8 +99,9 @@ export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceForm
             {allStock && allStock.length > 0
               ? allStock.map((stock) => (
                 <Option key={stock.id} value={stock.id} label={`${stock.product?.title}, ${stock.id}`}>
-                  <Tooltip placement="right" title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}>
-                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                  <Tooltip placement="right"
+                           title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount?.toLocaleString('ru-RU', {maximumFractionDigits: 2})}`}>
+                    {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount?.toLocaleString('ru-RU', {maximumFractionDigits: 2})}`}
                   </Tooltip>
                 </Option>
               ))
@@ -172,7 +174,13 @@ export const CreateModalAcceptance: React.FC<CreateModalProps<TypeAcceptanceForm
           name="amount"
           rules={[{required: true, message: "введите количество"}]}
         >
-          <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
+          <InputNumber
+            placeholder='1'
+            style={{width: "100%"}}
+            min={1}
+            formatter={numberFormatter}
+            parser={numberParser}
+          />
         </Form.Item>
         <Form.Item
           label="Дата"

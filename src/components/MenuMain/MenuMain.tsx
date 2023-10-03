@@ -27,6 +27,7 @@ import {
   TableOutlined,
   FundOutlined,
   DownSquareOutlined,
+  RetweetOutlined,
 } from "@ant-design/icons";
 
 export const MenuMain: React.FC = () => {
@@ -38,6 +39,7 @@ export const MenuMain: React.FC = () => {
     "04": ["/meter-record", "/meter", "/meter-type"],
     "05": ["/purchase", "/product-batch", "/acceptance"],
     "06": ["/stock", "/write-off"],
+    "07": ["/estimated-price"],
   };
 
   const findSubMenuKey = (pathname: any) => {
@@ -163,6 +165,12 @@ export const MenuMain: React.FC = () => {
           </Menu.Item>
           <Menu.Item key="/acceptance" icon={<ScheduleOutlined/>}>
             <Link to="/acceptance">Приемка товаров</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <SubMenu key="07" icon={<RightOutlined/>} title="Себестоимость">
+          <Menu.Item key="/estimated-price" icon={<RetweetOutlined/>}>
+            <Link to="/estimated-price">Расчетные цены</Link>
           </Menu.Item>
         </SubMenu>
 

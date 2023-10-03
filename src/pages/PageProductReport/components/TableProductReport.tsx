@@ -3,6 +3,7 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllProductReportByFilter} from "../../../services";
 import {TableProps, TypeProductReport, TypeProductReportFilter,} from "../../../types";
+import {renderNumber} from "../../../utils";
 
 export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> = ({
                                                                                     isUpdateTable,
@@ -31,14 +32,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       dataIndex: "fact",
       key: "fact",
       width: 130,
-      render: ((fact: number | null) =>
-        fact !== null ? (
-          <div>
-            {fact.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: "Ед.изм",
@@ -51,14 +45,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
       dataIndex: "hours",
       key: "hours",
       width: 100,
-      render: ((hours: number | null) =>
-        hours !== null ? (
-          <div>
-            {hours.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
   ];
 

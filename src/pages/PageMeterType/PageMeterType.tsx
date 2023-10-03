@@ -33,8 +33,8 @@ export const PageMeterType: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (meterTypeId: number): void => {
-    setSelectedMeterTypeId(meterTypeId)
+  const openDrawer = (id: number): void => {
+    setSelectedMeterTypeId(id)
     setIsDrawerOpen(true);
   };
 

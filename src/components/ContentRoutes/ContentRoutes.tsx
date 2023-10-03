@@ -25,6 +25,8 @@ import {PageOperationReport} from "../../pages/PageOperationReport/PageOperation
 import {PageEmployeeReport} from "../../pages/PageEmployeeReport/PageEmployeeReport";
 import {PageCostPrice} from "../../pages/PageCostPrice/PageCostPrice";
 import {PageWriteOff} from "../../pages/PageWriteOff/PageWriteOff";
+import {PageUserProfile} from "../../pages/PageUserProfile/PageUserProfile";
+import {PageEstimatedPrice} from "../../pages/PageEstimatedPrice/PageEstimatedPrice";
 import {PageWorkHours} from "../../pages/PageWorkHours/PageWorkHours";
 
 export const ContentRoutes: React.FC = () => {
@@ -55,6 +57,8 @@ export const ContentRoutes: React.FC = () => {
       <Route path="/employee-report" element={<PageEmployeeReport/>}/>
       <Route path="/cost-report" element={<PageCostPrice/>}/>
       <Route path="/write-off" element={<PageWriteOff/>}/>
+      <Route path="/user-profile" element={<PageUserProfile/>}/>
+      <Route path="/estimated-price" element={<PageEstimatedPrice/>}/>
       <Route path="/work-hours" element={<PageWorkHours/>}/>
     </Routes>
   );

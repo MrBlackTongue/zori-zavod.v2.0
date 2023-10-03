@@ -29,4 +29,7 @@ export * from './TypeCostPrice';
 export * from './TypeUserProfile';
 export * from './TypeWriteOff';
 export * from './TypeWriteOffMovement';
+export * from './TypePayment';
+export * from './TypeSubscription';
+export * from './TypeEstimatedPrice';
 export * from './TypeWorkHours';

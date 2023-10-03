@@ -39,8 +39,8 @@ export const PageShipment: React.FC = () => {
   }
 
   // Функция открытия дравера редактирования отгрузки
-  const openDrawer = (shipmentId: number): void => {
-    setSelectedShipmentId(shipmentId);
+  const openDrawer = (id: number): void => {
+    setSelectedShipmentId(id);
     setOpenState({...openState, isDrawerOpen: true});
   }
 

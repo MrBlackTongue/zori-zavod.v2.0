@@ -51,8 +51,8 @@ export const PageStock: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (stockId: number): void => {
-    setSelectedStockId(stockId);
+  const openDrawer = (id: number): void => {
+    setSelectedStockId(id);
     setIsDrawerOpen(true);
   };
 

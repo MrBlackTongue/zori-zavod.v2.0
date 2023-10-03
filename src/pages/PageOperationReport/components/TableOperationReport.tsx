@@ -3,6 +3,7 @@ import {Table} from "antd";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllOperationReportByFilter} from "../../../services";
 import {TableProps, TypeOperationReport, TypeOperationReportFilter,} from "../../../types";
+import {renderNumber} from "../../../utils";
 
 export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter>> = ({
                                                                                         isUpdateTable,
@@ -31,28 +32,14 @@ export const TableOperationReport: React.FC<TableProps<TypeOperationReportFilter
       dataIndex: "hours",
       key: "hours",
       width: 130,
-      render: ((hours: number | null) =>
-        hours !== null ? (
-          <div>
-            {hours.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: "Результат",
       dataIndex: "fact",
       key: "fact",
       width: 130,
-      render: ((fact: number | null) =>
-        fact !== null ? (
-          <div>
-            {fact.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: "Ед.изм",

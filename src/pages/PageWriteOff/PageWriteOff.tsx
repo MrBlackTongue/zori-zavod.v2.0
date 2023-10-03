@@ -35,8 +35,8 @@ export const PageWriteOff: React.FC = () => {
   };
 
   // Открыть дравер
-  const openDrawer = (writeOffId: number): void => {
-    setSelectedWriteOffId(writeOffId)
+  const openDrawer = (id: number): void => {
+    setSelectedWriteOffId(id)
     setIsDrawerOpen(true);
   };
 

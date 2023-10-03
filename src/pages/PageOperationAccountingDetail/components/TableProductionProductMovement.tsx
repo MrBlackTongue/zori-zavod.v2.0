@@ -11,6 +11,7 @@ import {
 } from "../../../types";
 import {getProductionProductMovementByIdOperationAccounting} from "../../../services";
 import dayjs from "dayjs";
+import {renderNumber} from "../../../utils";
 
 export const TableProductionProductMovement:
   React.FC<TableProps> = React.memo(({
@@ -61,6 +62,7 @@ export const TableProductionProductMovement:
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
+      render: renderNumber,
     },
     {
       title: 'Ед. изм',
