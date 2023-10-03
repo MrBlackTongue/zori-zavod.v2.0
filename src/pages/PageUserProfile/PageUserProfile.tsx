@@ -18,7 +18,6 @@ export const PageUserProfile: React.FC = () => {
 
   // Создать новый платёж
   const handleReplenish = (value: TypePaymentFormValue) => {
-    console.log('value', value);
     setIsModalOpen(false)
     replenishBalance(value.amount)
       .then(response => {
@@ -51,9 +50,7 @@ export const PageUserProfile: React.FC = () => {
   // Получить информацию о подписке пользователя
   useEffect(() => {
     getUserSubscription()
-      .then((data) => {
-        setSubscriptionInfo(data)
-      })
+      .then((data) => setSubscriptionInfo(data))
       .catch((error) => {
         console.log("Error: ", error);
       });

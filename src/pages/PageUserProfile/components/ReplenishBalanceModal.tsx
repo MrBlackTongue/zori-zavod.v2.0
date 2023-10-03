@@ -13,11 +13,11 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePaymentFormVal
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
+  const amounts = [500, 1000, 1500, 2990];
+
   const handleAmountSelection = (amount: number) => {
     form.setFieldsValue({amount: amount});
   };
-
-  const amounts = [500, 1000, 1500, 2990];
 
   return (
     <Modal
@@ -56,7 +56,7 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePaymentFormVal
         >
           {amounts.map((amount) => (
             <Button type="dashed" size="middle" onClick={() => handleAmountSelection(amount)}>
-              {`${amount}`}
+              {`${amount} ₽`}
             </Button>
           ))}
         </div>
