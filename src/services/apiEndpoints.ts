@@ -32,3 +32,4 @@ export const COST_PRICE = '/cost-price';
 export const REGISTRATION = '/registration';
 export const WRITE_OFF = '/write-off';
 export const ESTIMATED_PRICE = '/estimated-price';
+export const CHECK_AUTHORIZATION = '/check-authorization';

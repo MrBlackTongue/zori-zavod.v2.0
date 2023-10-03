@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import {CreateModalRegistrationUser} from "./components/CreateModalRegistrationUser";
 import './/PageLanding.css';
 import {TypeUserProfile} from "../../types";
-import {registrationUser} from "../../services";
+import {registrationUser, checkAuthorization} from "../../services";
 
 export const PageLanding = () => {
 
@@ -29,7 +29,13 @@ export const PageLanding = () => {
 
   // Переход на другую страницу по адресу
   const handleLogin = () => {
-    navigate('/login');
+    checkAuthorization()
+      .then(isUserAuthorized => {
+        navigate(isUserAuthorized ? '/employee' : '/login');
+      })
+      .catch(error => {
+        console.error("Ошибка при проверке авторизации:", error);
+      });
   };
 
   const handleRate = () => {
@@ -77,7 +83,7 @@ export const PageLanding = () => {
     <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
         <a href="/" rel="noopener noreferrer">
-        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+          <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         </a>
         <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
           <Space>
@@ -87,7 +93,7 @@ export const PageLanding = () => {
           </Space>
         </Dropdown>
         <Space>
-          <Button type="link"  size="large" className='rate-button' onClick={handleRate}>Тариф</Button>
+          <Button type="link" size="large" className='rate-button' onClick={handleRate}>Тариф</Button>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
           <Button
             type="primary"
