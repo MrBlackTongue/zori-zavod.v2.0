@@ -1,30 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Space, Dropdown, MenuProps} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import './/PageRate.css';
 import {MenuOutlined} from "@ant-design/icons";
-import {TypeUserProfile} from "../../types";
-import {registrationUser} from "../../services";
 import {CreateModalRegistrationUser} from "../PageLanding/components/CreateModalRegistrationUser";
+import {useRegistration} from "../../hooks";
 
 export const PageRate = () => {
   const navigate = useNavigate();
 
-  // Открыть закрыть модальное окно
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  // Создать нового пользователя
-  const handleCreateNewUser = (values: TypeUserProfile): void => {
-    const user: TypeUserProfile = {
-      username: 'admin',
-      password: values.password,
-      email: values.email,
-      phone: values.phone,
-      firstname: values.firstname,
-    }
-    setIsModalOpen(false)
-    void registrationUser(user)
-  }
+  // Хук состояние модального окна и регистрация нового пользователя
+  const {isModalOpen, setIsModalOpen, handleCreateNewUser} = useRegistration();
 
   // Переход на другую страницу по адресу
   const handleLogin = () => {

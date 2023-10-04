@@ -31,7 +31,7 @@ export const PageStock: React.FC = () => {
 
   // Изменить выбранную группу товаров
   const onChangeProductGroup = (value: any): void => {
-    setSelectedProductGroupId(value ? value : undefined);
+    setSelectedProductGroupId(value || undefined);
   };
 
   // Поиск по селекту

@@ -55,7 +55,7 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePaymentFormVal
           }}
         >
           {amounts.map((amount) => (
-            <Button type="dashed" size="middle" onClick={() => handleAmountSelection(amount)}>
+            <Button key={amount} type="dashed" size="middle" onClick={() => handleAmountSelection(amount)}>
               {`${amount} ₽`}
             </Button>
           ))}

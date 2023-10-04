@@ -1,32 +1,19 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {LockOutlined, UserOutlined, EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons';
 import {Button, Form, Input} from 'antd';
-import {loginUser, registrationUser} from "../../services";
+import {loginUser} from "../../services";
 import {useNavigate} from "react-router-dom";
 import './/PageLogin.css';
-import {TypeUserProfile} from "../../types";
 import {CreateModalRegistrationUser} from "../PageLanding/components/CreateModalRegistrationUser";
+import {useRegistration} from "../../hooks";
 
 export const PageLogin: React.FC = () => {
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
-  // Открыть закрыть модальное окно
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  // Создать нового пользователя
-  const handleCreateNewUser = (values: TypeUserProfile): void => {
-    const user: TypeUserProfile = {
-      username: 'admin',
-      password: values.password,
-      email: values.email,
-      phone: values.phone,
-      firstname: values.firstname,
-    }
-    setIsModalOpen(false)
-    void registrationUser(user)
-  }
+  // Хук состояние модального окна и регистрация нового пользователя
+  const {isModalOpen, setIsModalOpen, handleCreateNewUser} = useRegistration();
 
   // Скрыть показать пароль
   const iconRender = useCallback(
@@ -101,10 +88,11 @@ export const PageLogin: React.FC = () => {
         </Form.Item>
         <div className='login-form-item'>
           <Form.Item>
+            {/*// Когда добавим ссылку в href, удалить исключение!*/}
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a href="#" rel="noopener noreferrer" className='forget-button'>Забыли пароль?</a>
           </Form.Item>
-          <Form.Item >
+          <Form.Item>
             <Button
               size="large"
               type="link"

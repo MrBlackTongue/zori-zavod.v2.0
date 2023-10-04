@@ -52,12 +52,12 @@ export const PageOperationAccounting: React.FC = () => {
 
   // Изменить выбранную операцию
   const onChangeOperation = (value: any): void => {
-    setSelectedOperationId(value ? value : undefined);
+    setSelectedOperationId(value || undefined);
   };
 
   // Изменить выбранный тип производства
   const onChangeProductionType = (values: any): void => {
-    setSelectedProductionTypeIds(values ? values : []);
+    setSelectedProductionTypeIds(values || []);
   };
 
   // Поиск по селекту

@@ -28,7 +28,7 @@ export const PageCostPrice: React.FC = () => {
 
   // Изменить выбранный выпуск продукции
   const onChangeOutput = (value: any): void => {
-    setSelectedOutputId(value ? value : undefined);
+    setSelectedOutputId(value || undefined);
   };
 
   // Поиск по селекту
