@@ -61,7 +61,7 @@ export const PageUserProfile: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Личный кабинет</Title>
       </div>
-      <p>Учетная запись: {subscriptionInfo?.customer.title}</p>
+      <p>Учетная запись: {subscriptionInfo?.customer.email}</p>
       <p>Дата окончания подписки:
           {subscriptionInfo?.endDate ? dayjs(subscriptionInfo.endDate).format(' DD.MM.YYYY') : " Дата не установлена"}
       </p>

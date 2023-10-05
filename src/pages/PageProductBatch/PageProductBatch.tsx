@@ -22,7 +22,7 @@ export const PageProductBatch: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной партии товаров
+  // id выбранной партии товаров
   const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
   // Добавить новую партию товаров

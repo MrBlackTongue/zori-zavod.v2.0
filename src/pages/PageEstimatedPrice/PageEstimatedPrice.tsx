@@ -18,7 +18,7 @@ export const PageEstimatedPrice: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной расчетной цены
+  // id выбранной расчетной цены
   const [selectedEstimatedPriceId, setSelectedEstimatedPriceId] = useState<number>();
 
   // Добавить новую расчетную цену

@@ -1,4 +1,5 @@
 import {TypeMeterType} from "./TypeMeterType";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeMeter = {
   id?: number,
@@ -15,7 +16,7 @@ export type TypeMeterFormValue = {
 }
 
 export interface FormMeterProps {
-  form: any,
+  form: FormInstance,
   allMeterType: TypeMeterType[],
   onChangeMeterType: (value: string) => void,
   onClearMeterType: () => void,

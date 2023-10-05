@@ -30,6 +30,15 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
     (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
   );
 
+  const handleFinish = async () => {
+    await new Promise(() => {
+      handleSubmit();
+    });
+    await new Promise(() => {
+      navigate('/employee');
+    });
+  };
+
   return (
     <Modal
       width={530}
@@ -42,10 +51,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
       <Form
         form={form}
         className="registration-form"
-        onFinish={async () => {
-          await handleSubmit()
-          await navigate('/employee');
-        }}
+        onFinish={handleFinish}
       >
         <Form.Item>
           <div className='registration-title'>Регистрация</div>
@@ -113,7 +119,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
             Зарегистрироваться
           </Button>
           <div className='registration-login'>
-          <a href="/login" className='registration-login-text'>У меня уже есть аккаунт</a>
+            <a href="/employee" className='registration-login-text'>У меня уже есть аккаунт</a>
           </div>
           <div className='registration-text-offer'>
             Регистрируясь в сервисе Zolotenkov, вы принимаете условия

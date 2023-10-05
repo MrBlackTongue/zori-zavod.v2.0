@@ -38,7 +38,7 @@ export const PageProductReport: React.FC = () => {
 
   // Изменить выбранный товар
   const onChangeProduct = (value: any): void => {
-    setSelectedProductId(value ? value : undefined);
+    setSelectedProductId(value || undefined);
   };
 
   // Изменить выбранную дату

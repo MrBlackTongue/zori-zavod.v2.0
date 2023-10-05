@@ -28,6 +28,7 @@ import {
   FundOutlined,
   DownSquareOutlined,
   RetweetOutlined,
+  ArrowDownOutlined,
 } from "@ant-design/icons";
 
 export const MenuMain: React.FC = () => {
@@ -38,7 +39,7 @@ export const MenuMain: React.FC = () => {
     "03": ["/product", "/product-group"],
     "04": ["/meter-record", "/meter", "/meter-type"],
     "05": ["/purchase", "/product-batch", "/acceptance"],
-    "06": ["/stock", "/write-off"],
+    "06": ["/stock", "/write-off", "/storage-place"],
     "07": ["/estimated-price"],
   };
 
@@ -147,8 +148,11 @@ export const MenuMain: React.FC = () => {
           <Menu.Item key="/stock" icon={<DatabaseOutlined/>}>
             <Link to="/stock">Склад</Link>
           </Menu.Item>
-          <Menu.Item key="/write-off" icon={<DownSquareOutlined/>}>
+          <Menu.Item key="/write-off" icon={<ArrowDownOutlined/>}>
             <Link to="/write-off">Списание</Link>
+          </Menu.Item>
+          <Menu.Item key="/storage-place" icon={<DownSquareOutlined/>}>
+            <Link to="/storage-place">Место хранения</Link>
           </Menu.Item>
         </SubMenu>
 

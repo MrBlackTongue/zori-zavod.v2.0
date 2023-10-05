@@ -27,7 +27,7 @@ export const PageOperationAccounting: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной учетной операции, Выбранная дата
+  // id выбранной учетной операции, Выбранная дата
   const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
   const [selectedDate, setSelectedDate] = useState<any>();
 
@@ -52,12 +52,12 @@ export const PageOperationAccounting: React.FC = () => {
 
   // Изменить выбранную операцию
   const onChangeOperation = (value: any): void => {
-    setSelectedOperationId(value ? value : undefined);
+    setSelectedOperationId(value || undefined);
   };
 
   // Изменить выбранный тип производства
   const onChangeProductionType = (values: any): void => {
-    setSelectedProductionTypeIds(values ? values : []);
+    setSelectedProductionTypeIds(values || []);
   };
 
   // Поиск по селекту

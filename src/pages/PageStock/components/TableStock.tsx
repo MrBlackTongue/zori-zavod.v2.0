@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from "react";
 import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypeUnit, TypeStock, TypeStockFilter, TypeProduct} from "../../../types";
+import {TableProps, TypeUnit, TypeStock, TypeStockFilter, TypeProduct, TypeStoragePlace} from "../../../types";
 import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
 import {renderNumber} from "../../../utils";
 
@@ -53,6 +53,13 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       key: 'unit',
       render: ((unit: TypeUnit) =>
         unit !== null ? (<div>{unit.name}</div>) : null)
+    },
+    {
+      title: 'Место хранения',
+      dataIndex: 'storagePlace',
+      key: 'storagePlace',
+      render: ((storagePlace: TypeStoragePlace) =>
+        storagePlace !== null ? (<div>{storagePlace.title}</div>) : null)
     },
     {
       title: 'Действия',

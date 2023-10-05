@@ -31,7 +31,7 @@ export const PageStock: React.FC = () => {
 
   // Изменить выбранную группу товаров
   const onChangeProductGroup = (value: any): void => {
-    setSelectedProductGroupId(value ? value : undefined);
+    setSelectedProductGroupId(value || undefined);
   };
 
   // Поиск по селекту
@@ -40,13 +40,14 @@ export const PageStock: React.FC = () => {
   }
 
   // Добавить новую ячейку на складе
-  const handleCreateStock = (values: TypeStockFormValue): void => {
+  const handleCreateStock = async (values: TypeStockFormValue): Promise<void> => {
     const stock: TypeStock = {
       amount: values.amount,
       product: {id: values.product},
+      storagePlace: {id: values.storagePlace},
     };
     setIsModalOpen(false);
-    void createStock(stock);
+    await createStock(stock);
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -57,20 +58,21 @@ export const PageStock: React.FC = () => {
   };
 
   // Обновить товар на складе
-  const handleUpdateStock = (values: TypeStockFormValue): void => {
+  const handleUpdateStock = async (values: TypeStockFormValue): Promise<void> => {
     const stock: TypeStock = {
       id: selectedStockId,
       amount: values.amount,
       product: {id: values.product},
+      storagePlace: {id: values.storagePlace},
     };
     setIsDrawerOpen(false);
-    void updateStock(stock);
+    await updateStock(stock);
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteStock = (id: number): void => {
-    void deleteStockById(id)
+  const handleDeleteStock = async (id: number): Promise<void> => {
+    await deleteStockById(id)
     setIsUpdateTable(prevState => !prevState);
   };
 

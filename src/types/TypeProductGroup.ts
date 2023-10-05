@@ -1,3 +1,5 @@
+import {FormInstance} from "antd/lib/form";
+
 export type TypeProductGroup = {
   id?: number;
   title?: string;
@@ -12,7 +14,7 @@ export type TypeProductGroupFormValue = {
 }
 
 export interface FormProductGroupProps {
-  form: any;
+  form: FormInstance;
   allProductGroup: TypeProductGroup[];
   onChangeProductGroup: (value: string) => void;
   onClearProductGroup: () => void;

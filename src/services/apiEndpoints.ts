@@ -35,4 +35,5 @@ export const PAYMENT = '/payment';
 export const SUBSCRIPTION = '/subscription';
 export const ESTIMATED_PRICE = '/estimated-price';
 export const CHECK_AUTHORIZATION = '/check-authorization';
+export const STORAGE_PLACE = '/storage-place';
 export const WORK_HOURS = '/work-hours';

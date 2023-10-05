@@ -1,5 +1,6 @@
 import {TypeEmployee} from "./TypeEmployee";
 import {TypeProductionType} from "./TypeProductionType";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeWriteOff = {
   id?: number,
@@ -16,7 +17,7 @@ export type TypeWriteOffFormValue = {
 }
 
 export interface FormWriteOffProps {
-  form: any,
+  form: FormInstance,
   allEmployee: TypeEmployee[],
   onChangeEmployee: (value: string) => void,
   onClearEmployee: () => void,

@@ -4,7 +4,7 @@ export type TypeSubscription = {
   id: number,
   customer: {
     id: number,
-    title: string,
+    email: string,
     mainEmailId: number,
     balance: number
   },

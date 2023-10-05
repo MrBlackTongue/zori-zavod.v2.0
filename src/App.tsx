@@ -48,7 +48,9 @@ function App() {
             justifyContent: 'space-between', alignContent: 'center', background: colorBgContainer
           }}>
             {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
-            <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+            <a href="/" rel="noopener noreferrer">
+              <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+            </a>
             <Space>
               <Button type='default' className='Account-button' onClick={handleUserProfile}>Личный кабинет</Button>
             </Space>
