@@ -21,33 +21,52 @@ export const TableWorkHours: React.FC<TableProps> = ({
     pageSize: 10,
   });
 
+  const startDate = dayjs().startOf('week');
+  // const endDate = dayjs().endOf('week');
+  const days = [];
+
+  for(let i = 0; i < 7; i++) {
+    days.push(startDate.add(i, 'day'));
+  }
+
+  const daysColumns: ColumnsType<TypeWorkHours> = days.map(day => ({
+    title: `${day.format('dd')}\n${day.format('DD.MM')}`,
+    dataIndex: day.format('DD.MM'),
+    key: day.format('DD.MM'),
+    render: (hours: number) => hours ? `${hours}ч` : '',
+  }));
+
+  const transformData = (data: TypeWorkHours[]): any[] => {
+    // Создайте объект для агрегации данных
+    const aggregatedData: { [key: string]: any } = {};
+
+    data.forEach(item => {
+      const key = `${item.employee.firstName} ${item.employee.lastName}`;
+      if (!aggregatedData[key]) {
+        aggregatedData[key] = {
+          employee: item.employee,
+          [dayjs(item.workDate).format('DD.MM')]: item.hours
+        };
+      } else {
+        aggregatedData[key][dayjs(item.workDate).format('DD.MM')] = item.hours;
+      }
+    });
+
+    return Object.values(aggregatedData);
+  };
+
+
   // Колонки в таблице
   const columns: ColumnsType<TypeWorkHours> = [
     {
-      title: 'Имя',
-      dataIndex: ['employee', 'firstName'],
-      key: 'firstName',
-      sorter: (a, b) => (a.employee.firstName ?? '') < (b.employee.firstName ?? '') ? -1 : 1,
+      title: 'Сотрудник',
+      dataIndex: 'employee',
+      key: 'fullName',
+      render: (employee: any) => {
+        return `${employee.firstName} ${employee.lastName}`;
+      },
     },
-    {
-      title: 'Фамилия',
-      dataIndex: ['employee', 'lastName'],
-      key: 'lastName',
-      defaultSortOrder: 'ascend',
-      sorter: (a, b) => (a.employee.lastName ?? '') < (b.employee.lastName ?? '') ? -1 : 1,
-    },
-    {
-      title: 'Дата',
-      dataIndex: 'workDate',
-      key: 'workDate',
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
-    },
-    {
-      title: 'Рабочие часы',
-      dataIndex: 'hours',
-      key: 'hours',
-    },
+    ...daysColumns,
     {
       title: 'Действия',
       dataIndex: 'id',
@@ -96,10 +115,11 @@ export const TableWorkHours: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllWorkHours()
-      .then((data) => {
-        setAllHours(data);
-        setIsLoading(false);
-      })
+        .then((data) => {
+          const transformedData = transformData(data);
+          setAllHours(transformedData);
+          setIsLoading(false);
+        })
       .catch((error) => console.error("Ошибка при получении данных: ", error));
   }, [])
 
