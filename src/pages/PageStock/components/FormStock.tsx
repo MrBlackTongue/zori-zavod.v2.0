@@ -1,7 +1,6 @@
 import React from 'react';
-import {Form, InputNumber, Select, Tooltip} from "antd";
+import {Form, Select, Tooltip} from "antd";
 import {FormStockProps} from "../../../types";
-import {numberFormatter, numberParser} from "../../../utils";
 
 export const FormStock: React.FC<FormStockProps> = ({
                                                       form,
@@ -45,19 +44,6 @@ export const FormStock: React.FC<FormStockProps> = ({
               </Option>
             )) : null}
         </Select>
-      </Form.Item>
-      <Form.Item
-        label="Количество"
-        name="amount"
-        rules={[{required: true, message: "введите количество"}]}
-      >
-        <InputNumber
-          placeholder='1'
-          style={{width: "100%"}}
-          min={0}
-          formatter={numberFormatter}
-          parser={numberParser}
-        />
       </Form.Item>
       <Form.Item
         label="Место хранения"

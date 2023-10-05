@@ -55,7 +55,6 @@ export const FormProduct: React.FC<FormProductProps> = ({
       <Form.Item
         label="Товарная группа"
         name="productGroup"
-        rules={[{required: true, message: 'выберите тов. группу'}]}
       >
         <Select
           showSearch

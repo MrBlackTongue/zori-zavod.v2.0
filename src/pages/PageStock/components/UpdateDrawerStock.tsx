@@ -57,7 +57,7 @@ export const UpdateDrawerStock: React.FC<UpdateDrawerProps<TypeStockFormValue>> 
 
   return (
     <Drawer
-      title="Редактирование ячейки на складе"
+      title="Редактирование ячейки остатков"
       width={600}
       open={isOpen}
       onClose={handleReset}

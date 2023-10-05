@@ -33,7 +33,7 @@ export const CreateModalStock: React.FC<CreateModalProps<TypeStockFormValue>> = 
 
   return (
     <Modal
-      title={`Добавление новой ячейки на склад`}
+      title={`Добавление новой ячейки остатков`}
       okText={"Сохранить"}
       cancelText={"Отмена"}
       width={600}

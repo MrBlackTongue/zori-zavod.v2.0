@@ -82,7 +82,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить эту ячейку на складе?"
+              title="Вы действительно хотите удалить эту ячейку остатков?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена"
