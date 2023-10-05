@@ -13,6 +13,7 @@ import {
   TypeEmployee,
   TypeMeterType,
   TypeMeter,
+  TypeStoragePlace,
 } from "../types";
 import {
   getAllStock,
@@ -28,7 +29,7 @@ import {
   getAllEmployee,
   getAllMeterType,
   getAllMeter,
-  getAllProductOutput,
+  getAllProductOutput, getAllStoragePlace,
 } from "../services";
 
 export const useFetchAllData = (
@@ -47,6 +48,7 @@ export const useFetchAllData = (
     depsMeterType?: boolean,
     depsMeter?: boolean,
     depsProductOutput?: boolean,
+    depsStoragePlace?: boolean,
   }
 ) => {
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
@@ -63,6 +65,7 @@ export const useFetchAllData = (
   const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>([]);
   const [allMeter, setAllMeter] = useState<TypeMeter[]>([]);
   const [allProductOutput, setAllProductOutput] = useState<TypeProduct[]>([]);
+  const [allStoragePlace, setAllStoragePlace] = useState<TypeStoragePlace[]>([]);
 
   useEffect(() => {
     if (deps.depsStock) {
@@ -176,6 +179,14 @@ export const useFetchAllData = (
     }
   }, [deps.depsProductOutput]);
 
+  useEffect(() => {
+    if (deps.depsStoragePlace) {
+      getAllStoragePlace()
+        .then((data) => setAllStoragePlace(data))
+        .catch((error) => console.error("Ошибка при получении данных: ", error));
+    }
+  }, [deps.depsStoragePlace]);
+
   return {
     allStock,
     allPurchase,
@@ -191,5 +202,6 @@ export const useFetchAllData = (
     allMeterType,
     allMeter,
     allProductOutput,
+    allStoragePlace,
   };
 }
