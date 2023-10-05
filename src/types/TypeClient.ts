@@ -1,4 +1,5 @@
 import {Dayjs} from "dayjs";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeClient = {
   id?: number;
@@ -12,5 +13,5 @@ export type TypeClientFormValue = {
 }
 
 export interface FormClientProps {
-  form: any;
+  form: FormInstance;
 }

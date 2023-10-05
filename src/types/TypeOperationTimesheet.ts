@@ -1,4 +1,5 @@
 import {TypeEmployee} from "./TypeEmployee";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeOperationTimesheet = {
   id?: number,
@@ -17,7 +18,7 @@ export type TypeOperationTimesheetFormValue = {
 }
 
 export interface FormOperationTimesheetProps {
-  form: any,
+  form: FormInstance,
   allEmployee: TypeEmployee[],
   onChangeEmployee: (value: string) => void,
   onClearEmployee: () => void,

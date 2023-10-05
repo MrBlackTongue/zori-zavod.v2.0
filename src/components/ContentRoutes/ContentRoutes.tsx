@@ -27,6 +27,7 @@ import {PageCostPrice} from "../../pages/PageCostPrice/PageCostPrice";
 import {PageWriteOff} from "../../pages/PageWriteOff/PageWriteOff";
 import {PageUserProfile} from "../../pages/PageUserProfile/PageUserProfile";
 import {PageEstimatedPrice} from "../../pages/PageEstimatedPrice/PageEstimatedPrice";
+import {PageStoragePlace} from "../../pages/PageStoragePlace/PageStoragePlace";
 
 export const ContentRoutes: React.FC = () => {
   return (
@@ -58,6 +59,7 @@ export const ContentRoutes: React.FC = () => {
       <Route path="/write-off" element={<PageWriteOff/>}/>
       <Route path="/user-profile" element={<PageUserProfile/>}/>
       <Route path="/estimated-price" element={<PageEstimatedPrice/>}/>
+      <Route path="/storage-place" element={<PageStoragePlace/>}/>
     </Routes>
   );
 };

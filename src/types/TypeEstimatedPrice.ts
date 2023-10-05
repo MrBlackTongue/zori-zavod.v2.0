@@ -1,5 +1,6 @@
 import {TypeProduct} from "./TypeProduct";
 import {Dayjs} from 'dayjs';
+import {FormInstance} from "antd/lib/form";
 
 export type TypeEstimatedPrice = {
   id?: number,
@@ -16,7 +17,7 @@ export type TypeEstimatedPriceFormValue = {
 }
 
 export interface FormEstimatedPriceProps {
-  form: any;
+  form: FormInstance;
   allProduct: TypeProduct[];
   onChangeProduct: (value: string) => void;
   onClearProduct: () => void;

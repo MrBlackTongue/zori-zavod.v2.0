@@ -9,6 +9,10 @@ export const FormStock: React.FC<FormStockProps> = ({
                                                       onChangeProduct,
                                                       onClearProduct,
                                                       onSearchProduct,
+                                                      allStoragePlace,
+                                                      onChangeStoragePlace,
+                                                      onClearStoragePlace,
+                                                      onSearchStoragePlace,
                                                     }) => {
   const {Option} = Select;
 
@@ -54,6 +58,28 @@ export const FormStock: React.FC<FormStockProps> = ({
           formatter={numberFormatter}
           parser={numberParser}
         />
+      </Form.Item>
+      <Form.Item
+        label="Место хранения"
+        name="storagePlace"
+      >
+        <Select
+          showSearch
+          allowClear
+          placeholder='Выберите место'
+          onChange={onChangeStoragePlace}
+          onClear={onClearStoragePlace}
+          filterOption={onSearchStoragePlace}
+        >
+          {allStoragePlace && allStoragePlace.length > 0 ?
+            allStoragePlace.map(storagePlace => (
+              <Option key={storagePlace.id} value={storagePlace.id} label={storagePlace.title}>
+                <Tooltip placement="right" title={storagePlace.title}>
+                  {storagePlace.title}
+                </Tooltip>
+              </Option>
+            )) : null}
+        </Select>
       </Form.Item>
     </Form>
   );

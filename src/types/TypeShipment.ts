@@ -1,5 +1,6 @@
 import {TypeClient} from "./TypeClient";
 import {Dayjs} from "dayjs";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeShipment = {
   id?: number;
@@ -14,7 +15,7 @@ export type TypeShipmentFormValue = {
 }
 
 export interface FormShipmentProps {
-  form: any;
+  form: FormInstance;
   allClient: TypeClient[];
   onChangeClient: (value: string) => void;
   onClearClient: () => void;

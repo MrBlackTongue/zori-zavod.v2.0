@@ -1,5 +1,6 @@
 import {TypeProductGroup} from "./TypeProductGroup";
 import {TypeUnit} from "./TypeUnit";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeProduct = {
   id?: number,
@@ -16,7 +17,7 @@ export type TypeProductFormValue = {
 }
 
 export interface FormProductProps {
-  form: any;
+  form: FormInstance;
   allUnit: TypeUnit[];
   onChangeUnit: (value: string) => void;
   onClearUnit: () => void;

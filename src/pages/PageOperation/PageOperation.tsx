@@ -17,7 +17,7 @@ export const PageOperation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной операции, Текст поиска
+  // id выбранной операции, Текст поиска
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
   const [searchText, setSearchText] = useState<string>("");
 

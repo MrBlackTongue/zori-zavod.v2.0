@@ -2,14 +2,13 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
 import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
-import {deleteUnitById, createUnit, updateUnit} from "../../services";
-import {TypeUnit, TypeUnitFormValue} from "../../types";
-import {TableUnit} from "./components/TableUnit";
-import {CreateModalUnit} from "./components/CreateModalUnit";
-import {UpdateDrawerUnit} from "./components/UpdateDrawerUnit";
+import {deleteStoragePlaceById, createStoragePlace, updateStoragePlace} from "../../services";
+import {TypeStoragePlace, TypeStoragePlaceFormValue} from "../../types";
+import {TableStoragePlace} from "./components/TableStoragePlace";
+import {CreateModalStoragePlace} from "./components/CreateModalStoragePlace";
+import {UpdateDrawerStoragePlace} from "./components/UpdateDrawerStoragePlace";
 
-export const PageUnit: React.FC = () => {
-
+export const PageStoragePlace: React.FC = () => {
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -17,46 +16,46 @@ export const PageUnit: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбранной единицы измерения
-  const [selectedUnitId, setSelectedUnitId] = useState<number>();
+  // id выбранного места хранения
+  const [selectedStoragePlaceId, setSelectedStoragePlaceId] = useState<number>();
 
-  // Добавить новую единицу измерения
-  const handleCreateUnit = (values: TypeUnitFormValue): void => {
-    const unit: TypeUnit = {
-      name: values.name,
+  // Добавить новое место хранения
+  const handleCreateStoragePlace = async (values: TypeStoragePlaceFormValue): Promise<void> => {
+    const storagePlace: TypeStoragePlace = {
+      title: values.title,
     };
     setIsModalOpen(false)
-    void createUnit(unit)
+    await createStoragePlace(storagePlace)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
   const openDrawer = (id: number): void => {
-    setSelectedUnitId(id)
+    setSelectedStoragePlaceId(id)
     setIsDrawerOpen(true);
   };
 
-  // Обновить единицу измерения
-  const handleUpdateUnit = (values: TypeUnitFormValue): void => {
-    const unit: TypeUnit = {
-      id: selectedUnitId,
-      name: values.name,
+  // Обновить место хранения
+  const handleUpdateStoragePlace = async (values: TypeStoragePlaceFormValue): Promise<void> => {
+    const storagePlace: TypeStoragePlace = {
+      id: selectedStoragePlaceId,
+      title: values.title,
     };
     setIsDrawerOpen(false)
-    void updateUnit(unit)
+    await updateStoragePlace(storagePlace)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteUnit = (id: number): void => {
-    void deleteUnitById(id)
+  const handleDeleteStoragePlace = async (id: number): Promise<void> => {
+    await deleteStoragePlaceById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 
   return (
     <div style={{display: 'grid'}}>
       <div className='centerTitle'>
-        <Title level={3}>Единицы измерения</Title>
+        <Title level={3}>Место хранения</Title>
         <Space>
           <Button
             type="dashed"
@@ -76,20 +75,20 @@ export const PageUnit: React.FC = () => {
         </Space>
       </div>
       <FloatButton.BackTop/>
-      <TableUnit
+      <TableStoragePlace
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
-        onDelete={handleDeleteUnit}
+        onDelete={handleDeleteStoragePlace}
       />
-      <CreateModalUnit
+      <CreateModalStoragePlace
         isOpen={isModalOpen}
-        createItem={handleCreateUnit}
+        createItem={handleCreateStoragePlace}
         onCancel={() => setIsModalOpen(false)}
       />
-      <UpdateDrawerUnit
+      <UpdateDrawerStoragePlace
         isOpen={isDrawerOpen}
-        selectedItemId={selectedUnitId}
-        updateItem={handleUpdateUnit}
+        selectedItemId={selectedStoragePlaceId}
+        updateItem={handleUpdateStoragePlace}
         onCancel={() => setIsDrawerOpen(false)}
       />
     </div>

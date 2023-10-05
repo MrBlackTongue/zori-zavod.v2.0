@@ -12,20 +12,31 @@ export const CreateModalStock: React.FC<CreateModalProps<TypeStockFormValue>> = 
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchAllData({depsProduct: isOpen});
+  const {allProduct, allStoragePlace} = useFetchAllData({depsProduct: isOpen, depsStoragePlace: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Хук для управления полем product
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');
+  const {
+    onChangeSelect: onChangeProduct,
+    onClearSelect: onClearProduct,
+    onSearchSelect: onSearchProduct
+  } = useFormSelect(form, 'product');
+
+  // Хук для управления полем storagePlace
+  const {
+    onChangeSelect: onChangeStoragePlace,
+    onClearSelect: onClearStoragePlace,
+    onSearchSelect: onSearchStoragePlace
+  } = useFormSelect(form, 'storagePlace');
 
   return (
     <Modal
       title={`Добавление новой ячейки на склад`}
       okText={"Сохранить"}
       cancelText={"Отмена"}
-      width={500}
+      width={600}
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}
@@ -33,9 +44,13 @@ export const CreateModalStock: React.FC<CreateModalProps<TypeStockFormValue>> = 
       <FormStock
         form={form}
         allProduct={allProduct}
-        onChangeProduct={onChangeSelect}
-        onClearProduct={onClearSelect}
-        onSearchProduct={onSearchSelect}
+        onChangeProduct={onChangeProduct}
+        onClearProduct={onClearProduct}
+        onSearchProduct={onSearchProduct}
+        allStoragePlace={allStoragePlace}
+        onChangeStoragePlace={onChangeStoragePlace}
+        onClearStoragePlace={onClearStoragePlace}
+        onSearchStoragePlace={onSearchStoragePlace}
       />
     </Modal>
   );
