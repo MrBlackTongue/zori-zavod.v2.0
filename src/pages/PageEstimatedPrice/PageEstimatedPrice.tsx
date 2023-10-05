@@ -10,7 +10,6 @@ import {UpdateDrawerEstimatedPrice} from "./components/UpdateDrawerEstimatedPric
 import dayjs from "dayjs";
 
 export const PageEstimatedPrice: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, открыть/закрыть модальное окно, драйвер
@@ -22,14 +21,14 @@ export const PageEstimatedPrice: React.FC = () => {
   const [selectedEstimatedPriceId, setSelectedEstimatedPriceId] = useState<number>();
 
   // Добавить новую расчетную цену
-  const handleCreateEstimatedPrice = (values: TypeEstimatedPriceFormValue): void => {
+  const handleCreateEstimatedPrice = async (values: TypeEstimatedPriceFormValue): Promise<void> => {
     const estimatedPrice: TypeEstimatedPrice = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       price: values.price,
       product: {id: values.product}
     };
     setIsModalOpen(false);
-    void createEstimatedPrice(estimatedPrice);
+    await createEstimatedPrice(estimatedPrice);
     setIsUpdateTable(prevState => !prevState);
   };
 
@@ -40,7 +39,7 @@ export const PageEstimatedPrice: React.FC = () => {
   };
 
   // Обновить расчетную цену
-  const handleUpdateEstimatedPrice = (values: TypeEstimatedPriceFormValue): void => {
+  const handleUpdateEstimatedPrice = async (values: TypeEstimatedPriceFormValue): Promise<void> => {
     const estimatedPrice: TypeEstimatedPrice = {
       id: selectedEstimatedPriceId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
@@ -48,13 +47,13 @@ export const PageEstimatedPrice: React.FC = () => {
       product: {id: values.product}
     };
     setIsDrawerOpen(false);
-    void updateEstimatedPrice(estimatedPrice);
+    await updateEstimatedPrice(estimatedPrice);
     setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
-  const handleDeleteEstimatedPrice = (id: number): void => {
-    void deleteEstimatedPriceById(id);
+  const handleDeleteEstimatedPrice = async (id: number): Promise<void> => {
+    await deleteEstimatedPriceById(id);
     setIsUpdateTable(prevState => !prevState);
   };
 

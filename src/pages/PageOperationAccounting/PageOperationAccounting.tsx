@@ -18,7 +18,6 @@ import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
 
 export const PageOperationAccounting: React.FC = () => {
-
   const {Title} = Typography;
   const {Option} = Select;
 
@@ -66,7 +65,7 @@ export const PageOperationAccounting: React.FC = () => {
   }
 
   // Добавить новую учетную операцию
-  const handleCreateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
+  const handleCreateOperationAccounting = async (values: TypeOperationAccountingFormValue): Promise<void> => {
     const operationAccounting: TypeOperationAccounting = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       fact: values.fact ?? undefined,
@@ -75,7 +74,7 @@ export const PageOperationAccounting: React.FC = () => {
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsModalOpen(false)
-    void createOperationAccounting(operationAccounting)
+    await createOperationAccounting(operationAccounting)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -86,7 +85,7 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
+  const handleUpdateOperationAccounting = async (values: TypeOperationAccountingFormValue): Promise<void> => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
@@ -96,13 +95,13 @@ export const PageOperationAccounting: React.FC = () => {
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOpen(false)
-    void updateOperationAccounting(operationAccounting)
+    await updateOperationAccounting(operationAccounting)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteOperationAccounting = (id: number): void => {
-    void deleteOperationAccountingById(id)
+  const handleDeleteOperationAccounting = async (id: number): Promise<void> => {
+    await deleteOperationAccountingById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

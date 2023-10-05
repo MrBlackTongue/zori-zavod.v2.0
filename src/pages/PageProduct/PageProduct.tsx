@@ -9,7 +9,6 @@ import {CreateModalProduct} from "./components/CreateModalProduct";
 import {UpdateDrawerProduct} from "./components/UpdateDrawerProduct";
 
 export const PageProduct: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -22,14 +21,14 @@ export const PageProduct: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
 
   // Добавить новый товар
-  const handleCreateProduct = (values: TypeProductFormValue): void => {
+  const handleCreateProduct = async (values: TypeProductFormValue): Promise<void> => {
     const product: TypeProduct = {
       title: values.title,
       productGroup: {id: values.productGroup},
       unit: {id: values.unit},
     };
     setIsModalOpen(false)
-    void createProduct(product)
+    await createProduct(product)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -40,7 +39,7 @@ export const PageProduct: React.FC = () => {
   };
 
   // Обновить товар
-  const handleUpdateProduct = (values: TypeProductFormValue): void => {
+  const handleUpdateProduct = async (values: TypeProductFormValue): Promise<void> => {
     const product: TypeProduct = {
       id: selectedProductId,
       title: values.title,
@@ -48,13 +47,13 @@ export const PageProduct: React.FC = () => {
       unit: {id: values.unit},
     };
     setIsDrawerOpen(false)
-    void updateProduct(product)
+    await updateProduct(product)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteProduct = (id: number): void => {
-    void deleteProductById(id)
+  const handleDeleteProduct = async (id: number): Promise<void> => {
+    await deleteProductById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

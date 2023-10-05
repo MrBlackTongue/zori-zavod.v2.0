@@ -9,7 +9,6 @@ import {CreateModalClient} from "./components/CreateModalClient";
 import {UpdateDrawerClient} from "./components/UpdateDrawerClient";
 
 export const PageClient: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -21,12 +20,12 @@ export const PageClient: React.FC = () => {
   const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // Добавить нового клиента
-  const handleCreateClient = (values: TypeClientFormValue): void => {
+  const handleCreateClient = async (values: TypeClientFormValue): Promise<void> => {
     const client: TypeClient = {
       title: values.title,
     };
     setIsModalOpen(false)
-    void createClient(client)
+    await createClient(client)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -37,19 +36,19 @@ export const PageClient: React.FC = () => {
   };
 
   // Обновить клиента
-  const handleUpdateClient = (values: TypeClientFormValue): void => {
+  const handleUpdateClient = async (values: TypeClientFormValue): Promise<void> => {
     const client: TypeClient = {
       id: selectedClientId,
       title: values.title,
     };
     setIsDrawerOpen(false)
-    void updateClient(client)
+    await updateClient(client)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteClient = (id: number): void => {
-    void deleteClientById(id)
+  const handleDeleteClient = async (id: number): Promise<void> => {
+    await deleteClientById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

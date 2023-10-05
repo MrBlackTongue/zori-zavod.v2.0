@@ -10,7 +10,6 @@ import {UpdateDrawerOutput} from "./components/UpdateDrawerOutput";
 import dayjs from "dayjs";
 
 export const PageOutput: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -22,13 +21,13 @@ export const PageOutput: React.FC = () => {
   const [selectedOutputId, setSelectedOutputId] = useState<number>();
 
   // Добавить новый выпуск продукции
-  const handleCreateOutput = (values: TypeOutputFormValue): void => {
+  const handleCreateOutput = async (values: TypeOutputFormValue): Promise<void> => {
     const output: TypeOutput = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       product: {id: values.product}
     };
     setIsModalOpen(false)
-    void createOutput(output)
+    await createOutput(output)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -39,20 +38,20 @@ export const PageOutput: React.FC = () => {
   };
 
   // Обновить выпуск продукции
-  const handleUpdateOutput = (values: TypeOutputFormValue): void => {
+  const handleUpdateOutput = async (values: TypeOutputFormValue): Promise<void> => {
     const output: TypeOutput = {
       id: selectedOutputId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       product: {id: values.product},
     };
     setIsDrawerOpen(false)
-    void updateOutput(output)
+    await updateOutput(output)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteOutput = (id: number): void => {
-    void deleteOutputById(id)
+  const handleDeleteOutput = async (id: number): Promise<void> => {
+    await deleteOutputById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

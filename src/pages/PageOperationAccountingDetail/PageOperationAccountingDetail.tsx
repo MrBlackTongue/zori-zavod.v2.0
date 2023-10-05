@@ -29,7 +29,6 @@ import {CreateModalProductionProductMovement} from "./components/CreateModalProd
 import dayjs from "dayjs";
 
 export const PageOperationAccountingDetail: React.FC = () => {
-
   const {id} = useParams();
   const navigate = useNavigate();
   const {Title} = Typography;
@@ -47,9 +46,9 @@ export const PageOperationAccountingDetail: React.FC = () => {
   const [isModalProductionProductMovementOpen, setIsModalProductionProductMovementOpen] = useState(false);
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
+  const handleUpdateOperationAccounting = async (values: TypeOperationAccountingFormValue): Promise<void> => {
     const operationAccounting: TypeOperationAccounting = {
-      id: id ? +id : undefined,
+      id: id ? Number(id) : undefined,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       fact: values.fact ?? undefined,
       operation: {id: values.operation},
@@ -57,46 +56,46 @@ export const PageOperationAccountingDetail: React.FC = () => {
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOperationAccountingOpen(false)
-    void updateOperationAccounting(operationAccounting)
+    await updateOperationAccounting(operationAccounting)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить запись из таблицы
-  const handleDeleteOperationAccounting = (id: number): void => {
-    void deleteOperationAccountingById(id)
+  const handleDeleteOperationAccounting = async (id: number): Promise<void> => {
+    await deleteOperationAccountingById(id)
     handleBack()
   };
 
   // Создать сотрудника в табеле учета рабочего времени
-  const handleCreateOperationTimesheet = (values: TypeOperationTimesheetFormValue): void => {
+  const handleCreateOperationTimesheet = async (values: TypeOperationTimesheetFormValue): Promise<void> => {
     const operationTimesheet: TypeOperationTimesheet = {
       hours: values.hours,
       employee: {id: values.employee},
-      operationAccountingId: id ? +id : undefined,
+      operationAccountingId: id ? Number(id) : undefined,
       fact: values.fact ?? 0,
     };
     setIsModalOperationTimesheetOpen(false)
-    void createOperationTimesheet(operationTimesheet)
+    await createOperationTimesheet(operationTimesheet)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Обновить сотрудника в табеле учета рабочего времени
-  const handleUpdateOperationTimesheet = (values: TypeOperationTimesheetFormValue): void => {
+  const handleUpdateOperationTimesheet = async (values: TypeOperationTimesheetFormValue): Promise<void> => {
     const operationTimesheet: TypeOperationTimesheet = {
       id: selectedOperationTimesheetId,
       hours: values.hours,
       employee: {id: values.employee},
-      operationAccountingId: id ? +id : undefined,
+      operationAccountingId: id ? Number(id) : undefined,
       fact: values.fact ?? 0,
     };
     setIsDrawerOperationTimesheetOpen(false)
-    void updateOperationTimesheet(operationTimesheet)
+    await updateOperationTimesheet(operationTimesheet)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
   // Удалить сотрудника из таблицы табель учета рабочего времени
-  const handleDeleteOperationTimesheet = (id: number): void => {
-    void deleteOperationTimesheetById(id)
+  const handleDeleteOperationTimesheet = async (id: number): Promise<void> => {
+    await deleteOperationTimesheetById(id)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
@@ -107,31 +106,30 @@ export const PageOperationAccountingDetail: React.FC = () => {
   }
 
   // Создать запись движения товара на производстве
-  const handleCreateProductionProductMovement = (values: TypeProductionProductMovementFormValue): void => {
-    (async () => {
-      if (!id) return;
-      const operationAccounting = await getOperationAccountingById(+id);
-      let operationDate = operationAccounting?.date;
+  const handleCreateProductionProductMovement = async (values: TypeProductionProductMovementFormValue): Promise<void> => {
+    if (!id) return;
+    const operationAccounting = await getOperationAccountingById(Number(id));
+    let operationDate = operationAccounting?.date;
 
-      const productionProductMovement: TypeProductionProductMovement = {
-        amount: values.amount,
-        income: values.income,
-        stock: {id: values.stock},
-        date: operationDate,
-        productBatch: {id: values.productBatch},
-        operationAccounting: {
-          id: id ? +id : undefined
-        },
-      };
-      setIsModalProductionProductMovementOpen(false)
-      await createProductionProductMovement(productionProductMovement)
-      setIsUpdateAllTable(prevState => !prevState)
-    })();
+    const productionProductMovement: TypeProductionProductMovement = {
+      amount: values.amount,
+      income: values.income,
+      stock: {id: values.stock},
+      date: operationDate,
+      productBatch: {id: values.productBatch},
+      operationAccounting: {
+        id: Number(id)
+      },
+    };
+    setIsModalProductionProductMovementOpen(false)
+    await createProductionProductMovement(productionProductMovement)
+    setIsUpdateAllTable(prevState => !prevState)
+
   };
 
   // Удалить запись движения товара на производстве
-  const handleDeleteProductionProductMovement = (id: number): void => {
-    void deleteProductionProductMovementById(id)
+  const handleDeleteProductionProductMovement = async (id: number): Promise<void> => {
+    await deleteProductionProductMovementById(id)
     setIsUpdateAllTable(prevState => !prevState)
   }
 
@@ -170,12 +168,12 @@ export const PageOperationAccountingDetail: React.FC = () => {
         isUpdateTable={isUpdateAllTable}
         openDrawer={() => setIsDrawerOperationAccountingOpen(true)}
         onDelete={handleDeleteOperationAccounting}
-        idDetail={id ? +id : undefined}
+        idDetail={id ? Number(id) : undefined}
       />
       <UpdateDrawerOperationAccounting
         isOpen={isDrawerOperationAccountingOpen}
         onCancel={() => setIsDrawerOperationAccountingOpen(false)}
-        selectedItemId={id ? +id : undefined}
+        selectedItemId={id ? Number(id) : undefined}
         updateItem={handleUpdateOperationAccounting}
       />
       <div className='centerTitle'>
@@ -197,7 +195,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         isUpdateTable={isUpdateAllTable}
         openDrawer={openDrawerOperationTimesheet}
         onDelete={handleDeleteOperationTimesheet}
-        idDetail={id ? +id : undefined}
+        idDetail={id ? Number(id) : undefined}
       />
       <CreateModalOperationTimesheet
         isOpen={isModalOperationTimesheetOpen}
@@ -228,7 +226,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
       <TableProductionProductMovement
         isUpdateTable={isUpdateAllTable}
         onDelete={handleDeleteProductionProductMovement}
-        idDetail={id ? +id : undefined}
+        idDetail={id ? Number(id) : undefined}
       />
       <CreateModalProductionProductMovement
         isOpen={isModalProductionProductMovementOpen}

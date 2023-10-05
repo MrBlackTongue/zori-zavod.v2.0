@@ -9,7 +9,6 @@ import {CreateModalMeterType} from "./components/CreateModalMeterType";
 import {UpdateDrawerMeterType} from "./components/UpdateDrawerMeterType";
 
 export const PageMeterType: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -21,14 +20,14 @@ export const PageMeterType: React.FC = () => {
   const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
 
   // Добавить новый тип счетчика
-  const handleCreateMeterType = (values: TypeMeterTypeFormValue): void => {
+  const handleCreateMeterType = async (values: TypeMeterTypeFormValue): Promise<void> => {
     const meterType: TypeMeterType = {
       title: values.title,
       unit: {id: values.unit},
       cost: values.cost,
     };
     setIsModalOpen(false)
-    void createMeterType(meterType)
+    await createMeterType(meterType)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -39,7 +38,7 @@ export const PageMeterType: React.FC = () => {
   };
 
   // Обновить тип счетчика
-  const handleUpdateMeterType = (values: TypeMeterTypeFormValue): void => {
+  const handleUpdateMeterType = async (values: TypeMeterTypeFormValue): Promise<void> => {
     const meterType: TypeMeterType = {
       id: selectedMeterTypeId,
       title: values.title,
@@ -47,13 +46,13 @@ export const PageMeterType: React.FC = () => {
       cost: values.cost,
     };
     setIsDrawerOpen(false)
-    void updateMeterType(meterType)
+    await updateMeterType(meterType)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteMeterType = (id: number): void => {
-    void deleteMeterTypeById(id)
+  const handleDeleteMeterType = async (id: number): Promise<void> => {
+    await deleteMeterTypeById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

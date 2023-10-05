@@ -10,7 +10,6 @@ import {UpdateDrawerWriteOff} from "./components/UpdateDrawerWriteOff";
 import {DetailDrawerWriteOff} from "./components/DetailDrawerWriteOff";
 
 export const PageWriteOff: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер, детальный дравер
@@ -23,14 +22,14 @@ export const PageWriteOff: React.FC = () => {
   const [selectedWriteOffId, setSelectedWriteOffId] = useState<number>();
 
   // Добавить новое списание
-  const handleCreateWriteOff = (values: TypeWriteOffFormValue): void => {
+  const handleCreateWriteOff = async (values: TypeWriteOffFormValue): Promise<void> => {
     const writeOff: TypeWriteOff = {
       employee: {id: values.employee},
       productionType: {id: values.productionType},
       description: values.description,
     };
     setIsModalOpen(false)
-    void createWriteOff(writeOff)
+    await createWriteOff(writeOff)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -47,7 +46,7 @@ export const PageWriteOff: React.FC = () => {
   }
 
   // Обновить списание
-  const handleUpdateWriteOff = (values: TypeWriteOffFormValue): void => {
+  const handleUpdateWriteOff = async (values: TypeWriteOffFormValue): Promise<void> => {
     const writeOff: TypeWriteOff = {
       id: selectedWriteOffId,
       employee: {id: values.employee},
@@ -55,13 +54,13 @@ export const PageWriteOff: React.FC = () => {
       description: values.description,
     };
     setIsDrawerOpen(false)
-    void updateWriteOff(writeOff)
+    await updateWriteOff(writeOff)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteWriteOff = (id: number): void => {
-    void deleteWriteOffById(id)
+  const handleDeleteWriteOff = async (id: number): Promise<void> => {
+    await deleteWriteOffById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

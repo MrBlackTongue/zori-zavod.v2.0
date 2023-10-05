@@ -19,13 +19,12 @@ export const DetailDrawerWriteOff: React.FC<DetailDrawerProps> = ({
                                                                     onCancel,
                                                                     selectedItemId,
                                                                   }) => {
-
   // Обновление таблицы, Открыть закрыть модальное окно
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Функция добавления нового движения товара в списание
-  const handleCreateWriteOffMovement = (values: TypeWriteOffMovementFormValue): void => {
+  const handleCreateWriteOffMovement = async (values: TypeWriteOffMovementFormValue): Promise<void> => {
     const writeOffMovement: TypeWriteOffMovement = {
       amount: values.amount,
       income: values.income,
@@ -35,13 +34,13 @@ export const DetailDrawerWriteOff: React.FC<DetailDrawerProps> = ({
       writeOff: {id: selectedItemId},
     };
     setIsModalOpen(false)
-    void createWriteOffMovement(writeOffMovement)
+    await createWriteOffMovement(writeOffMovement)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteWriteOffMovement = (id: number): void => {
-    void deleteWriteOffMovementById(id)
+  const handleDeleteWriteOffMovement = async (id: number): Promise<void> => {
+    await deleteWriteOffMovementById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

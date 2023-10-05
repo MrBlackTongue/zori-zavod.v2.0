@@ -19,24 +19,25 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
                                                                                            onCancel,
                                                                                          }) => {
   const [form] = Form.useForm();
-
   const navigate = useNavigate();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const {handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Скрыть показать пароль
   const iconRender = useCallback(
     (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
   );
 
-  const handleFinish = async () => {
-    await new Promise(() => {
-      handleSubmit();
-    });
-    await new Promise(() => {
-      navigate('/employee');
-    });
+  const handleSubmit = (): void => {
+    form
+      .validateFields()
+      .then((values) => {
+        createItem(values as TypeUserProfile);
+        form.resetFields();
+        navigate('/employee');
+      })
+      .catch((error) => console.log('Validate Failed:', error));
   };
 
   return (
@@ -51,7 +52,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
       <Form
         form={form}
         className="registration-form"
-        onFinish={handleFinish}
+        onFinish={handleSubmit}
       >
         <Form.Item>
           <div className='registration-title'>Регистрация</div>

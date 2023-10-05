@@ -9,7 +9,6 @@ import {CreateModalEmployee} from "./components/CreateModalEmployee";
 import {UpdateDrawerEmployee} from "./components/UpdateDrawerEmployee";
 
 export const PageEmployee: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -21,7 +20,7 @@ export const PageEmployee: React.FC = () => {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Добавить нового сотрудника
-  const handleCreateEmployee = (values: TypeEmployeeFormValue): void => {
+  const handleCreateEmployee = async (values: TypeEmployeeFormValue): Promise<void> => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -30,7 +29,7 @@ export const PageEmployee: React.FC = () => {
       hired: values.hired,
     };
     setIsModalOpen(false)
-    void createEmployee(employee)
+    await createEmployee(employee)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -41,7 +40,7 @@ export const PageEmployee: React.FC = () => {
   };
 
   // Обновить сотрудника
-  const handleUpdateEmployee = (values: TypeEmployeeFormValue): void => {
+  const handleUpdateEmployee = async (values: TypeEmployeeFormValue): Promise<void> => {
     const employee: TypeEmployee = {
       id: selectedEmployeeId,
       firstName: values.firstName,
@@ -51,13 +50,13 @@ export const PageEmployee: React.FC = () => {
       hired: values.hired,
     };
     setIsDrawerOpen(false)
-    void updateEmployee(employee)
+    await updateEmployee(employee)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteEmployee = (id: number): void => {
-    void deleteEmployeeById(id)
+  const handleDeleteEmployee = async (id: number): Promise<void> => {
+    await deleteEmployeeById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 
