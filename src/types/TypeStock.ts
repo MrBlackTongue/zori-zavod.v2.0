@@ -1,4 +1,5 @@
 import {TypeProduct} from "./TypeProduct";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeStock = {
   id?: number,
@@ -17,7 +18,7 @@ export type TypeStockFormValue = {
 }
 
 export interface FormStockProps {
-  form: any;
+  form: FormInstance;
   allProduct: TypeProduct[];
   onChangeProduct: (value: string) => void;
   onClearProduct: () => void;

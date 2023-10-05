@@ -18,7 +18,7 @@ export const PagePurchase: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной закупки
+  // id выбранной закупки
   const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
   // Текст поиска

@@ -1,4 +1,5 @@
 import {TypeUnit} from "./TypeUnit";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeOperation = {
   id?: number;
@@ -15,7 +16,7 @@ export type TypeOperationFormValue = {
 }
 
 export interface FormOperationProps {
-  form: any;
+  form: FormInstance;
   allUnit: TypeUnit[];
   onChangeUnit: (value: string) => void;
   onClearUnit: () => void;
