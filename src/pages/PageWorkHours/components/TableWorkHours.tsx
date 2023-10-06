@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, PlusOutlined,} from '@ant-design/icons';
 import {TableProps, TypeWorkHours} from "../../../types";
 import dayjs from "dayjs";
 import {getAllWorkHours} from "../../../services/apiWorkHours";
@@ -13,7 +13,7 @@ export const TableWorkHours: React.FC<TableProps> = ({
                                                      }) => {
   // Лоудер и список всех единиц измерения
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allHours, setAllHours] = useState<TypeWorkHours[]>();
+  const [allHours, setAllHours] = useState<TypeWorkHours[]>([]);
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -32,6 +32,7 @@ export const TableWorkHours: React.FC<TableProps> = ({
   const daysColumns: ColumnsType<TypeWorkHours> = days.map(day => ({
     title: `${day.format('dd')}\n${day.format('DD.MM')}`,
     dataIndex: day.format('DD.MM'),
+    width: '90px',
     key: day.format('DD.MM'),
     render: (hours: number) => hours ? `${hours}ч` : '',
   }));
@@ -55,6 +56,34 @@ export const TableWorkHours: React.FC<TableProps> = ({
     return Object.values(aggregatedData);
   };
 
+  const calculateTotalHours = (record: any): number => {
+    // Фильтрация свойств объекта, чтобы получить только дни недели
+    const daysHours = Object.keys(record)
+        .filter(key => key.match(/^\d{2}\.\d{2}$/))
+        .map(key => record[key]);
+
+    // Суммирование часов
+    return daysHours.reduce((acc, hours) => acc + (hours || 0), 0);
+  };
+
+  const handleAddEmptyRow = () => {
+    const emptyRow: TypeWorkHours = {
+      id: Math.random(),
+      employee: {
+        id: Math.random(),
+        firstName: "",
+        lastName: "",
+        phone: "",
+        hired: false,
+        salaryRate: 0
+      },
+      workDate: dayjs().toISOString(),
+      hours: 0
+    };
+
+    setAllHours(prevHours => [...prevHours, emptyRow]);
+  };
+
 
   // Колонки в таблице
   const columns: ColumnsType<TypeWorkHours> = [
@@ -63,10 +92,17 @@ export const TableWorkHours: React.FC<TableProps> = ({
       dataIndex: 'employee',
       key: 'fullName',
       render: (employee: any) => {
-        return `${employee.firstName} ${employee.lastName}`;
+        return `${employee.lastName} ${employee.firstName} `;
       },
     },
     ...daysColumns,
+    {
+      title: 'Итого',
+      key: 'total',
+      render: (_, record) => {
+        return `${calculateTotalHours(record)}ч`;
+      }
+    },
     {
       title: 'Действия',
       dataIndex: 'id',
@@ -128,6 +164,14 @@ export const TableWorkHours: React.FC<TableProps> = ({
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
+      <div>
+      <Button
+          type="primary"
+          icon={<PlusOutlined/>}
+          onClick={handleAddEmptyRow}
+      >
+        Добавить
+      </Button>
     <Table
       rowKey="id"
       bordered
@@ -137,5 +181,6 @@ export const TableWorkHours: React.FC<TableProps> = ({
       onChange={handleChangeTable}
       pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
     />
+  </div>
   );
 }

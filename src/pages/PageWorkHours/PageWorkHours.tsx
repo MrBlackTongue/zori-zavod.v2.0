@@ -7,6 +7,7 @@ import '../../App.css'
 import {deleteUnitById} from "../../services";
 import {TableWorkHours} from "./components/TableWorkHours";
 import dayjs from "dayjs";
+import {TypeWorkHours} from "../../types";
 
 export const PageWorkHours: React.FC = () => {
 
@@ -18,7 +19,8 @@ export const PageWorkHours: React.FC = () => {
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-    // Установка текущей недели по умолчанию
+
+  // Установка текущей недели по умолчанию
     const [selectedDate, setSelectedDate] = useState(dayjs().startOf('week'));
 
     // Переключение на предыдущую неделю
@@ -44,6 +46,7 @@ export const PageWorkHours: React.FC = () => {
     const weekNumber = startOfWeek.week();
     return `неделя ${weekNumber}: ${startOfWeek.format('D MMM')} - ${endOfWeek.format('D MMM YYYY')}`;
   };
+
 
   // Удалить запись из таблицы
   //   const handleDeleteUnit = (id: number): void => {
@@ -77,13 +80,13 @@ export const PageWorkHours: React.FC = () => {
               >
                 Обновить
               </Button>
-              <Button
-                  type="primary"
-                  icon={<PlusOutlined/>}
-                  onClick={() => setIsModalOpen(true)}
-              >
-                Добавить
-              </Button>
+              {/*<Button*/}
+              {/*    type="primary"*/}
+              {/*    icon={<PlusOutlined/>}*/}
+              {/*    onClick={() => setIsModalOpen(true)}*/}
+              {/*>*/}
+              {/*  Добавить*/}
+              {/*</Button>*/}
             </Space>
           </div>
           <FloatButton.BackTop/>
@@ -92,17 +95,6 @@ export const PageWorkHours: React.FC = () => {
               // openDrawer={openDrawer}
               // onDelete={handleDeleteUnit}
           />
-          {/*<CreateModalUnit*/}
-          {/*  isOpen={isModalOpen}*/}
-          {/*  createItem={handleCreateUnit}*/}
-          {/*  onCancel={() => setIsModalOpen(false)}*/}
-          {/*/>*/}
-          {/*<UpdateDrawerUnit*/}
-          {/*  isOpen={isDrawerOpen}*/}
-          {/*  selectedItemId={selectedUnitId}*/}
-          {/*  updateItem={handleUpdateUnit}*/}
-          {/*  onCancel={() => setIsDrawerOpen(false)}*/}
-          {/*/>*/}
         </div>
     );
   };
