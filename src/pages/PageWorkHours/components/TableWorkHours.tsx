@@ -1,15 +1,15 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
 import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined, PlusOutlined,} from '@ant-design/icons';
+import {DeleteOutlined, PlusOutlined,} from '@ant-design/icons';
 import {TableProps, TypeWorkHours} from "../../../types";
 import dayjs from "dayjs";
 import {getAllWorkHours} from "../../../services/apiWorkHours";
 
 export const TableWorkHours: React.FC<TableProps> = ({
                                                        isUpdateTable,
-                                                       openDrawer,
                                                        onDelete,
+                                                       selectedDate,
                                                      }) => {
   // Лоудер и список всех единиц измерения
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -21,11 +21,10 @@ export const TableWorkHours: React.FC<TableProps> = ({
     pageSize: 10,
   });
 
-  const startDate = dayjs().startOf('week');
-  // const endDate = dayjs().endOf('week');
-  const days = [];
+  const startDate = (selectedDate || dayjs()).startOf('week');
+  const days: dayjs.Dayjs[] = [];
 
-  for(let i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     days.push(startDate.add(i, 'day'));
   }
 
@@ -38,7 +37,7 @@ export const TableWorkHours: React.FC<TableProps> = ({
   }));
 
   const transformData = (data: TypeWorkHours[]): any[] => {
-    // Создайте объект для агрегации данных
+    // Объект для агрегации данных
     const aggregatedData: { [key: string]: any } = {};
 
     data.forEach(item => {
@@ -57,10 +56,13 @@ export const TableWorkHours: React.FC<TableProps> = ({
   };
 
   const calculateTotalHours = (record: any): number => {
-    // Фильтрация свойств объекта, чтобы получить только дни недели
+    // Получение дат текущей недели
+    const currentWeekDates = days.map(day => day.format('DD.MM'));
+
+    // Фильтрация свойств объекта, чтобы получить только дни текущей недели
     const daysHours = Object.keys(record)
-        .filter(key => key.match(/^\d{2}\.\d{2}$/))
-        .map(key => record[key]);
+      .filter(key => currentWeekDates.includes(key))
+      .map(key => record[key]);
 
     // Суммирование часов
     return daysHours.reduce((acc, hours) => acc + (hours || 0), 0);
@@ -99,28 +101,30 @@ export const TableWorkHours: React.FC<TableProps> = ({
     {
       title: 'Итого',
       key: 'total',
+      width: 80,
+
       render: (_, record) => {
         return `${calculateTotalHours(record)}ч`;
       }
     },
     {
-      title: 'Действия',
+      title: '',
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 60,
       align: 'center',
       render: ((id: number) => (
         <Space>
-          <Tooltip title="Изменить" placement="bottomRight">
-            <Button
-              type="primary"
-              size="small"
-              shape="circle"
-              ghost
-              onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
-            </Button>
-          </Tooltip>
+          {/*<Tooltip title="Изменить" placement="bottomRight">*/}
+          {/*  <Button*/}
+          {/*    type="primary"*/}
+          {/*    size="small"*/}
+          {/*    shape="circle"*/}
+          {/*    ghost*/}
+          {/*    onClick={() => openDrawer?.(id)}>*/}
+          {/*    <EditOutlined/>*/}
+          {/*  </Button>*/}
+          {/*</Tooltip>*/}
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
@@ -151,17 +155,17 @@ export const TableWorkHours: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllWorkHours()
-        .then((data) => {
-          const transformedData = transformData(data);
-          setAllHours(transformedData);
-          setIsLoading(false);
-        })
+      .then((data) => {
+        const transformedData = transformData(data);
+        setAllHours(transformedData);
+        setIsLoading(false);
+      })
       .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+  }, []);
 
   useEffect(() => {
     handleUpdateTable()
-  }, [isUpdateTable, handleUpdateTable]);
+  }, [isUpdateTable, handleUpdateTable, selectedDate]);
 
   return (
       <div>

@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export interface TableProps<F = {}> {
   isUpdateTable?: boolean;
   openDrawer?: (id: number) => void;
@@ -6,6 +8,7 @@ export interface TableProps<F = {}> {
   searchText?: string;
   filter?: F;
   idDetail?: number;
+  selectedDate?: dayjs.Dayjs;
 }
 
 export interface CreateModalProps<T> {
