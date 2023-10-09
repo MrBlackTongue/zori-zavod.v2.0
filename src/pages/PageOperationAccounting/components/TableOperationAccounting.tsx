@@ -12,6 +12,7 @@ import {
   TypeUnit,
 } from "../../../types";
 import dayjs from "dayjs";
+import {renderNumber} from "../../../utils";
 
 export const TableOperationAccounting:
   React.FC<TableProps<TypeOperationAccountingFilter>> = ({
@@ -33,7 +34,7 @@ export const TableOperationAccounting:
   });
 
   // Сколько всего записей в таблице
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState<number>(0);
 
   // Переход на другую страницу по адресу
   const handleMoreDetail = (id: number): void => {
@@ -75,27 +76,13 @@ export const TableOperationAccounting:
       title: 'Факт',
       dataIndex: 'fact',
       key: 'fact',
-      render: ((fact: number | null) =>
-        fact !== null ? (
-          <div>
-            {fact.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: 'Среднее',
       dataIndex: 'average',
       key: 'average',
-      render: ((average: number | null) =>
-        average !== null ? (
-          <div>
-            {average.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: 'Часы',
@@ -214,7 +201,7 @@ export const TableOperationAccounting:
     getAllOperationAccountingByFilter({
       date: filter?.date,
       operationId: filter?.operationId,
-      productionTypeId: filter?.productionTypeId,
+      productionTypeIds: filter?.productionTypeIds,
       pageNumber: pagination?.current,
       pageSize: pagination?.pageSize,
     })

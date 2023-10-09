@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Typography, Space, Button, Input, Select, FloatButton, Tooltip} from 'antd';
 import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
-import {createStock, updateStock, deleteStockById} from '../../services';
+import {createStock, updateStock, deleteStockById, getStockById} from '../../services';
 import {TypeStock, TypeStockFormValue} from '../../types';
 import {TableStock} from "./components/TableStock";
 import {CreateModalStock} from "./components/CreateModalStock";
@@ -10,7 +10,6 @@ import {UpdateDrawerStock} from "./components/UpdateDrawerStock";
 import {useFetchAllData} from "../../hooks";
 
 export const PageStock: React.FC = () => {
-
   const {Title} = Typography;
   const {Option} = Select;
 
@@ -22,16 +21,16 @@ export const PageStock: React.FC = () => {
   // Хук для получения данных
   const {allProductGroup} = useFetchAllData({depsProductGroup: true});
 
-  // id выбранной группы товаров, id выбранной ячейка на складе
+  // id выбранной группы товаров, Выбранная ячейка остатков
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
-  const [selectedStockId, setSelectedStockId] = useState<number>();
+  const [selectedStock, setSelectedStock] = useState<TypeStock>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState<string>("");
 
   // Изменить выбранную группу товаров
   const onChangeProductGroup = (value: any): void => {
-    setSelectedProductGroupId(value ? value : undefined);
+    setSelectedProductGroupId(value || undefined);
   };
 
   // Поиск по селекту
@@ -40,44 +39,46 @@ export const PageStock: React.FC = () => {
   }
 
   // Добавить новую ячейку на складе
-  const handleCreateStock = (values: TypeStockFormValue): void => {
+  const handleCreateStock = async (values: TypeStockFormValue): Promise<void> => {
     const stock: TypeStock = {
-      amount: values.amount,
+      amount: 0,
       product: {id: values.product},
+      storagePlace: {id: values.storagePlace},
     };
     setIsModalOpen(false);
-    void createStock(stock);
+    await createStock(stock);
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (stockId: number): void => {
-    setSelectedStockId(stockId);
+  const openDrawer = (id: number): void => {
+    void getStockById(id).then((data) => setSelectedStock(data));
     setIsDrawerOpen(true);
   };
 
   // Обновить товар на складе
-  const handleUpdateStock = (values: TypeStockFormValue): void => {
+  const handleUpdateStock = async (values: TypeStockFormValue): Promise<void> => {
     const stock: TypeStock = {
-      id: selectedStockId,
-      amount: values.amount,
+      id: selectedStock?.id,
+      amount: selectedStock?.amount,
       product: {id: values.product},
+      storagePlace: {id: values.storagePlace},
     };
     setIsDrawerOpen(false);
-    void updateStock(stock);
+    await updateStock(stock);
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteStock = (id: number): void => {
-    void deleteStockById(id)
+  const handleDeleteStock = async (id: number): Promise<void> => {
+    await deleteStockById(id)
     setIsUpdateTable(prevState => !prevState);
   };
 
   return (
     <div style={{display: 'grid'}}>
       <div className="centerTitle">
-        <Title level={3}>Склад</Title>
+        <Title level={3}>Остатки</Title>
         <Space>
           <Input
             placeholder="Поиск по товарам"
@@ -136,7 +137,7 @@ export const PageStock: React.FC = () => {
       />
       <UpdateDrawerStock
         isOpen={isDrawerOpen}
-        selectedItemId={selectedStockId}
+        selectedItemId={selectedStock?.id}
         updateItem={handleUpdateStock}
         onCancel={() => setIsDrawerOpen(false)}
       />

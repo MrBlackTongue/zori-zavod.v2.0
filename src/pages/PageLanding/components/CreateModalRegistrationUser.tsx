@@ -19,16 +19,26 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
                                                                                            onCancel,
                                                                                          }) => {
   const [form] = Form.useForm();
-
   const navigate = useNavigate();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const {handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Скрыть показать пароль
   const iconRender = useCallback(
     (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
   );
+
+  const handleSubmit = (): void => {
+    form
+      .validateFields()
+      .then((values) => {
+        createItem(values as TypeUserProfile);
+        form.resetFields();
+        navigate('/employee');
+      })
+      .catch((error) => console.log('Validate Failed:', error));
+  };
 
   return (
     <Modal
@@ -42,10 +52,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
       <Form
         form={form}
         className="registration-form"
-        onFinish={async () => {
-          await handleSubmit()
-          await navigate('/employee');
-        }}
+        onFinish={handleSubmit}
       >
         <Form.Item>
           <div className='registration-title'>Регистрация</div>
@@ -113,7 +120,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
             Зарегистрироваться
           </Button>
           <div className='registration-login'>
-          <a href="/login" className='registration-login-text'>У меня уже есть аккаунт</a>
+            <a href="/employee" className='registration-login-text'>У меня уже есть аккаунт</a>
           </div>
           <div className='registration-text-offer'>
             Регистрируясь в сервисе Zolotenkov, вы принимаете условия

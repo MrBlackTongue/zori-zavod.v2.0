@@ -1,3 +1,5 @@
+import {FormInstance} from "antd/lib/form";
+
 export type TypeProductionType = {
   id?: number,
   title?: string,
@@ -11,5 +13,5 @@ export type TypeProductionTypeFormValue = {
 }
 
 export interface FormProductTypeProps {
-  form: any,
+  form: FormInstance,
 }

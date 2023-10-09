@@ -1,35 +1,28 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Space, Card, Row, Col, Dropdown, MenuProps} from 'antd';
 import {MenuOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 import {CreateModalRegistrationUser} from "./components/CreateModalRegistrationUser";
 import './/PageLanding.css';
-import {TypeUserProfile} from "../../types";
-import {registrationUser} from "../../services";
+import {checkAuthorization} from "../../services";
+import {useRegistration} from "../../hooks";
 
 export const PageLanding = () => {
 
   const navigate = useNavigate();
 
-  // Открыть закрыть модальное окно
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  // Создать нового пользователя
-  const handleCreateNewUser = (values: TypeUserProfile): void => {
-    const user: TypeUserProfile = {
-      username: 'admin',
-      password: values.password,
-      email: values.email,
-      phone: values.phone,
-      firstname: values.firstname,
-    }
-    setIsModalOpen(false)
-    void registrationUser(user)
-  }
+  // Хук состояние модального окна и регистрация нового пользователя
+  const {isModalOpen, setIsModalOpen, handleCreateNewUser} = useRegistration();
 
   // Переход на другую страницу по адресу
   const handleLogin = () => {
-    navigate('/login');
+    checkAuthorization()
+      .then(isUserAuthorized => {
+        navigate(isUserAuthorized ? '/employee' : '/login');
+      })
+      .catch(error => {
+        console.error("Ошибка при проверке авторизации:", error);
+      });
   };
 
   const handleRate = () => {
@@ -77,7 +70,7 @@ export const PageLanding = () => {
     <div className='page-landing flex column center-column'>
       <div className='header flex row center-row'>
         <a href="/" rel="noopener noreferrer">
-        <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+          <img src="/images/header_logo.png" alt="Logo" className='logo'/>
         </a>
         <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
           <Space>
@@ -87,7 +80,7 @@ export const PageLanding = () => {
           </Space>
         </Dropdown>
         <Space>
-          <Button type="link"  size="large" className='rate-button' onClick={handleRate}>Тариф</Button>
+          <Button type="link" size="large" className='rate-button' onClick={handleRate}>Тариф</Button>
           <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
           <Button
             type="primary"
@@ -117,7 +110,7 @@ export const PageLanding = () => {
         <img src="/images/image_one.png" alt="factoryApp"
              className='jumbotron-block center-row center-column'/>
         <div className='block-column flex column center-column center-row'>
-          <div className='title-mini center-text text-bold'>Идеально подойдёт малым производствам</div>
+          <div className='title-mini center-text text-bold'>Идеально подойдет малым производствам</div>
           <div className='text-block-two center-text'>
             <p>
               Zolotenkov полезен всем,
@@ -134,7 +127,7 @@ export const PageLanding = () => {
           <img src="/images/group_accounting.png" alt="accounting"
                className='jumbotron-two flex column center-row center-column'/>
           <div className='text-block-group'>
-            <div className='title-group text-bold'>Учёт операций</div>
+            <div className='title-group text-bold'>Учет операций</div>
             <p className='text-group'>
               Отслеживайте операции, результаты,
               время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании
@@ -198,7 +191,7 @@ export const PageLanding = () => {
             <Col span={7} xs={24} lg={7}>
               <Card bordered={false} className='card'>
                 <img alt="file2" src="/images/card_document.png" className="card-image"/>
-                <div className='card-title text-bold'>Отчёты в реальном времени</div>
+                <div className='card-title text-bold'>Отчеты в реальном времени</div>
                 Автоматизированные отчеты отображают детали ваших производственных операций.
                 Идеальный инструмент для оптимизации процессов и координации команды.
               </Card>

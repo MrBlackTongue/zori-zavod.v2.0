@@ -1,6 +1,7 @@
 import React from 'react';
 import {Checkbox, DatePicker, Form, InputNumber, Select, Tooltip} from "antd";
 import {FormPurchaseProps} from "../../../types";
+import {numberFormatter, numberParser} from "../../../utils";
 
 export const FormPurchase: React.FC<FormPurchaseProps> = ({
                                                             form,
@@ -53,7 +54,13 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
         name="amount"
         rules={[{required: true, message: "введите количество"}]}
       >
-        <InputNumber placeholder='1' style={{width: "100%"}} min={1}/>
+        <InputNumber
+          placeholder='1'
+          style={{width: "100%"}}
+          min={1}
+          formatter={numberFormatter}
+          parser={numberParser}
+        />
       </Form.Item>
       <Form.Item
         label="Дата"

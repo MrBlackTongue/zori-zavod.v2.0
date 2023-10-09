@@ -10,7 +10,6 @@ import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
 
 export const PageAcceptance: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновить таблицу, Открыть закрыть модальное окно, текст поиска
@@ -22,7 +21,7 @@ export const PageAcceptance: React.FC = () => {
   const {allStock, allPurchase} = useFetchAllData({depsStock: true, depsPurchase: true});
 
   // Создать новую приемку товаров
-  const handleCreateAcceptance = (values: TypeAcceptanceFormValue): void => {
+  const handleCreateAcceptance = async (values: TypeAcceptanceFormValue): Promise<void> => {
     const stock = allStock.find((item) => item.id === values.stock);
     const purchase = allPurchase.find((item) => item.id === values.purchase);
     const acceptance: TypeAcceptance = {
@@ -34,13 +33,13 @@ export const PageAcceptance: React.FC = () => {
       purchase: purchase,
     }
     setIsModalOpen(false)
-    void createAcceptance(acceptance)
+    await createAcceptance(acceptance)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteAcceptance = (id: number): void => {
-    void deleteAcceptanceById(id)
+  const handleDeleteAcceptance = async (id: number): Promise<void> => {
+    await deleteAcceptanceById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

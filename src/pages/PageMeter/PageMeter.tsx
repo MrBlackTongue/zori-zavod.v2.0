@@ -9,7 +9,6 @@ import {CreateModalMeter} from "./components/CreateModalMeter";
 import {UpdateDrawerMeter} from "./components/UpdateDrawerMeter";
 
 export const PageMeter: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -21,14 +20,14 @@ export const PageMeter: React.FC = () => {
   const [selectedMeterId, setSelectedMeterId] = useState<number>();
 
   // Добавить новый счетчик
-  const handleCreateMeter = (values: TypeMeterFormValue): void => {
+  const handleCreateMeter = async (values: TypeMeterFormValue): Promise<void> => {
     const meter: TypeMeter = {
       serialNumber: values.serialNumber,
       title: values.title,
       meterType: {id: values.meterType},
     };
     setIsModalOpen(false);
-    void createMeter(meter);
+    await createMeter(meter);
     setIsUpdateTable(prevState => !prevState);
   };
 
@@ -39,7 +38,7 @@ export const PageMeter: React.FC = () => {
   };
 
   // Обновить счетчик
-  const handleUpdateMeter = (values: TypeMeterFormValue): void => {
+  const handleUpdateMeter = async (values: TypeMeterFormValue): Promise<void> => {
     const meter: TypeMeter = {
       id: selectedMeterId,
       serialNumber: values.serialNumber,
@@ -47,13 +46,13 @@ export const PageMeter: React.FC = () => {
       meterType: {id: values.meterType},
     };
     setIsDrawerOpen(false);
-    void updateMeter(meter);
+    await updateMeter(meter);
     setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
-  const handleDeleteMeter = (id: number): void => {
-    void deleteMeterById(id);
+  const handleDeleteMeter = async (id: number): Promise<void> => {
+    await deleteMeterById(id);
     setIsUpdateTable(prevState => !prevState);
   };
 

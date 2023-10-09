@@ -5,6 +5,7 @@ import type {ColumnsType} from 'antd/es/table';
 import {getOperationAccountingById} from "../../../services";
 import {TableProps, TypeOperationAccounting, TypeOperationTimesheet, TypeUnit} from "../../../types";
 import dayjs from "dayjs";
+import {renderNumber} from "../../../utils";
 
 export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo(({
                                                                                   isUpdateTable,
@@ -51,27 +52,13 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo((
       title: 'Факт',
       dataIndex: 'fact',
       key: 'fact',
-      render: ((fact: number | null) =>
-        fact !== null ? (
-          <div>
-            {fact.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: 'Среднее',
       dataIndex: 'average',
       key: 'average',
-      render: ((average: number | null) =>
-        average !== null ? (
-          <div>
-            {average.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: 'Часы',

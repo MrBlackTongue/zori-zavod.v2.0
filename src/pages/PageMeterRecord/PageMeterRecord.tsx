@@ -10,7 +10,6 @@ import {UpdateDrawerMeterRecord} from "./components/UpdateDrawerMeterRecord";
 import dayjs from "dayjs";
 
 export const PageMeterRecord: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -22,14 +21,14 @@ export const PageMeterRecord: React.FC = () => {
   const [selectedMeterRecordId, setSelectedMeterRecordId] = useState<number>();
 
   // Добавить новый тип счетчика
-  const handleCreateMeterRecord = (values: TypeMeterRecordFormValue): void => {
+  const handleCreateMeterRecord = async (values: TypeMeterRecordFormValue): Promise<void> => {
     const meterRecord: TypeMeterRecord = {
       value: values.value,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DDTHH:mm:ss') : undefined,
       meter: {id: values.meter},
     };
     setIsModalOpen(false)
-    void createMeterRecord(meterRecord)
+    await createMeterRecord(meterRecord)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -40,22 +39,21 @@ export const PageMeterRecord: React.FC = () => {
   };
 
   // Обновить запись счетчика
-  const handleUpdateMeterRecord = (values: TypeMeterRecordFormValue): void => {
+  const handleUpdateMeterRecord = async (values: TypeMeterRecordFormValue): Promise<void> => {
     const meterRecord: TypeMeterRecord = {
       id: selectedMeterRecordId,
       value: values.value,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DDTHH:mm:ss') : undefined,
       meter: {id: values.meter},
     };
-    console.log('meterRecord', meterRecord)
     setIsDrawerOpen(false)
-    void updateMeterRecord(meterRecord)
+    await updateMeterRecord(meterRecord)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteMeterRecord = (id: number): void => {
-    void deleteMeterRecordById(id)
+  const handleDeleteMeterRecord = async (id: number): Promise<void> => {
+    await deleteMeterRecordById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

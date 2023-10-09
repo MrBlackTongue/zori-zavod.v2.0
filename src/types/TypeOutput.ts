@@ -1,5 +1,6 @@
 import {TypeProduct} from "./TypeProduct";
 import {Dayjs} from "dayjs";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeOutput = {
   id?: number;
@@ -14,7 +15,7 @@ export type TypeOutputFormValue = {
 }
 
 export interface FormOutputProps {
-  form: any;
+  form: FormInstance;
   allProduct: TypeProduct[];
   onChangeProduct: (value: string) => void;
   onClearProduct: () => void;

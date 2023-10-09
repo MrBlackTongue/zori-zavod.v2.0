@@ -9,7 +9,6 @@ import {CreateModalOperation} from "./components/CreateModalOperation";
 import {UpdateDrawerOperation} from "./components/UpdateDrawerOperation";
 
 export const PageOperation: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -17,30 +16,30 @@ export const PageOperation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной операции, Текст поиска
+  // id выбранной операции, Текст поиска
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
   const [searchText, setSearchText] = useState<string>("");
 
   // Добавить новую операцию
-  const handleCreateOperation = (values: TypeOperationFormValue): void => {
+  const handleCreateOperation = async (values: TypeOperationFormValue): Promise<void> => {
     const operation: TypeOperation = {
       title: values.title,
       unit: {id: values.unit},
       rate: values.rate,
     };
     setIsModalOpen(false)
-    void createOperation(operation)
+    await createOperation(operation)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (operationId: number): void => {
-    setSelectedOperationId(operationId)
+  const openDrawer = (id: number): void => {
+    setSelectedOperationId(id)
     setIsDrawerOpen(true);
   };
 
   // Обновить операцию
-  const handleUpdateOperation = (values: TypeOperationFormValue): void => {
+  const handleUpdateOperation = async (values: TypeOperationFormValue): Promise<void> => {
     const operation: TypeOperation = {
       id: selectedOperationId,
       title: values.title,
@@ -48,13 +47,13 @@ export const PageOperation: React.FC = () => {
       rate: values.rate,
     };
     setIsDrawerOpen(false)
-    void updateOperation(operation)
+    await updateOperation(operation)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteOperation = (id: number): void => {
-    void deleteOperationById(id)
+  const handleDeleteOperation = async (id: number): Promise<void> => {
+    await deleteOperationById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

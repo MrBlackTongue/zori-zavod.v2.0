@@ -14,13 +14,24 @@ export const UpdateDrawerStock: React.FC<UpdateDrawerProps<TypeStockFormValue>> 
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchAllData({depsProduct: isOpen});
+  const {allProduct, allStoragePlace} = useFetchAllData({depsProduct: isOpen, depsStoragePlace: isOpen});
 
   // Хук для отправки формы и отмены ввода
   const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
 
   // Хук для управления полем product
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');
+  const {
+    onChangeSelect: onChangeProduct,
+    onClearSelect: onClearProduct,
+    onSearchSelect: onSearchProduct
+  } = useFormSelect(form, 'product');
+
+  // Хук для управления полем storagePlace
+  const {
+    onChangeSelect: onChangeStoragePlace,
+    onClearSelect: onClearStoragePlace,
+    onSearchSelect: onSearchStoragePlace
+  } = useFormSelect(form, 'storagePlace');
 
   // Функция для получения данных
   const handleGetStock = useCallback((): void => {
@@ -30,6 +41,7 @@ export const UpdateDrawerStock: React.FC<UpdateDrawerProps<TypeStockFormValue>> 
           form.setFieldsValue({
             ...data,
             product: data?.product?.id === 0 ? '' : data?.product?.id,
+            storagePlace: data?.storagePlace?.id === 0 ? '' : data?.storagePlace?.id,
           });
         })
         .catch((error) => console.error("Ошибка при получении данных: ", error));
@@ -45,7 +57,7 @@ export const UpdateDrawerStock: React.FC<UpdateDrawerProps<TypeStockFormValue>> 
 
   return (
     <Drawer
-      title="Редактирование ячейки на складе"
+      title="Редактирование ячейки остатков"
       width={600}
       open={isOpen}
       onClose={handleReset}
@@ -61,9 +73,13 @@ export const UpdateDrawerStock: React.FC<UpdateDrawerProps<TypeStockFormValue>> 
       <FormStock
         form={form}
         allProduct={allProduct}
-        onChangeProduct={onChangeSelect}
-        onClearProduct={onClearSelect}
-        onSearchProduct={onSearchSelect}
+        onChangeProduct={onChangeProduct}
+        onClearProduct={onClearProduct}
+        onSearchProduct={onSearchProduct}
+        allStoragePlace={allStoragePlace}
+        onChangeStoragePlace={onChangeStoragePlace}
+        onClearStoragePlace={onClearStoragePlace}
+        onSearchStoragePlace={onSearchStoragePlace}
       />
     </Drawer>
   );

@@ -14,7 +14,6 @@ import {UpdateDrawerProductBatch} from "./components/UpdateDrawerProductBatch";
 
 
 export const PageProductBatch: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -22,41 +21,41 @@ export const PageProductBatch: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной партии товаров
+  // id выбранной партии товаров
   const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
 
   // Добавить новую партию товаров
-  const handleCreateProductBatch = (values: TypeProductBatchFormValue): void => {
+  const handleCreateProductBatch = async (values: TypeProductBatchFormValue): Promise<void> => {
     const productBatch: TypeProductBatch = {
       product: {id: values.product},
       amount: values.amount,
     };
     setIsModalOpen(false)
-    void createProductBatch(productBatch)
+    await createProductBatch(productBatch)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (productBatchId: number): void => {
-    setSelectedProductBatchId(productBatchId)
+  const openDrawer = (id: number): void => {
+    setSelectedProductBatchId(id)
     setIsDrawerOpen(true);
   };
 
   // Обновление партии товаров
-  const handleUpdateProductBatch = (values: TypeProductBatchFormValue): void => {
+  const handleUpdateProductBatch = async (values: TypeProductBatchFormValue): Promise<void> => {
     const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,
       product: {id: values.product},
       amount: values.amount,
     };
     setIsDrawerOpen(false)
-    void updateProductBatch(productBatch)
+    await updateProductBatch(productBatch)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteProductBatch = (id: number): void => {
-    void deleteProductBatchById(id)
+  const handleDeleteProductBatch = async (id: number): Promise<void> => {
+    await deleteProductBatchById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

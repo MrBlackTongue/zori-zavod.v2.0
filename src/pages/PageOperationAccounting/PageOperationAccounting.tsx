@@ -18,7 +18,6 @@ import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
 
 export const PageOperationAccounting: React.FC = () => {
-
   const {Title} = Typography;
   const {Option} = Select;
 
@@ -27,23 +26,23 @@ export const PageOperationAccounting: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной учетной операции, Выбранная дата
+  // id выбранной учетной операции, Выбранная дата
   const [selectedOperationAccountingId, setSelectedOperationAccountingId] = useState<number>();
   const [selectedDate, setSelectedDate] = useState<any>();
 
   // Хук для получения данных
   const {allOperation, allProductionType} = useFetchAllData({depsOperation: true, depsProductionType: true});
 
-  // id выбранной операции, id выбранного типа производства
+  // id выбранной операции, id выбранных типов производства
   const [selectedOperationId, setSelectedOperationId] = useState<number>();
-  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
+  const [selectedProductionTypeIds, setSelectedProductionTypeIds] = useState<number[]>([]);
 
   // Создание объекта фильтра с использованием useMemo
   const filter = useMemo(() => ({
     date: selectedDate,
     operationId: selectedOperationId,
-    productionTypeId: selectedProductionTypeId,
-  }), [selectedDate, selectedOperationId, selectedProductionTypeId]);
+    productionTypeIds: selectedProductionTypeIds,
+  }), [selectedDate, selectedOperationId, selectedProductionTypeIds]);
 
   // Изменить выбранную дату
   const onChangeDate = (value: any): void => {
@@ -52,12 +51,12 @@ export const PageOperationAccounting: React.FC = () => {
 
   // Изменить выбранную операцию
   const onChangeOperation = (value: any): void => {
-    setSelectedOperationId(value ? value : undefined);
+    setSelectedOperationId(value || undefined);
   };
 
   // Изменить выбранный тип производства
-  const onChangeProductionType = (value: any): void => {
-    setSelectedProductionTypeId(value ? value : undefined);
+  const onChangeProductionType = (values: any): void => {
+    setSelectedProductionTypeIds(values || []);
   };
 
   // Поиск по селекту
@@ -66,7 +65,7 @@ export const PageOperationAccounting: React.FC = () => {
   }
 
   // Добавить новую учетную операцию
-  const handleCreateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
+  const handleCreateOperationAccounting = async (values: TypeOperationAccountingFormValue): Promise<void> => {
     const operationAccounting: TypeOperationAccounting = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       fact: values.fact ?? undefined,
@@ -75,18 +74,18 @@ export const PageOperationAccounting: React.FC = () => {
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsModalOpen(false)
-    void createOperationAccounting(operationAccounting)
+    await createOperationAccounting(operationAccounting)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (operationAccountingId: number): void => {
-    setSelectedOperationAccountingId(operationAccountingId)
+  const openDrawer = (id: number): void => {
+    setSelectedOperationAccountingId(id)
     setIsDrawerOpen(true);
   };
 
   // Обновить учетную операцию
-  const handleUpdateOperationAccounting = (values: TypeOperationAccountingFormValue): void => {
+  const handleUpdateOperationAccounting = async (values: TypeOperationAccountingFormValue): Promise<void> => {
     const operationAccounting: TypeOperationAccounting = {
       id: selectedOperationAccountingId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
@@ -96,13 +95,13 @@ export const PageOperationAccounting: React.FC = () => {
       productionType: values.productionType ? {id: values.productionType} : undefined,
     };
     setIsDrawerOpen(false)
-    void updateOperationAccounting(operationAccounting)
+    await updateOperationAccounting(operationAccounting)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteOperationAccounting = (id: number): void => {
-    void deleteOperationAccountingById(id)
+  const handleDeleteOperationAccounting = async (id: number): Promise<void> => {
+    await deleteOperationAccountingById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 
@@ -136,6 +135,7 @@ export const PageOperationAccounting: React.FC = () => {
           <Select
             showSearch
             allowClear
+            mode="multiple"
             placeholder='Выберите тип производства'
             style={{'width': '250px'}}
             onChange={onChangeProductionType}

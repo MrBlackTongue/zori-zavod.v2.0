@@ -9,7 +9,6 @@ import {CreateModalUnit} from "./components/CreateModalUnit";
 import {UpdateDrawerUnit} from "./components/UpdateDrawerUnit";
 
 export const PageUnit: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -17,39 +16,39 @@ export const PageUnit: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной единицы измерения
+  // id выбранной единицы измерения
   const [selectedUnitId, setSelectedUnitId] = useState<number>();
 
   // Добавить новую единицу измерения
-  const handleCreateUnit = (values: TypeUnitFormValue): void => {
+  const handleCreateUnit = async (values: TypeUnitFormValue): Promise<void> => {
     const unit: TypeUnit = {
       name: values.name,
     };
     setIsModalOpen(false)
-    void createUnit(unit)
+    await createUnit(unit)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (unitId: number): void => {
-    setSelectedUnitId(unitId)
+  const openDrawer = (id: number): void => {
+    setSelectedUnitId(id)
     setIsDrawerOpen(true);
   };
 
   // Обновить единицу измерения
-  const handleUpdateUnit = (values: TypeUnitFormValue): void => {
+  const handleUpdateUnit = async (values: TypeUnitFormValue): Promise<void> => {
     const unit: TypeUnit = {
       id: selectedUnitId,
       name: values.name,
     };
     setIsDrawerOpen(false)
-    void updateUnit(unit)
+    await updateUnit(unit)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteUnit = (id: number): void => {
-    void deleteUnitById(id)
+  const handleDeleteUnit = async (id: number): Promise<void> => {
+    await deleteUnitById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

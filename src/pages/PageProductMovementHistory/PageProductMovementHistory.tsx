@@ -21,7 +21,7 @@ export const PageProductMovementHistory: React.FC = () => {
 
   // Изменить выбраный остаток на складе
   const onChangeStock = (value: any): void => {
-    setSelectedStockId(value ? value : undefined)
+    setSelectedStockId(value || undefined)
   };
 
   // Поиск по селекту

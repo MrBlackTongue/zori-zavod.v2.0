@@ -4,6 +4,7 @@ import {TypeOutput} from "./TypeOutput";
 import {TypeUnit} from "./TypeUnit";
 import {TypeOperationTimesheet} from "./TypeOperationTimesheet";
 import {TypeProductionType} from "./TypeProductionType";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeOperationAccounting = {
   id?: number,
@@ -28,7 +29,7 @@ export type TypeGetAllOperationAccountingResponse = {
 export type TypeOperationAccountingFilter = {
   date?: Dayjs | string,
   operationId?: number,
-  productionTypeId?: number,
+  productionTypeIds?: number[],
   pageNumber?: number,
   pageSize?: number,
 }
@@ -43,7 +44,7 @@ export type TypeOperationAccountingFormValue = {
 }
 
 export interface FormOperationAccountingProps {
-  form: any,
+  form: FormInstance,
   allOperation: TypeOperation[],
   onChangeOperation: (value: string) => void,
   onClearOperation: () => void,

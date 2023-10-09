@@ -37,7 +37,7 @@ export const PageOutputReport: React.FC = () => {
 
   // Изменить выбранный output
   const onChangeOutput = (value: any): void => {
-    setSelectedOutputId(value ? value : undefined);
+    setSelectedOutputId(value || undefined);
   };
 
   return (

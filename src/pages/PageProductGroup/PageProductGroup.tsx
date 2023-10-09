@@ -9,7 +9,6 @@ import {CreateModalProductGroup} from "./components/CreateModalProductGroup";
 import {UpdateDrawerProductGroup} from "./components/UpdateDrawerProductGroup";
 
 export const PageProductGroup: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть/закрыть модальное окно, дравер
@@ -21,37 +20,37 @@ export const PageProductGroup: React.FC = () => {
   const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
 
   // Добавить новую группу товаров
-  const handleCreateProductGroup = (values: TypeProductGroupFormValue): void => {
+  const handleCreateProductGroup = async (values: TypeProductGroupFormValue): Promise<void> => {
     const productGroup: TypeProductGroup = {
       title: values.title,
       parent: values.parent ? {id: values.parent} : undefined,
     };
     setIsModalOpen(false)
-    void createProductGroup(productGroup)
+    await createProductGroup(productGroup)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (productGroupId: number): void => {
-    setSelectedProductGroupId(productGroupId)
+  const openDrawer = (id: number): void => {
+    setSelectedProductGroupId(id)
     setIsDrawerOpen(true);
   };
 
   // Обновить группу товаров
-  const handleUpdateProductGroup = (values: TypeProductGroupFormValue): void => {
+  const handleUpdateProductGroup = async (values: TypeProductGroupFormValue): Promise<void> => {
     const productGroup: TypeProductGroup = {
       id: selectedProductGroupId,
       title: values.title,
       parent: values.parent ? {id: values.parent} : undefined,
     };
     setIsDrawerOpen(false);
-    void updateProductGroup(productGroup);
+    await updateProductGroup(productGroup);
     setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
-  const handleDeleteProductGroup = (id: number): void => {
-    void deleteProductGroupById(id)
+  const handleDeleteProductGroup = async (id: number): Promise<void> => {
+    await deleteProductGroupById(id)
     setIsUpdateTable(prevState => !prevState)
   }
 

@@ -11,7 +11,6 @@ import {DetailDrawerShipment} from "./components/DetailDrawerShipment";
 import dayjs from "dayjs";
 
 export const PageShipment: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы
@@ -28,19 +27,19 @@ export const PageShipment: React.FC = () => {
   const [selectedShipmentId, setSelectedShipmentId] = useState<number>();
 
   // Функция добавления новой отгрузки
-  const handleCreateShipment = (values: TypeShipmentFormValue): void => {
+  const handleCreateShipment = async (values: TypeShipmentFormValue): Promise<void> => {
     const shipment: TypeShipment = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       client: {id: values.client},
     };
     setOpenState({...openState, isModalOpen: false});
-    void createShipment(shipment);
+    await createShipment(shipment);
     setIsUpdateTable(prevState => !prevState);
   }
 
   // Функция открытия дравера редактирования отгрузки
-  const openDrawer = (shipmentId: number): void => {
-    setSelectedShipmentId(shipmentId);
+  const openDrawer = (id: number): void => {
+    setSelectedShipmentId(id);
     setOpenState({...openState, isDrawerOpen: true});
   }
 
@@ -51,20 +50,20 @@ export const PageShipment: React.FC = () => {
   }
 
   // Функция обновления отгрузки
-  const handleUpdateShipment = (values: TypeShipmentFormValue): void => {
+  const handleUpdateShipment = async (values: TypeShipmentFormValue): Promise<void> => {
     const shipment: TypeShipment = {
       id: selectedShipmentId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       client: {id: values.client},
     };
     setOpenState({...openState, isDrawerOpen: false});
-    void updateShipment(shipment);
+    await updateShipment(shipment);
     setIsUpdateTable(prevState => !prevState);
   }
 
   // Удалить запись из таблицы
-  const handleDeleteShipment = (id: number): void => {
-    void deleteShipmentById(id)
+  const handleDeleteShipment = async (id: number): Promise<void> => {
+    await deleteShipmentById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

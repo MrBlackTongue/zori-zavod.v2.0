@@ -62,6 +62,12 @@
   justify-content: space-between;
 }
 
+.pay-button {
+  width: 120px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 .greenButton {
   color: #31aa2d !important;
 }

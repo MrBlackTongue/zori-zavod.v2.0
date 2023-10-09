@@ -1,5 +1,6 @@
 import {Dayjs} from "dayjs";
 import {TypeMeter} from "./TypeMeter";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeMeterRecord = {
   id?: number,
@@ -16,7 +17,7 @@ export type TypeMeterRecordFormValue = {
 }
 
 export interface FormMeterRecordProps {
-  form: any,
+  form: FormInstance,
   allMeter: TypeMeter[],
   onChangeMeter: (value: string) => void,
   onClearMeter: () => void,

@@ -5,6 +5,7 @@ import type {ColumnsType} from 'antd/es/table';
 import {getAllWriteOffMovementByWriteOffId} from "../../../services";
 import {TableProps, TypeStock, TypeWriteOffMovement} from "../../../types";
 import dayjs from 'dayjs';
+import {renderNumber} from "../../../utils";
 
 export const TableDetailWriteOff: React.FC<TableProps> = ({
                                                             isUpdateTable,
@@ -45,6 +46,7 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
       dataIndex: 'amount',
       key: 'amount',
       width: 250,
+      render: renderNumber,
       sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
     },
     {

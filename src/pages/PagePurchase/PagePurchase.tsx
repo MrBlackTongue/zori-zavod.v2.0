@@ -10,7 +10,6 @@ import {UpdateDrawerPurchase} from "./components/UpdateDrawerPurchase";
 import dayjs from "dayjs";
 
 export const PagePurchase: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -18,14 +17,14 @@ export const PagePurchase: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбраной закупки
+  // id выбранной закупки
   const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
   // Текст поиска
   const [searchText, setSearchText] = useState<string>("");
 
   // Добавить новую закупку
-  const handleCreatePurchase = (values: TypePurchaseFormValue): void => {
+  const handleCreatePurchase = async (values: TypePurchaseFormValue): Promise<void> => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
@@ -34,18 +33,18 @@ export const PagePurchase: React.FC = () => {
       paid: values.paid,
     };
     setIsModalOpen(false);
-    void createPurchase(purchase);
+    await createPurchase(purchase);
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (purchaseId: number): void => {
-    setSelectedPurchaseId(purchaseId);
+  const openDrawer = (id: number): void => {
+    setSelectedPurchaseId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить закупку
-  const handleUpdatePurchase = (values: TypePurchaseFormValue): void => {
+  const handleUpdatePurchase = async (values: TypePurchaseFormValue): Promise<void> => {
     const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
@@ -55,13 +54,13 @@ export const PagePurchase: React.FC = () => {
       paid: values.paid,
     };
     setIsDrawerOpen(false);
-    void updatePurchase(purchase);
+    await updatePurchase(purchase);
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeletePurchase = (id: number): void => {
-    void deletePurchaseById(id)
+  const handleDeletePurchase = async (id: number): Promise<void> => {
+    await deletePurchaseById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

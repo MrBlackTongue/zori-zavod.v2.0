@@ -40,12 +40,12 @@ export const PageEmployeeReport: React.FC = () => {
 
   // Изменить выбранную операцию
   const onChangeOperation = (value: any): void => {
-    setSelectedOperationId(value ? value : undefined);
+    setSelectedOperationId(value || undefined);
   };
 
   // Изменить выбранного сотрудника
   const onChangeEmployee = (value: any): void => {
-    setSelectedEmployeeId(value ? value : undefined);
+    setSelectedEmployeeId(value || undefined);
   };
 
   // Изменить выбранную дату

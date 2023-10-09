@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, InputNumber, Select, Tooltip} from "antd";
+import {Form, Select, Tooltip} from "antd";
 import {FormStockProps} from "../../../types";
 
 export const FormStock: React.FC<FormStockProps> = ({
@@ -8,6 +8,10 @@ export const FormStock: React.FC<FormStockProps> = ({
                                                       onChangeProduct,
                                                       onClearProduct,
                                                       onSearchProduct,
+                                                      allStoragePlace,
+                                                      onChangeStoragePlace,
+                                                      onClearStoragePlace,
+                                                      onSearchStoragePlace,
                                                     }) => {
   const {Option} = Select;
 
@@ -42,11 +46,26 @@ export const FormStock: React.FC<FormStockProps> = ({
         </Select>
       </Form.Item>
       <Form.Item
-        label="Количество"
-        name="amount"
-        rules={[{required: true, message: "введите количество"}]}
+        label="Место хранения"
+        name="storagePlace"
       >
-        <InputNumber placeholder='1' style={{width: "100%"}} min={0}/>
+        <Select
+          showSearch
+          allowClear
+          placeholder='Выберите место'
+          onChange={onChangeStoragePlace}
+          onClear={onClearStoragePlace}
+          filterOption={onSearchStoragePlace}
+        >
+          {allStoragePlace && allStoragePlace.length > 0 ?
+            allStoragePlace.map(storagePlace => (
+              <Option key={storagePlace.id} value={storagePlace.id} label={storagePlace.title}>
+                <Tooltip placement="right" title={storagePlace.title}>
+                  {storagePlace.title}
+                </Tooltip>
+              </Option>
+            )) : null}
+        </Select>
       </Form.Item>
     </Form>
   );

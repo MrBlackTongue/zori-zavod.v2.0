@@ -26,7 +26,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Функция добавления нового товара в отгрузку
-  const handleCreateShipmentMovement = (values: TypeShipmentProductMovementFormValue): void => {
+  const handleCreateShipmentMovement = async (values: TypeShipmentProductMovementFormValue): Promise<void> => {
     const productMovement: TypeShipmentProductMovement = {
       date: selectedShipment?.date,
       stock: {id: values.stock},
@@ -35,13 +35,13 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({
       income: false
     };
     setIsModalOpen(false)
-    void createShipmentProductMovement(productMovement)
+    await createShipmentProductMovement(productMovement)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteShipmentMovement = (id: number): void => {
-    void deleteShipmentProductMovementById(id)
+  const handleDeleteShipmentMovement = async (id: number): Promise<void> => {
+    await deleteShipmentProductMovementById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

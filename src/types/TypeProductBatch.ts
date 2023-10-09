@@ -1,4 +1,5 @@
 import {TypeProduct} from "./TypeProduct";
+import {FormInstance} from "antd/lib/form";
 
 export type TypeProductBatch = {
   id? : number,
@@ -13,7 +14,7 @@ export type TypeProductBatchFormValue = {
 }
 
 export interface FormProductBatchProps {
-  form: any;
+  form: FormInstance;
   allProduct: TypeProduct[];
   onChangeProduct: (value: string) => void;
   onClearProduct: () => void;

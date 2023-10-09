@@ -9,7 +9,6 @@ import {CreateModalEmployee} from "./components/CreateModalEmployee";
 import {UpdateDrawerEmployee} from "./components/UpdateDrawerEmployee";
 
 export const PageEmployee: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть закрыть модальное окно, дравер
@@ -17,11 +16,11 @@ export const PageEmployee: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  //  id выбраного сотрудника
+  //  id выбранного сотрудника
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Добавить нового сотрудника
-  const handleCreateEmployee = (values: TypeEmployeeFormValue): void => {
+  const handleCreateEmployee = async (values: TypeEmployeeFormValue): Promise<void> => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -30,18 +29,18 @@ export const PageEmployee: React.FC = () => {
       hired: values.hired,
     };
     setIsModalOpen(false)
-    void createEmployee(employee)
+    await createEmployee(employee)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (employeeId: number): void => {
-    setSelectedEmployeeId(employeeId)
+  const openDrawer = (id: number): void => {
+    setSelectedEmployeeId(id)
     setIsDrawerOpen(true);
   };
 
   // Обновить сотрудника
-  const handleUpdateEmployee = (values: TypeEmployeeFormValue): void => {
+  const handleUpdateEmployee = async (values: TypeEmployeeFormValue): Promise<void> => {
     const employee: TypeEmployee = {
       id: selectedEmployeeId,
       firstName: values.firstName,
@@ -51,13 +50,13 @@ export const PageEmployee: React.FC = () => {
       hired: values.hired,
     };
     setIsDrawerOpen(false)
-    void updateEmployee(employee)
+    await updateEmployee(employee)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteEmployee = (id: number): void => {
-    void deleteEmployeeById(id)
+  const handleDeleteEmployee = async (id: number): Promise<void> => {
+    await deleteEmployeeById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

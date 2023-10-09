@@ -13,7 +13,6 @@ import {CreateModalProductionType} from "./components/CreateModalProductionType"
 import {UpdateDrawerProductionType} from "./components/UpdateDrawerProductionType";
 
 export const PageProductionType: React.FC = () => {
-
   const {Title} = Typography;
 
   // Обновление таблицы, Открыть/закрыть модальное окно, дравер
@@ -25,37 +24,37 @@ export const PageProductionType: React.FC = () => {
   const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
 
   // Добавить запись в таблицу
-  const handleCreateProductionType = (values: TypeProductionTypeFormValue): void => {
+  const handleCreateProductionType = async (values: TypeProductionTypeFormValue): Promise<void> => {
     const productionType: TypeProductionType = {
       title: values.title,
       description: values.description,
     };
     setIsModalOpen(false)
-    void createProductionType(productionType)
+    await createProductionType(productionType)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Открыть дравер
-  const openDrawer = (productionTypeId: number): void => {
-    setSelectedProductionTypeId(productionTypeId)
+  const openDrawer = (id: number): void => {
+    setSelectedProductionTypeId(id)
     setIsDrawerOpen(true);
   };
 
   // Обновить запись в таблице
-  const handleUpdateProductionType = (values: TypeProductionTypeFormValue): void => {
+  const handleUpdateProductionType = async (values: TypeProductionTypeFormValue): Promise<void> => {
     const productionType: TypeProductionType = {
       id: selectedProductionTypeId,
       title: values.title,
       description: values.description,
     };
     setIsDrawerOpen(false)
-    void updateProductionType(productionType)
+    await updateProductionType(productionType)
     setIsUpdateTable(prevState => !prevState)
   };
 
   // Удалить запись из таблицы
-  const handleDeleteProductionType = (id: number): void => {
-    void deleteProductionTypeById(id)
+  const handleDeleteProductionType = async (id: number): Promise<void> => {
+    await deleteProductionTypeById(id)
     setIsUpdateTable(prevState => !prevState)
   };
 

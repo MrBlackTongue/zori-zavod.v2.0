@@ -4,6 +4,7 @@ import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
 import {getAllOutputReportByFilter} from "../../../services";
 import {TableProps, TypeOutputReport, TypeOutputReportFilter,} from "../../../types";
 import dayjs from "dayjs";
+import {renderNumber} from "../../../utils";
 
 export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = ({
                                                                                   isUpdateTable,
@@ -40,14 +41,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
       dataIndex: "fact",
       key: "fact",
       width: 100,
-      render: ((fact: number | null) =>
-        fact !== null ? (
-          <div>
-            {fact.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
     {
       title: "Ед.изм",
@@ -60,14 +54,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
       dataIndex: "hours",
       key: "hours",
       width: 80,
-      render: ((hours: number | null) =>
-        hours !== null ? (
-          <div>
-            {hours.toLocaleString('ru-RU', {
-              maximumFractionDigits: 2,
-            })}
-          </div>
-        ) : 0)
+      render: renderNumber,
     },
   ];
 
