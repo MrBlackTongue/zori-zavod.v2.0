@@ -140,7 +140,7 @@ export const MenuMain: React.FC = () => {
           <Link to="/client">Клиенты</Link>
         </Menu.Item>
 
-        <SubMenu key="06" icon={<RightOutlined/>} title="Остатки">
+        <SubMenu key="06" icon={<RightOutlined/>} title="Склад">
           <Menu.Item key="/stock" icon={<DatabaseOutlined/>}>
             <Link to="/stock">Остатки</Link>
           </Menu.Item>
