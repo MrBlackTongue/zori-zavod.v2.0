@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton} from 'antd';
-import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
+import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {deletePurchaseById, createPurchase, updatePurchase} from '../../services';
 import {TypePurchase, TypePurchaseFormValue} from '../../types';
@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 export const PagePurchase: React.FC = () => {
   const {Title} = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -76,14 +76,6 @@ export const PagePurchase: React.FC = () => {
             onChange={(event) => setSearchText(event.target.value)}
             prefix={<SearchOutlined/>}
           />
-          <Button
-            type="dashed"
-            className="greenButton"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

@@ -7,7 +7,6 @@ import {TableProps, TypeProductMovementHistory, TypeProductMovementHistoryFilter
 
 export const TableProductMovementHistory:
   React.FC<TableProps<TypeProductMovementHistoryFilter>> = ({
-                                                              isUpdateTable,
                                                               filter,
                                                             }) => {
   // Лоудер и список всей истории движения товаров
@@ -116,7 +115,7 @@ export const TableProductMovementHistory:
     } else {
       handleUpdateTable();
     }
-  }, [filter?.id, isUpdateTable, handleFilterTable, handleUpdateTable]);
+  }, [filter?.id, handleFilterTable, handleUpdateTable]);
 
   return (
     <Table

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, Input, Select, FloatButton, Tooltip} from 'antd';
-import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
+import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {createStock, updateStock, deleteStockById, getStockById} from '../../services';
 import {TypeStock, TypeStockFormValue} from '../../types';
@@ -13,7 +13,7 @@ export const PageStock: React.FC = () => {
   const {Title} = Typography;
   const {Option} = Select;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -105,14 +105,6 @@ export const PageStock: React.FC = () => {
                   </Option>
                 )) : null}
           </Select>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className="greenButton"
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

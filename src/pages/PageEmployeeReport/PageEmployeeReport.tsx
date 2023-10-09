@@ -1,18 +1,13 @@
 import React, {useState, useMemo} from 'react';
-import {Typography, Space, Button, FloatButton, DatePicker, Select, Tooltip} from 'antd';
-import {SyncOutlined} from "@ant-design/icons";
+import {Typography, Space, FloatButton, DatePicker, Select, Tooltip} from 'antd';
 import '../../App.css'
 import dayjs from "dayjs";
 import {useFetchAllData} from "../../hooks";
 import {TableEmployeeReport} from "./components/TableEmployeeReport";
 
 export const PageEmployeeReport: React.FC = () => {
-
   const {Title} = Typography;
   const {Option} = Select;
-
-  // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // Выбранные даты
   const [selectedDateFrom, setSelectedDateFrom] = useState<string | undefined>();
@@ -114,19 +109,10 @@ export const PageEmployeeReport: React.FC = () => {
             format='DD.MM.YYYY'
             onChange={onChangeDateTo}
           />
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
         </Space>
       </div>
       <FloatButton.BackTop/>
       <TableEmployeeReport
-        isUpdateTable={isUpdateTable}
         filter={filter}
       />
     </div>

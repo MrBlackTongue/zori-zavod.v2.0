@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined, SearchOutlined,} from '@ant-design/icons';
+import {PlusOutlined, SearchOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteProductById, createProduct, updateProduct} from "../../services";
 import {TypeProduct, TypeProductFormValue} from "../../types";
@@ -11,7 +11,7 @@ import {UpdateDrawerProduct} from "./components/UpdateDrawerProduct";
 export const PageProduct: React.FC = () => {
   const {Title} = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -69,14 +69,6 @@ export const PageProduct: React.FC = () => {
             onChange={(event) => setSearchText(event.target.value)}
             prefix={<SearchOutlined/>}
           />
-          <Button
-            type="dashed"
-            className='greenButton'
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

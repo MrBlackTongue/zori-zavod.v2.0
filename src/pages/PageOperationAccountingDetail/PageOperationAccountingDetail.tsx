@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {Space, Button, FloatButton, Divider, Tooltip, Typography} from 'antd';
-import {SyncOutlined, PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
+import {PlusOutlined, ArrowLeftOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
   updateOperationAccounting,
@@ -153,14 +153,6 @@ export const PageOperationAccountingDetail: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Детали учетной операции</Title>
         <Space>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateAllTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
         </Space>
       </div>
       <FloatButton.BackTop/>

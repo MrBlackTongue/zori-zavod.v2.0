@@ -6,7 +6,6 @@ import {TableProps, TypeProductReport, TypeProductReportFilter,} from "../../../
 import {renderNumber} from "../../../utils";
 
 export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> = ({
-                                                                                    isUpdateTable,
                                                                                     filter,
                                                                                   }) => {
   // Лоудер и список всех отчетов
@@ -101,7 +100,7 @@ export const TableProductReport: React.FC<TableProps<TypeProductReportFilter>> =
 
   useEffect(() => {
     handleFilterTable();
-  }, [isUpdateTable, filter, handleFilterTable]);
+  }, [filter, handleFilterTable]);
 
   return (
     <Table

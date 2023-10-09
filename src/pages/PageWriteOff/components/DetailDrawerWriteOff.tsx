@@ -6,7 +6,7 @@ import {
   TypeWriteOffMovementFormValue
 } from "../../../types";
 import {TableDetailWriteOff} from "./TableDetailWriteOff";
-import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
+import {PlusOutlined} from "@ant-design/icons";
 import {
   deleteWriteOffMovementById,
   createWriteOffMovement
@@ -19,7 +19,7 @@ export const DetailDrawerWriteOff: React.FC<DetailDrawerProps> = ({
                                                                     onCancel,
                                                                     selectedItemId,
                                                                   }) => {
-  // Обновление таблицы, Открыть закрыть модальное окно
+  // Обновление таблицы, открыть закрыть модальное окно
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -53,14 +53,6 @@ export const DetailDrawerWriteOff: React.FC<DetailDrawerProps> = ({
       onClose={onCancel}
       extra={
         <Space>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, Input, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
+import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {deleteAcceptanceById, createAcceptance} from "../../services";
 import {TypeAcceptance, TypeAcceptanceFormValue} from "../../types";
@@ -12,7 +12,7 @@ import {useFetchAllData} from "../../hooks";
 export const PageAcceptance: React.FC = () => {
   const {Title} = Typography;
 
-  // Обновить таблицу, Открыть закрыть модальное окно, текст поиска
+  // Обновить таблицу, открыть закрыть модальное окно, текст поиска
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
@@ -55,14 +55,6 @@ export const PageAcceptance: React.FC = () => {
             allowClear
             prefix={<SearchOutlined/>}
           />
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

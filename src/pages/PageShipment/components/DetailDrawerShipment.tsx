@@ -7,7 +7,7 @@ import {
   TypeShipmentProductMovementFormValue
 } from "../../../types";
 import {TableDetailShipment} from "./TableDetailShipment";
-import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
+import {PlusOutlined} from "@ant-design/icons";
 import {
   deleteShipmentProductMovementById,
   getShipmentById,
@@ -20,7 +20,7 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({
                                                                     onCancel,
                                                                     selectedItemId
                                                                   }) => {
-  // Обновление таблицы, Открыть закрыть модальное окно, Выбранная отгрузка
+  // Обновление таблицы, открыть закрыть модальное окно, Выбранная отгрузка
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
@@ -65,14 +65,6 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({
       onClose={onCancel}
       extra={
         <Space>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

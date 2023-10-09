@@ -6,7 +6,6 @@ import {TableProps, TypeCostPrice, TypeCostPriceFilter,} from "../../../types";
 import {renderAsRuble} from "../../../utils";
 
 export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
-                                                                            isUpdateTable,
                                                                             filter,
                                                                           }) => {
   // Лоудер и список всех отчетов по себестоимости
@@ -120,7 +119,7 @@ export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
 
   useEffect(() => {
     handleFilterTable();
-  }, [isUpdateTable, filter, handleFilterTable]);
+  }, [filter, handleFilterTable]);
 
   return (
     <Table

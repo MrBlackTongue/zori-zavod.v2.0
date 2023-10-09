@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
-import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
+import {PlusOutlined} from '@ant-design/icons';
 import '../../App.css';
 import {deleteEstimatedPriceById, createEstimatedPrice, updateEstimatedPrice} from '../../services';
 import {TypeEstimatedPrice, TypeEstimatedPriceFormValue} from '../../types';
@@ -62,14 +62,6 @@ export const PageEstimatedPrice: React.FC = () => {
       <div className="centerTitle">
         <Title level={3}>Расчетные цены</Title>
         <Space>
-          <Button
-            type="dashed"
-            className="greenButton"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

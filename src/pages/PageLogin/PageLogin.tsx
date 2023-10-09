@@ -8,7 +8,6 @@ import {CreateModalRegistrationUser} from "../PageLanding/components/CreateModal
 import {useRegistration} from "../../hooks";
 
 export const PageLogin: React.FC = () => {
-
   const [form] = Form.useForm();
   const navigate = useNavigate();
 

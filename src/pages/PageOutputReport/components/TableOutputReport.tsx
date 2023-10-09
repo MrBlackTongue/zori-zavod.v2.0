@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import {renderNumber} from "../../../utils";
 
 export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = ({
-                                                                                  isUpdateTable,
                                                                                   filter,
                                                                                 }) => {
   // Лоудер и список всех output
@@ -111,7 +110,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
 
   useEffect(() => {
     handleFilterTable();
-  }, [isUpdateTable, filter, handleFilterTable]);
+  }, [filter, handleFilterTable]);
 
   return (
     <Table

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
+import {PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteStoragePlaceById, createStoragePlace, updateStoragePlace} from "../../services";
 import {TypeStoragePlace, TypeStoragePlaceFormValue} from "../../types";
@@ -11,7 +11,7 @@ import {UpdateDrawerStoragePlace} from "./components/UpdateDrawerStoragePlace";
 export const PageStoragePlace: React.FC = () => {
   const {Title} = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -57,14 +57,6 @@ export const PageStoragePlace: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Место хранения</Title>
         <Space>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

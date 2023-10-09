@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import {renderNumber} from "../../../utils";
 
 export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>> = ({
-                                                                                      isUpdateTable,
                                                                                       filter,
                                                                                     }) => {
   // Лоудер и список всех отчетов по операциям
@@ -134,7 +133,7 @@ export const TableEmployeeReport: React.FC<TableProps<TypeEmployeeReportFilter>>
 
   useEffect(() => {
     handleFilterTable();
-  }, [isUpdateTable, filter, handleFilterTable]);
+  }, [filter, handleFilterTable]);
 
   return (
     <Table

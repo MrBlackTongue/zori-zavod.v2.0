@@ -8,7 +8,6 @@ import {
   PhoneOutlined
 } from '@ant-design/icons';
 import {Button, Form, Input, Modal} from 'antd';
-import {useNavigate} from "react-router-dom";
 import '../../../App.css'
 import {CreateModalProps, TypeUserProfile} from "../../../types";
 import {useFormHandler} from "../../../hooks";
@@ -19,26 +18,14 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
                                                                                            onCancel,
                                                                                          }) => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
 
   // Хук для отправки формы и отмены ввода
-  const {handleReset} = useFormHandler(form, createItem, onCancel);
+  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
 
   // Скрыть показать пароль
   const iconRender = useCallback(
     (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
   );
-
-  const handleSubmit = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        createItem(values as TypeUserProfile);
-        form.resetFields();
-        navigate('/employee');
-      })
-      .catch((error) => console.log('Validate Failed:', error));
-  };
 
   return (
     <Modal

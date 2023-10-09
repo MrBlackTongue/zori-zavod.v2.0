@@ -1,6 +1,6 @@
 import React, {useState, useMemo} from 'react';
 import {Typography, Space, Button, Select, DatePicker, FloatButton, Tooltip} from 'antd';
-import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
+import {PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {
   createOperationAccounting,
@@ -21,7 +21,7 @@ export const PageOperationAccounting: React.FC = () => {
   const {Title} = Typography;
   const {Option} = Select;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -150,14 +150,6 @@ export const PageOperationAccounting: React.FC = () => {
                 </Option>
               )) : null}
           </Select>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            className='greenButton'
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

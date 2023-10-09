@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
+import {PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {createMeterRecord, updateMeterRecord, deleteMeterRecordById} from "../../services";
 import {TypeMeterRecord, TypeMeterRecordFormValue} from "../../types";
@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 export const PageMeterRecord: React.FC = () => {
   const {Title} = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -62,14 +62,6 @@ export const PageMeterRecord: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Записи счетчиков</Title>
         <Space>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
+import {PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteWriteOffById, createWriteOff, updateWriteOff} from "../../services";
 import {TypeWriteOff, TypeWriteOffFormValue} from "../../types";
@@ -12,7 +12,7 @@ import {DetailDrawerWriteOff} from "./components/DetailDrawerWriteOff";
 export const PageWriteOff: React.FC = () => {
   const {Title} = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер, детальный дравер
+  // Обновление таблицы, открыть закрыть модальное окно, дравер, детальный дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -69,14 +69,6 @@ export const PageWriteOff: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}> Списание со склада</Title>
         <Space>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

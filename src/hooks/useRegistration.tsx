@@ -1,13 +1,17 @@
 import {useState} from 'react';
-import {registrationUser} from "../services";
-import {TypeUserProfile} from "../types";
+import {useNavigate} from 'react-router-dom';
+import {registrationUser} from '../services';
+import {TypeUserProfile} from '../types';
 
 export const useRegistration = () => {
   // Состояние модального окна
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  // Хук для перенаправления
+  const navigate = useNavigate();
+
   // Функция для создания нового пользователя
-  const handleCreateNewUser = (values: TypeUserProfile): void => {
+  const handleCreateNewUser = async (values: TypeUserProfile): Promise<void> => {
     const user: TypeUserProfile = {
       password: values.password,
       email: values.email,
@@ -15,7 +19,13 @@ export const useRegistration = () => {
       firstname: values.firstname,
     };
     setIsModalOpen(false);
-    void registrationUser(user);
+
+    try {
+      await registrationUser(user);
+      navigate('/employee');
+    } catch (error) {
+      console.error('Ошибка при регистрации:', error);
+    }
   };
 
   return {

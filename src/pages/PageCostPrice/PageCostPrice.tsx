@@ -1,6 +1,5 @@
 import React, {useState, useMemo} from 'react';
-import {Typography, Space, Button, FloatButton, Tooltip, Select} from 'antd';
-import {SyncOutlined} from "@ant-design/icons";
+import {Typography, Space, FloatButton, Tooltip, Select} from 'antd';
 import '../../App.css'
 import {TableCostPrice} from "./components/TableCostPrice";
 import {useFetchAllData} from "../../hooks";
@@ -8,12 +7,8 @@ import dayjs from "dayjs";
 import {TypeCostPriceFilter} from "../../types";
 
 export const PageCostPrice: React.FC = () => {
-
   const {Title} = Typography;
   const {Option} = Select;
-
-  // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // id выбранного выпуска продукции
   const [selectedOutputId, setSelectedOutputId] = useState<number | undefined>();
@@ -67,19 +62,10 @@ export const PageCostPrice: React.FC = () => {
                 </Option>
               )) : null}
           </Select>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
         </Space>
       </div>
       <FloatButton.BackTop/>
       <TableCostPrice
-        isUpdateTable={isUpdateTable}
         filter={filter}
       />
     </div>

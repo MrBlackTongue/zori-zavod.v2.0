@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton} from 'antd';
-import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
+import {PlusOutlined} from '@ant-design/icons';
 import '../../App.css'
 import {createShipment, updateShipment, deleteShipmentById} from "../../services";
 import {TypeShipment, TypeShipmentFormValue} from "../../types";
@@ -72,14 +72,6 @@ export const PageShipment: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Отгрузки</Title>
         <Space>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Space, Button, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
+import {PlusOutlined,} from '@ant-design/icons';
 import '../../App.css'
 import {deleteMeterTypeById, createMeterType, updateMeterType} from "../../services";
 import {TypeMeterType, TypeMeterTypeFormValue} from "../../types";
@@ -11,7 +11,7 @@ import {UpdateDrawerMeterType} from "./components/UpdateDrawerMeterType";
 export const PageMeterType: React.FC = () => {
   const {Title} = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -61,14 +61,6 @@ export const PageMeterType: React.FC = () => {
       <div className='centerTitle'>
         <Title level={3}>Типы счетчиков</Title>
         <Space>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
           <Button
             type="primary"
             icon={<PlusOutlined/>}

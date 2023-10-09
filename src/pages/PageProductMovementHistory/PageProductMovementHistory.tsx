@@ -1,17 +1,12 @@
 import React, {useState} from 'react';
-import {Typography, Space, Button, Select, FloatButton, Tooltip} from 'antd';
-import {SyncOutlined} from '@ant-design/icons';
+import {Typography, Space, Select, FloatButton, Tooltip} from 'antd';
 import '../../App.css'
 import {TableProductMovementHistory} from "./components/TableProductMovementHistory";
 import {useFetchAllData} from "../../hooks";
 
 export const PageProductMovementHistory: React.FC = () => {
-
   const {Title} = Typography;
   const {Option} = Select;
-
-  // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // Хук для получения данных
   const {allStock} = useFetchAllData({depsStock: true});
@@ -51,19 +46,10 @@ export const PageProductMovementHistory: React.FC = () => {
                 </Option>
               )) : null}
           </Select>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
         </Space>
       </div>
       <FloatButton.BackTop/>
       <TableProductMovementHistory
-        isUpdateTable={isUpdateTable}
         filter={{id: selectedStockId}}
       />
     </div>

@@ -1,6 +1,5 @@
 import React, {useState, useMemo} from 'react';
-import {Typography, Space, Button, Select, Checkbox, Tooltip} from 'antd';
-import {SyncOutlined} from "@ant-design/icons";
+import {Typography, Space, Select, Checkbox, Tooltip} from 'antd';
 import {TableOutputReport} from "./components/TableOutputReport";
 import '../../App.css'
 import {useFetchAllData} from "../../hooks";
@@ -8,12 +7,8 @@ import {TypeOutputReportFilter} from "../../types";
 import dayjs from "dayjs";
 
 export const PageOutputReport: React.FC = () => {
-
   const {Title} = Typography;
   const {Option} = Select;
-
-  // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // id выбранного output
   const [selectedOutputId, setSelectedOutputId] = useState<number | undefined>();
@@ -80,18 +75,9 @@ export const PageOutputReport: React.FC = () => {
                 </Option>
               )) : null}
           </Select>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
         </Space>
       </div>
       <TableOutputReport
-        isUpdateTable={isUpdateTable}
         filter={filter}
       />
     </div>
