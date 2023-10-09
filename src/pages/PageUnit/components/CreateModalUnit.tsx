@@ -1,18 +1,22 @@
-import React from "react";
-import {CreateModalProps, TypeUnitFormValue} from "../../../types";
-import {Form, Modal} from "antd";
-import {useFormHandler} from "../../../hooks";
-import {FormUnit} from "./FormUnit";
+import React from 'react';
+import { CreateModalProps, TypeUnitFormValue } from '../../../types';
+import { Form, Modal } from 'antd';
+import { useFormHandler } from '../../../hooks';
+import { FormUnit } from './FormUnit';
 
 export const CreateModalUnit: React.FC<CreateModalProps<TypeUnitFormValue>> = ({
-                                                                                 isOpen,
-                                                                                 createItem,
-                                                                                 onCancel,
-                                                                               }) => {
+  isOpen,
+  createItem,
+  onCancel,
+}) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   return (
     <Modal
@@ -22,11 +26,8 @@ export const CreateModalUnit: React.FC<CreateModalProps<TypeUnitFormValue>> = ({
       width={500}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
-      <FormUnit
-        form={form}
-      />
+      onCancel={handleReset}>
+      <FormUnit form={form} />
     </Modal>
-  )
-}
+  );
+};

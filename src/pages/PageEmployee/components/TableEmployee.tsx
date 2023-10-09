@@ -1,15 +1,15 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm, Tag,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllEmployee} from "../../../services";
-import {TableProps, TypeEmployee} from "../../../types";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tag, Tooltip } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { getAllEmployee } from '../../../services';
+import { TableProps, TypeEmployee } from '../../../types';
 
 export const TableEmployee: React.FC<TableProps> = ({
-                                                      isUpdateTable,
-                                                      openDrawer,
-                                                      onDelete,
-                                                    }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
   // Лоудер и список всех сотрудников
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
@@ -26,14 +26,14 @@ export const TableEmployee: React.FC<TableProps> = ({
       title: 'Имя',
       dataIndex: 'firstName',
       key: 'firstName',
-      sorter: (a, b) => (a.firstName ?? '') < (b.firstName ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.firstName ?? '') < (b.firstName ?? '') ? -1 : 1),
     },
     {
       title: 'Фамилия',
       dataIndex: 'lastName',
       key: 'lastName',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => (a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1),
     },
     {
       title: 'Телефон',
@@ -51,7 +51,7 @@ export const TableEmployee: React.FC<TableProps> = ({
       dataIndex: 'hired',
       key: 'hired',
       sorter: (a, b) => Number(a.hired) - Number(b.hired),
-      render: (hired) => (
+      render: hired => (
         <Tag color={hired ? 'green' : 'volcano'}>
           {hired ? 'Работает' : 'Не работает'}
         </Tag>
@@ -63,7 +63,7 @@ export const TableEmployee: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -72,7 +72,7 @@ export const TableEmployee: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -82,20 +82,24 @@ export const TableEmployee: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -105,15 +109,15 @@ export const TableEmployee: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllEmployee()
-      .then((data) => {
+      .then(data => {
         setAllEmployee(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
@@ -124,7 +128,11 @@ export const TableEmployee: React.FC<TableProps> = ({
       dataSource={allEmployee}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

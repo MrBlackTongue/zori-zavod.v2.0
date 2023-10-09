@@ -1,15 +1,15 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllUnit} from "../../../services";
-import {TableProps, TypeUnit} from "../../../types";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { getAllUnit } from '../../../services';
+import { TableProps, TypeUnit } from '../../../types';
 
 export const TableUnit: React.FC<TableProps> = ({
-                                                  isUpdateTable,
-                                                  openDrawer,
-                                                  onDelete,
-                                                }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
   // Лоудер и список всех единиц измерения
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
@@ -27,7 +27,7 @@ export const TableUnit: React.FC<TableProps> = ({
       dataIndex: 'name',
       key: 'name',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => (a.name ?? '') < (b.name ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.name ?? '') < (b.name ?? '') ? -1 : 1),
     },
     {
       title: 'Действия',
@@ -35,7 +35,7 @@ export const TableUnit: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -44,7 +44,7 @@ export const TableUnit: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -54,20 +54,24 @@ export const TableUnit: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -77,15 +81,15 @@ export const TableUnit: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllUnit()
-      .then((data) => {
+      .then(data => {
         setAllUnit(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
@@ -96,7 +100,11 @@ export const TableUnit: React.FC<TableProps> = ({
       dataSource={allUnit}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

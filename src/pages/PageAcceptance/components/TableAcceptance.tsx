@@ -1,17 +1,24 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {DeleteOutlined} from '@ant-design/icons';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllAcceptance, getAllAcceptanceByTitle} from "../../../services";
-import {TableProps, TypeAcceptance, TypeUnit, TypeStock, TypeProduct, TypePurchase} from "../../../types";
-import dayjs from "dayjs";
-import {renderNumber} from "../../../utils";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { getAllAcceptance, getAllAcceptanceByTitle } from '../../../services';
+import {
+  TableProps,
+  TypeAcceptance,
+  TypeProduct,
+  TypePurchase,
+  TypeStock,
+  TypeUnit,
+} from '../../../types';
+import dayjs from 'dayjs';
+import { renderNumber } from '../../../utils';
 
 export const TableAcceptance: React.FC<TableProps> = ({
-                                                        isUpdateTable,
-                                                        searchText,
-                                                        onDelete,
-                                                      }) => {
+  isUpdateTable,
+  searchText,
+  onDelete,
+}) => {
   // Лоудер и список всех приемок
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allAcceptance, setAllAcceptance] = useState<TypeAcceptance[]>();
@@ -28,22 +35,22 @@ export const TableAcceptance: React.FC<TableProps> = ({
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+      render: (date: any) =>
+        date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
     {
       title: 'ID ячейки',
       dataIndex: 'stock',
       key: 'stock',
-      render: ((stock: TypeStock) =>
-        stock !== null ? (<div>{stock.id}</div>) : null)
+      render: (stock: TypeStock) =>
+        stock !== null ? <div>{stock.id}</div> : null,
     },
     {
       title: 'Товар',
       dataIndex: ['stock', 'product'],
       key: 'product',
-      render: ((product: TypeProduct) =>
-        product !== null ? (<div>{product?.title}</div>) : null)
+      render: (product: TypeProduct) =>
+        product !== null ? <div>{product?.title}</div> : null,
     },
     {
       title: 'Количество',
@@ -55,15 +62,15 @@ export const TableAcceptance: React.FC<TableProps> = ({
       title: 'Ед. изм',
       dataIndex: ['stock', 'product', 'unit'],
       key: 'unit',
-      render: ((unit: TypeUnit) =>
-        unit !== null ? (<div>{unit.name}</div>) : null)
+      render: (unit: TypeUnit) =>
+        unit !== null ? <div>{unit.name}</div> : null,
     },
     {
       title: 'ID закупки',
       dataIndex: 'purchase',
       key: 'purchase',
-      render: ((purchase: TypePurchase) =>
-        purchase !== null ? (<div>{purchase.id}</div>) : null)
+      render: (purchase: TypePurchase) =>
+        purchase !== null ? <div>{purchase.id}</div> : null,
     },
     {
       title: 'Действия',
@@ -71,7 +78,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
@@ -79,27 +86,25 @@ export const TableAcceptance: React.FC<TableProps> = ({
               title="Вы действительно хотите удалить эту приемку?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
-              cancelText="Отмена"
-            >
+              cancelText="Отмена">
               <Button
                 type="primary"
                 size="small"
                 shape="circle"
-                style={{color: 'tomato', borderColor: 'tomato'}}
-                ghost
-              >
-                <DeleteOutlined/>
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
-  ]
+  ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -109,23 +114,23 @@ export const TableAcceptance: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptance()
-      .then((data) => {
+      .then(data => {
         setAllAcceptance(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   // Функция для поиска приемки
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllAcceptanceByTitle(searchText ?? '')
-      .then((data) => {
+      .then(data => {
         setAllAcceptance(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [searchText])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, [searchText]);
 
   useEffect(() => {
     if (searchText) {
@@ -143,7 +148,11 @@ export const TableAcceptance: React.FC<TableProps> = ({
       dataSource={allAcceptance}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

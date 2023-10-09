@@ -1,5 +1,4 @@
 @media (min-width: 1000px) {
-
   .registration-form {
     width: 100%;
     height: 520px;
@@ -291,7 +290,6 @@
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
-
   .registration-form {
     width: 100%;
     height: 520px;
@@ -584,7 +582,6 @@
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
-
   .registration-form {
     width: 100%;
     height: 520px;
@@ -884,7 +881,6 @@
 }
 
 @media (min-width: 63px) and (max-width: 575px) {
-
   .registration-form {
     width: 100%;
     height: 520px;
@@ -1095,7 +1091,7 @@
   }
 
   .block-group {
-    flex-direction: column
+    flex-direction: column;
   }
 
   .block-group-two {

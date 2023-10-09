@@ -1,24 +1,26 @@
-import React from "react";
-import {CreateModalProps, TypeWriteOffFormValue} from "../../../types";
-import {Form, Modal} from "antd";
-import {useFetchAllData, useFormHandler, useFormSelect} from "../../../hooks";
-import {FormWriteOff} from "./FormWriteOff";
+import React from 'react';
+import { CreateModalProps, TypeWriteOffFormValue } from '../../../types';
+import { Form, Modal } from 'antd';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormWriteOff } from './FormWriteOff';
 
-export const CreateModalWriteOff: React.FC<CreateModalProps<TypeWriteOffFormValue>> = ({
-                                                                                         isOpen,
-                                                                                         createItem,
-                                                                                         onCancel,
-                                                                                       }) => {
+export const CreateModalWriteOff: React.FC<
+  CreateModalProps<TypeWriteOffFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allEmployee, allProductionType} = useFetchAllData({
+  const { allEmployee, allProductionType } = useFetchAllData({
     depsEmployee: isOpen,
     depsProductionType: isOpen,
   });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем employee
   const {
@@ -42,8 +44,7 @@ export const CreateModalWriteOff: React.FC<CreateModalProps<TypeWriteOffFormValu
       width={650}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormWriteOff
         form={form}
         allEmployee={allEmployee}
@@ -56,5 +57,5 @@ export const CreateModalWriteOff: React.FC<CreateModalProps<TypeWriteOffFormValu
         onSearchProductionType={onSearchProductionType}
       />
     </Modal>
-  )
-}
+  );
+};

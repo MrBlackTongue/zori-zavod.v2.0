@@ -1,14 +1,21 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {Table} from "antd";
-import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {getAllOutputReportByFilter} from "../../../services";
-import {TableProps, TypeOutputReport, TypeOutputReportFilter,} from "../../../types";
-import dayjs from "dayjs";
-import {renderNumber} from "../../../utils";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Table } from 'antd';
+import type {
+  ColumnsType,
+  TablePaginationConfig,
+} from 'antd/es/table/interface';
+import { getAllOutputReportByFilter } from '../../../services';
+import {
+  TableProps,
+  TypeOutputReport,
+  TypeOutputReportFilter,
+} from '../../../types';
+import dayjs from 'dayjs';
+import { renderNumber } from '../../../utils';
 
-export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = ({
-                                                                                  filter,
-                                                                                }) => {
+export const TableOutputReport: React.FC<
+  TableProps<TypeOutputReportFilter>
+> = ({ filter }) => {
   // Лоудер и список всех output
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOutputReport, setAllOutputReport] = useState<TypeOutputReport[]>();
@@ -22,36 +29,36 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
   // Колонки в таблице
   const columns: ColumnsType<TypeOutputReport> = [
     {
-      title: "Дата",
-      dataIndex: "date",
-      key: "date",
+      title: 'Дата',
+      dataIndex: 'date',
+      key: 'date',
       width: 100,
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+      render: (date: any) =>
+        date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
     {
-      title: "Название операции",
-      dataIndex: "title",
-      key: "title",
+      title: 'Название операции',
+      dataIndex: 'title',
+      key: 'title',
       width: 300,
     },
     {
-      title: "Результат",
-      dataIndex: "fact",
-      key: "fact",
+      title: 'Результат',
+      dataIndex: 'fact',
+      key: 'fact',
       width: 100,
       render: renderNumber,
     },
     {
-      title: "Ед.изм",
-      dataIndex: "unit",
-      key: "unit",
+      title: 'Ед.изм',
+      dataIndex: 'unit',
+      key: 'unit',
       width: 100,
     },
     {
-      title: "Часы",
-      dataIndex: "hours",
-      key: "hours",
+      title: 'Часы',
+      dataIndex: 'hours',
+      key: 'hours',
       width: 80,
       render: renderNumber,
     },
@@ -59,7 +66,7 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -67,23 +74,25 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
 
   // Функция для расчета итоговых значений
   const renderSummaryRow = () => {
-    if (!allOutputReport) return null
+    if (!allOutputReport) return null;
     let totalHours = 0;
 
-    allOutputReport.forEach(({hours}: TypeOutputReport) => {
+    allOutputReport.forEach(({ hours }: TypeOutputReport) => {
       totalHours += hours ?? 0;
     });
 
     return (
       <>
         <Table.Summary.Row>
-          <Table.Summary.Cell index={0}><strong>Итого</strong></Table.Summary.Cell>
+          <Table.Summary.Cell index={0}>
+            <strong>Итого</strong>
+          </Table.Summary.Cell>
           <Table.Summary.Cell index={1}></Table.Summary.Cell>
           <Table.Summary.Cell index={2}></Table.Summary.Cell>
           <Table.Summary.Cell index={3}></Table.Summary.Cell>
           <Table.Summary.Cell index={4}>
             <strong>
-              {totalHours.toLocaleString('ru-RU', {maximumFractionDigits: 2,})}
+              {totalHours.toLocaleString('ru-RU', { maximumFractionDigits: 2 })}
             </strong>
           </Table.Summary.Cell>
         </Table.Summary.Row>
@@ -96,15 +105,16 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
     if (filter) {
       setIsLoading(true);
       getAllOutputReportByFilter({
-          outputId: filter?.outputId,
-          withGrouping: filter?.withGrouping,
-        }
-      )
-        .then((data) => {
-          setAllOutputReport(data?.map((item, index) => ({...item, key: index})));
+        outputId: filter?.outputId,
+        withGrouping: filter?.withGrouping,
+      })
+        .then(data => {
+          setAllOutputReport(
+            data?.map((item, index) => ({ ...item, key: index })),
+          );
           setIsLoading(false);
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error))
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
   }, [filter]);
 
@@ -120,7 +130,11 @@ export const TableOutputReport: React.FC<TableProps<TypeOutputReportFilter>> = (
       loading={isLoading}
       onChange={handleChangeTable}
       summary={renderSummaryRow}
-      pagination={{...pagination, position: ["bottomCenter"], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

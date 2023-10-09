@@ -1,18 +1,32 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypeUnit, TypeStock, TypeStockFilter, TypeProduct, TypeStoragePlace} from "../../../types";
-import {getAllStock, getAllStockByTitle, getAllStockByFilter} from "../../../services";
-import {renderNumber} from "../../../utils";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import type {
+  ColumnsType,
+  TablePaginationConfig,
+} from 'antd/es/table/interface';
+import {
+  TableProps,
+  TypeProduct,
+  TypeStock,
+  TypeStockFilter,
+  TypeStoragePlace,
+  TypeUnit,
+} from '../../../types';
+import {
+  getAllStock,
+  getAllStockByFilter,
+  getAllStockByTitle,
+} from '../../../services';
+import { renderNumber } from '../../../utils';
 
 export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
-                                                                    isUpdateTable,
-                                                                    openDrawer,
-                                                                    onDelete,
-                                                                    searchText,
-                                                                    filter,
-                                                                  }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+  searchText,
+  filter,
+}) => {
   // Лоудер и список всех остатков
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allStock, setAllStock] = useState<TypeStock[]>();
@@ -30,36 +44,37 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataIndex: 'id',
       key: 'idStock',
       defaultSortOrder: 'descend',
-      sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.id ?? '') < (b.id ?? '') ? -1 : 1),
     },
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      sorter: (a, b) => (a.product?.title ?? '') < (b.product?.title ?? '') ? -1 : 1,
-      render: ((product: TypeProduct) =>
-        product !== null ? (<div>{product.title}</div>) : null)
+      sorter: (a, b) =>
+        (a.product?.title ?? '') < (b.product?.title ?? '') ? -1 : 1,
+      render: (product: TypeProduct) =>
+        product !== null ? <div>{product.title}</div> : null,
     },
     {
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: TypeUnit) =>
-        unit !== null ? (<div>{unit.name}</div>) : null)
+      render: (unit: TypeUnit) =>
+        unit !== null ? <div>{unit.name}</div> : null,
     },
     {
       title: 'Место хранения',
       dataIndex: 'storagePlace',
       key: 'storagePlace',
-      render: ((storagePlace: TypeStoragePlace) =>
-        storagePlace !== null ? (<div>{storagePlace.title}</div>) : null)
+      render: (storagePlace: TypeStoragePlace) =>
+        storagePlace !== null ? <div>{storagePlace.title}</div> : null,
     },
     {
       title: 'Действия',
@@ -67,7 +82,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -76,7 +91,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -85,27 +100,25 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
               title="Вы действительно хотите удалить эту ячейку остатков?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
-              cancelText="Отмена"
-            >
+              cancelText="Отмена">
               <Button
                 type="primary"
                 size="small"
                 shape="circle"
-                style={{color: "tomato", borderColor: "tomato"}}
-                ghost
-              >
-                <DeleteOutlined/>
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -115,22 +128,22 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllStock()
-      .then((data) => {
+      .then(data => {
         setAllStock(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
+      .catch(error => console.error('Ошибка при получении данных: ', error));
   }, []);
 
   // Функция для поиска по таблице склада
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
-    getAllStockByTitle(searchText ?? "")
-      .then((data) => {
+    getAllStockByTitle(searchText ?? '')
+      .then(data => {
         setAllStock(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
+      .catch(error => console.error('Ошибка при получении данных: ', error));
   }, [searchText]);
 
   // Функция для фильтрации таблицы
@@ -138,11 +151,11 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     if (filter?.id) {
       setIsLoading(true);
       getAllStockByFilter(filter?.id)
-        .then((data) => {
+        .then(data => {
           setAllStock(data);
           setIsLoading(false);
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
   }, [filter]);
 
@@ -154,7 +167,14 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     } else {
       handleUpdateTable();
     }
-  }, [searchText, filter, isUpdateTable, handleFilterTable, handleSearchTable, handleUpdateTable]);
+  }, [
+    searchText,
+    filter,
+    isUpdateTable,
+    handleFilterTable,
+    handleSearchTable,
+    handleUpdateTable,
+  ]);
 
   return (
     <Table
@@ -164,7 +184,11 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataSource={allStock}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10,}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

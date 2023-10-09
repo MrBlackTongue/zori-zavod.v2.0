@@ -1,26 +1,27 @@
-import React, {useCallback, useEffect} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeWriteOffFormValue} from "../../../types";
-import {getWriteOffById} from "../../../services";
-import {useFetchAllData, useFormHandler, useFormSelect} from "../../../hooks";
-import {FormWriteOff} from "./FormWriteOff";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeWriteOffFormValue, UpdateDrawerProps } from '../../../types';
+import { getWriteOffById } from '../../../services';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormWriteOff } from './FormWriteOff';
 
-export const UpdateDrawerWriteOff: React.FC<UpdateDrawerProps<TypeWriteOffFormValue>> = ({
-                                                                                           isOpen,
-                                                                                           selectedItemId,
-                                                                                           onCancel,
-                                                                                           updateItem,
-                                                                                         }) => {
+export const UpdateDrawerWriteOff: React.FC<
+  UpdateDrawerProps<TypeWriteOffFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allEmployee, allProductionType} = useFetchAllData({
+  const { allEmployee, allProductionType } = useFetchAllData({
     depsEmployee: isOpen,
     depsProductionType: isOpen,
   });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Хук для управления полем employee
   const {
@@ -40,20 +41,21 @@ export const UpdateDrawerWriteOff: React.FC<UpdateDrawerProps<TypeWriteOffFormVa
   const handleGetWriteOff = useCallback((): void => {
     if (selectedItemId) {
       getWriteOffById(selectedItemId)
-        .then((data) => {
+        .then(data => {
           form.setFieldsValue({
             ...data,
             employee: data?.employee?.id === 0 ? '' : data?.employee?.id,
-            productionType: data?.productionType?.id === 0 ? '' : data?.productionType?.id,
+            productionType:
+              data?.productionType?.id === 0 ? '' : data?.productionType?.id,
           });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [selectedItemId, form])
+  }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetWriteOff()
+      handleGetWriteOff();
     }
   }, [isOpen, selectedItemId, handleGetWriteOff, form]);
 
@@ -70,8 +72,7 @@ export const UpdateDrawerWriteOff: React.FC<UpdateDrawerProps<TypeWriteOffFormVa
             Сохранить
           </Button>
         </Space>
-      }
-    >
+      }>
       <FormWriteOff
         form={form}
         allEmployee={allEmployee}
@@ -84,5 +85,5 @@ export const UpdateDrawerWriteOff: React.FC<UpdateDrawerProps<TypeWriteOffFormVa
         onSearchProductionType={onSearchProductionType}
       />
     </Drawer>
-  )
-}
+  );
+};

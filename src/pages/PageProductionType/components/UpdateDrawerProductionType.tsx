@@ -1,35 +1,36 @@
-import React, {useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeProductionTypeFormValue} from "../../../types";
-import {getProductionTypeById} from "../../../services";
-import {FormProductionType} from "./FormProductionType";
-import {useFormHandler} from "../../../hooks";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeProductionTypeFormValue, UpdateDrawerProps } from '../../../types';
+import { getProductionTypeById } from '../../../services';
+import { FormProductionType } from './FormProductionType';
+import { useFormHandler } from '../../../hooks';
 
-export const UpdateDrawerProductionType: React.FC<UpdateDrawerProps<TypeProductionTypeFormValue>> = ({
-                                                                                                       isOpen,
-                                                                                                       selectedItemId,
-                                                                                                       onCancel,
-                                                                                                       updateItem,
-                                                                                                     }) => {
+export const UpdateDrawerProductionType: React.FC<
+  UpdateDrawerProps<TypeProductionTypeFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Функция для получения информации выбранной записи и установления значений полей формы
   const handleGetProductionType = useCallback((): void => {
     if (selectedItemId) {
       getProductionTypeById(selectedItemId)
-        .then((data) => {
-          form.setFieldsValue({...data});
+        .then(data => {
+          form.setFieldsValue({ ...data });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
   }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetProductionType()
+      handleGetProductionType();
     }
   }, [isOpen, selectedItemId, handleGetProductionType]);
 
@@ -46,11 +47,8 @@ export const UpdateDrawerProductionType: React.FC<UpdateDrawerProps<TypeProducti
             Сохранить
           </Button>
         </Space>
-      }
-    >
-      <FormProductionType
-        form={form}
-      />
+      }>
+      <FormProductionType form={form} />
     </Drawer>
-  )
-}
+  );
+};

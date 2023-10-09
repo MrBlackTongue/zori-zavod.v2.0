@@ -1,16 +1,20 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton} from 'antd';
-import {PlusOutlined} from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Button, FloatButton, Space, Typography } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import '../../App.css';
-import {deleteEstimatedPriceById, createEstimatedPrice, updateEstimatedPrice} from '../../services';
-import {TypeEstimatedPrice, TypeEstimatedPriceFormValue} from '../../types';
-import {TableEstimatedPrice} from "./components/TableEstimatedPrice";
-import {CreateModalEstimatedPrice} from "./components/CreateModalEstimatedPrice";
-import {UpdateDrawerEstimatedPrice} from "./components/UpdateDrawerEstimatedPrice";
-import dayjs from "dayjs";
+import {
+  createEstimatedPrice,
+  deleteEstimatedPriceById,
+  updateEstimatedPrice,
+} from '../../services';
+import { TypeEstimatedPrice, TypeEstimatedPriceFormValue } from '../../types';
+import { TableEstimatedPrice } from './components/TableEstimatedPrice';
+import { CreateModalEstimatedPrice } from './components/CreateModalEstimatedPrice';
+import { UpdateDrawerEstimatedPrice } from './components/UpdateDrawerEstimatedPrice';
+import dayjs from 'dayjs';
 
 export const PageEstimatedPrice: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
   // Обновление таблицы, открыть/закрыть модальное окно, драйвер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -18,14 +22,17 @@ export const PageEstimatedPrice: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // id выбранной расчетной цены
-  const [selectedEstimatedPriceId, setSelectedEstimatedPriceId] = useState<number>();
+  const [selectedEstimatedPriceId, setSelectedEstimatedPriceId] =
+    useState<number>();
 
   // Добавить новую расчетную цену
-  const handleCreateEstimatedPrice = async (values: TypeEstimatedPriceFormValue): Promise<void> => {
+  const handleCreateEstimatedPrice = async (
+    values: TypeEstimatedPriceFormValue,
+  ): Promise<void> => {
     const estimatedPrice: TypeEstimatedPrice = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       price: values.price,
-      product: {id: values.product}
+      product: { id: values.product },
     };
     setIsModalOpen(false);
     await createEstimatedPrice(estimatedPrice);
@@ -39,12 +46,14 @@ export const PageEstimatedPrice: React.FC = () => {
   };
 
   // Обновить расчетную цену
-  const handleUpdateEstimatedPrice = async (values: TypeEstimatedPriceFormValue): Promise<void> => {
+  const handleUpdateEstimatedPrice = async (
+    values: TypeEstimatedPriceFormValue,
+  ): Promise<void> => {
     const estimatedPrice: TypeEstimatedPrice = {
       id: selectedEstimatedPriceId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       price: values.price,
-      product: {id: values.product}
+      product: { id: values.product },
     };
     setIsDrawerOpen(false);
     await updateEstimatedPrice(estimatedPrice);
@@ -58,20 +67,19 @@ export const PageEstimatedPrice: React.FC = () => {
   };
 
   return (
-    <div style={{display: 'grid'}}>
+    <div style={{ display: 'grid' }}>
       <div className="centerTitle">
         <Title level={3}>Расчетные цены</Title>
         <Space>
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableEstimatedPrice
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

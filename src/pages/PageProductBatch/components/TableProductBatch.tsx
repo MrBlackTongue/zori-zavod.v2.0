@@ -1,16 +1,24 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypeProductBatch, TypeUnit, TypeProduct} from "../../../types";
-import {getAllProductBatch} from "../../../services";
-import {renderNumber} from "../../../utils";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import type {
+  ColumnsType,
+  TablePaginationConfig,
+} from 'antd/es/table/interface';
+import {
+  TableProps,
+  TypeProduct,
+  TypeProductBatch,
+  TypeUnit,
+} from '../../../types';
+import { getAllProductBatch } from '../../../services';
+import { renderNumber } from '../../../utils';
 
 export const TableProductBatch: React.FC<TableProps> = ({
-                                                          isUpdateTable,
-                                                          openDrawer,
-                                                          onDelete,
-                                                        }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
   // Лоудер и список всех партий товаров
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>();
@@ -28,28 +36,28 @@ export const TableProductBatch: React.FC<TableProps> = ({
       dataIndex: 'id',
       key: 'idProductBatch',
       defaultSortOrder: 'descend',
-      sorter: (a, b) => (a.id ?? '') < (b.id ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.id ?? '') < (b.id ?? '') ? -1 : 1),
     },
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: TypeProduct) =>
-        product !== null ? (<div>{product.title}</div>) : null)
+      render: (product: TypeProduct) =>
+        product !== null ? <div>{product.title}</div> : null,
     },
     {
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: TypeUnit) =>
-        unit !== null ? (<div>{unit.name}</div>) : null)
+      render: (unit: TypeUnit) =>
+        unit !== null ? <div>{unit.name}</div> : null,
     },
     {
       title: 'Действия',
@@ -57,7 +65,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -66,7 +74,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -76,20 +84,24 @@ export const TableProductBatch: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -99,12 +111,12 @@ export const TableProductBatch: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductBatch()
-      .then((data) => {
+      .then(data => {
         setAllProductBatch(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
     handleUpdateTable();
@@ -118,7 +130,11 @@ export const TableProductBatch: React.FC<TableProps> = ({
       dataSource={allProductBatch}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton} from 'antd';
-import {PlusOutlined} from '@ant-design/icons';
-import '../../App.css'
-import {createProductGroup, updateProductGroup, deleteProductGroupById} from "../../services";
-import {TypeProductGroup, TypeProductGroupFormValue} from "../../types";
-import {TableProductGroup} from "./components/TableProductGroup";
-import {CreateModalProductGroup} from "./components/CreateModalProductGroup";
-import {UpdateDrawerProductGroup} from "./components/UpdateDrawerProductGroup";
+import React, { useState } from 'react';
+import { Typography, Space, Button, FloatButton } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import '../../App.css';
+import {
+  createProductGroup,
+  updateProductGroup,
+  deleteProductGroupById,
+} from '../../services';
+import { TypeProductGroup, TypeProductGroupFormValue } from '../../types';
+import { TableProductGroup } from './components/TableProductGroup';
+import { CreateModalProductGroup } from './components/CreateModalProductGroup';
+import { UpdateDrawerProductGroup } from './components/UpdateDrawerProductGroup';
 
 export const PageProductGroup: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
   // Обновление таблицы, открыть/закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -17,31 +21,36 @@ export const PageProductGroup: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // id выбранной группы товаров
-  const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
+  const [selectedProductGroupId, setSelectedProductGroupId] =
+    useState<number>();
 
   // Добавить новую группу товаров
-  const handleCreateProductGroup = async (values: TypeProductGroupFormValue): Promise<void> => {
+  const handleCreateProductGroup = async (
+    values: TypeProductGroupFormValue,
+  ): Promise<void> => {
     const productGroup: TypeProductGroup = {
       title: values.title,
-      parent: values.parent ? {id: values.parent} : undefined,
+      parent: values.parent ? { id: values.parent } : undefined,
     };
-    setIsModalOpen(false)
-    await createProductGroup(productGroup)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createProductGroup(productGroup);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть дравер
   const openDrawer = (id: number): void => {
-    setSelectedProductGroupId(id)
+    setSelectedProductGroupId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить группу товаров
-  const handleUpdateProductGroup = async (values: TypeProductGroupFormValue): Promise<void> => {
+  const handleUpdateProductGroup = async (
+    values: TypeProductGroupFormValue,
+  ): Promise<void> => {
     const productGroup: TypeProductGroup = {
       id: selectedProductGroupId,
       title: values.title,
-      parent: values.parent ? {id: values.parent} : undefined,
+      parent: values.parent ? { id: values.parent } : undefined,
     };
     setIsDrawerOpen(false);
     await updateProductGroup(productGroup);
@@ -50,25 +59,24 @@ export const PageProductGroup: React.FC = () => {
 
   // Удалить запись из таблицы
   const handleDeleteProductGroup = async (id: number): Promise<void> => {
-    await deleteProductGroupById(id)
-    setIsUpdateTable(prevState => !prevState)
-  }
+    await deleteProductGroupById(id);
+    setIsUpdateTable(prevState => !prevState);
+  };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Группы товаров</Title>
         <Space>
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(prevState => !prevState)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(prevState => !prevState)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableProductGroup
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

@@ -1,20 +1,20 @@
-import {TypeProductGroup} from "./TypeProductGroup";
-import {TypeUnit} from "./TypeUnit";
-import {FormInstance} from "antd/lib/form";
+import { TypeProductGroup } from './TypeProductGroup';
+import { TypeUnit } from './TypeUnit';
+import { FormInstance } from 'antd/lib/form';
 
 export type TypeProduct = {
-  id?: number,
-  title?: string,
-  productGroup?: TypeProductGroup,
+  id?: number;
+  title?: string;
+  productGroup?: TypeProductGroup;
   unit?: TypeUnit;
-}
+};
 
 export type TypeProductFormValue = {
-  id?: number,
-  title?: string,
-  productGroup?: number,
+  id?: number;
+  title?: string;
+  productGroup?: number;
   unit?: number;
-}
+};
 
 export interface FormProductProps {
   form: FormInstance;

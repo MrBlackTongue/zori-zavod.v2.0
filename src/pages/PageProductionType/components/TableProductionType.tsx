@@ -1,18 +1,19 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getAllProductionType,} from "../../../services";
-import {TableProps, TypeProductionType} from "../../../types";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { getAllProductionType } from '../../../services';
+import { TableProps, TypeProductionType } from '../../../types';
 
 export const TableProductionType: React.FC<TableProps> = ({
-                                                            isUpdateTable,
-                                                            openDrawer,
-                                                            onDelete,
-                                                          }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
   // Лоудер и список типов производства
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allProductionType, setAllProductionType] = useState<TypeProductionType[]>();
+  const [allProductionType, setAllProductionType] =
+    useState<TypeProductionType[]>();
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -38,7 +39,7 @@ export const TableProductionType: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -47,7 +48,7 @@ export const TableProductionType: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -57,20 +58,24 @@ export const TableProductionType: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -80,12 +85,12 @@ export const TableProductionType: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductionType()
-      .then((data) => {
+      .then(data => {
         setAllProductionType(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
     handleUpdateTable();
@@ -99,7 +104,11 @@ export const TableProductionType: React.FC<TableProps> = ({
       dataSource={allProductionType}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
-}
+};

@@ -1,5 +1,4 @@
 @media (min-width: 1000px) {
-
   .rate-flex {
     display: flex;
   }
@@ -117,7 +116,6 @@
   .rate-footer-block3 {
     justify-content: center;
   }
-
 
   .rate-footer-text-one {
     justify-content: flex-start;
@@ -266,7 +264,6 @@
     justify-content: center;
   }
 
-
   .rate-footer-text-one {
     justify-content: flex-start;
     margin: 30px auto 5px;
@@ -339,7 +336,6 @@
     margin-left: 300px;
   }
 
-
   .rate-block {
     width: 500px;
     margin: 9vh auto;
@@ -409,7 +405,6 @@
   .rate-footer-block3 {
     justify-content: center;
   }
-
 
   .rate-footer-text-one {
     justify-content: flex-start;
@@ -554,7 +549,6 @@
   .rate-footer-block3 {
     justify-content: center;
   }
-
 
   .rate-footer-text-one {
     justify-content: flex-start;

@@ -1,17 +1,30 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, Input, Select, FloatButton, Tooltip} from 'antd';
-import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
+import React, { useState } from 'react';
+import {
+  Typography,
+  Space,
+  Button,
+  Input,
+  Select,
+  FloatButton,
+  Tooltip,
+} from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import '../../App.css';
-import {createStock, updateStock, deleteStockById, getStockById} from '../../services';
-import {TypeStock, TypeStockFormValue} from '../../types';
-import {TableStock} from "./components/TableStock";
-import {CreateModalStock} from "./components/CreateModalStock";
-import {UpdateDrawerStock} from "./components/UpdateDrawerStock";
-import {useFetchAllData} from "../../hooks";
+import {
+  createStock,
+  updateStock,
+  deleteStockById,
+  getStockById,
+} from '../../services';
+import { TypeStock, TypeStockFormValue } from '../../types';
+import { TableStock } from './components/TableStock';
+import { CreateModalStock } from './components/CreateModalStock';
+import { UpdateDrawerStock } from './components/UpdateDrawerStock';
+import { useFetchAllData } from '../../hooks';
 
 export const PageStock: React.FC = () => {
-  const {Title} = Typography;
-  const {Option} = Select;
+  const { Title } = Typography;
+  const { Option } = Select;
 
   // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -19,14 +32,15 @@ export const PageStock: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // Хук для получения данных
-  const {allProductGroup} = useFetchAllData({depsProductGroup: true});
+  const { allProductGroup } = useFetchAllData({ depsProductGroup: true });
 
   // id выбранной группы товаров, Выбранная ячейка остатков
-  const [selectedProductGroupId, setSelectedProductGroupId] = useState<number>();
+  const [selectedProductGroupId, setSelectedProductGroupId] =
+    useState<number>();
   const [selectedStock, setSelectedStock] = useState<TypeStock>();
 
   // Текст поиска
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>('');
 
   // Изменить выбранную группу товаров
   const onChangeProductGroup = (value: any): void => {
@@ -36,91 +50,96 @@ export const PageStock: React.FC = () => {
   // Поиск по селекту
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
-  }
+  };
 
   // Добавить новую ячейку на складе
-  const handleCreateStock = async (values: TypeStockFormValue): Promise<void> => {
+  const handleCreateStock = async (
+    values: TypeStockFormValue,
+  ): Promise<void> => {
     const stock: TypeStock = {
       amount: 0,
-      product: {id: values.product},
-      storagePlace: {id: values.storagePlace},
+      product: { id: values.product },
+      storagePlace: { id: values.storagePlace },
     };
     setIsModalOpen(false);
     await createStock(stock);
-    setIsUpdateTable(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть дравер
   const openDrawer = (id: number): void => {
-    void getStockById(id).then((data) => setSelectedStock(data));
+    void getStockById(id).then(data => setSelectedStock(data));
     setIsDrawerOpen(true);
   };
 
   // Обновить товар на складе
-  const handleUpdateStock = async (values: TypeStockFormValue): Promise<void> => {
+  const handleUpdateStock = async (
+    values: TypeStockFormValue,
+  ): Promise<void> => {
     const stock: TypeStock = {
       id: selectedStock?.id,
       amount: selectedStock?.amount,
-      product: {id: values.product},
-      storagePlace: {id: values.storagePlace},
+      product: { id: values.product },
+      storagePlace: { id: values.storagePlace },
     };
     setIsDrawerOpen(false);
     await updateStock(stock);
-    setIsUpdateTable(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteStock = async (id: number): Promise<void> => {
-    await deleteStockById(id)
+    await deleteStockById(id);
     setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
+    <div style={{ display: 'grid' }}>
       <div className="centerTitle">
         <Title level={3}>Остатки</Title>
         <Space>
           <Input
             placeholder="Поиск по товарам"
-            onChange={(event) => setSearchText(event.target.value)}
-            style={{width: '210px'}}
+            onChange={event => setSearchText(event.target.value)}
+            style={{ width: '210px' }}
             allowClear
-            prefix={<SearchOutlined/>}
+            prefix={<SearchOutlined />}
           />
           <Select
             showSearch
             allowClear
-            placeholder='Выберите товарную группу'
-            style={{'width': '250px'}}
+            placeholder="Выберите товарную группу"
+            style={{ width: '250px' }}
             onChange={onChangeProductGroup}
-            filterOption={onSearchSelect}
-          >
-            {allProductGroup && allProductGroup.length > 0 ?
-              allProductGroup
-                .map(productGroup => (
-                  <Option key={productGroup.id} value={productGroup.id} label={productGroup.title}>
+            filterOption={onSearchSelect}>
+            {allProductGroup && allProductGroup.length > 0
+              ? allProductGroup.map(productGroup => (
+                  <Option
+                    key={productGroup.id}
+                    value={productGroup.id}
+                    label={productGroup.title}>
                     <Tooltip placement="right" title={productGroup.title}>
                       {productGroup.title}
                     </Tooltip>
                   </Option>
-                )) : null}
+                ))
+              : null}
           </Select>
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableStock
         isUpdateTable={isUpdateTable}
         onDelete={handleDeleteStock}
         openDrawer={openDrawer}
         searchText={searchText}
-        filter={{id: selectedProductGroupId}}
+        filter={{ id: selectedProductGroupId }}
       />
       <CreateModalStock
         isOpen={isModalOpen}

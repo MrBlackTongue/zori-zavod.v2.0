@@ -1,18 +1,26 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {Table, Button, Space, Tooltip, Popconfirm, Tag} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypePurchase, TypeUnit, TypeProduct} from "../../../types";
-import {getAllPurchase, getAllPurchaseByTitle} from "../../../services";
-import dayjs from "dayjs";
-import {renderAsRuble, renderNumber} from "../../../utils";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tag, Tooltip } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import type {
+  ColumnsType,
+  TablePaginationConfig,
+} from 'antd/es/table/interface';
+import {
+  TableProps,
+  TypeProduct,
+  TypePurchase,
+  TypeUnit,
+} from '../../../types';
+import { getAllPurchase, getAllPurchaseByTitle } from '../../../services';
+import dayjs from 'dayjs';
+import { renderAsRuble, renderNumber } from '../../../utils';
 
 export const TablePurchase: React.FC<TableProps> = ({
-                                                      isUpdateTable,
-                                                      openDrawer,
-                                                      onDelete,
-                                                      searchText,
-                                                    }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+  searchText,
+}) => {
   // Лоудер и список всех закупок
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
@@ -34,53 +42,55 @@ export const TablePurchase: React.FC<TableProps> = ({
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+      render: (date: any) =>
+        date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
-      render: ((product: TypeProduct) =>
-        product !== null ? (<div>{product.title}</div>) : null)
+      render: (product: TypeProduct) =>
+        product !== null ? <div>{product.title}</div> : null,
     },
     {
       title: 'Количество',
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: ((unit: TypeUnit) =>
-        unit !== null ? (<div>{unit.name}</div>) : null)
+      render: (unit: TypeUnit) =>
+        unit !== null ? <div>{unit.name}</div> : null,
     },
     {
       title: 'Цена за единицу',
       dataIndex: 'cost',
       key: 'cost',
-      sorter: (a, b) => (a.cost ?? 0) < (b.cost ?? 0) ? -1 : 1,
-      render: renderAsRuble
+      sorter: (a, b) => ((a.cost ?? 0) < (b.cost ?? 0) ? -1 : 1),
+      render: renderAsRuble,
     },
     {
       title: 'Стоимость закупки',
       key: 'totalCost',
-      sorter: (a, b) => (a.cost ?? 0) * (a.amount ?? 0) < (b.cost ?? 0) * (b.amount ?? 0) ? -1 : 1,
-      render: ((record: any) =>
-          record.cost !== null && record.amount !== null ? (
-            <div>
-              {`${(record.cost * record.amount).toLocaleString('ru-RU', {
-                style: 'currency',
-                currency: 'RUB',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}`}
-            </div>
-          ) : null
-      ),
+      sorter: (a, b) =>
+        (a.cost ?? 0) * (a.amount ?? 0) < (b.cost ?? 0) * (b.amount ?? 0)
+          ? -1
+          : 1,
+      render: (record: any) =>
+        record.cost !== null && record.amount !== null ? (
+          <div>
+            {`${(record.cost * record.amount).toLocaleString('ru-RU', {
+              style: 'currency',
+              currency: 'RUB',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`}
+          </div>
+        ) : null,
     },
     {
       title: 'Статус оплаты',
@@ -98,7 +108,7 @@ export const TablePurchase: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -107,7 +117,7 @@ export const TablePurchase: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -117,20 +127,24 @@ export const TablePurchase: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -140,23 +154,23 @@ export const TablePurchase: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllPurchase()
-      .then((data) => {
+      .then(data => {
         setAllPurchase(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error))
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   // Функция для поиска по таблице закупок
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllPurchaseByTitle(searchText ?? '')
-      .then((data) => {
+      .then(data => {
         setAllPurchase(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error))
-  }, [searchText])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, [searchText]);
 
   useEffect(() => {
     if (searchText) {
@@ -174,7 +188,11 @@ export const TablePurchase: React.FC<TableProps> = ({
       dataSource={allPurchase}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

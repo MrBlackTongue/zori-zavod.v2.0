@@ -1,72 +1,73 @@
 import React from 'react';
-import {Form, Select, Tooltip} from "antd";
-import {FormStockProps} from "../../../types";
+import { Form, Select, Tooltip } from 'antd';
+import { FormStockProps } from '../../../types';
 
 export const FormStock: React.FC<FormStockProps> = ({
-                                                      form,
-                                                      allProduct,
-                                                      onChangeProduct,
-                                                      onClearProduct,
-                                                      onSearchProduct,
-                                                      allStoragePlace,
-                                                      onChangeStoragePlace,
-                                                      onClearStoragePlace,
-                                                      onSearchStoragePlace,
-                                                    }) => {
-  const {Option} = Select;
+  form,
+  allProduct,
+  onChangeProduct,
+  onClearProduct,
+  onSearchProduct,
+  allStoragePlace,
+  onChangeStoragePlace,
+  onClearStoragePlace,
+  onSearchStoragePlace,
+}) => {
+  const { Option } = Select;
 
   return (
     <Form
       form={form}
-      labelCol={{span: 6}}
-      wrapperCol={{span: 16}}
-      style={{marginTop: 30}}
-    >
+      labelCol={{ span: 6 }}
+      wrapperCol={{ span: 16 }}
+      style={{ marginTop: 30 }}>
       <Form.Item
         label="Товар"
         name="product"
-        rules={[{required: true, message: 'выберите товар'}]}
-      >
+        rules={[{ required: true, message: 'выберите товар' }]}>
         <Select
           showSearch
           allowClear
-          placeholder='Выберите товар'
+          placeholder="Выберите товар"
           onChange={onChangeProduct}
           onClear={onClearProduct}
-          filterOption={onSearchProduct}
-        >
-          {allProduct && allProduct.length > 0 ?
-            allProduct.map(product => (
-              <Option key={product.id} value={product.id} label={product.title}>
-                <Tooltip placement="right" title={product.title}>
-                  {product.title}
-                </Tooltip>
-              </Option>
-            )) : null}
+          filterOption={onSearchProduct}>
+          {allProduct && allProduct.length > 0
+            ? allProduct.map(product => (
+                <Option
+                  key={product.id}
+                  value={product.id}
+                  label={product.title}>
+                  <Tooltip placement="right" title={product.title}>
+                    {product.title}
+                  </Tooltip>
+                </Option>
+              ))
+            : null}
         </Select>
       </Form.Item>
-      <Form.Item
-        label="Место хранения"
-        name="storagePlace"
-      >
+      <Form.Item label="Место хранения" name="storagePlace">
         <Select
           showSearch
           allowClear
-          placeholder='Выберите место'
+          placeholder="Выберите место"
           onChange={onChangeStoragePlace}
           onClear={onClearStoragePlace}
-          filterOption={onSearchStoragePlace}
-        >
-          {allStoragePlace && allStoragePlace.length > 0 ?
-            allStoragePlace.map(storagePlace => (
-              <Option key={storagePlace.id} value={storagePlace.id} label={storagePlace.title}>
-                <Tooltip placement="right" title={storagePlace.title}>
-                  {storagePlace.title}
-                </Tooltip>
-              </Option>
-            )) : null}
+          filterOption={onSearchStoragePlace}>
+          {allStoragePlace && allStoragePlace.length > 0
+            ? allStoragePlace.map(storagePlace => (
+                <Option
+                  key={storagePlace.id}
+                  value={storagePlace.id}
+                  label={storagePlace.title}>
+                  <Tooltip placement="right" title={storagePlace.title}>
+                    {storagePlace.title}
+                  </Tooltip>
+                </Option>
+              ))
+            : null}
         </Select>
       </Form.Item>
     </Form>
   );
-}
+};

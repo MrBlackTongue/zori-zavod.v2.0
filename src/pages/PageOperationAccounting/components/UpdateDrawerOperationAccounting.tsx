@@ -1,29 +1,32 @@
-import React, {useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeOperationAccountingFormValue} from "../../../types";
-import {getOperationAccountingById} from "../../../services";
-import dayjs from "dayjs";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormOperationAccounting} from "./FormOperationAccounting";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import {
+  TypeOperationAccountingFormValue,
+  UpdateDrawerProps,
+} from '../../../types';
+import { getOperationAccountingById } from '../../../services';
+import dayjs from 'dayjs';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormOperationAccounting } from './FormOperationAccounting';
 
-export const UpdateDrawerOperationAccounting:
-  React.FC<UpdateDrawerProps<TypeOperationAccountingFormValue>> = ({
-                                                                     isOpen,
-                                                                     selectedItemId,
-                                                                     onCancel,
-                                                                     updateItem,
-                                                                   }) => {
+export const UpdateDrawerOperationAccounting: React.FC<
+  UpdateDrawerProps<TypeOperationAccountingFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allOperation, allProductionType, allOutput} = useFetchAllData({
+  const { allOperation, allProductionType, allOutput } = useFetchAllData({
     depsOperation: isOpen,
     depsProductionType: isOpen,
     depsOutput: isOpen,
   });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Хук для управления полем operation
   const {
@@ -50,22 +53,23 @@ export const UpdateDrawerOperationAccounting:
   const handleGetOperationAccounting = useCallback((): void => {
     if (selectedItemId) {
       getOperationAccountingById(selectedItemId)
-        .then((data) => {
+        .then(data => {
           form.setFieldsValue({
             ...data,
             date: dayjs(data?.date),
             operation: data?.operation?.id === 0 ? '' : data?.operation?.id,
             output: data?.output?.id === 0 ? '' : data?.output?.id,
-            productionType: data?.productionType?.id === 0 ? '' : data?.productionType?.id,
+            productionType:
+              data?.productionType?.id === 0 ? '' : data?.productionType?.id,
           });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error))
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [selectedItemId, form])
+  }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetOperationAccounting()
+      handleGetOperationAccounting();
     }
   }, [isOpen, selectedItemId, handleGetOperationAccounting]);
 
@@ -82,8 +86,7 @@ export const UpdateDrawerOperationAccounting:
             Сохранить
           </Button>
         </Space>
-      }
-    >
+      }>
       <FormOperationAccounting
         form={form}
         allOperation={allOperation}
@@ -100,5 +103,5 @@ export const UpdateDrawerOperationAccounting:
         onSearchProductionType={onSearchProductionType}
       />
     </Drawer>
-  )
-}
+  );
+};

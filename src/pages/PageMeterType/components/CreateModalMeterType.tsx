@@ -1,24 +1,29 @@
-import React from "react";
-import {Form, Modal} from "antd";
-import {CreateModalProps, TypeMeterTypeFormValue} from "../../../types";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormMeterType} from "./FormMeterType";
+import React from 'react';
+import { Form, Modal } from 'antd';
+import { CreateModalProps, TypeMeterTypeFormValue } from '../../../types';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormMeterType } from './FormMeterType';
 
-export const CreateModalMeterType: React.FC<CreateModalProps<TypeMeterTypeFormValue>> = ({
-                                                                                           isOpen,
-                                                                                           createItem,
-                                                                                           onCancel,
-                                                                                         }) => {
+export const CreateModalMeterType: React.FC<
+  CreateModalProps<TypeMeterTypeFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit} = useFetchAllData({depsUnit: isOpen});
+  const { allUnit } = useFetchAllData({ depsUnit: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем unit
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'unit');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'unit',
+  );
 
   return (
     <Modal
@@ -28,8 +33,7 @@ export const CreateModalMeterType: React.FC<CreateModalProps<TypeMeterTypeFormVa
       width={700}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormMeterType
         form={form}
         allUnit={allUnit}
@@ -38,5 +42,5 @@ export const CreateModalMeterType: React.FC<CreateModalProps<TypeMeterTypeFormVa
         onSearchUnit={onSearchSelect}
       />
     </Modal>
-  )
-}
+  );
+};

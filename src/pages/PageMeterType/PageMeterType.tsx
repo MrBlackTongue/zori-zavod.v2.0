@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton,} from 'antd';
-import {PlusOutlined,} from '@ant-design/icons';
-import '../../App.css'
-import {deleteMeterTypeById, createMeterType, updateMeterType} from "../../services";
-import {TypeMeterType, TypeMeterTypeFormValue} from "../../types";
-import {TableMeterType} from "./components/TableMeterType";
-import {CreateModalMeterType} from "./components/CreateModalMeterType";
-import {UpdateDrawerMeterType} from "./components/UpdateDrawerMeterType";
+import React, { useState } from 'react';
+import { Button, FloatButton, Space, Typography } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import '../../App.css';
+import {
+  createMeterType,
+  deleteMeterTypeById,
+  updateMeterType,
+} from '../../services';
+import { TypeMeterType, TypeMeterTypeFormValue } from '../../types';
+import { TableMeterType } from './components/TableMeterType';
+import { CreateModalMeterType } from './components/CreateModalMeterType';
+import { UpdateDrawerMeterType } from './components/UpdateDrawerMeterType';
 
 export const PageMeterType: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
   // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -20,57 +24,60 @@ export const PageMeterType: React.FC = () => {
   const [selectedMeterTypeId, setSelectedMeterTypeId] = useState<number>();
 
   // Добавить новый тип счетчика
-  const handleCreateMeterType = async (values: TypeMeterTypeFormValue): Promise<void> => {
+  const handleCreateMeterType = async (
+    values: TypeMeterTypeFormValue,
+  ): Promise<void> => {
     const meterType: TypeMeterType = {
       title: values.title,
-      unit: {id: values.unit},
+      unit: { id: values.unit },
       cost: values.cost,
     };
-    setIsModalOpen(false)
-    await createMeterType(meterType)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createMeterType(meterType);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть дравер
   const openDrawer = (id: number): void => {
-    setSelectedMeterTypeId(id)
+    setSelectedMeterTypeId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить тип счетчика
-  const handleUpdateMeterType = async (values: TypeMeterTypeFormValue): Promise<void> => {
+  const handleUpdateMeterType = async (
+    values: TypeMeterTypeFormValue,
+  ): Promise<void> => {
     const meterType: TypeMeterType = {
       id: selectedMeterTypeId,
       title: values.title,
-      unit: {id: values.unit},
+      unit: { id: values.unit },
       cost: values.cost,
     };
-    setIsDrawerOpen(false)
-    await updateMeterType(meterType)
-    setIsUpdateTable(prevState => !prevState)
+    setIsDrawerOpen(false);
+    await updateMeterType(meterType);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteMeterType = async (id: number): Promise<void> => {
-    await deleteMeterTypeById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deleteMeterTypeById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Типы счетчиков</Title>
         <Space>
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableMeterType
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

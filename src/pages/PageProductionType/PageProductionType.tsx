@@ -1,19 +1,19 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton} from 'antd';
-import {PlusOutlined,} from '@ant-design/icons';
-import '../../App.css'
+import React, { useState } from 'react';
+import { Typography, Space, Button, FloatButton } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import '../../App.css';
 import {
   createProductionType,
   updateProductionType,
   deleteProductionTypeById,
-} from "../../services";
-import {TypeProductionType, TypeProductionTypeFormValue} from "../../types";
-import {TableProductionType} from "./components/TableProductionType";
-import {CreateModalProductionType} from "./components/CreateModalProductionType";
-import {UpdateDrawerProductionType} from "./components/UpdateDrawerProductionType";
+} from '../../services';
+import { TypeProductionType, TypeProductionTypeFormValue } from '../../types';
+import { TableProductionType } from './components/TableProductionType';
+import { CreateModalProductionType } from './components/CreateModalProductionType';
+import { UpdateDrawerProductionType } from './components/UpdateDrawerProductionType';
 
 export const PageProductionType: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
   // Обновление таблицы, открыть/закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -21,58 +21,62 @@ export const PageProductionType: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // id выбранного типа производства
-  const [selectedProductionTypeId, setSelectedProductionTypeId] = useState<number>();
+  const [selectedProductionTypeId, setSelectedProductionTypeId] =
+    useState<number>();
 
   // Добавить запись в таблицу
-  const handleCreateProductionType = async (values: TypeProductionTypeFormValue): Promise<void> => {
+  const handleCreateProductionType = async (
+    values: TypeProductionTypeFormValue,
+  ): Promise<void> => {
     const productionType: TypeProductionType = {
       title: values.title,
       description: values.description,
     };
-    setIsModalOpen(false)
-    await createProductionType(productionType)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createProductionType(productionType);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть дравер
   const openDrawer = (id: number): void => {
-    setSelectedProductionTypeId(id)
+    setSelectedProductionTypeId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить запись в таблице
-  const handleUpdateProductionType = async (values: TypeProductionTypeFormValue): Promise<void> => {
+  const handleUpdateProductionType = async (
+    values: TypeProductionTypeFormValue,
+  ): Promise<void> => {
     const productionType: TypeProductionType = {
       id: selectedProductionTypeId,
       title: values.title,
       description: values.description,
     };
-    setIsDrawerOpen(false)
-    await updateProductionType(productionType)
-    setIsUpdateTable(prevState => !prevState)
+    setIsDrawerOpen(false);
+    await updateProductionType(productionType);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductionType = async (id: number): Promise<void> => {
-    await deleteProductionTypeById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deleteProductionTypeById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Типы производства</Title>
         <Space>
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableProductionType
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
@@ -91,4 +95,4 @@ export const PageProductionType: React.FC = () => {
       />
     </div>
   );
-}
+};

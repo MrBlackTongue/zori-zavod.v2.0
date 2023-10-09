@@ -1,20 +1,20 @@
-import {TypeProduct} from "./TypeProduct";
-import {Dayjs} from 'dayjs';
-import {FormInstance} from "antd/lib/form";
+import { TypeProduct } from './TypeProduct';
+import { Dayjs } from 'dayjs';
+import { FormInstance } from 'antd/lib/form';
 
 export type TypeEstimatedPrice = {
-  id?: number,
-  price?: number,
-  date?: Dayjs | string,
-  product?: TypeProduct,
-}
+  id?: number;
+  price?: number;
+  date?: Dayjs | string;
+  product?: TypeProduct;
+};
 
 export type TypeEstimatedPriceFormValue = {
-  id?: number,
-  price?: number,
-  date?: string,
-  product?: number,
-}
+  id?: number;
+  price?: number;
+  date?: string;
+  product?: number;
+};
 
 export interface FormEstimatedPriceProps {
   form: FormInstance;

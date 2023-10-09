@@ -1,34 +1,37 @@
-import React, {useCallback, useEffect} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {TypeEstimatedPriceFormValue, UpdateDrawerProps} from "../../../types";
-import {getEstimatedPriceById} from "../../../services";
-import dayjs from "dayjs";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormEstimatedPrice} from "./FormEstimatedPrice";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeEstimatedPriceFormValue, UpdateDrawerProps } from '../../../types';
+import { getEstimatedPriceById } from '../../../services';
+import dayjs from 'dayjs';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormEstimatedPrice } from './FormEstimatedPrice';
 
-
-export const UpdateDrawerEstimatedPrice: React.FC<UpdateDrawerProps<TypeEstimatedPriceFormValue>> = ({
-                                                                                                       isOpen,
-                                                                                                       selectedItemId,
-                                                                                                       onCancel,
-                                                                                                       updateItem,
-                                                                                                     }) => {
+export const UpdateDrawerEstimatedPrice: React.FC<
+  UpdateDrawerProps<TypeEstimatedPriceFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchAllData({depsProduct: isOpen});
+  const { allProduct } = useFetchAllData({ depsProduct: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Хук для управления полем product
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'product',
+  );
 
   // Функция для получения данных о расчетной цене по id и обновления формы
   const handleGetEstimatedPrice = useCallback((): void => {
     if (selectedItemId) {
       getEstimatedPriceById(selectedItemId)
-        .then((data) => {
+        .then(data => {
           form.setFieldsValue({
             ...data,
             date: dayjs(data?.date),
@@ -36,7 +39,7 @@ export const UpdateDrawerEstimatedPrice: React.FC<UpdateDrawerProps<TypeEstimate
             price: data?.price ?? false,
           });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
   }, [selectedItemId, form]);
 
@@ -59,8 +62,7 @@ export const UpdateDrawerEstimatedPrice: React.FC<UpdateDrawerProps<TypeEstimate
             Сохранить
           </Button>
         </Space>
-      }
-    >
+      }>
       <FormEstimatedPrice
         form={form}
         allProduct={allProduct}
@@ -69,5 +71,5 @@ export const UpdateDrawerEstimatedPrice: React.FC<UpdateDrawerProps<TypeEstimate
         onSearchProduct={onSearchSelect}
       />
     </Drawer>
-  )
-}
+  );
+};

@@ -1,16 +1,25 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined, EllipsisOutlined,} from '@ant-design/icons';
-import {getAllWriteOff} from "../../../services";
-import {TableProps, TypeEmployee, TypeProductionType, TypeWriteOff} from "../../../types";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+} from '@ant-design/icons';
+import { getAllWriteOff } from '../../../services';
+import {
+  TableProps,
+  TypeEmployee,
+  TypeProductionType,
+  TypeWriteOff,
+} from '../../../types';
 
 export const TableWriteOff: React.FC<TableProps> = ({
-                                                      isUpdateTable,
-                                                      openDrawer,
-                                                      onDelete,
-                                                      openDetailDrawer,
-                                                    }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+  openDetailDrawer,
+}) => {
   // Лоудер и список всех списаний
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allWriteOff, setAllWriteOff] = useState<TypeWriteOff[]>();
@@ -30,7 +39,11 @@ export const TableWriteOff: React.FC<TableProps> = ({
       width: 300,
       sorter: (a, b) =>
         (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
-      render: (employee: TypeEmployee) => (<div>{employee.lastName} {employee.firstName}</div>),
+      render: (employee: TypeEmployee) => (
+        <div>
+          {employee.lastName} {employee.firstName}
+        </div>
+      ),
     },
     {
       title: 'Тип производства',
@@ -38,8 +51,12 @@ export const TableWriteOff: React.FC<TableProps> = ({
       key: 'productionType',
       width: 300,
       sorter: (a, b) =>
-        (a.productionType?.title ?? 0) < (b.productionType?.title ?? 0) ? -1 : 1,
-      render: (productionType: TypeProductionType) => (<div>{productionType.title}</div>),
+        (a.productionType?.title ?? 0) < (b.productionType?.title ?? 0)
+          ? -1
+          : 1,
+      render: (productionType: TypeProductionType) => (
+        <div>{productionType.title}</div>
+      ),
     },
     {
       title: 'Описание',
@@ -53,16 +70,15 @@ export const TableWriteOff: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Подробнее" placement="bottomRight">
             <Button
               type="primary"
               size="small"
               shape="circle"
-              onClick={() => id && openDetailDrawer?.(id)}
-            >
-              <EllipsisOutlined/>
+              onClick={() => id && openDetailDrawer?.(id)}>
+              <EllipsisOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -72,7 +88,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -82,20 +98,24 @@ export const TableWriteOff: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -105,15 +125,15 @@ export const TableWriteOff: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllWriteOff()
-      .then((data) => {
+      .then(data => {
         setAllWriteOff(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
@@ -124,7 +144,11 @@ export const TableWriteOff: React.FC<TableProps> = ({
       dataSource={allWriteOff}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

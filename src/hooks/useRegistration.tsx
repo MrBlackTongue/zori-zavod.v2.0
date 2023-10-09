@@ -1,7 +1,7 @@
-import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {registrationUser} from '../services';
-import {TypeUserProfile} from '../types';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { registrationUser } from '../services';
+import { TypeUserProfile } from '../types';
 
 export const useRegistration = () => {
   // Состояние модального окна
@@ -11,7 +11,9 @@ export const useRegistration = () => {
   const navigate = useNavigate();
 
   // Функция для создания нового пользователя
-  const handleCreateNewUser = async (values: TypeUserProfile): Promise<void> => {
+  const handleCreateNewUser = async (
+    values: TypeUserProfile,
+  ): Promise<void> => {
     const user: TypeUserProfile = {
       password: values.password,
       email: values.email,
@@ -31,6 +33,6 @@ export const useRegistration = () => {
   return {
     isModalOpen,
     setIsModalOpen,
-    handleCreateNewUser
+    handleCreateNewUser,
   };
 };

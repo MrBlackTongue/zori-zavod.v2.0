@@ -1,20 +1,19 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton,} from 'antd';
-import {PlusOutlined,} from '@ant-design/icons';
-import '../../App.css'
+import React, { useState } from 'react';
+import { Typography, Space, Button, FloatButton } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import '../../App.css';
 import {
   deleteProductBatchById,
   createProductBatch,
-  updateProductBatch
-} from "../../services";
-import {TypeProductBatch, TypeProductBatchFormValue} from '../../types';
-import {TableProductBatch} from "./components/TableProductBatch";
-import {CreateModalProductBatch} from "./components/CreateModalProductBatch";
-import {UpdateDrawerProductBatch} from "./components/UpdateDrawerProductBatch";
-
+  updateProductBatch,
+} from '../../services';
+import { TypeProductBatch, TypeProductBatchFormValue } from '../../types';
+import { TableProductBatch } from './components/TableProductBatch';
+import { CreateModalProductBatch } from './components/CreateModalProductBatch';
+import { UpdateDrawerProductBatch } from './components/UpdateDrawerProductBatch';
 
 export const PageProductBatch: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
   // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -22,58 +21,62 @@ export const PageProductBatch: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // id выбранной партии товаров
-  const [selectedProductBatchId, setSelectedProductBatchId] = useState<number>();
+  const [selectedProductBatchId, setSelectedProductBatchId] =
+    useState<number>();
 
   // Добавить новую партию товаров
-  const handleCreateProductBatch = async (values: TypeProductBatchFormValue): Promise<void> => {
+  const handleCreateProductBatch = async (
+    values: TypeProductBatchFormValue,
+  ): Promise<void> => {
     const productBatch: TypeProductBatch = {
-      product: {id: values.product},
+      product: { id: values.product },
       amount: values.amount,
     };
-    setIsModalOpen(false)
-    await createProductBatch(productBatch)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createProductBatch(productBatch);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть дравер
   const openDrawer = (id: number): void => {
-    setSelectedProductBatchId(id)
+    setSelectedProductBatchId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновление партии товаров
-  const handleUpdateProductBatch = async (values: TypeProductBatchFormValue): Promise<void> => {
+  const handleUpdateProductBatch = async (
+    values: TypeProductBatchFormValue,
+  ): Promise<void> => {
     const productBatch: TypeProductBatch = {
       id: selectedProductBatchId,
-      product: {id: values.product},
+      product: { id: values.product },
       amount: values.amount,
     };
-    setIsDrawerOpen(false)
-    await updateProductBatch(productBatch)
-    setIsUpdateTable(prevState => !prevState)
+    setIsDrawerOpen(false);
+    await updateProductBatch(productBatch);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductBatch = async (id: number): Promise<void> => {
-    await deleteProductBatchById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deleteProductBatchById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Партии товаров</Title>
         <Space>
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableProductBatch
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

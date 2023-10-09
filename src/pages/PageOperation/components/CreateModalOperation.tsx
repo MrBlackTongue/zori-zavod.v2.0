@@ -1,24 +1,29 @@
-import React from "react";
-import {CreateModalProps, TypeOperationFormValue} from "../../../types";
-import {Form, Modal} from "antd";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks"
-import {FormOperation} from "./FormOperation";
+import React from 'react';
+import { CreateModalProps, TypeOperationFormValue } from '../../../types';
+import { Form, Modal } from 'antd';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormOperation } from './FormOperation';
 
-export const CreateModalOperation: React.FC<CreateModalProps<TypeOperationFormValue>> = ({
-                                                                                           isOpen,
-                                                                                           createItem,
-                                                                                           onCancel,
-                                                                                         }) => {
+export const CreateModalOperation: React.FC<
+  CreateModalProps<TypeOperationFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit} = useFetchAllData({depsUnit: isOpen});
+  const { allUnit } = useFetchAllData({ depsUnit: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем unit
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'unit');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'unit',
+  );
 
   return (
     <Modal
@@ -28,8 +33,7 @@ export const CreateModalOperation: React.FC<CreateModalProps<TypeOperationFormVa
       width={680}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormOperation
         form={form}
         allUnit={allUnit}
@@ -38,5 +42,5 @@ export const CreateModalOperation: React.FC<CreateModalProps<TypeOperationFormVa
         onSearchUnit={onSearchSelect}
       />
     </Modal>
-  )
-}
+  );
+};

@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, Input, FloatButton,} from 'antd';
-import {PlusOutlined, SearchOutlined,} from '@ant-design/icons';
-import '../../App.css'
-import {deleteProductById, createProduct, updateProduct} from "../../services";
-import {TypeProduct, TypeProductFormValue} from "../../types";
-import {TableProduct} from "./components/TableProduct";
-import {CreateModalProduct} from "./components/CreateModalProduct";
-import {UpdateDrawerProduct} from "./components/UpdateDrawerProduct";
+import React, { useState } from 'react';
+import { Typography, Space, Button, Input, FloatButton } from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import '../../App.css';
+import {
+  deleteProductById,
+  createProduct,
+  updateProduct,
+} from '../../services';
+import { TypeProduct, TypeProductFormValue } from '../../types';
+import { TableProduct } from './components/TableProduct';
+import { CreateModalProduct } from './components/CreateModalProduct';
+import { UpdateDrawerProduct } from './components/UpdateDrawerProduct';
 
 export const PageProduct: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
   // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -18,67 +22,70 @@ export const PageProduct: React.FC = () => {
 
   // id выбранного товара, Текст поиска
   const [selectedProductId, setSelectedProductId] = useState<number>();
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>('');
 
   // Добавить новый товар
-  const handleCreateProduct = async (values: TypeProductFormValue): Promise<void> => {
+  const handleCreateProduct = async (
+    values: TypeProductFormValue,
+  ): Promise<void> => {
     const product: TypeProduct = {
       title: values.title,
-      productGroup: {id: values.productGroup},
-      unit: {id: values.unit},
+      productGroup: { id: values.productGroup },
+      unit: { id: values.unit },
     };
-    setIsModalOpen(false)
-    await createProduct(product)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createProduct(product);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть дравер
   const openDrawer = (id: number): void => {
-    setSelectedProductId(id)
+    setSelectedProductId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить товар
-  const handleUpdateProduct = async (values: TypeProductFormValue): Promise<void> => {
+  const handleUpdateProduct = async (
+    values: TypeProductFormValue,
+  ): Promise<void> => {
     const product: TypeProduct = {
       id: selectedProductId,
       title: values.title,
-      productGroup: {id: values.productGroup},
-      unit: {id: values.unit},
+      productGroup: { id: values.productGroup },
+      unit: { id: values.unit },
     };
-    setIsDrawerOpen(false)
-    await updateProduct(product)
-    setIsUpdateTable(prevState => !prevState)
+    setIsDrawerOpen(false);
+    await updateProduct(product);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteProduct = async (id: number): Promise<void> => {
-    await deleteProductById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deleteProductById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Товары</Title>
         <Space>
           <Input
             allowClear
-            style={{width: '210px'}}
+            style={{ width: '210px' }}
             placeholder="Поиск по товарам"
-            onChange={(event) => setSearchText(event.target.value)}
-            prefix={<SearchOutlined/>}
+            onChange={event => setSearchText(event.target.value)}
+            prefix={<SearchOutlined />}
           />
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableProduct
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
@@ -98,4 +105,4 @@ export const PageProduct: React.FC = () => {
       />
     </div>
   );
-}
+};

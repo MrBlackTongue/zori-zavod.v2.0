@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 /*Для таблицы*/
 
@@ -6,7 +6,7 @@ import React from "react";
 export const renderNumber = (value: number | null) => {
   return value !== null ? (
     <div>
-      {value.toLocaleString("ru-RU", {
+      {value.toLocaleString('ru-RU', {
         maximumFractionDigits: 2, // максимальное количество знаков после запятой
       })}
     </div>
@@ -21,7 +21,7 @@ export const renderAsRuble = (value: number | null) => {
     <div>
       {value.toLocaleString('ru-RU', {
         style: 'currency', // показывает валюту рубли
-        currency: 'RUB',  // без style не показывает валюту!
+        currency: 'RUB', // без style не показывает валюту!
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}

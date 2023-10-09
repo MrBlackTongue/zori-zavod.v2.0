@@ -1,19 +1,19 @@
-import {TypeUnit} from "./TypeUnit";
-import {FormInstance} from "antd/lib/form";
+import { TypeUnit } from './TypeUnit';
+import { FormInstance } from 'antd/lib/form';
 
 export type TypeOperation = {
   id?: number;
   title?: string;
   unit?: TypeUnit;
   rate?: number;
-}
+};
 
 export type TypeOperationFormValue = {
   id?: number;
   title?: string;
   unit?: number;
   rate?: number;
-}
+};
 
 export interface FormOperationProps {
   form: FormInstance;

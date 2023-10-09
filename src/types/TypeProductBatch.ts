@@ -1,17 +1,17 @@
-import {TypeProduct} from "./TypeProduct";
-import {FormInstance} from "antd/lib/form";
+import { TypeProduct } from './TypeProduct';
+import { FormInstance } from 'antd/lib/form';
 
 export type TypeProductBatch = {
-  id? : number,
-  amount? : number,
-  product? : TypeProduct,
-}
+  id?: number;
+  amount?: number;
+  product?: TypeProduct;
+};
 
 export type TypeProductBatchFormValue = {
-  id? : number,
-  amount? : number,
-  product? : number,
-}
+  id?: number;
+  amount?: number;
+  product?: number;
+};
 
 export interface FormProductBatchProps {
   form: FormInstance;

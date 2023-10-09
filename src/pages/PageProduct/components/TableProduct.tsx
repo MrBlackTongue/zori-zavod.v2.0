@@ -1,24 +1,29 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import type {ColumnFilterItem} from 'antd/es/table/interface';
-import {getAllProduct, getAllProductByTitle} from "../../../services";
-import {TableProps, TypeProduct, TypeUnit, TypeProductGroup} from "../../../types";
-import {useFetchAllData} from "../../../hooks";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import type { ColumnFilterItem } from 'antd/es/table/interface';
+import { getAllProduct, getAllProductByTitle } from '../../../services';
+import {
+  TableProps,
+  TypeProduct,
+  TypeProductGroup,
+  TypeUnit,
+} from '../../../types';
+import { useFetchAllData } from '../../../hooks';
 
 export const TableProduct: React.FC<TableProps> = ({
-                                                     isUpdateTable,
-                                                     openDrawer,
-                                                     onDelete,
-                                                     searchText,
-                                                   }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+  searchText,
+}) => {
   // Лоудер и список всех товаров
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 
   // Хук для получения данных
-  const {allProductGroup} = useFetchAllData({depsProductGroup: true});
+  const { allProductGroup } = useFetchAllData({ depsProductGroup: true });
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -33,27 +38,29 @@ export const TableProduct: React.FC<TableProps> = ({
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.title ?? '') < (b.title ?? '') ? -1 : 1),
     },
     {
       title: 'Единица измерения',
       dataIndex: 'unit',
       key: 'unit',
       width: 200,
-      render: ((unit: TypeUnit) =>
-        unit !== null ? (<div> {unit.name}</div>) : null),
+      render: (unit: TypeUnit) =>
+        unit !== null ? <div> {unit.name}</div> : null,
     },
     {
       title: 'Товарная группа',
       dataIndex: 'productGroup',
       key: 'productGroup',
-      filters: allProductGroup?.map((productGroup): ColumnFilterItem => ({
-        text: productGroup.title,
-        value: productGroup.title!
-      })),
+      filters: allProductGroup?.map(
+        (productGroup): ColumnFilterItem => ({
+          text: productGroup.title,
+          value: productGroup.title!,
+        }),
+      ),
       onFilter: (value, record) => record.productGroup?.title === value,
-      render: ((productGroup: TypeProductGroup) => productGroup !== null ? (
-        <div> {productGroup.title}</div>) : null),
+      render: (productGroup: TypeProductGroup) =>
+        productGroup !== null ? <div> {productGroup.title}</div> : null,
     },
     {
       title: 'Действия',
@@ -61,7 +68,7 @@ export const TableProduct: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -70,7 +77,7 @@ export const TableProduct: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -80,20 +87,24 @@ export const TableProduct: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -103,22 +114,22 @@ export const TableProduct: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllProduct()
-      .then((data) => {
+      .then(data => {
         setAllProduct(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error))
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   // Функция для поиска по таблице товаров
   const handleSearchTable = useCallback((): void => {
     setIsLoading(true);
     getAllProductByTitle(searchText ?? '')
-      .then((data) => {
+      .then(data => {
         setAllProduct(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error))
+      .catch(error => console.error('Ошибка при получении данных: ', error));
   }, [searchText]);
 
   useEffect(() => {
@@ -137,7 +148,11 @@ export const TableProduct: React.FC<TableProps> = ({
       dataSource={allProduct}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

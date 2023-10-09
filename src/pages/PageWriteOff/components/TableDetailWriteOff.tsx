@@ -1,20 +1,21 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Button, Popconfirm, Space, Table, Tooltip,} from 'antd';
-import {DeleteOutlined} from "@ant-design/icons";
-import type {ColumnsType} from 'antd/es/table';
-import {getAllWriteOffMovementByWriteOffId} from "../../../services";
-import {TableProps, TypeStock, TypeWriteOffMovement} from "../../../types";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import type { ColumnsType } from 'antd/es/table';
+import { getAllWriteOffMovementByWriteOffId } from '../../../services';
+import { TableProps, TypeStock, TypeWriteOffMovement } from '../../../types';
 import dayjs from 'dayjs';
-import {renderNumber} from "../../../utils";
+import { renderNumber } from '../../../utils';
 
 export const TableDetailWriteOff: React.FC<TableProps> = ({
-                                                            isUpdateTable,
-                                                            idDetail,
-                                                            onDelete,
-                                                          }) => {
+  isUpdateTable,
+  idDetail,
+  onDelete,
+}) => {
   // Лоудер и список всех движений списания товара
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allWriteOffMovement, setAllWriteOffMovement] = useState<TypeWriteOffMovement[]>();
+  const [allWriteOffMovement, setAllWriteOffMovement] =
+    useState<TypeWriteOffMovement[]>();
 
   // Колонки в таблице
   const columns: ColumnsType<TypeWriteOffMovement> = [
@@ -23,17 +24,16 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
       dataIndex: 'date',
       key: 'date',
       width: 250,
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+      render: (date: any) =>
+        date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
     {
       title: 'Тип движения',
       dataIndex: 'income',
       key: 'income',
       width: 250,
-      render: ((income) => income ? 'Приход' : 'Расход'),
-      sorter: (a, b) =>
-        (a.income ?? false) < (b.income ?? false) ? -1 : 1,
+      render: income => (income ? 'Приход' : 'Расход'),
+      sorter: (a, b) => ((a.income ?? false) < (b.income ?? false) ? -1 : 1),
     },
     {
       title: 'Товар',
@@ -47,7 +47,7 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
       key: 'amount',
       width: 250,
       render: renderNumber,
-      sorter: (a, b) => (a.amount ?? '') < (b.amount ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
       title: 'Действия',
@@ -55,7 +55,7 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
@@ -63,16 +63,19 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
               title="Вы действительно хотите удалить это движение списания товара?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
-              cancelText="Отмена"
-            >
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              cancelText="Отмена">
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
@@ -81,23 +84,23 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
     setIsLoading(true);
     if (idDetail) {
       getAllWriteOffMovementByWriteOffId(idDetail)
-        .then((data) => {
-          setAllWriteOffMovement(data)
+        .then(data => {
+          setAllWriteOffMovement(data);
           setIsLoading(false);
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error))
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [idDetail])
+  }, [idDetail]);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [handleUpdateTable, isUpdateTable]);
 
   return (
     <Table
       rowKey="id"
       bordered
-      size={"small"}
+      size={'small'}
       columns={columns}
       dataSource={allWriteOffMovement}
       pagination={false}

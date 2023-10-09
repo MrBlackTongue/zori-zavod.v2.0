@@ -1,8 +1,8 @@
-import {message} from 'antd';
+import { message } from 'antd';
 
 export function handleResponseCreateMessage(response: any) {
   if (response.status === 200) {
-    void message.success('Запись добавлена')
+    void message.success('Запись добавлена');
   } else {
     void message.error('Ошибка при добавлении записи');
   }
@@ -11,7 +11,7 @@ export function handleResponseCreateMessage(response: any) {
 
 export function handleResponseDeleteMessage(response: any) {
   if (response.status === 200) {
-    void message.success('Запись удалена')
+    void message.success('Запись удалена');
   } else {
     void message.error('Ошибка при удалении записи');
   }
@@ -20,7 +20,7 @@ export function handleResponseDeleteMessage(response: any) {
 
 export function handleResponseUpdateMessage(response: any) {
   if (response.status === 200) {
-    void message.success('Запись изменена')
+    void message.success('Запись изменена');
   } else {
     void message.error('Ошибка при изменении записи');
   }
@@ -29,7 +29,7 @@ export function handleResponseUpdateMessage(response: any) {
 
 export function handleRegistrationUserMessage(response: any) {
   if (response.status === 200) {
-    void message.success('Пользователь добавлен')
+    void message.success('Пользователь добавлен');
   } else {
     void message.error('Ошибка при добавлении пользователя');
   }

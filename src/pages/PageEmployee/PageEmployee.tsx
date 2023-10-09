@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton,} from 'antd';
-import {PlusOutlined} from '@ant-design/icons';
-import '../../App.css'
-import {deleteEmployeeById, createEmployee, updateEmployee} from "../../services";
-import {TypeEmployee, TypeEmployeeFormValue} from "../../types";
-import {TableEmployee} from "./components/TableEmployee";
-import {CreateModalEmployee} from "./components/CreateModalEmployee";
-import {UpdateDrawerEmployee} from "./components/UpdateDrawerEmployee";
+import React, { useState } from 'react';
+import { Button, FloatButton, Space, Typography } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import '../../App.css';
+import {
+  createEmployee,
+  deleteEmployeeById,
+  updateEmployee,
+} from '../../services';
+import { TypeEmployee, TypeEmployeeFormValue } from '../../types';
+import { TableEmployee } from './components/TableEmployee';
+import { CreateModalEmployee } from './components/CreateModalEmployee';
+import { UpdateDrawerEmployee } from './components/UpdateDrawerEmployee';
 
 export const PageEmployee: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
   // Обновление таблицы, открыть закрыть модальное окно, дравер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
@@ -20,7 +24,9 @@ export const PageEmployee: React.FC = () => {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Добавить нового сотрудника
-  const handleCreateEmployee = async (values: TypeEmployeeFormValue): Promise<void> => {
+  const handleCreateEmployee = async (
+    values: TypeEmployeeFormValue,
+  ): Promise<void> => {
     const employee: TypeEmployee = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -28,19 +34,21 @@ export const PageEmployee: React.FC = () => {
       salaryRate: values.salaryRate,
       hired: values.hired,
     };
-    setIsModalOpen(false)
-    await createEmployee(employee)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createEmployee(employee);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть дравер
   const openDrawer = (id: number): void => {
-    setSelectedEmployeeId(id)
+    setSelectedEmployeeId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить сотрудника
-  const handleUpdateEmployee = async (values: TypeEmployeeFormValue): Promise<void> => {
+  const handleUpdateEmployee = async (
+    values: TypeEmployeeFormValue,
+  ): Promise<void> => {
     const employee: TypeEmployee = {
       id: selectedEmployeeId,
       firstName: values.firstName,
@@ -49,32 +57,31 @@ export const PageEmployee: React.FC = () => {
       salaryRate: values.salaryRate,
       hired: values.hired,
     };
-    setIsDrawerOpen(false)
-    await updateEmployee(employee)
-    setIsUpdateTable(prevState => !prevState)
+    setIsDrawerOpen(false);
+    await updateEmployee(employee);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteEmployee = async (id: number): Promise<void> => {
-    await deleteEmployeeById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deleteEmployeeById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Сотрудники</Title>
         <Space>
           <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableEmployee
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

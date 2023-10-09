@@ -1,35 +1,36 @@
-import React, {useCallback, useEffect} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeStoragePlaceFormValue} from "../../../types";
-import {getStoragePlaceById} from "../../../services";
-import {useFormHandler} from "../../../hooks";
-import {FormStoragePlace} from "./FormStoragePlace";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeStoragePlaceFormValue, UpdateDrawerProps } from '../../../types';
+import { getStoragePlaceById } from '../../../services';
+import { useFormHandler } from '../../../hooks';
+import { FormStoragePlace } from './FormStoragePlace';
 
-export const UpdateDrawerStoragePlace: React.FC<UpdateDrawerProps<TypeStoragePlaceFormValue>> = ({
-                                                                                                   isOpen,
-                                                                                                   selectedItemId,
-                                                                                                   onCancel,
-                                                                                                   updateItem,
-                                                                                                 }) => {
+export const UpdateDrawerStoragePlace: React.FC<
+  UpdateDrawerProps<TypeStoragePlaceFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Функция для получения данных
   const handleGetStoragePlace = useCallback((): void => {
     if (selectedItemId) {
       getStoragePlaceById(selectedItemId)
-        .then((data) => {
-          form.setFieldsValue({...data});
+        .then(data => {
+          form.setFieldsValue({ ...data });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [selectedItemId, form])
+  }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetStoragePlace()
+      handleGetStoragePlace();
     }
   }, [isOpen, selectedItemId, handleGetStoragePlace, form]);
 
@@ -46,11 +47,8 @@ export const UpdateDrawerStoragePlace: React.FC<UpdateDrawerProps<TypeStoragePla
             Сохранить
           </Button>
         </Space>
-      }
-    >
-      <FormStoragePlace
-        form={form}
-      />
+      }>
+      <FormStoragePlace form={form} />
     </Drawer>
-  )
-}
+  );
+};

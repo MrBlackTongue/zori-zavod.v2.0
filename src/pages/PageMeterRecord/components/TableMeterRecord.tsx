@@ -1,17 +1,17 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllMeterRecord} from "../../../services"
-import {TableProps, TypeMeterRecord, TypeMeter} from "../../../types";
-import dayjs from "dayjs";
-import {renderNumber} from "../../../utils";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { getAllMeterRecord } from '../../../services';
+import { TableProps, TypeMeter, TypeMeterRecord } from '../../../types';
+import dayjs from 'dayjs';
+import { renderNumber } from '../../../utils';
 
 export const TableMeterRecord: React.FC<TableProps> = ({
-                                                         isUpdateTable,
-                                                         openDrawer,
-                                                         onDelete,
-                                                       }) => {
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
   // Лоудер и список всех типов счетчиков
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allMeterRecord, setAllMeterRecord] = useState<TypeMeterRecord[]>();
@@ -28,15 +28,17 @@ export const TableMeterRecord: React.FC<TableProps> = ({
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>) : null),
+      render: (date: any) =>
+        date !== null ? (
+          <div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>
+        ) : null,
     },
     {
       title: 'Счетчик',
       dataIndex: 'meter',
       key: 'meter',
       render: (meter: TypeMeter) =>
-        meter !== null ? (<div>{meter.title}</div>) : null,
+        meter !== null ? <div>{meter.title}</div> : null,
     },
     {
       title: 'Показания',
@@ -50,7 +52,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -59,7 +61,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -69,20 +71,24 @@ export const TableMeterRecord: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
-// Параметры изменения таблицы
+  // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -92,12 +98,12 @@ export const TableMeterRecord: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllMeterRecord()
-      .then((data) => {
+      .then(data => {
         setAllMeterRecord(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
     handleUpdateTable();
@@ -111,7 +117,11 @@ export const TableMeterRecord: React.FC<TableProps> = ({
       dataSource={allMeterRecord}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

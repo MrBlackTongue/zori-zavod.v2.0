@@ -1,16 +1,18 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {Table, Button, Space, Tooltip, Popconfirm} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import type {ColumnsType, TablePaginationConfig} from "antd/es/table/interface";
-import {TableProps, TypeMeter, TypeMeterType} from "../../../types";
-import {getAllMeter} from "../../../services";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import type {
+  ColumnsType,
+  TablePaginationConfig,
+} from 'antd/es/table/interface';
+import { TableProps, TypeMeter, TypeMeterType } from '../../../types';
+import { getAllMeter } from '../../../services';
 
 export const TableMeter: React.FC<TableProps> = ({
-                                                   isUpdateTable,
-                                                   openDrawer,
-                                                   onDelete,
-                                                 }) => {
-
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
   // Лоудер и список всех счетчиков
   const [loading, setLoading] = useState(false);
   const [allMeter, setAllMeter] = useState<TypeMeter[]>();
@@ -27,8 +29,8 @@ export const TableMeter: React.FC<TableProps> = ({
       title: 'Тип счетчика',
       dataIndex: 'meterType',
       key: 'meterType',
-      render: ((meterType: TypeMeterType) =>
-        meterType !== null ? (<div>{meterType.title}</div>) : null)
+      render: (meterType: TypeMeterType) =>
+        meterType !== null ? <div>{meterType.title}</div> : null,
     },
     {
       title: 'Название',
@@ -46,7 +48,7 @@ export const TableMeter: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -55,7 +57,7 @@ export const TableMeter: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -64,27 +66,25 @@ export const TableMeter: React.FC<TableProps> = ({
               title="Вы действительно хотите удалить этот счетчик?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
-              cancelText="Отмена"
-            >
+              cancelText="Отмена">
               <Button
                 type="primary"
                 size="small"
                 shape="circle"
-                style={{color: "tomato", borderColor: "tomato"}}
-                ghost
-              >
-                <DeleteOutlined/>
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -94,11 +94,11 @@ export const TableMeter: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setLoading(true);
     getAllMeter()
-      .then((data) => {
+      .then(data => {
         setAllMeter(data);
         setLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
+      .catch(error => console.error('Ошибка при получении данных: ', error));
   }, []);
 
   useEffect(() => {
@@ -113,7 +113,11 @@ export const TableMeter: React.FC<TableProps> = ({
       dataSource={allMeter}
       loading={loading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };
