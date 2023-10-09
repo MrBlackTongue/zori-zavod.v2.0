@@ -39,7 +39,7 @@ export const MenuMain: React.FC = () => {
       '/output-report',
       '/product-report',
       '/employee-report',
-      '/cost-report',
+      '/cost-price-report',
     ],
     '03': ['/product', '/product-group'],
     '04': ['/meter-record', '/meter', '/meter-type'],
@@ -114,8 +114,8 @@ export const MenuMain: React.FC = () => {
           <Menu.Item key="/employee-report" icon={<SnippetsOutlined />}>
             <Link to="/employee-report">По сотрудникам</Link>
           </Menu.Item>
-          <Menu.Item key="/cost-report" icon={<FundOutlined />}>
-            <Link to="/cost-report">По себестоимости</Link>
+          <Menu.Item key="/cost-price-report" icon={<FundOutlined />}>
+            <Link to="/cost-price-report">По себестоимости</Link>
           </Menu.Item>
         </SubMenu>
 

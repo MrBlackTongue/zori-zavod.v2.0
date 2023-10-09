@@ -5,15 +5,19 @@ import type {
   TablePaginationConfig,
 } from 'antd/es/table/interface';
 import { getAllCostPriceByFilter } from '../../../services';
-import { TableProps, TypeCostPrice, TypeCostPriceFilter } from '../../../types';
+import {
+  TableProps,
+  TypeCostPriceReport,
+  TypeCostPriceReportFilter,
+} from '../../../types';
 import { renderAsRuble } from '../../../utils';
 
-export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
-  filter,
-}) => {
+export const TableCostPriceReport: React.FC<
+  TableProps<TypeCostPriceReportFilter>
+> = ({ filter }) => {
   // Лоудер и список всех отчетов по себестоимости
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allCostPrice, setAllCostPrice] = useState<TypeCostPrice[]>();
+  const [allCostPrice, setAllCostPrice] = useState<TypeCostPriceReport[]>();
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -22,7 +26,7 @@ export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeCostPrice> = [
+  const columns: ColumnsType<TypeCostPriceReport> = [
     {
       title: 'Название операции',
       dataIndex: 'operationTitle',
@@ -57,7 +61,7 @@ export const TableCostPrice: React.FC<TableProps<TypeCostPriceFilter>> = ({
   const renderSummaryRow = () => {
     if (!allCostPrice) return null;
     const totalExpenses = allCostPrice.reduce(
-      (acc, { salaryExpenses, materialExpenses }: TypeCostPrice) => {
+      (acc, { salaryExpenses, materialExpenses }: TypeCostPriceReport) => {
         return {
           totalSalaryExpenses: acc.totalSalaryExpenses + (salaryExpenses ?? 0),
           totalMaterialExpenses:

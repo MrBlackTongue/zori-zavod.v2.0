@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { FloatButton, Select, Space, Tooltip, Typography } from 'antd';
 import '../../App.css';
-import { TableCostPrice } from './components/TableCostPrice';
+import { TableCostPriceReport } from './components/TableCostPriceReport';
 import { useFetchAllData } from '../../hooks';
 import dayjs from 'dayjs';
-import { TypeCostPriceFilter } from '../../types';
+import { TypeCostPriceReportFilter } from '../../types';
 
-export const PageCostPrice: React.FC = () => {
+export const PageCostPriceReport: React.FC = () => {
   const { Title } = Typography;
   const { Option } = Select;
 
@@ -19,7 +19,7 @@ export const PageCostPrice: React.FC = () => {
   const { allOutput } = useFetchAllData({ depsOutput: true });
 
   // Создание объекта фильтра с использованием useMemo
-  const filter: TypeCostPriceFilter = useMemo(
+  const filter: TypeCostPriceReportFilter = useMemo(
     () => ({
       outputId: selectedOutputId,
     }),
@@ -68,7 +68,7 @@ export const PageCostPrice: React.FC = () => {
         </Space>
       </div>
       <FloatButton.BackTop />
-      <TableCostPrice filter={filter} />
+      <TableCostPriceReport filter={filter} />
     </div>
   );
 };
