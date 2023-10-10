@@ -1,35 +1,39 @@
-import React from "react";
-import {Form, Modal} from "antd";
-import {CreateModalProps, TypeMeterFormValue} from "../../../types";
-import {useFetchAllData, useFormHandler, useFormSelect} from "../../../hooks";
-import {FormMeter} from "./FormMeter";
+import React from 'react';
+import { Form, Modal } from 'antd';
+import { CreateModalProps, TypeMeterFormValue } from '../../../types';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormMeter } from './FormMeter';
 
-export const CreateModalMeter: React.FC<CreateModalProps<TypeMeterFormValue>> = ({
-                                                                                   isOpen,
-                                                                                   createItem,
-                                                                                   onCancel,
-                                                                                 }) => {
+export const CreateModalMeter: React.FC<
+  CreateModalProps<TypeMeterFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allMeterType} = useFetchAllData({depsMeterType: isOpen});
+  const { allMeterType } = useFetchAllData({ depsMeterType: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем meterType
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'meterType');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'meterType',
+  );
 
   return (
     <Modal
       title={`Добавление нового счетчика`}
-      okText={"Сохранить"}
-      cancelText={"Отмена"}
+      okText={'Сохранить'}
+      cancelText={'Отмена'}
       width={600}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormMeter
         form={form}
         allMeterType={allMeterType}

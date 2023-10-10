@@ -1,24 +1,32 @@
-import React from "react";
-import {CreateModalProps, TypeOperationTimesheetFormValue} from "../../../types";
-import {Form, Modal} from "antd";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormOperationTimesheet} from "./FormOperationTimesheet";
+import React from 'react';
+import {
+  CreateModalProps,
+  TypeOperationTimesheetFormValue,
+} from '../../../types';
+import { Form, Modal } from 'antd';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormOperationTimesheet } from './FormOperationTimesheet';
 
-export const CreateModalOperationTimesheet: React.FC<CreateModalProps<TypeOperationTimesheetFormValue>> = ({
-                                                                                                             isOpen,
-                                                                                                             createItem,
-                                                                                                             onCancel,
-                                                                                                           }) => {
+export const CreateModalOperationTimesheet: React.FC<
+  CreateModalProps<TypeOperationTimesheetFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allEmployee} = useFetchAllData({depsEmployee: isOpen});
+  const { allEmployee } = useFetchAllData({ depsEmployee: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем employee
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'employee');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'employee',
+  );
 
   return (
     <Modal
@@ -28,8 +36,7 @@ export const CreateModalOperationTimesheet: React.FC<CreateModalProps<TypeOperat
       width={600}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormOperationTimesheet
         form={form}
         allEmployee={allEmployee}
@@ -38,5 +45,5 @@ export const CreateModalOperationTimesheet: React.FC<CreateModalProps<TypeOperat
         onSearchEmployee={onSearchSelect}
       />
     </Modal>
-  )
-}
+  );
+};

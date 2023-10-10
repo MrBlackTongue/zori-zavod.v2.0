@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton} from 'antd';
-import {SyncOutlined, PlusOutlined} from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Button, FloatButton, Space, Typography } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import '../../App.css';
-import {createMeter, updateMeter, deleteMeterById} from '../../services';
-import {TypeMeter, TypeMeterFormValue} from '../../types';
-import {TableMeter} from "./components/TableMeter";
-import {CreateModalMeter} from "./components/CreateModalMeter";
-import {UpdateDrawerMeter} from "./components/UpdateDrawerMeter";
+import { createMeter, deleteMeterById, updateMeter } from '../../services';
+import { TypeMeter, TypeMeterFormValue } from '../../types';
+import { TableMeter } from './components/TableMeter';
+import { CreateModalMeter } from './components/CreateModalMeter';
+import { UpdateDrawerMeter } from './components/UpdateDrawerMeter';
 
 export const PageMeter: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -20,30 +20,34 @@ export const PageMeter: React.FC = () => {
   const [selectedMeterId, setSelectedMeterId] = useState<number>();
 
   // Добавить новый счетчик
-  const handleCreateMeter = async (values: TypeMeterFormValue): Promise<void> => {
+  const handleCreateMeter = async (
+    values: TypeMeterFormValue,
+  ): Promise<void> => {
     const meter: TypeMeter = {
       serialNumber: values.serialNumber,
       title: values.title,
-      meterType: {id: values.meterType},
+      meterType: { id: values.meterType },
     };
     setIsModalOpen(false);
     await createMeter(meter);
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedMeterId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить счетчик
-  const handleUpdateMeter = async (values: TypeMeterFormValue): Promise<void> => {
+  const handleUpdateMeter = async (
+    values: TypeMeterFormValue,
+  ): Promise<void> => {
     const meter: TypeMeter = {
       id: selectedMeterId,
       serialNumber: values.serialNumber,
       title: values.title,
-      meterType: {id: values.meterType},
+      meterType: { id: values.meterType },
     };
     setIsDrawerOpen(false);
     await updateMeter(meter);
@@ -57,28 +61,19 @@ export const PageMeter: React.FC = () => {
   };
 
   return (
-    <div style={{display: 'grid'}}>
+    <div style={{ display: 'grid' }}>
       <div className="centerTitle">
         <Title level={3}>Счетчики</Title>
         <Space>
           <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className="greenButton"
-          >
-            Обновить
-          </Button>
-          <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableMeter
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

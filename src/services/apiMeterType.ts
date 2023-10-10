@@ -1,44 +1,67 @@
-import {TypeApiResponse, TypeMeterType} from "../types";
-import {METER_TYPE} from "./apiEndpoints";
+import {TypeApiResponse, TypeMeterType} from '../types';
+import {METER_TYPE} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from "./api";
+import {api} from './api';
 
 // Получить список всех типов счетчика
-export function getAllMeterType(): Promise<TypeMeterType[]> {
-  return api.get(METER_TYPE)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllMeterType(): Promise<TypeMeterType[]> {
+  try {
+    const response = await api.get(METER_TYPE);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить данные типа счетчика по id
-export function getMeterTypeById(id: number): Promise<TypeMeterType | undefined> {
-  return api.get(`${METER_TYPE}/${id}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getMeterTypeById(
+  id: number,
+): Promise<TypeMeterType | undefined> {
+  try {
+    const response = await api.get(`${METER_TYPE}/${id}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Добавить новый тип счетчика
-export function createMeterType(data: TypeMeterType): Promise<TypeApiResponse> {
-  return api.post(METER_TYPE, data)
-    .then(handleResponseCreateMessage)
-    .catch(handleErrorResponseMessage);
+export async function createMeterType(
+  data: TypeMeterType,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.post(METER_TYPE, data);
+    return handleResponseCreateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Удалить тип счетчика по id
-export function deleteMeterTypeById(id: number): Promise<TypeApiResponse> {
-  return api.delete(`${METER_TYPE}/${id}`)
-    .then(handleResponseDeleteMessage)
-    .catch(handleErrorResponseMessage);
+export async function deleteMeterTypeById(
+  id: number,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.delete(`${METER_TYPE}/${id}`);
+    return handleResponseDeleteMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Редактировать тип счетчика
-export function updateMeterType(data: TypeMeterType): Promise<TypeApiResponse> {
-  return api.put(METER_TYPE, data)
-    .then(handleResponseUpdateMessage)
-    .catch(handleErrorResponseMessage);
+export async function updateMeterType(
+  data: TypeMeterType,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.put(METER_TYPE, data);
+    return handleResponseUpdateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }

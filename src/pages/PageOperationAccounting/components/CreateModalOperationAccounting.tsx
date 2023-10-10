@@ -1,26 +1,30 @@
-import React from "react";
-import {CreateModalProps, TypeOperationAccountingFormValue} from "../../../types";
-import {Form, Modal} from "antd";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormOperationAccounting} from "./FormOperationAccounting";
+import React from 'react';
+import {
+  CreateModalProps,
+  TypeOperationAccountingFormValue,
+} from '../../../types';
+import { Form, Modal } from 'antd';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormOperationAccounting } from './FormOperationAccounting';
 
-export const CreateModalOperationAccounting:
-  React.FC<CreateModalProps<TypeOperationAccountingFormValue>> = ({
-                                                                    isOpen,
-                                                                    createItem,
-                                                                    onCancel,
-                                                                  }) => {
+export const CreateModalOperationAccounting: React.FC<
+  CreateModalProps<TypeOperationAccountingFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allOperation, allProductionType, allOutput} = useFetchAllData({
+  const { allOperation, allProductionType, allOutput } = useFetchAllData({
     depsOperation: isOpen,
     depsProductionType: isOpen,
     depsOutput: isOpen,
   });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем operation
   const {
@@ -51,8 +55,7 @@ export const CreateModalOperationAccounting:
       width={650}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormOperationAccounting
         form={form}
         allOperation={allOperation}
@@ -69,5 +72,5 @@ export const CreateModalOperationAccounting:
         onSearchProductionType={onSearchProductionType}
       />
     </Modal>
-  )
-}
+  );
+};

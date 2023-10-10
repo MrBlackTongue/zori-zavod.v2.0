@@ -1,19 +1,19 @@
-import {Dayjs} from "dayjs";
+import { Dayjs } from 'dayjs';
 
 export type TypeSubscription = {
-  id: number,
+  id: number;
   customer: {
-    id: number,
-    email: string,
-    mainEmailId: number,
-    balance: number
-  },
+    id: number;
+    email: string;
+    mainEmailId: number;
+    balance: number;
+  };
   plan: {
-    id: number,
-    title: string,
-    price: number,
-    durationDays: number
-  },
-  startDate:  Dayjs | string,
-  endDate:  Dayjs | string,
-}
+    id: number;
+    title: string;
+    price: number;
+    durationDays: number;
+  };
+  startDate: Dayjs | string;
+  endDate: Dayjs | string;
+};

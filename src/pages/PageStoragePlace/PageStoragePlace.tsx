@@ -1,80 +1,80 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
-import '../../App.css'
-import {deleteStoragePlaceById, createStoragePlace, updateStoragePlace} from "../../services";
-import {TypeStoragePlace, TypeStoragePlaceFormValue} from "../../types";
-import {TableStoragePlace} from "./components/TableStoragePlace";
-import {CreateModalStoragePlace} from "./components/CreateModalStoragePlace";
-import {UpdateDrawerStoragePlace} from "./components/UpdateDrawerStoragePlace";
+import React, { useState } from 'react';
+import { Button, FloatButton, Space, Typography } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import '../../App.css';
+import {
+  createStoragePlace,
+  deleteStoragePlaceById,
+  updateStoragePlace,
+} from '../../services';
+import { TypeStoragePlace, TypeStoragePlaceFormValue } from '../../types';
+import { TableStoragePlace } from './components/TableStoragePlace';
+import { CreateModalStoragePlace } from './components/CreateModalStoragePlace';
+import { UpdateDrawerStoragePlace } from './components/UpdateDrawerStoragePlace';
 
 export const PageStoragePlace: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // id выбранного места хранения
-  const [selectedStoragePlaceId, setSelectedStoragePlaceId] = useState<number>();
+  const [selectedStoragePlaceId, setSelectedStoragePlaceId] =
+    useState<number>();
 
   // Добавить новое место хранения
-  const handleCreateStoragePlace = async (values: TypeStoragePlaceFormValue): Promise<void> => {
+  const handleCreateStoragePlace = async (
+    values: TypeStoragePlaceFormValue,
+  ): Promise<void> => {
     const storagePlace: TypeStoragePlace = {
       title: values.title,
     };
-    setIsModalOpen(false)
-    await createStoragePlace(storagePlace)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createStoragePlace(storagePlace);
+    setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
-    setSelectedStoragePlaceId(id)
+    setSelectedStoragePlaceId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить место хранения
-  const handleUpdateStoragePlace = async (values: TypeStoragePlaceFormValue): Promise<void> => {
+  const handleUpdateStoragePlace = async (
+    values: TypeStoragePlaceFormValue,
+  ): Promise<void> => {
     const storagePlace: TypeStoragePlace = {
       id: selectedStoragePlaceId,
       title: values.title,
     };
-    setIsDrawerOpen(false)
-    await updateStoragePlace(storagePlace)
-    setIsUpdateTable(prevState => !prevState)
+    setIsDrawerOpen(false);
+    await updateStoragePlace(storagePlace);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteStoragePlace = async (id: number): Promise<void> => {
-    await deleteStoragePlaceById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deleteStoragePlaceById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Место хранения</Title>
         <Space>
           <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
-          <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableStoragePlace
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

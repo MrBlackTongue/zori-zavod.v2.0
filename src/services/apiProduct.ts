@@ -1,58 +1,87 @@
-import {TypeApiResponse, TypeProduct} from "../types";
-import {OUTPUT, PRODUCT, TITLE} from "./apiEndpoints";
+import {TypeApiResponse, TypeProduct} from '../types';
+import {OUTPUT, PRODUCT, TITLE} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from "./api";
+import {api} from './api';
 
 // Получить список всех товаров
-export function getAllProduct(): Promise<TypeProduct[]> {
-  return api.get(PRODUCT)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllProduct(): Promise<TypeProduct[]> {
+  try {
+    const response = await api.get(PRODUCT);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить данные товара по id
-export function getProductById(id: number): Promise<TypeProduct | undefined> {
-  return api.get(`${PRODUCT}/${id}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getProductById(
+  id: number,
+): Promise<TypeProduct | undefined> {
+  try {
+    const response = await api.get(`${PRODUCT}/${id}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Добавить новый товар
-export function createProduct(data: TypeProduct): Promise<TypeApiResponse> {
-  return api.post(PRODUCT, data)
-    .then(handleResponseCreateMessage)
-    .catch(handleErrorResponseMessage);
+export async function createProduct(
+  data: TypeProduct,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.post(PRODUCT, data);
+    return handleResponseCreateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Удалить товар по id
-export function deleteProductById(id: number): Promise<TypeApiResponse> {
-  return api.delete(`${PRODUCT}/${id}`)
-    .then(handleResponseDeleteMessage)
-    .catch(handleErrorResponseMessage);
+export async function deleteProductById(id: number): Promise<TypeApiResponse> {
+  try {
+    const response = await api.delete(`${PRODUCT}/${id}`);
+    return handleResponseDeleteMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Редактировать товар
-export function updateProduct(data: TypeProduct): Promise<TypeApiResponse> {
-  return api.put(PRODUCT, data)
-    .then(handleResponseUpdateMessage)
-    .catch(handleErrorResponseMessage);
+export async function updateProduct(
+  data: TypeProduct,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.put(PRODUCT, data);
+    return handleResponseUpdateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить список всех отфильтрованных товаров по названию
-export function getAllProductByTitle(title: string): Promise<TypeProduct[]> {
-  return api.get(`${PRODUCT}${TITLE}/${title}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllProductByTitle(
+  title: string,
+): Promise<TypeProduct[]> {
+  try {
+    const response = await api.get(`${PRODUCT}${TITLE}/${title}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить все выпущенные товары
-export function getAllProductOutput(): Promise<TypeProduct[]> {
-  return api.get(`${PRODUCT}${OUTPUT}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllProductOutput(): Promise<TypeProduct[]> {
+  try {
+    const response = await api.get(`${PRODUCT}${OUTPUT}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }

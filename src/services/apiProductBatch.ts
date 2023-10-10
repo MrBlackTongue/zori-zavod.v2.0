@@ -1,44 +1,85 @@
-import {TypeApiResponse, TypeProductBatch} from "../types";
-import {PRODUCT, BATCH} from "./apiEndpoints";
+import {TypeApiResponse, TypeProductBatch} from '../types';
+import {BATCH, PRODUCT} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from "./api";
+import {api} from './api';
 
 // Получить все партии товаров
-export function getAllProductBatch(): Promise<TypeProductBatch[]> {
-  return api.get(`${PRODUCT}${BATCH}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllProductBatch(): Promise<TypeProductBatch[]> {
+  try {
+    const response = await api.get(`${PRODUCT}${BATCH}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить данные партии товаров по id
-export function getProductBatchById(id: number): Promise<TypeProductBatch | undefined> {
-  return api.get(`${PRODUCT}${BATCH}/${id}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getProductBatchById(
+  id: number,
+): Promise<TypeProductBatch | undefined> {
+  try {
+    const response = await api.get(`${PRODUCT}${BATCH}/${id}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Добавить новую партию товаров
-export function createProductBatch(data: TypeProductBatch): Promise<TypeApiResponse> {
-  return api.post(`${PRODUCT}${BATCH}`, data)
-    .then(handleResponseCreateMessage)
-    .catch(handleErrorResponseMessage);
+export async function createProductBatch(
+  data: TypeProductBatch,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.post(`${PRODUCT}${BATCH}`, data);
+    return handleResponseCreateMessage(response);
+  } catch (
+    // Удалить партию товаров по id
+    error
+  ) {
+    return handleErrorResponseMessage(
+      // Удалить партию товаров по id
+      error,
+    );
+  }
 }
 
 // Удалить партию товаров по id
-export function deleteProductBatchById(id: number): Promise<TypeApiResponse> {
-  return api.delete(`${PRODUCT}${BATCH}/${id}`)
-    .then(handleResponseDeleteMessage)
-    .catch(handleErrorResponseMessage);
+export async function deleteProductBatchById(
+  id: number,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.delete(`${PRODUCT}${BATCH}/${id}`);
+    return handleResponseDeleteMessage(response);
+  } catch (
+    // Удалить партию товаров по id
+    error
+  ) {
+    return handleErrorResponseMessage(
+      // Удалить партию товаров по id
+      error,
+    );
+  }
 }
 
 // Редактировать партию товаров
-export function updateProductBatch(data: TypeProductBatch): Promise<TypeApiResponse> {
-  return api.put(`${PRODUCT}${BATCH}`, data)
-    .then(handleResponseUpdateMessage)
-    .catch(handleErrorResponseMessage);
+export async function updateProductBatch(
+  data: TypeProductBatch,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.put(`${PRODUCT}${BATCH}`, data);
+    return handleResponseUpdateMessage(response);
+  } catch (
+    // Удалить партию товаров по id
+    error
+  ) {
+    return handleErrorResponseMessage(
+      // Удалить партию товаров по id
+      error,
+    );
+  }
 }

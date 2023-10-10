@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton,} from 'antd';
-import {SyncOutlined, PlusOutlined,} from '@ant-design/icons';
-import '../../App.css'
-import {deleteClientById, createClient, updateClient} from "../../services";
-import {TypeClient, TypeClientFormValue} from "../../types";
-import {TableClient} from "./components/TableClient";
-import {CreateModalClient} from "./components/CreateModalClient";
-import {UpdateDrawerClient} from "./components/UpdateDrawerClient";
+import React, { useState } from 'react';
+import { Button, FloatButton, Space, Typography } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import '../../App.css';
+import { createClient, deleteClientById, updateClient } from '../../services';
+import { TypeClient, TypeClientFormValue } from '../../types';
+import { TableClient } from './components/TableClient';
+import { CreateModalClient } from './components/CreateModalClient';
+import { UpdateDrawerClient } from './components/UpdateDrawerClient';
 
 export const PageClient: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -20,61 +20,56 @@ export const PageClient: React.FC = () => {
   const [selectedClientId, setSelectedClientId] = useState<number>();
 
   // Добавить нового клиента
-  const handleCreateClient = async (values: TypeClientFormValue): Promise<void> => {
+  const handleCreateClient = async (
+    values: TypeClientFormValue,
+  ): Promise<void> => {
     const client: TypeClient = {
       title: values.title,
     };
-    setIsModalOpen(false)
-    await createClient(client)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createClient(client);
+    setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
-    setSelectedClientId(id)
+    setSelectedClientId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить клиента
-  const handleUpdateClient = async (values: TypeClientFormValue): Promise<void> => {
+  const handleUpdateClient = async (
+    values: TypeClientFormValue,
+  ): Promise<void> => {
     const client: TypeClient = {
       id: selectedClientId,
       title: values.title,
     };
-    setIsDrawerOpen(false)
-    await updateClient(client)
-    setIsUpdateTable(prevState => !prevState)
+    setIsDrawerOpen(false);
+    await updateClient(client);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteClient = async (id: number): Promise<void> => {
-    await deleteClientById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deleteClientById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Клиенты</Title>
         <Space>
           <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
-          <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableClient
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

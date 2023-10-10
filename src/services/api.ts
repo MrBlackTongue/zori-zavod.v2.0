@@ -1,9 +1,9 @@
 import axios from 'axios';
-import {API_URL} from './apiEndpoints';
+import { API_URL } from './apiEndpoints';
 
 export const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true // добавляет cookies с каждым запросом
+  withCredentials: true, // добавляет cookies с каждым запросом
 });
 
 // Перенаправляет на страницу авторизации не авторизованного пользователя
@@ -14,8 +14,8 @@ export const api = axios.create({
 // });
 
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  response => response,
+  error => {
     switch (error.response?.status) {
       case 401:
         window.location.assign('/login');
@@ -27,5 +27,5 @@ api.interceptors.response.use(
       default:
         break;
     }
-  }
+  },
 );

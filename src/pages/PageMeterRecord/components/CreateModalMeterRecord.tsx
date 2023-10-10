@@ -1,24 +1,29 @@
-import React from "react";
-import {Form, Modal} from "antd";
-import {CreateModalProps, TypeMeterRecordFormValue} from "../../../types";
-import {useFetchAllData, useFormHandler, useFormSelect} from "../../../hooks";
-import {FormMeterRecord} from "./FormMeterRecord";
+import React from 'react';
+import { Form, Modal } from 'antd';
+import { CreateModalProps, TypeMeterRecordFormValue } from '../../../types';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormMeterRecord } from './FormMeterRecord';
 
-export const CreateModalMeterRecord: React.FC<CreateModalProps<TypeMeterRecordFormValue>> = ({
-                                                                                               isOpen,
-                                                                                               createItem,
-                                                                                               onCancel,
-                                                                                             }) => {
+export const CreateModalMeterRecord: React.FC<
+  CreateModalProps<TypeMeterRecordFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allMeter} = useFetchAllData({depsMeter: isOpen});
+  const { allMeter } = useFetchAllData({ depsMeter: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем meter
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'meter');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'meter',
+  );
 
   return (
     <Modal
@@ -28,8 +33,7 @@ export const CreateModalMeterRecord: React.FC<CreateModalProps<TypeMeterRecordFo
       width={700}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormMeterRecord
         form={form}
         allMeter={allMeter}
@@ -38,5 +42,5 @@ export const CreateModalMeterRecord: React.FC<CreateModalProps<TypeMeterRecordFo
         onSearchMeter={onSearchSelect}
       />
     </Modal>
-  )
-}
+  );
+};

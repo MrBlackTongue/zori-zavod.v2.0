@@ -1,45 +1,51 @@
-import React, {useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeOperationTimesheetFormValue} from "../../../types";
-import {getOperationTimesheetById} from "../../../services";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormOperationTimesheet} from "./FormOperationTimesheet";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import {
+  TypeOperationTimesheetFormValue,
+  UpdateDrawerProps,
+} from '../../../types';
+import { getOperationTimesheetById } from '../../../services';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormOperationTimesheet } from './FormOperationTimesheet';
 
-export const UpdateDrawerOperationTimesheet:
-  React.FC<UpdateDrawerProps<TypeOperationTimesheetFormValue>> = ({
-                                                                    isOpen,
-                                                                    selectedItemId,
-                                                                    onCancel,
-                                                                    updateItem,
-                                                                  }) => {
+export const UpdateDrawerOperationTimesheet: React.FC<
+  UpdateDrawerProps<TypeOperationTimesheetFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allEmployee} = useFetchAllData({depsEmployee: isOpen});
+  const { allEmployee } = useFetchAllData({ depsEmployee: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Хук для управления полем employee
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'employee');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'employee',
+  );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetOperationTimesheet = useCallback((): void => {
     if (selectedItemId) {
       getOperationTimesheetById(selectedItemId)
-        .then((data) => {
+        .then(data => {
           form.setFieldsValue({
             ...data,
             employee: data?.employee?.id === 0 ? '' : data?.employee?.id,
-          })
+          });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error))
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
   }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetOperationTimesheet()
+      handleGetOperationTimesheet();
     }
   }, [isOpen, selectedItemId, handleGetOperationTimesheet]);
 
@@ -56,8 +62,7 @@ export const UpdateDrawerOperationTimesheet:
             Сохранить
           </Button>
         </Space>
-      }
-    >
+      }>
       <FormOperationTimesheet
         form={form}
         allEmployee={allEmployee}
@@ -66,5 +71,5 @@ export const UpdateDrawerOperationTimesheet:
         onSearchEmployee={onSearchSelect}
       />
     </Drawer>
-  )
-}
+  );
+};

@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Button, Table, Typography} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {getPaymentHistory} from "../../../services";
-import {TypePayment} from "../../../types";
-import dayjs from "dayjs";
-import {SyncOutlined} from "@ant-design/icons";
-import {renderAsRuble} from "../../../utils";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Table, Typography } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { getPaymentHistory } from '../../../services';
+import { TypePayment } from '../../../types';
+import dayjs from 'dayjs';
+import { SyncOutlined } from '@ant-design/icons';
+import { renderAsRuble } from '../../../utils';
 
 export const TablePaymentHistory: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
-  // Лоудер и список всех платежей
+  // Spinner и список всех платежей
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allPayment, setAllPayment] = useState<TypePayment[]>();
 
@@ -20,11 +20,11 @@ export const TablePaymentHistory: React.FC = () => {
     pageSize: 10,
   });
 
-  const statusMapping: {[key: string] : string} = {
-    "succeeded": "Подтверждён",
-    "pending": "В ожидании",
-    "canceled": "Отменён",
-    "waiting_for_capture": "Ожидает списания",
+  const statusMapping: { [key: string]: string } = {
+    succeeded: 'Подтверждён',
+    pending: 'В ожидании',
+    canceled: 'Отменён',
+    waiting_for_capture: 'Ожидает списания',
   };
 
   // Колонки в таблице
@@ -34,9 +34,10 @@ export const TablePaymentHistory: React.FC = () => {
       dataIndex: 'paymentDate',
       key: 'paymentDate',
       width: 250,
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>) : null),
-
+      render: (date: any) =>
+        date !== null ? (
+          <div>{dayjs(date).format('DD.MM.YYYY HH:mm:ss')}</div>
+        ) : null,
     },
     {
       title: 'Сумма',
@@ -50,13 +51,13 @@ export const TablePaymentHistory: React.FC = () => {
       dataIndex: 'status',
       key: 'status',
       width: 200,
-      render: (status: string) => statusMapping[status] || status
+      render: (status: string) => statusMapping[status] || status,
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -66,27 +67,32 @@ export const TablePaymentHistory: React.FC = () => {
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getPaymentHistory()
-      .then((data) => {
+      .then(data => {
         setAllPayment(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [handleUpdateTable]);
 
   return (
     <div>
-      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem'}}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1rem',
+        }}>
         <Title level={4}>История пополнений</Title>
         <Button
           type="dashed"
-          icon={<SyncOutlined/>}
-          className='greenButton'
-          onClick={handleUpdateTable}
-        >
+          icon={<SyncOutlined />}
+          className="greenButton"
+          onClick={handleUpdateTable}>
           Обновить
         </Button>
       </div>
@@ -97,8 +103,12 @@ export const TablePaymentHistory: React.FC = () => {
         dataSource={allPayment}
         loading={isLoading}
         onChange={handleChangeTable}
-        pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+        pagination={{
+          ...pagination,
+          position: ['bottomCenter'],
+          totalBoundaryShowSizeChanger: 10,
+        }}
       />
     </div>
   );
-}
+};

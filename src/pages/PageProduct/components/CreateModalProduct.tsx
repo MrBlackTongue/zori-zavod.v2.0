@@ -1,21 +1,26 @@
-import React from "react";
-import {CreateModalProps, TypeProductFormValue} from "../../../types";
-import {Form, Modal} from "antd";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormProduct} from "./FormProduct";
+import React from 'react';
+import { CreateModalProps, TypeProductFormValue } from '../../../types';
+import { Form, Modal } from 'antd';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormProduct } from './FormProduct';
 
-export const CreateModalProduct: React.FC<CreateModalProps<TypeProductFormValue>> = ({
-                                                                                       isOpen,
-                                                                                       createItem,
-                                                                                       onCancel,
-                                                                                     }) => {
+export const CreateModalProduct: React.FC<
+  CreateModalProps<TypeProductFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit, allProductGroup} = useFetchAllData({depsUnit: isOpen, depsProductGroup: isOpen});
+  const { allUnit, allProductGroup } = useFetchAllData({
+    depsUnit: isOpen,
+    depsProductGroup: isOpen,
+  });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем unit
   const {
@@ -39,8 +44,7 @@ export const CreateModalProduct: React.FC<CreateModalProps<TypeProductFormValue>
       width={700}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormProduct
         form={form}
         allUnit={allUnit}
@@ -53,5 +57,5 @@ export const CreateModalProduct: React.FC<CreateModalProps<TypeProductFormValue>
         onSearchProductGroup={onSearchProductGroup}
       />
     </Modal>
-  )
-}
+  );
+};

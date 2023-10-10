@@ -1,17 +1,16 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getProductGroupTree} from "../../../services";
-import {TableProps, TypeProductGroup} from "../../../types";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { getProductGroupTree } from '../../../services';
+import { TableProps, TypeProductGroup } from '../../../types';
 
 export const TableProductGroup: React.FC<TableProps> = ({
-                                                          isUpdateTable,
-                                                          openDrawer,
-                                                          onDelete,
-                                                        }) => {
-
-  // Лоудер и список всех групп товаров
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
+  // Spinner и список всех групп товаров
   const [loading, setLoading] = useState(false);
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
 
@@ -35,7 +34,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -44,7 +43,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -54,51 +53,61 @@ export const TableProductGroup: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
   };
 
   // Рекурсивная функция для удаления пустых дочерних элементов
-  const removeEmptyChildren = useCallback((productGroup: TypeProductGroup): TypeProductGroup => {
-    if (productGroup.children && productGroup.children.length === 0) {
-      const {children, ...rest} = productGroup;
-      return rest;
-    }
-    if (productGroup.children) {
-      return {...productGroup, children: productGroup.children.map(removeEmptyChildren)};
-    }
-    return productGroup;
-  }, [])
+  const removeEmptyChildren = useCallback(
+    (productGroup: TypeProductGroup): TypeProductGroup => {
+      if (productGroup.children && productGroup.children.length === 0) {
+        const { children, ...rest } = productGroup;
+        return rest;
+      }
+      if (productGroup.children) {
+        return {
+          ...productGroup,
+          children: productGroup.children.map(removeEmptyChildren),
+        };
+      }
+      return productGroup;
+    },
+    [],
+  );
 
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setLoading(true);
     getProductGroupTree()
-      .then((data) => {
+      .then(data => {
         const updatedData = data.map(removeEmptyChildren);
         setAllProductGroup(updatedData);
         setLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error))
+      .catch(error => console.error('Ошибка при получении данных: ', error));
   }, [removeEmptyChildren]);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
@@ -109,7 +118,11 @@ export const TableProductGroup: React.FC<TableProps> = ({
       dataSource={allProductGroup}
       loading={loading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

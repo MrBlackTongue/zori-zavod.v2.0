@@ -1,24 +1,29 @@
-import React from "react";
-import {Form, Modal} from "antd";
-import {CreateModalProps, TypeProductGroupFormValue} from "../../../types";
-import {useFetchAllData, useFormHandler, useFormSelect} from "../../../hooks";
-import {FormProductGroup} from "./FormProductGroup";
+import React from 'react';
+import { Form, Modal } from 'antd';
+import { CreateModalProps, TypeProductGroupFormValue } from '../../../types';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormProductGroup } from './FormProductGroup';
 
-export const CreateModalProductGroup: React.FC<CreateModalProps<TypeProductGroupFormValue>> = ({
-                                                                                                 isOpen,
-                                                                                                 createItem,
-                                                                                                 onCancel,
-                                                                                               }) => {
+export const CreateModalProductGroup: React.FC<
+  CreateModalProps<TypeProductGroupFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProductGroup} = useFetchAllData({depsProductGroup: isOpen});
+  const { allProductGroup } = useFetchAllData({ depsProductGroup: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Хук для управления полем productGroup
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'productGroup');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'productGroup',
+  );
 
   return (
     <Modal
@@ -28,8 +33,7 @@ export const CreateModalProductGroup: React.FC<CreateModalProps<TypeProductGroup
       width={680}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
+      onCancel={handleReset}>
       <FormProductGroup
         form={form}
         allProductGroup={allProductGroup}

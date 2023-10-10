@@ -1,18 +1,20 @@
-import React from "react";
-import {CreateModalProps, TypeStoragePlaceFormValue} from "../../../types";
-import {Form, Modal} from "antd";
-import {useFormHandler} from "../../../hooks";
-import {FormStoragePlace} from "./FormStoragePlace";
+import React from 'react';
+import { CreateModalProps, TypeStoragePlaceFormValue } from '../../../types';
+import { Form, Modal } from 'antd';
+import { useFormHandler } from '../../../hooks';
+import { FormStoragePlace } from './FormStoragePlace';
 
-export const CreateModalStoragePlace: React.FC<CreateModalProps<TypeStoragePlaceFormValue>> = ({
-                                                                                                 isOpen,
-                                                                                                 createItem,
-                                                                                                 onCancel,
-                                                                                               }) => {
+export const CreateModalStoragePlace: React.FC<
+  CreateModalProps<TypeStoragePlaceFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   return (
     <Modal
@@ -22,11 +24,8 @@ export const CreateModalStoragePlace: React.FC<CreateModalProps<TypeStoragePlace
       width={500}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
-      <FormStoragePlace
-        form={form}
-      />
+      onCancel={handleReset}>
+      <FormStoragePlace form={form} />
     </Modal>
-  )
-}
+  );
+};

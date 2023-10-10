@@ -1,18 +1,22 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, Input, FloatButton} from 'antd';
-import {SyncOutlined, PlusOutlined, SearchOutlined} from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Button, FloatButton, Input, Space, Typography } from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import '../../App.css';
-import {deletePurchaseById, createPurchase, updatePurchase} from '../../services';
-import {TypePurchase, TypePurchaseFormValue} from '../../types';
-import {TablePurchase} from "./components/TablePurchase";
-import {CreateModalPurchase} from "./components/CreateModalPurchase";
-import {UpdateDrawerPurchase} from "./components/UpdateDrawerPurchase";
-import dayjs from "dayjs";
+import {
+  createPurchase,
+  deletePurchaseById,
+  updatePurchase,
+} from '../../services';
+import { TypePurchase, TypePurchaseFormValue } from '../../types';
+import { TablePurchase } from './components/TablePurchase';
+import { CreateModalPurchase } from './components/CreateModalPurchase';
+import { UpdateDrawerPurchase } from './components/UpdateDrawerPurchase';
+import dayjs from 'dayjs';
 
 export const PagePurchase: React.FC = () => {
-  const {Title} = Typography;
+  const { Title } = Typography;
 
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -21,79 +25,74 @@ export const PagePurchase: React.FC = () => {
   const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
 
   // Текст поиска
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState<string>('');
 
   // Добавить новую закупку
-  const handleCreatePurchase = async (values: TypePurchaseFormValue): Promise<void> => {
+  const handleCreatePurchase = async (
+    values: TypePurchaseFormValue,
+  ): Promise<void> => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      product: {id: values.product},
+      product: { id: values.product },
       paid: values.paid,
     };
     setIsModalOpen(false);
     await createPurchase(purchase);
-    setIsUpdateTable(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedPurchaseId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить закупку
-  const handleUpdatePurchase = async (values: TypePurchaseFormValue): Promise<void> => {
+  const handleUpdatePurchase = async (
+    values: TypePurchaseFormValue,
+  ): Promise<void> => {
     const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
       cost: values.cost,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      product: {id: values.product},
+      product: { id: values.product },
       paid: values.paid,
     };
     setIsDrawerOpen(false);
     await updatePurchase(purchase);
-    setIsUpdateTable(prevState => !prevState)
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeletePurchase = async (id: number): Promise<void> => {
-    await deletePurchaseById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deletePurchaseById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
+    <div style={{ display: 'grid' }}>
       <div className="centerTitle">
         <Title level={3}>Закупки</Title>
         <Space>
           <Input
             allowClear
             placeholder="Поиск по товарам"
-            style={{width: '210px'}}
-            onChange={(event) => setSearchText(event.target.value)}
-            prefix={<SearchOutlined/>}
+            style={{ width: '210px' }}
+            onChange={event => setSearchText(event.target.value)}
+            prefix={<SearchOutlined />}
           />
           <Button
-            type="dashed"
-            className="greenButton"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-          >
-            Обновить
-          </Button>
-          <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TablePurchase
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}

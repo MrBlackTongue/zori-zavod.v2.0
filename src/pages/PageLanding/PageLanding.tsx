@@ -1,18 +1,18 @@
 import React from 'react';
-import {Button, Space, Card, Row, Col, Dropdown, MenuProps} from 'antd';
-import {MenuOutlined} from '@ant-design/icons';
-import {useNavigate} from 'react-router-dom';
-import {CreateModalRegistrationUser} from "./components/CreateModalRegistrationUser";
+import { Button, Card, Col, Dropdown, MenuProps, Row, Space } from 'antd';
+import { MenuOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { CreateModalRegistrationUser } from './components/CreateModalRegistrationUser';
 import './/PageLanding.css';
-import {checkAuthorization} from "../../services";
-import {useRegistration} from "../../hooks";
+import { checkAuthorization } from '../../services';
+import { useRegistration } from '../../hooks';
 
 export const PageLanding = () => {
-
   const navigate = useNavigate();
 
   // Хук состояние модального окна и регистрация нового пользователя
-  const {isModalOpen, setIsModalOpen, handleCreateNewUser} = useRegistration();
+  const { isModalOpen, setIsModalOpen, handleCreateNewUser } =
+    useRegistration();
 
   // Переход на другую страницу по адресу
   const handleLogin = () => {
@@ -21,7 +21,7 @@ export const PageLanding = () => {
         navigate(isUserAuthorized ? '/employee' : '/login');
       })
       .catch(error => {
-        console.error("Ошибка при проверке авторизации:", error);
+        console.error('Ошибка при проверке авторизации:', error);
       });
   };
 
@@ -32,194 +32,265 @@ export const PageLanding = () => {
   // Выпадающее меню
   const items: MenuProps['items'] = [
     {
-      label:
-        <Button
-          type="default"
-          onClick={handleRate}
-          className='dropdown-item'
-        >
+      label: (
+        <Button type="default" onClick={handleRate} className="dropdown-item">
           Тарифы
-        </Button>,
-      key: "1",
+        </Button>
+      ),
+      key: '1',
     },
     {
-      label:
-        <Button
-          type="default"
-          onClick={handleLogin}
-          className='dropdown-item'
-        >
+      label: (
+        <Button type="default" onClick={handleLogin} className="dropdown-item">
           Войти
-        </Button>,
-      key: "2",
+        </Button>
+      ),
+      key: '2',
     },
     {
-      label:
+      label: (
         <Button
           type="default"
           onClick={() => setIsModalOpen(true)}
-          className='dropdown-item'
-        >
+          className="dropdown-item">
           Регистрация
-        </Button>,
-      key: "3",
+        </Button>
+      ),
+      key: '3',
     },
   ];
 
   return (
-    <div className='page-landing flex column center-column'>
-      <div className='header flex row center-row'>
+    <div className="page-landing flex column center-column">
+      <div className="header flex row center-row">
         <a href="/" rel="noopener noreferrer">
-          <img src="/images/header_logo.png" alt="Logo" className='logo'/>
+          <img src="/images/header_logo.png" alt="Logo" className="logo" />
         </a>
-        <Dropdown menu={{items}} trigger={['click']} className='dropdown-button-menu'>
+        <Dropdown
+          menu={{ items }}
+          trigger={['click']}
+          className="dropdown-button-menu">
           <Space>
             <Button type="primary">
-              <MenuOutlined/>
+              <MenuOutlined />
             </Button>
           </Space>
         </Dropdown>
         <Space>
-          <Button type="link" size="large" className='rate-button' onClick={handleRate}>Тариф</Button>
-          <Button type="default" className='button-login text-bold' onClick={handleLogin}>Войти</Button>
+          <Button
+            type="link"
+            size="large"
+            className="rate-button"
+            onClick={handleRate}>
+            Тариф
+          </Button>
+          <Button
+            type="default"
+            className="button-login text-bold"
+            onClick={handleLogin}>
+            Войти
+          </Button>
           <Button
             type="primary"
-            className='button-registration text-bold'
-            onClick={() => setIsModalOpen(true)}
-          >
+            className="button-registration text-bold"
+            onClick={() => setIsModalOpen(true)}>
             Регистрация
           </Button>
         </Space>
       </div>
-      <div className='block-one flex center-column center-row'>
-        <div className='text-block column'>
-          <div className='title-one text-bold'>Производство, склад, ERP в облаке</div>
-          <p className='text'>
-            Все что нужно — в одном месте: учет операций, закупки, склад, клиенты, отгрузки и отчеты.
+      <div className="block-one flex center-column center-row">
+        <div className="text-block column">
+          <div className="title-one text-bold">
+            Производство, склад, ERP в облаке
+          </div>
+          <p className="text">
+            Все что нужно — в одном месте: учет операций, закупки, склад,
+            клиенты, отгрузки и отчеты.
           </p>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
+            <Button
+              type="primary"
+              className="button-start text-bold"
+              onClick={() => setIsModalOpen(true)}>
               Начать работу
             </Button>
           </Space>
         </div>
-        <img src="/images/main_image.png" alt="web-app"
-             className='jumbotron-one flex column center-row center-column'/>
+        <img
+          src="/images/main_image.png"
+          alt="web-app"
+          className="jumbotron-one flex column center-row center-column"
+        />
       </div>
-      <div className='block-two flex row center-row center-column'>
-        <img src="/images/image_one.png" alt="factoryApp"
-             className='jumbotron-block center-row center-column'/>
-        <div className='block-column flex column center-column center-row'>
-          <div className='title-mini center-text text-bold'>Идеально подойдет малым производствам</div>
-          <div className='text-block-two center-text'>
+      <div className="block-two flex row center-row center-column">
+        <img
+          src="/images/image_one.png"
+          alt="factoryApp"
+          className="jumbotron-block center-row center-column"
+        />
+        <div className="block-column flex column center-column center-row">
+          <div className="title-mini center-text text-bold">
+            Идеально подойдет малым производствам
+          </div>
+          <div className="text-block-two center-text">
             <p>
-              Zolotenkov полезен всем,
-              кто управляет производством. Никаких сложных настроек или загадочных процедур.
-              15 минут - и у вас есть ваша персонализированная ERP-система
-              для производственной деятельности.
+              Zolotenkov полезен всем, кто управляет производством. Никаких
+              сложных настроек или загадочных процедур. 15 минут - и у вас есть
+              ваша персонализированная ERP-система для производственной
+              деятельности.
             </p>
           </div>
         </div>
-        <img src="/images/image_two.png" alt="people_working" className='jumbotron-block2'/>
+        <img
+          src="/images/image_two.png"
+          alt="people_working"
+          className="jumbotron-block2"
+        />
       </div>
-      <div className='block-three flex column center-column'>
-        <div className='block-group flex row center-row space-around'>
-          <img src="/images/group_accounting.png" alt="accounting"
-               className='jumbotron-two flex column center-row center-column'/>
-          <div className='text-block-group'>
-            <div className='title-group text-bold'>Учет операций</div>
-            <p className='text-group'>
-              Отслеживайте операции, результаты,
-              время выполнения и затраченные ресурсы - все в одной мощной и простой в использовании
-              системе.
+      <div className="block-three flex column center-column">
+        <div className="block-group flex row center-row space-around">
+          <img
+            src="/images/group_accounting.png"
+            alt="accounting"
+            className="jumbotron-two flex column center-row center-column"
+          />
+          <div className="text-block-group">
+            <div className="title-group text-bold">Учет операций</div>
+            <p className="text-group">
+              Отслеживайте операции, результаты, время выполнения и затраченные
+              ресурсы - все в одной мощной и простой в использовании системе.
               Повышайте эффективность и контролируйте производственные процессы.
             </p>
           </div>
         </div>
-        <div className='block-group block-group-two flex row center-row space-around'>
-          <div className='text-block-group'>
-            <div className='title-group text-bold'>Управление закупками</div>
-            <p className='text-group'>
-              Контролируйте все ваши заказы: от количества и цены до даты поставки.
-              Мы также предлагаем функционал для приемки товаров,
+        <div className="block-group block-group-two flex row center-row space-around">
+          <div className="text-block-group">
+            <div className="title-group text-bold">Управление закупками</div>
+            <p className="text-group">
+              Контролируйте все ваши заказы: от количества и цены до даты
+              поставки. Мы также предлагаем функционал для приемки товаров,
               помогающий вам без проблем учитывать все закупленные товары.
             </p>
           </div>
-          <img src="/images/group_procurement.png" alt="Procurement_management"
-               className='jumbotron-two flex column center-row center-column'/>
+          <img
+            src="/images/group_procurement.png"
+            alt="Procurement_management"
+            className="jumbotron-two flex column center-row center-column"
+          />
         </div>
-        <div className='block-group flex row center-row space-around'>
-          <img src="/images/group_warehouse.png" alt="warehouse_management"
-               className='jumbotron-two flex column center-row center-column'/>
-          <div className='text-block-group'>
-            <div className='title-group text-bold'>Ведение склада</div>
-            <p className='text-group'>
-              Легко создавайте товары и добавляйте их на склад,
-              учитывайте количество товаров и списывайте их со склада.
-              Благодаря интеграции с производственными операциями,
-              отгрузками и приемками товаров,
-              вы всегда будете в курсе актуального баланса на вашем складе.
+        <div className="block-group flex row center-row space-around">
+          <img
+            src="/images/group_warehouse.png"
+            alt="warehouse_management"
+            className="jumbotron-two flex column center-row center-column"
+          />
+          <div className="text-block-group">
+            <div className="title-group text-bold">Ведение склада</div>
+            <p className="text-group">
+              Легко создавайте товары и добавляйте их на склад, учитывайте
+              количество товаров и списывайте их со склада. Благодаря интеграции
+              с производственными операциями, отгрузками и приемками товаров, вы
+              всегда будете в курсе актуального баланса на вашем складе.
             </p>
           </div>
         </div>
       </div>
-      <div className='block-four flex column center-column center-row'>
-        <div className='title-two center-text text-bold'>Оптимизируйте ваше производство</div>
-        <p className='text-two center-text'>
-          Мы предлагаем вашей команде всестороннее решение для эффективного управления ресурсами
-          и контроля над процессами производства.
+      <div className="block-four flex column center-column center-row">
+        <div className="title-two center-text text-bold">
+          Оптимизируйте ваше производство
+        </div>
+        <p className="text-two center-text">
+          Мы предлагаем вашей команде всестороннее решение для эффективного
+          управления ресурсами и контроля над процессами производства.
         </p>
-        <div className='card-grid'>
+        <div className="card-grid">
           <Row gutter={[30, 30]} justify="center" align="top">
             <Col span={7} xs={24} lg={7}>
-              <Card bordered={false} className='card'>
-                <img alt="tap" src="/images/card_tap.png" className="card-image"/>
-                <div className='card-title text-bold'>Простота в управлении</div>
-                Мы создали доступный и удобный интерфейс,
-                обеспечивающий быстрое освоение и комфортную работу
-                с нашей системой учета производственных операций.
+              <Card bordered={false} className="card">
+                <img
+                  alt="tap"
+                  src="/images/card_tap.png"
+                  className="card-image"
+                />
+                <div className="card-title text-bold">
+                  Простота в управлении
+                </div>
+                Мы создали доступный и удобный интерфейс, обеспечивающий быстрое
+                освоение и комфортную работу с нашей системой учета
+                производственных операций.
               </Card>
             </Col>
             <Col span={7} xs={24} lg={7}>
-              <Card bordered={false} className='card'>
-                <img alt="earth" src="/images/card_international.png" className="card-image"/>
-                <div className='card-title text-bold'>Проводите учет где угодно</div>
-                С нашей системой вы сможете управлять производством,
-                не зависимо от географии, сохраняя полный контроль над каждой деталью.
+              <Card bordered={false} className="card">
+                <img
+                  alt="earth"
+                  src="/images/card_international.png"
+                  className="card-image"
+                />
+                <div className="card-title text-bold">
+                  Проводите учет где угодно
+                </div>
+                С нашей системой вы сможете управлять производством, не зависимо
+                от географии, сохраняя полный контроль над каждой деталью.
               </Card>
             </Col>
             <Col span={7} xs={24} lg={7}>
-              <Card bordered={false} className='card'>
-                <img alt="file2" src="/images/card_document.png" className="card-image"/>
-                <div className='card-title text-bold'>Отчеты в реальном времени</div>
-                Автоматизированные отчеты отображают детали ваших производственных операций.
-                Идеальный инструмент для оптимизации процессов и координации команды.
+              <Card bordered={false} className="card">
+                <img
+                  alt="file2"
+                  src="/images/card_document.png"
+                  className="card-image"
+                />
+                <div className="card-title text-bold">
+                  Отчеты в реальном времени
+                </div>
+                Автоматизированные отчеты отображают детали ваших
+                производственных операций. Идеальный инструмент для оптимизации
+                процессов и координации команды.
               </Card>
             </Col>
           </Row>
         </div>
       </div>
-      <div className='block-five flex row center-row space-around'>
-        <img alt="meeting" src="/images/meeting.png" className="image-container"/>
-        <div className='block-column flex column center-column center-row'>
-          <div className='title-mini text-bold center-text'>
+      <div className="block-five flex row center-row space-around">
+        <img
+          alt="meeting"
+          src="/images/meeting.png"
+          className="image-container"
+        />
+        <div className="block-column flex column center-column center-row">
+          <div className="title-mini text-bold center-text">
             Попробуйте Zolotenkov прямо сейчас!
           </div>
           <Space>
-            <Button type="primary" className='button-start text-bold' onClick={() => setIsModalOpen(true)}>
+            <Button
+              type="primary"
+              className="button-start text-bold"
+              onClick={() => setIsModalOpen(true)}>
               Бесплатная версия
             </Button>
           </Space>
         </div>
-        <img alt="transactions" src="/images/transactions.png" className="image-container2"/>
+        <img
+          alt="transactions"
+          src="/images/transactions.png"
+          className="image-container2"
+        />
       </div>
-      <div className='footer flex column center-row center-column'>
-        <p className='footer-text-one'>Телефон: +7 (968) 614-15-72</p>
-        <p className='footer-text-two'>Связаться с нами:</p>
-        <a href="https://t.me/AlAlon369" target='_blank' rel="noopener noreferrer">
-          <img alt="icon-telegram" src="/images/footer_icon_telegram.png" className="logo-telegram"/>
+      <div className="footer flex column center-row center-column">
+        <p className="footer-text-one">Телефон: +7 (968) 614-15-72</p>
+        <p className="footer-text-two">Связаться с нами:</p>
+        <a
+          href="https://t.me/AlAlon369"
+          target="_blank"
+          rel="noopener noreferrer">
+          <img
+            alt="icon-telegram"
+            src="/images/footer_icon_telegram.png"
+            className="logo-telegram"
+          />
         </a>
-        <p className='footer-text-three'>© Zolotenkov 2022-2023</p>
+        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
       </div>
       <CreateModalRegistrationUser
         isOpen={isModalOpen}

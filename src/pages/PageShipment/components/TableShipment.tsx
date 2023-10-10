@@ -1,18 +1,22 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
-import {getAllShipment} from "../../../services";
-import {TableProps, TypeShipment, TypeClient} from "../../../types";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+} from '@ant-design/icons';
+import { getAllShipment } from '../../../services';
+import { TableProps, TypeClient, TypeShipment } from '../../../types';
 import dayjs from 'dayjs';
 
 export const TableShipment: React.FC<TableProps> = ({
-                                                      isUpdateTable,
-                                                      openDrawer,
-                                                      onDelete,
-                                                      openDetailDrawer,
-                                                    }) => {
-  // Лоудер и список всех отгрузок
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+  openDetailDrawer,
+}) => {
+  // Spinner и список всех отгрузок
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 
@@ -33,16 +37,17 @@ export const TableShipment: React.FC<TableProps> = ({
       title: 'Дата',
       dataIndex: 'date',
       key: 'date',
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+      render: (date: any) =>
+        date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
     {
       title: 'Клиент',
       dataIndex: 'client',
       key: 'client',
-      sorter: (a, b) => (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
-      render: ((client: TypeClient) =>
-        client !== null ? (<div>{client.title}</div>) : null)
+      sorter: (a, b) =>
+        (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
+      render: (client: TypeClient) =>
+        client !== null ? <div>{client.title}</div> : null,
     },
     {
       title: 'Действия',
@@ -50,16 +55,15 @@ export const TableShipment: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Подробнее" placement="bottomRight">
             <Button
               type="primary"
               size="small"
               shape="circle"
-              onClick={() => openDetailDrawer && id && openDetailDrawer(id)}
-            >
-              <EllipsisOutlined/>
+              onClick={() => openDetailDrawer && id && openDetailDrawer(id)}>
+              <EllipsisOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Изменить" placement="bottomRight">
@@ -68,9 +72,8 @@ export const TableShipment: React.FC<TableProps> = ({
               size="small"
               shape="circle"
               ghost
-              onClick={() => openDrawer?.(id)}
-            >
-              <EditOutlined/>
+              onClick={() => openDrawer?.(id)}>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -79,22 +82,25 @@ export const TableShipment: React.FC<TableProps> = ({
               title="Вы действительно хотите удалить эту отгрузку?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
-              cancelText="Отмена"
-            >
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              cancelText="Отмена">
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -104,15 +110,15 @@ export const TableShipment: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllShipment()
-      .then((data) => {
+      .then(data => {
         setAllShipment(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error))
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
@@ -123,7 +129,11 @@ export const TableShipment: React.FC<TableProps> = ({
       dataSource={allShipment}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

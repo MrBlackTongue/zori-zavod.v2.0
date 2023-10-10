@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllStoragePlace} from "../../../services";
-import {TableProps, TypeStoragePlace} from "../../../types";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { getAllStoragePlace } from '../../../services';
+import { TableProps, TypeStoragePlace } from '../../../types';
 
 export const TableStoragePlace: React.FC<TableProps> = ({
-                                                          isUpdateTable,
-                                                          openDrawer,
-                                                          onDelete,
-                                                        }) => {
-  // Лоудер и список всех мест хранения
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
+  // Spinner и список всех мест хранения
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allStoragePlace, setAllStoragePlace] = useState<TypeStoragePlace[]>();
 
@@ -27,7 +27,7 @@ export const TableStoragePlace: React.FC<TableProps> = ({
       dataIndex: 'title',
       key: 'title',
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.title ?? '') < (b.title ?? '') ? -1 : 1),
     },
     {
       title: 'Действия',
@@ -35,7 +35,7 @@ export const TableStoragePlace: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -44,7 +44,7 @@ export const TableStoragePlace: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -54,20 +54,24 @@ export const TableStoragePlace: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -77,15 +81,15 @@ export const TableStoragePlace: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllStoragePlace()
-      .then((data) => {
+      .then(data => {
         setAllStoragePlace(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
@@ -96,7 +100,11 @@ export const TableStoragePlace: React.FC<TableProps> = ({
       dataSource={allStoragePlace}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

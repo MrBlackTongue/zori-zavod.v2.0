@@ -1,46 +1,50 @@
-import React, {useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeShipmentFormValue} from "../../../types";
-import {getShipmentById} from "../../../services";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeShipmentFormValue, UpdateDrawerProps } from '../../../types';
+import { getShipmentById } from '../../../services';
 import dayjs from 'dayjs';
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormShipment} from "./FormShipment";
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormShipment } from './FormShipment';
 
-export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormValue>> = ({
-                                                                                           isOpen,
-                                                                                           selectedItemId,
-                                                                                           onCancel,
-                                                                                           updateItem,
-                                                                                         }) => {
+export const UpdateDrawerShipment: React.FC<
+  UpdateDrawerProps<TypeShipmentFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allClient} = useFetchAllData({depsClient: isOpen});
+  const { allClient } = useFetchAllData({ depsClient: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Хук для управления полем client
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'client');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'client',
+  );
 
   // Функция для получения данных
   const handleGetShipment = useCallback((): void => {
     if (selectedItemId) {
       getShipmentById(selectedItemId)
-        .then((data) => {
+        .then(data => {
           form.setFieldsValue({
             ...data,
             date: dayjs(data?.date),
             client: data?.client?.id === 0 ? '' : data?.client?.id,
           });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error))
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
   }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetShipment()
+      handleGetShipment();
     }
   }, [isOpen, selectedItemId, handleGetShipment]);
 
@@ -57,8 +61,7 @@ export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormVa
             Сохранить
           </Button>
         </Space>
-      }
-    >
+      }>
       <FormShipment
         form={form}
         allClient={allClient}
@@ -67,5 +70,5 @@ export const UpdateDrawerShipment: React.FC<UpdateDrawerProps<TypeShipmentFormVa
         onSearchClient={onSearchSelect}
       />
     </Drawer>
-  )
-}
+  );
+};

@@ -1,35 +1,36 @@
-import React, {useCallback, useEffect} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeUnitFormValue} from "../../../types";
-import {getUnitById} from "../../../services";
-import {useFormHandler} from "../../../hooks";
-import {FormUnit} from "./FormUnit";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeUnitFormValue, UpdateDrawerProps } from '../../../types';
+import { getUnitById } from '../../../services';
+import { useFormHandler } from '../../../hooks';
+import { FormUnit } from './FormUnit';
 
-export const UpdateDrawerUnit: React.FC<UpdateDrawerProps<TypeUnitFormValue>> = ({
-                                                                                   isOpen,
-                                                                                   selectedItemId,
-                                                                                   onCancel,
-                                                                                   updateItem,
-                                                                                 }) => {
+export const UpdateDrawerUnit: React.FC<
+  UpdateDrawerProps<TypeUnitFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Функция для получения данных
   const handleGetUnit = useCallback((): void => {
     if (selectedItemId) {
       getUnitById(selectedItemId)
-        .then((data) => {
-          form.setFieldsValue({...data});
+        .then(data => {
+          form.setFieldsValue({ ...data });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [selectedItemId, form])
+  }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetUnit()
+      handleGetUnit();
     }
   }, [isOpen, selectedItemId, handleGetUnit, form]);
 
@@ -46,11 +47,8 @@ export const UpdateDrawerUnit: React.FC<UpdateDrawerProps<TypeUnitFormValue>> = 
             Сохранить
           </Button>
         </Space>
-      }
-    >
-      <FormUnit
-        form={form}
-      />
+      }>
+      <FormUnit form={form} />
     </Drawer>
-  )
-}
+  );
+};

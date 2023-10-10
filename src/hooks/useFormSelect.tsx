@@ -1,21 +1,20 @@
-import {FormInstance} from 'antd';
+import { FormInstance } from 'antd';
 
 export const useFormSelect = (form: FormInstance, fieldName: string) => {
-
-  // Изменить значение в селекте
+  // Изменить значение в select
   const onChangeSelect = (value: any): void => {
-    form.setFieldsValue({[fieldName]: value});
+    form.setFieldsValue({ [fieldName]: value });
   };
 
-  // Очистить поле селект
+  // Очистить поле select
   const onClearSelect = (): void => {
-    form.setFieldsValue({[fieldName]: undefined})
-  }
+    form.setFieldsValue({ [fieldName]: undefined });
+  };
 
-  // Поиск в селекте
+  // Поиск в select
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
-  }
+  };
 
-  return {onChangeSelect, onClearSelect, onSearchSelect};
-}
+  return { onChangeSelect, onClearSelect, onSearchSelect };
+};

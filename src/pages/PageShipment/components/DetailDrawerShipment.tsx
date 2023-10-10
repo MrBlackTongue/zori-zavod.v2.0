@@ -1,54 +1,58 @@
-import React, {useState, useEffect, useCallback} from "react";
-import {Button, Drawer, Space} from "antd";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Drawer, Space } from 'antd';
 import {
   DetailDrawerProps,
   TypeShipment,
   TypeShipmentProductMovement,
-  TypeShipmentProductMovementFormValue
-} from "../../../types";
-import {TableDetailShipment} from "./TableDetailShipment";
-import {PlusOutlined, SyncOutlined} from "@ant-design/icons";
+  TypeShipmentProductMovementFormValue,
+} from '../../../types';
+import { TableDetailShipment } from './TableDetailShipment';
+import { PlusOutlined } from '@ant-design/icons';
 import {
+  createShipmentProductMovement,
   deleteShipmentProductMovementById,
   getShipmentById,
-  createShipmentProductMovement
-} from "../../../services";
-import {CreateModalDetailShipment} from "./CreateModalDetailShipment";
+} from '../../../services';
+import { CreateModalDetailShipment } from './CreateModalDetailShipment';
 
 export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({
-                                                                    isOpen,
-                                                                    onCancel,
-                                                                    selectedItemId
-                                                                  }) => {
-  // Обновление таблицы, Открыть закрыть модальное окно, Выбранная отгрузка
+  isOpen,
+  onCancel,
+  selectedItemId,
+}) => {
+  // Обновление таблицы, открыть закрыть модальное окно, Выбранная отгрузка
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedShipment, setSelectedShipment] = useState<TypeShipment>();
 
   // Функция добавления нового товара в отгрузку
-  const handleCreateShipmentMovement = async (values: TypeShipmentProductMovementFormValue): Promise<void> => {
+  const handleCreateShipmentMovement = async (
+    values: TypeShipmentProductMovementFormValue,
+  ): Promise<void> => {
     const productMovement: TypeShipmentProductMovement = {
       date: selectedShipment?.date,
-      stock: {id: values.stock},
+      stock: { id: values.stock },
       amount: values.amount,
-      shipment: {id: selectedShipment?.id},
-      income: false
+      shipment: { id: selectedShipment?.id },
+      income: false,
     };
-    setIsModalOpen(false)
-    await createShipmentProductMovement(productMovement)
-    setIsUpdateTable(prevState => !prevState)
+    setIsModalOpen(false);
+    await createShipmentProductMovement(productMovement);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteShipmentMovement = async (id: number): Promise<void> => {
-    await deleteShipmentProductMovementById(id)
-    setIsUpdateTable(prevState => !prevState)
+    await deleteShipmentProductMovementById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   // Функция для получения данных об отгрузке по id и обновления формы
   const handleGetShipment = useCallback((): void => {
     if (selectedItemId) {
-      void getShipmentById(selectedItemId).then((data) => setSelectedShipment(data))
+      void getShipmentById(selectedItemId).then(data =>
+        setSelectedShipment(data),
+      );
     }
   }, [selectedItemId]);
 
@@ -59,30 +63,20 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({
   return (
     <Drawer
       title="Отгруженные товары"
-      placement={"bottom"}
+      placement={'bottom'}
       height={400}
       open={isOpen}
       onClose={onCancel}
       extra={
         <Space>
           <Button
-            type="dashed"
-            icon={<SyncOutlined/>}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
-            Обновить
-          </Button>
-          <Button
             type="primary"
-            icon={<PlusOutlined/>}
-            onClick={() => setIsModalOpen(true)}
-          >
+            icon={<PlusOutlined />}
+            onClick={() => setIsModalOpen(true)}>
             Добавить
           </Button>
         </Space>
-      }
-    >
+      }>
       <TableDetailShipment
         isUpdateTable={isUpdateTable}
         idDetail={selectedShipment?.id}
@@ -95,4 +89,4 @@ export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({
       />
     </Drawer>
   );
-}
+};

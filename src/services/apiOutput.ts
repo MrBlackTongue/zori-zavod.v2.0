@@ -1,44 +1,61 @@
-import {TypeApiResponse, TypeOutput} from "../types";
-import {OUTPUT} from "./apiEndpoints";
+import {TypeApiResponse, TypeOutput} from '../types';
+import {OUTPUT} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from "./api";
+import {api} from './api';
 
 // Получить список всех единиц измерения
-export function getAllOutput(): Promise<TypeOutput[]> {
-  return api.get(OUTPUT)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllOutput(): Promise<TypeOutput[]> {
+  try {
+    const response = await api.get(OUTPUT);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить данные единицы измерения по id
-export function getOutputById(id: number): Promise<TypeOutput | undefined> {
-  return api.get(`${OUTPUT}/${id}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getOutputById(
+  id: number,
+): Promise<TypeOutput | undefined> {
+  try {
+    const response = await api.get(`${OUTPUT}/${id}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Добавить новую единицу измерения
-export function createOutput(data: TypeOutput): Promise<TypeApiResponse> {
-  return api.post(OUTPUT, data)
-    .then(handleResponseCreateMessage)
-    .catch(handleErrorResponseMessage);
+export async function createOutput(data: TypeOutput): Promise<TypeApiResponse> {
+  try {
+    const response = await api.post(OUTPUT, data);
+    return handleResponseCreateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Удалить единицу измерения по id
-export function deleteOutputById(id: number): Promise<TypeApiResponse> {
-  return api.delete(`${OUTPUT}/${id}`)
-    .then(handleResponseDeleteMessage)
-    .catch(handleErrorResponseMessage);
+export async function deleteOutputById(id: number): Promise<TypeApiResponse> {
+  try {
+    const response = await api.delete(`${OUTPUT}/${id}`);
+    return handleResponseDeleteMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Редактировать единицу измерения
-export function updateOutput(data: TypeOutput): Promise<TypeApiResponse> {
-  return api.put(OUTPUT, data)
-    .then(handleResponseUpdateMessage)
-    .catch(handleErrorResponseMessage);
+export async function updateOutput(data: TypeOutput): Promise<TypeApiResponse> {
+  try {
+    const response = await api.put(OUTPUT, data);
+    return handleResponseUpdateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }

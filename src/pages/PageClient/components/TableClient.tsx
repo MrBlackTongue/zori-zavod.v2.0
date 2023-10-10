@@ -1,17 +1,17 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {Space, Button, Table, Tooltip, Popconfirm,} from 'antd';
-import type {ColumnsType, TablePaginationConfig} from 'antd/es/table';
-import {EditOutlined, DeleteOutlined,} from '@ant-design/icons';
-import {getAllClient} from "../../../services";
-import {TableProps, TypeClient} from "../../../types";
-import dayjs from "dayjs";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { getAllClient } from '../../../services';
+import { TableProps, TypeClient } from '../../../types';
+import dayjs from 'dayjs';
 
 export const TableClient: React.FC<TableProps> = ({
-                                                    isUpdateTable,
-                                                    openDrawer,
-                                                    onDelete,
-                                                  }) => {
-  // Лоудер и список всех клиентов
+  isUpdateTable,
+  openDrawer,
+  onDelete,
+}) => {
+  // Spinner и список всех клиентов
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allClient, setAllClient] = useState<TypeClient[]>();
 
@@ -28,15 +28,16 @@ export const TableClient: React.FC<TableProps> = ({
       dataIndex: 'title',
       key: 'title',
       width: 500,
-      sorter: (a, b) => (a.title ?? '') < (b.title ?? '') ? -1 : 1,
+      sorter: (a, b) => ((a.title ?? '') < (b.title ?? '') ? -1 : 1),
     },
     {
       title: 'Последняя отгрузка',
       dataIndex: 'lastShipment',
       key: 'lastShipment',
-      sorter: (a, b) => (a.lastShipment ?? '') < (b.lastShipment ?? '') ? -1 : 1,
-      render: ((date: any) =>
-        date !== null ? (<div>{dayjs(date).format('DD.MM.YYYY')}</div>) : null),
+      sorter: (a, b) =>
+        (a.lastShipment ?? '') < (b.lastShipment ?? '') ? -1 : 1,
+      render: (date: any) =>
+        date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
     {
       title: 'Действия',
@@ -44,7 +45,7 @@ export const TableClient: React.FC<TableProps> = ({
       key: 'id',
       width: 100,
       align: 'center',
-      render: ((id: number) => (
+      render: (id: number) => (
         <Space>
           <Tooltip title="Изменить" placement="bottomRight">
             <Button
@@ -53,7 +54,7 @@ export const TableClient: React.FC<TableProps> = ({
               shape="circle"
               ghost
               onClick={() => openDrawer?.(id)}>
-              <EditOutlined/>
+              <EditOutlined />
             </Button>
           </Tooltip>
           <Tooltip title="Удалить" placement="bottomRight">
@@ -63,20 +64,24 @@ export const TableClient: React.FC<TableProps> = ({
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">
-              <Button type="primary" size="small" shape="circle"
-                      style={{color: 'tomato', borderColor: 'tomato'}} ghost>
-                <DeleteOutlined/>
+              <Button
+                type="primary"
+                size="small"
+                shape="circle"
+                style={{ color: 'tomato', borderColor: 'tomato' }}
+                ghost>
+                <DeleteOutlined />
               </Button>
             </Popconfirm>
           </Tooltip>
         </Space>
-      ))
+      ),
     },
   ];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination((prevPagination) => ({
+    setPagination(prevPagination => ({
       current: pagination.current ?? prevPagination.current,
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
@@ -86,15 +91,15 @@ export const TableClient: React.FC<TableProps> = ({
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
     getAllClient()
-      .then((data) => {
+      .then(data => {
         setAllClient(data);
         setIsLoading(false);
       })
-      .catch((error) => console.error("Ошибка при получении данных: ", error));
-  }, [])
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, []);
 
   useEffect(() => {
-    handleUpdateTable()
+    handleUpdateTable();
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
@@ -105,7 +110,11 @@ export const TableClient: React.FC<TableProps> = ({
       dataSource={allClient}
       loading={isLoading}
       onChange={handleChangeTable}
-      pagination={{...pagination, position: ['bottomCenter'], totalBoundaryShowSizeChanger: 10}}
+      pagination={{
+        ...pagination,
+        position: ['bottomCenter'],
+        totalBoundaryShowSizeChanger: 10,
+      }}
     />
   );
 };

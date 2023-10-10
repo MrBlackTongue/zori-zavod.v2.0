@@ -1,22 +1,22 @@
-import {TypeUnit} from "./TypeUnit";
-import {FormInstance} from "antd/lib/form";
+import { TypeUnit } from './TypeUnit';
+import { FormInstance } from 'antd/lib/form';
 
 export type TypeMeterType = {
-  id?: number,
-  title?: string,
-  cost?: number,
+  id?: number;
+  title?: string;
+  cost?: number;
   unit?: TypeUnit;
-}
+};
 
 export type TypeMeterTypeFormValue = {
-  id?: number,
-  title?: string,
-  cost?: number,
+  id?: number;
+  title?: string;
+  cost?: number;
   unit?: number;
-}
+};
 
 export interface FormMeterTypeProps {
-  form: FormInstance
+  form: FormInstance;
   allUnit: TypeUnit[];
   onChangeUnit: (value: string) => void;
   onClearUnit: () => void;

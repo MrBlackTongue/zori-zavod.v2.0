@@ -1,22 +1,24 @@
 import React from 'react';
-import {Form, InputNumber, Modal, Button} from 'antd';
-import {CreateModalProps, TypePaymentFormValue} from '../../../types';
-import {useFormHandler} from '../../../hooks';
+import { Button, Form, InputNumber, Modal } from 'antd';
+import { CreateModalProps, TypePaymentFormValue } from '../../../types';
+import { useFormHandler } from '../../../hooks';
 
-export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePaymentFormValue>> = ({
-                                                                                          isOpen,
-                                                                                          createItem,
-                                                                                          onCancel,
-                                                                                        }) => {
+export const ReplenishBalanceModal: React.FC<
+  CreateModalProps<TypePaymentFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   const amounts = [500, 1000, 1500, 2990];
 
   const handleAmountSelection = (amount: number) => {
-    form.setFieldsValue({amount: amount});
+    form.setFieldsValue({ amount: amount });
   };
 
   return (
@@ -28,22 +30,20 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePaymentFormVal
       centered
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
-      <Form form={form} style={{height: '100px', marginTop: '30px'}}>
+      onCancel={handleReset}>
+      <Form form={form} style={{ height: '100px', marginTop: '30px' }}>
         <Form.Item
           name="amount"
           label="Сумма"
           initialValue={500}
-          rules={[{required: true, message: 'введите сумму пополнения'}]}
-        >
+          rules={[{ required: true, message: 'введите сумму пополнения' }]}>
           <InputNumber
             min={100}
             step={100}
             size="large"
             placeholder="Сумма пополнения в рублях"
             addonAfter={'₽'}
-            style={{width: '100%'}}
+            style={{ width: '100%' }}
           />
         </Form.Item>
         <div
@@ -52,10 +52,13 @@ export const ReplenishBalanceModal: React.FC<CreateModalProps<TypePaymentFormVal
             justifyContent: 'space-around',
             margin: '-15px 0 0 63px',
             width: '380px',
-          }}
-        >
-          {amounts.map((amount) => (
-            <Button key={amount} type="dashed" size="middle" onClick={() => handleAmountSelection(amount)}>
+          }}>
+          {amounts.map(amount => (
+            <Button
+              key={amount}
+              type="dashed"
+              size="middle"
+              onClick={() => handleAmountSelection(amount)}>
               {`${amount} ₽`}
             </Button>
           ))}

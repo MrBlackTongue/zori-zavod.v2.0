@@ -1,18 +1,20 @@
-import React from "react";
-import {CreateModalProps, TypeClientFormValue} from "../../../types";
-import {Form, Modal} from "antd";
-import {useFormHandler} from "../../../hooks";
-import {FormClient} from "./FormClient";
+import React from 'react';
+import { CreateModalProps, TypeClientFormValue } from '../../../types';
+import { Form, Modal } from 'antd';
+import { useFormHandler } from '../../../hooks';
+import { FormClient } from './FormClient';
 
-export const CreateModalClient: React.FC<CreateModalProps<TypeClientFormValue>> = ({
-                                                                                     isOpen,
-                                                                                     createItem,
-                                                                                     onCancel,
-                                                                                   }) => {
+export const CreateModalClient: React.FC<
+  CreateModalProps<TypeClientFormValue>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   return (
     <Modal
@@ -22,11 +24,8 @@ export const CreateModalClient: React.FC<CreateModalProps<TypeClientFormValue>> 
       width={500}
       open={isOpen}
       onOk={handleSubmit}
-      onCancel={handleReset}
-    >
-      <FormClient
-        form={form}
-      />
+      onCancel={handleReset}>
+      <FormClient form={form} />
     </Modal>
-  )
-}
+  );
+};

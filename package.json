@@ -49,6 +49,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/antd": "^1.0.0",
     "eslint": "^8.43.0",
+    "prettier": "^3.0.3",
     "serve": "^14.2.0"
   }
 }

@@ -1,33 +1,37 @@
-import React, {useEffect, useCallback} from "react";
-import {Form, Drawer, Space, Button} from "antd";
-import {UpdateDrawerProps, TypePurchaseFormValue} from "../../../types";
-import {getPurchaseById} from "../../../services";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypePurchaseFormValue, UpdateDrawerProps } from '../../../types';
+import { getPurchaseById } from '../../../services';
 import dayjs from 'dayjs';
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormPurchase} from "./FormPurchase";
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormPurchase } from './FormPurchase';
 
-export const UpdateDrawerPurchase: React.FC<UpdateDrawerProps<TypePurchaseFormValue>> = ({
-                                                                                           isOpen,
-                                                                                           selectedItemId,
-                                                                                           onCancel,
-                                                                                           updateItem,
-                                                                                         }) => {
+export const UpdateDrawerPurchase: React.FC<
+  UpdateDrawerProps<TypePurchaseFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allProduct} = useFetchAllData({depsProduct: isOpen});
+  const { allProduct } = useFetchAllData({ depsProduct: isOpen });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Хук для управления полем product
-  const {onChangeSelect, onClearSelect, onSearchSelect} = useFormSelect(form, 'product');
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'product',
+  );
 
   // Функция для получения данных о закупке по id и обновления формы
   const handleGetPurchase = useCallback((): void => {
     if (selectedItemId) {
       getPurchaseById(selectedItemId)
-        .then((data) => {
+        .then(data => {
           form.setFieldsValue({
             ...data,
             date: dayjs(data?.date),
@@ -35,7 +39,7 @@ export const UpdateDrawerPurchase: React.FC<UpdateDrawerProps<TypePurchaseFormVa
             paid: data?.paid ?? false,
           });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error))
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
   }, [selectedItemId, form]);
 
@@ -58,8 +62,7 @@ export const UpdateDrawerPurchase: React.FC<UpdateDrawerProps<TypePurchaseFormVa
             Сохранить
           </Button>
         </Space>
-      }
-    >
+      }>
       <FormPurchase
         form={form}
         allProduct={allProduct}
@@ -68,5 +71,5 @@ export const UpdateDrawerPurchase: React.FC<UpdateDrawerProps<TypePurchaseFormVa
         onSearchProduct={onSearchSelect}
       />
     </Drawer>
-  )
-}
+  );
+};

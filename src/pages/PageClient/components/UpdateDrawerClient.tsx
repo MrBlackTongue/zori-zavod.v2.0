@@ -1,35 +1,36 @@
-import React, {useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeClientFormValue} from "../../../types";
-import {getClientById} from "../../../services";
-import {useFormHandler} from "../../../hooks";
-import {FormClient} from "./FormClient";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeClientFormValue, UpdateDrawerProps } from '../../../types';
+import { getClientById } from '../../../services';
+import { useFormHandler } from '../../../hooks';
+import { FormClient } from './FormClient';
 
-export const UpdateDrawerClient: React.FC<UpdateDrawerProps<TypeClientFormValue>> = ({
-                                                                                       isOpen,
-                                                                                       selectedItemId,
-                                                                                       onCancel,
-                                                                                       updateItem,
-                                                                                     }) => {
+export const UpdateDrawerClient: React.FC<
+  UpdateDrawerProps<TypeClientFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetClient = useCallback((): void => {
     if (selectedItemId) {
       getClientById(selectedItemId)
-        .then((data) => {
-          form.setFieldsValue({...data});
+        .then(data => {
+          form.setFieldsValue({ ...data });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [selectedItemId, form])
+  }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetClient()
+      handleGetClient();
     }
   }, [isOpen, selectedItemId, handleGetClient]);
 
@@ -46,11 +47,8 @@ export const UpdateDrawerClient: React.FC<UpdateDrawerProps<TypeClientFormValue>
             Сохранить
           </Button>
         </Space>
-      }
-    >
-      <FormClient
-        form={form}
-      />
+      }>
+      <FormClient form={form} />
     </Drawer>
-  )
-}
+  );
+};

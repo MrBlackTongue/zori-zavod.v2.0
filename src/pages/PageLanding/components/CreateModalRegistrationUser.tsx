@@ -1,44 +1,34 @@
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 import {
-  LockOutlined,
-  UserOutlined,
-  EyeTwoTone,
   EyeInvisibleOutlined,
+  EyeTwoTone,
+  LockOutlined,
   MailOutlined,
-  PhoneOutlined
+  PhoneOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
-import {Button, Form, Input, Modal} from 'antd';
-import {useNavigate} from "react-router-dom";
-import '../../../App.css'
-import {CreateModalProps, TypeUserProfile} from "../../../types";
-import {useFormHandler} from "../../../hooks";
+import { Button, Form, Input, Modal } from 'antd';
+import '../../../App.css';
+import { CreateModalProps, TypeUserProfile } from '../../../types';
+import { useFormHandler } from '../../../hooks';
 
-export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProfile>> = ({
-                                                                                           isOpen,
-                                                                                           createItem,
-                                                                                           onCancel,
-                                                                                         }) => {
+export const CreateModalRegistrationUser: React.FC<
+  CreateModalProps<TypeUserProfile>
+> = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
 
   // Хук для отправки формы и отмены ввода
-  const {handleReset} = useFormHandler(form, createItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    createItem,
+    onCancel,
+  );
 
   // Скрыть показать пароль
   const iconRender = useCallback(
-    (visible: boolean) => visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>, []
+    (visible: boolean) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />),
+    [],
   );
-
-  const handleSubmit = (): void => {
-    form
-      .validateFields()
-      .then((values) => {
-        createItem(values as TypeUserProfile);
-        form.resetFields();
-        navigate('/employee');
-      })
-      .catch((error) => console.log('Validate Failed:', error));
-  };
 
   return (
     <Modal
@@ -47,15 +37,10 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
       centered
       open={isOpen}
       onCancel={handleReset}
-      maskStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
-    >
-      <Form
-        form={form}
-        className="registration-form"
-        onFinish={handleSubmit}
-      >
+      maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}>
+      <Form form={form} className="registration-form" onFinish={handleSubmit}>
         <Form.Item>
-          <div className='registration-title'>Регистрация</div>
+          <div className="registration-title">Регистрация</div>
         </Form.Item>
 
         <Form.Item
@@ -65,11 +50,11 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
             //   type: 'email',
             //   message: 'введите верный Email адрес',
             // },
-            {required: true, message: 'введите свой Email',},]}
-        >
+            { required: true, message: 'введите свой Email' },
+          ]}>
           <Input
             size="large"
-            prefix={<MailOutlined className="input-prefix-icon"/>}
+            prefix={<MailOutlined className="input-prefix-icon" />}
             placeholder="Email"
           />
         </Form.Item>
@@ -77,7 +62,7 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
         <Form.Item name="firstname">
           <Input
             size="large"
-            prefix={<UserOutlined className="input-prefix-icon"/>}
+            prefix={<UserOutlined className="input-prefix-icon" />}
             placeholder="Ваше имя"
           />
         </Form.Item>
@@ -85,11 +70,11 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
         <Form.Item name="phone">
           <Input
             size="large"
-            prefix={<PhoneOutlined className="input-prefix-icon"/>}
+            prefix={<PhoneOutlined className="input-prefix-icon" />}
             placeholder="Телефон"
-            style={{width: '100%'}}
+            style={{ width: '100%' }}
             maxLength={11}
-            onKeyPress={(e) => {
+            onKeyPress={e => {
               if (!/\d/.test(e.key)) {
                 e.preventDefault();
               }
@@ -99,11 +84,10 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
 
         <Form.Item
           name="password"
-          rules={[{required: true, message: 'введите ваш пароль'}]}
-        >
+          rules={[{ required: true, message: 'введите ваш пароль' }]}>
           <Input.Password
             size="large"
-            prefix={<LockOutlined className="input-prefix-icon"/>}
+            prefix={<LockOutlined className="input-prefix-icon" />}
             type="password"
             placeholder="Пароль"
             visibilityToggle
@@ -115,19 +99,23 @@ export const CreateModalRegistrationUser: React.FC<CreateModalProps<TypeUserProf
           <Button
             type="primary"
             htmlType="submit"
-            className="registration-form-button"
-          >
+            className="registration-form-button">
             Зарегистрироваться
           </Button>
-          <div className='registration-login'>
-            <a href="/employee" className='registration-login-text'>У меня уже есть аккаунт</a>
+          <div className="registration-login">
+            <a href="/employee" className="registration-login-text">
+              У меня уже есть аккаунт
+            </a>
           </div>
-          <div className='registration-text-offer'>
+          <div className="registration-text-offer">
             Регистрируясь в сервисе Zolotenkov, вы принимаете условия
-            <a href="/oferta.pdf" target="_blank" rel="noopener noreferrer"> договора-оферты</a>
+            <a href="/oferta.pdf" target="_blank" rel="noopener noreferrer">
+              {' '}
+              договора-оферты
+            </a>
           </div>
         </Form.Item>
       </Form>
     </Modal>
   );
-}
+};

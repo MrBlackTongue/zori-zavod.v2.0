@@ -1,44 +1,67 @@
-import {TypeApiResponse, TypeProductionType} from "../types";
-import {PRODUCTION_TYPE} from "./apiEndpoints";
+import {TypeApiResponse, TypeProductionType} from '../types';
+import {PRODUCTION_TYPE} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from "./api";
+import {api} from './api';
 
 // Получить список типов производства
-export function getAllProductionType(): Promise<TypeProductionType[]> {
-  return api.get(PRODUCTION_TYPE)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllProductionType(): Promise<TypeProductionType[]> {
+  try {
+    const response = await api.get(PRODUCTION_TYPE);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить данные типа производства по id
-export function getProductionTypeById(id: number): Promise<TypeProductionType | undefined> {
-  return api.get(`${PRODUCTION_TYPE}/${id}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getProductionTypeById(
+  id: number,
+): Promise<TypeProductionType | undefined> {
+  try {
+    const response = await api.get(`${PRODUCTION_TYPE}/${id}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Добавить новый тип производства
-export function createProductionType(data: TypeProductionType): Promise<TypeApiResponse> {
-  return api.post(PRODUCTION_TYPE, data)
-    .then(handleResponseCreateMessage)
-    .catch(handleErrorResponseMessage);
+export async function createProductionType(
+  data: TypeProductionType,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.post(PRODUCTION_TYPE, data);
+    return handleResponseCreateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Удалить тип производства по id
-export function deleteProductionTypeById(id: number): Promise<TypeApiResponse> {
-  return api.delete(`${PRODUCTION_TYPE}/${id}`)
-    .then(handleResponseDeleteMessage)
-    .catch(handleErrorResponseMessage);
+export async function deleteProductionTypeById(
+  id: number,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.delete(`${PRODUCTION_TYPE}/${id}`);
+    return handleResponseDeleteMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Редактировать тип производства
-export function updateProductionType(data: TypeProductionType): Promise<TypeApiResponse> {
-  return api.put(PRODUCTION_TYPE, data)
-    .then(handleResponseUpdateMessage)
-    .catch(handleErrorResponseMessage);
+export async function updateProductionType(
+  data: TypeProductionType,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.put(PRODUCTION_TYPE, data);
+    return handleResponseUpdateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }

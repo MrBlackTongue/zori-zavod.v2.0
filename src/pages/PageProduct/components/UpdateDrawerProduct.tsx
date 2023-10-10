@@ -1,23 +1,27 @@
-import React, {useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeProductFormValue} from "../../../types";
-import {getProductById} from "../../../services";
-import {useFetchAllData, useFormSelect, useFormHandler} from "../../../hooks";
-import {FormProduct} from "./FormProduct";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeProductFormValue, UpdateDrawerProps } from '../../../types';
+import { getProductById } from '../../../services';
+import { useFetchAllData, useFormHandler, useFormSelect } from '../../../hooks';
+import { FormProduct } from './FormProduct';
 
-export const UpdateDrawerProduct: React.FC<UpdateDrawerProps<TypeProductFormValue>> = ({
-                                                                                         isOpen,
-                                                                                         selectedItemId,
-                                                                                         onCancel,
-                                                                                         updateItem,
-                                                                                       }) => {
+export const UpdateDrawerProduct: React.FC<
+  UpdateDrawerProps<TypeProductFormValue>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const {allUnit, allProductGroup} = useFetchAllData({depsUnit: isOpen, depsProductGroup: isOpen});
+  const { allUnit, allProductGroup } = useFetchAllData({
+    depsUnit: isOpen,
+    depsProductGroup: isOpen,
+  });
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
   // Хук для управления полем unit
   const {
@@ -33,24 +37,25 @@ export const UpdateDrawerProduct: React.FC<UpdateDrawerProps<TypeProductFormValu
     onSearchSelect: onSearchProductGroup,
   } = useFormSelect(form, 'productGroup');
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetProduct = useCallback((): void => {
     if (selectedItemId) {
       getProductById(selectedItemId)
-        .then((data) => {
+        .then(data => {
           form.setFieldsValue({
             ...data,
             unit: data?.unit?.id === 0 ? '' : data?.unit?.id,
-            productGroup: data?.productGroup?.id === 0 ? '' : data?.productGroup?.id,
-          })
+            productGroup:
+              data?.productGroup?.id === 0 ? '' : data?.productGroup?.id,
+          });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error))
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [selectedItemId, form])
+  }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetProduct()
+      handleGetProduct();
     }
   }, [isOpen, selectedItemId, handleGetProduct]);
 
@@ -67,8 +72,7 @@ export const UpdateDrawerProduct: React.FC<UpdateDrawerProps<TypeProductFormValu
             Сохранить
           </Button>
         </Space>
-      }
-    >
+      }>
       <FormProduct
         form={form}
         allUnit={allUnit}
@@ -81,5 +85,5 @@ export const UpdateDrawerProduct: React.FC<UpdateDrawerProps<TypeProductFormValu
         onSearchProductGroup={onSearchProductGroup}
       />
     </Drawer>
-  )
-}
+  );
+};

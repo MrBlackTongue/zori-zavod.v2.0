@@ -1,35 +1,36 @@
-import React, {useEffect, useCallback} from "react";
-import {Button, Drawer, Form, Space} from "antd";
-import {UpdateDrawerProps, TypeEmployee} from "../../../types";
-import {getEmployeeById} from "../../../services";
-import {FormEmployee} from "./FormEmployee";
-import {useFormHandler} from "../../../hooks";
+import React, { useCallback, useEffect } from 'react';
+import { Button, Drawer, Form, Space } from 'antd';
+import { TypeEmployee, UpdateDrawerProps } from '../../../types';
+import { getEmployeeById } from '../../../services';
+import { FormEmployee } from './FormEmployee';
+import { useFormHandler } from '../../../hooks';
 
-export const UpdateDrawerEmployee: React.FC<UpdateDrawerProps<TypeEmployee>> = ({
-                                                                                  isOpen,
-                                                                                  selectedItemId,
-                                                                                  onCancel,
-                                                                                  updateItem,
-                                                                                }) => {
+export const UpdateDrawerEmployee: React.FC<
+  UpdateDrawerProps<TypeEmployee>
+> = ({ isOpen, selectedItemId, onCancel, updateItem }) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
-  const {handleSubmit, handleReset} = useFormHandler(form, updateItem, onCancel);
+  const { handleSubmit, handleReset } = useFormHandler(
+    form,
+    updateItem,
+    onCancel,
+  );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetEmployee = useCallback((): void => {
     if (selectedItemId) {
       getEmployeeById(selectedItemId)
-        .then((data) => {
-          form.setFieldsValue({...data});
+        .then(data => {
+          form.setFieldsValue({ ...data });
         })
-        .catch((error) => console.error("Ошибка при получении данных: ", error));
+        .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [selectedItemId, form])
+  }, [selectedItemId, form]);
 
   useEffect(() => {
     if (isOpen && selectedItemId) {
-      handleGetEmployee()
+      handleGetEmployee();
     }
   }, [isOpen, selectedItemId, handleGetEmployee]);
 
@@ -46,11 +47,8 @@ export const UpdateDrawerEmployee: React.FC<UpdateDrawerProps<TypeEmployee>> = (
             Сохранить
           </Button>
         </Space>
-      }
-    >
-      <FormEmployee
-        form={form}
-      />
+      }>
+      <FormEmployee form={form} />
     </Drawer>
-  )
-}
+  );
+};
