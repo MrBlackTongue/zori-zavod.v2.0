@@ -29,7 +29,7 @@ export const PageOperationAccounting: React.FC = () => {
   const { Title } = Typography;
   const { Option } = Select;
 
-  // Обновление таблицы, открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -76,7 +76,7 @@ export const PageOperationAccounting: React.FC = () => {
     setSelectedProductionTypeIds(values || []);
   };
 
-  // Поиск по селекту
+  // Поиск по select
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   };
@@ -99,7 +99,7 @@ export const PageOperationAccounting: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedOperationAccountingId(id);
     setIsDrawerOpen(true);

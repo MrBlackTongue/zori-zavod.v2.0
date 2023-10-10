@@ -17,7 +17,7 @@ import { renderNumber } from '../../../utils';
 export const TableEmployeeReport: React.FC<
   TableProps<TypeEmployeeReportFilter>
 > = ({ filter }) => {
-  // Лоудер и список всех отчетов по операциям
+  // Spinner и список всех отчетов по операциям
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allEmployeeReport, setAllEmployeeReport] =
     useState<TypeOperationReport[]>();

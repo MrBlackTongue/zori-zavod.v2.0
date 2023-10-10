@@ -19,7 +19,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
   searchText,
   onDelete,
 }) => {
-  // Лоудер и список всех приемок
+  // Spinner и список всех приемок
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allAcceptance, setAllAcceptance] = useState<TypeAcceptance[]>();
 

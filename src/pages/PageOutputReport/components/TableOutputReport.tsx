@@ -16,7 +16,7 @@ import { renderNumber } from '../../../utils';
 export const TableOutputReport: React.FC<
   TableProps<TypeOutputReportFilter>
 > = ({ filter }) => {
-  // Лоудер и список всех output
+  // Spinner и список всех output
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOutputReport, setAllOutputReport] = useState<TypeOutputReport[]>();
 

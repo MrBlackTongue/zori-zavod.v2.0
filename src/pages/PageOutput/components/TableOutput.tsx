@@ -11,7 +11,7 @@ export const TableOutput: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех единиц измерения
+  // Spinner и список всех единиц измерения
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOutput, setAllOutput] = useState<TypeOutput[]>();
 

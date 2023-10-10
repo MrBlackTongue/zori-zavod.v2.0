@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Typography, Space, Button, FloatButton } from 'antd';
+import { Button, FloatButton, Space, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import '../../App.css';
 import {
   createProductionType,
-  updateProductionType,
   deleteProductionTypeById,
+  updateProductionType,
 } from '../../services';
 import { TypeProductionType, TypeProductionTypeFormValue } from '../../types';
 import { TableProductionType } from './components/TableProductionType';
@@ -15,7 +15,7 @@ import { UpdateDrawerProductionType } from './components/UpdateDrawerProductionT
 export const PageProductionType: React.FC = () => {
   const { Title } = Typography;
 
-  // Обновление таблицы, открыть/закрыть модальное окно, дравер
+  // Обновление таблицы, открыть/закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -37,7 +37,7 @@ export const PageProductionType: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedProductionTypeId(id);
     setIsDrawerOpen(true);

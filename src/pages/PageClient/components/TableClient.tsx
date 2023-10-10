@@ -11,7 +11,7 @@ export const TableClient: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех клиентов
+  // Spinner и список всех клиентов
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allClient, setAllClient] = useState<TypeClient[]>();
 

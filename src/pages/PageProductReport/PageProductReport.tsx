@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
-  Typography,
-  Space,
-  FloatButton,
   DatePicker,
+  FloatButton,
   Select,
+  Space,
   Tooltip,
+  Typography,
 } from 'antd';
 import { TableProductReport } from './components/TableProductReport';
 import '../../App.css';
@@ -40,7 +40,7 @@ export const PageProductReport: React.FC = () => {
     [selectedDateFrom, selectedDateTo, selectedProductId],
   );
 
-  // Поиск по селекту
+  // Поиск по select
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   };

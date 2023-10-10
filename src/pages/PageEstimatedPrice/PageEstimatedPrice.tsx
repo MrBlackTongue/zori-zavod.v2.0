@@ -39,7 +39,7 @@ export const PageEstimatedPrice: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedEstimatedPriceId(id);
     setIsDrawerOpen(true);

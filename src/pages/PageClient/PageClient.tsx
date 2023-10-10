@@ -11,7 +11,7 @@ import { UpdateDrawerClient } from './components/UpdateDrawerClient';
 export const PageClient: React.FC = () => {
   const { Title } = Typography;
 
-  // Обновление таблицы, открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -31,7 +31,7 @@ export const PageClient: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedClientId(id);
     setIsDrawerOpen(true);

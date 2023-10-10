@@ -12,7 +12,7 @@ export const TableMeterRecord: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех типов счетчиков
+  // Spinner и список всех типов счетчиков
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allMeterRecord, setAllMeterRecord] = useState<TypeMeterRecord[]>();
 

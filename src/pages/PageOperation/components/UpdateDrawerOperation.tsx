@@ -26,7 +26,7 @@ export const UpdateDrawerOperation: React.FC<
     'unit',
   );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetOperation = useCallback((): void => {
     if (selectedItemId) {
       getOperationById(selectedItemId)

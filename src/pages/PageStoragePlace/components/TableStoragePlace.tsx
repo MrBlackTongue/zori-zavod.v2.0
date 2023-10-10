@@ -10,7 +10,7 @@ export const TableStoragePlace: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех мест хранения
+  // Spinner и список всех мест хранения
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allStoragePlace, setAllStoragePlace] = useState<TypeStoragePlace[]>();
 

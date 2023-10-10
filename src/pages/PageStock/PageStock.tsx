@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import {
-  Typography,
-  Space,
   Button,
+  FloatButton,
   Input,
   Select,
-  FloatButton,
+  Space,
   Tooltip,
+  Typography,
 } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import '../../App.css';
 import {
   createStock,
-  updateStock,
   deleteStockById,
   getStockById,
+  updateStock,
 } from '../../services';
 import { TypeStock, TypeStockFormValue } from '../../types';
 import { TableStock } from './components/TableStock';
@@ -26,7 +26,7 @@ export const PageStock: React.FC = () => {
   const { Title } = Typography;
   const { Option } = Select;
 
-  // Обновление таблицы, открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -47,7 +47,7 @@ export const PageStock: React.FC = () => {
     setSelectedProductGroupId(value || undefined);
   };
 
-  // Поиск по селекту
+  // Поиск по select
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   };
@@ -66,7 +66,7 @@ export const PageStock: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     void getStockById(id).then(data => setSelectedStock(data));
     setIsDrawerOpen(true);

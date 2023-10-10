@@ -29,7 +29,7 @@ export const UpdateDrawerOperationTimesheet: React.FC<
     'employee',
   );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetOperationTimesheet = useCallback((): void => {
     if (selectedItemId) {
       getOperationTimesheetById(selectedItemId)

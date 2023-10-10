@@ -16,7 +16,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
   idDetail,
   onDelete,
 }) => {
-  // Лоудер и списка всех товаров в отгрузке
+  // Spinner и списка всех товаров в отгрузке
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allShipmentMovement, setAllShipmentMovement] =
     useState<TypeShipmentProductMovement[]>();

@@ -15,7 +15,7 @@ import { renderNumber } from '../../../utils';
 
 export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
   ({ isUpdateTable, onDelete, idDetail }) => {
-    // Лоудер и все движение товара на производстве
+    // Spinner и все движение товара на производстве
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [allProductionProductMovement, setAllProductionProductMovement] =
       useState<TypeProductionProductMovement[]>();

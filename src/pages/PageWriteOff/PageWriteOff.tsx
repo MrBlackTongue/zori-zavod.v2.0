@@ -16,7 +16,7 @@ import { DetailDrawerWriteOff } from './components/DetailDrawerWriteOff';
 export const PageWriteOff: React.FC = () => {
   const { Title } = Typography;
 
-  // Обновление таблицы, открыть закрыть модальное окно, дравер, детальный дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer, детальный drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -39,13 +39,13 @@ export const PageWriteOff: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedWriteOffId(id);
     setIsDrawerOpen(true);
   };
 
-  // Открыть детальный дравер
+  // Открыть детальный drawer
   const openDetailDrawer = (writeOffId: number): void => {
     setSelectedWriteOffId(writeOffId);
     setIsBottomDrawerOpen(true);

@@ -27,7 +27,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   searchText,
   filter,
 }) => {
-  // Лоудер и список всех остатков
+  // Spinner и список всех остатков
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allStock, setAllStock] = useState<TypeStock[]>();
 

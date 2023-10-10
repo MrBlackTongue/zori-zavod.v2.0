@@ -1,55 +1,67 @@
-import { TypeApiResponse, TypeMeterRecord } from '../types';
-import { METER_RECORD } from './apiEndpoints';
+import {TypeApiResponse, TypeMeterRecord} from '../types';
+import {METER_RECORD} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api';
+import {api} from './api';
 
 // Получить список всех записей счетчика
-export function getAllMeterRecord(): Promise<TypeMeterRecord[]> {
-  return api
-    .get(METER_RECORD)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllMeterRecord(): Promise<TypeMeterRecord[]> {
+  try {
+    const response = await api.get(METER_RECORD);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить запись счетчика по id
-export function getMeterRecordById(
+export async function getMeterRecordById(
   id: number,
 ): Promise<TypeMeterRecord | undefined> {
-  return api
-    .get(`${METER_RECORD}/${id}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+  try {
+    const response = await api.get(`${METER_RECORD}/${id}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Создать новую запись счетчика
-export function createMeterRecord(
+export async function createMeterRecord(
   data: TypeMeterRecord,
 ): Promise<TypeApiResponse> {
-  return api
-    .post(METER_RECORD, data)
-    .then(handleResponseCreateMessage)
-    .catch(handleErrorResponseMessage);
+  try {
+    const response = await api.post(METER_RECORD, data);
+    return handleResponseCreateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Удалить запись счетчика по id
-export function deleteMeterRecordById(id: number): Promise<TypeApiResponse> {
-  return api
-    .delete(`${METER_RECORD}/${id}`)
-    .then(handleResponseDeleteMessage)
-    .catch(handleErrorResponseMessage);
+export async function deleteMeterRecordById(
+  id: number,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.delete(`${METER_RECORD}/${id}`);
+    return handleResponseDeleteMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Редактировать запись счетчика
-export function updateMeterRecord(
+export async function updateMeterRecord(
   data: TypeMeterRecord,
 ): Promise<TypeApiResponse> {
-  return api
-    .put(METER_RECORD, data)
-    .then(handleResponseUpdateMessage)
-    .catch(handleErrorResponseMessage);
+  try {
+    const response = await api.put(METER_RECORD, data);
+    return handleResponseUpdateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }

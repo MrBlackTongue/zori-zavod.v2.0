@@ -15,7 +15,7 @@ import { UpdateDrawerStoragePlace } from './components/UpdateDrawerStoragePlace'
 export const PageStoragePlace: React.FC = () => {
   const { Title } = Typography;
 
-  // Обновление таблицы, открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -36,7 +36,7 @@ export const PageStoragePlace: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedStoragePlaceId(id);
     setIsDrawerOpen(true);

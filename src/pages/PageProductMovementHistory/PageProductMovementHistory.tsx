@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Space, Select, FloatButton, Tooltip } from 'antd';
+import { FloatButton, Select, Space, Tooltip, Typography } from 'antd';
 import '../../App.css';
 import { TableProductMovementHistory } from './components/TableProductMovementHistory';
 import { useFetchAllData } from '../../hooks';
@@ -14,12 +14,12 @@ export const PageProductMovementHistory: React.FC = () => {
   // id выбранного остатка на складе
   const [selectedStockId, setSelectedStockId] = useState<number>();
 
-  // Изменить выбраный остаток на складе
+  // Изменить выбранный остаток на складе
   const onChangeStock = (value: any): void => {
     setSelectedStockId(value || undefined);
   };
 
-  // Поиск по селекту
+  // Поиск по select
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   };

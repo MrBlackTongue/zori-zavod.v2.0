@@ -10,7 +10,7 @@ export const TableUnit: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех единиц измерения
+  // Spinner и список всех единиц измерения
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allUnit, setAllUnit] = useState<TypeUnit[]>();
 

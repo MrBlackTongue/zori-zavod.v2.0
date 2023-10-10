@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Typography, Space, Button, FloatButton } from 'antd';
+import { Button, FloatButton, Space, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import '../../App.css';
-import { deleteOutputById, createOutput, updateOutput } from '../../services';
+import { createOutput, deleteOutputById, updateOutput } from '../../services';
 import { TypeOutput, TypeOutputFormValue } from '../../types';
 import { TableOutput } from './components/TableOutput';
 import { CreateModalOutput } from './components/CreateModalOutput';
@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 export const PageOutput: React.FC = () => {
   const { Title } = Typography;
 
-  // Обновление таблицы, открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -33,7 +33,7 @@ export const PageOutput: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedOutputId(id);
     setIsDrawerOpen(true);

@@ -15,7 +15,7 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех расчетных цен
+  // Spinner и список всех расчетных цен
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allEstimatedPrice, setAllEstimatedPrices] =
     useState<TypeEstimatedPrice[]>();

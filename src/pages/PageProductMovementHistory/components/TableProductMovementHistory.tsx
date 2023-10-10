@@ -18,7 +18,7 @@ import {
 export const TableProductMovementHistory: React.FC<
   TableProps<TypeProductMovementHistoryFilter>
 > = ({ filter }) => {
-  // Лоудер и список всей истории движения товаров
+  // Spinner и список всей истории движения товаров
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductMovementHistory, setAllProductMovementHistory] =
     useState<TypeProductMovementHistory[]>();

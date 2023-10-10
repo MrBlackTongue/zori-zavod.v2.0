@@ -26,7 +26,7 @@ export const UpdateDrawerProductBatch: React.FC<
     'product',
   );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetProductBatch = useCallback((): void => {
     if (selectedItemId) {
       getProductBatchById(selectedItemId)

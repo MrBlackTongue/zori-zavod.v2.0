@@ -17,7 +17,7 @@ export const UpdateDrawerClient: React.FC<
     onCancel,
   );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetClient = useCallback((): void => {
     if (selectedItemId) {
       getClientById(selectedItemId)

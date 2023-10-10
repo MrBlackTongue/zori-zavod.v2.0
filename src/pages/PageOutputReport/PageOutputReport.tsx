@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Typography, Space, Select, Checkbox, Tooltip } from 'antd';
+import React, { useMemo, useState } from 'react';
+import { Checkbox, Select, Space, Tooltip, Typography } from 'antd';
 import { TableOutputReport } from './components/TableOutputReport';
 import '../../App.css';
 import { useFetchAllData } from '../../hooks';
@@ -30,7 +30,7 @@ export const PageOutputReport: React.FC = () => {
     [selectedOutputId, withGrouping],
   );
 
-  // Поиск по селекту
+  // Поиск по select
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   };

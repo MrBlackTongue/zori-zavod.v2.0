@@ -1,57 +1,77 @@
-import { TypeApiResponse, TypePurchase } from '../types';
-import { PRODUCT, PURCHASE } from './apiEndpoints';
+import {TypeApiResponse, TypePurchase} from '../types';
+import {PRODUCT, PURCHASE} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api';
+import {api} from './api';
 
 // Получить список всех закупок
-export function getAllPurchase(): Promise<TypePurchase[]> {
-  return api
-    .get(PURCHASE)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllPurchase(): Promise<TypePurchase[]> {
+  try {
+    const response = await api.get(PURCHASE);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить данные закупки по id
-export function getPurchaseById(id: number): Promise<TypePurchase | undefined> {
-  return api
-    .get(`${PURCHASE}/${id}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getPurchaseById(
+  id: number,
+): Promise<TypePurchase | undefined> {
+  try {
+    const response = await api.get(`${PURCHASE}/${id}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Добавить новую закупку
-export function createPurchase(data: TypePurchase): Promise<TypeApiResponse> {
-  return api
-    .post(PURCHASE, data)
-    .then(handleResponseCreateMessage)
-    .catch(handleErrorResponseMessage);
+export async function createPurchase(
+  data: TypePurchase,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.post(PURCHASE, data);
+    return handleResponseCreateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Удалить закупку по id
-export function deletePurchaseById(id: number): Promise<TypeApiResponse> {
-  return api
-    .delete(`${PURCHASE}/${id}`)
-    .then(handleResponseDeleteMessage)
-    .catch(handleErrorResponseMessage);
+export async function deletePurchaseById(id: number): Promise<TypeApiResponse> {
+  try {
+    const response = await api.delete(`${PURCHASE}/${id}`);
+    return handleResponseDeleteMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Редактировать закупку
-export function updatePurchase(data: TypePurchase): Promise<TypeApiResponse> {
-  return api
-    .put(PURCHASE, data)
-    .then(handleResponseUpdateMessage)
-    .catch(handleErrorResponseMessage);
+export async function updatePurchase(
+  data: TypePurchase,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.put(PURCHASE, data);
+    return handleResponseUpdateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить список всех отфильтрованных закупок по названию
-export function getAllPurchaseByTitle(title: string): Promise<TypePurchase[]> {
-  return api
-    .get(`${PURCHASE + PRODUCT}/${title}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllPurchaseByTitle(
+  title: string,
+): Promise<TypePurchase[]> {
+  try {
+    const response = await api.get(`${PURCHASE + PRODUCT}/${title}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }

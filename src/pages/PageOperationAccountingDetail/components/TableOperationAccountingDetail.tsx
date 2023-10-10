@@ -14,7 +14,7 @@ import { renderNumber } from '../../../utils';
 
 export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo(
   ({ isUpdateTable, openDrawer, onDelete, idDetail }) => {
-    // Лоудер и учетная операция
+    // Spinner и учетная операция
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [operationAccounting, setOperationAccounting] =
       useState<TypeOperationAccounting>();

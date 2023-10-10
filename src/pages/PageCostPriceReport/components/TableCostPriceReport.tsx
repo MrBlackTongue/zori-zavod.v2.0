@@ -15,7 +15,7 @@ import { renderAsRuble } from '../../../utils';
 export const TableCostPriceReport: React.FC<
   TableProps<TypeCostPriceReportFilter>
 > = ({ filter }) => {
-  // Лоудер и список всех отчетов по себестоимости
+  // Spinner и список всех отчетов по себестоимости
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allCostPrice, setAllCostPrice] = useState<TypeCostPriceReport[]>();
 

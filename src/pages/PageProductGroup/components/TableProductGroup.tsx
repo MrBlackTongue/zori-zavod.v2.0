@@ -10,7 +10,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех групп товаров
+  // Spinner и список всех групп товаров
   const [loading, setLoading] = useState(false);
   const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
 

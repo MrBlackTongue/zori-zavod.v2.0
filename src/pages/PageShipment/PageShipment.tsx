@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Typography, Space, Button, FloatButton } from 'antd';
+import { Button, FloatButton, Space, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import '../../App.css';
 import {
   createShipment,
-  updateShipment,
   deleteShipmentById,
+  updateShipment,
 } from '../../services';
 import { TypeShipment, TypeShipmentFormValue } from '../../types';
 import { TableShipment } from './components/TableShipment';
@@ -20,7 +20,7 @@ export const PageShipment: React.FC = () => {
   // Обновление таблицы
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
-  // Состояния для контроля открытия/закрытия модалки и драверов
+  // Состояния для контроля открытия/закрытия modal и drawers
   const [openState, setOpenState] = useState({
     isModalOpen: false,
     isDrawerOpen: false,
@@ -43,13 +43,13 @@ export const PageShipment: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Функция открытия дравера редактирования отгрузки
+  // Функция открытия drawer редактирования отгрузки
   const openDrawer = (id: number): void => {
     setSelectedShipmentId(id);
     setOpenState({ ...openState, isDrawerOpen: true });
   };
 
-  // Функция открытия детального дравера отгрузки
+  // Функция открытия детального drawer отгрузки
   const openDetailDrawer = (shipmentId: number): void => {
     setSelectedShipmentId(shipmentId);
     setOpenState({ ...openState, isBottomDrawerOpen: true });

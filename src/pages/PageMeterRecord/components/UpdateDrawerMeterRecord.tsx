@@ -27,7 +27,7 @@ export const UpdateDrawerMeterRecord: React.FC<
     'meter',
   );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetMeterRecord = useCallback((): void => {
     if (selectedItemId) {
       getMeterRecordById(selectedItemId)

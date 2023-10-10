@@ -49,7 +49,7 @@ export const UpdateDrawerOperationAccounting: React.FC<
     onSearchSelect: onSearchProductionType,
   } = useFormSelect(form, 'productionType');
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetOperationAccounting = useCallback((): void => {
     if (selectedItemId) {
       getOperationAccountingById(selectedItemId)

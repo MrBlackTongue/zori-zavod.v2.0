@@ -18,7 +18,7 @@ export const TableProduct: React.FC<TableProps> = ({
   onDelete,
   searchText,
 }) => {
-  // Лоудер и список всех товаров
+  // Spinner и список всех товаров
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>();
 

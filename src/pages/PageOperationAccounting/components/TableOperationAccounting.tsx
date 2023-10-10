@@ -23,7 +23,7 @@ export const TableOperationAccounting: React.FC<
 > = ({ isUpdateTable, openDrawer, onDelete, filter }) => {
   const navigate = useNavigate();
 
-  // Лоудер и список всех учетных операций
+  // Spinner и список всех учетных операций
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOperationAccounting, setAllOperationAccounting] =
     useState<TypeOperationAccounting[]>();

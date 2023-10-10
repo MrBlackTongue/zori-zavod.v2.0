@@ -16,7 +16,7 @@ export const TableShipment: React.FC<TableProps> = ({
   onDelete,
   openDetailDrawer,
 }) => {
-  // Лоудер и список всех отгрузок
+  // Spinner и список всех отгрузок
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allShipment, setAllShipment] = useState<TypeShipment[]>();
 

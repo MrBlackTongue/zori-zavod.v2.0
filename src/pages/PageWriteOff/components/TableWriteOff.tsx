@@ -20,7 +20,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
   onDelete,
   openDetailDrawer,
 }) => {
-  // Лоудер и список всех списаний
+  // Spinner и список всех списаний
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allWriteOff, setAllWriteOff] = useState<TypeWriteOff[]>();
 

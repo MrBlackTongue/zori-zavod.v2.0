@@ -26,7 +26,7 @@ export const UpdateDrawerMeterType: React.FC<
     'unit',
   );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetMeterType = useCallback((): void => {
     if (selectedItemId) {
       getMeterTypeById(selectedItemId)

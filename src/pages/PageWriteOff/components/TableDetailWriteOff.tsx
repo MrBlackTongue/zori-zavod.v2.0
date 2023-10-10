@@ -12,7 +12,7 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
   idDetail,
   onDelete,
 }) => {
-  // Лоудер и список всех движений списания товара
+  // Spinner и список всех движений списания товара
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allWriteOffMovement, setAllWriteOffMovement] =
     useState<TypeWriteOffMovement[]>();

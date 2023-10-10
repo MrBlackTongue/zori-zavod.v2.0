@@ -43,7 +43,7 @@ export const PageEmployeeReport: React.FC = () => {
     [selectedDateFrom, selectedDateTo, selectedOperationId, selectedEmployeeId],
   );
 
-  // Поиск по селекту
+  // Поиск по select
   const onSearchSelect = (searchText: string, option: any) => {
     return option.label.toLowerCase().indexOf(searchText.toLowerCase()) >= 0;
   };

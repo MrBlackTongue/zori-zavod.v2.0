@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Typography, Space, Button, Input, FloatButton } from 'antd';
+import { Button, FloatButton, Input, Space, Typography } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import '../../App.css';
 import {
-  deletePurchaseById,
   createPurchase,
+  deletePurchaseById,
   updatePurchase,
 } from '../../services';
 import { TypePurchase, TypePurchaseFormValue } from '../../types';
@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 export const PagePurchase: React.FC = () => {
   const { Title } = Typography;
 
-  // Обновление таблицы, открыть закрыть модальное окно, дравер
+  // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -43,7 +43,7 @@ export const PagePurchase: React.FC = () => {
     setIsUpdateTable(prevState => !prevState);
   };
 
-  // Открыть дравер
+  // Открыть drawer
   const openDrawer = (id: number): void => {
     setSelectedPurchaseId(id);
     setIsDrawerOpen(true);

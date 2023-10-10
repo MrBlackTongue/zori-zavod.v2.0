@@ -12,7 +12,7 @@ import { renderNumber } from '../../../utils';
 
 export const TableOperationTimesheet: React.FC<TableProps> = React.memo(
   ({ isUpdateTable, openDrawer, onDelete, idDetail }) => {
-    // Лоудер и весь табель учета рабочего времени
+    // Spinner и весь табель учета рабочего времени
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [allOperationTimesheet, setAllOperationTimesheet] =
       useState<TypeOperationTimesheet[]>();

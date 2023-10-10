@@ -21,7 +21,7 @@ export const TablePurchase: React.FC<TableProps> = ({
   onDelete,
   searchText,
 }) => {
-  // Лоудер и список всех закупок
+  // Spinner и список всех закупок
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
 

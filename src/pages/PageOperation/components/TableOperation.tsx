@@ -11,7 +11,7 @@ export const TableOperation: React.FC<TableProps> = ({
   onDelete,
   searchText,
 }) => {
-  // Лоудер и список всех операций
+  // Spinner и список всех операций
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allOperation, setAllOperation] = useState<TypeOperation[]>();
 

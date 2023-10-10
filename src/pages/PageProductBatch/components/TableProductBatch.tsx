@@ -19,7 +19,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех партий товаров
+  // Spinner и список всех партий товаров
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>();
 

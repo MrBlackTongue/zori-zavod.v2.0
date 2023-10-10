@@ -17,7 +17,7 @@ export const UpdateDrawerEmployee: React.FC<
     onCancel,
   );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetEmployee = useCallback((): void => {
     if (selectedItemId) {
       getEmployeeById(selectedItemId)

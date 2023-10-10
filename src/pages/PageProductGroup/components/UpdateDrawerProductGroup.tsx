@@ -26,7 +26,7 @@ export const UpdateDrawerProductGroup: React.FC<
     'productGroup',
   );
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetParent = useCallback((): void => {
     if (selectedItemId) {
       getProductGroupById(selectedItemId)

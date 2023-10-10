@@ -10,7 +10,7 @@ import { renderAsRuble } from '../../../utils';
 export const TablePaymentHistory: React.FC = () => {
   const { Title } = Typography;
 
-  // Лоудер и список всех платежей
+  // Spinner и список всех платежей
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allPayment, setAllPayment] = useState<TypePayment[]>();
 

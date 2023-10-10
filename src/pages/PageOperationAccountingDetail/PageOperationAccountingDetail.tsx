@@ -116,7 +116,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
     setIsUpdateAllTable(prevState => !prevState);
   };
 
-  // Открыть дравер табеля учета рабочего времени
+  // Открыть drawer табеля учета рабочего времени
   const openDrawerOperationTimesheet = (operationTimesheetId: number): void => {
     setSelectedOperationTimesheetId(operationTimesheetId);
     setIsDrawerOperationTimesheetOpen(true);

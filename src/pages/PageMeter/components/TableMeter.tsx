@@ -13,7 +13,7 @@ export const TableMeter: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех счетчиков
+  // Spinner и список всех счетчиков
   const [loading, setLoading] = useState(false);
   const [allMeter, setAllMeter] = useState<TypeMeter[]>();
 

@@ -37,7 +37,7 @@ export const UpdateDrawerProduct: React.FC<
     onSearchSelect: onSearchProductGroup,
   } = useFormSelect(form, 'productGroup');
 
-  // Функция для получения данных в дравер
+  // Функция для получения данных в drawer
   const handleGetProduct = useCallback((): void => {
     if (selectedItemId) {
       getProductById(selectedItemId)

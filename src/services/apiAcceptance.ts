@@ -1,44 +1,52 @@
-import { TypeAcceptance, TypeApiResponse } from '../types';
-import { ACCEPTANCE, MOVEMENT, PRODUCT } from './apiEndpoints';
-import {
-  handleErrorResponseMessage,
-  handleResponseCreateMessage,
-  handleResponseDeleteMessage,
-} from '../utils';
-import { api } from './api';
+import {TypeAcceptance, TypeApiResponse} from '../types';
+import {ACCEPTANCE, MOVEMENT, PRODUCT} from './apiEndpoints';
+import {handleErrorResponseMessage, handleResponseCreateMessage, handleResponseDeleteMessage,} from '../utils';
+import {api} from './api';
 
 // Получить список всех приемок товаров
-export function getAllAcceptance(): Promise<TypeAcceptance[]> {
-  return api
-    .get(`${MOVEMENT}${ACCEPTANCE}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+export async function getAllAcceptance(): Promise<TypeAcceptance[]> {
+  try {
+    const response = await api.get(`${MOVEMENT}${ACCEPTANCE}`);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Добавить новую приемку товаров
-export function createAcceptance(
+export async function createAcceptance(
   data: TypeAcceptance,
 ): Promise<TypeApiResponse> {
-  return api
-    .post(`${MOVEMENT}${ACCEPTANCE}`, data)
-    .then(handleResponseCreateMessage)
-    .catch(handleErrorResponseMessage);
+  try {
+    const response = await api.post(`${MOVEMENT}${ACCEPTANCE}`, data);
+    return handleResponseCreateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Удалить приемку товаров по id
-export function deleteAcceptanceById(id: number): Promise<TypeApiResponse> {
-  return api
-    .delete(`${MOVEMENT}${ACCEPTANCE}/${id}`)
-    .then(handleResponseDeleteMessage)
-    .catch(handleErrorResponseMessage);
+export async function deleteAcceptanceById(
+  id: number,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.delete(`${MOVEMENT}${ACCEPTANCE}/${id}`);
+    return handleResponseDeleteMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
 // Получить список всех отфильтрованных приемок товара по названию
-export function getAllAcceptanceByTitle(
+export async function getAllAcceptanceByTitle(
   title: string,
 ): Promise<TypeAcceptance[]> {
-  return api
-    .get(`${MOVEMENT}${ACCEPTANCE}${PRODUCT}/${title}`)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+  try {
+    const response = await api.get(
+      `${MOVEMENT}${ACCEPTANCE}${PRODUCT}/${title}`,
+    );
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }

@@ -10,7 +10,7 @@ export const TableProductionType: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список типов производства
+  // Spinner и список типов производства
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allProductionType, setAllProductionType] =
     useState<TypeProductionType[]>();

@@ -10,7 +10,7 @@ export const TableEmployee: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Лоудер и список всех сотрудников
+  // Spinner и список всех сотрудников
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
 
