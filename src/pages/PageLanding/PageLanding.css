@@ -1,54 +1,66 @@
+.registration-form {
+  width: 100%;
+  height: 520px;
+  background-color: #ffffff;
+  padding: 2vw 3vw;
+  border-radius: 20px;
+}
+
+.registration-title {
+  text-align: center;
+  margin: 10px auto 0;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.registration-form-button {
+  margin-top: 15px;
+  height: 55px;
+  width: 100%;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.registration-login {
+  font-size: 14px;
+  margin: 15px auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+}
+
+.registration-login-text {
+  text-decoration: underline;
+}
+
+.registration-login:hover {
+  text-decoration: none;
+}
+
+.registration-text-offer {
+  font-size: 12px;
+  margin: 10px auto;
+}
+
+.page-landing {
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.footer {
+  width: 100%;
+  background-color: #f4f7f9;
+}
+
+.rate-button {
+  width: 90px;
+  font-weight: bold;
+  height: 35px;
+  display: none;
+}
+
 @media (min-width: 1000px) {
-  .registration-form {
-    width: 100%;
-    height: 520px;
-    background-color: #ffffff;
-    padding: 20px 30px;
-    border-radius: 20px;
-  }
-
-  .registration-title {
-    text-align: center;
-    margin: 10px auto 0;
-    font-size: 30px;
-    font-weight: bold;
-  }
-
-  .registration-form-button {
-    margin-top: 15px;
-    height: 55px;
-    width: 100%;
-    font-size: 17px;
-    font-weight: bold;
-  }
-
-  .registration-login {
-    font-size: 14px;
-    margin: 15px auto;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  .registration-login-text {
-    text-decoration: underline;
-  }
-
-  .registration-login:hover {
-    text-decoration: none;
-  }
-
-  .registration-text-offer {
-    font-size: 12px;
-    margin: 10px auto 15px;
-  }
-
-  .page-landing {
-    margin: 0 auto;
-    overflow-x: hidden;
-  }
-
   .flex {
     display: flex;
   }
@@ -95,9 +107,7 @@
   }
 
   .rate-button {
-    width: 90px;
-    font-weight: bold;
-    height: 35px;
+    display: block;
   }
 
   .button-login {
@@ -121,12 +131,14 @@
 
   .text-group {
     font-size: 18px;
-    max-width: 27vw;
+    max-width: 45vw;
   }
 
   .text-block-group {
     font-size: 18px;
-    max-width: 27vw;
+    margin: 10px;
+
+    /*max-width: 27vw;*/
   }
 
   .block-one {
@@ -169,7 +181,7 @@
   }
 
   .text-block-two {
-    width: 400px;
+    width: 410px;
     font-size: 17px;
   }
 
@@ -190,7 +202,7 @@
   }
 
   .block-group {
-    width: 1000px;
+    /*width: 1000px;*/
   }
 
   .title-group {
@@ -215,16 +227,14 @@
   }
 
   .card {
-    height: 350px;
-    width: 280px;
+    height: 300px;
     font-family: 'Rubik', sans-serif;
     font-size: 16px;
   }
 
   .card-title {
-    font-size: 16px;
-    margin-top: 25px;
-    margin-bottom: 20px;
+    font-size: 19px;
+    margin: 25px auto 20px;
   }
 
   .card-image {
@@ -248,11 +258,6 @@
 
   .block-column {
     margin: 0 40px 10px;
-  }
-
-  .footer {
-    width: 100%;
-    background-color: #f4f7f9;
   }
 
   .footer-text-one {
@@ -290,56 +295,6 @@
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
-  .registration-form {
-    width: 100%;
-    height: 520px;
-    background-color: #ffffff;
-    padding: 20px 30px;
-    border-radius: 20px;
-  }
-
-  .registration-title {
-    text-align: center;
-    margin: 10px auto 0;
-    font-size: 30px;
-    font-weight: bold;
-  }
-
-  .registration-form-button {
-    margin-top: 15px;
-    height: 55px;
-    width: 100%;
-    font-size: 17px;
-    font-weight: bold;
-  }
-
-  .registration-login {
-    font-size: 14px;
-    margin: 15px auto;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  .registration-login-text {
-    text-decoration: underline;
-  }
-
-  .registration-login:hover {
-    text-decoration: none;
-  }
-
-  .registration-text-offer {
-    font-size: 12px;
-    margin: 10px auto;
-  }
-
-  .page-landing {
-    margin: 0 auto;
-    overflow-x: hidden;
-  }
-
   .flex {
     display: flex;
   }
@@ -394,13 +349,6 @@
     margin-left: 430px;
   }
 
-  .rate-button {
-    width: 100%;
-    font-weight: bold;
-    height: 35px;
-    display: none;
-  }
-
   .button-registration {
     width: 130px;
     height: 35px;
@@ -423,9 +371,12 @@
     width: 280px;
   }
 
+  .text-block-group {
+    margin: 10px;
+  }
+
   .text-group {
     font-size: 16px;
-    width: 300px;
   }
 
   .block-one {
@@ -454,7 +405,7 @@
   }
 
   .jumbotron-block {
-    height: 400px;
+    height: 370px;
   }
 
   .jumbotron-block2 {
@@ -491,7 +442,7 @@
   }
 
   .block-group {
-    margin-left: 20px;
+    margin-left: 0;
   }
 
   .title-group {
@@ -515,15 +466,15 @@
   }
 
   .card {
-    height: 330px;
-    width: 650px;
+    height: 300px;
+    width: 500px;
     font-family: 'Rubik', sans-serif;
     font-size: 16px;
     margin: 0 auto;
   }
 
   .card-title {
-    font-size: 18px;
+    font-size: 19px;
     margin: 25px auto 20px;
   }
 
@@ -552,11 +503,6 @@
     width: 768px;
   }
 
-  .footer {
-    width: 100%;
-    background-color: #f4f7f9;
-  }
-
   .footer-text-one {
     margin: 30px auto 5px;
     font-size: 18px;
@@ -582,55 +528,6 @@
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
-  .registration-form {
-    width: 100%;
-    height: 520px;
-    background-color: #ffffff;
-    padding: 20px 30px;
-  }
-
-  .registration-title {
-    text-align: center;
-    margin: 10px auto 0;
-    font-size: 30px;
-    font-weight: bold;
-  }
-
-  .registration-form-button {
-    margin-top: 15px;
-    height: 55px;
-    width: 100%;
-    font-size: 17px;
-    font-weight: bold;
-  }
-
-  .registration-login {
-    font-size: 14px;
-    margin: 15px auto;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  .registration-login-text {
-    text-decoration: underline;
-  }
-
-  .registration-login:hover {
-    text-decoration: none;
-  }
-
-  .registration-text-offer {
-    font-size: 11px;
-    margin: 10px auto;
-  }
-
-  .page-landing {
-    margin: 0 auto;
-    overflow-x: hidden;
-  }
-
   .flex {
     display: flex;
   }
@@ -685,13 +582,6 @@
     margin-left: 320px;
   }
 
-  .rate-button {
-    width: 100%;
-    font-weight: bold;
-    height: 35px;
-    display: none;
-  }
-
   .button-registration {
     width: 130px;
     height: 35px;
@@ -710,12 +600,12 @@
   }
 
   .text {
-    font-size: 16px;
+    font-size: 14px;
     width: 280px;
   }
 
   .text-group {
-    font-size: 16px;
+    font-size: 14px;
     width: 270px;
     margin-left: 10px;
   }
@@ -751,7 +641,7 @@
   }
 
   .jumbotron-block {
-    height: 400px;
+    height: 350px;
   }
 
   .jumbotron-block2 {
@@ -771,13 +661,13 @@
   }
 
   .title-mini {
-    font-size: 35px;
+    font-size: 30px;
     margin: 0 auto;
     width: 500px;
   }
 
   .title-two {
-    font-size: 35px;
+    font-size: 30px;
     margin: 40px auto 20px;
     width: 576px;
   }
@@ -792,7 +682,7 @@
   }
 
   .title-group {
-    font-size: 30px;
+    font-size: 25px;
     width: 250px;
     margin-left: 10px;
   }
@@ -814,8 +704,8 @@
   }
 
   .card {
-    height: 330px;
-    width: 500px;
+    height: 310px;
+    width: 400px;
     font-family: 'Rubik', sans-serif;
     font-size: 16px;
     margin: 0 auto;
@@ -851,11 +741,6 @@
     width: 576px;
   }
 
-  .footer {
-    width: 100%;
-    background-color: #f4f7f9;
-  }
-
   .footer-text-one {
     margin: 30px auto 5px;
     font-size: 18px;
@@ -881,56 +766,6 @@
 }
 
 @media (min-width: 63px) and (max-width: 575px) {
-  .registration-form {
-    width: 100%;
-    height: 520px;
-    background-color: #ffffff;
-    padding: 10px 5px;
-    border-radius: 10px;
-  }
-
-  .registration-title {
-    text-align: center;
-    margin: 10px auto 0;
-    font-size: 30px;
-    font-weight: bold;
-  }
-
-  .registration-form-button {
-    margin-top: 15px;
-    height: 55px;
-    width: 100%;
-    font-size: 17px;
-    font-weight: bold;
-  }
-
-  .registration-login {
-    font-size: 14px;
-    margin: 15px auto;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  .registration-login-text {
-    text-decoration: underline;
-  }
-
-  .registration-login:hover {
-    text-decoration: none;
-  }
-
-  .registration-text-offer {
-    font-size: 11px;
-    margin: 10px auto;
-  }
-
-  .page-landing {
-    margin: 0 auto;
-    overflow-x: hidden;
-  }
-
   .flex {
     display: flex;
   }
@@ -984,13 +819,6 @@
 
   .dropdown-button-menu {
     margin-left: 80px;
-  }
-
-  .rate-button {
-    width: 100%;
-    font-weight: bold;
-    height: 35px;
-    display: none;
   }
 
   .button-registration {
@@ -1099,7 +927,7 @@
   }
 
   .title-group {
-    font-size: 34px;
+    font-size: 24px;
     width: 300px;
     margin-left: 10px;
   }
@@ -1127,7 +955,7 @@
   }
 
   .card {
-    height: 380px;
+    height: 330px;
     width: 300px;
     font-family: 'Rubik', sans-serif;
     font-size: 16px;
@@ -1157,11 +985,6 @@
   .image-container2 {
     width: 300px;
     margin: 0;
-  }
-
-  .footer {
-    width: 100%;
-    background-color: #f4f7f9;
   }
 
   .footer-text-one {

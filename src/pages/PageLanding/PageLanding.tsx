@@ -34,7 +34,7 @@ export const PageLanding = () => {
     {
       label: (
         <Button type="default" onClick={handleRate} className="dropdown-item">
-          Тарифы
+          Тариф
         </Button>
       ),
       key: '1',
@@ -104,8 +104,8 @@ export const PageLanding = () => {
             Производство, склад, ERP в облаке
           </div>
           <p className="text">
-            Все что нужно — в одном месте: учет операций, закупки, склад,
-            клиенты, отгрузки и отчеты.
+            Все что нужно — в одном месте: производительность труда, закупки,
+            склад, клиенты, отгрузки и отчеты
           </p>
           <Space>
             <Button
@@ -134,10 +134,8 @@ export const PageLanding = () => {
           </div>
           <div className="text-block-two center-text">
             <p>
-              Zolotenkov полезен всем, кто управляет производством. Никаких
-              сложных настроек или загадочных процедур. 15 минут - и у вас есть
-              ваша персонализированная ERP-система для производственной
-              деятельности.
+              Zolotenkov ERP-система: все необходимое для малого производства в
+              одном решении
             </p>
           </div>
         </div>
@@ -155,11 +153,12 @@ export const PageLanding = () => {
             className="jumbotron-two flex column center-row center-column"
           />
           <div className="text-block-group">
-            <div className="title-group text-bold">Учет операций</div>
+            <div className="title-group text-bold">
+              Производительность труда
+            </div>
             <p className="text-group">
-              Отслеживайте операции, результаты, время выполнения и затраченные
-              ресурсы - все в одной мощной и простой в использовании системе.
-              Повышайте эффективность и контролируйте производственные процессы.
+              Отслеживайте операции и ресурсы. Повышайте эффективность и
+              контроль на производстве
             </p>
           </div>
         </div>
@@ -167,9 +166,8 @@ export const PageLanding = () => {
           <div className="text-block-group">
             <div className="title-group text-bold">Управление закупками</div>
             <p className="text-group">
-              Контролируйте все ваши заказы: от количества и цены до даты
-              поставки. Мы также предлагаем функционал для приемки товаров,
-              помогающий вам без проблем учитывать все закупленные товары.
+              Управляйте заказами от количества до даты поставки и легко
+              учитывайте все закупленные товары
             </p>
           </div>
           <img
@@ -187,10 +185,8 @@ export const PageLanding = () => {
           <div className="text-block-group">
             <div className="title-group text-bold">Ведение склада</div>
             <p className="text-group">
-              Легко создавайте товары и добавляйте их на склад, учитывайте
-              количество товаров и списывайте их со склада. Благодаря интеграции
-              с производственными операциями, отгрузками и приемками товаров, вы
-              всегда будете в курсе актуального баланса на вашем складе.
+              Создавайте товары, управляйте складом. Интеграция с производством
+              для актуального баланса
             </p>
           </div>
         </div>
@@ -200,12 +196,12 @@ export const PageLanding = () => {
           Оптимизируйте ваше производство
         </div>
         <p className="text-two center-text">
-          Мы предлагаем вашей команде всестороннее решение для эффективного
-          управления ресурсами и контроля над процессами производства.
+          Всестороннее решение для контроля и управления ресурсами на
+          производстве
         </p>
         <div className="card-grid">
           <Row gutter={[30, 30]} justify="center" align="top">
-            <Col span={7} xs={24} lg={7}>
+            <Col span={12} xs={24} lg={12}>
               <Card bordered={false} className="card">
                 <img
                   alt="tap"
@@ -215,12 +211,11 @@ export const PageLanding = () => {
                 <div className="card-title text-bold">
                   Простота в управлении
                 </div>
-                Мы создали доступный и удобный интерфейс, обеспечивающий быстрое
-                освоение и комфортную работу с нашей системой учета
-                производственных операций.
+                Наш интуитивный интерфейс обеспечивает быстрое освоение и
+                комфортную работу с системой учета
               </Card>
             </Col>
-            <Col span={7} xs={24} lg={7}>
+            <Col span={12} xs={24} lg={12}>
               <Card bordered={false} className="card">
                 <img
                   alt="earth"
@@ -230,11 +225,11 @@ export const PageLanding = () => {
                 <div className="card-title text-bold">
                   Проводите учет где угодно
                 </div>
-                С нашей системой вы сможете управлять производством, не зависимо
-                от географии, сохраняя полный контроль над каждой деталью.
+                С нашей системой управляйте производством из любой точки мира,
+                контролируя каждую деталь
               </Card>
             </Col>
-            <Col span={7} xs={24} lg={7}>
+            <Col span={12} xs={24} lg={12}>
               <Card bordered={false} className="card">
                 <img
                   alt="file2"
@@ -244,9 +239,8 @@ export const PageLanding = () => {
                 <div className="card-title text-bold">
                   Отчеты в реальном времени
                 </div>
-                Автоматизированные отчеты отображают детали ваших
-                производственных операций. Идеальный инструмент для оптимизации
-                процессов и координации команды.
+                Автоматизированные отчеты для детального анализа производства и
+                координации команды
               </Card>
             </Col>
           </Row>
@@ -278,18 +272,8 @@ export const PageLanding = () => {
         />
       </div>
       <div className="footer flex column center-row center-column">
-        <p className="footer-text-one">Телефон: +7 (968) 614-15-72</p>
-        <p className="footer-text-two">Связаться с нами:</p>
-        <a
-          href="https://t.me/AlAlon369"
-          target="_blank"
-          rel="noopener noreferrer">
-          <img
-            alt="icon-telegram"
-            src="/images/footer_icon_telegram.png"
-            className="logo-telegram"
-          />
-        </a>
+        <p className="footer-text-one">Связаться с нами:</p>
+        <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
         <p className="footer-text-three">© Zolotenkov 2022-2023</p>
       </div>
       <CreateModalRegistrationUser
