@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Space, Dropdown, MenuProps } from 'antd';
+import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './/PageRate.css';
 import { MenuOutlined } from '@ant-design/icons';
@@ -27,7 +27,7 @@ export const PageRate = () => {
     {
       label: (
         <Button type="default" onClick={handleRate} className="dropdown-item">
-          Тарифы
+          Тариф
         </Button>
       ),
       key: '1',
@@ -88,24 +88,17 @@ export const PageRate = () => {
         <div className="rate-text-block rate-flex  rate-column">
           <div className="rate-title">Пробный период на 14 дней</div>
           <div className="rate-text">
-            Пользуйтесь всем функционалом нашего приложения{' '}
-            <span className="rate-text-bold">
-              бесплатно в течение 14 дней.{' '}
-            </span>
-            После пробного периода подписка составит
-            <span className="rate-text-bold"> 2990 рублей в месяц. </span>
-            Не упустите шанс оптимизировать ваш бизнес!
+            <span className="rate-text-bold">14 дней бесплатно</span>, потом 99
+            руб/сут. <br /> Оптимизируйте бизнес прямо сейчас!
           </div>
           <div className="rate-flex rate-column">
             <Button
               type="primary"
               className="button-buy"
               onClick={() => setIsModalOpen(true)}>
-              14 дней бесплатно
+              Начать
             </Button>
-            <div className="mini-text rate-center-text">
-              Далее 2990 ₽ в месяц
-            </div>
+            <div className="mini-text rate-center-text"></div>
           </div>
         </div>
         <img
