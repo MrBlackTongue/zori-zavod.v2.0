@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
-import {Typography, Space, Button, FloatButton, DatePicker,} from 'antd';
-import {SyncOutlined, LeftOutlined, RightOutlined,} from '@ant-design/icons';
-import 'dayjs/locale/ru'
-import weekOfYear from "dayjs/plugin/weekOfYear";
-import '../../App.css'
-import {deleteUnitById} from "../../services";
-import {TableWorkHours} from "./components/TableWorkHours";
-import dayjs from "dayjs";
+import React, { useMemo, useState } from 'react';
+import { Typography, Space, Button, FloatButton, DatePicker } from 'antd';
+import { SyncOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import 'dayjs/locale/ru';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+import '../../App.css';
+import { TableWorkHours } from './components/TableWorkHours';
+import dayjs from 'dayjs';
+import {
+  updateWorkHours,
+  deleteWorkHoursById,
+} from '../../services/apiWorkHours';
 
 export const PageWorkHours: React.FC = () => {
-
-  const {Title} = Typography;
+  const { Title } = Typography;
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
 
@@ -35,63 +37,64 @@ export const PageWorkHours: React.FC = () => {
     setSelectedDate(dayjs(date));
   };
 
+  // Создание объекта фильтра с использованием useMemo
+  const filter = useMemo(
+    () => ({
+      selectedDate: selectedDate,
+    }),
+    [selectedDate],
+  );
+
   const getWeekFormat = (date: dayjs.Dayjs | null) => {
-    if (!date || !date.isValid()) return "";
+    if (!date || !date.isValid()) return '';
 
     const startOfWeek = date.startOf('week');
     const endOfWeek = date.endOf('week');
     const weekNumber = startOfWeek.week();
-    return `неделя ${weekNumber}: ${startOfWeek.format('D MMM')} - ${endOfWeek.format('D MMM YYYY')}`;
+    return `неделя ${weekNumber}:  ${startOfWeek.format(
+      'D MMM',
+    )} - ${endOfWeek.format('D MMM YYYY')}`;
   };
 
-
   // Удалить запись из таблицы
-  const handleDeleteUnit = (id: number): void => {
-    void deleteUnitById(id)
-    setIsUpdateTable(prevState => !prevState)
+  const handleDeleteWorkHours = async (id: number): Promise<void> => {
+    console.log('Deleting work hours with ID:', id);
+    await deleteWorkHoursById(id);
+    setIsUpdateTable(prevState => !prevState);
   };
 
   return (
-    <div style={{display: 'grid'}}>
-      <div className='centerTitle'>
+    <div style={{ display: 'grid' }}>
+      <div className="centerTitle">
         <Title level={3}>Табель учёта рабочего времени</Title>
         <Space>
           <div>
-            <LeftOutlined onClick={prevWeek}/>
+            <LeftOutlined onClick={prevWeek} />
             <DatePicker
               allowClear={false}
               picker="week"
               onChange={handleDateChange}
               value={selectedDate}
               format={getWeekFormat(selectedDate)}
-              style={{width: '280px'}}
+              style={{ width: '280px' }}
               className="no-clear-button"
             />
-            <RightOutlined onClick={nextWeek}/>
+            <RightOutlined onClick={nextWeek} />
           </div>
           <Button
             type="dashed"
-            icon={<SyncOutlined/>}
+            icon={<SyncOutlined />}
             onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className='greenButton'
-          >
+            className="greenButton">
             Обновить
           </Button>
-          {/*<Button*/}
-          {/*    type="primary"*/}
-          {/*    icon={<PlusOutlined/>}*/}
-          {/*    onClick={() => setIsModalOpen(true)}*/}
-          {/*>*/}
-          {/*  Добавить*/}
-          {/*</Button>*/}
         </Space>
       </div>
-      <FloatButton.BackTop/>
+      <FloatButton.BackTop />
       <TableWorkHours
-        selectedDate={selectedDate}
+        filter={filter}
         isUpdateTable={isUpdateTable}
-        // openDrawer={openDrawer}
-        onDelete={handleDeleteUnit}
+        onDelete={handleDeleteWorkHours}
       />
     </div>
   );

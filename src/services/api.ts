@@ -13,19 +13,19 @@ export const api = axios.create({
 //   }
 // });
 
-api.interceptors.response.use(
-  response => response,
-  error => {
-    switch (error.response?.status) {
-      case 401:
-        window.location.assign('/login');
-        break;
-      case 402:
-        localStorage.setItem('redirectedDueToUnpaidSubscription', 'true');
-        window.location.assign('/user-profile');
-        break;
-      default:
-        break;
-    }
-  },
-);
+// api.interceptors.response.use(
+//   response => response,
+//   error => {
+//     switch (error.response?.status) {
+//       case 401:
+//         window.location.assign('/login');
+//         break;
+//       case 402:
+//         localStorage.setItem('redirectedDueToUnpaidSubscription', 'true');
+//         window.location.assign('/user-profile');
+//         break;
+//       default:
+//         break;
+//     }
+//   },
+// );

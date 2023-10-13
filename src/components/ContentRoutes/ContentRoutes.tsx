@@ -28,7 +28,7 @@ import { PageWriteOff } from '../../pages/PageWriteOff/PageWriteOff';
 import { PageUserProfile } from '../../pages/PageUserProfile/PageUserProfile';
 import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
-import {PageWorkHours} from "../../pages/PageWorkHours/PageWorkHours";
+import { PageWorkHours } from '../../pages/PageWorkHours/PageWorkHours';
 
 export const ContentRoutes: React.FC = () => {
   return (
@@ -70,6 +70,7 @@ export const ContentRoutes: React.FC = () => {
       <Route path="/user-profile" element={<PageUserProfile />} />
       <Route path="/estimated-price" element={<PageEstimatedPrice />} />
       <Route path="/storage-place" element={<PageStoragePlace />} />
+      <Route path="/work-hours" element={<PageWorkHours />} />
     </Routes>
   );
 };

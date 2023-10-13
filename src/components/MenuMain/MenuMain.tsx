@@ -89,12 +89,9 @@ export const MenuMain: React.FC = () => {
           <Link to="/employee">Сотрудники</Link>
         </Menu.Item>
 
-        <Menu.Item key="/work-hours" icon={<TeamOutlined/>}>
+        <Menu.Item key="/work-hours" icon={<TeamOutlined />}>
           <Link to="/work-hours">Табель учёта рабочего времени</Link>
         </Menu.Item>
-
-        <SubMenu key="01" icon={<RightOutlined/>} title="Операции">
-          <Menu.Item key="/operation-accounting" icon={<FormOutlined/>}>
         <SubMenu key="01" icon={<RightOutlined />} title="Операции">
           <Menu.Item key="/operation-accounting" icon={<FormOutlined />}>
             <Link to="/operation-accounting">Учет операций</Link>
