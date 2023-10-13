@@ -1,3 +1,35 @@
+.flex {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.center-row {
+  align-items: center;
+}
+
+.center-column {
+  justify-content: center;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
 .registration-form {
   width: 100%;
   height: 520px;
@@ -61,38 +93,6 @@
 }
 
 @media (min-width: 1000px) {
-  .flex {
-    display: flex;
-  }
-
-  .column {
-    flex-direction: column;
-  }
-
-  .row {
-    flex-direction: row;
-  }
-
-  .center-row {
-    align-items: center;
-  }
-
-  .center-column {
-    justify-content: center;
-  }
-
-  .center-text {
-    text-align: center;
-  }
-
-  .text-bold {
-    font-weight: bold;
-  }
-
-  .space-around {
-    justify-content: space-around;
-  }
-
   .header {
     justify-content: space-between;
     height: 80px;
@@ -137,8 +137,6 @@
   .text-block-group {
     font-size: 18px;
     margin: 10px;
-
-    /*max-width: 27vw;*/
   }
 
   .block-one {
@@ -199,10 +197,6 @@
 
   .block-three {
     margin: 30px auto;
-  }
-
-  .block-group {
-    /*width: 1000px;*/
   }
 
   .title-group {
@@ -275,58 +269,12 @@
     font-size: 14px;
   }
 
-  .logo-telegram {
-    height: 35px;
-  }
-
-  .logo-telegram:hover {
-    filter: brightness(80%);
-  }
-
-  .dropdown-menu {
-    width: 150px;
-    height: 150px;
-    display: none;
-  }
-
   .dropdown-button-menu {
     display: none;
   }
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
-  .flex {
-    display: flex;
-  }
-
-  .column {
-    flex-direction: column;
-  }
-
-  .row {
-    flex-direction: row;
-  }
-
-  .center-row {
-    align-items: center;
-  }
-
-  .center-column {
-    justify-content: center;
-  }
-
-  .center-text {
-    text-align: center;
-  }
-
-  .text-bold {
-    font-weight: bold;
-  }
-
-  .space-around {
-    justify-content: space-around;
-  }
-
   .header {
     justify-content: center;
     height: 80px;
@@ -517,49 +465,9 @@
     margin: 10px auto 20px;
     font-size: 14px;
   }
-
-  .logo-telegram {
-    height: 40px;
-  }
-
-  .logo-telegram:hover {
-    filter: brightness(80%);
-  }
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
-  .flex {
-    display: flex;
-  }
-
-  .column {
-    flex-direction: column;
-  }
-
-  .row {
-    flex-direction: row;
-  }
-
-  .center-row {
-    align-items: center;
-  }
-
-  .center-column {
-    justify-content: center;
-  }
-
-  .center-text {
-    text-align: center;
-  }
-
-  .text-bold {
-    font-weight: bold;
-  }
-
-  .space-around {
-    justify-content: space-around;
-  }
-
   .header {
     justify-content: center;
     height: 80px;
@@ -755,49 +663,9 @@
     margin: 10px auto 20px;
     font-size: 14px;
   }
-
-  .logo-telegram {
-    height: 40px;
-  }
-
-  .logo-telegram:hover {
-    filter: brightness(80%);
-  }
 }
 
 @media (min-width: 63px) and (max-width: 575px) {
-  .flex {
-    display: flex;
-  }
-
-  .column {
-    flex-direction: column;
-  }
-
-  .row {
-    flex-direction: row;
-  }
-
-  .center-row {
-    align-items: center;
-  }
-
-  .center-column {
-    justify-content: center;
-  }
-
-  .center-text {
-    text-align: center;
-  }
-
-  .text-bold {
-    font-weight: bold;
-  }
-
-  .space-around {
-    justify-content: space-around;
-  }
-
   .header {
     justify-content: space-between;
     height: 80px;
@@ -1000,13 +868,5 @@
   .footer-text-three {
     margin: 10px auto 20px;
     font-size: 14px;
-  }
-
-  .logo-telegram {
-    height: 35px;
-  }
-
-  .logo-telegram:hover {
-    filter: brightness(80%);
   }
 }
