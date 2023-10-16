@@ -1,0 +1,15 @@
+.subscription-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.subscription-column {
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px;
+}
+
+.subscription-block {
+  margin-right: 400px;
+}

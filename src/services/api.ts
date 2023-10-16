@@ -22,7 +22,7 @@ api.interceptors.response.use(
         break;
       case 402:
         localStorage.setItem('redirectedDueToUnpaidSubscription', 'true');
-        window.location.assign('/user-profile');
+        window.location.assign('/subscription');
         break;
       default:
         break;

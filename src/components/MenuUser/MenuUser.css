@@ -1,0 +1,23 @@
+.dropdown-item-menu {
+  width: 200px;
+}
+
+.button-menu-user {
+  height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*.span-menu-user {*/
+/*  margin-left: 10px;*/
+/*  background-color: #f4f4f4;*/
+/*  border-radius: 50%;*/
+/*  padding: 10px;*/
+/*  display: inline-flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*}*/

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Button, notification, Space, Typography } from 'antd';
 import '../../App.css';
+import '../PageSubscription/PageSubscription.css';
 import { getUserSubscription, replenishBalance } from '../../services';
 import { TypePaymentFormValue, TypeSubscription } from '../../types';
 import { ReplenishBalanceModal } from './components/ReplenishBalanceModal';
 import { TablePaymentHistory } from './components/TablePaymentHistory';
 import dayjs from 'dayjs';
 
-export const PageUserProfile: React.FC = () => {
+export const PageSubscription: React.FC = () => {
   const { Title } = Typography;
 
   // Информация о подписке
@@ -61,25 +62,35 @@ export const PageUserProfile: React.FC = () => {
   return (
     <div style={{ display: 'grid' }}>
       <div className="centerTitle">
-        <Title level={3}>Личный кабинет</Title>
+        <Title level={3}>Подписка</Title>
       </div>
-      <p>Учетная запись: {subscriptionInfo?.customer.email}</p>
-      <p>
-        Дата окончания подписки:
-        {subscriptionInfo?.endDate
-          ? dayjs(subscriptionInfo.endDate).format(' DD.MM.YYYY')
-          : ' Дата не установлена'}
-      </p>
-      <p>Текущий баланс: {subscriptionInfo?.customer.balance} Руб</p>
-      <Button
-        type="primary"
-        className="pay-button"
-        onClick={() => setIsModalOpen(true)}>
-        Пополнить
-      </Button>
-      <Space>
-        <TablePaymentHistory />
-      </Space>
+      <div className="subscription-row">
+        <Space className="subscription-column ">
+          <p>
+            <strong>Учетная запись:</strong> {subscriptionInfo?.customer.email}
+          </p>
+          <p>
+            <strong>Дата окончания подписки:</strong>
+            {dayjs(subscriptionInfo?.endDate).format(' DD.MM.YYYY')}
+          </p>
+          <p>
+            <strong>Тариф:</strong> {subscriptionInfo?.plan.price} руб/сут.
+          </p>
+        </Space>
+        <Space className="subscription-column subscription-block">
+          <Title level={5}>
+            Ваш текущий баланс: {subscriptionInfo?.customer.balance} Руб
+          </Title>
+          <Button
+            type="primary"
+            className="pay-button"
+            onClick={() => setIsModalOpen(true)}>
+            Пополнить
+          </Button>
+        </Space>
+      </div>
+
+      <TablePaymentHistory />
       <ReplenishBalanceModal
         isOpen={isModalOpen}
         createItem={handleReplenish}

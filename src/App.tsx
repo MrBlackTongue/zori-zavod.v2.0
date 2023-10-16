@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
 import './App.css';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button, Layout, Space, theme } from 'antd';
+import { Layout, Space, theme } from 'antd';
 import { MenuMain } from './components/MenuMain/MenuMain';
 import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
-import { useNavigate } from 'react-router-dom';
+import { MenuUser } from './components/MenuUser/MenuUser';
 
 function App() {
   const { Header, Sider, Content } = Layout;
-
   const [collapsed, setCollapsed] = useState(false);
-
-  const navigate = useNavigate();
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  const handleUserProfile = () => {
-    navigate('/user-profile');
-  };
 
   return (
     <div>
@@ -60,12 +53,7 @@ function App() {
               <img src="/images/header_logo.png" alt="Logo" className="logo" />
             </a>
             <Space>
-              <Button
-                type="default"
-                className="Account-button"
-                onClick={handleUserProfile}>
-                Личный кабинет
-              </Button>
+              <MenuUser />
             </Space>
           </Header>
           <Content className="context-style">

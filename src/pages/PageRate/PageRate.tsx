@@ -5,6 +5,7 @@ import './/PageRate.css';
 import { MenuOutlined } from '@ant-design/icons';
 import { CreateModalRegistrationUser } from '../PageLanding/components/CreateModalRegistrationUser';
 import { useRegistration } from '../../hooks';
+import { checkAuthorization } from '../../services';
 
 export const PageRate = () => {
   const navigate = useNavigate();
@@ -13,13 +14,19 @@ export const PageRate = () => {
   const { isModalOpen, setIsModalOpen, handleCreateNewUser } =
     useRegistration();
 
-  // Переход на другую страницу по адресу
-  const handleLogin = () => {
-    navigate('/login');
-  };
-
   const handleRate = () => {
     navigate('/rate');
+  };
+
+  // Переход на другую страницу по адресу
+  const handleLogin = () => {
+    checkAuthorization()
+      .then(isUserAuthorized => {
+        navigate(isUserAuthorized ? '/employee' : '/login');
+      })
+      .catch(error => {
+        console.error('Ошибка при проверке авторизации:', error);
+      });
   };
 
   // Выпадающее меню
