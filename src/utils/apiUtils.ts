@@ -36,6 +36,15 @@ export function handleRegistrationUserMessage(response: any) {
   return response.data;
 }
 
+export function handleResponseLogoutMessage(response: any) {
+  if (response.status === 200) {
+    void message.success('Вы вышли из системы');
+  } else {
+    void message.error('Ошибка выхода из системы');
+  }
+  return response.data;
+}
+
 export function handleErrorResponseMessage(error: any) {
   console.error(error);
 

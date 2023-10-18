@@ -1,4 +1,4 @@
-export const API_URL = process.env.REACT_APP_API_URL
+export const API_URL = process.env.REACT_APP_API_URL;
 
 export const EMPLOYEE = '/employee';
 export const OPERATION = '/operation';
@@ -36,4 +36,5 @@ export const SUBSCRIPTION = '/subscription';
 export const ESTIMATED_PRICE = '/estimated-price';
 export const CHECK_AUTHORIZATION = '/check-authorization';
 export const STORAGE_PLACE = '/storage-place';
+export const LOGOUT = '/logout';
 export const WORK_HOURS = '/work-hours';

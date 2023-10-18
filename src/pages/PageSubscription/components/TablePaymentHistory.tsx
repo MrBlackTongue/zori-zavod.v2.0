@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Table, Typography } from 'antd';
+import { Table, Typography } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { getPaymentHistory } from '../../../services';
 import { TypePayment } from '../../../types';
 import dayjs from 'dayjs';
-import { SyncOutlined } from '@ant-design/icons';
 import { renderAsRuble } from '../../../utils';
 
 export const TablePaymentHistory: React.FC = () => {
@@ -88,13 +87,6 @@ export const TablePaymentHistory: React.FC = () => {
           marginBottom: '1rem',
         }}>
         <Title level={4}>История пополнений</Title>
-        <Button
-          type="dashed"
-          icon={<SyncOutlined />}
-          className="greenButton"
-          onClick={handleUpdateTable}>
-          Обновить
-        </Button>
       </div>
       <Table
         rowKey="id"

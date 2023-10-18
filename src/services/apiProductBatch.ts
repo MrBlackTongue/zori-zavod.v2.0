@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypeProductBatch} from '../types';
-import {BATCH, PRODUCT} from './apiEndpoints';
+import { TypeApiResponse, TypeProductBatch } from '../types';
+import { BATCH, PRODUCT } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить все партии товаров
 export async function getAllProductBatch(): Promise<TypeProductBatch[]> {
@@ -37,14 +37,8 @@ export async function createProductBatch(
   try {
     const response = await api.post(`${PRODUCT}${BATCH}`, data);
     return handleResponseCreateMessage(response);
-  } catch (
-    // Удалить партию товаров по id
-    error
-  ) {
-    return handleErrorResponseMessage(
-      // Удалить партию товаров по id
-      error,
-    );
+  } catch (error) {
+    return handleErrorResponseMessage(error);
   }
 }
 
@@ -55,14 +49,8 @@ export async function deleteProductBatchById(
   try {
     const response = await api.delete(`${PRODUCT}${BATCH}/${id}`);
     return handleResponseDeleteMessage(response);
-  } catch (
-    // Удалить партию товаров по id
-    error
-  ) {
-    return handleErrorResponseMessage(
-      // Удалить партию товаров по id
-      error,
-    );
+  } catch (error) {
+    return handleErrorResponseMessage(error);
   }
 }
 
@@ -73,13 +61,7 @@ export async function updateProductBatch(
   try {
     const response = await api.put(`${PRODUCT}${BATCH}`, data);
     return handleResponseUpdateMessage(response);
-  } catch (
-    // Удалить партию товаров по id
-    error
-  ) {
-    return handleErrorResponseMessage(
-      // Удалить партию товаров по id
-      error,
-    );
+  } catch (error) {
+    return handleErrorResponseMessage(error);
   }
 }

@@ -5,8 +5,16 @@ export type TypeSubscription = {
   customer: {
     id: number;
     email: string;
-    mainEmailId: number;
+    password: string;
+    phone: string;
+    firstname: string;
     balance: number;
+    enabled: boolean;
+    authorities: [authority: string];
+    username: string;
+    accountNonExpired: boolean;
+    accountNonLocked: boolean;
+    credentialsNonExpired: boolean;
   };
   plan: {
     id: number;
