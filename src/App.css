@@ -49,11 +49,25 @@
   color: #1890ff;
 }
 
-/*.logo {*/
-/*  height: 32px;*/
-/*  margin: 16px;*/
-/*  background: rgba(255, 255, 255, 0.3);*/
-/*}*/
+.logo-header {
+  height: 30px;
+}
+
+.space-logo {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.logo-container {
+  position: relative;
+}
+
+.logo-beta {
+  position: absolute;
+  top: -60px;
+  left: 160px;
+  color: #1677ff;
+}
 
 /* Кнопка Обновить*/
 .centerTitle {

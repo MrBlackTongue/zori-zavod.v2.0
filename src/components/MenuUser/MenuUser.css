@@ -1,0 +1,17 @@
+.dropdown-item-menu {
+  width: 100%;
+}
+
+.button-menu-user {
+  height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-menu-user:hover {
+  color: #000 !important;
+}

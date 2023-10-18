@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
 import './App.css';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button, Layout, Space, theme } from 'antd';
+import { Layout, Space, theme } from 'antd';
 import { MenuMain } from './components/MenuMain/MenuMain';
 import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
-import { useNavigate } from 'react-router-dom';
+import { MenuUser } from './components/MenuUser/MenuUser';
 
 function App() {
   const { Header, Sider, Content } = Layout;
-
   const [collapsed, setCollapsed] = useState(false);
-
-  const navigate = useNavigate();
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  const handleUserProfile = () => {
-    navigate('/user-profile');
-  };
 
   return (
     <div>
@@ -56,16 +49,18 @@ function App() {
               background: colorBgContainer,
             }}>
             {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
-            <a href="/" rel="noopener noreferrer">
-              <img src="/images/header_logo.png" alt="Logo" className="logo" />
-            </a>
+            <Space className="space-logo">
+              <a href="/" rel="noopener noreferrer" className="logo-container">
+                <img
+                  src="/images/header_logo.png"
+                  alt="Logo"
+                  className="logo-header"
+                />
+                <p className="logo-beta">beta</p>
+              </a>
+            </Space>
             <Space>
-              <Button
-                type="default"
-                className="Account-button"
-                onClick={handleUserProfile}>
-                Личный кабинет
-              </Button>
+              <MenuUser />
             </Space>
           </Header>
           <Content className="context-style">
@@ -73,6 +68,10 @@ function App() {
           </Content>
         </Layout>
       </Layout>
+      <div className="footer flex column center-row">
+        <p className="footer-text-three">Email: svetlana@zolotenkov.ru</p>
+        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
+      </div>
     </div>
   );
 }

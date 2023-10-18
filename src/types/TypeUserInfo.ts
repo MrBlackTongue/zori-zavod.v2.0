@@ -1,4 +1,4 @@
-export type TypeUserProfile = {
+export type TypeUserInfo = {
   password?: string;
   email?: string;
   phone?: string;

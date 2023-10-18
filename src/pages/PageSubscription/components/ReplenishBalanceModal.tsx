@@ -15,7 +15,7 @@ export const ReplenishBalanceModal: React.FC<
     onCancel,
   );
 
-  const amounts = [500, 1000, 1500, 2990];
+  const amounts = [500, 1000, 1500, 3000];
 
   const handleAmountSelection = (amount: number) => {
     form.setFieldsValue({ amount: amount });
@@ -23,11 +23,10 @@ export const ReplenishBalanceModal: React.FC<
 
   return (
     <Modal
-      title="Новый платеж"
+      title="Пополнить баланс"
       okText={'Продолжить'}
       cancelText={'Отмена'}
       width={490}
-      centered
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}>
@@ -38,7 +37,7 @@ export const ReplenishBalanceModal: React.FC<
           initialValue={500}
           rules={[{ required: true, message: 'введите сумму пополнения' }]}>
           <InputNumber
-            min={100}
+            min={10}
             step={100}
             size="large"
             placeholder="Сумма пополнения в рублях"

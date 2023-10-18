@@ -9,11 +9,11 @@ import {
 } from '@ant-design/icons';
 import { Button, Form, Input, Modal } from 'antd';
 import '../../../App.css';
-import { CreateModalProps, TypeUserProfile } from '../../../types';
+import { CreateModalProps, TypeUserInfo } from '../../../types';
 import { useFormHandler } from '../../../hooks';
 
 export const CreateModalRegistrationUser: React.FC<
-  CreateModalProps<TypeUserProfile>
+  CreateModalProps<TypeUserInfo>
 > = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 

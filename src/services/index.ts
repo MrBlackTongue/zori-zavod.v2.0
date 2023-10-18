@@ -27,7 +27,6 @@ export * from './apiOperationReport';
 export * from './apiEmployeeReport';
 export * from './apiOutputReport';
 export * from './apiCostPrice';
-export * from './apiRegistrationUser';
 export * from './apiWriteOff';
 export * from './apiWriteOffMovement';
 export * from './apiSubscription';
