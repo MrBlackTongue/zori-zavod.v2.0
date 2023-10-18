@@ -15,12 +15,7 @@ export const ReplenishBalanceModal: React.FC<
     onCancel,
   );
 
-  const amounts = [
-    { label: '1 неделя', value: 693 },
-    { label: '2 недели', value: 1386 },
-    { label: '1 месяц', value: 2970 },
-    { label: '3 месяца', value: 8910 },
-  ];
+  const amounts = [500, 1000, 1500, 3000];
 
   const handleAmountSelection = (amount: number) => {
     form.setFieldsValue({ amount: amount });
@@ -32,7 +27,6 @@ export const ReplenishBalanceModal: React.FC<
       okText={'Продолжить'}
       cancelText={'Отмена'}
       width={490}
-      centered
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}>
@@ -40,7 +34,7 @@ export const ReplenishBalanceModal: React.FC<
         <Form.Item
           name="amount"
           label="Сумма"
-          initialValue={693}
+          initialValue={500}
           rules={[{ required: true, message: 'введите сумму пополнения' }]}>
           <InputNumber
             min={10}
@@ -58,13 +52,13 @@ export const ReplenishBalanceModal: React.FC<
             margin: '-15px 0 0 63px',
             width: '380px',
           }}>
-          {amounts.map(({ label, value }) => (
+          {amounts.map(amount => (
             <Button
-              key={value}
+              key={amount}
               type="dashed"
               size="middle"
-              onClick={() => handleAmountSelection(value)}>
-              {label}
+              onClick={() => handleAmountSelection(amount)}>
+              {`${amount} ₽`}
             </Button>
           ))}
         </div>

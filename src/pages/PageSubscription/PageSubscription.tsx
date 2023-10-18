@@ -45,6 +45,7 @@ export const PageSubscription: React.FC = () => {
           marginLeft: '-60vw',
           marginTop: 50,
         },
+        type: 'warning',
       });
       localStorage.removeItem('redirectedDueToUnpaidSubscription');
     }

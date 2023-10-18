@@ -49,9 +49,16 @@ function App() {
               background: colorBgContainer,
             }}>
             {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
-            <a href="/" rel="noopener noreferrer">
-              <img src="/images/header_logo.png" alt="Logo" className="logo" />
-            </a>
+            <Space className="space-logo">
+              <a href="/" rel="noopener noreferrer" className="logo-container">
+                <img
+                  src="/images/header_logo.png"
+                  alt="Logo"
+                  className="logo-header"
+                />
+                <p className="logo-beta">beta</p>
+              </a>
+            </Space>
             <Space>
               <MenuUser />
             </Space>
@@ -61,6 +68,10 @@ function App() {
           </Content>
         </Layout>
       </Layout>
+      <div className="footer flex column center-row">
+        <p className="footer-text-three">Email: svetlana@zolotenkov.ru</p>
+        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
+      </div>
     </div>
   );
 }

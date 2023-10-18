@@ -1,5 +1,5 @@
 .dropdown-item-menu {
-  width: 200px;
+  width: 100%;
 }
 
 .button-menu-user {
@@ -12,12 +12,6 @@
   align-items: center;
 }
 
-/*.span-menu-user {*/
-/*  margin-left: 10px;*/
-/*  background-color: #f4f4f4;*/
-/*  border-radius: 50%;*/
-/*  padding: 10px;*/
-/*  display: inline-flex;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*}*/
+.button-menu-user:hover {
+  color: #000 !important;
+}

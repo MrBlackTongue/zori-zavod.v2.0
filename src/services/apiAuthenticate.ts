@@ -1,11 +1,11 @@
 import {api} from './api';
 import {AUTHENTICATE, CHECK_AUTHORIZATION, LOGOUT, REGISTRATION,} from './apiEndpoints';
-import {TypeApiResponse, TypeUserProfile} from '../types';
-import {handleErrorResponseMessage, handleRegistrationUserMessage, handleResponseLogoutMessage,} from '../utils';
+import {TypeApiResponse, TypeUserInfo} from '../types';
+import {handleErrorResponseMessage, handleRegistrationUserMessage, handleResponseLogoutMessage,} from '../utils'; // Зарегистрировать нового пользователя
 
 // Зарегистрировать нового пользователя
 export async function registrationUser(
-  data: TypeUserProfile,
+  data: TypeUserInfo,
 ): Promise<TypeApiResponse> {
   try {
     const response = await api.post(REGISTRATION, data);
@@ -16,7 +16,7 @@ export async function registrationUser(
 }
 
 // Запрос для авторизации пользователя
-export function loginUser(data: TypeUserProfile): Promise<any> {
+export function loginUser(data: TypeUserInfo): Promise<any> {
   return api
     .post(AUTHENTICATE, data)
     .then(response => {
