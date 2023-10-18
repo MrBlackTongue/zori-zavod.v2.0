@@ -14,8 +14,10 @@ import {
   Select,
   Form,
   Input,
+  InputRef,
 } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import type { FormInstance } from 'antd/es/form';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   TableProps,
@@ -25,25 +27,26 @@ import {
 } from '../../../types';
 import dayjs from 'dayjs';
 import {
-  getAllWorkHours,
+  getAllWorkHours, getWorkHoursById,
   updateWorkHours,
-} from '../../../services/apiWorkHours';
+} from '../../../services';
 import { getAllEmployee } from '../../../services';
 
-const EditableContext = React.createContext<any | null>(null);
+const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
-interface Item {
+export interface Item {
   key: string;
-  name: string;
-  age: string;
-  address: string;
+  id: number;
+  employee: TypeEmployee;
+  workDate: string;
+  hours: number;
 }
 
-interface EditableRowProps {
+export interface EditableRowProps {
   index: number;
 }
 
-const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
+export const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
     <Form form={form} component={false}>
@@ -64,7 +67,7 @@ export interface EditableCellProps {
   allEmployees: TypeEmployee[];
 }
 
-const EditableCell: React.FC<any> = ({
+export const EditableCell: React.FC<EditableCellProps> = ({
   title,
   editable,
   children,
@@ -85,8 +88,15 @@ const EditableCell: React.FC<any> = ({
   }, [editing]);
 
   const toggleEdit = () => {
+    console.log("Toggle edit called for dataIndex: ", dataIndex);
     setEditing(!editing);
+    console.log('record[dataIndex]', record[dataIndex])
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+  };
+
+  const handleClick = () => {
+    const cellId = record.id;
+    console.log("Clicked cell ID:", cellId);
   };
 
   const save = async () => {
@@ -94,12 +104,17 @@ const EditableCell: React.FC<any> = ({
       const values = await form.validateFields();
       toggleEdit();
       handleSave({ ...record, ...values });
+      console.log('record, ...values',{ ...record, ...values })
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
   };
 
   let childNode = children;
+  if (!childNode || childNode === '') {
+    childNode = <span style={{ display: 'block', minHeight: '1rem' }}>&nbsp;</span>;
+  }
+
 
   if (editable) {
     childNode = editing ? (
@@ -141,16 +156,17 @@ const EditableCell: React.FC<any> = ({
               message: `${title} is required.`,
             },
           ]}>
-          <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+          <Input ref={inputRef} onPressEnter={save} onClick={toggleEdit} onBlur={save} />
         </Form.Item>
       )
     ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={toggleEdit}>
-        {children}
-      </div>
+        <div
+            className="editable-cell-value-wrap"
+            style={{ paddingRight: 24, minHeight: '32px' }}
+            onClick={toggleEdit}
+        >
+          {children || <span>&nbsp;</span>}
+        </div>
     );
   }
 
@@ -188,11 +204,12 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   }
 
   const daysColumns: ColumnsType<TypeWorkHours> = days.map(day => ({
+    // id:
     title: `${day.format('dd')}\n${day.format('DD.MM')}`,
     dataIndex: day.format('DD.MM'),
     width: '90px',
     key: day.format('DD.MM'),
-    editable: true, // Добавьте эту строку
+    // editable: true,
     onCell: (record: TypeWorkHours) => ({
       record,
       editable: true,
@@ -208,9 +225,10 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     const aggregatedData: { [key: string]: any } = {};
 
     data.forEach(item => {
-      const key = `${item.employee.firstName} ${item.employee.lastName}`;
+      const key = `${item.employee?.firstName} ${item.employee?.lastName}`;
       if (!aggregatedData[key]) {
         aggregatedData[key] = {
+          id: item?.id,
           employee: item.employee,
           [dayjs(item.workDate).format('DD.MM')]: item.hours,
         };
@@ -259,52 +277,48 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     }
 
     const matchingRecord = allHours.find(
-      hour => hour.employee.id === updatedRecord.employee.id,
+      hour => hour.employee?.id === updatedRecord.employee?.id,
     );
+
 
     if (!matchingRecord) {
       console.error('Не удалось найти соответствующую запись');
       return;
     }
-
-    const dataToSend = {
-      id: matchingRecord.id,
-      employee: fullEmployee,
-      workDate: dayjs().format('YYYY-MM-DD'),
-      hours: calculateTotalHours(updatedRecord),
-    };
-
-    try {
-      const response = await updateWorkHours(dataToSend);
-      if (response) {
-        const updatedHours = allHours.map(item =>
-          item.employee.id === updatedRecord.id
-            ? { ...item, employee: updatedRecord }
-            : item,
-        );
-        setAllHours(updatedHours);
-      }
-    } catch (error) {
-      console.error('Ошибка при обновлении данных сотрудника: ', error);
-    }
   };
 
   const handleHoursChange = async (
-    updatedRecord: TypeWorkHours,
-    dataIndex: string,
+      updatedRecord: TypeWorkHours,
+      dataIndex: string,
   ) => {
-    const dataToSend = {
-      id: updatedRecord.id,
+    const workDate = Object.keys(updatedRecord).find(
+        key => key.includes(".") && updatedRecord[key] !== null && key !== dataIndex
+    );
+    // const workDate =
+    console.log("данные:", updatedRecord);
+
+    // Получить рабочий час по ID
+    const existingWorkHour = await getWorkHoursById(Number(updatedRecord.id));
+
+    if (!updatedRecord.id) {
+      console.error("ID не предоставлен. Объект updatedRecord:", updatedRecord);
+      return;
+    }
+
+    const dataToSend: TypeWorkHours = {
+      id: updatedRecord?.id, // используйте id из updatedRecord
       employee: updatedRecord.employee,
-      workDate: dataIndex,
-      hours: updatedRecord[dataIndex],
+      workDate: workDate || dataIndex,
+      hours: updatedRecord[workDate || dataIndex] || 0,
     };
+
+    console.log(dataToSend);
 
     try {
       const response = await updateWorkHours(dataToSend);
       if (response) {
         const updatedHours = allHours.map(item =>
-          item.id === updatedRecord.id ? { ...item, ...updatedRecord } : item,
+            item.id === updatedRecord.id ? { ...item, ...updatedRecord } : item,
         );
         setAllHours(updatedHours);
       }
@@ -328,6 +342,10 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       hours: 0,
     };
 
+    days.forEach(day => {
+      emptyRow[day.format('DD.MM')] = null;
+    });
+
     setAllHours(prevHours => [...prevHours, emptyRow]);
   };
 
@@ -346,7 +364,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'fullName',
-      // editable: true,
       onCell: (record: TypeWorkHours) => ({
         record,
         editable: true,
@@ -367,34 +384,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       render: (_, record) => {
         return `${calculateTotalHours(record)}ч`;
       },
-    },
-    {
-      title: '',
-      dataIndex: 'id',
-      key: 'id',
-      width: 60,
-      align: 'center',
-      render: (id: number) => (
-        <Space>
-          <Tooltip title="Удалить" placement="bottomRight">
-            <Popconfirm
-              placement="topRight"
-              title="Вы действительно хотите удалить эту единицу измерения?"
-              onConfirm={() => onDelete?.(id)}
-              okText="Да"
-              cancelText="Отмена">
-              <Button
-                type="primary"
-                size="small"
-                shape="circle"
-                style={{ color: 'tomato', borderColor: 'tomato' }}
-                ghost>
-                <DeleteOutlined />
-              </Button>
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
     },
   ];
 

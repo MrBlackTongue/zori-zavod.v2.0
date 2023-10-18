@@ -1,5 +1,5 @@
 import { TypeApiResponse, TypeClient, TypeWorkHours } from '../types';
-import { CLIENT, WORK_HOURS } from './apiEndpoints';
+import { WORK_HOURS } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseDeleteMessage,
@@ -34,6 +34,18 @@ export async function updateWorkHours(
   try {
     const response = await api.put(WORK_HOURS, data);
     return handleResponseUpdateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
+}
+
+// Получить данные рабочего дня по id
+export async function getWorkHoursById(
+    id: number,
+): Promise<TypeWorkHours | undefined> {
+  try {
+    const response = await api.get(`${WORK_HOURS}/${id}`);
+    return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);
   }
