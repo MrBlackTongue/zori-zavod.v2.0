@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Form, Input, Select, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import type { FormInstance } from 'antd/es/form';
@@ -19,8 +13,6 @@ import dayjs from 'dayjs';
 import { getAllWorkHours, updateWorkHours } from '../../../services';
 import { useFetchAllData, useFormSelect } from '../../../hooks';
 
-const EditableContext = React.createContext<FormInstance<any> | null>(null);
-
 export interface Item {
   key: string;
   id: number;
@@ -33,20 +25,6 @@ export interface EditableRowProps {
   index: number;
 }
 
-export const EditableRow: React.FC<EditableRowProps> = ({
-  index,
-  ...props
-}) => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
-
 export interface EditableCellProps {
   title: React.ReactNode;
   editable: boolean;
@@ -55,108 +33,8 @@ export interface EditableCellProps {
   record: Item;
   handleSave: (record: Item) => void;
   allEmployee: TypeEmployee[];
+  form: FormInstance;
 }
-
-export const EditableCell: React.FC<EditableCellProps> = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  allEmployee,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef<any>();
-  const form = useContext(EditableContext)!;
-
-  // Хук для управления полем employee
-  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
-    form,
-    'employee',
-  );
-
-  useEffect(() => {
-    if (editing) {
-      inputRef.current!.focus();
-    }
-  }, [editing]);
-
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
-  };
-
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log('Save failed:', errInfo);
-    }
-  };
-
-  let childNode = children;
-  if (!childNode || childNode === '') {
-    childNode = (
-      <span style={{ display: 'block', minHeight: '1rem' }}>&nbsp;</span>
-    );
-  }
-
-  if (editable) {
-    childNode = editing ? (
-      dataIndex === 'employee' ? (
-        <Form.Item
-          style={{ margin: 0 }}
-          name={dataIndex}
-          rules={[{ required: true, message: 'выберите сотрудника' }]}>
-          <Select
-            ref={inputRef}
-            onBlur={save}
-            showSearch
-            allowClear
-            onChange={onChangeSelect}
-            onClear={onClearSelect}
-            filterOption={onSearchSelect}>
-            {allEmployee && allEmployee.length > 0
-              ? allEmployee.map((data: TypeEmployee) => (
-                  <Select.Option
-                    key={data.id}
-                    value={data.id}
-                    label={`${data.lastName}, ${data.firstName}`}>
-                    {`${data.lastName} ${data.firstName}`}
-                  </Select.Option>
-                ))
-              : null}
-          </Select>
-        </Form.Item>
-      ) : (
-        <Form.Item
-          style={{ margin: 0 }}
-          name={dataIndex}
-          rules={[{ required: true, message: `Укажите время за ${title}` }]}>
-          <Input
-            ref={inputRef}
-            onPressEnter={save}
-            onClick={toggleEdit}
-            onBlur={save}
-          />
-        </Form.Item>
-      )
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24, minHeight: '32px' }}
-        onClick={toggleEdit}>
-        {children || <span>&nbsp;</span>}
-      </div>
-    );
-  }
-
-  return <td {...restProps}>{childNode}</td>;
-};
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -165,7 +43,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     editable?: boolean;
   }
 
-  // Spinner и список всех единиц измерения
+  const [form] = Form.useForm();
+
+  // Spinner и список всех сотрудников и рабочих часов
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allWorkHour, setAllWorkHour] = useState<TypeWorkHour[]>([]);
 
@@ -177,6 +57,104 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     current: 1,
     pageSize: 10,
   });
+
+  const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
+    const [form] = Form.useForm();
+    return (
+      <Form form={form} component={false}>
+        <tr {...props} />
+      </Form>
+    );
+  };
+
+  const EditableCell: React.FC<EditableCellProps> = ({
+    title,
+    editable,
+    children,
+    dataIndex,
+    record,
+    form,
+    ...restProps
+  }) => {
+    const [editing, setEditing] = useState(false);
+    const inputRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
+
+    // Хук для управления полем employee
+    const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+      form,
+      'employee',
+    );
+    useEffect(() => {
+      if (editing && inputRef.current) {
+        if ('focus' in inputRef.current) {
+          inputRef.current.focus();
+        }
+      }
+    }, [editing]);
+
+    const toggleEdit = () => {
+      setEditing(!editing);
+      form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+    };
+
+    const save = async () => {
+      try {
+        const values = await form.validateFields();
+        toggleEdit();
+        // Здесь должен быть ваш код для сохранения
+        // например, handleSave({ ...record, ...values });
+      } catch (errInfo) {
+        console.log('Save failed:', errInfo);
+      }
+    };
+
+    let childNode = children;
+
+    if (editable) {
+      childNode = editing ? (
+        dataIndex === 'employee' ? (
+          <Form.Item
+            style={{ margin: 0 }}
+            name={dataIndex}
+            rules={[{ required: true, message: 'выберите сотрудника' }]}>
+            <Select
+              ref={inputRef as any}
+              onBlur={save}
+              showSearch
+              allowClear
+              onChange={onChangeSelect}
+              onClear={onClearSelect}
+              filterOption={onSearchSelect}>
+              {allEmployee.map(data => (
+                <Select.Option
+                  key={data.id}
+                  value={data.id}
+                  label={`${data.lastName}, ${data.firstName}`}>
+                  {`${data.lastName} ${data.firstName}`}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        ) : (
+          <Form.Item
+            style={{ margin: 0 }}
+            name={dataIndex}
+            rules={[{ required: true, message: `Укажите ${title}` }]}>
+            <Input ref={inputRef as any} onPressEnter={save} onBlur={save} />
+          </Form.Item>
+        )
+      ) : (
+        <div
+          className="editable-cell-value-wrap"
+          style={{ paddingRight: 24 }}
+          onClick={toggleEdit}>
+          {children}
+        </div>
+      );
+    }
+
+    return <td {...restProps}>{childNode}</td>;
+  };
 
   const startDate = (filter?.selectedDate || dayjs()).startOf('week');
   const days: dayjs.Dayjs[] = [];
@@ -302,6 +280,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         title: 'Сотрудник',
         // handleSave: handleEmployeeChange, // Ваша функция для сохранения данных
         allEmployee: allEmployee,
+        form: form,
       }),
       render: (employee: TypeEmployee) =>
         `${employee.lastName} ${employee.firstName}`,
