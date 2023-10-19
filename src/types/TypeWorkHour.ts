@@ -1,7 +1,7 @@
 import { TypeEmployee } from './TypeEmployee';
 import dayjs from 'dayjs';
 
-export type TypeWorkHours = {
+export type TypeWorkHour = {
   id?: number;
   employee?: TypeEmployee;
   workDate?: string;

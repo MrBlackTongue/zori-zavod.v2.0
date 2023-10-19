@@ -1,23 +1,16 @@
 import React, { useMemo, useState } from 'react';
-import { Typography, Space, Button, FloatButton, DatePicker } from 'antd';
-import { SyncOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Button, DatePicker, FloatButton, Space, Typography } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import 'dayjs/locale/ru';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import '../../App.css';
 import { TableWorkHours } from './components/TableWorkHours';
 import dayjs from 'dayjs';
-import {
-  updateWorkHours,
-  deleteWorkHoursById,
-} from '../../services/apiWorkHours';
 
 export const PageWorkHours: React.FC = () => {
   const { Title } = Typography;
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
-
-  // Обновление таблицы, Открыть закрыть модальное окно, дравер
-  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
   // Установка текущей недели по умолчанию
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf('week'));
@@ -56,20 +49,15 @@ export const PageWorkHours: React.FC = () => {
     )} - ${endOfWeek.format('D MMM YYYY')}`;
   };
 
-  // Удалить запись из таблицы
-  const handleDeleteWorkHours = async (id: number): Promise<void> => {
-    console.log('Deleting work hours with ID:', id);
-    await deleteWorkHoursById(id);
-    setIsUpdateTable(prevState => !prevState);
-  };
-
   return (
     <div style={{ display: 'grid' }}>
       <div className="centerTitle">
         <Title level={3}>Табель учёта рабочего времени</Title>
         <Space>
           <div>
-            <LeftOutlined onClick={prevWeek} />
+            <Button>
+              <LeftOutlined onClick={prevWeek} />
+            </Button>
             <DatePicker
               allowClear={false}
               picker="week"
@@ -79,23 +67,14 @@ export const PageWorkHours: React.FC = () => {
               style={{ width: '280px' }}
               className="no-clear-button"
             />
-            <RightOutlined onClick={nextWeek} />
+            <Button>
+              <RightOutlined onClick={nextWeek} />
+            </Button>
           </div>
-          <Button
-            type="dashed"
-            icon={<SyncOutlined />}
-            onClick={() => setIsUpdateTable(prevState => !prevState)}
-            className="greenButton">
-            Обновить
-          </Button>
         </Space>
       </div>
       <FloatButton.BackTop />
-      <TableWorkHours
-        filter={filter}
-        isUpdateTable={isUpdateTable}
-        onDelete={handleDeleteWorkHours}
-      />
+      <TableWorkHours filter={filter} />
     </div>
   );
 };

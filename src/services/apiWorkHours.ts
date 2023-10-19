@@ -1,4 +1,4 @@
-import { TypeApiResponse, TypeClient, TypeWorkHours } from '../types';
+import { TypeApiResponse, TypeWorkHour } from '../types';
 import { WORK_HOURS } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
@@ -7,15 +7,17 @@ import {
 } from '../utils';
 import { api } from './api';
 
-// Получить список всех сотрудников и рабочиих часов
-export function getAllWorkHours(): Promise<TypeWorkHours[]> {
-  return api
-    .get(WORK_HOURS)
-    .then(response => response.data)
-    .catch(handleErrorResponseMessage);
+// Получить список всех сотрудников и рабочих часов
+export async function getAllWorkHours(): Promise<TypeWorkHour[]> {
+  try {
+    const response = await api.get(WORK_HOURS);
+    return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
 }
 
-// Удалить запись о рабочик часах
+// Удалить запись о рабочих часах
 export async function deleteWorkHoursById(
   id: number,
 ): Promise<TypeApiResponse> {
@@ -29,7 +31,7 @@ export async function deleteWorkHoursById(
 
 // Редактирование данных о рабочем дне
 export async function updateWorkHours(
-  data: TypeWorkHours,
+  data: TypeWorkHour,
 ): Promise<TypeApiResponse> {
   try {
     const response = await api.put(WORK_HOURS, data);
@@ -41,8 +43,8 @@ export async function updateWorkHours(
 
 // Получить данные рабочего дня по id
 export async function getWorkHoursById(
-    id: number,
-): Promise<TypeWorkHours | undefined> {
+  id: number,
+): Promise<TypeWorkHour | undefined> {
   try {
     const response = await api.get(`${WORK_HOURS}/${id}`);
     return response.data;

@@ -1,36 +1,23 @@
 import React, {
-  useState,
-  useEffect,
   useCallback,
   useContext,
+  useEffect,
   useRef,
+  useState,
 } from 'react';
-import {
-  Space,
-  Button,
-  Table,
-  Tooltip,
-  Popconfirm,
-  Select,
-  Form,
-  Input,
-  InputRef,
-} from 'antd';
+import { Button, Form, Input, Select, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import type { FormInstance } from 'antd/es/form';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import {
   TableProps,
   TypeEmployee,
-  TypeWorkHours,
+  TypeWorkHour,
   TypeWorkHoursFilter,
 } from '../../../types';
 import dayjs from 'dayjs';
-import {
-  getAllWorkHours, getWorkHoursById,
-  updateWorkHours,
-} from '../../../services';
-import { getAllEmployee } from '../../../services';
+import { getAllWorkHours, updateWorkHours } from '../../../services';
+import { useFetchAllData, useFormSelect } from '../../../hooks';
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
@@ -46,7 +33,10 @@ export interface EditableRowProps {
   index: number;
 }
 
-export const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
+export const EditableRow: React.FC<EditableRowProps> = ({
+  index,
+  ...props
+}) => {
   const [form] = Form.useForm();
   return (
     <Form form={form} component={false}>
@@ -64,7 +54,7 @@ export interface EditableCellProps {
   dataIndex: keyof Item;
   record: Item;
   handleSave: (record: Item) => void;
-  allEmployees: TypeEmployee[];
+  allEmployee: TypeEmployee[];
 }
 
 export const EditableCell: React.FC<EditableCellProps> = ({
@@ -74,12 +64,18 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   dataIndex,
   record,
   handleSave,
-  allEmployees,
+  allEmployee,
   ...restProps
 }) => {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<any>();
   const form = useContext(EditableContext)!;
+
+  // Хук для управления полем employee
+  const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
+    form,
+    'employee',
+  );
 
   useEffect(() => {
     if (editing) {
@@ -88,15 +84,8 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   }, [editing]);
 
   const toggleEdit = () => {
-    console.log("Toggle edit called for dataIndex: ", dataIndex);
     setEditing(!editing);
-    console.log('record[dataIndex]', record[dataIndex])
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
-  };
-
-  const handleClick = () => {
-    const cellId = record.id;
-    console.log("Clicked cell ID:", cellId);
   };
 
   const save = async () => {
@@ -104,7 +93,6 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       const values = await form.validateFields();
       toggleEdit();
       handleSave({ ...record, ...values });
-      console.log('record, ...values',{ ...record, ...values })
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
@@ -112,9 +100,10 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
   let childNode = children;
   if (!childNode || childNode === '') {
-    childNode = <span style={{ display: 'block', minHeight: '1rem' }}>&nbsp;</span>;
+    childNode = (
+      <span style={{ display: 'block', minHeight: '1rem' }}>&nbsp;</span>
+    );
   }
-
 
   if (editable) {
     childNode = editing ? (
@@ -122,51 +111,47 @@ export const EditableCell: React.FC<EditableCellProps> = ({
         <Form.Item
           style={{ margin: 0 }}
           name={dataIndex}
-          rules={[
-            {
-              required: true,
-              message: `${title} is required.`,
-            },
-          ]}>
+          rules={[{ required: true, message: 'выберите сотрудника' }]}>
           <Select
             ref={inputRef}
             onBlur={save}
             showSearch
-            filterOption={(input, option) =>
-              typeof option?.children === 'string' &&
-              (option.children as string)
-                .toLowerCase()
-                .indexOf(input.toLowerCase()) >= 0
-            }>
-            {allEmployees.map((emp: TypeEmployee) => (
-              <Select.Option key={emp.id} value={emp.id}>
-                {`${emp.lastName} ${emp.firstName}`}
-              </Select.Option>
-            ))}
+            allowClear
+            onChange={onChangeSelect}
+            onClear={onClearSelect}
+            filterOption={onSearchSelect}>
+            {allEmployee && allEmployee.length > 0
+              ? allEmployee.map((data: TypeEmployee) => (
+                  <Select.Option
+                    key={data.id}
+                    value={data.id}
+                    label={`${data.lastName}, ${data.firstName}`}>
+                    {`${data.lastName} ${data.firstName}`}
+                  </Select.Option>
+                ))
+              : null}
           </Select>
-          {/*<Input ref={inputRef} onPressEnter={save} onBlur={save} />*/}
         </Form.Item>
       ) : (
         <Form.Item
           style={{ margin: 0 }}
           name={dataIndex}
-          rules={[
-            {
-              required: true,
-              message: `${title} is required.`,
-            },
-          ]}>
-          <Input ref={inputRef} onPressEnter={save} onClick={toggleEdit} onBlur={save} />
+          rules={[{ required: true, message: `Укажите время за ${title}` }]}>
+          <Input
+            ref={inputRef}
+            onPressEnter={save}
+            onClick={toggleEdit}
+            onBlur={save}
+          />
         </Form.Item>
       )
     ) : (
-        <div
-            className="editable-cell-value-wrap"
-            style={{ paddingRight: 24, minHeight: '32px' }}
-            onClick={toggleEdit}
-        >
-          {children || <span>&nbsp;</span>}
-        </div>
+      <div
+        className="editable-cell-value-wrap"
+        style={{ paddingRight: 24, minHeight: '32px' }}
+        onClick={toggleEdit}>
+        {children || <span>&nbsp;</span>}
+      </div>
     );
   }
 
@@ -174,21 +159,18 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 };
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
-  isUpdateTable,
-  onDelete,
   filter,
 }) => {
   interface CustomColumnType<T> extends ColumnsType<T> {
     editable?: boolean;
   }
 
-  // Лоудер и список всех единиц измерения
+  // Spinner и список всех единиц измерения
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allHours, setAllHours] = useState<TypeWorkHours[]>([]);
+  const [allWorkHour, setAllWorkHour] = useState<TypeWorkHour[]>([]);
 
-  const [allEmployees, setAllEmployees] = useState<TypeEmployee[]>([]);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [isSaving, setIsSaving] = useState<boolean>(false);
+  // Хук для получения данных
+  const { allEmployee } = useFetchAllData({ depsEmployee: true });
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -203,14 +185,13 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     days.push(startDate.add(i, 'day'));
   }
 
-  const daysColumns: ColumnsType<TypeWorkHours> = days.map(day => ({
-    // id:
+  const daysColumns: ColumnsType<TypeWorkHour> = days.map(day => ({
     title: `${day.format('dd')}\n${day.format('DD.MM')}`,
     dataIndex: day.format('DD.MM'),
     width: '90px',
     key: day.format('DD.MM'),
     // editable: true,
-    onCell: (record: TypeWorkHours) => ({
+    onCell: (record: TypeWorkHour) => ({
       record,
       editable: true,
       dataIndex: day.format('DD.MM'),
@@ -220,7 +201,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     render: (hours: number) => (hours ? `${hours}ч` : ''),
   }));
 
-  const transformData = (data: TypeWorkHours[]): any[] => {
+  const transformData = (data: TypeWorkHour[]): any[] => {
     // Объект для агрегации данных
     const aggregatedData: { [key: string]: any } = {};
 
@@ -260,67 +241,34 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     },
   };
 
-  const handleEmployeeChange = async (
-    updatedRecord: TypeWorkHours,
+  const handleHoursChange = async (
+    updatedRecord: TypeWorkHour,
     dataIndex: string,
   ) => {
-    const fullEmployee = allEmployees.find(
-      emp => emp.id === updatedRecord.employee,
-    );
-
-    if (!fullEmployee) {
-      console.error(
-        'Не удалось найти сотрудника по ID:',
-        updatedRecord.employee,
-      );
-      return;
-    }
-
-    const matchingRecord = allHours.find(
-      hour => hour.employee?.id === updatedRecord.employee?.id,
-    );
-
-
-    if (!matchingRecord) {
-      console.error('Не удалось найти соответствующую запись');
-      return;
-    }
-  };
-
-  const handleHoursChange = async (
-      updatedRecord: TypeWorkHours,
-      dataIndex: string,
-  ) => {
     const workDate = Object.keys(updatedRecord).find(
-        key => key.includes(".") && updatedRecord[key] !== null && key !== dataIndex
+      key =>
+        key.includes('.') && updatedRecord[key] !== null && key !== dataIndex,
     );
-    // const workDate =
-    console.log("данные:", updatedRecord);
-
-    // Получить рабочий час по ID
-    const existingWorkHour = await getWorkHoursById(Number(updatedRecord.id));
 
     if (!updatedRecord.id) {
-      console.error("ID не предоставлен. Объект updatedRecord:", updatedRecord);
+      console.error('ID не предоставлен. Объект updatedRecord:', updatedRecord);
       return;
     }
 
-    const dataToSend: TypeWorkHours = {
+    const dataToSend: TypeWorkHour = {
       id: updatedRecord?.id, // используйте id из updatedRecord
       employee: updatedRecord.employee,
       workDate: workDate || dataIndex,
       hours: updatedRecord[workDate || dataIndex] || 0,
     };
 
-    console.log(dataToSend);
-
     try {
       const response = await updateWorkHours(dataToSend);
       if (response) {
-        const updatedHours = allHours.map(item =>
-            item.id === updatedRecord.id ? { ...item, ...updatedRecord } : item,
+        const updatedHours = allWorkHour.map(item =>
+          item.id === updatedRecord.id ? { ...item, ...updatedRecord } : item,
         );
-        setAllHours(updatedHours);
+        setAllWorkHour(updatedHours);
       }
     } catch (error) {
       console.error('Ошибка при обновлении данных рабочего времени: ', error);
@@ -328,17 +276,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   };
 
   const handleAddEmptyRow = () => {
-    const emptyRow: TypeWorkHours = {
-      id: Math.random(),
-      employee: {
-        id: Math.random(),
-        firstName: '',
-        lastName: '',
-        phone: '',
-        hired: false,
-        salaryRate: 0,
-      },
-      workDate: dayjs().toISOString(),
+    const emptyRow: TypeWorkHour = {
+      employee: { id: undefined },
+      workDate: undefined,
       hours: 0,
     };
 
@@ -346,31 +286,22 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       emptyRow[day.format('DD.MM')] = null;
     });
 
-    setAllHours(prevHours => [...prevHours, emptyRow]);
+    setAllWorkHour(prevHours => [...prevHours, emptyRow]);
   };
 
-  useEffect(() => {
-    const fetchAllEmployees = async () => {
-      const employees = await getAllEmployee();
-      setAllEmployees(employees);
-    };
-
-    fetchAllEmployees();
-  }, []);
-
   // Колонки в таблице
-  const columns: CustomColumnType<TypeWorkHours> = [
+  const columns: CustomColumnType<TypeWorkHour> = [
     {
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'fullName',
-      onCell: (record: TypeWorkHours) => ({
+      onCell: (record: TypeWorkHour) => ({
         record,
         editable: true,
         dataIndex: 'employee',
         title: 'Сотрудник',
-        handleSave: handleEmployeeChange, // Ваша функция для сохранения данных
-        allEmployees: allEmployees,
+        // handleSave: handleEmployeeChange, // Ваша функция для сохранения данных
+        allEmployee: allEmployee,
       }),
       render: (employee: TypeEmployee) =>
         `${employee.lastName} ${employee.firstName}`,
@@ -401,7 +332,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     getAllWorkHours()
       .then(data => {
         const transformedData = transformData(data);
-        setAllHours(transformedData);
+        setAllWorkHour(transformedData);
         setIsLoading(false);
       })
       .catch(error => console.error('Ошибка при получении данных: ', error));
@@ -409,7 +340,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
 
   useEffect(() => {
     handleUpdateTable();
-  }, [isUpdateTable, handleUpdateTable, filter]);
+  }, [handleUpdateTable, filter]);
 
   return (
     <div>
@@ -417,7 +348,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         rowKey="id"
         bordered
         columns={columns}
-        dataSource={allHours}
+        dataSource={allWorkHour}
         loading={isLoading}
         onChange={handleChangeTable}
         components={components}

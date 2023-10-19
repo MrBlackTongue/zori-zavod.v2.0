@@ -9,6 +9,7 @@ import {
   BookOutlined,
   BulbOutlined,
   CalendarOutlined,
+  ClockCircleOutlined,
   ClusterOutlined,
   ContactsOutlined,
   ControlOutlined,
@@ -89,8 +90,8 @@ export const MenuMain: React.FC = () => {
           <Link to="/employee">Сотрудники</Link>
         </Menu.Item>
 
-        <Menu.Item key="/work-hours" icon={<TeamOutlined />}>
-          <Link to="/work-hours">Табель учёта рабочего времени</Link>
+        <Menu.Item key="/work-hours" icon={<ClockCircleOutlined />}>
+          <Link to="/work-hours">Рабочие часы</Link>
         </Menu.Item>
         <SubMenu key="01" icon={<RightOutlined />} title="Операции">
           <Menu.Item key="/operation-accounting" icon={<FormOutlined />}>
