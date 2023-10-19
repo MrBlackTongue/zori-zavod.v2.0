@@ -8,6 +8,7 @@ import {
   TypeEmployee,
   TypeWorkHour,
   TypeWorkHoursFilter,
+  WorkHourEntry,
 } from '../../../types';
 import dayjs from 'dayjs';
 import { getAllWorkHours, updateWorkHours } from '../../../services';
@@ -156,7 +157,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     return <td {...restProps}>{childNode}</td>;
   };
 
+  // Дата начала и конца недели
   const startDate = (filter?.selectedDate || dayjs()).startOf('week');
+
   const days: dayjs.Dayjs[] = [];
 
   for (let i = 0; i < 7; i++) {
@@ -179,24 +182,23 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     render: (hours: number) => (hours ? `${hours}ч` : ''),
   }));
 
-  const transformData = (data: TypeWorkHour[]): any[] => {
-    // Объект для агрегации данных
-    const aggregatedData: { [key: string]: any } = {};
-
-    data.forEach(item => {
-      const key = `${item.employee?.firstName} ${item.employee?.lastName}`;
-      if (!aggregatedData[key]) {
-        aggregatedData[key] = {
-          id: item?.id,
-          employee: item.employee,
-          [dayjs(item.workDate).format('DD.MM')]: item.hours,
-        };
-      } else {
-        aggregatedData[key][dayjs(item.workDate).format('DD.MM')] = item.hours;
-      }
+  // Функция транформации данных с сервера
+  const transformDataFromServer = (data: TypeWorkHour[]): TypeWorkHour[] => {
+    let result: TypeWorkHour[] = [];
+    data.forEach(data => {
+      const employee = data.employee;
+      console.log('employee', employee);
+      const workHours = data.workHours;
+      const aggregatedData: any = {
+        employee: employee,
+      };
+      workHours?.forEach((hourData: WorkHourEntry) => {
+        aggregatedData[dayjs(hourData.workDate).format('DD.MM')] =
+          hourData.hours;
+      });
+      result.push(aggregatedData);
     });
-
-    return Object.values(aggregatedData);
+    return result;
   };
 
   const calculateTotalHours = (record: any): number => {
@@ -219,49 +221,51 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     },
   };
 
+  // Функция редактирования ячейки с часами
   const handleHoursChange = async (
     updatedRecord: TypeWorkHour,
     dataIndex: string,
   ) => {
-    const workDate = Object.keys(updatedRecord).find(
-      key =>
-        key.includes('.') && updatedRecord[key] !== null && key !== dataIndex,
-    );
+    //     const workDate = Object.keys(updatedRecord).find(
+    //       key =>
+    //         key.includes('.') && updatedRecord[key] !== null && key !== dataIndex,
+    //     );
 
-    if (!updatedRecord.id) {
-      console.error('ID не предоставлен. Объект updatedRecord:', updatedRecord);
-      return;
-    }
+    //     if (!updatedRecord.id) {
+    //       console.error('ID не предоставлен. Объект updatedRecord:', updatedRecord);
+    //       return;
+    //     }
 
     const dataToSend: TypeWorkHour = {
-      id: updatedRecord?.id, // используйте id из updatedRecord
+      // id: updatedRecord?.id, // используйте id из updatedRecord
       employee: updatedRecord.employee,
-      workDate: workDate || dataIndex,
-      hours: updatedRecord[workDate || dataIndex] || 0,
+      // workDate: workDate || dataIndex,
+      // hours: updatedRecord[workDate || dataIndex] || 0,
     };
 
     try {
       const response = await updateWorkHours(dataToSend);
       if (response) {
-        const updatedHours = allWorkHour.map(item =>
-          item.id === updatedRecord.id ? { ...item, ...updatedRecord } : item,
-        );
-        setAllWorkHour(updatedHours);
+        // const updatedHours = allWorkHour.map(item =>
+        // item.id === updatedRecord.id ? { ...item, ...updatedRecord } : item,
+        // );
+        // setAllWorkHour(updatedHours);
       }
     } catch (error) {
       console.error('Ошибка при обновлении данных рабочего времени: ', error);
     }
   };
 
+  // Функция добавления пустой строки
   const handleAddEmptyRow = () => {
     const emptyRow: TypeWorkHour = {
       employee: { id: undefined },
-      workDate: undefined,
-      hours: 0,
+      // workDate: undefined,
+      // hours: 0,
     };
 
     days.forEach(day => {
-      emptyRow[day.format('DD.MM')] = null;
+      // emptyRow[day.format('DD.MM')] = null;
     });
 
     setAllWorkHour(prevHours => [...prevHours, emptyRow]);
@@ -307,15 +311,20 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
 
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllWorkHours()
-      .then(data => {
-        const transformedData = transformData(data);
-        setAllWorkHour(transformedData);
-        setIsLoading(false);
-      })
-      .catch(error => console.error('Ошибка при получении данных: ', error));
-  }, []);
+    if (filter) {
+      setIsLoading(true);
+      getAllWorkHours(
+        dayjs(filter?.startDate).format('YYYY-MM-DD'),
+        dayjs(filter?.endDate).format('YYYY-MM-DD'),
+      )
+        .then(data => {
+          const transformedData = transformDataFromServer(data);
+          setAllWorkHour(transformedData);
+          setIsLoading(false);
+        })
+        .catch(error => console.error('Ошибка при получении данных: ', error));
+    }
+  }, [filter]);
 
   useEffect(() => {
     handleUpdateTable();

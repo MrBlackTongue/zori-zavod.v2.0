@@ -8,9 +8,17 @@ import {
 import { api } from './api';
 
 // Получить список всех сотрудников и рабочих часов
-export async function getAllWorkHours(): Promise<TypeWorkHour[]> {
+export async function getAllWorkHours(
+  startDate: string,
+  endDate: string,
+): Promise<TypeWorkHour[]> {
   try {
-    const response = await api.get(WORK_HOURS);
+    const response = await api.get(WORK_HOURS, {
+      params: {
+        startDate,
+        endDate,
+      },
+    });
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);

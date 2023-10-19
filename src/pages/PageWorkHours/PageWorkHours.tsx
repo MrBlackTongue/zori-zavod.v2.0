@@ -34,6 +34,8 @@ export const PageWorkHours: React.FC = () => {
   const filter = useMemo(
     () => ({
       selectedDate: selectedDate,
+      startDate: selectedDate.startOf('week').format('YYYY-MM-DD'), // начало недели
+      endDate: selectedDate.endOf('week').format('YYYY-MM-DD'), // конец недели
     }),
     [selectedDate],
   );
@@ -48,15 +50,16 @@ export const PageWorkHours: React.FC = () => {
       'D MMM',
     )} - ${endOfWeek.format('D MMM YYYY')}`;
   };
+  // console.log('selectedDate', getWeekFormat(selectedDate))
 
   return (
     <div style={{ display: 'grid' }}>
       <div className="centerTitle">
-        <Title level={3}>Табель учёта рабочего времени</Title>
+        <Title level={3}>Табель учета рабочего времени</Title>
         <Space>
           <div>
-            <Button>
-              <LeftOutlined onClick={prevWeek} />
+            <Button onClick={prevWeek}>
+              <LeftOutlined />
             </Button>
             <DatePicker
               allowClear={false}
@@ -67,8 +70,8 @@ export const PageWorkHours: React.FC = () => {
               style={{ width: '280px' }}
               className="no-clear-button"
             />
-            <Button>
-              <RightOutlined onClick={nextWeek} />
+            <Button onClick={nextWeek}>
+              <RightOutlined />
             </Button>
           </div>
         </Space>
