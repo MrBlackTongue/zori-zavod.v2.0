@@ -93,17 +93,39 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       }
     }, [editing]);
 
+    const isWorkHourObject = (value: {}): value is { hours: number } => {
+      return value && typeof value === 'object' && 'hours' in value;
+    };
+
     const toggleEdit = () => {
       setEditing(!editing);
-      form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+
+      if (form) {
+        // Добавьте эту проверку
+        if (dataIndex === 'employee') {
+          form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+        } else {
+          const value = record[dataIndex];
+          if (isWorkHourObject(value)) {
+            form.setFieldsValue({ [dataIndex]: value.hours });
+          }
+        }
+      }
     };
 
     const save = async () => {
       try {
         const values = await form.validateFields();
         toggleEdit();
-        // Здесь должен быть ваш код для сохранения
-        // например, handleSave({ ...record, ...values });
+
+        const updatedRecord = {
+          ...record,
+          [dataIndex]: values[dataIndex],
+        };
+
+        console.log('Новые часы:', values[dataIndex]);
+        console.log('Дата:', dataIndex); // dataIndex у вас хранит дату
+        console.log('ID сотрудника:', updatedRecord.employee.id);
       } catch (errInfo) {
         console.log('Save failed:', errInfo);
       }
@@ -179,22 +201,25 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       title: `${day.format('dd')}\n${day.format('DD.MM')}`,
       handleSave: handleHoursChange,
     }),
-    render: (hours: number) => (hours ? `${hours}ч` : ''),
+    render: (cellData: { hours: number; id: number }) =>
+      cellData?.hours ? `${cellData.hours}ч` : '',
   }));
 
-  // Функция транформации данных с сервера
+  // Функция трансформации данных с сервера
   const transformDataFromServer = (data: TypeWorkHour[]): TypeWorkHour[] => {
     let result: TypeWorkHour[] = [];
     data.forEach(data => {
       const employee = data.employee;
-      console.log('employee', employee);
       const workHours = data.workHours;
       const aggregatedData: any = {
         employee: employee,
       };
       workHours?.forEach((hourData: WorkHourEntry) => {
-        aggregatedData[dayjs(hourData.workDate).format('DD.MM')] =
-          hourData.hours;
+        const dateKey = dayjs(hourData.workDate).format('DD.MM');
+        aggregatedData[dateKey] = {
+          hours: hourData.hours,
+          id: hourData.id, // Сохраняем id каждой ячейки
+        };
       });
       result.push(aggregatedData);
     });
@@ -208,7 +233,10 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     // Фильтрация свойств объекта, чтобы получить только дни текущей недели
     const daysHours = Object.keys(record)
       .filter(key => currentWeekDates.includes(key))
-      .map(key => record[key]);
+      .map(key => {
+        const cellData = record[key];
+        return cellData ? cellData.hours : 0;
+      });
 
     // Суммирование часов
     return daysHours.reduce((acc, hours) => acc + (hours || 0), 0);
