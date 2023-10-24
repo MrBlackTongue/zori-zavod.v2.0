@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Form, Input, Select, Table } from 'antd';
+import { Button, Form, Input, InputRef, Select, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import type { FormInstance } from 'antd/es/form';
 import { PlusOutlined } from '@ant-design/icons';
+import { RefSelectProps } from 'antd/lib/select';
 import {
   TableProps,
   TypeEmployee,
@@ -78,20 +79,28 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     ...restProps
   }) => {
     const [editing, setEditing] = useState(false);
-    const inputRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
+    const selectRef = useRef<RefSelectProps>(null);
+    const inputRef = useRef<InputRef>(null);
 
     // Хук для управления полем employee
     const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
       form,
       'employee',
     );
+
     useEffect(() => {
-      if (editing && inputRef.current) {
-        if ('focus' in inputRef.current) {
+      if (editing) {
+        if (
+          dataIndex === 'employee' &&
+          selectRef.current &&
+          'focus' in selectRef.current
+        ) {
+          selectRef.current.focus();
+        } else if (inputRef.current) {
           inputRef.current.focus();
         }
       }
-    }, [editing]);
+    }, [editing, dataIndex]);
 
     const isWorkHourObject = (value: {}): value is { hours: number } => {
       return value && typeof value === 'object' && 'hours' in value;
@@ -101,7 +110,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       setEditing(!editing);
 
       if (form) {
-        // Добавьте эту проверку
         if (dataIndex === 'employee') {
           form.setFieldsValue({ [dataIndex]: record[dataIndex] });
         } else {
@@ -132,64 +140,73 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     };
 
     const onBlurHandler = () => {
-      const employeeInfo = record.employee;
+      const employeeInfo = record.employee.id;
       const hoursInfo = record[dataIndex];
 
-      console.log('Информация о сотруднике:', employeeInfo);
+      console.log('Id сотрудника:', employeeInfo);
       console.log('Дата:', dataIndex);
       console.log('Информация о ячейке:', hoursInfo);
     };
 
     let childNode = children;
 
-    if (editable) {
-      childNode = editing ? (
-        dataIndex === 'employee' ? (
-          <Form.Item
-            style={{ margin: 0 }}
-            name={dataIndex}
-            rules={[{ required: true, message: 'выберите сотрудника' }]}>
-            <Select
-              ref={inputRef as any}
-              onBlur={save}
-              showSearch
-              allowClear
-              onChange={onChangeSelect}
-              onClear={onClearSelect}
-              filterOption={onSearchSelect}>
-              {allEmployee.map(data => (
-                <Select.Option
-                  key={data.id}
-                  value={data.id}
-                  label={`${data.lastName}, ${data.firstName}`}>
-                  {`${data.lastName} ${data.firstName}`}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        ) : (
-          <Form.Item
-            style={{ margin: 0 }}
-            name={dataIndex}
-            rules={[{ required: true, message: `Укажите ${title}` }]}>
-            <Input
-              ref={inputRef as any}
-              onPressEnter={save}
-              onBlur={onBlurHandler}
-            />
-          </Form.Item>
-        )
-      ) : (
-        <div
-          // className="editable-cell-value-wrap"
-          style={{ paddingRight: 24 }}
-          onClick={toggleEdit}>
-          {children}
-        </div>
-      );
-    }
+    // Рендерит выпадающий список для выбора сотрудника
+    const renderEmployeeSelect = () => (
+      <Form.Item
+        style={{ margin: 0 }}
+        name={dataIndex}
+        rules={[{ required: true, message: 'выберите сотрудника' }]}>
+        <Select
+          ref={selectRef}
+          onBlur={save}
+          showSearch
+          allowClear
+          onChange={onChangeSelect}
+          onClear={onClearSelect}
+          filterOption={onSearchSelect}>
+          {allEmployee.map(data => (
+            <Select.Option
+              key={data.id}
+              value={data.id}
+              label={`${data.lastName}, ${data.firstName}`}>
+              {`${data.lastName} ${data.firstName}`}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+    );
 
-    return <td {...restProps}>{childNode}</td>;
+    // Рендерит поле ввода для редактирования данных ячейки
+    const renderInput = () => (
+      <Form.Item
+        style={{ margin: 0 }}
+        name={dataIndex}
+        rules={[{ required: true, message: `Укажите ${title}` }]}>
+        <Input ref={inputRef} onPressEnter={save} onBlur={onBlurHandler} />
+      </Form.Item>
+    );
+
+    // Рендерит дефолтное отображение ячейки
+    const renderDefault = () => (
+      <div
+        // className="editable-cell-value-wrap"
+        style={{ paddingRight: 24 }}
+        onClick={toggleEdit}>
+        {children}
+      </div>
+    );
+
+    // Определяет, какой контент должен быть отрендерен в ячейке на основе ее состояния.
+    const renderContent = () => {
+      if (editable && editing) {
+        return dataIndex === 'employee'
+          ? renderEmployeeSelect()
+          : renderInput();
+      }
+      return renderDefault();
+    };
+
+    return <td {...restProps}>{renderContent()}</td>;
   };
 
   // Дата начала и конца недели
