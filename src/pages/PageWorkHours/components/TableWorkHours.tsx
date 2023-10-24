@@ -131,6 +131,15 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       }
     };
 
+    const onBlurHandler = () => {
+      const employeeInfo = record.employee;
+      const hoursInfo = record[dataIndex];
+
+      console.log('Информация о сотруднике:', employeeInfo);
+      console.log('Дата:', dataIndex);
+      console.log('Информация о ячейке:', hoursInfo);
+    };
+
     let childNode = children;
 
     if (editable) {
@@ -163,12 +172,16 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
             style={{ margin: 0 }}
             name={dataIndex}
             rules={[{ required: true, message: `Укажите ${title}` }]}>
-            <Input ref={inputRef as any} onPressEnter={save} onBlur={save} />
+            <Input
+              ref={inputRef as any}
+              onPressEnter={save}
+              onBlur={onBlurHandler}
+            />
           </Form.Item>
         )
       ) : (
         <div
-          className="editable-cell-value-wrap"
+          // className="editable-cell-value-wrap"
           style={{ paddingRight: 24 }}
           onClick={toggleEdit}>
           {children}
