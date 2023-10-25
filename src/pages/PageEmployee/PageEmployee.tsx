@@ -12,7 +12,7 @@ import { TableEmployee } from './components/TableEmployee';
 import { CreateModalEmployee } from './components/CreateModalEmployee';
 import { UpdateDrawerEmployee } from './components/UpdateDrawerEmployee';
 import { CustomPopover } from '../../components/CustomPopover/CustomPopover';
-import { PRODUCT_CONTENT } from '../../components/CustomPopover/ContentPopover';
+import { EMPLOYEE_CONTENT } from '../../components/CustomPopover/ContentPopover';
 
 export const PageEmployee = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -75,7 +75,7 @@ export const PageEmployee = () => {
           <CustomPopover
             content={
               <p style={{ fontSize: '13px', maxWidth: 500 }}>
-                {PRODUCT_CONTENT}
+                {EMPLOYEE_CONTENT}
               </p>
             }
           />

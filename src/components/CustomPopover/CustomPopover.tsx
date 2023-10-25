@@ -24,7 +24,7 @@ export const CustomPopover: React.FC<CustomPopoverProps> = ({ content }) => {
         size="small"
         shape="circle"
         ghost={!isOpen}
-        style={{ marginRight: 7 }}>
+        style={{ marginRight: 7, marginLeft: 7, top: -4 }}>
         <QuestionOutlined />
       </Button>
     </Popover>

@@ -32,7 +32,6 @@ export const TableEmployee: React.FC<TableProps> = ({
       title: 'Фамилия',
       dataIndex: 'lastName',
       key: 'lastName',
-      defaultSortOrder: 'ascend',
       sorter: (a, b) => ((a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1),
     },
     {
@@ -133,6 +132,7 @@ export const TableEmployee: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };
