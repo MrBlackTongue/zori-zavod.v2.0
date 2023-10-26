@@ -5,6 +5,8 @@ import type { FormInstance } from 'antd/es/form';
 import { PlusOutlined } from '@ant-design/icons';
 import { RefSelectProps } from 'antd/lib/select';
 import {
+  AggregatedWorkHourData,
+  CombinedType,
   TableProps,
   TypeEmployee,
   TypeEmployeeWorkHours,
@@ -189,7 +191,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     // Рендерит дефолтное отображение ячейки
     const renderDefault = () => (
       <div
-        // className="editable-cell-value-wrap"
+        className="editable-cell-value-wrap"
         style={{ paddingRight: 24 }}
         onClick={toggleEdit}>
         {children}
@@ -236,55 +238,45 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   }));
 
   // Функция трансформации данных с сервера
-  // const transformDataFromServer = (
-  //   data: TypeEmployeeWorkHours[],
-  // ): AggregatedWorkHourData[] => {
-  //   let result: AggregatedWorkHourData[] = [];
-  //
-  //   data.forEach(item => {
-  //     const employee = item.employee;
-  //     const workHours = item.workHours;
-  //
-  //     if (!Array.isArray(workHours)) {
-  //       return;
-  //     }
-  //
-  //     const aggregatedData: AggregatedWorkHourData = {
-  //       employee: employee,
-  //       workDate: '',
-  //       id: 0,
-  //       hours: 0,
-  //     };
-  //
-  //     workHours.forEach((hourData: TypeWorkHour) => {
-  //       const dateKey = dayjs(hourData.workDate).format('DD.MM');
-  //       aggregatedData[dateKey] = {
-  //         hours: hourData.hours || 0, // здесь мы обрабатываем возможный undefined
-  //         id: hourData.id || 0, // и здесь
-  //       };
-  //     });
-  //
-  //     result.push(aggregatedData);
-  //   });
-  //
-  //   return result;
-  // };
+  const transformDataFromServer = (
+    data: TypeEmployeeWorkHours[],
+  ): AggregatedWorkHourData[] => {
+    return data.reduce<AggregatedWorkHourData[]>(
+      (result, { employee, workHours = [] }) => {
+        const aggregatedData = workHours.reduce<AggregatedWorkHourData>(
+          (acc, { workDate, hours = 0, id = 0 }) => {
+            const dateKey = dayjs(workDate || '').format('DD.MM');
+            acc[dateKey] = { hours, id };
+            return acc;
+          },
+          {
+            employee, // только поле employee
+          },
+        );
+        result.push(aggregatedData);
+        console.log('result', result);
+        return result;
+      },
+      [],
+    );
+  };
 
-  const calculateTotalHours = (
-    record: TypeWorkHour & { [key: string]: any },
-  ): number => {
-    // Получение дат текущей недели
+  const calculateTotalHours = (record: CombinedType): number => {
     const currentWeekDates = days.map(day => day.format('DD.MM'));
-
-    // Фильтрация свойств объекта, чтобы получить только дни текущей недели
     const daysHours = Object.keys(record)
       .filter(key => currentWeekDates.includes(key))
       .map(key => {
         const cellData = record[key];
-        return cellData && cellData.hours ? cellData.hours : 0;
+        if (
+          typeof cellData === 'object' &&
+          'hours' in cellData &&
+          cellData !== null
+        ) {
+          return cellData.hours ? cellData.hours : 0;
+        }
+        return 0;
       });
 
-    // Суммирование часов
     return daysHours.reduce((acc, hours) => acc + (hours || 0), 0);
   };
 
@@ -300,30 +292,17 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     updatedRecord: TypeWorkHour,
     dataIndex: string,
   ) => {
-    //     const workDate = Object.keys(updatedRecord).find(
-    //       key =>
-    //         key.includes('.') && updatedRecord[key] !== null && key !== dataIndex,
-    //     );
-
-    //     if (!updatedRecord.id) {
-    //       console.error('ID не предоставлен. Объект updatedRecord:', updatedRecord);
-    //       return;
-    //     }
-
+    if (!updatedRecord?.id) {
+      console.error('ID не предоставлен. Объект updatedRecord:', updatedRecord);
+      return;
+    }
     const dataToSend: TypeWorkHour = {
-      // id: updatedRecord?.id, // используйте id из updatedRecord
       employee: updatedRecord.employee,
-      // workDate: workDate || dataIndex,
-      // hours: updatedRecord[workDate || dataIndex] || 0,
     };
-
     try {
       const response = await updateWorkHours(dataToSend);
       if (response) {
-        // const updatedHours = allWorkHour.map(item =>
-        // item.id === updatedRecord.id ? { ...item, ...updatedRecord } : item,
-        // );
-        // setAllWorkHour(updatedHours);
+        // Обновите allWorkHour
       }
     } catch (error) {
       console.error('Ошибка при обновлении данных рабочего времени: ', error);
@@ -332,14 +311,12 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
 
   // Функция добавления пустой строки
   const handleAddEmptyRow = () => {
-    const emptyRow: TypeWorkHour = {
+    const emptyRow: CombinedType = {
       employee: { id: undefined },
-      // workDate: undefined,
-      // hours: 0,
     };
 
     days.forEach(day => {
-      // emptyRow[day.format('DD.MM')] = null;
+      emptyRow[day.format('DD.MM')] = { hours: undefined }; // здесь мы присваиваем объект, соответствующий ожидаемому типу
     });
 
     setAllWorkHour(prevHours => [...prevHours, emptyRow]);
@@ -356,7 +333,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         editable: true,
         dataIndex: 'employee',
         title: 'Сотрудник',
-        // handleSave: handleEmployeeChange, // Ваша функция для сохранения данных
+        //  handleSave: handleEmployeeChange, // Ваша функция для сохранения данных
         allEmployee: allEmployee,
         form: form,
       }),
@@ -392,8 +369,8 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         dayjs(filter?.endDate).format('YYYY-MM-DD'),
       )
         .then(data => {
-          // const transformedData = transformDataFromServer(data);
-          // setAllWorkHour(transformedData);
+          const transformedData = transformDataFromServer(data);
+          setAllWorkHour(transformedData);
           setIsLoading(false);
         })
         .catch(error => console.error('Ошибка при получении данных: ', error));
