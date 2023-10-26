@@ -1,4 +1,4 @@
-import { TypeApiResponse, TypeWorkHour } from '../types';
+import { TypeApiResponse, TypeEmployeeWorkHours, TypeWorkHour } from '../types';
 import { WORK_HOURS } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
@@ -11,7 +11,7 @@ import { api } from './api';
 export async function getAllWorkHours(
   startDate: string,
   endDate: string,
-): Promise<TypeWorkHour[]> {
+): Promise<TypeEmployeeWorkHours[]> {
   try {
     const response = await api.get(WORK_HOURS, {
       params: {
