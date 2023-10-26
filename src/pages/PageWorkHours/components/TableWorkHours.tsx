@@ -238,25 +238,35 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   // Функция трансформации данных с сервера
   const transformDataFromServer = (data: TypeWorkHour[]): TypeWorkHour[] => {
     let result: TypeWorkHour[] = [];
-    data.forEach(data => {
-      const employee = data.employee;
-      const workHours = data.workHours;
-      const aggregatedData: any = {
-        employee: employee,
+    data.forEach(item => {
+      const employee = item.employee;
+      const workHours = item.workHours;
+
+      if (!Array.isArray(workHours)) {
+        return;
+      }
+
+      const aggregatedData: TypeWorkHour = {
+        employee,
+        workHoursContainer: {
+          workHours: workHours || [],
+        },
       };
-      workHours?.forEach((hourData: WorkHourEntry) => {
+
+      workHours.forEach((hourData: WorkHourEntry) => {
         const dateKey = dayjs(hourData.workDate).format('DD.MM');
         aggregatedData[dateKey] = {
           hours: hourData.hours,
           id: hourData.id, // Сохраняем id каждой ячейки
         };
       });
+
       result.push(aggregatedData);
     });
+
     return result;
   };
-
-  const calculateTotalHours = (record: any): number => {
+  const calculateTotalHours = (record: TypeWorkHour): number => {
     // Получение дат текущей недели
     const currentWeekDates = days.map(day => day.format('DD.MM'));
 
@@ -264,8 +274,8 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     const daysHours = Object.keys(record)
       .filter(key => currentWeekDates.includes(key))
       .map(key => {
-        const cellData = record[key];
-        return cellData ? cellData.hours : 0;
+        const cellData = record[key] as WorkHourEntry; // здесь мы уточняем тип
+        return cellData && cellData.hours ? cellData.hours : 0; // здесь мы уточняем, что берем поле hours
       });
 
     // Суммирование часов
@@ -284,16 +294,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     updatedRecord: TypeWorkHour,
     dataIndex: string,
   ) => {
-    //     const workDate = Object.keys(updatedRecord).find(
-    //       key =>
-    //         key.includes('.') && updatedRecord[key] !== null && key !== dataIndex,
-    //     );
-
-    //     if (!updatedRecord.id) {
-    //       console.error('ID не предоставлен. Объект updatedRecord:', updatedRecord);
-    //       return;
-    //     }
-
     const dataToSend: TypeWorkHour = {
       // id: updatedRecord?.id, // используйте id из updatedRecord
       employee: updatedRecord.employee,
@@ -304,10 +304,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     try {
       const response = await updateWorkHours(dataToSend);
       if (response) {
-        // const updatedHours = allWorkHour.map(item =>
-        // item.id === updatedRecord.id ? { ...item, ...updatedRecord } : item,
-        // );
-        // setAllWorkHour(updatedHours);
       }
     } catch (error) {
       console.error('Ошибка при обновлении данных рабочего времени: ', error);

@@ -1,9 +1,14 @@
 import { TypeEmployee } from './TypeEmployee';
 import dayjs, { Dayjs } from 'dayjs';
 
+export type WorkHoursContainer = {
+  workHours: WorkHourEntry[];
+};
+
 export type TypeWorkHour = {
   employee?: TypeEmployee;
-  workHours?: WorkHourEntry[];
+  workHoursContainer?: WorkHoursContainer;
+  [key: string]: WorkHoursContainer | WorkHourEntry | TypeEmployee | undefined;
 };
 
 export type WorkHourEntry = {
@@ -16,4 +21,9 @@ export type TypeWorkHoursFilter = {
   selectedDate?: dayjs.Dayjs;
   startDate?: Dayjs | string;
   endDate?: Dayjs | string;
+};
+
+export type RecordType = TypeWorkHour & {
+  employee: TypeEmployee;
+  [date: string]: WorkHoursContainer | WorkHourEntry | TypeEmployee | undefined;
 };
