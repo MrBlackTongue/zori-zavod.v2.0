@@ -1,5 +1,7 @@
 import { TypeEmployee } from './TypeEmployee';
 import dayjs, { Dayjs } from 'dayjs';
+import React from 'react';
+import { FormInstance } from 'antd/es/form';
 
 export type TypeEmployeeWorkHours = {
   employee?: TypeEmployee;
@@ -12,9 +14,7 @@ export type TypeWorkHour = {
   workDate?: string;
   hours?: number;
   [key: string]:
-    | {
-        hours?: number;
-      }
+    | { hours?: number }
     | number
     | string
     | TypeEmployee
@@ -50,3 +50,26 @@ export type CombinedType = TypeWorkHour &
 const emptyRow: CombinedType = {
   employee: { id: undefined },
 };
+
+export interface EditableCellProps {
+  title: React.ReactNode;
+  editable: boolean;
+  children: React.ReactNode;
+  dataIndex: keyof Item;
+  record: Item;
+  handleSave: (record: Item) => void;
+  allEmployee: TypeEmployee[];
+  form: FormInstance;
+}
+
+export interface Item {
+  key: string;
+  id: number;
+  employee: TypeEmployee;
+  workDate: string;
+  hours: number;
+}
+
+export interface EditableRowProps {
+  index: number;
+}
