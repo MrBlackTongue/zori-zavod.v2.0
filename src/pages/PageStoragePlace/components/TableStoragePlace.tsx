@@ -26,7 +26,7 @@ export const TableStoragePlace: React.FC<TableProps> = ({
       title: 'Название',
       dataIndex: 'title',
       key: 'title',
-      defaultSortOrder: 'ascend',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.title ?? '') < (b.title ?? '') ? -1 : 1),
     },
     {
@@ -105,6 +105,7 @@ export const TableStoragePlace: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

@@ -33,7 +33,7 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
         title: 'ID на складе',
         dataIndex: 'stock',
         key: 'stock',
-        defaultSortOrder: 'descend',
+        showSorterTooltip: false,
         sorter: (a, b) => ((a.stock?.id ?? 0) < (b.stock?.id ?? 0) ? -1 : 1),
         render: (stock: TypeStock) =>
           stock !== null ? <div>{stock.id}</div> : null,
@@ -50,6 +50,7 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
         dataIndex: 'income',
         key: 'income',
         render: income => (income ? 'Приход' : 'Расход'),
+        showSorterTooltip: false,
         sorter: (a, b) => ((a.income ?? false) < (b.income ?? false) ? -1 : 1),
       },
       {
@@ -123,6 +124,7 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
         pagination={false}
         loading={isLoading}
         size="small"
+        rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
       />
     );
   },

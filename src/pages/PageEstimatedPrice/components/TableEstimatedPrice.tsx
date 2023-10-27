@@ -51,6 +51,7 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
       title: 'Цена',
       dataIndex: 'price',
       key: 'price',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.price ?? 0) < (b.price ?? 0) ? -1 : 1),
       render: renderAsRuble,
     },
@@ -130,6 +131,7 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

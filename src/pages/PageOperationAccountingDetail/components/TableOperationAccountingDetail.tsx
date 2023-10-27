@@ -146,6 +146,7 @@ export const TableOperationAccountingDetail: React.FC<TableProps> = React.memo(
         loading={isLoading}
         size="middle"
         style={{ marginBottom: '20px' }}
+        rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
       />
     );
   },

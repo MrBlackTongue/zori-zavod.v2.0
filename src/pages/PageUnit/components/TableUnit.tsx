@@ -26,7 +26,7 @@ export const TableUnit: React.FC<TableProps> = ({
       title: 'Имя',
       dataIndex: 'name',
       key: 'name',
-      defaultSortOrder: 'ascend',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.name ?? '') < (b.name ?? '') ? -1 : 1),
     },
     {
@@ -105,6 +105,7 @@ export const TableUnit: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

@@ -44,6 +44,7 @@ export const TableShipment: React.FC<TableProps> = ({
       title: 'Клиент',
       dataIndex: 'client',
       key: 'client',
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
       render: (client: TypeClient) =>
@@ -134,6 +135,7 @@ export const TableShipment: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

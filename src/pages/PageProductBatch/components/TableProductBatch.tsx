@@ -35,7 +35,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       title: 'ID',
       dataIndex: 'id',
       key: 'idProductBatch',
-      defaultSortOrder: 'descend',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.id ?? '') < (b.id ?? '') ? -1 : 1),
     },
     {
@@ -50,6 +50,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
@@ -135,6 +136,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

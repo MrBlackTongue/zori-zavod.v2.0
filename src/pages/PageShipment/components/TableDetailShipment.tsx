@@ -47,6 +47,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
@@ -105,6 +106,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
       dataSource={allShipmentMovement}
       pagination={false}
       loading={isLoading}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

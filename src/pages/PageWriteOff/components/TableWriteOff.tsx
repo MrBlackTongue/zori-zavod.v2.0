@@ -37,6 +37,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
       dataIndex: 'employee',
       key: 'employee',
       width: 300,
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
       render: (employee: TypeEmployee) => (
@@ -50,6 +51,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
       dataIndex: 'productionType',
       key: 'productionType',
       width: 300,
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.productionType?.title ?? 0) < (b.productionType?.title ?? 0)
           ? -1
@@ -149,6 +151,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

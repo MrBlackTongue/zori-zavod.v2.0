@@ -66,6 +66,7 @@ export const TableProductMovementHistory: React.FC<
       title: 'Остатки',
       dataIndex: 'leftovers',
       key: 'leftovers',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.leftovers ?? '') < (b.leftovers ?? '') ? -1 : 1),
       render: (leftovers: number | null) =>
         leftovers !== null ? (
@@ -137,6 +138,7 @@ export const TableProductMovementHistory: React.FC<
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

@@ -28,12 +28,14 @@ export const TableClient: React.FC<TableProps> = ({
       dataIndex: 'title',
       key: 'title',
       width: 500,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.title ?? '') < (b.title ?? '') ? -1 : 1),
     },
     {
       title: 'Последняя отгрузка',
       dataIndex: 'lastShipment',
       key: 'lastShipment',
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.lastShipment ?? '') < (b.lastShipment ?? '') ? -1 : 1,
       render: (date: any) =>
@@ -115,6 +117,7 @@ export const TableClient: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };
