@@ -6,7 +6,8 @@ import { getAllEmployee } from '../../../services';
 import { TableProps, TypeEmployee } from '../../../types';
 import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
 import {
-  ACTIONS_INSTRUCTION_CONTENT,
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_INSTRUCTION_CONTENT_EDIT,
   ACTIONS_OVERVIEW_CONTENT,
 } from '../../../components/CustomPopover/ContentPopover';
 
@@ -124,7 +125,10 @@ export const TableEmployee: React.FC<TableProps> = ({
                 {ACTIONS_OVERVIEW_CONTENT}
                 <br />
                 <br />
-                {ACTIONS_INSTRUCTION_CONTENT}
+                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
               </p>
             }
           />
