@@ -28,47 +28,77 @@ import { PageWriteOff } from '../../pages/PageWriteOff/PageWriteOff';
 import { PageSubscription } from '../../pages/PageSubscription/PageSubscription';
 import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
+import {
+  ACCEPTANCE,
+  BATCH,
+  CLIENT,
+  COST_PRICE,
+  EMPLOYEE,
+  ESTIMATED_PRICE,
+  HISTORY,
+  METER,
+  METER_RECORD,
+  METER_TYPE,
+  OPERATION,
+  OPERATION_ACCOUNTING,
+  OUTPUT,
+  PRODUCT,
+  PRODUCT_GROUP,
+  PRODUCT_MOVEMENT,
+  PRODUCTION_TYPE,
+  PURCHASE,
+  REPORT,
+  SHIPMENT,
+  STOCK,
+  STORAGE_PLACE,
+  SUBSCRIPTION,
+  UNIT,
+  WRITE_OFF,
+} from '../../services';
 
 export const ContentRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/employee" element={<PageEmployee />} />
-      <Route path="/operation" element={<PageOperation />} />
-      <Route path="/product" element={<PageProduct />} />
-      <Route path="/output" element={<PageOutput />} />
-      <Route path="/unit" element={<PageUnit />} />
-      <Route path="/purchase" element={<PagePurchase />} />
-      <Route path="/client" element={<PageClient />} />
-      <Route path="/product-batch" element={<PageProductBatch />} />
+      <Route path={EMPLOYEE} element={<PageEmployee />} />
+      <Route path={OPERATION} element={<PageOperation />} />
+      <Route path={PRODUCT} element={<PageProduct />} />
+      <Route path={OUTPUT} element={<PageOutput />} />
+      <Route path={UNIT} element={<PageUnit />} />
+      <Route path={PURCHASE} element={<PagePurchase />} />
+      <Route path={CLIENT} element={<PageClient />} />
+      <Route path={`${PRODUCT}${BATCH}`} element={<PageProductBatch />} />
       <Route
-        path="/product-movement-history"
+        path={`${PRODUCT_MOVEMENT}${HISTORY}`}
         element={<PageProductMovementHistory />}
       />
-      <Route path="/acceptance" element={<PageAcceptance />} />
+      <Route path={ACCEPTANCE} element={<PageAcceptance />} />
       <Route
-        path="/operation-accounting"
+        path={OPERATION_ACCOUNTING}
         element={<PageOperationAccounting />}
       />
       <Route
-        path="/operation-accounting/:id/detail"
+        path={`${OPERATION_ACCOUNTING}/:id/detail`}
         element={<PageOperationAccountingDetail />}
       />
-      <Route path="/stock" element={<PageStock />} />
-      <Route path="/shipment" element={<PageShipment />} />
-      <Route path="/production-type" element={<PageProductionType />} />
-      <Route path="/product-group" element={<PageProductGroup />} />
-      <Route path="/meter-type" element={<PageMeterType />} />
-      <Route path="/meter" element={<PageMeter />} />
-      <Route path="/meter-record" element={<PageMeterRecord />} />
-      <Route path="/product-report" element={<PageProductReport />} />
-      <Route path="/output-report" element={<PageOutputReport />} />
-      <Route path="/operation-report" element={<PageOperationReport />} />
-      <Route path="/employee-report" element={<PageEmployeeReport />} />
-      <Route path="/cost-price-report" element={<PageCostPriceReport />} />
-      <Route path="/write-off" element={<PageWriteOff />} />
-      <Route path="/subscription" element={<PageSubscription />} />
-      <Route path="/estimated-price" element={<PageEstimatedPrice />} />
-      <Route path="/storage-place" element={<PageStoragePlace />} />
+      <Route path={STOCK} element={<PageStock />} />
+      <Route path={SHIPMENT} element={<PageShipment />} />
+      <Route path={PRODUCTION_TYPE} element={<PageProductionType />} />
+      <Route path={PRODUCT_GROUP} element={<PageProductGroup />} />
+      <Route path={METER_TYPE} element={<PageMeterType />} />
+      <Route path={METER} element={<PageMeter />} />
+      <Route path={METER_RECORD} element={<PageMeterRecord />} />
+      <Route path={`${REPORT}${PRODUCT}`} element={<PageProductReport />} />
+      <Route path={`${REPORT}${OUTPUT}`} element={<PageOutputReport />} />
+      <Route path={`${REPORT}${OPERATION}`} element={<PageOperationReport />} />
+      <Route path={`${REPORT}${EMPLOYEE}`} element={<PageEmployeeReport />} />
+      <Route
+        path={`${REPORT}${COST_PRICE}`}
+        element={<PageCostPriceReport />}
+      />
+      <Route path={WRITE_OFF} element={<PageWriteOff />} />
+      <Route path={SUBSCRIPTION} element={<PageSubscription />} />
+      <Route path={ESTIMATED_PRICE} element={<PageEstimatedPrice />} />
+      <Route path={STORAGE_PLACE} element={<PageStoragePlace />} />
     </Routes>
   );
 };

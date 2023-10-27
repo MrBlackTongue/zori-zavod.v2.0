@@ -1,78 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, Space, theme } from 'antd';
 import { MenuMain } from './components/MenuMain/MenuMain';
 import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
 import { MenuUser } from './components/MenuUser/MenuUser';
 
 function App() {
-  const { Header, Sider, Content } = Layout;
-  const [collapsed, setCollapsed] = useState(false);
+  const { Header, Content, Footer } = Layout;
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
-    <div>
-      <Layout>
-        <Sider
-          style={{ position: 'fixed', height: '100vh', zIndex: 1 }}
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
-          width={240}
-          theme="light">
-          {/*/!*<div className="logo" />*!/ // Для логотипа на странице*/}
-          <Header style={{ padding: 0, background: colorBgContainer }}>
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: 'trigger',
-                onClick: () => setCollapsed(!collapsed),
-              },
-            )}
-          </Header>
+    <Layout>
+      <Header
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          // padding: '20px 30px ',
+          justifyContent: 'space-between',
+          alignContent: 'center',
+          background: colorBgContainer,
+          // height: 70,
+        }}>
+        <Space className="space-logo">
+          <a href="/" rel="noopener noreferrer" className="logo-container">
+            <img
+              src="/images/header_logo.png"
+              alt="Logo"
+              className="logo-header"
+            />
+            <p className="logo-beta">beta</p>
+          </a>
           <MenuMain />
-        </Sider>
-        <Layout
-          className="site-layout"
-          style={{ marginLeft: collapsed ? 80 : 240 }}>
-          <Header
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              padding: '20px 30px ',
-              justifyContent: 'space-between',
-              alignContent: 'center',
-              background: colorBgContainer,
-            }}>
-            {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
-            <Space className="space-logo">
-              <a href="/" rel="noopener noreferrer" className="logo-container">
-                <img
-                  src="/images/header_logo.png"
-                  alt="Logo"
-                  className="logo-header"
-                />
-                <p className="logo-beta">beta</p>
-              </a>
-            </Space>
-            <Space>
-              <MenuUser />
-            </Space>
-          </Header>
-          <Content className="context-style">
-            <ContentRoutes />
-          </Content>
-        </Layout>
-      </Layout>
-      <div className="footer flex column center-row">
-        <p className="footer-text-three">Email: svetlana@zolotenkov.ru</p>
-        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
-      </div>
-    </div>
+        </Space>
+        <Space>
+          <MenuUser />
+        </Space>
+      </Header>
+      <Content className="context-style">
+        <ContentRoutes />
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>
+        <p>Email: svetlana@zolotenkov.ru</p>
+        <p>© Zolotenkov 2022-2023</p>
+      </Footer>
+    </Layout>
   );
 }
 
