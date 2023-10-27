@@ -106,6 +106,44 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(
       },
     ];
 
+    // Функция для расчета итоговых значений
+    const renderSummaryRow = () => {
+      if (!allOperationTimesheet) return null;
+      let totalHours = 0;
+      let totalResult = 0;
+
+      allOperationTimesheet.forEach(
+        ({ hours, fact }: TypeOperationTimesheet) => {
+          totalHours += hours ?? 0;
+          totalResult += fact ?? 0;
+        },
+      );
+
+      return (
+        <>
+          <Table.Summary.Row>
+            <Table.Summary.Cell index={0}>
+              <strong>Итого</strong>
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={1}>
+              <strong>
+                {totalHours.toLocaleString('ru-RU', {
+                  maximumFractionDigits: 2,
+                })}
+              </strong>
+            </Table.Summary.Cell>
+            <Table.Summary.Cell index={2}>
+              <strong>
+                {totalResult.toLocaleString('ru-RU', {
+                  maximumFractionDigits: 2,
+                })}
+              </strong>
+            </Table.Summary.Cell>
+          </Table.Summary.Row>
+        </>
+      );
+    };
+
     // Обновить таблицу
     const handleUpdateTable = useCallback(() => {
       if (idDetail) {
@@ -135,6 +173,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(
         loading={isLoading}
         size="small"
         style={{ marginBottom: '20px' }}
+        summary={renderSummaryRow}
         rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
       />
     );
