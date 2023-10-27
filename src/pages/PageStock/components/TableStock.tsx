@@ -43,13 +43,14 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       title: 'ID',
       dataIndex: 'id',
       key: 'idStock',
-      defaultSortOrder: 'descend',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.id ?? '') < (b.id ?? '') ? -1 : 1),
     },
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.product?.title ?? '') < (b.product?.title ?? '') ? -1 : 1,
       render: (product: TypeProduct) =>
@@ -60,6 +61,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
@@ -189,6 +191,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

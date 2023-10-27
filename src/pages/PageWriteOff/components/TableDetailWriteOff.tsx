@@ -32,6 +32,7 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
       dataIndex: 'income',
       key: 'income',
       width: 250,
+      showSorterTooltip: false,
       render: income => (income ? 'Приход' : 'Расход'),
       sorter: (a, b) => ((a.income ?? false) < (b.income ?? false) ? -1 : 1),
     },
@@ -47,6 +48,7 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
       key: 'amount',
       width: 250,
       render: renderNumber,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
@@ -105,6 +107,7 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
       dataSource={allWriteOffMovement}
       pagination={false}
       loading={isLoading}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

@@ -26,7 +26,6 @@ export const TableProductGroup: React.FC<TableProps> = ({
       title: 'Название',
       dataIndex: 'title',
       key: 'title',
-      defaultSortOrder: 'ascend',
     },
     {
       title: 'Действия',
@@ -123,6 +122,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

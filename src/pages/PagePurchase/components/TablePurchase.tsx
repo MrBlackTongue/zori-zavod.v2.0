@@ -57,6 +57,7 @@ export const TablePurchase: React.FC<TableProps> = ({
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
@@ -70,12 +71,14 @@ export const TablePurchase: React.FC<TableProps> = ({
       title: 'Цена за единицу',
       dataIndex: 'cost',
       key: 'cost',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.cost ?? 0) < (b.cost ?? 0) ? -1 : 1),
       render: renderAsRuble,
     },
     {
       title: 'Стоимость закупки',
       key: 'totalCost',
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.cost ?? 0) * (a.amount ?? 0) < (b.cost ?? 0) * (b.amount ?? 0)
           ? -1
@@ -95,6 +98,7 @@ export const TablePurchase: React.FC<TableProps> = ({
     {
       title: 'Статус оплаты',
       key: 'paid',
+      showSorterTooltip: false,
       sorter: (a, b) => Number(a.paid) - Number(b.paid),
       render: (record: TypePurchase) => (
         <Tag color={record.paid ? 'green' : 'volcano'}>
@@ -193,6 +197,7 @@ export const TablePurchase: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

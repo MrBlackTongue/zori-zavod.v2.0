@@ -23,7 +23,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(
         title: 'Сотрудник',
         dataIndex: 'employee',
         key: 'employee',
-        defaultSortOrder: 'ascend',
+        showSorterTooltip: false,
         sorter: (a, b) =>
           (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
         render: (employee: TypeEmployee) => (
@@ -112,6 +112,7 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(
         loading={isLoading}
         size="small"
         style={{ marginBottom: '20px' }}
+        rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
       />
     );
   },

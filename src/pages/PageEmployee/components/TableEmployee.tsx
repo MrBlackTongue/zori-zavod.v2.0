@@ -4,6 +4,11 @@ import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getAllEmployee } from '../../../services';
 import { TableProps, TypeEmployee } from '../../../types';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TableEmployee: React.FC<TableProps> = ({
   isUpdateTable,
@@ -23,33 +28,85 @@ export const TableEmployee: React.FC<TableProps> = ({
   // Колонки в таблице
   const columns: ColumnsType<TypeEmployee> = [
     {
-      title: 'Имя',
+      title: (
+        <>
+          Имя
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                Здесь вы можете увидеть имя сотрудника
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'firstName',
       key: 'firstName',
-      sorter: (a, b) => ((a.firstName ?? '') < (b.firstName ?? '') ? -1 : 1),
     },
     {
-      title: 'Фамилия',
+      title: (
+        <>
+          Фамилия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                Здесь вы можете увидеть фамилию сотрудника
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'lastName',
       key: 'lastName',
-      defaultSortOrder: 'ascend',
-      sorter: (a, b) => ((a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1),
     },
     {
-      title: 'Телефон',
+      title: (
+        <>
+          Телефон
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                Здесь вы можете увидеть телефон сотрудника
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'phone',
       key: 'phone',
     },
     {
-      title: 'Ставка',
+      title: (
+        <>
+          Ставка
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                Здесь вы можете увидеть ставку сотрудника в час
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'salaryRate',
       key: 'salaryRate',
-      sorter: (a, b) => (a.salaryRate ?? 0) - (b.salaryRate ?? 0),
     },
     {
-      title: 'Статус найма',
+      title: (
+        <>
+          Статус найма
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                Здесь вы можете увидеть статус найма сотрудника
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'hired',
       key: 'hired',
+      showSorterTooltip: false,
       sorter: (a, b) => Number(a.hired) - Number(b.hired),
       render: hired => (
         <Tag color={hired ? 'green' : 'volcano'}>
@@ -58,10 +115,24 @@ export const TableEmployee: React.FC<TableProps> = ({
       ),
     },
     {
-      title: 'Действия',
+      title: (
+        <>
+          Действия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                {ACTIONS_OVERVIEW_CONTENT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT}
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 130,
       align: 'center',
       render: (id: number) => (
         <Space>
@@ -133,6 +204,7 @@ export const TableEmployee: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

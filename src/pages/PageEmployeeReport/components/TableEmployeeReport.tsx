@@ -35,6 +35,7 @@ export const TableEmployeeReport: React.FC<
       dataIndex: 'date',
       key: 'date',
       width: 100,
+      showSorterTooltip: false,
       sorter: (a, b) => dayjs(a.date).unix() - dayjs(b.date).unix(),
       render: (date: any) =>
         date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
@@ -44,6 +45,7 @@ export const TableEmployeeReport: React.FC<
       dataIndex: 'firstName',
       key: 'firstName',
       width: 100,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.firstName ?? '') < (b.firstName ?? '') ? -1 : 1),
     },
     {
@@ -51,6 +53,7 @@ export const TableEmployeeReport: React.FC<
       dataIndex: 'lastName',
       key: 'lastName',
       width: 100,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.lastName ?? '') < (b.lastName ?? '') ? -1 : 1),
     },
     {
@@ -58,6 +61,7 @@ export const TableEmployeeReport: React.FC<
       dataIndex: 'operationTitle',
       key: 'operationTitle',
       width: 350,
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.operationTitle ?? '') < (b.operationTitle ?? '') ? -1 : 1,
     },
@@ -66,6 +70,7 @@ export const TableEmployeeReport: React.FC<
       dataIndex: 'fact',
       key: 'fact',
       width: 100,
+      showSorterTooltip: false,
       sorter: (a, b) => (a.fact ?? 0) - (b.fact ?? 0),
       render: renderNumber,
     },
@@ -74,6 +79,7 @@ export const TableEmployeeReport: React.FC<
       dataIndex: 'hours',
       key: 'hours',
       width: 100,
+      showSorterTooltip: false,
       sorter: (a, b) => (a.hours ?? 0) - (b.hours ?? 0),
       render: renderNumber,
     },
@@ -82,6 +88,7 @@ export const TableEmployeeReport: React.FC<
       dataIndex: 'performance',
       key: 'performance',
       width: 100,
+      showSorterTooltip: false,
       sorter: (a, b) => (a.performance ?? 0) - (b.performance ?? 0),
       render: renderNumber,
     },
@@ -162,6 +169,7 @@ export const TableEmployeeReport: React.FC<
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };
