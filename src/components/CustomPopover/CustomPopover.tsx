@@ -1,6 +1,10 @@
 import React, { ReactNode, useState } from 'react';
-import { Button, Popover } from 'antd';
-import { QuestionOutlined } from '@ant-design/icons';
+import { Popover } from 'antd';
+import {
+  CloseOutlined,
+  QuestionCircleFilled,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 
 interface CustomPopoverProps {
   content: ReactNode;
@@ -9,24 +13,52 @@ interface CustomPopoverProps {
 export const CustomPopover: React.FC<CustomPopoverProps> = ({ content }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpenChange = (isOpen: boolean) => {
+  const IconComponent = isOpen ? QuestionCircleFilled : QuestionCircleOutlined;
+
+  const handleOpen = (isOpen: boolean) => {
     setIsOpen(isOpen);
   };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const popoverContent = (
+    <div>
+      <div style={{ position: 'relative' }}>
+        <CloseOutlined
+          style={{
+            position: 'absolute',
+            right: 0,
+            top: -12,
+            cursor: 'pointer',
+          }}
+          onClick={handleClose}
+        />
+      </div>
+      {content}
+    </div>
+  );
 
   return (
     <Popover
       placement="bottomLeft"
       trigger="click"
-      onOpenChange={handleOpenChange}
-      content={content}>
-      <Button
-        type="primary"
-        size="small"
-        shape="circle"
-        ghost={!isOpen}
-        style={{ marginRight: 7, marginLeft: 7, top: -4 }}>
-        <QuestionOutlined />
-      </Button>
+      open={isOpen}
+      onOpenChange={handleOpen}
+      content={popoverContent}>
+      <div
+        style={{
+          display: 'inline-block',
+          marginRight: 5,
+          marginLeft: 5,
+          cursor: 'pointer',
+        }}
+        onClick={() => setIsOpen(!isOpen)}>
+        <IconComponent
+          style={{ color: '#1677ff', transform: 'translateY(-5px)' }}
+        />
+      </div>
     </Popover>
   );
 };
