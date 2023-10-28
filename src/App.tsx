@@ -18,23 +18,26 @@ function App() {
         style={{
           display: 'flex',
           flexDirection: 'row',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1,
           // padding: '20px 30px ',
           justifyContent: 'space-between',
           alignContent: 'center',
           background: colorBgContainer,
-          // height: 70,
+          height: 75,
         }}>
-        <Space className="space-logo">
-          <a href="/" rel="noopener noreferrer" className="logo-container">
-            <img
-              src="/images/header_logo.png"
-              alt="Logo"
-              className="logo-header"
-            />
-            <p className="logo-beta">beta</p>
-          </a>
-          <MenuMain />
-        </Space>
+        {/*<Space className="space-logo" style={{ flexGrow: 1, height: '100%' }}>*/}
+        <a href="/" rel="noopener noreferrer" className="logo-container">
+          <img
+            src="/images/header_logo.png"
+            alt="Logo"
+            className="logo-header"
+          />
+          <p className="logo-beta">beta</p>
+        </a>
+        <MenuMain />
+        {/*</Space>*/}
         <Space>
           <MenuUser />
         </Space>

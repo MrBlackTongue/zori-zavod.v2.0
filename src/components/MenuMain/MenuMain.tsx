@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
+import './MenuMain.css';
 import {
   CalendarOutlined,
   ContactsOutlined,
@@ -39,9 +40,15 @@ import {
 
 const ITEMS = [
   {
-    label: <Link to={EMPLOYEE}>Сотрудники</Link>,
+    label: (
+      <div className="menu-item-container">
+        <TeamOutlined className="menu-item-icon" style={{ fontSize: '22px' }} />
+        <Link to={EMPLOYEE} className="menu-item-link">
+          Сотрудники
+        </Link>
+      </div>
+    ),
     key: `${EMPLOYEE}`,
-    icon: <TeamOutlined />,
   },
   {
     label: 'Операции',
@@ -204,10 +211,11 @@ export const MenuMain: React.FC = () => {
 
   return (
     <Menu
-      theme="light"
+      theme="dark"
       mode="horizontal"
       selectedKeys={[location.pathname]}
       items={ITEMS}
+      style={{ height: '100%' }}
     />
   );
 };

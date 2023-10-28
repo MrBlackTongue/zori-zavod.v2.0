@@ -1,0 +1,17 @@
+.menu-item-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.menu-item-icon {
+    position: relative;
+    top: 10px;
+}
+
+.menu-item-link {
+    position: relative;
+    top: -5px;
+}
