@@ -25,9 +25,9 @@ function App() {
           justifyContent: 'space-between',
           alignContent: 'center',
           background: colorBgContainer,
-          height: 75,
+          height: 73,
         }}>
-        {/*<Space className="space-logo" style={{ flexGrow: 1, height: '100%' }}>*/}
+        {/*<Space className="space-logo" style={{ flexGrow: 1 }}>*/}
         <a href="/" rel="noopener noreferrer" className="logo-container">
           <img
             src="/images/header_logo.png"

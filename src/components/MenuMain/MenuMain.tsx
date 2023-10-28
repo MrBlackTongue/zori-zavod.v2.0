@@ -3,13 +3,15 @@ import { Menu } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import './MenuMain.css';
 import {
-  CalendarOutlined,
-  ContactsOutlined,
-  LogoutOutlined,
+  AppstoreAddOutlined,
+  AppstoreOutlined,
+  BarChartOutlined,
+  CarryOutOutlined,
   RightOutlined,
-  SolutionOutlined,
+  ScheduleOutlined,
+  ShopOutlined,
+  ShoppingCartOutlined,
   TeamOutlined,
-  TranslationOutlined,
 } from '@ant-design/icons';
 import {
   ACCEPTANCE,
@@ -42,18 +44,29 @@ const ITEMS = [
   {
     label: (
       <div className="menu-item-container">
-        <TeamOutlined className="menu-item-icon" style={{ fontSize: '22px' }} />
-        <Link to={EMPLOYEE} className="menu-item-link">
-          Сотрудники
-        </Link>
+        <ShopOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
+        Продажи
       </div>
     ),
-    key: `${EMPLOYEE}`,
+    key: '01',
+    children: [
+      {
+        label: <Link to={SHIPMENT}>Отгрузки</Link>,
+        key: `${SHIPMENT}`,
+      },
+    ],
   },
   {
-    label: 'Операции',
-    key: '01',
-    icon: <RightOutlined />,
+    label: (
+      <div className="menu-item-container">
+        <AppstoreAddOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        Создать
+      </div>
+    ),
+    key: '02',
     children: [
       {
         label: <Link to={OPERATION_ACCOUNTING}>Учет операций</Link>,
@@ -67,12 +80,81 @@ const ITEMS = [
         label: <Link to={PRODUCTION_TYPE}>Типы производства</Link>,
         key: `${PRODUCTION_TYPE}`,
       },
+      {
+        label: <Link to={OUTPUT}>Выпуски продукции</Link>,
+        key: `${OUTPUT}`,
+      },
     ],
   },
   {
-    label: 'Отчеты',
-    key: '02',
-    icon: <RightOutlined />,
+    label: (
+      <div className="menu-item-container">
+        <ShoppingCartOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        Покупки
+      </div>
+    ),
+    key: '03',
+    children: [
+      {
+        label: <Link to={PURCHASE}>Закупки</Link>,
+        key: `${PURCHASE}`,
+      },
+      {
+        label: <Link to={`${PRODUCT}${BATCH}`}>Партии товаров</Link>,
+        key: `${PRODUCT}${BATCH}`,
+      },
+      {
+        label: <Link to={ACCEPTANCE}>Приемка товаров</Link>,
+        key: `${ACCEPTANCE}`,
+      },
+    ],
+  },
+  {
+    label: (
+      <div className="menu-item-container">
+        <AppstoreOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        Склад
+      </div>
+    ),
+    key: '04',
+    children: [
+      {
+        label: <Link to={STOCK}>Остатки</Link>,
+        key: `${STOCK}`,
+      },
+      {
+        label: <Link to={WRITE_OFF}>Списание</Link>,
+        key: `${WRITE_OFF}`,
+      },
+      {
+        label: <Link to={STORAGE_PLACE}>Место хранения</Link>,
+        key: `${STORAGE_PLACE}`,
+      },
+      {
+        label: (
+          <Link to={`${PRODUCT_MOVEMENT}${HISTORY}`}>История товаров</Link>
+        ),
+        key: `${PRODUCT_MOVEMENT}${HISTORY}`,
+      },
+    ],
+  },
+  {
+    label: (
+      <div className="menu-item-container">
+        <BarChartOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        Отчеты
+      </div>
+    ),
+    key: '05',
     children: [
       {
         label: <Link to={`${REPORT}${OPERATION}`}>По операциям</Link>,
@@ -97,9 +179,16 @@ const ITEMS = [
     ],
   },
   {
-    label: 'Товары',
-    key: '03',
-    icon: <RightOutlined />,
+    label: (
+      <div className="menu-item-container">
+        <CarryOutOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        Товары
+      </div>
+    ),
+    key: '06',
     children: [
       {
         label: <Link to={PRODUCT}>Товары</Link>,
@@ -109,11 +198,53 @@ const ITEMS = [
         label: <Link to={PRODUCT_GROUP}>Группы товаров</Link>,
         key: `${PRODUCT_GROUP}`,
       },
+      {
+        label: <Link to={ESTIMATED_PRICE}>Расчетные цены</Link>,
+        key: `${ESTIMATED_PRICE}`,
+      },
+      {
+        label: <Link to={UNIT}>Единицы измерения</Link>,
+        key: `${UNIT}`,
+      },
     ],
   },
   {
+    label: (
+      <div className="menu-item-container">
+        <TeamOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
+        Контакты
+      </div>
+    ),
+    key: '07',
+    children: [
+      {
+        label: <Link to={CLIENT}>Клиенты</Link>,
+        key: `${CLIENT}`,
+      },
+    ],
+  },
+  {
+    label: (
+      <div className="menu-item-container">
+        <ScheduleOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        Сотрудники
+      </div>
+    ),
+    key: '08',
+    children: [
+      {
+        label: <Link to={EMPLOYEE}>Сотрудники</Link>,
+        key: `${EMPLOYEE}`,
+      },
+    ],
+  },
+
+  {
     label: 'Счетчики',
-    key: '04',
+    key: '10',
     icon: <RightOutlined />,
     children: [
       {
@@ -129,80 +260,6 @@ const ITEMS = [
         key: `${METER_TYPE}`,
       },
     ],
-  },
-  {
-    label: <Link to={CLIENT}>Клиенты</Link>,
-    key: `${CLIENT}`,
-    icon: <SolutionOutlined />,
-  },
-  {
-    label: 'Склад',
-    key: '05',
-    icon: <RightOutlined />,
-    children: [
-      {
-        label: <Link to={STOCK}>Остатки</Link>,
-        key: `${STOCK}`,
-      },
-      {
-        label: <Link to={WRITE_OFF}>Списание</Link>,
-        key: `${WRITE_OFF}`,
-      },
-      {
-        label: <Link to={STORAGE_PLACE}>Место хранения</Link>,
-        key: `${STORAGE_PLACE}`,
-      },
-    ],
-  },
-  {
-    label: <Link to={SHIPMENT}>Отгрузки</Link>,
-    key: `${SHIPMENT}`,
-    icon: <ContactsOutlined />,
-  },
-  {
-    label: 'Закупки',
-    key: '06',
-    icon: <RightOutlined />,
-    children: [
-      {
-        label: <Link to={PURCHASE}>Заказы на закупки</Link>,
-        key: `${PURCHASE}`,
-      },
-      {
-        label: <Link to={`${PRODUCT}${BATCH}`}>Партии товаров</Link>,
-        key: `${PRODUCT}${BATCH}`,
-      },
-      {
-        label: <Link to={ACCEPTANCE}>Приемка товаров</Link>,
-        key: `${ACCEPTANCE}`,
-      },
-    ],
-  },
-  {
-    label: 'Себестоимость',
-    key: '07',
-    icon: <RightOutlined />,
-    children: [
-      {
-        label: <Link to={ESTIMATED_PRICE}>Расчетные цены</Link>,
-        key: `${ESTIMATED_PRICE}`,
-      },
-    ],
-  },
-  {
-    label: <Link to={`${PRODUCT_MOVEMENT}${HISTORY}`}>История товаров</Link>,
-    key: `${PRODUCT_MOVEMENT}${HISTORY}`,
-    icon: <CalendarOutlined />,
-  },
-  {
-    label: <Link to={OUTPUT}>Выпуски продукции</Link>,
-    key: `${OUTPUT}`,
-    icon: <LogoutOutlined />,
-  },
-  {
-    label: <Link to={UNIT}>Единицы измерения</Link>,
-    key: `${UNIT}`,
-    icon: <TranslationOutlined />,
   },
 ];
 
