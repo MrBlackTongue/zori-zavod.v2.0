@@ -21,9 +21,6 @@ import {
   EMPLOYEE,
   ESTIMATED_PRICE,
   HISTORY,
-  METER,
-  METER_RECORD,
-  METER_TYPE,
   OPERATION,
   OPERATION_ACCOUNTING,
   OUTPUT,
@@ -246,20 +243,7 @@ const ITEMS = [
     label: 'Счетчики',
     key: '10',
     icon: <RightOutlined />,
-    children: [
-      {
-        label: <Link to={METER_RECORD}>Записи счетчиков</Link>,
-        key: `${METER_RECORD}`,
-      },
-      {
-        label: <Link to={METER}>Счетчики</Link>,
-        key: `${METER}`,
-      },
-      {
-        label: <Link to={METER_TYPE}>Типы счетчиков</Link>,
-        key: `${METER_TYPE}`,
-      },
-    ],
+    children: [{}],
   },
 ];
 

@@ -16,9 +16,6 @@ import { PageOperationAccountingDetail } from '../../pages/PageOperationAccounti
 import { PageStock } from '../../pages/PageStock/PageStock';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageProductGroup } from '../../pages/PageProductGroup/PageProductGroup';
-import { PageMeterType } from '../../pages/PageMeterType/PageMeterType';
-import { PageMeter } from '../../pages/PageMeter/PageMeter';
-import { PageMeterRecord } from '../../pages/PageMeterRecord/PageMeterRecord';
 import { PageProductReport } from '../../pages/PageProductReport/PageProductReport';
 import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
 import { PageOperationReport } from '../../pages/PageOperationReport/PageOperationReport';
@@ -36,9 +33,6 @@ import {
   EMPLOYEE,
   ESTIMATED_PRICE,
   HISTORY,
-  METER,
-  METER_RECORD,
-  METER_TYPE,
   OPERATION,
   OPERATION_ACCOUNTING,
   OUTPUT,
@@ -84,9 +78,6 @@ export const ContentRoutes: React.FC = () => {
       <Route path={SHIPMENT} element={<PageShipment />} />
       <Route path={PRODUCTION_TYPE} element={<PageProductionType />} />
       <Route path={PRODUCT_GROUP} element={<PageProductGroup />} />
-      <Route path={METER_TYPE} element={<PageMeterType />} />
-      <Route path={METER} element={<PageMeter />} />
-      <Route path={METER_RECORD} element={<PageMeterRecord />} />
       <Route path={`${REPORT}${PRODUCT}`} element={<PageProductReport />} />
       <Route path={`${REPORT}${OUTPUT}`} element={<PageOutputReport />} />
       <Route path={`${REPORT}${OPERATION}`} element={<PageOperationReport />} />

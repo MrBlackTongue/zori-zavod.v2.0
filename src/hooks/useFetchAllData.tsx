@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import {
   TypeClient,
   TypeEmployee,
-  TypeMeter,
-  TypeMeterType,
   TypeOperation,
   TypeOutput,
   TypeProduct,
@@ -18,8 +16,6 @@ import {
 import {
   getAllClient,
   getAllEmployee,
-  getAllMeter,
-  getAllMeterType,
   getAllOperation,
   getAllOutput,
   getAllProduct,
@@ -67,8 +63,6 @@ export const useFetchAllData = (deps: {
   );
   const [allClient, setAllClient] = useState<TypeClient[]>([]);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>([]);
-  const [allMeterType, setAllMeterType] = useState<TypeMeterType[]>([]);
-  const [allMeter, setAllMeter] = useState<TypeMeter[]>([]);
   const [allProductOutput, setAllProductOutput] = useState<TypeProduct[]>([]);
   const [allStoragePlace, setAllStoragePlace] = useState<TypeStoragePlace[]>(
     [],
@@ -163,22 +157,6 @@ export const useFetchAllData = (deps: {
   }, [deps.depsEmployee]);
 
   useEffect(() => {
-    if (deps.depsMeterType) {
-      getAllMeterType()
-        .then(data => setAllMeterType(data))
-        .catch(error => console.error('Ошибка при получении данных: ', error));
-    }
-  }, [deps.depsMeterType]);
-
-  useEffect(() => {
-    if (deps.depsMeter) {
-      getAllMeter()
-        .then(data => setAllMeter(data))
-        .catch(error => console.error('Ошибка при получении данных: ', error));
-    }
-  }, [deps.depsMeter]);
-
-  useEffect(() => {
     if (deps.depsProductOutput) {
       getAllProductOutput()
         .then(data => setAllProductOutput(data))
@@ -206,8 +184,6 @@ export const useFetchAllData = (deps: {
     allProductGroup,
     allClient,
     allEmployee,
-    allMeterType,
-    allMeter,
     allProductOutput,
     allStoragePlace,
   };
