@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, FloatButton, Space, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createEmployee,
   deleteEmployeeById,
@@ -70,7 +69,7 @@ export const PageEmployee = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle" style={{ position: 'relative' }}>
+      <div className="content-title-bar" style={{ position: 'relative' }}>
         <Typography.Title level={3} style={{ display: 'inline-block' }}>
           <CustomPopover
             content={

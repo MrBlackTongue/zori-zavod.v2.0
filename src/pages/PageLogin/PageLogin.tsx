@@ -111,20 +111,10 @@ export const PageLogin: React.FC = () => {
           </a>
         </div>
       </Form>
-      <div className="login-footer">
-        <p className="login-footer-text-one">Телефон: +7 (968) 614-15-72</p>
-        <p className="login-footer-text-two">Связаться с нами:</p>
-        <a
-          href="https://t.me/AlAlon369"
-          target="_blank"
-          rel="noopener noreferrer">
-          <img
-            alt="icon-telegram"
-            src="/images/footer_icon_telegram.png"
-            className="login-logo-telegram"
-          />
-        </a>
-        <p className="login-footer-text-three">© Zolotenkov 2022-2023</p>
+      <div className="footer flex column center-row center-column">
+        <p className="footer-text-one">Связаться с нами:</p>
+        <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
+        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
       </div>
       <CreateModalRegistrationUser
         isOpen={isModalOpen}

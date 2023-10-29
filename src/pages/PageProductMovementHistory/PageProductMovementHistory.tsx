@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FloatButton, Select, Space, Tooltip, Typography } from 'antd';
-import '../../App.css';
 import { TableProductMovementHistory } from './components/TableProductMovementHistory';
 import { useFetchAllData } from '../../hooks';
 
@@ -26,7 +25,7 @@ export const PageProductMovementHistory: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>История движения товаров</Title>
         <Space>
           <Select

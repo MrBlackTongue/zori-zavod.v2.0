@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, FloatButton, Input, Space, Typography } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createProduct,
   deleteProductById,
@@ -67,7 +66,7 @@ export const PageProduct: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Товары</Title>
         <Space>
           <Input

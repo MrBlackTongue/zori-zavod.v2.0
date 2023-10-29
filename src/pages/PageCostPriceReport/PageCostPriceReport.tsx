@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { FloatButton, Select, Space, Tooltip, Typography } from 'antd';
-import '../../App.css';
 import { TableCostPriceReport } from './components/TableCostPriceReport';
 import { useFetchAllData } from '../../hooks';
 import dayjs from 'dayjs';
@@ -38,7 +37,7 @@ export const PageCostPriceReport: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Отчет по себестоимости</Title>
         <Space>
           <Select

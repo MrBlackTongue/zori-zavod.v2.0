@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, FloatButton, Space, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createProductBatch,
   deleteProductBatchById,
@@ -65,7 +64,7 @@ export const PageProductBatch: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Партии товаров</Title>
         <Space>
           <Button

@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Typography, Space, FloatButton, DatePicker } from 'antd';
-import '../../App.css';
+import React, { useMemo, useState } from 'react';
+import { DatePicker, FloatButton, Space, Typography } from 'antd';
 import { TableOperationReport } from './components/TableOperationReport';
 import dayjs from 'dayjs';
 
@@ -32,7 +31,7 @@ export const PageOperationReport: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Отчет по операциям</Title>
         <Space>
           <DatePicker

@@ -8,7 +8,6 @@ import {
   Typography,
 } from 'antd';
 import { TableProductReport } from './components/TableProductReport';
-import '../../App.css';
 import dayjs from 'dayjs';
 import { useFetchAllData } from '../../hooks';
 
@@ -60,7 +59,7 @@ export const PageProductReport: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Отчет по товарам</Title>
         <Space>
           <Select

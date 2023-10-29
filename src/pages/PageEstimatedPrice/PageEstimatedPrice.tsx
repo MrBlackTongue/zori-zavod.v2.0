@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, FloatButton, Space, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createEstimatedPrice,
   deleteEstimatedPriceById,
@@ -68,7 +67,7 @@ export const PageEstimatedPrice: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Расчетные цены</Title>
         <Space>
           <Button

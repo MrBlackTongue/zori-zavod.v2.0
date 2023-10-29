@@ -9,7 +9,6 @@ import {
   Typography,
 } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createStock,
   deleteStockById,
@@ -95,7 +94,7 @@ export const PageStock: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Остатки</Title>
         <Space>
           <Input

@@ -7,7 +7,6 @@ import {
   AppstoreOutlined,
   BarChartOutlined,
   CarryOutOutlined,
-  RightOutlined,
   ScheduleOutlined,
   ShopOutlined,
   ShoppingCartOutlined,
@@ -37,12 +36,12 @@ import {
   WRITE_OFF,
 } from '../../services';
 
-const ITEMS = [
+const items = [
   {
     label: (
       <div className="menu-item-container">
         <ShopOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
-        Продажи
+        <div className="menu-item-div">Продажи</div>
       </div>
     ),
     key: '01',
@@ -60,7 +59,7 @@ const ITEMS = [
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
-        Создать
+        <div className="menu-item-div">Создать</div>
       </div>
     ),
     key: '02',
@@ -90,7 +89,7 @@ const ITEMS = [
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
-        Покупки
+        <div className="menu-item-div">Покупки</div>
       </div>
     ),
     key: '03',
@@ -116,7 +115,7 @@ const ITEMS = [
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
-        Склад
+        <div className="menu-item-div">Склад</div>
       </div>
     ),
     key: '04',
@@ -148,7 +147,7 @@ const ITEMS = [
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
-        Отчеты
+        <div className="menu-item-div">Отчеты</div>
       </div>
     ),
     key: '05',
@@ -182,7 +181,7 @@ const ITEMS = [
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
-        Товары
+        <div className="menu-item-div">Товары</div>
       </div>
     ),
     key: '06',
@@ -209,7 +208,7 @@ const ITEMS = [
     label: (
       <div className="menu-item-container">
         <TeamOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
-        Контакты
+        <div className="menu-item-div">Контакты</div>
       </div>
     ),
     key: '07',
@@ -227,7 +226,7 @@ const ITEMS = [
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
-        Сотрудники
+        <div className="menu-item-div">Сотрудники</div>
       </div>
     ),
     key: '08',
@@ -238,13 +237,6 @@ const ITEMS = [
       },
     ],
   },
-
-  {
-    label: 'Счетчики',
-    key: '10',
-    icon: <RightOutlined />,
-    children: [{}],
-  },
 ];
 
 export const MenuMain: React.FC = () => {
@@ -252,11 +244,14 @@ export const MenuMain: React.FC = () => {
 
   return (
     <Menu
-      theme="dark"
+      theme="light"
       mode="horizontal"
       selectedKeys={[location.pathname]}
-      items={ITEMS}
-      style={{ height: '100%' }}
+      items={items}
+      style={{
+        height: '100%',
+        width: '100%',
+      }}
     />
   );
 };

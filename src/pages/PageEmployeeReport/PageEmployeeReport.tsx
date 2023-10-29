@@ -7,7 +7,6 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import '../../App.css';
 import dayjs from 'dayjs';
 import { useFetchAllData } from '../../hooks';
 import { TableEmployeeReport } from './components/TableEmployeeReport';
@@ -68,7 +67,7 @@ export const PageEmployeeReport: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Отчет по сотрудникам</Title>
         <Space>
           <Select

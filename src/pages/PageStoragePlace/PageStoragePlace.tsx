@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, FloatButton, Space, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createStoragePlace,
   deleteStoragePlaceById,
@@ -63,7 +62,7 @@ export const PageStoragePlace: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Место хранения</Title>
         <Space>
           <Button

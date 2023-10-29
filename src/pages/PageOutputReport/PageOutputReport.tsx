@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Checkbox, Select, Space, Tooltip, Typography } from 'antd';
 import { TableOutputReport } from './components/TableOutputReport';
-import '../../App.css';
 import { useFetchAllData } from '../../hooks';
 import { TypeOutputReportFilter } from '../../types';
 import dayjs from 'dayjs';
@@ -42,7 +41,7 @@ export const PageOutputReport: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Отчет по выпускам</Title>
         <Space>
           <Checkbox

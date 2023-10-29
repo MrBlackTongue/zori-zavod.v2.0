@@ -20,9 +20,9 @@ export const TablePaymentHistory: React.FC = () => {
   });
 
   const statusMapping: { [key: string]: string } = {
-    succeeded: 'Подтверждён',
+    succeeded: 'Подтвержден',
     pending: 'В ожидании',
-    canceled: 'Отменён',
+    canceled: 'Отменен',
     waiting_for_capture: 'Ожидает списания',
   };
 

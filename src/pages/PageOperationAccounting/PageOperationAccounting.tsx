@@ -9,7 +9,6 @@ import {
   Typography,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createOperationAccounting,
   deleteOperationAccountingById,
@@ -132,7 +131,7 @@ export const PageOperationAccounting: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Учет операций</Title>
         <Space>
           <DatePicker

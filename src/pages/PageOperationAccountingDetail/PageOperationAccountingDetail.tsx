@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Divider, FloatButton, Space, Tooltip, Typography } from 'antd';
 import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createOperationTimesheet,
   createProductionProductMovement,
@@ -168,7 +167,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
           Вернуться к таблице Учет операций
         </Button>
       </Tooltip>
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <Title level={3}>Детали учетной операции</Title>
         <Space></Space>
       </div>
@@ -185,7 +184,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={id ? Number(id) : undefined}
         updateItem={handleUpdateOperationAccounting}
       />
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <div style={{ flex: 1 }}>
           <Divider orientation="left">Табель учета рабочего времени</Divider>
         </div>
@@ -216,7 +215,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={selectedOperationTimesheetId}
         updateItem={handleUpdateOperationTimesheet}
       />
-      <div className="centerTitle">
+      <div className="content-title-bar">
         <div style={{ flex: 1 }}>
           <Divider orientation="left">Движение товаров на производстве</Divider>
         </div>
