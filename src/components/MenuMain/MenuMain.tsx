@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './MenuMain.css';
 import {
   AppstoreAddOutlined,
@@ -21,20 +21,18 @@ import {
   ESTIMATED_PRICE,
   HISTORY,
   OPERATION,
-  OPERATION_ACCOUNTING,
   OUTPUT,
   PRODUCT,
   PRODUCT_GROUP,
   PRODUCT_MOVEMENT,
-  PRODUCTION_TYPE,
   PURCHASE,
   REPORT,
-  SHIPMENT,
   STOCK,
   STORAGE_PLACE,
   UNIT,
   WRITE_OFF,
 } from '../../services';
+import { menuKeyToRoutes } from '../TabsComponent/menuKeyToRoutes';
 
 const items = [
   {
@@ -45,12 +43,12 @@ const items = [
       </div>
     ),
     key: '01',
-    children: [
-      {
-        label: <Link to={SHIPMENT}>Отгрузки</Link>,
-        key: `${SHIPMENT}`,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: <Link to={SHIPMENT}>Отгрузки</Link>,
+    //     key: `${SHIPMENT}`,
+    //   },
+    // ],
   },
   {
     label: (
@@ -63,24 +61,24 @@ const items = [
       </div>
     ),
     key: '02',
-    children: [
-      {
-        label: <Link to={OPERATION_ACCOUNTING}>Учет операций</Link>,
-        key: `${OPERATION_ACCOUNTING}`,
-      },
-      {
-        label: <Link to={OPERATION}>Типы операций</Link>,
-        key: `${OPERATION}`,
-      },
-      {
-        label: <Link to={PRODUCTION_TYPE}>Типы производства</Link>,
-        key: `${PRODUCTION_TYPE}`,
-      },
-      {
-        label: <Link to={OUTPUT}>Выпуски продукции</Link>,
-        key: `${OUTPUT}`,
-      },
-    ],
+    // children: [
+    //   {
+    //     label: <Link to={OPERATION_ACCOUNTING}>Учет операций</Link>,
+    //     key: `${OPERATION_ACCOUNTING}`,
+    //   },
+    //   {
+    //     label: <Link to={OPERATION}>Типы операций</Link>,
+    //     key: `${OPERATION}`,
+    //   },
+    //   {
+    //     label: <Link to={PRODUCTION_TYPE}>Типы производства</Link>,
+    //     key: `${PRODUCTION_TYPE}`,
+    //   },
+    //   {
+    //     label: <Link to={OUTPUT}>Выпуски продукции</Link>,
+    //     key: `${OUTPUT}`,
+    //   },
+    // ],
   },
   {
     label: (
@@ -239,14 +237,28 @@ const items = [
   },
 ];
 
-export const MenuMain: React.FC = () => {
+interface MenuMainProps {
+  setSelectedMenuKey: (key: string) => void;
+}
+
+export const MenuMain: React.FC<MenuMainProps> = ({ setSelectedMenuKey }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSelect = ({ key }: { key: string }) => {
+    setSelectedMenuKey(key);
+    const firstRoute = menuKeyToRoutes[key]?.[0]?.route?.props?.path;
+    if (firstRoute) {
+      navigate(firstRoute);
+    }
+  };
 
   return (
     <Menu
       theme="light"
       mode="horizontal"
       selectedKeys={[location.pathname]}
+      onSelect={handleSelect}
       items={items}
       style={{
         height: '100%',
