@@ -9,8 +9,6 @@ export const FormShipment: React.FC<FormShipmentProps> = ({
   onClearClient,
   onSearchClient,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -36,11 +34,14 @@ export const FormShipment: React.FC<FormShipmentProps> = ({
           filterOption={onSearchClient}>
           {allClient && allClient.length > 0
             ? allClient.map(client => (
-                <Option key={client.id} value={client.id} label={client.title}>
+                <Select.Option
+                  key={client.id}
+                  value={client.id}
+                  label={client.title}>
                   <Tooltip placement="right" title={client.title}>
                     {client.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

@@ -9,8 +9,6 @@ export const FormOperation: React.FC<FormOperationProps> = ({
   onClearUnit,
   onSearchUnit,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -33,11 +31,11 @@ export const FormOperation: React.FC<FormOperationProps> = ({
           filterOption={onSearchUnit}>
           {allUnit && allUnit.length > 0
             ? allUnit.map(unit => (
-                <Option key={unit.id} value={unit.id} label={unit.name}>
+                <Select.Option key={unit.id} value={unit.id} label={unit.name}>
                   <Tooltip placement="right" title={unit.name}>
                     {unit.name}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

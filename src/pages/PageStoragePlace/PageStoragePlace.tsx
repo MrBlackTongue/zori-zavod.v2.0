@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Space, Typography } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { FloatButton } from 'antd';
 import {
   createStoragePlace,
   deleteStoragePlaceById,
@@ -10,10 +9,9 @@ import { TypeStoragePlace, TypeStoragePlaceFormValue } from '../../types';
 import { TableStoragePlace } from './components/TableStoragePlace';
 import { CreateModalStoragePlace } from './components/CreateModalStoragePlace';
 import { UpdateDrawerStoragePlace } from './components/UpdateDrawerStoragePlace';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageStoragePlace: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -61,18 +59,8 @@ export const PageStoragePlace: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="content-title-bar">
-        <Title level={3}>Место хранения</Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableStoragePlace
         isUpdateTable={isUpdateTable}

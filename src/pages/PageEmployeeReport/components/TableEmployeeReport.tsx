@@ -159,6 +159,7 @@ export const TableEmployeeReport: React.FC<
   return (
     <Table
       bordered
+      size="middle"
       columns={columns}
       dataSource={allEmployeeReport}
       loading={isLoading}

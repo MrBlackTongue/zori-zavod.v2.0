@@ -119,6 +119,7 @@ export const TableUnit: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allUnit}
       loading={isLoading}

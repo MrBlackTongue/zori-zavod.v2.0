@@ -136,6 +136,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allProductGroup}
       loading={loading}

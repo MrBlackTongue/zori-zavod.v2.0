@@ -91,6 +91,7 @@ export const TablePaymentHistory: React.FC = () => {
       <Table
         rowKey="id"
         bordered
+        size="middle"
         columns={columns}
         dataSource={allPayment}
         loading={isLoading}

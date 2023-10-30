@@ -163,6 +163,7 @@ export const TableAcceptance: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allAcceptance}
       loading={isLoading}

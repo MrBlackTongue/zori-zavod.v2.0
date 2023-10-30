@@ -121,7 +121,7 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
-      size={'small'}
+      size="small"
       columns={columns}
       dataSource={allWriteOffMovement}
       pagination={false}

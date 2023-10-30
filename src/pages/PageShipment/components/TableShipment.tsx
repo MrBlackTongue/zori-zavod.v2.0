@@ -153,6 +153,7 @@ export const TableShipment: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allShipment}
       loading={isLoading}

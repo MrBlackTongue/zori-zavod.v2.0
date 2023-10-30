@@ -123,6 +123,7 @@ export const TableProductionType: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allProductionType}
       loading={isLoading}

@@ -119,6 +119,7 @@ export const TableStoragePlace: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allStoragePlace}
       loading={isLoading}

@@ -129,11 +129,11 @@ export const TableOperationTimesheet: React.FC<TableProps> = React.memo(
       <Table
         rowKey="id"
         bordered
+        size="small"
         columns={columns}
         dataSource={allOperationTimesheet}
         pagination={false}
         loading={isLoading}
-        size="small"
         style={{ marginBottom: '20px' }}
         rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
       />

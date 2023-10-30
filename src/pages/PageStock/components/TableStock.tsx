@@ -205,6 +205,7 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allStock}
       loading={isLoading}

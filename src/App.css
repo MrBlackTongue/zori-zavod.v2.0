@@ -40,10 +40,11 @@
   text-align: center;
 }
 
-.content-title-bar {
+.content-filter-bar {
   display: flex;
   align-content: center;
-  justify-content: space-between;
+  justify-content: flex-end;
+  margin-bottom: 15px;
 }
 
 /* Table style */

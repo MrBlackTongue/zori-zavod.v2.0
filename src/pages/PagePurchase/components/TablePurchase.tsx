@@ -211,6 +211,7 @@ export const TablePurchase: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allPurchase}
       loading={isLoading}

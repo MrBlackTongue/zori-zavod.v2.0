@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Space, Typography } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { FloatButton } from 'antd';
 import { createUnit, deleteUnitById, updateUnit } from '../../services';
 import { TypeUnit, TypeUnitFormValue } from '../../types';
 import { TableUnit } from './components/TableUnit';
 import { CreateModalUnit } from './components/CreateModalUnit';
 import { UpdateDrawerUnit } from './components/UpdateDrawerUnit';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageUnit: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -52,18 +50,8 @@ export const PageUnit: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="content-title-bar">
-        <Title level={3}>Единицы измерения</Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableUnit
         isUpdateTable={isUpdateTable}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Input, Space, Typography } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Flex, FloatButton, Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import {
   createProduct,
   deleteProductById,
@@ -10,10 +10,9 @@ import { TypeProduct, TypeProductFormValue } from '../../types';
 import { TableProduct } from './components/TableProduct';
 import { CreateModalProduct } from './components/CreateModalProduct';
 import { UpdateDrawerProduct } from './components/UpdateDrawerProduct';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageProduct: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -65,25 +64,22 @@ export const PageProduct: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="content-title-bar">
-        <Title level={3}>Товары</Title>
-        <Space>
-          <Input
-            allowClear
-            style={{ width: '210px' }}
-            placeholder="Поиск по товарам"
-            onChange={event => setSearchText(event.target.value)}
-            prefix={<SearchOutlined />}
-          />
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Input
+          allowClear
+          style={{ width: '210px' }}
+          placeholder="Поиск по товарам"
+          onChange={event => setSearchText(event.target.value)}
+          prefix={<SearchOutlined />}
+        />
+      </Flex>
       <FloatButton.BackTop />
       <TableProduct
         isUpdateTable={isUpdateTable}

@@ -120,7 +120,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
-      size={'small'}
+      size="small"
       columns={columns}
       dataSource={allShipmentMovement}
       pagination={false}

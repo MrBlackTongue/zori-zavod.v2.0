@@ -10,8 +10,6 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
   onClearProduct,
   onSearchProduct,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -31,14 +29,14 @@ export const FormPurchase: React.FC<FormPurchaseProps> = ({
           filterOption={onSearchProduct}>
           {allProduct && allProduct.length > 0
             ? allProduct.map(product => (
-                <Option
+                <Select.Option
                   key={product.id}
                   value={product.id}
                   label={product.title}>
                   <Tooltip placement="right" title={product.title}>
                     {product.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

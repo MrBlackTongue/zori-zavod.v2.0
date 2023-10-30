@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Input, Space, Typography } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Flex, FloatButton, Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import {
   createPurchase,
   deletePurchaseById,
@@ -11,10 +11,9 @@ import { TablePurchase } from './components/TablePurchase';
 import { CreateModalPurchase } from './components/CreateModalPurchase';
 import { UpdateDrawerPurchase } from './components/UpdateDrawerPurchase';
 import dayjs from 'dayjs';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PagePurchase: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -72,25 +71,22 @@ export const PagePurchase: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="content-title-bar">
-        <Title level={3}>Закупки</Title>
-        <Space>
-          <Input
-            allowClear
-            placeholder="Поиск по товарам"
-            style={{ width: '210px' }}
-            onChange={event => setSearchText(event.target.value)}
-            prefix={<SearchOutlined />}
-          />
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Input
+          allowClear
+          placeholder="Поиск по товарам"
+          style={{ width: '210px' }}
+          onChange={event => setSearchText(event.target.value)}
+          prefix={<SearchOutlined />}
+        />
+      </Flex>
       <FloatButton.BackTop />
       <TablePurchase
         isUpdateTable={isUpdateTable}

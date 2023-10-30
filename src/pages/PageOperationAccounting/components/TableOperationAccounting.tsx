@@ -268,6 +268,7 @@ export const TableOperationAccounting: React.FC<
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allOperationAccounting}
       loading={isLoading}

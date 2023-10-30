@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Input, Space, Typography } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { FloatButton, Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import {
   createOperation,
   deleteOperationById,
@@ -10,10 +10,9 @@ import { TypeOperation, TypeOperationFormValue } from '../../types';
 import { TableOperation } from './components/TableOperation';
 import { CreateModalOperation } from './components/CreateModalOperation';
 import { UpdateDrawerOperation } from './components/UpdateDrawerOperation';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageOperation: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -65,24 +64,16 @@ export const PageOperation: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="content-title-bar">
-        <Title level={3}>Типы операций</Title>
-        <Space>
-          <Input
-            allowClear
-            style={{ width: '210px' }}
-            placeholder="Поиск по операциям"
-            onChange={event => setSearchText(event.target.value)}
-            prefix={<SearchOutlined />}
-          />
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
+      <div className="content-filter-bar">
+        <Input
+          allowClear
+          style={{ width: '210px' }}
+          placeholder="Поиск по операциям"
+          onChange={event => setSearchText(event.target.value)}
+          prefix={<SearchOutlined />}
+        />
       </div>
       <FloatButton.BackTop />
       <TableOperation

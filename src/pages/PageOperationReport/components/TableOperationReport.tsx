@@ -116,6 +116,7 @@ export const TableOperationReport: React.FC<
   return (
     <Table
       bordered
+      size="middle"
       columns={columns}
       dataSource={allOperationReport}
       loading={isLoading}

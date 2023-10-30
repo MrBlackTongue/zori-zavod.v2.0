@@ -138,11 +138,11 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
       <Table
         rowKey="id"
         bordered
+        size="small"
         columns={columns}
         dataSource={allProductionProductMovement}
         pagination={false}
         loading={isLoading}
-        size="small"
         rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
       />
     );

@@ -150,6 +150,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allProductBatch}
       loading={isLoading}

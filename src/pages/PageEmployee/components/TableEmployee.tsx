@@ -199,6 +199,7 @@ export const TableEmployee: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allEmployee}
       loading={isLoading}

@@ -149,6 +149,7 @@ export const TableOperation: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allOperation}
       loading={isLoading}

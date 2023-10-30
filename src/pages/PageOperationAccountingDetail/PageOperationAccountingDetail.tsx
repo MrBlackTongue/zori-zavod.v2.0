@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Divider, FloatButton, Space, Tooltip, Typography } from 'antd';
+import { Button, Divider, FloatButton, Space, Tooltip } from 'antd';
 import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   createOperationTimesheet,
@@ -32,7 +32,6 @@ import dayjs from 'dayjs';
 export const PageOperationAccountingDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { Title } = Typography;
 
   // Состояние и методы для учетной операции
   const [isUpdateAllTable, setIsUpdateAllTable] = useState(false);
@@ -158,7 +157,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
+    <div>
       <Tooltip
         title="Вернуться к таблице Учет операций"
         placement="bottomRight">
@@ -167,8 +166,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
           Вернуться к таблице Учет операций
         </Button>
       </Tooltip>
-      <div className="content-title-bar">
-        <Title level={3}>Детали учетной операции</Title>
+      <div className="content-filter-bar">
         <Space></Space>
       </div>
       <FloatButton.BackTop />
@@ -184,7 +182,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={id ? Number(id) : undefined}
         updateItem={handleUpdateOperationAccounting}
       />
-      <div className="content-title-bar">
+      <div className="content-filter-bar">
         <div style={{ flex: 1 }}>
           <Divider orientation="left">Табель учета рабочего времени</Divider>
         </div>
@@ -193,7 +191,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => setIsModalOperationTimesheetOpen(true)}
-            size={'small'}>
+            size="small">
             Добавить
           </Button>
         </Space>
@@ -215,7 +213,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={selectedOperationTimesheetId}
         updateItem={handleUpdateOperationTimesheet}
       />
-      <div className="content-title-bar">
+      <div className="content-filter-bar">
         <div style={{ flex: 1 }}>
           <Divider orientation="left">Движение товаров на производстве</Divider>
         </div>
@@ -224,7 +222,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => setIsModalProductionProductMovementOpen(true)}
-            size={'small'}>
+            size="small">
             Добавить
           </Button>
         </Space>

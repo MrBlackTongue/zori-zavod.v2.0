@@ -60,10 +60,7 @@ export const PageSubscription: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="content-title-bar">
-        <Title level={3}>Подписка</Title>
-      </div>
+    <div>
       <div className="subscription-row">
         <Space className="subscription-column ">
           <p>

@@ -1,14 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { Checkbox, Select, Space, Tooltip, Typography } from 'antd';
+import { Checkbox, Flex, Select, Tooltip } from 'antd';
 import { TableOutputReport } from './components/TableOutputReport';
 import { useFetchAllData } from '../../hooks';
 import { TypeOutputReportFilter } from '../../types';
 import dayjs from 'dayjs';
 
 export const PageOutputReport: React.FC = () => {
-  const { Title } = Typography;
-  const { Option } = Select;
-
   // id выбранного output
   const [selectedOutputId, setSelectedOutputId] = useState<
     number | undefined
@@ -40,44 +37,46 @@ export const PageOutputReport: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="content-title-bar">
-        <Title level={3}>Отчет по выпускам</Title>
-        <Space>
-          <Checkbox
-            checked={withGrouping}
-            onChange={e => setWithGrouping(e.target.checked)}>
-            Группировать
-          </Checkbox>
-          <Select
-            showSearch
-            allowClear
-            style={{ width: '330px' }}
-            placeholder="Выберите выпуск продукции"
-            onChange={onChangeOutput}
-            filterOption={onSearchSelect}>
-            {allOutput && allOutput.length > 0
-              ? allOutput.map(output => (
-                  <Option
-                    key={output.id}
-                    value={output.id}
-                    label={`${output.product?.title}, ${output.date}, ${output.id}`}>
-                    <Tooltip
-                      placement="right"
-                      title={`
+    <div>
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Checkbox
+          checked={withGrouping}
+          onChange={e => setWithGrouping(e.target.checked)}>
+          Группировать
+        </Checkbox>
+        <Select
+          showSearch
+          allowClear
+          style={{ width: '330px' }}
+          placeholder="Выберите выпуск продукции"
+          onChange={onChangeOutput}
+          filterOption={onSearchSelect}>
+          {allOutput && allOutput.length > 0
+            ? allOutput.map(output => (
+                <Select.Option
+                  key={output.id}
+                  value={output.id}
+                  label={`${output.product?.title}, ${output.date}, ${output.id}`}>
+                  <Tooltip
+                    placement="right"
+                    title={`
                     ${dayjs(output.date).format('DD.MM')},
                     ${output.product?.title},
                     ID: ${output.id}`}>
-                      {`${dayjs(output.date).format('DD.MM')},
+                    {`${dayjs(output.date).format('DD.MM')},
                     ${output.product?.title},
                     ID: ${output.id}`}
-                    </Tooltip>
-                  </Option>
-                ))
-              : null}
-          </Select>
-        </Space>
-      </div>
+                  </Tooltip>
+                </Select.Option>
+              ))
+            : null}
+        </Select>
+      </Flex>
       <TableOutputReport filter={filter} />
     </div>
   );

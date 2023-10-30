@@ -125,6 +125,7 @@ export const TableOutputReport: React.FC<
   return (
     <Table
       bordered
+      size="middle"
       columns={columns}
       dataSource={allOutputReport}
       loading={isLoading}

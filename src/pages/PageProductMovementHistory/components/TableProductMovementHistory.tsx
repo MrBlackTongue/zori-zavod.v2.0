@@ -129,6 +129,7 @@ export const TableProductMovementHistory: React.FC<
   return (
     <Table
       bordered
+      size="middle"
       columns={columns}
       dataSource={allProductMovementHistory}
       loading={isLoading}

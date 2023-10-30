@@ -169,6 +169,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allWriteOff}
       loading={isLoading}

@@ -16,7 +16,6 @@ import { numberFormatter, numberParser } from '../../../utils';
 export const CreateModalAcceptance: React.FC<
   CreateModalProps<TypeAcceptanceFormValue>
 > = ({ isOpen, createItem, onCancel }) => {
-  const { Option } = Select;
   const [form] = Form.useForm();
 
   // Хук для получения данных
@@ -110,7 +109,7 @@ export const CreateModalAcceptance: React.FC<
             filterOption={onSearchStock}>
             {allStock && allStock.length > 0
               ? allStock.map(stock => (
-                  <Option
+                  <Select.Option
                     key={stock.id}
                     value={stock.id}
                     label={`${stock.product?.title}, ${stock.id}`}>
@@ -127,7 +126,7 @@ export const CreateModalAcceptance: React.FC<
                         maximumFractionDigits: 2,
                       })}`}
                     </Tooltip>
-                  </Option>
+                  </Select.Option>
                 ))
               : null}
           </Select>
@@ -145,7 +144,7 @@ export const CreateModalAcceptance: React.FC<
             filterOption={onSearchPurchase}>
             {allPurchase && allPurchase.length > 0
               ? allPurchase.map(purchase => (
-                  <Option
+                  <Select.Option
                     key={purchase.id}
                     value={purchase.id}
                     label={`${purchase.product?.title}, ${purchase.id}, ${purchase.date}`}>
@@ -157,7 +156,7 @@ export const CreateModalAcceptance: React.FC<
                       {`${dayjs(purchase.date).format('DD.MM.YYYY')} ID: 
                        ${purchase.id} ${purchase.product?.title}`}
                     </Tooltip>
-                  </Option>
+                  </Select.Option>
                 ))
               : null}
           </Select>
@@ -172,7 +171,7 @@ export const CreateModalAcceptance: React.FC<
             filterOption={onSearchProductBatch}>
             {allProductBatch && allProductBatch.length > 0
               ? allProductBatch.map(productBatch => (
-                  <Option
+                  <Select.Option
                     key={productBatch.id}
                     value={productBatch.id}
                     label={`${productBatch.product?.title}, ${productBatch.id}`}>
@@ -181,7 +180,7 @@ export const CreateModalAcceptance: React.FC<
                       title={`${productBatch.product?.title}`}>
                       {`${productBatch.product?.title}`}
                     </Tooltip>
-                  </Option>
+                  </Select.Option>
                 ))
               : null}
           </Select>

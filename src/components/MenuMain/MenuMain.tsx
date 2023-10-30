@@ -156,7 +156,7 @@ export const MenuMain: React.FC<MenuMainProps> = ({
     const savedActiveMenuKey = localStorage.getItem('activeMenuKey');
 
     if (foundMenuKey) {
-      onMenuKeyChange(savedActiveMenuKey || foundMenuKey);
+      onMenuKeyChange(savedActiveMenuKey ?? foundMenuKey);
     }
   }, [location.pathname]);
 

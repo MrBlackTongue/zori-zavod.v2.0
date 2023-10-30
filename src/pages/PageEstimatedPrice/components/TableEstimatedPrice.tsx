@@ -145,6 +145,7 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
+      size="middle"
       columns={columns}
       dataSource={allEstimatedPrice}
       loading={isLoading}

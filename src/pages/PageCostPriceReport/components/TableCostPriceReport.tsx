@@ -143,6 +143,7 @@ export const TableCostPriceReport: React.FC<
   return (
     <Table
       bordered
+      size="middle"
       columns={columns}
       dataSource={allCostPrice}
       loading={isLoading}

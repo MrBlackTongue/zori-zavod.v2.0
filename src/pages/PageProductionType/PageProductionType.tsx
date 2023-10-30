@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Space, Typography } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { FloatButton } from 'antd';
 import {
   createProductionType,
   deleteProductionTypeById,
@@ -10,10 +9,9 @@ import { TypeProductionType, TypeProductionTypeFormValue } from '../../types';
 import { TableProductionType } from './components/TableProductionType';
 import { CreateModalProductionType } from './components/CreateModalProductionType';
 import { UpdateDrawerProductionType } from './components/UpdateDrawerProductionType';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageProductionType: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы, открыть/закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -63,18 +61,8 @@ export const PageProductionType: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="content-title-bar">
-        <Title level={3}>Типы производства</Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableProductionType
         isUpdateTable={isUpdateTable}
