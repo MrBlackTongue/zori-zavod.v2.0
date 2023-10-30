@@ -7,7 +7,10 @@ import {
   EllipsisOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import { getAllOperationAccountingByFilter } from '../../../services';
+import {
+  getAllOperationAccountingByFilter,
+  OPERATION_ACCOUNTING,
+} from '../../../services';
 import {
   TableProps,
   TypeOperationAccounting,
@@ -46,7 +49,7 @@ export const TableOperationAccounting: React.FC<
 
   // Переход на другую страницу по адресу
   const handleMoreDetail = (id: number): void => {
-    navigate(`/operation-accounting/${id}/detail`);
+    navigate(`${OPERATION_ACCOUNTING}/${id}`);
   };
 
   // Колонки в таблице

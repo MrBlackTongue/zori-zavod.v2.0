@@ -2,17 +2,23 @@ import React, { useState } from 'react';
 import './App.css';
 import { Layout, theme } from 'antd';
 import { MenuMain } from './components/MenuMain/MenuMain';
-// import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
 import { MenuUser } from './components/MenuUser/MenuUser';
-import { TabsComponent } from './components/TabsComponent/TabsComponent';
+import { TabsComponent } from './components/TabsComponent/TabsComponent'; // import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
+import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
+import { useLocation } from 'react-router-dom';
 
 function App() {
   const { Header, Content, Footer } = Layout;
   const [selectedMenuKey, setSelectedMenuKey] = useState<string>('');
 
+  const location = useLocation();
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  // Проверка, есть ли на конце URL цифры
+  const isDetailPage = /\/\d+$/.test(location.pathname);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -25,12 +31,15 @@ function App() {
           />
           <p className="logo-beta">beta</p>
         </a>
-        <MenuMain setSelectedMenuKey={setSelectedMenuKey} />
+        <MenuMain
+          selectedMenuKey={selectedMenuKey}
+          onMenuKeyChange={setSelectedMenuKey}
+        />
         <MenuUser />
       </Header>
       <Content className="app-content">
-        <TabsComponent selectedMenuKey={selectedMenuKey} />
-        {/*<ContentRoutes />*/}
+        {!isDetailPage && <TabsComponent selectedMenuKey={selectedMenuKey} />}
+        <ContentRoutes />
       </Content>
       <Footer className="app-footer">
         <p>Email: svetlana@zolotenkov.ru</p>
