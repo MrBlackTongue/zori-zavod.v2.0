@@ -9,6 +9,13 @@ import {
 import { getAllShipment } from '../../../services';
 import { TableProps, TypeClient, TypeShipment } from '../../../types';
 import dayjs from 'dayjs';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_INSTRUCTION_CONTENT_EDIT,
+  ACTIONS_INSTRUCTION_CONTENT_MORE_DETAILS,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TableShipment: React.FC<TableProps> = ({
   isUpdateTable,
@@ -44,16 +51,37 @@ export const TableShipment: React.FC<TableProps> = ({
       title: 'Клиент',
       dataIndex: 'client',
       key: 'client',
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.client?.title ?? '') < (b.client?.title ?? '') ? -1 : 1,
       render: (client: TypeClient) =>
         client !== null ? <div>{client.title}</div> : null,
     },
     {
-      title: 'Действия',
+      title: (
+        <>
+          Действия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                {ACTIONS_OVERVIEW_CONTENT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_MORE_DETAILS}
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 130,
       align: 'center',
       render: (id: number) => (
         <Space>
@@ -134,6 +162,7 @@ export const TableShipment: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

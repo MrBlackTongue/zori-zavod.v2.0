@@ -9,6 +9,12 @@ import { TableProps, TypeEstimatedPrice, TypeProduct } from '../../../types';
 import { getAllEstimatedPrice } from '../../../services';
 import dayjs from 'dayjs';
 import { renderAsRuble } from '../../../utils';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_INSTRUCTION_CONTENT_EDIT,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TableEstimatedPrice: React.FC<TableProps> = ({
   isUpdateTable,
@@ -51,14 +57,32 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
       title: 'Цена',
       dataIndex: 'price',
       key: 'price',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.price ?? 0) < (b.price ?? 0) ? -1 : 1),
       render: renderAsRuble,
     },
     {
-      title: 'Действия',
+      title: (
+        <>
+          Действия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                {ACTIONS_OVERVIEW_CONTENT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 130,
       align: 'center',
       render: (id: number) => (
         <Space>
@@ -130,6 +154,7 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

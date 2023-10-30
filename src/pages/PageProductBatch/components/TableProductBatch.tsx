@@ -13,6 +13,12 @@ import {
 } from '../../../types';
 import { getAllProductBatch } from '../../../services';
 import { renderNumber } from '../../../utils';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_INSTRUCTION_CONTENT_EDIT,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TableProductBatch: React.FC<TableProps> = ({
   isUpdateTable,
@@ -35,7 +41,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       title: 'ID',
       dataIndex: 'id',
       key: 'idProductBatch',
-      defaultSortOrder: 'descend',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.id ?? '') < (b.id ?? '') ? -1 : 1),
     },
     {
@@ -50,6 +56,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
@@ -60,10 +67,27 @@ export const TableProductBatch: React.FC<TableProps> = ({
         unit !== null ? <div>{unit.name}</div> : null,
     },
     {
-      title: 'Действия',
+      title: (
+        <>
+          Действия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                {ACTIONS_OVERVIEW_CONTENT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 130,
       align: 'center',
       render: (id: number) => (
         <Space>
@@ -135,6 +159,7 @@ export const TableProductBatch: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

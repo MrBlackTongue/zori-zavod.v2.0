@@ -13,6 +13,13 @@ import {
   TypeProductionType,
   TypeWriteOff,
 } from '../../../types';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_INSTRUCTION_CONTENT_EDIT,
+  ACTIONS_INSTRUCTION_CONTENT_MORE_DETAILS,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TableWriteOff: React.FC<TableProps> = ({
   isUpdateTable,
@@ -37,6 +44,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
       dataIndex: 'employee',
       key: 'employee',
       width: 300,
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.employee?.lastName ?? 0) < (b.employee?.lastName ?? 0) ? -1 : 1,
       render: (employee: TypeEmployee) => (
@@ -50,6 +58,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
       dataIndex: 'productionType',
       key: 'productionType',
       width: 300,
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.productionType?.title ?? 0) < (b.productionType?.title ?? 0)
           ? -1
@@ -65,10 +74,30 @@ export const TableWriteOff: React.FC<TableProps> = ({
       width: 300,
     },
     {
-      title: 'Действия',
+      title: (
+        <>
+          Действия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                {ACTIONS_OVERVIEW_CONTENT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_MORE_DETAILS}
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 130,
       align: 'center',
       render: (id: number) => (
         <Space>
@@ -149,6 +178,7 @@ export const TableWriteOff: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

@@ -5,6 +5,12 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getAllClient } from '../../../services';
 import { TableProps, TypeClient } from '../../../types';
 import dayjs from 'dayjs';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_INSTRUCTION_CONTENT_EDIT,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TableClient: React.FC<TableProps> = ({
   isUpdateTable,
@@ -28,22 +34,41 @@ export const TableClient: React.FC<TableProps> = ({
       dataIndex: 'title',
       key: 'title',
       width: 500,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.title ?? '') < (b.title ?? '') ? -1 : 1),
     },
     {
       title: 'Последняя отгрузка',
       dataIndex: 'lastShipment',
       key: 'lastShipment',
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.lastShipment ?? '') < (b.lastShipment ?? '') ? -1 : 1,
       render: (date: any) =>
         date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
     {
-      title: 'Действия',
+      title: (
+        <>
+          Действия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                {ACTIONS_OVERVIEW_CONTENT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 130,
       align: 'center',
       render: (id: number) => (
         <Space>
@@ -115,6 +140,7 @@ export const TableClient: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

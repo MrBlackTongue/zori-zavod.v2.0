@@ -14,6 +14,12 @@ import {
 import { getAllPurchase, getAllPurchaseByTitle } from '../../../services';
 import dayjs from 'dayjs';
 import { renderAsRuble, renderNumber } from '../../../utils';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_INSTRUCTION_CONTENT_EDIT,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TablePurchase: React.FC<TableProps> = ({
   isUpdateTable,
@@ -57,6 +63,7 @@ export const TablePurchase: React.FC<TableProps> = ({
       dataIndex: 'amount',
       key: 'amount',
       render: renderNumber,
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.amount ?? '') < (b.amount ?? '') ? -1 : 1),
     },
     {
@@ -70,12 +77,14 @@ export const TablePurchase: React.FC<TableProps> = ({
       title: 'Цена за единицу',
       dataIndex: 'cost',
       key: 'cost',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.cost ?? 0) < (b.cost ?? 0) ? -1 : 1),
       render: renderAsRuble,
     },
     {
       title: 'Стоимость закупки',
       key: 'totalCost',
+      showSorterTooltip: false,
       sorter: (a, b) =>
         (a.cost ?? 0) * (a.amount ?? 0) < (b.cost ?? 0) * (b.amount ?? 0)
           ? -1
@@ -95,6 +104,7 @@ export const TablePurchase: React.FC<TableProps> = ({
     {
       title: 'Статус оплаты',
       key: 'paid',
+      showSorterTooltip: false,
       sorter: (a, b) => Number(a.paid) - Number(b.paid),
       render: (record: TypePurchase) => (
         <Tag color={record.paid ? 'green' : 'volcano'}>
@@ -103,10 +113,27 @@ export const TablePurchase: React.FC<TableProps> = ({
       ),
     },
     {
-      title: 'Действия',
+      title: (
+        <>
+          Действия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                {ACTIONS_OVERVIEW_CONTENT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 130,
       align: 'center',
       render: (id: number) => (
         <Space>
@@ -193,6 +220,7 @@ export const TablePurchase: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

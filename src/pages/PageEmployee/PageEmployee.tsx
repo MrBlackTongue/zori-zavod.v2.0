@@ -11,10 +11,10 @@ import { TypeEmployee, TypeEmployeeFormValue } from '../../types';
 import { TableEmployee } from './components/TableEmployee';
 import { CreateModalEmployee } from './components/CreateModalEmployee';
 import { UpdateDrawerEmployee } from './components/UpdateDrawerEmployee';
+import { CustomPopover } from '../../components/CustomPopover/CustomPopover';
+import { EMPLOYEE_CONTENT } from '../../components/CustomPopover/ContentPopover';
 
-export const PageEmployee: React.FC = () => {
-  const { Title } = Typography;
-
+export const PageEmployee = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -70,8 +70,17 @@ export const PageEmployee: React.FC = () => {
 
   return (
     <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Сотрудники</Title>
+      <div className="centerTitle" style={{ position: 'relative' }}>
+        <Typography.Title level={3} style={{ display: 'inline-block' }}>
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 500 }}>
+                {EMPLOYEE_CONTENT}
+              </p>
+            }
+          />
+          Сотрудники
+        </Typography.Title>
         <Space>
           <Button
             type="primary"

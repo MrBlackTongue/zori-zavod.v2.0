@@ -4,6 +4,12 @@ import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getAllOperation, getAllOperationByTitle } from '../../../services';
 import { TableProps, TypeOperation, TypeUnit } from '../../../types';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_INSTRUCTION_CONTENT_EDIT,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TableOperation: React.FC<TableProps> = ({
   isUpdateTable,
@@ -27,7 +33,7 @@ export const TableOperation: React.FC<TableProps> = ({
       title: 'Операция',
       dataIndex: 'title',
       key: 'title',
-      defaultSortOrder: 'ascend',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.title ?? '') < (b.title ?? '') ? -1 : 1),
     },
     {
@@ -41,13 +47,31 @@ export const TableOperation: React.FC<TableProps> = ({
       title: 'Норма',
       dataIndex: 'rate',
       key: 'rate',
+      showSorterTooltip: false,
       sorter: (a, b) => ((a.rate ?? 0) < (b.rate ?? 0) ? -1 : 1),
     },
     {
-      title: 'Действия',
+      title: (
+        <>
+          Действия
+          <CustomPopover
+            content={
+              <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                {ACTIONS_OVERVIEW_CONTENT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
+                <br />
+                <br />
+                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
+              </p>
+            }
+          />
+        </>
+      ),
       dataIndex: 'id',
       key: 'id',
-      width: 100,
+      width: 130,
       align: 'center',
       render: (id: number) => (
         <Space>
@@ -134,6 +158,7 @@ export const TableOperation: React.FC<TableProps> = ({
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
+      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
     />
   );
 };

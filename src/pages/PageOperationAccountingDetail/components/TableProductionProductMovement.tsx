@@ -12,6 +12,11 @@ import {
 import { getProductionProductMovementByIdOperationAccounting } from '../../../services';
 import dayjs from 'dayjs';
 import { renderNumber } from '../../../utils';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import {
+  ACTIONS_INSTRUCTION_CONTENT_DELETE,
+  ACTIONS_OVERVIEW_CONTENT,
+} from '../../../components/CustomPopover/ContentPopover';
 
 export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
   ({ isUpdateTable, onDelete, idDetail }) => {
@@ -33,7 +38,7 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
         title: 'ID на складе',
         dataIndex: 'stock',
         key: 'stock',
-        defaultSortOrder: 'descend',
+        showSorterTooltip: false,
         sorter: (a, b) => ((a.stock?.id ?? 0) < (b.stock?.id ?? 0) ? -1 : 1),
         render: (stock: TypeStock) =>
           stock !== null ? <div>{stock.id}</div> : null,
@@ -50,6 +55,7 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
         dataIndex: 'income',
         key: 'income',
         render: income => (income ? 'Приход' : 'Расход'),
+        showSorterTooltip: false,
         sorter: (a, b) => ((a.income ?? false) < (b.income ?? false) ? -1 : 1),
       },
       {
@@ -66,10 +72,24 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
           unit !== null ? <div>{unit.name}</div> : null,
       },
       {
-        title: 'Действия',
+        title: (
+          <>
+            Действия
+            <CustomPopover
+              content={
+                <p style={{ fontSize: '13px', maxWidth: 350 }}>
+                  {ACTIONS_OVERVIEW_CONTENT}
+                  <br />
+                  <br />
+                  {ACTIONS_INSTRUCTION_CONTENT_DELETE}
+                </p>
+              }
+            />
+          </>
+        ),
         dataIndex: 'id',
         key: 'id',
-        width: 100,
+        width: 130,
         align: 'center',
         render: (id: number) => (
           <Space>
@@ -123,6 +143,7 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
         pagination={false}
         loading={isLoading}
         size="small"
+        rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
       />
     );
   },
