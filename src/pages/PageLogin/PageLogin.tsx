@@ -48,7 +48,11 @@ export const PageLogin: React.FC = () => {
     <div className="login-form-container">
       <div className="login-header">
         <a href="/" rel="noopener noreferrer">
-          <img src="/images/header_logo.png" alt="Logo" className="logo" />
+          <img
+            src="/images/header_logo_light_montserrat.png"
+            alt="logo"
+            className="logo"
+          />
         </a>
       </div>
       <Form form={form} className="login-form" onFinish={onFinish}>

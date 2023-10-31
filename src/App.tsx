@@ -1,11 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import './App.css';
-import { Layout, theme } from 'antd';
+import { Layout } from 'antd';
 import { MenuMain } from './components/MenuMain/MenuMain';
 import { MenuUser } from './components/MenuUser/MenuUser';
 import { TabsComponent } from './components/TabsComponent/TabsComponent'; // import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
 import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
 import { useLocation } from 'react-router-dom';
+import { menuKeyToRoutes } from './components/TabsComponent/menuKeyToRoutes';
+
+// Извлекаем все пути из menuKeyToRoutes
+const allPathsToShowTabs = Object.values(menuKeyToRoutes)
+  .flat()
+  .map(routeInfo => routeInfo.route.props.path);
 
 function App() {
   const { Header, Content, Footer } = Layout;
@@ -13,12 +19,8 @@ function App() {
 
   const location = useLocation();
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
-  // Проверка, есть ли на конце URL цифры
-  const isDetailPage = /\/\d+$/.test(location.pathname);
+  // Проверка, нужно ли показывать TabsComponent на текущей странице
+  const shouldShowTabs = allPathsToShowTabs.includes(location.pathname);
 
   const memoizedSetSelectedMenuKey = useCallback((key: string) => {
     setSelectedMenuKey(key);
@@ -26,11 +28,11 @@ function App() {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header className="app-header" style={{ background: colorBgContainer }}>
+      <Header className="app-header">
         <a href="/" rel="noopener noreferrer" className="logo-container">
           <img
-            src="/images/header_logo.png"
-            alt="Logo"
+            src="/images/header_logo_dark_montserrat.png"
+            alt="beta"
             className="logo-header"
           />
           <p className="logo-beta">beta</p>
@@ -42,11 +44,11 @@ function App() {
         <MenuUser />
       </Header>
       <Content className="app-content">
-        {!isDetailPage && <TabsComponent selectedMenuKey={selectedMenuKey} />}
+        {shouldShowTabs && <TabsComponent selectedMenuKey={selectedMenuKey} />}
         <ContentRoutes />
       </Content>
       <Footer className="app-footer">
-        <p>Email: svetlana@zolotenkov.ru</p>
+        Email: svetlana@zolotenkov.ru
         <p>© Zolotenkov 2022-2023</p>
       </Footer>
     </Layout>

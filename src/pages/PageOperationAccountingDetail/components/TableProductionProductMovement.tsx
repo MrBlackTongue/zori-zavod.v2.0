@@ -143,7 +143,9 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
         dataSource={allProductionProductMovement}
         pagination={false}
         loading={isLoading}
-        rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
+        rowClassName={(_, index) =>
+          index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
+        }
       />
     );
   },

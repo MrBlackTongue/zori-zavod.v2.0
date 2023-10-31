@@ -162,7 +162,7 @@ export const MenuMain: React.FC<MenuMainProps> = ({
 
   return (
     <Menu
-      theme="light"
+      theme="dark"
       mode="horizontal"
       selectedKeys={[selectedMenuKey]}
       onSelect={handleSelect}

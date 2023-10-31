@@ -5,27 +5,30 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  padding: 0 30px;
+  padding: 0 20px 0 0;
   justify-content: space-between;
-  height: 73px;
+  height: 72px;
 }
 
 .logo-container {
   position: relative;
-  margin-right: 10px;
+  margin-right: 30px;
+  height: 72px;
 }
 
 .logo-header {
-  height: 30px;
-  margin-top: 20px;
-  margin-right: 30px;
+  position: relative;
+  max-height: 60px;
+  top: 7px;
+  right: -3px;
+
 }
 
 .logo-beta {
   position: absolute;
-  top: -25px;
-  left: 160px;
-  color: #1677ff;
+  top: -22px;
+  left: 169px;
+  color: #a5adb5;
 }
 
 .app-content {
@@ -38,9 +41,10 @@
 
 .app-footer {
   text-align: center;
+  height: 100px;
 }
 
-.content-filter-bar {
+.content-filter-bar-detail-page {
   display: flex;
   align-content: center;
   justify-content: flex-end;
@@ -48,10 +52,10 @@
 }
 
 /* Table style */
-.even-row {
+.table-even-row {
   background-color: #fff; /* Цвет для четных строк */
 }
 
-.odd-row {
+.table-odd-row {
   background-color: #f5f5f5; /* Цвет для нечетных строк */
 }

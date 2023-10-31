@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FloatButton, Input } from 'antd';
+import { Flex, FloatButton, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import {
   createOperation,
@@ -66,7 +66,12 @@ export const PageOperation: React.FC = () => {
   return (
     <div>
       <AddButton setIsModalOpen={setIsModalOpen} />
-      <div className="content-filter-bar">
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
         <Input
           allowClear
           style={{ width: '210px' }}
@@ -74,7 +79,7 @@ export const PageOperation: React.FC = () => {
           onChange={event => setSearchText(event.target.value)}
           prefix={<SearchOutlined />}
         />
-      </div>
+      </Flex>
       <FloatButton.BackTop />
       <TableOperation
         isUpdateTable={isUpdateTable}

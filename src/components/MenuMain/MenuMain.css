@@ -5,14 +5,16 @@
     justify-content: center;
     position: relative;
     width: 70px;
+    height: 72px;
 }
 
 .menu-item-icon {
     position: relative;
-    top: 11px;
+    top: 3px;
 }
 
 .menu-item-div {
     position: relative;
-    top: -5px;
+    max-height: 30px;
+    top: -13px;
 }

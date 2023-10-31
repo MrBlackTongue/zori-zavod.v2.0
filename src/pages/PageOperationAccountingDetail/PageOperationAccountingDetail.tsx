@@ -175,7 +175,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={id ? Number(id) : undefined}
         updateItem={handleUpdateOperationAccounting}
       />
-      <div className="content-filter-bar">
+      <div className="content-filter-bar-detail-page">
         <div style={{ flex: 1 }}>
           <Divider orientation="left">Табель учета рабочего времени</Divider>
         </div>
@@ -206,7 +206,7 @@ export const PageOperationAccountingDetail: React.FC = () => {
         selectedItemId={selectedOperationTimesheetId}
         updateItem={handleUpdateOperationTimesheet}
       />
-      <div className="content-filter-bar">
+      <div className="content-filter-bar-detail-page">
         <div style={{ flex: 1 }}>
           <Divider orientation="left">Движение товаров на производстве</Divider>
         </div>
