@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Divider, FloatButton, Space, Tooltip } from 'antd';
-import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Divider, FloatButton, Space } from 'antd';
+import { PlusOutlined, RollbackOutlined } from '@ant-design/icons';
 import {
   createOperationTimesheet,
   createProductionProductMovement,
@@ -158,17 +158,10 @@ export const PageOperationAccountingDetail: React.FC = () => {
 
   return (
     <div>
-      <Tooltip
-        title="Вернуться к таблице Учет операций"
-        placement="bottomRight">
-        <Button type="primary" ghost onClick={handleBack}>
-          <ArrowLeftOutlined />
-          Вернуться к таблице Учет операций
-        </Button>
-      </Tooltip>
-      <div className="content-filter-bar">
-        <Space></Space>
-      </div>
+      <Button type="primary" onClick={handleBack} style={{ marginBottom: 10 }}>
+        <RollbackOutlined />
+        Назад
+      </Button>
       <FloatButton.BackTop />
       <TableOperationAccountingDetail
         isUpdateTable={isUpdateAllTable}

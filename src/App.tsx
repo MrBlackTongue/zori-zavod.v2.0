@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
 import { Layout, theme } from 'antd';
 import { MenuMain } from './components/MenuMain/MenuMain';
@@ -20,6 +20,10 @@ function App() {
   // Проверка, есть ли на конце URL цифры
   const isDetailPage = /\/\d+$/.test(location.pathname);
 
+  const memoizedSetSelectedMenuKey = useCallback((key: string) => {
+    setSelectedMenuKey(key);
+  }, []);
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header className="app-header" style={{ background: colorBgContainer }}>
@@ -33,7 +37,7 @@ function App() {
         </a>
         <MenuMain
           selectedMenuKey={selectedMenuKey}
-          onMenuKeyChange={setSelectedMenuKey}
+          onMenuKeyChange={memoizedSetSelectedMenuKey}
         />
         <MenuUser />
       </Header>

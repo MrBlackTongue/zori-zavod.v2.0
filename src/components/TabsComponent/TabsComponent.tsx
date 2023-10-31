@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Tabs } from 'antd';
 import { menuKeyToRoutes } from './menuKeyToRoutes';
@@ -19,7 +19,10 @@ export const TabsComponent: React.FC<TabsComponentProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const tabInfoArray = menuKeyToRoutes[selectedMenuKey] || [];
+  const tabInfoArray = useMemo(
+    () => menuKeyToRoutes[selectedMenuKey] || [],
+    [selectedMenuKey],
+  );
 
   const [activeTabKey, setActiveTabKey] = useState(
     () => getActiveTabKeyFromLocalStorage() || DEFAULT_TAB_KEY,
