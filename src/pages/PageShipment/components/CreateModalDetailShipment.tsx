@@ -11,7 +11,6 @@ export const CreateModalDetailShipment: React.FC<
   CreateModalProps<TypeShipmentProductMovementFormValue>
 > = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
-  const { Option } = Select;
 
   // Хук для получения данных
   const { allStock } = useFetchAllData({ depsStock: isOpen });
@@ -88,7 +87,7 @@ export const CreateModalDetailShipment: React.FC<
             filterOption={onSearchSelect}>
             {allStock && allStock.length > 0
               ? allStock.map(stock => (
-                  <Option
+                  <Select.Option
                     key={stock.id}
                     value={stock.id}
                     label={`${stock.product?.title}, ${stock.id}`}>
@@ -105,7 +104,7 @@ export const CreateModalDetailShipment: React.FC<
                         maximumFractionDigits: 2,
                       })}`}
                     </Tooltip>
-                  </Option>
+                  </Select.Option>
                 ))
               : null}
           </Select>

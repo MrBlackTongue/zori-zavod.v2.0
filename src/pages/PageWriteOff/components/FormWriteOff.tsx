@@ -13,8 +13,6 @@ export const FormWriteOff: React.FC<FormWriteOffProps> = ({
   onClearProductionType,
   onSearchProductionType,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -34,7 +32,7 @@ export const FormWriteOff: React.FC<FormWriteOffProps> = ({
           filterOption={onSearchEmployee}>
           {allEmployee && allEmployee.length > 0
             ? allEmployee.map(employee => (
-                <Option
+                <Select.Option
                   key={employee.id}
                   value={employee.id}
                   label={`${employee.lastName}, ${employee.firstName}`}>
@@ -43,7 +41,7 @@ export const FormWriteOff: React.FC<FormWriteOffProps> = ({
                     title={`${employee.lastName} ${employee.firstName}`}>
                     {`${employee.lastName} ${employee.firstName}`}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>
@@ -61,14 +59,14 @@ export const FormWriteOff: React.FC<FormWriteOffProps> = ({
           filterOption={onSearchProductionType}>
           {allProductionType && allProductionType.length > 0
             ? allProductionType.map(productionType => (
-                <Option
+                <Select.Option
                   key={productionType.id}
                   value={productionType.id}
                   label={productionType.title}>
                   <Tooltip placement="right" title={productionType.title}>
                     {productionType.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

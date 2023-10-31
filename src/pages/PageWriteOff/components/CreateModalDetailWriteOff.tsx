@@ -19,7 +19,6 @@ export const CreateModalDetailWriteOff: React.FC<
   CreateModalProps<TypeWriteOffMovementFormValue>
 > = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
-  const { Option } = Select;
 
   // Хук для получения данных
   const { allStock } = useFetchAllData({ depsStock: isOpen });
@@ -96,7 +95,7 @@ export const CreateModalDetailWriteOff: React.FC<
             filterOption={onSearchSelect}>
             {allStock && allStock.length > 0
               ? allStock.map(stock => (
-                  <Option
+                  <Select.Option
                     key={stock.id}
                     value={stock.id}
                     label={`${stock.product?.title}, ${stock.id}`}>
@@ -113,7 +112,7 @@ export const CreateModalDetailWriteOff: React.FC<
                         maximumFractionDigits: 2,
                       })}`}
                     </Tooltip>
-                  </Option>
+                  </Select.Option>
                 ))
               : null}
           </Select>
@@ -137,12 +136,12 @@ export const CreateModalDetailWriteOff: React.FC<
           <Select
             placeholder="Выберите тип"
             onChange={value => form.setFieldsValue({ income: value })}>
-            <Option id={true} value={true}>
+            <Select.Option id={true} value={true}>
               {'Приход'}
-            </Option>
-            <Option id={false} value={false}>
+            </Select.Option>
+            <Select.Option id={false} value={false}>
               {'Расход'}
-            </Option>
+            </Select.Option>
           </Select>
         </Form.Item>
         <Form.Item

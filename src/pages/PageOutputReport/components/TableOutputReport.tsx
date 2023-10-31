@@ -125,6 +125,7 @@ export const TableOutputReport: React.FC<
   return (
     <Table
       bordered
+      size="middle"
       columns={columns}
       dataSource={allOutputReport}
       loading={isLoading}
@@ -135,7 +136,9 @@ export const TableOutputReport: React.FC<
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
-      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
+      rowClassName={(_, index) =>
+        index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
+      }
     />
   );
 };

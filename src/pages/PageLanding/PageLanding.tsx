@@ -64,7 +64,11 @@ export const PageLanding = () => {
     <div className="page-landing flex column center-column">
       <div className="header flex row center-row">
         <a href="/" rel="noopener noreferrer">
-          <img src="/images/header_logo.png" alt="Logo" className="logo" />
+          <img
+            src="/images/header_logo_light_montserrat.png"
+            alt="logo"
+            className="logo"
+          />
         </a>
         <Dropdown
           menu={{ items }}

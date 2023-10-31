@@ -9,8 +9,6 @@ export const FormOutput: React.FC<FormOutputProps> = ({
   onClearProduct,
   onSearchProduct,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -36,14 +34,14 @@ export const FormOutput: React.FC<FormOutputProps> = ({
           filterOption={onSearchProduct}>
           {allProduct && allProduct.length > 0
             ? allProduct.map(product => (
-                <Option
+                <Select.Option
                   key={product.id}
                   value={product.id}
                   label={product.title}>
                   <Tooltip placement="right" title={product.title}>
                     {product.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

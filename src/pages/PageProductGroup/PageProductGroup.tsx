@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Space, Typography } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
+import { FloatButton } from 'antd';
 import {
   createProductGroup,
   deleteProductGroupById,
@@ -11,10 +9,9 @@ import { TypeProductGroup, TypeProductGroupFormValue } from '../../types';
 import { TableProductGroup } from './components/TableProductGroup';
 import { CreateModalProductGroup } from './components/CreateModalProductGroup';
 import { UpdateDrawerProductGroup } from './components/UpdateDrawerProductGroup';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageProductGroup: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы, открыть/закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -64,18 +61,8 @@ export const PageProductGroup: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Группы товаров</Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(prevState => !prevState)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableProductGroup
         isUpdateTable={isUpdateTable}

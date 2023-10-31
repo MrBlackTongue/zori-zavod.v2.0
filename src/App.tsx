@@ -1,78 +1,57 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Layout, Space, theme } from 'antd';
+import { Layout } from 'antd';
 import { MenuMain } from './components/MenuMain/MenuMain';
-import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
 import { MenuUser } from './components/MenuUser/MenuUser';
+import { TabsComponent } from './components/TabsComponent/TabsComponent'; // import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
+import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
+import { useLocation } from 'react-router-dom';
+import { menuKeyToRoutes } from './components/TabsComponent/menuKeyToRoutes';
+
+// Извлекаем все пути из menuKeyToRoutes
+const allPathsToShowTabs = Object.values(menuKeyToRoutes)
+  .flat()
+  .map(routeInfo => routeInfo.route.props.path);
 
 function App() {
-  const { Header, Sider, Content } = Layout;
-  const [collapsed, setCollapsed] = useState(false);
+  const { Header, Content, Footer } = Layout;
+  const [selectedMenuKey, setSelectedMenuKey] = useState<string>('');
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const location = useLocation();
+
+  // Проверка, нужно ли показывать TabsComponent на текущей странице
+  const shouldShowTabs = allPathsToShowTabs.includes(location.pathname);
+
+  const memoizedSetSelectedMenuKey = useCallback((key: string) => {
+    setSelectedMenuKey(key);
+  }, []);
 
   return (
-    <div>
-      <Layout>
-        <Sider
-          style={{ position: 'fixed', height: '100vh', zIndex: 1 }}
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
-          width={240}
-          theme="light">
-          {/*/!*<div className="logo" />*!/ // Для логотипа на странице*/}
-          <Header style={{ padding: 0, background: colorBgContainer }}>
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: 'trigger',
-                onClick: () => setCollapsed(!collapsed),
-              },
-            )}
-          </Header>
-          <MenuMain />
-        </Sider>
-        <Layout
-          className="site-layout"
-          style={{ marginLeft: collapsed ? 80 : 240 }}>
-          <Header
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              padding: '20px 30px ',
-              justifyContent: 'space-between',
-              alignContent: 'center',
-              background: colorBgContainer,
-            }}>
-            {/*/!*<Title level={3}>Заголовок</Title>*!/ // Для личного кабинета и так далее*/}
-            <Space className="space-logo">
-              <a href="/" rel="noopener noreferrer" className="logo-container">
-                <img
-                  src="/images/header_logo.png"
-                  alt="Logo"
-                  className="logo-header"
-                />
-                <p className="logo-beta">beta</p>
-              </a>
-            </Space>
-            <Space>
-              <MenuUser />
-            </Space>
-          </Header>
-          <Content className="context-style">
-            <ContentRoutes />
-          </Content>
-        </Layout>
-      </Layout>
-      <div className="footer flex column center-row">
-        <p className="footer-text-three">Email: svetlana@zolotenkov.ru</p>
-        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
-      </div>
-    </div>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Header className="app-header">
+        <a href="/" rel="noopener noreferrer" className="logo-container">
+          <img
+            src="/images/header_logo_dark_montserrat.png"
+            alt="beta"
+            className="logo-header"
+          />
+          <p className="logo-beta">beta</p>
+        </a>
+        <MenuMain
+          selectedMenuKey={selectedMenuKey}
+          onMenuKeyChange={memoizedSetSelectedMenuKey}
+        />
+        <MenuUser />
+      </Header>
+      <Content className="app-content">
+        {shouldShowTabs && <TabsComponent selectedMenuKey={selectedMenuKey} />}
+        <ContentRoutes />
+      </Content>
+      <Footer className="app-footer">
+        Email: svetlana@zolotenkov.ru
+        <p>© Zolotenkov 2022-2023</p>
+      </Footer>
+    </Layout>
   );
 }
 

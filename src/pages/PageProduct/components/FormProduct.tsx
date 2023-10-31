@@ -13,8 +13,6 @@ export const FormProduct: React.FC<FormProductProps> = ({
   onClearProductGroup,
   onSearchProductGroup,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -40,11 +38,11 @@ export const FormProduct: React.FC<FormProductProps> = ({
           filterOption={onSearchUnit}>
           {allUnit && allUnit.length > 0
             ? allUnit.map(unit => (
-                <Option key={unit.id} value={unit.id} label={unit.name}>
+                <Select.Option key={unit.id} value={unit.id} label={unit.name}>
                   <Tooltip placement="right" title={unit.name}>
                     {unit.name}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>
@@ -59,14 +57,14 @@ export const FormProduct: React.FC<FormProductProps> = ({
           filterOption={onSearchProductGroup}>
           {allProductGroup && allProductGroup.length > 0
             ? allProductGroup.map(productGroup => (
-                <Option
+                <Select.Option
                   key={productGroup.id}
                   value={productGroup.id}
                   label={productGroup.title}>
                   <Tooltip placement="right" title={productGroup.title}>
                     {productGroup.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

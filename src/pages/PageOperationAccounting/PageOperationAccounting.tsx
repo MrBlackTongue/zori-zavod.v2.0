@@ -1,15 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {
-  Button,
-  DatePicker,
-  FloatButton,
-  Select,
-  Space,
-  Tooltip,
-  Typography,
-} from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
+import { DatePicker, Flex, FloatButton, Select, Tooltip } from 'antd';
 import {
   createOperationAccounting,
   deleteOperationAccountingById,
@@ -24,11 +14,9 @@ import { CreateModalOperationAccounting } from './components/CreateModalOperatio
 import { UpdateDrawerOperationAccounting } from './components/UpdateDrawerOperationAccounting';
 import dayjs from 'dayjs';
 import { useFetchAllData } from '../../hooks';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageOperationAccounting: React.FC = () => {
-  const { Title } = Typography;
-  const { Option } = Select;
-
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -131,64 +119,61 @@ export const PageOperationAccounting: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Учет операций</Title>
-        <Space>
-          <DatePicker
-            style={{ width: '150px' }}
-            format="DD.MM.YYYY"
-            onChange={onChangeDate}
-          />
-          <Select
-            showSearch
-            allowClear
-            placeholder="Выберите операцию"
-            style={{ width: '300px' }}
-            onChange={onChangeOperation}
-            filterOption={onSearchSelect}>
-            {allOperation && allOperation.length > 0
-              ? allOperation.map(operation => (
-                  <Option
-                    key={operation.id}
-                    value={operation.id}
-                    label={operation.title}>
-                    <Tooltip placement="right" title={operation.title}>
-                      {operation.title}
-                    </Tooltip>
-                  </Option>
-                ))
-              : null}
-          </Select>
-          <Select
-            showSearch
-            allowClear
-            mode="multiple"
-            placeholder="Выберите тип производства"
-            style={{ width: '250px' }}
-            onChange={onChangeProductionType}
-            filterOption={onSearchSelect}>
-            {allProductionType && allProductionType.length > 0
-              ? allProductionType.map(productionType => (
-                  <Option
-                    key={productionType.id}
-                    value={productionType.id}
-                    label={productionType.title}>
-                    <Tooltip placement="right" title={productionType.title}>
-                      {productionType.title}
-                    </Tooltip>
-                  </Option>
-                ))
-              : null}
-          </Select>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <DatePicker
+          style={{ width: '150px' }}
+          format="DD.MM.YYYY"
+          onChange={onChangeDate}
+        />
+        <Select
+          showSearch
+          allowClear
+          placeholder="Выберите операцию"
+          style={{ width: '300px' }}
+          onChange={onChangeOperation}
+          filterOption={onSearchSelect}>
+          {allOperation && allOperation.length > 0
+            ? allOperation.map(operation => (
+                <Select.Option
+                  key={operation.id}
+                  value={operation.id}
+                  label={operation.title}>
+                  <Tooltip placement="right" title={operation.title}>
+                    {operation.title}
+                  </Tooltip>
+                </Select.Option>
+              ))
+            : null}
+        </Select>
+        <Select
+          showSearch
+          allowClear
+          mode="multiple"
+          placeholder="Выберите тип производства"
+          style={{ width: '250px' }}
+          onChange={onChangeProductionType}
+          filterOption={onSearchSelect}>
+          {allProductionType && allProductionType.length > 0
+            ? allProductionType.map(productionType => (
+                <Select.Option
+                  key={productionType.id}
+                  value={productionType.id}
+                  label={productionType.title}>
+                  <Tooltip placement="right" title={productionType.title}>
+                    {productionType.title}
+                  </Tooltip>
+                </Select.Option>
+              ))
+            : null}
+        </Select>
+      </Flex>
       <FloatButton.BackTop />
       <TableOperationAccounting
         isUpdateTable={isUpdateTable}

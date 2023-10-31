@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, MenuProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { DownOutlined, LogoutOutlined } from '@ant-design/icons';
 import { getUserSubscription, logoutUser } from '../../services';
 import { TypeSubscription } from '../../types';
 import '../MenuUser/MenuUser.css';
@@ -65,19 +65,7 @@ export const MenuUser: React.FC = () => {
       <Dropdown menu={{ items }} trigger={['click']}>
         <Button className="button-menu-user">
           {subscriptionInfo?.customer.email}
-          <span
-            // className='span-menu-user'
-            style={{
-              marginLeft: '10px',
-              backgroundColor: '#f4f4f4',
-              borderRadius: '50%',
-              padding: '10px',
-              display: 'inline-flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <UserOutlined style={{ fontSize: '14px' }} />
-          </span>
+          <DownOutlined style={{ fontSize: '14px' }} />
         </Button>
       </Dropdown>
     </div>

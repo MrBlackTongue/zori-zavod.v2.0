@@ -20,9 +20,9 @@ export const TablePaymentHistory: React.FC = () => {
   });
 
   const statusMapping: { [key: string]: string } = {
-    succeeded: 'Подтверждён',
+    succeeded: 'Подтвержден',
     pending: 'В ожидании',
-    canceled: 'Отменён',
+    canceled: 'Отменен',
     waiting_for_capture: 'Ожидает списания',
   };
 
@@ -91,6 +91,7 @@ export const TablePaymentHistory: React.FC = () => {
       <Table
         rowKey="id"
         bordered
+        size="middle"
         columns={columns}
         dataSource={allPayment}
         loading={isLoading}
@@ -100,7 +101,9 @@ export const TablePaymentHistory: React.FC = () => {
           position: ['bottomCenter'],
           totalBoundaryShowSizeChanger: 10,
         }}
-        rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
+        rowClassName={(_, index) =>
+          index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
+        }
       />
     </div>
   );

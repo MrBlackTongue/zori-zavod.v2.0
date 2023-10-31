@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Button, notification, Space, Typography } from 'antd';
-import '../../App.css';
 import '../PageSubscription/PageSubscription.css';
 import { getUserSubscription, replenishBalance } from '../../services';
 import { TypePaymentFormValue, TypeSubscription } from '../../types';
@@ -17,7 +16,7 @@ export const PageSubscription: React.FC = () => {
   // Открыть закрыть модальное окно
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // Создать новый платёж
+  // Создать новый платеж
   const handleReplenish = (value: TypePaymentFormValue) => {
     setIsModalOpen(false);
     replenishBalance(value.amount)
@@ -61,10 +60,7 @@ export const PageSubscription: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Подписка</Title>
-      </div>
+    <div>
       <div className="subscription-row">
         <Space className="subscription-column ">
           <p>
