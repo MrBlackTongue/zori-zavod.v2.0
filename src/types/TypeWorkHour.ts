@@ -1,75 +1,28 @@
-import { TypeEmployee } from './TypeEmployee';
-import dayjs, { Dayjs } from 'dayjs';
-import React from 'react';
-import { FormInstance } from 'antd/es/form';
-
-export type TypeEmployeeWorkHours = {
-  employee?: TypeEmployee;
-  workHours?: TypeWorkHour[];
-};
-
-export type TypeWorkHour = {
-  id?: number;
-  employee?: TypeEmployee;
-  workDate?: string;
-  hours?: number;
-  [key: string]:
-    | { hours?: number }
-    | number
-    | string
-    | TypeEmployee
-    | undefined;
-};
-
-export type TypeWorkHoursFilter = {
-  selectedDate?: dayjs.Dayjs;
-  startDate?: Dayjs | string;
-  endDate?: Dayjs | string;
-};
-
-export type AggregatedWorkHourData = {
-  employee?: TypeEmployee;
-  [key: string]:
-    | {
-        hours?: number;
-        id?: number;
-      }
-    | TypeEmployee
-    | undefined;
-};
-
-export type DynamicKeysTypeWorkHour = {
-  [key: string]: {
-    hours?: number;
-  };
-};
-
-export type CombinedType = TypeWorkHour &
-  Omit<DynamicKeysTypeWorkHour, keyof TypeWorkHour>;
-
-const emptyRow: CombinedType = {
-  employee: { id: undefined },
-};
-
-export interface EditableCellProps {
-  title: React.ReactNode;
-  editable: boolean;
-  children: React.ReactNode;
-  dataIndex: keyof Item;
-  record: Item;
-  handleSave: (record: Item) => void;
-  allEmployee: TypeEmployee[];
-  form: FormInstance;
-}
-
-export interface Item {
-  key: string;
+// Определяем тип для информации о сотруднике
+export type TypeEmployee = {
   id: number;
-  employee: TypeEmployee;
-  workDate: string;
-  hours: number;
-}
+  firstName: string;
+  hired: boolean;
+  lastName: string;
+  phone: string;
+  salaryRate: number;
+};
 
-export interface EditableRowProps {
-  index: number;
-}
+// Определяем тип для информации о рабочих днях
+export type TypeWorkDay = {
+  date: string;
+  hours: number;
+};
+
+// Определяем тип для информации о рабочих часах для конкретного сотрудника
+export type TypeEmployeeWorkDays = {
+  employee: TypeEmployee;
+  days: Record<string, TypeWorkDay>;
+};
+
+// Определяем тип для полной структуры данных, которая приходит с бэкэнда
+export type TypeApiResponse = {
+  weekStartDate: string;
+  weekEndDate: string;
+  rows: Record<string, TypeEmployeeWorkDays>;
+};
