@@ -1,41 +1,28 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Form, Input, InputRef, Select, Table } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-// import type { FormInstance } from 'antd/es/form';
 import { PlusOutlined } from '@ant-design/icons';
-// import { RefSelectProps } from 'antd/lib/select';
 import {
-  //   EditableRowProps,
-  //   Item,
   TransformedWorkHour,
   TableProps,
   TypeEmployee,
   TypeWorkDay,
   TypeWorkHour,
   TypeWorkHoursFilter,
-  //   TypeWorkHoursRow,
 } from '../../../types';
 import dayjs from 'dayjs';
 import { getAllWorkHours } from '../../../services';
-// import { useFetchAllData, useFormSelect } from '../../../hooks';
-// import { EditableCell } from './EditableCell';
-// import { EditableRow } from './EditableRow';
+// import { useFetchAllData } from '../../../hooks';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
 }) => {
-  //   interface CustomColumnType<T> extends ColumnsType<T> {
-  //     editable?: boolean;
-  //   }
-
-  //   const [form] = Form.useForm();
-
   // Spinner и список всех сотрудников и рабочих часов
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allWorkHour, setAllWorkHour] = useState<TransformedWorkHour[]>([]);
 
   // Хук для получения данных
-  //   const { allEmployee } = useFetchAllData({ depsEmployee: true });
+  // const { allEmployee } = useFetchAllData({ depsEmployee: true });
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -44,30 +31,13 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   });
 
   // Дата начала и конца недели
-  const startDate = (filter?.selectedDate || dayjs()).startOf('week');
+  const startDate = (filter?.selectedDate ?? dayjs()).startOf('week');
 
   const days: dayjs.Dayjs[] = [];
 
   for (let i = 0; i < 7; i++) {
     days.push(startDate.add(i, 'day'));
   }
-
-  //   const daysColumns: ColumnsType<Item> = days.map(day => ({
-  //     title: `${day.format('dd')}\n${day.format('DD.MM')}`,
-  //     dataIndex: day.format('DD.MM'),
-  //     width: '90px',
-  //     key: day.format('DD.MM'),
-  //     // editable: true,
-  //     onCell: (record: TypeWorkHour) => ({
-  //       record,
-  //       editable: true,
-  //       dataIndex: day.format('DD.MM'),
-  //       title: `${day.format('dd')}\n${day.format('DD.MM')}`,
-  //       handleSave: handleHoursChange,
-  //     }),
-  //     render: (cellData: { hours: number; id: number }) =>
-  //       cellData?.hours ? `${cellData.hours}ч` : '',
-  //   }));
 
   // Функция трансформации данных с сервера
   const transformData = (data: TypeWorkHour) => {
@@ -88,93 +58,17 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     });
   };
 
-  // Функция редактирования ячейки с часами
-  //   const handleHoursChange = async (
-  //     record: Item,
-  //     dataIndex1: 'key' | 'id' | 'employee' | 'workDate' | 'hours',
-  //     updatedWorkDay: TypeWorkDay,
-  //   ) => {
-  //     if (!record.id) {
-  //       console.error('ID не предоставлен. Объект record:', record);
-  //       return;
-  //     }
-  //
-  //     try {
-  //       const response = await updateWorkHours(updatedWorkDay);
-  //       if (response) {
-  //         // Обновите allWorkHour
-  //       }
-  //     } catch (error) {
-  //       console.error('Ошибка при обновлении данных рабочего времени: ', error);
-  //     }
-  //   };
-
-  // Функция добавления пустой строки
-  //   const handleAddEmptyRow = () => {
-  //     // Создаем пустую строку
-  //     const emptyDays: Record<string, TypeWorkDay> = {};
-  //     days.forEach(day => {
-  //       emptyDays[day.format('DD.MM')] = {
-  //         date: day.format('YYYY-MM-DD'),
-  //         hours: 0,
-  //       };
-  //     });
-
-  //     const emptyRow: TypeWorkHoursRow = {
-  //       employee: {
-  //         id: 0,
-  //         firstName: '',
-  //         lastName: '',
-  //         phone: '',
-  //         hired: true,
-  //         salaryRate: 0,
-  //       },
-  //       days: emptyDays,
-  //     };
-
-  // Добавляем пустую строку в rows
-  //   const updatedRows = { ...allWorkHour?.rows };
-  //   updatedRows[`newRow${Date.now()}`] = emptyRow;
-  //
-  //   // Обновляем состояние
-  //   setAllWorkHour(prevHours => {
-  //     if (prevHours) {
-  //       return {
-  //         ...prevHours,
-  //         rows: updatedRows,
-  //       };
-  //     }
-  //     return prevHours;
-  //   });
-  // };
-
-  // Колонки в таблице
-  //     const columns: CustomColumnType<Item> = [
-  //       {
-  //         title: 'Сотрудник',
-  //         dataIndex: 'employee',
-  //         key: 'fullName',
-  //         onCell: (record: Item) => ({
-  //           record,
-  //           editable: true,
-  //           dataIndex: 'employee',
-  //           title: 'Сотрудник',
-  //           allEmployee: allEmployee,
-  //           form: form,
-  //         }),
-  //         render: (employee: TypeEmployee) =>
-  //           `${employee.lastName} ${employee.firstName}`,
-  //       },
-  //       ...daysColumns,
-  //       {
-  //         title: 'Итого',
-  //         key: 'total',
-  //         width: 80,
-  //         render: (_, record: Item) => {
-  //           return `${calculateTotalHours(record)}ч`;
-  //         },
-  //       },
-  //     ];
+  //Функция для вычисления итоговых часов
+  const calculateTotalHours = (workHour: TransformedWorkHour): number => {
+    let total = 0;
+    Object.keys(workHour).forEach(key => {
+      if (key !== 'employee' && workHour[key] instanceof Object) {
+        const day = workHour[key] as TypeWorkDay;
+        total += day.hours;
+      }
+    });
+    return total;
+  };
 
   // Колонки для сотрудников и итогов
   const baseColumns: ColumnsType<any> = [
@@ -189,7 +83,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   ];
 
   // Колонки для дней недели
-  const daysColumns: ColumnsType<any> = days.map(day => {
+  const daysColumns: ColumnsType<TypeWorkDay> = days.map(day => {
     const dateFormat = day.format('YYYY-MM-DD');
     return {
       title: `${day.format('dd')}\n${day.format('DD.MM')}`,
@@ -200,8 +94,19 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     };
   });
 
+  const totalColumn: ColumnsType<any> = [
+    {
+      title: 'Итого',
+      dataIndex: 'total',
+      key: 'total',
+      render: (text: any, record: TransformedWorkHour) => {
+        return `${calculateTotalHours(record)}ч`;
+      },
+    },
+  ];
+
   // Объединение всех колонок
-  const columns = [...baseColumns, ...daysColumns];
+  const columns = [...baseColumns, ...daysColumns, ...totalColumn];
 
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
@@ -242,19 +147,13 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         dataSource={allWorkHour}
         loading={isLoading}
         onChange={handleChangeTable}
-        // components={components}
-        //           rowClassName={() => 'editable-row'}
         pagination={{
           ...pagination,
           position: ['bottomCenter'],
           totalBoundaryShowSizeChanger: 10,
         }}
       />
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        //           onClick={handleAddEmptyRow}
-      >
+      <Button type="primary" icon={<PlusOutlined />}>
         Добавить
       </Button>
     </>
