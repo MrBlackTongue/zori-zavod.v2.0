@@ -21,6 +21,7 @@ import {
   STOCK,
   STORAGE_PLACE,
   UNIT,
+  WORK_HOURS,
   WRITE_OFF,
 } from '../../services';
 import { PageShipment } from '../../pages/PageShipment/PageShipment';
@@ -46,6 +47,7 @@ import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimated
 import { PageUnit } from '../../pages/PageUnit/PageUnit';
 import { PageClient } from '../../pages/PageClient/PageClient';
 import { PageEmployee } from '../../pages/PageEmployee/PageEmployee';
+import { PageWorkHours } from '../../pages/PageWorkHours/PageWorkHours';
 
 export const menuKeyToRoutes: Record<
   string,
@@ -262,6 +264,13 @@ export const menuKeyToRoutes: Record<
     },
   ],
   '08': [
+    {
+      id: WORK_HOURS,
+      title: 'Табель учета рабочего времени',
+      route: (
+        <Route key={WORK_HOURS} path={WORK_HOURS} element={<PageWorkHours />} />
+      ),
+    },
     {
       id: EMPLOYEE,
       title: 'Сотрудники',

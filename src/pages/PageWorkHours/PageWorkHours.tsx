@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Button, DatePicker, FloatButton, Space, Typography } from 'antd';
+import { Button, DatePicker, Flex, FloatButton } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import 'dayjs/locale/ru';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
@@ -8,7 +8,6 @@ import { TableWorkHours } from './components/TableWorkHours';
 import dayjs from 'dayjs';
 
 export const PageWorkHours: React.FC = () => {
-  const { Title } = Typography;
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
 
@@ -53,29 +52,29 @@ export const PageWorkHours: React.FC = () => {
   // console.log('selectedDate', getWeekFormat(selectedDate))
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Табель учета рабочего времени</Title>
-        <Space>
-          <div>
-            <Button onClick={prevWeek}>
-              <LeftOutlined />
-            </Button>
-            <DatePicker
-              allowClear={false}
-              picker="week"
-              onChange={handleDateChange}
-              value={selectedDate}
-              format={getWeekFormat(selectedDate)}
-              style={{ width: '280px' }}
-              className="no-clear-button"
-            />
-            <Button onClick={nextWeek}>
-              <RightOutlined />
-            </Button>
-          </div>
-        </Space>
-      </div>
+    <div>
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Button onClick={prevWeek}>
+          <LeftOutlined />
+        </Button>
+        <DatePicker
+          allowClear={false}
+          picker="week"
+          onChange={handleDateChange}
+          value={selectedDate}
+          format={getWeekFormat(selectedDate)}
+          style={{ width: '280px' }}
+          className="no-clear-button"
+        />
+        <Button onClick={nextWeek}>
+          <RightOutlined />
+        </Button>
+      </Flex>
       <FloatButton.BackTop />
       <TableWorkHours filter={filter} />
     </div>
