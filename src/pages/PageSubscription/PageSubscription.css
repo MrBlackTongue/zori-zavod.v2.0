@@ -13,3 +13,9 @@
 .subscription-block {
   margin-right: 400px;
 }
+
+.pay-button {
+  width: 120px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

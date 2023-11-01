@@ -11,7 +11,6 @@ export const CreateModalProductionProductMovement: React.FC<
   CreateModalProps<TypeProductionProductMovementFormValue>
 > = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
-  const { Option } = Select;
 
   // Хук для получения данных
   const { allStock } = useFetchAllData({ depsStock: isOpen });
@@ -89,7 +88,7 @@ export const CreateModalProductionProductMovement: React.FC<
             filterOption={onSearchSelect}>
             {allStock && allStock.length > 0
               ? allStock.map(stock => (
-                  <Option
+                  <Select.Option
                     key={stock.id}
                     value={stock.id}
                     label={`${stock.product?.title}, ${stock.id}`}>
@@ -98,7 +97,7 @@ export const CreateModalProductionProductMovement: React.FC<
                       title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}>
                       {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
                     </Tooltip>
-                  </Option>
+                  </Select.Option>
                 ))
               : null}
           </Select>
@@ -117,12 +116,12 @@ export const CreateModalProductionProductMovement: React.FC<
         </Form.Item>
         <Form.Item label="Тип движения" name="income">
           <Select onChange={value => form.setFieldsValue({ income: value })}>
-            <Option id={true} value={true}>
+            <Select.Option id={true} value={true}>
               {'Приход'}
-            </Option>
-            <Option id={false} value={false}>
+            </Select.Option>
+            <Select.Option id={false} value={false}>
               {'Расход'}
-            </Option>
+            </Select.Option>
           </Select>
         </Form.Item>
       </Form>

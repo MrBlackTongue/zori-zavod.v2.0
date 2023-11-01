@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Space, Typography } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
+import { FloatButton } from 'antd';
 import {
   createEmployee,
   deleteEmployeeById,
@@ -11,8 +9,7 @@ import { TypeEmployee, TypeEmployeeFormValue } from '../../types';
 import { TableEmployee } from './components/TableEmployee';
 import { CreateModalEmployee } from './components/CreateModalEmployee';
 import { UpdateDrawerEmployee } from './components/UpdateDrawerEmployee';
-import { CustomPopover } from '../../components/CustomPopover/CustomPopover';
-import { EMPLOYEE_CONTENT } from '../../components/CustomPopover/ContentPopover';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageEmployee = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -69,27 +66,8 @@ export const PageEmployee = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle" style={{ position: 'relative' }}>
-        <Typography.Title level={3} style={{ display: 'inline-block' }}>
-          <CustomPopover
-            content={
-              <p style={{ fontSize: '13px', maxWidth: 500 }}>
-                {EMPLOYEE_CONTENT}
-              </p>
-            }
-          />
-          Сотрудники
-        </Typography.Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableEmployee
         isUpdateTable={isUpdateTable}

@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Input, Space, Typography } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import '../../App.css';
+import { Flex, FloatButton, Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import { createAcceptance, deleteAcceptanceById } from '../../services';
 import { TypeAcceptance, TypeAcceptanceFormValue } from '../../types';
 import { TableAcceptance } from './components/TableAcceptance';
 import { CreateModalAcceptance } from './components/CreateModalAcceptance';
 import dayjs from 'dayjs';
 import { useFetchAllData } from '../../hooks';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageAcceptance: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновить таблицу, открыть закрыть модальное окно, текст поиска
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -49,25 +47,22 @@ export const PageAcceptance: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Приемка товаров</Title>
-        <Space>
-          <Input
-            placeholder="Поиск по товарам"
-            onChange={event => setSearchText(event.target.value)}
-            style={{ width: '210px' }}
-            allowClear
-            prefix={<SearchOutlined />}
-          />
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Input
+          placeholder="Поиск по товарам"
+          onChange={event => setSearchText(event.target.value)}
+          style={{ width: '210px' }}
+          allowClear
+          prefix={<SearchOutlined />}
+        />
+      </Flex>
       <FloatButton.BackTop />
       <TableAcceptance
         searchText={searchText}

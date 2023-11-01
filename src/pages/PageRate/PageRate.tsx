@@ -64,7 +64,11 @@ export const PageRate = () => {
     <div className="page-rate rate-flex rate-column rate-center-column">
       <div className="rate-header rate-flex rate-row rate-center-row">
         <a href="/" rel="noopener noreferrer">
-          <img src="/images/header_logo.png" alt="Logo" className="logo" />
+          <img
+            src="/images/header_logo_light_montserrat.png"
+            alt="logo"
+            className="logo"
+          />
         </a>
         <Dropdown
           menu={{ items }}

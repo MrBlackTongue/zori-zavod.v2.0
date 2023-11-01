@@ -121,12 +121,14 @@ export const TableDetailWriteOff: React.FC<TableProps> = ({
     <Table
       rowKey="id"
       bordered
-      size={'small'}
+      size="small"
       columns={columns}
       dataSource={allWriteOffMovement}
       pagination={false}
       loading={isLoading}
-      rowClassName={(_, index) => (index % 2 === 0 ? 'even-row' : 'odd-row')}
+      rowClassName={(_, index) =>
+        index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
+      }
     />
   );
 };

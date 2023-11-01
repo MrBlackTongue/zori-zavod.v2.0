@@ -1,21 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import {
-  DatePicker,
-  FloatButton,
-  Select,
-  Space,
-  Tooltip,
-  Typography,
-} from 'antd';
-import '../../App.css';
+import { DatePicker, Flex, FloatButton, Select, Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import { useFetchAllData } from '../../hooks';
 import { TableEmployeeReport } from './components/TableEmployeeReport';
 
 export const PageEmployeeReport: React.FC = () => {
-  const { Title } = Typography;
-  const { Option } = Select;
-
   // Выбранные даты
   const [selectedDateFrom, setSelectedDateFrom] = useState<
     string | undefined
@@ -67,66 +56,68 @@ export const PageEmployeeReport: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Отчет по сотрудникам</Title>
-        <Space>
-          <Select
-            showSearch
-            allowClear
-            style={{ width: '250px' }}
-            placeholder="Выберите сотрудника"
-            onChange={onChangeEmployee}
-            filterOption={onSearchSelect}>
-            {allEmployee && allEmployee.length > 0
-              ? allEmployee.map(employee => (
-                  <Option
-                    key={employee.id}
-                    value={employee.id}
-                    label={`${employee.lastName}, ${employee.firstName}`}>
-                    <Tooltip
-                      placement="right"
-                      title={`${employee.lastName}, ${employee.firstName}`}>
-                      {`${employee.lastName} ${employee.firstName}`}
-                    </Tooltip>
-                  </Option>
-                ))
-              : null}
-          </Select>
-          <Select
-            showSearch
-            allowClear
-            placeholder="Выберите операцию"
-            style={{ width: '300px' }}
-            onChange={onChangeOperation}
-            filterOption={onSearchSelect}>
-            {allOperation && allOperation.length > 0
-              ? allOperation.map(operation => (
-                  <Option
-                    key={operation.id}
-                    value={operation.id}
-                    label={operation.title}>
-                    <Tooltip placement="right" title={operation.title}>
-                      {operation.title}
-                    </Tooltip>
-                  </Option>
-                ))
-              : null}
-          </Select>
-          <DatePicker
-            placeholder="Дата от"
-            style={{ width: '150px' }}
-            format="DD.MM.YYYY"
-            onChange={onChangeDateFrom}
-          />
-          <DatePicker
-            placeholder="Дата до"
-            style={{ width: '150px' }}
-            format="DD.MM.YYYY"
-            onChange={onChangeDateTo}
-          />
-        </Space>
-      </div>
+    <div>
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Select
+          showSearch
+          allowClear
+          style={{ width: '250px' }}
+          placeholder="Выберите сотрудника"
+          onChange={onChangeEmployee}
+          filterOption={onSearchSelect}>
+          {allEmployee && allEmployee.length > 0
+            ? allEmployee.map(employee => (
+                <Select.Option
+                  key={employee.id}
+                  value={employee.id}
+                  label={`${employee.lastName}, ${employee.firstName}`}>
+                  <Tooltip
+                    placement="right"
+                    title={`${employee.lastName}, ${employee.firstName}`}>
+                    {`${employee.lastName} ${employee.firstName}`}
+                  </Tooltip>
+                </Select.Option>
+              ))
+            : null}
+        </Select>
+        <Select
+          showSearch
+          allowClear
+          placeholder="Выберите операцию"
+          style={{ width: '300px' }}
+          onChange={onChangeOperation}
+          filterOption={onSearchSelect}>
+          {allOperation && allOperation.length > 0
+            ? allOperation.map(operation => (
+                <Select.Option
+                  key={operation.id}
+                  value={operation.id}
+                  label={operation.title}>
+                  <Tooltip placement="right" title={operation.title}>
+                    {operation.title}
+                  </Tooltip>
+                </Select.Option>
+              ))
+            : null}
+        </Select>
+        <DatePicker
+          placeholder="Дата от"
+          style={{ width: '150px' }}
+          format="DD.MM.YYYY"
+          onChange={onChangeDateFrom}
+        />
+        <DatePicker
+          placeholder="Дата до"
+          style={{ width: '150px' }}
+          format="DD.MM.YYYY"
+          onChange={onChangeDateTo}
+        />
+      </Flex>
       <FloatButton.BackTop />
       <TableEmployeeReport filter={filter} />
     </div>

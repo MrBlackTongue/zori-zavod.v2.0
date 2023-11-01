@@ -1,199 +1,173 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Menu } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import './MenuMain.css';
 import {
-  ApartmentOutlined,
   AppstoreAddOutlined,
   AppstoreOutlined,
-  ArrowDownOutlined,
-  BookOutlined,
-  BulbOutlined,
-  CalendarOutlined,
-  ClockCircleOutlined,
-  ClusterOutlined,
-  ContactsOutlined,
-  ControlOutlined,
-  DatabaseOutlined,
-  DownSquareOutlined,
-  FormOutlined,
-  FundOutlined,
-  LogoutOutlined,
-  OrderedListOutlined,
-  ProjectOutlined,
-  ReconciliationOutlined,
-  RetweetOutlined,
-  RightOutlined,
+  BarChartOutlined,
+  CarryOutOutlined,
   ScheduleOutlined,
-  SlidersOutlined,
-  SnippetsOutlined,
-  SolutionOutlined,
-  TableOutlined,
+  ShopOutlined,
+  ShoppingCartOutlined,
   TeamOutlined,
-  TranslationOutlined,
 } from '@ant-design/icons';
+import { menuKeyToRoutes } from '../TabsComponent/menuKeyToRoutes';
 
-export const MenuMain: React.FC = () => {
-  const subMenuRoutes = {
-    '01': ['/operation-accounting', '/operation', '/production-type'],
-    '02': [
-      '/operation-report',
-      '/output-report',
-      '/product-report',
-      '/employee-report',
-      '/cost-price-report',
-    ],
-    '03': ['/product', '/product-group'],
-    '04': ['/meter-record', '/meter', '/meter-type'],
-    '05': ['/purchase', '/product-batch', '/acceptance'],
-    '06': ['/stock', '/write-off', '/storage-place'],
-    '07': ['/estimated-price'],
-  };
+const items = [
+  {
+    key: '01',
+    label: (
+      <div className="menu-item-container">
+        <ShopOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
+        <div className="menu-item-div">Продажи</div>
+      </div>
+    ),
+  },
+  {
+    key: '02',
+    label: (
+      <div className="menu-item-container">
+        <AppstoreAddOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        <div className="menu-item-div">Создать</div>
+      </div>
+    ),
+  },
+  {
+    key: '03',
+    label: (
+      <div className="menu-item-container">
+        <ShoppingCartOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        <div className="menu-item-div">Покупки</div>
+      </div>
+    ),
+  },
+  {
+    key: '04',
+    label: (
+      <div className="menu-item-container">
+        <AppstoreOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        <div className="menu-item-div">Склад</div>
+      </div>
+    ),
+  },
+  {
+    key: '05',
+    label: (
+      <div className="menu-item-container">
+        <BarChartOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        <div className="menu-item-div">Отчеты</div>
+      </div>
+    ),
+  },
+  {
+    key: '06',
+    label: (
+      <div className="menu-item-container">
+        <CarryOutOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        <div className="menu-item-div">Товары</div>
+      </div>
+    ),
+  },
+  {
+    key: '07',
+    label: (
+      <div className="menu-item-container">
+        <TeamOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
+        <div className="menu-item-div">Контакты</div>
+      </div>
+    ),
+  },
+  {
+    key: '08',
+    label: (
+      <div className="menu-item-container">
+        <ScheduleOutlined
+          className="menu-item-icon"
+          style={{ fontSize: '24px' }}
+        />
+        <div className="menu-item-div">Сотрудники</div>
+      </div>
+    ),
+  },
+];
 
-  const findSubMenuKey = (pathname: any) => {
-    for (const [key, routes] of Object.entries(subMenuRoutes)) {
-      if (routes.includes(pathname)) {
+interface MenuMainProps {
+  onMenuKeyChange: (key: string) => void;
+  selectedMenuKey: string;
+}
+
+// Функция ищет ключ меню соответствующий заданному пути
+const findMenuKeyByPath = (path: string) => {
+  for (const key of Object.keys(menuKeyToRoutes)) {
+    for (const { route } of menuKeyToRoutes[key]) {
+      // Если путь начинается с route.props.path, значит это родительский путь
+      if (path.startsWith(route.props.path)) {
         return key;
       }
     }
-    return '';
-  };
+  }
+  return null;
+};
 
-  const { SubMenu } = Menu;
+export const MenuMain: React.FC<MenuMainProps> = ({
+  onMenuKeyChange,
+  selectedMenuKey,
+}) => {
   const location = useLocation();
-  const defaultOpenKeys = findSubMenuKey(location.pathname);
-  const [openKeys, setOpenKeys] = useState([defaultOpenKeys]);
+  const navigate = useNavigate();
 
-  // Функция-обработчик изменения openKeys
-  const onOpenChange = (keys: any) => {
-    const latestOpenKey = keys.find((key: any) => openKeys.indexOf(key) === -1);
-    if (Object.keys(subMenuRoutes).indexOf(latestOpenKey) === -1) {
-      setOpenKeys(keys);
-    } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+  // Функция меняет ключ меню и переходит по новому маршруту
+  const handleSelect = ({ key }: { key: string }) => {
+    onMenuKeyChange(key);
+    const firstRoute = menuKeyToRoutes[key]?.[0]?.route?.props?.path;
+    if (firstRoute) {
+      localStorage.setItem('activeMenuKey', key);
+      navigate(firstRoute);
     }
   };
 
+  // useEffect для обновления activeMenuKey в localStorage
+  useEffect(() => {
+    const foundMenuKey = findMenuKeyByPath(location.pathname);
+    if (foundMenuKey) {
+      localStorage.setItem('activeMenuKey', foundMenuKey);
+    }
+  }, [location.pathname]);
+
+  // useEffect для вызова onMenuKeyChange на основе текущего пути или сохраненного ключа
+  useEffect(() => {
+    const foundMenuKey = findMenuKeyByPath(location.pathname);
+    const savedActiveMenuKey = localStorage.getItem('activeMenuKey');
+
+    if (foundMenuKey) {
+      onMenuKeyChange(savedActiveMenuKey ?? foundMenuKey);
+    }
+  }, [location.pathname, onMenuKeyChange]);
+
   return (
-    <div style={{ height: 'calc(100vh - 100px)', overflowY: 'auto' }}>
-      <Menu
-        theme="light"
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        openKeys={openKeys}
-        onOpenChange={onOpenChange}
-        onSelect={({ key }) => {
-          if (!Object.values(subMenuRoutes).flat().includes(key)) {
-            setOpenKeys([]);
-          }
-        }}>
-        <Menu.Item key="/employee" icon={<TeamOutlined />}>
-          <Link to="/employee">Сотрудники</Link>
-        </Menu.Item>
-
-        <Menu.Item key="/work-hours" icon={<ClockCircleOutlined />}>
-          <Link to="/work-hours">Рабочие часы</Link>
-        </Menu.Item>
-        <SubMenu key="01" icon={<RightOutlined />} title="Операции">
-          <Menu.Item key="/operation-accounting" icon={<FormOutlined />}>
-            <Link to="/operation-accounting">Учет операций</Link>
-          </Menu.Item>
-          <Menu.Item key="/operation" icon={<OrderedListOutlined />}>
-            <Link to="/operation">Типы операций</Link>
-          </Menu.Item>
-          <Menu.Item key="/production-type" icon={<SlidersOutlined />}>
-            <Link to="/production-type">Типы производства</Link>
-          </Menu.Item>
-        </SubMenu>
-
-        <SubMenu key="02" icon={<RightOutlined />} title="Отчеты">
-          <Menu.Item key="/operation-report" icon={<ReconciliationOutlined />}>
-            <Link to="/operation-report">По операциям</Link>
-          </Menu.Item>
-          <Menu.Item key="/output-report" icon={<ProjectOutlined />}>
-            <Link to="/output-report">По выпускам</Link>
-          </Menu.Item>
-          <Menu.Item key="/product-report" icon={<TableOutlined />}>
-            <Link to="/product-report">По товарам</Link>
-          </Menu.Item>
-          <Menu.Item key="/employee-report" icon={<SnippetsOutlined />}>
-            <Link to="/employee-report">По сотрудникам</Link>
-          </Menu.Item>
-          <Menu.Item key="/cost-price-report" icon={<FundOutlined />}>
-            <Link to="/cost-price-report">По себестоимости</Link>
-          </Menu.Item>
-        </SubMenu>
-
-        <SubMenu key="03" icon={<RightOutlined />} title="Товары">
-          <Menu.Item key="/product" icon={<AppstoreOutlined />}>
-            <Link to="/product">Товары</Link>
-          </Menu.Item>
-          <Menu.Item key="/product-group" icon={<ApartmentOutlined />}>
-            <Link to="/product-group">Группы товаров</Link>
-          </Menu.Item>
-        </SubMenu>
-
-        <SubMenu key="04" icon={<RightOutlined />} title="Счетчики">
-          <Menu.Item key="/meter-record" icon={<BookOutlined />}>
-            <Link to="/meter-record">Записи счетчиков</Link>
-          </Menu.Item>
-          <Menu.Item key="/meter" icon={<BulbOutlined />}>
-            <Link to="/meter">Счетчики</Link>
-          </Menu.Item>
-          <Menu.Item key="/meter-type" icon={<ControlOutlined />}>
-            <Link to="/meter-type">Типы счетчиков</Link>
-          </Menu.Item>
-        </SubMenu>
-
-        <Menu.Item key="/client" icon={<SolutionOutlined />}>
-          <Link to="/client">Клиенты</Link>
-        </Menu.Item>
-
-        <SubMenu key="06" icon={<RightOutlined />} title="Склад">
-          <Menu.Item key="/stock" icon={<DatabaseOutlined />}>
-            <Link to="/stock">Остатки</Link>
-          </Menu.Item>
-          <Menu.Item key="/write-off" icon={<ArrowDownOutlined />}>
-            <Link to="/write-off">Списание</Link>
-          </Menu.Item>
-          <Menu.Item key="/storage-place" icon={<DownSquareOutlined />}>
-            <Link to="/storage-place">Место хранения</Link>
-          </Menu.Item>
-        </SubMenu>
-
-        <Menu.Item key="/shipment" icon={<ContactsOutlined />}>
-          <Link to="/shipment">Отгрузки</Link>
-        </Menu.Item>
-
-        <SubMenu key="05" icon={<RightOutlined />} title="Закупки">
-          <Menu.Item key="/purchase" icon={<AppstoreAddOutlined />}>
-            <Link to="/purchase">Заказы на закупки</Link>
-          </Menu.Item>
-          <Menu.Item key="/product-batch" icon={<ClusterOutlined />}>
-            <Link to="/product-batch">Партии товаров</Link>
-          </Menu.Item>
-          <Menu.Item key="/acceptance" icon={<ScheduleOutlined />}>
-            <Link to="/acceptance">Приемка товаров</Link>
-          </Menu.Item>
-        </SubMenu>
-
-        <SubMenu key="07" icon={<RightOutlined />} title="Себестоимость">
-          <Menu.Item key="/estimated-price" icon={<RetweetOutlined />}>
-            <Link to="/estimated-price">Расчетные цены</Link>
-          </Menu.Item>
-        </SubMenu>
-
-        <Menu.Item key="/product-movement-history" icon={<CalendarOutlined />}>
-          <Link to="/product-movement-history">История товаров</Link>
-        </Menu.Item>
-
-        <Menu.Item key="/output" icon={<LogoutOutlined />}>
-          <Link to="/output">Выпуски продукции</Link>
-        </Menu.Item>
-
-        <Menu.Item key="/unit" icon={<TranslationOutlined />}>
-          <Link to="/unit">Единицы измерения</Link>
-        </Menu.Item>
-      </Menu>
-    </div>
+    <Menu
+      theme="dark"
+      mode="horizontal"
+      selectedKeys={[selectedMenuKey]}
+      onSelect={handleSelect}
+      items={items}
+      style={{ height: '100%', width: '100%' }}
+    />
   );
 };

@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  FloatButton,
-  Input,
-  Select,
-  Space,
-  Tooltip,
-  Typography,
-} from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import '../../App.css';
+import { Flex, FloatButton, Input, Select, Tooltip } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import {
   createStock,
   deleteStockById,
@@ -21,11 +12,9 @@ import { TableStock } from './components/TableStock';
 import { CreateModalStock } from './components/CreateModalStock';
 import { UpdateDrawerStock } from './components/UpdateDrawerStock';
 import { useFetchAllData } from '../../hooks';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageStock: React.FC = () => {
-  const { Title } = Typography;
-  const { Option } = Select;
-
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -94,45 +83,42 @@ export const PageStock: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Остатки</Title>
-        <Space>
-          <Input
-            placeholder="Поиск по товарам"
-            onChange={event => setSearchText(event.target.value)}
-            style={{ width: '210px' }}
-            allowClear
-            prefix={<SearchOutlined />}
-          />
-          <Select
-            showSearch
-            allowClear
-            placeholder="Выберите товарную группу"
-            style={{ width: '250px' }}
-            onChange={onChangeProductGroup}
-            filterOption={onSearchSelect}>
-            {allProductGroup && allProductGroup.length > 0
-              ? allProductGroup.map(productGroup => (
-                  <Option
-                    key={productGroup.id}
-                    value={productGroup.id}
-                    label={productGroup.title}>
-                    <Tooltip placement="right" title={productGroup.title}>
-                      {productGroup.title}
-                    </Tooltip>
-                  </Option>
-                ))
-              : null}
-          </Select>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Input
+          placeholder="Поиск по товарам"
+          onChange={event => setSearchText(event.target.value)}
+          style={{ width: '210px' }}
+          allowClear
+          prefix={<SearchOutlined />}
+        />
+        <Select
+          showSearch
+          allowClear
+          placeholder="Выберите товарную группу"
+          style={{ width: '250px' }}
+          onChange={onChangeProductGroup}
+          filterOption={onSearchSelect}>
+          {allProductGroup && allProductGroup.length > 0
+            ? allProductGroup.map(productGroup => (
+                <Select.Option
+                  key={productGroup.id}
+                  value={productGroup.id}
+                  label={productGroup.title}>
+                  <Tooltip placement="right" title={productGroup.title}>
+                    {productGroup.title}
+                  </Tooltip>
+                </Select.Option>
+              ))
+            : null}
+        </Select>
+      </Flex>
       <FloatButton.BackTop />
       <TableStock
         isUpdateTable={isUpdateTable}

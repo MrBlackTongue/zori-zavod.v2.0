@@ -9,8 +9,6 @@ export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
   onClearEmployee,
   onSearchEmployee,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -30,7 +28,7 @@ export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
           filterOption={onSearchEmployee}>
           {allEmployee && allEmployee.length > 0
             ? allEmployee.map(employee => (
-                <Option
+                <Select.Option
                   key={employee.id}
                   value={employee.id}
                   label={`${employee.lastName}, ${employee.firstName}`}>
@@ -39,7 +37,7 @@ export const FormOperationTimesheet: React.FC<FormOperationTimesheetProps> = ({
                     title={`${employee.lastName} ${employee.firstName}`}>
                     {`${employee.lastName} ${employee.firstName}`}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

@@ -9,8 +9,6 @@ export const FormProductGroup: React.FC<FormProductGroupProps> = ({
   onClearProductGroup,
   onSearchProductGroup,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -35,14 +33,14 @@ export const FormProductGroup: React.FC<FormProductGroupProps> = ({
           filterOption={onSearchProductGroup}>
           {allProductGroup && allProductGroup.length > 0
             ? allProductGroup.map(productGroup => (
-                <Option
+                <Select.Option
                   key={productGroup.id}
                   value={productGroup.id}
                   label={productGroup.title}>
                   <Tooltip placement="right" title={productGroup.title}>
                     {productGroup.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

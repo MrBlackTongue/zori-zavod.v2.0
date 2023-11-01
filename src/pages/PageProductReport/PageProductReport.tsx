@@ -1,21 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import {
-  DatePicker,
-  FloatButton,
-  Select,
-  Space,
-  Tooltip,
-  Typography,
-} from 'antd';
+import { DatePicker, Flex, FloatButton, Select, Tooltip } from 'antd';
 import { TableProductReport } from './components/TableProductReport';
-import '../../App.css';
 import dayjs from 'dayjs';
 import { useFetchAllData } from '../../hooks';
 
 export const PageProductReport: React.FC = () => {
-  const { Title } = Typography;
-  const { Option } = Select;
-
   // Выбранные даты
   const [selectedDateFrom, setSelectedDateFrom] = useState<
     string | undefined
@@ -59,44 +48,46 @@ export const PageProductReport: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Отчет по товарам</Title>
-        <Space>
-          <Select
-            showSearch
-            allowClear
-            style={{ width: '250px' }}
-            placeholder="Выберите товар"
-            onChange={onChangeProduct}
-            filterOption={onSearchSelect}>
-            {allProductOutput && allProductOutput.length > 0
-              ? allProductOutput.map(productOutput => (
-                  <Option
-                    key={productOutput.id}
-                    value={productOutput.id}
-                    label={productOutput.title}>
-                    <Tooltip placement="right" title={productOutput.title}>
-                      {productOutput.title}
-                    </Tooltip>
-                  </Option>
-                ))
-              : null}
-          </Select>
-          <DatePicker
-            placeholder="Дата от"
-            style={{ width: '150px' }}
-            format="DD.MM.YYYY"
-            onChange={onChangeDateFrom}
-          />
-          <DatePicker
-            placeholder="Дата до"
-            style={{ width: '150px' }}
-            format="DD.MM.YYYY"
-            onChange={onChangeDateTo}
-          />
-        </Space>
-      </div>
+    <div>
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Select
+          showSearch
+          allowClear
+          style={{ width: '250px' }}
+          placeholder="Выберите товар"
+          onChange={onChangeProduct}
+          filterOption={onSearchSelect}>
+          {allProductOutput && allProductOutput.length > 0
+            ? allProductOutput.map(productOutput => (
+                <Select.Option
+                  key={productOutput.id}
+                  value={productOutput.id}
+                  label={productOutput.title}>
+                  <Tooltip placement="right" title={productOutput.title}>
+                    {productOutput.title}
+                  </Tooltip>
+                </Select.Option>
+              ))
+            : null}
+        </Select>
+        <DatePicker
+          placeholder="Дата от"
+          style={{ width: '150px' }}
+          format="DD.MM.YYYY"
+          onChange={onChangeDateFrom}
+        />
+        <DatePicker
+          placeholder="Дата до"
+          style={{ width: '150px' }}
+          format="DD.MM.YYYY"
+          onChange={onChangeDateTo}
+        />
+      </Flex>
       <FloatButton.BackTop />
       <TableProductReport filter={filter} />
     </div>

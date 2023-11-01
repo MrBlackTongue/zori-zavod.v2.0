@@ -13,8 +13,6 @@ export const FormStock: React.FC<FormStockProps> = ({
   onClearStoragePlace,
   onSearchStoragePlace,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -34,14 +32,14 @@ export const FormStock: React.FC<FormStockProps> = ({
           filterOption={onSearchProduct}>
           {allProduct && allProduct.length > 0
             ? allProduct.map(product => (
-                <Option
+                <Select.Option
                   key={product.id}
                   value={product.id}
                   label={product.title}>
                   <Tooltip placement="right" title={product.title}>
                     {product.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>
@@ -56,14 +54,14 @@ export const FormStock: React.FC<FormStockProps> = ({
           filterOption={onSearchStoragePlace}>
           {allStoragePlace && allStoragePlace.length > 0
             ? allStoragePlace.map(storagePlace => (
-                <Option
+                <Select.Option
                   key={storagePlace.id}
                   value={storagePlace.id}
                   label={storagePlace.title}>
                   <Tooltip placement="right" title={storagePlace.title}>
                     {storagePlace.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>

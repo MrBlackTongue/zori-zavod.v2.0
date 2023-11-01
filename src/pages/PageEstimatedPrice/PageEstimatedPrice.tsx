@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Space, Typography } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
+import { FloatButton } from 'antd';
 import {
   createEstimatedPrice,
   deleteEstimatedPriceById,
@@ -12,10 +10,9 @@ import { TableEstimatedPrice } from './components/TableEstimatedPrice';
 import { CreateModalEstimatedPrice } from './components/CreateModalEstimatedPrice';
 import { UpdateDrawerEstimatedPrice } from './components/UpdateDrawerEstimatedPrice';
 import dayjs from 'dayjs';
+import AddButton from '../../components/AddButton/AddButton';
 
 export const PageEstimatedPrice: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы, открыть/закрыть модальное окно, драйвер
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -67,18 +64,8 @@ export const PageEstimatedPrice: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Расчетные цены</Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setIsModalOpen(true)}>
-            Добавить
-          </Button>
-        </Space>
-      </div>
+    <div>
+      <AddButton setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableEstimatedPrice
         isUpdateTable={isUpdateTable}

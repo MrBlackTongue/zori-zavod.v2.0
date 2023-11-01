@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Button, FloatButton, Space, Typography } from 'antd';
+import { Button, FloatButton } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import '../../App.css';
 import {
   createShipment,
   deleteShipmentById,
@@ -15,8 +14,6 @@ import { DetailDrawerShipment } from './components/DetailDrawerShipment';
 import dayjs from 'dayjs';
 
 export const PageShipment: React.FC = () => {
-  const { Title } = Typography;
-
   // Обновление таблицы
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
@@ -76,17 +73,15 @@ export const PageShipment: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Отгрузки</Title>
-        <Space>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => setOpenState({ ...openState, isModalOpen: true })}>
-            Добавить
-          </Button>
-        </Space>
+    <div>
+      <div className="add-new-item-button">
+        <Button
+          style={{ top: -35 }}
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => setOpenState({ ...openState, isModalOpen: true })}>
+          Добавить
+        </Button>
       </div>
       <FloatButton.BackTop />
       <TableShipment

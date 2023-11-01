@@ -1,12 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { Typography, Space, FloatButton, DatePicker } from 'antd';
-import '../../App.css';
+import React, { useMemo, useState } from 'react';
+import { DatePicker, Flex, FloatButton } from 'antd';
 import { TableOperationReport } from './components/TableOperationReport';
 import dayjs from 'dayjs';
 
 export const PageOperationReport: React.FC = () => {
-  const { Title } = Typography;
-
   // Выбранные даты
   const [selectedDateFrom, setSelectedDateFrom] = useState<
     string | undefined
@@ -31,24 +28,26 @@ export const PageOperationReport: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'grid' }}>
-      <div className="centerTitle">
-        <Title level={3}>Отчет по операциям</Title>
-        <Space>
-          <DatePicker
-            placeholder="Дата от"
-            style={{ width: '150px' }}
-            format="DD.MM.YYYY"
-            onChange={onChangeDateFrom}
-          />
-          <DatePicker
-            placeholder="Дата до"
-            style={{ width: '150px' }}
-            format="DD.MM.YYYY"
-            onChange={onChangeDateTo}
-          />
-        </Space>
-      </div>
+    <div>
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <DatePicker
+          placeholder="Дата от"
+          style={{ width: '150px' }}
+          format="DD.MM.YYYY"
+          onChange={onChangeDateFrom}
+        />
+        <DatePicker
+          placeholder="Дата до"
+          style={{ width: '150px' }}
+          format="DD.MM.YYYY"
+          onChange={onChangeDateTo}
+        />
+      </Flex>
       <FloatButton.BackTop />
       <TableOperationReport filter={filter} />
     </div>

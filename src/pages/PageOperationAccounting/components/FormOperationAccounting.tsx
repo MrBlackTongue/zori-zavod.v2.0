@@ -20,8 +20,6 @@ export const FormOperationAccounting: React.FC<
   onClearProductionType,
   onSearchProductionType,
 }) => {
-  const { Option } = Select;
-
   return (
     <Form
       form={form}
@@ -41,14 +39,14 @@ export const FormOperationAccounting: React.FC<
           filterOption={onSearchOperation}>
           {allOperation && allOperation.length > 0
             ? allOperation.map(operation => (
-                <Option
+                <Select.Option
                   key={operation.id}
                   value={operation.id}
                   label={operation.title}>
                   <Tooltip placement="right" title={operation.title}>
                     {operation.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>
@@ -63,7 +61,7 @@ export const FormOperationAccounting: React.FC<
           filterOption={onSearchOutput}>
           {allOutput && allOutput.length > 0
             ? allOutput.map(output => (
-                <Option
+                <Select.Option
                   key={output.id}
                   value={output.id}
                   label={`${output?.date}, ${output?.product?.title}, ${output.id}`}>
@@ -74,7 +72,7 @@ export const FormOperationAccounting: React.FC<
                     {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product
                       ?.title}, ID: ${output.id}`}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>
@@ -101,14 +99,14 @@ export const FormOperationAccounting: React.FC<
           filterOption={onSearchProductionType}>
           {allProductionType && allProductionType.length > 0
             ? allProductionType.map(productionType => (
-                <Option
+                <Select.Option
                   key={productionType.id}
                   value={productionType.id}
                   label={productionType.title}>
                   <Tooltip placement="right" title={productionType.title}>
                     {productionType.title}
                   </Tooltip>
-                </Option>
+                </Select.Option>
               ))
             : null}
         </Select>
