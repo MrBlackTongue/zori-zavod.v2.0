@@ -15,12 +15,19 @@ export interface TypeRow {
 export interface TypeWorkDay {
   date: string;
   hours: number;
+  id?: number;
 }
 
 export interface TransformedWorkHour {
   employee: TypeEmployee;
-
   [date: string]: TypeWorkDay | TypeEmployee;
+}
+
+export interface TypeEditingDayState {
+  id?: number;
+  date: string;
+  hours: number;
+  employee: TypeEmployee | number | undefined;
 }
 
 export interface TypeWorkHoursFilter {

@@ -1,4 +1,10 @@
-import { TypeApiResponse, TypeWorkDay, TypeWorkHour } from '../types';
+import {
+  TypeApiResponse,
+  TypeEditingDayState,
+  //   TypeEditingDayStatePut,
+  TypeWorkDay,
+  TypeWorkHour,
+} from '../types';
 import { WORK_HOURS } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
@@ -39,8 +45,8 @@ export async function deleteWorkHoursById(
 
 // Редактирование данных о рабочем дне
 export async function updateWorkHours(
-  data: TypeWorkDay,
-): Promise<TypeApiResponse> {
+  data: TypeEditingDayState,
+): Promise<TypeEditingDayState> {
   try {
     const response = await api.put<TypeApiResponse>(WORK_HOURS, data);
     return handleResponseUpdateMessage(response);
