@@ -30,6 +30,8 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     null,
   );
 
+  const [originalHours, setOriginalHours] = useState<number | null>(null);
+
   // Хук для получения данных
   const { allEmployee } = useFetchAllData({ depsEmployee: true });
 
@@ -96,7 +98,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       // Создаем объект с новыми данными
       const workHourUpdate: TypeEditingDayState = {
         id: editingDay?.id,
-        date: date,
+        workDate: date,
         hours: newHours,
         employee: { id: employeeId },
       };
@@ -160,21 +162,22 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
         if (
           editingDay &&
-          editingDay.date === dateFormat && // Убедитесь, что даты совпадают
+          editingDay.workDate === dateFormat && // Убедитесь, что даты совпадают
           editingDay.employee === record.employee.id // Используйте employeeId здесь
         ) {
           return (
             <Input
               style={{ width: '100px' }}
-              defaultValue={dayData ? `${dayData.hours}` : ''}
+              defaultValue={dayData ? `${dayData.hours}` : '0'}
+              placeholder="чч:мм" // Установка плейсхолдера для пустых значений
               onBlur={e => {
+                const newHours = parseInt(e.target.value, 10);
                 const employeeId = record.employee.id;
-                if (typeof employeeId === 'number') {
-                  handleDayChange(dateFormat, employeeId, e.target.value); // Теперь это гарантированно number
-                } else {
-                  console.error(
-                    'ID сотрудника не определен при попытке обновить часы',
-                  );
+                if (
+                  typeof employeeId === 'number' &&
+                  newHours !== originalHours
+                ) {
+                  handleDayChange(dateFormat, employeeId, e.target.value);
                 }
               }}
             />
@@ -184,15 +187,15 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
             <span
               onClick={() => {
                 const employeeId = record.employee.id;
-                // Проверяем, что employeeId действительно число
+                setOriginalHours(dayData ? dayData.hours : 0);
                 setEditingDay({
                   id: dayData.id,
-                  date: dateFormat,
+                  workDate: dateFormat,
                   hours: dayData ? dayData.hours : 0,
                   employee: employeeId,
                 });
               }}>
-              {dayData ? `${dayData.hours}ч` : ''}
+              {dayData && dayData.hours != null ? `${dayData.hours}ч` : 'hh:mm'}
             </span>
           );
         }
