@@ -59,3 +59,7 @@
 .table-odd-row {
   background-color: #f5f5f5; /* Цвет для нечетных строк */
 }
+
+.ant-table-cell-row-hover {
+  background-color: #b3d8ff !important; /* Яркий цвет для подсветки */
+}

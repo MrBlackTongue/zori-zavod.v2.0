@@ -53,6 +53,7 @@ export const CustomPopover: React.FC<CustomPopoverProps> = ({ content }) => {
           marginRight: 5,
           marginLeft: 5,
           cursor: 'pointer',
+          opacity: 0.5,
         }}
         onClick={() => setIsOpen(!isOpen)}>
         <IconComponent

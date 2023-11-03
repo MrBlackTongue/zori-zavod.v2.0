@@ -1,15 +1,21 @@
 import React from 'react';
-import { Checkbox, Form, Input, InputNumber } from 'antd';
-import { FormEmployeeProps } from '../../../types';
-import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
+import { Button, Checkbox, Form, Input, InputNumber, Space } from 'antd';
+import { FormProps, TypeEmployeeFormValue } from '../../../types';
+import { CustomPopover } from '../../../components/CustomPopover/CustomPopover'; // import { InfoCircleOutlined } from '@ant-design/icons';
+// import { InfoCircleOutlined } from '@ant-design/icons';
 
-export const FormEmployee: React.FC<FormEmployeeProps> = ({ form }) => {
+export const EmployeeForm: React.FC<FormProps<TypeEmployeeFormValue>> = ({
+  form,
+  onFinish,
+  onCancel,
+}) => {
   return (
     <Form
       form={form}
       labelCol={{ span: 6 }}
-      wrapperCol={{ span: 16 }}
-      style={{ marginTop: 30 }}>
+      wrapperCol={{ span: 12 }}
+      style={{ marginTop: 30 }}
+      onFinish={onFinish}>
       <Form.Item
         label={
           <>
@@ -28,6 +34,11 @@ export const FormEmployee: React.FC<FormEmployeeProps> = ({ form }) => {
         <Input placeholder="Иван" />
       </Form.Item>
       <Form.Item
+        required
+        // tooltip={{
+        //   title: 'Tooltip with customize icon',
+        //   icon: <InfoCircleOutlined />,
+        // }}
         label="Фамилия"
         name="lastName"
         rules={[{ required: true, message: 'введите фамилию' }]}>
@@ -64,6 +75,16 @@ export const FormEmployee: React.FC<FormEmployeeProps> = ({ form }) => {
         valuePropName="checked"
         wrapperCol={{ offset: 8, span: 16 }}>
         <Checkbox>Нанят</Checkbox>
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Space>
+          <Button type="primary" htmlType="submit">
+            Сохранить
+          </Button>
+          <Button htmlType="button" onClick={onCancel}>
+            Отмена
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );

@@ -1,5 +1,3 @@
-import { FormInstance } from 'antd/lib/form';
-
 export type TypeEmployee = {
   id?: number;
   firstName?: string;
@@ -17,7 +15,3 @@ export type TypeEmployeeFormValue = {
   salaryRate?: number;
   hired?: boolean;
 };
-
-export interface FormEmployeeProps {
-  form: FormInstance;
-}
