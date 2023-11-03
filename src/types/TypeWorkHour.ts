@@ -15,7 +15,7 @@ export interface TypeRow {
 export interface TypeWorkDay {
   date: string;
   hours: number;
-  id?: number;
+  id: number;
   workDate?: string;
 }
 

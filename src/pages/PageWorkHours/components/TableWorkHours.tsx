@@ -81,10 +81,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     return total;
   };
 
-  const handleEmployeeChange = (
-    employeeId: number,
-    record: TransformedWorkHour,
-  ) => {
+  const handleEmployeeChange = (employeeId: number) => {
     setEditingEmployee(employeeId);
   };
 
@@ -123,13 +120,14 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'employee',
+      width: 300,
       render: (employee: TypeEmployee, record: TransformedWorkHour) => {
         if (editingEmployee === record.employee.id) {
           return (
             <Select
               defaultValue={String(employee.id)}
-              style={{ width: '100%' }}
-              onChange={value => handleEmployeeChange(Number(value), record)}>
+              style={{ width: 200 }}
+              onChange={value => handleEmployeeChange(Number(value))}>
               {allEmployee.map(e => (
                 <Select.Option key={e.id} value={String(e.id)}>
                   {`${e.lastName} ${e.firstName}`}
@@ -159,46 +157,30 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       title: `${day.format('dd')}\n${day.format('DD.MM')}`,
       dataIndex: dateFormat,
       key: dateFormat,
+      width: 100,
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
-        if (
-          editingDay &&
-          editingDay.workDate === dateFormat && // Убедитесь, что даты совпадают
-          editingDay.employee === record.employee.id // Используйте employeeId здесь
-        ) {
-          return (
-            <Input
-              style={{ width: '100px' }}
-              defaultValue={dayData ? `${dayData.hours}` : '0'}
-              placeholder="чч:мм" // Установка плейсхолдера для пустых значений
-              onBlur={e => {
-                const newHours = parseInt(e.target.value, 10);
-                const employeeId = record.employee.id;
-                if (
-                  typeof employeeId === 'number' &&
-                  newHours !== originalHours
-                ) {
-                  handleDayChange(dateFormat, employeeId, e.target.value);
-                }
-              }}
-            />
-          );
-        } else {
-          return (
-            <span
-              onClick={() => {
-                const employeeId = record.employee.id;
-                setOriginalHours(dayData ? dayData.hours : 0);
-                setEditingDay({
-                  id: dayData.id,
-                  workDate: dateFormat,
-                  hours: dayData ? dayData.hours : 0,
-                  employee: employeeId,
-                });
-              }}>
-              {dayData && dayData.hours != null ? `${dayData.hours}ч` : 'hh:mm'}
-            </span>
-          );
-        }
+        return (
+          <Input
+            // style={{ width: '100px' }}
+            defaultValue={dayData?.hours ? `${dayData.hours}ч` : ' '}
+            onFocus={() => {
+              setOriginalHours(dayData?.hours ?? 0);
+              setEditingDay({
+                id: dayData?.id,
+                workDate: dateFormat,
+                hours: dayData?.hours ?? 0,
+                employee: record.employee.id,
+              });
+            }}
+            onBlur={e => {
+              const newHours = parseInt(e.target.value, 10);
+              const employeeId = record.employee.id ?? 0;
+              if (!isNaN(newHours) && newHours !== originalHours) {
+                handleDayChange(dateFormat, employeeId, e.target.value);
+              }
+            }}
+          />
+        );
       },
     };
   });
@@ -208,6 +190,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       title: 'Итого',
       dataIndex: 'total',
       key: 'total',
+      width: 150,
       render: (text: any, record: TransformedWorkHour) => {
         return `${calculateTotalHours(record)}ч`;
       },
@@ -251,7 +234,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     <>
       <Table
         rowKey="id"
-        bordered
+        // bordered
         columns={columns}
         dataSource={allWorkHour}
         loading={isLoading}
