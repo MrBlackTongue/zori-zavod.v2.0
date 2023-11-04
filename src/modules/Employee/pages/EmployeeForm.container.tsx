@@ -6,13 +6,13 @@ import {
   getEmployeeById,
   updateEmployee,
 } from '../../../services';
-import { EmployeeForm } from '../components/EmployeeForm';
+import { EmployeeFormView } from '../components/EmployeeForm.view';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const EmployeeFormContainer = () => {
   const [form] = Form.useForm();
-  const { id: rawId } = useParams<string>();
   const navigate = useNavigate();
+  const { id: rawId } = useParams<string>();
 
   const [title, setTitle] = useState('');
 
@@ -28,10 +28,10 @@ export const EmployeeFormContainer = () => {
     } else {
       await updateEmployee({ ...values, id: employeeId });
     }
-    navigate(-1); // Возврат на предыдущую страницу после отправки формы
+    navigate(-1);
   };
 
-  // Обработчик для отмены создания сотрудника и возврата на предыдущую страницу
+  // Функция для отмены создания сотрудника и возврата на предыдущую страницу
   const handleCancel = () => {
     navigate(-1);
   };
@@ -70,7 +70,7 @@ export const EmployeeFormContainer = () => {
   return (
     <div>
       <h2 style={{ textAlign: 'center' }}>{title}</h2>
-      <EmployeeForm
+      <EmployeeFormView
         form={form}
         onFinish={handleSubmit}
         onCancel={handleCancel}

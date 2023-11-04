@@ -1,39 +1,36 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, FloatButton, Popconfirm, Table, Tag } from 'antd';
+import React from 'react';
+import { Button, Popconfirm, Space, Table, Tag } from 'antd';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/lib/table/interface';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import {
-  deleteEmployeeById,
-  EMPLOYEE,
-  getAllEmployee,
-} from '../../../services';
-import { TableProps, TypeEmployee } from '../../../types';
+import { TypeEmployee } from '../../../types';
 import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
-import { useNavigate } from 'react-router-dom';
 
-export const EmployeeTableContainer: React.FC<TableProps> = () => {
-  const navigate = useNavigate();
+type EmployeeTableViewProps = {
+  allEmployee: TypeEmployee[] | undefined;
+  isLoading: boolean;
+  pagination: TablePaginationConfig;
+  selectedRowKeys: React.Key[];
+  hasSelected: boolean;
+  rowSelection: TableRowSelection<TypeEmployee>;
+  handleNavigateToEmployeeForm: (id?: number) => void;
+  handleChangeTable: (pagination: TablePaginationConfig) => void;
+  handleDeleteSelected: () => void;
+  handleClearSelected: () => void;
+};
 
-  // Обновление таблицы
-  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
-
-  // Spinner и список всех сотрудников
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
-
-  // Состояние для выбранных строк
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
-  // Параметры для пагинации
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-  });
-
-  const hasSelected = selectedRowKeys.length > 0;
-
-  // Колонки в таблице
+export const EmployeeTableView: React.FC<EmployeeTableViewProps> = ({
+  allEmployee,
+  isLoading,
+  pagination,
+  selectedRowKeys,
+  hasSelected,
+  rowSelection,
+  handleNavigateToEmployeeForm,
+  handleChangeTable,
+  handleDeleteSelected,
+  handleClearSelected,
+}) => {
   const columns: ColumnsType<TypeEmployee> = [
     {
       title: (
@@ -128,70 +125,16 @@ export const EmployeeTableContainer: React.FC<TableProps> = () => {
     },
   ];
 
-  // Переход на другую страницу по адресу
-  const handleNavigateToEmployeeForm = (id?: number): void => {
-    const path = id ? `${EMPLOYEE}/${id}` : EMPLOYEE;
-    navigate(path);
-  };
-
-  // Параметры изменения таблицы
-  const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination(prevPagination => ({
-      current: pagination.current ?? prevPagination.current,
-      pageSize: pagination.pageSize ?? prevPagination.pageSize,
-    }));
-  };
-
-  // Обработчик выбора строк
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    // Обновляем состояние с новыми выбранными ключами
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-
-  // Конфигурация для `rowSelection`
-  const rowSelection: TableRowSelection<TypeEmployee> = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
-
-  // Функция массового удаления
-  const handleDeleteSelected = async () => {
-    setIsLoading(true);
-    // Проходим по всем выбранным ключам и удаляем соответствующие записи
-    await Promise.all(
-      selectedRowKeys.map(key => deleteEmployeeById(Number(key))),
-    );
-    // Сбрасываем выбранные ключи
-    setSelectedRowKeys([]);
-    setIsUpdateTable(prev => !prev);
-    setIsLoading(false);
-  };
-
-  // Функция для обновления таблицы
-  const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllEmployee()
-      .then(data => {
-        setAllEmployee(data);
-        setIsLoading(false);
-      })
-      .catch(error => console.error('Ошибка при получении данных: ', error));
-  }, []);
-
-  useEffect(() => {
-    handleUpdateTable();
-  }, [isUpdateTable, handleUpdateTable]);
-
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ marginBottom: 16 }}>
+        <Space style={{ marginBottom: 16 }}>
           <Popconfirm
             placement="topRight"
             disabled={!hasSelected}
             title="Вы действительно хотите удалить выбранные записи из таблицы?"
-            onConfirm={() => handleDeleteSelected()}
-            onCancel={() => setSelectedRowKeys([])}
+            onConfirm={handleDeleteSelected}
+            onCancel={handleClearSelected}
             okText="Да"
             cancelText="Отмена">
             <Button type="primary" disabled={!hasSelected} danger>
@@ -201,15 +144,13 @@ export const EmployeeTableContainer: React.FC<TableProps> = () => {
           <span style={{ marginLeft: 8 }}>
             {hasSelected ? `Выбранные элементы ${selectedRowKeys.length}` : ''}
           </span>
-        </div>
-        <div>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => handleNavigateToEmployeeForm()}>
-            Добавить
-          </Button>
-        </div>
+        </Space>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => handleNavigateToEmployeeForm()}>
+          Добавить
+        </Button>
       </div>
       <Table
         rowKey="id"
@@ -234,7 +175,6 @@ export const EmployeeTableContainer: React.FC<TableProps> = () => {
           index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
         }
       />
-      <FloatButton.BackTop />
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input, InputNumber, Space } from 'antd';
-import { FormProps, TypeEmployeeFormValue } from '../../../types';
-import { CustomPopover } from '../../../components/CustomPopover/CustomPopover'; // import { InfoCircleOutlined } from '@ant-design/icons';
+import {Button, Checkbox, Form, Input, InputNumber, Space} from 'antd';
+import {FormProps, TypeEmployeeFormValue} from '../../../types';
+import {CustomPopover} from '../../../components/CustomPopover/CustomPopover';
 // import { InfoCircleOutlined } from '@ant-design/icons';
 
-export const EmployeeForm: React.FC<FormProps<TypeEmployeeFormValue>> = ({
+export const EmployeeFormView: React.FC<FormProps<TypeEmployeeFormValue>> = ({
   form,
   onFinish,
   onCancel,
