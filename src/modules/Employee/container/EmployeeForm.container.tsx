@@ -6,7 +6,7 @@ import {
   getEmployeeById,
   updateEmployee,
 } from '../../../services';
-import { EmployeeFormView } from '../components/EmployeeForm.view';
+import { EmployeeFormView } from '../view/EmployeeForm.view';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const EmployeeFormContainer = () => {
@@ -68,13 +68,11 @@ export const EmployeeFormContainer = () => {
   }, [isCreateMode, rawId]);
 
   return (
-    <div>
-      <h2 style={{ textAlign: 'center' }}>{title}</h2>
-      <EmployeeFormView
-        form={form}
-        onFinish={handleSubmit}
-        onCancel={handleCancel}
-      />
-    </div>
+    <EmployeeFormView
+      form={form}
+      title={title}
+      onFinish={handleSubmit}
+      onCancel={handleCancel}
+    />
   );
 };

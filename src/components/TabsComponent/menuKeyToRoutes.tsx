@@ -46,7 +46,7 @@ import { PageProductGroup } from '../../modules/PageProductGroup/PageProductGrou
 import { PageEstimatedPrice } from '../../modules/PageEstimatedPrice/PageEstimatedPrice';
 import { PageUnit } from '../../modules/PageUnit/PageUnit';
 import { PageClient } from '../../modules/PageClient/PageClient';
-import { EmployeeTableContainer } from '../../modules/Employee/pages/EmployeeTable.container';
+import { EmployeeTableContainer } from '../../modules/Employee/container/EmployeeTable.container';
 
 export const menuKeyToRoutes: Record<
   string,

@@ -8,7 +8,7 @@ import {
 } from '../../../services';
 import { TypeEmployee } from '../../../types';
 import { useNavigate } from 'react-router-dom';
-import { EmployeeTableView } from '../components/EmployeeTable.view';
+import { EmployeeTableView } from '../view/EmployeeTable.view';
 
 export const EmployeeTableContainer = () => {
   const navigate = useNavigate();

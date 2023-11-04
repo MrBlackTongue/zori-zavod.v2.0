@@ -31,6 +31,7 @@ export interface DetailDrawerProps {
 
 export interface FormProps<T> {
   form: FormInstance<T>;
+  title: string;
   onFinish: (values: T) => void;
   onCancel: () => void;
 }

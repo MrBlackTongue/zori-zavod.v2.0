@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { PageOperationAccountingDetail } from '../../modules/PageOperationAccountingDetail/PageOperationAccountingDetail';
 import { EMPLOYEE, OPERATION_ACCOUNTING, SUBSCRIPTION } from '../../services';
 import { PageSubscription } from '../../modules/PageSubscription/PageSubscription';
-import { EmployeeFormContainer } from '../../modules/Employee/pages/EmployeeForm.container';
+import { EmployeeFormContainer } from '../../modules/Employee/container/EmployeeForm.container';
 
 export const ContentRoutes: React.FC = () => {
   return (
