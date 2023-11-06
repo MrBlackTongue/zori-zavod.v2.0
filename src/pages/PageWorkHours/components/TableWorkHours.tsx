@@ -161,8 +161,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
         return (
           <Input
+            placeholder={'00ч'}
             // style={{ width: '100px' }}
-            defaultValue={dayData?.hours ? `${dayData.hours}ч` : ' '}
+            defaultValue={dayData?.hours ? `${dayData.hours}ч` : undefined}
             onFocus={() => {
               setOriginalHours(dayData?.hours ?? 0);
               setEditingDay({
