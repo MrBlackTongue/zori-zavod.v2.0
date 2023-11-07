@@ -1,9 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { PageOperationAccountingDetail } from '../../modules/PageOperationAccountingDetail/PageOperationAccountingDetail';
-import { EMPLOYEE, OPERATION_ACCOUNTING, SUBSCRIPTION } from '../../services';
+import {
+  CLIENT,
+  EMPLOYEE,
+  OPERATION_ACCOUNTING,
+  SUBSCRIPTION,
+} from '../../services';
 import { PageSubscription } from '../../modules/PageSubscription/PageSubscription';
 import { EmployeeFormContainer } from '../../modules/Employee/container/EmployeeForm.container';
+import { ClientFormContainer } from '../../modules/Client/container/ClientForm.container';
 
 export const ContentRoutes: React.FC = () => {
   return (
@@ -14,6 +20,7 @@ export const ContentRoutes: React.FC = () => {
         element={<PageOperationAccountingDetail />}
       />
       <Route path={`${EMPLOYEE}/:id?`} element={<EmployeeFormContainer />} />
+      <Route path={`${CLIENT}/:id?`} element={<ClientFormContainer />} />
     </Routes>
   );
 };

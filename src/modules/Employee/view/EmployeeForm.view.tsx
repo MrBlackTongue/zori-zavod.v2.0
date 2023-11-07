@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input, InputNumber, Space } from 'antd';
+import { Checkbox, Form, Input, InputNumber } from 'antd';
 import { FormProps, TypeEmployeeFormValue } from '../../../types';
 import { CustomPopover } from '../../../components/CustomPopover/CustomPopover';
-// import { InfoCircleOutlined } from '@ant-design/icons';
+import FormActions from '../../../components/FormActions/FormActions';
 
 export const EmployeeFormView: React.FC<FormProps<TypeEmployeeFormValue>> = ({
   form,
@@ -20,28 +20,13 @@ export const EmployeeFormView: React.FC<FormProps<TypeEmployeeFormValue>> = ({
         style={{ marginTop: 30 }}
         onFinish={onFinish}>
         <Form.Item
-          label={
-            <>
-              Имя
-              <CustomPopover
-                content={
-                  <p style={{ fontSize: '13px', maxWidth: 350 }}>
-                    Здесь вы можете написать имя вашего сотрудника
-                  </p>
-                }
-              />
-            </>
-          }
+          label="Имя"
           name="firstName"
           rules={[{ required: true, message: 'введите имя' }]}>
           <Input placeholder="Иван" />
         </Form.Item>
         <Form.Item
           required
-          // tooltip={{
-          //   title: 'Tooltip with customize icon',
-          //   icon: <InfoCircleOutlined />,
-          // }}
           label="Фамилия"
           name="lastName"
           rules={[{ required: true, message: 'введите фамилию' }]}>
@@ -79,16 +64,7 @@ export const EmployeeFormView: React.FC<FormProps<TypeEmployeeFormValue>> = ({
           wrapperCol={{ offset: 8, span: 16 }}>
           <Checkbox>Нанят</Checkbox>
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Space>
-            <Button type="primary" htmlType="submit">
-              Сохранить
-            </Button>
-            <Button htmlType="button" onClick={onCancel}>
-              Отмена
-            </Button>
-          </Space>
-        </Form.Item>
+        <FormActions onCancel={onCancel} />
       </Form>
     </div>
   );

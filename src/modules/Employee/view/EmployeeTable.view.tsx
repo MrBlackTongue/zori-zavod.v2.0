@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Popconfirm, Space, Table, Tag } from 'antd';
+import { Button, FloatButton, Popconfirm, Space, Table, Tag } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/lib/table/interface';
@@ -175,6 +175,7 @@ export const EmployeeTableView: React.FC<EmployeeTableViewProps> = ({
           index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
         }
       />
+      <FloatButton.BackTop />
     </div>
   );
 };

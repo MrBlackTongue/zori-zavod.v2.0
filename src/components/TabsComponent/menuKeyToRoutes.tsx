@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import {
   ACCEPTANCE,
   BATCH,
-  CLIENT,
+  CLIENTS,
   COST_PRICE,
   EMPLOYEE,
   EMPLOYEES,
@@ -45,7 +45,7 @@ import { PageProduct } from '../../modules/PageProduct/PageProduct';
 import { PageProductGroup } from '../../modules/PageProductGroup/PageProductGroup';
 import { PageEstimatedPrice } from '../../modules/PageEstimatedPrice/PageEstimatedPrice';
 import { PageUnit } from '../../modules/PageUnit/PageUnit';
-import { PageClient } from '../../modules/PageClient/PageClient';
+import { ClientTableContainer } from '../../modules/Client/container/ClientTable.container';
 import { EmployeeTableContainer } from '../../modules/Employee/container/EmployeeTable.container';
 
 export const menuKeyToRoutes: Record<
@@ -257,9 +257,15 @@ export const menuKeyToRoutes: Record<
   ],
   '07': [
     {
-      id: CLIENT,
+      id: CLIENTS,
       title: 'Клиенты',
-      route: <Route key={CLIENT} path={CLIENT} element={<PageClient />} />,
+      route: (
+        <Route
+          key={CLIENTS}
+          path={CLIENTS}
+          element={<ClientTableContainer />}
+        />
+      ),
     },
   ],
   '08': [

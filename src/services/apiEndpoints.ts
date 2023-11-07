@@ -8,6 +8,7 @@ export const PRODUCT = '/product';
 export const GROUP = '/group';
 export const UNIT = '/unit';
 export const CLIENT = '/client';
+export const CLIENTS = '/clients';
 export const PURCHASE = '/purchase';
 export const TITLE = '/title';
 export const BATCH = '/batch';

@@ -55,7 +55,7 @@ export const EmployeeFormContainer = () => {
         try {
           await handleGetEmployee();
         } catch (error) {
-          console.error('Ошибка при получении данных сотрудника:', error);
+          console.error('Ошибка при получении данных:', error);
         }
       }
     })();
