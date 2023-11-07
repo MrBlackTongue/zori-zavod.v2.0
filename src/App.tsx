@@ -3,7 +3,7 @@ import './App.css';
 import { Layout } from 'antd';
 import { MenuMain } from './components/MenuMain/MenuMain';
 import { MenuUser } from './components/MenuUser/MenuUser';
-import { TabsComponent } from './components/TabsComponent/TabsComponent'; // import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
+import { TabsComponent } from './components/TabsComponent/TabsComponent';
 import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
 import { useLocation } from 'react-router-dom';
 import { menuKeyToRoutes } from './components/TabsComponent/menuKeyToRoutes';

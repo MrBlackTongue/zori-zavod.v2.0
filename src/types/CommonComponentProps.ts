@@ -1,3 +1,5 @@
+import { FormInstance } from 'antd';
+
 export interface TableProps<F = {}> {
   isUpdateTable?: boolean;
   openDrawer?: (id: number) => void;
@@ -25,4 +27,11 @@ export interface DetailDrawerProps {
   isOpen: boolean;
   onCancel: () => void;
   selectedItemId: number | undefined;
+}
+
+export interface FormProps<T> {
+  form: FormInstance<T>;
+  title: string;
+  onFinish: (values: T) => void;
+  onCancel: () => void;
 }
