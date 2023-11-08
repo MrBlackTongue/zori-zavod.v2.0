@@ -1,6 +1,7 @@
 export const API_URL = process.env.REACT_APP_API_URL;
 
 export const EMPLOYEE = '/employee';
+export const EMPLOYEES = '/employees';
 export const OPERATION = '/operation';
 export const OUTPUT = '/output';
 export const PRODUCT = '/product';

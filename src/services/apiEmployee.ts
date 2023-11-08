@@ -1,5 +1,5 @@
 import {TypeApiResponse, TypeEmployee} from '../types';
-import {EMPLOYEE} from './apiEndpoints';
+import {EMPLOYEE, EMPLOYEES} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -11,7 +11,7 @@ import {api} from './api';
 // Получить список всех сотрудников
 export async function getAllEmployee(): Promise<TypeEmployee[]> {
   try {
-    const response = await api.get(EMPLOYEE);
+    const response = await api.get(EMPLOYEES);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);

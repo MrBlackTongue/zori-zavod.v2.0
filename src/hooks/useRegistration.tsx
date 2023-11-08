@@ -22,7 +22,7 @@ export const useRegistration = () => {
 
     try {
       await registrationUser(user);
-      navigate('/employee');
+      navigate('/employees');
     } catch (error) {
       console.error('Ошибка при регистрации:', error);
     }

@@ -6,6 +6,7 @@ import {
   CLIENT,
   COST_PRICE,
   EMPLOYEE,
+  EMPLOYEES,
   ESTIMATED_PRICE,
   HISTORY,
   OPERATION,
@@ -21,32 +22,32 @@ import {
   STOCK,
   STORAGE_PLACE,
   UNIT,
-  WORK_HOURS,
   WRITE_OFF,
+  WORK_HOURS,
 } from '../../services';
-import { PageShipment } from '../../pages/PageShipment/PageShipment';
-import { PageOperationAccounting } from '../../pages/PageOperationAccounting/PageOperationAccounting';
-import { PageOperation } from '../../pages/PageOperation/PageOperation';
-import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
-import { PageOutput } from '../../pages/PageOutput/PageOutput';
-import { PagePurchase } from '../../pages/PagePurchase/PagePurchase';
-import { PageProductBatch } from '../../pages/PageProductBatch/PageProductBatch';
-import { PageAcceptance } from '../../pages/PageAcceptance/PageAcceptance';
-import { PageStock } from '../../pages/PageStock/PageStock';
-import { PageWriteOff } from '../../pages/PageWriteOff/PageWriteOff';
-import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
-import { PageProductMovementHistory } from '../../pages/PageProductMovementHistory/PageProductMovementHistory';
-import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
-import { PageProductReport } from '../../pages/PageProductReport/PageProductReport';
-import { PageOperationReport } from '../../pages/PageOperationReport/PageOperationReport';
-import { PageEmployeeReport } from '../../pages/PageEmployeeReport/PageEmployeeReport';
-import { PageCostPriceReport } from '../../pages/PageCostPriceReport/PageCostPriceReport';
-import { PageProduct } from '../../pages/PageProduct/PageProduct';
-import { PageProductGroup } from '../../pages/PageProductGroup/PageProductGroup';
-import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
-import { PageUnit } from '../../pages/PageUnit/PageUnit';
-import { PageClient } from '../../pages/PageClient/PageClient';
-import { PageEmployee } from '../../pages/PageEmployee/PageEmployee';
+import { PageShipment } from '../../modules/PageShipment/PageShipment';
+import { PageOperationAccounting } from '../../modules/PageOperationAccounting/PageOperationAccounting';
+import { PageOperation } from '../../modules/PageOperation/PageOperation';
+import { PageProductionType } from '../../modules/PageProductionType/PageProductionType';
+import { PageOutput } from '../../modules/PageOutput/PageOutput';
+import { PagePurchase } from '../../modules/PagePurchase/PagePurchase';
+import { PageProductBatch } from '../../modules/PageProductBatch/PageProductBatch';
+import { PageAcceptance } from '../../modules/PageAcceptance/PageAcceptance';
+import { PageStock } from '../../modules/PageStock/PageStock';
+import { PageWriteOff } from '../../modules/PageWriteOff/PageWriteOff';
+import { PageStoragePlace } from '../../modules/PageStoragePlace/PageStoragePlace';
+import { PageProductMovementHistory } from '../../modules/PageProductMovementHistory/PageProductMovementHistory';
+import { PageOutputReport } from '../../modules/PageOutputReport/PageOutputReport';
+import { PageProductReport } from '../../modules/PageProductReport/PageProductReport';
+import { PageOperationReport } from '../../modules/PageOperationReport/PageOperationReport';
+import { PageEmployeeReport } from '../../modules/PageEmployeeReport/PageEmployeeReport';
+import { PageCostPriceReport } from '../../modules/PageCostPriceReport/PageCostPriceReport';
+import { PageProduct } from '../../modules/PageProduct/PageProduct';
+import { PageProductGroup } from '../../modules/PageProductGroup/PageProductGroup';
+import { PageEstimatedPrice } from '../../modules/PageEstimatedPrice/PageEstimatedPrice';
+import { PageUnit } from '../../modules/PageUnit/PageUnit';
+import { PageClient } from '../../modules/PageClient/PageClient';
+import { EmployeeTableContainer } from '../../modules/Employee/container/EmployeeTable.container';
 import { PageWorkHours } from '../../pages/PageWorkHours/PageWorkHours';
 
 export const menuKeyToRoutes: Record<
@@ -272,10 +273,14 @@ export const menuKeyToRoutes: Record<
       ),
     },
     {
-      id: EMPLOYEE,
+      id: EMPLOYEES,
       title: 'Сотрудники',
       route: (
-        <Route key={EMPLOYEE} path={EMPLOYEE} element={<PageEmployee />} />
+        <Route
+          key={EMPLOYEES}
+          path={EMPLOYEES}
+          element={<EmployeeTableContainer />}
+        />
       ),
     },
   ],

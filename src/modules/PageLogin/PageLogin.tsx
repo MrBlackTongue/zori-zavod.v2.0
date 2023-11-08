@@ -34,7 +34,7 @@ export const PageLogin: React.FC = () => {
         loginUser(values)
           .then(response => {
             if (response?.jwt) {
-              navigate('/employee');
+              navigate('/employees');
             }
           })
           .catch(error => console.error('Ошибка при авторизации: ', error));
