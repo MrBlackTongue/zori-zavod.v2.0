@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Input, Select, Table } from 'antd';
+import { Button, Input, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   TransformedWorkHour,
   TableProps,
-  TypeEmployee,
   TypeWorkDay,
   TypeWorkHour,
   TypeWorkHoursFilter,
@@ -14,6 +13,7 @@ import {
 import dayjs from 'dayjs';
 import { getAllWorkHours, updateWorkHours } from '../../../services';
 import { useFetchAllData } from '../../../hooks';
+import { EmployeeSelect } from './EmployeeSelect';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -121,30 +121,13 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       dataIndex: 'employee',
       key: 'employee',
       width: 300,
-      render: (employee: TypeEmployee, record: TransformedWorkHour) => {
-        if (editingEmployee === record.employee.id) {
-          return (
-            <Select
-              defaultValue={String(employee.id)}
-              style={{ width: 200 }}
-              onChange={value => handleEmployeeChange(Number(value))}>
-              {allEmployee.map(e => (
-                <Select.Option key={e.id} value={String(e.id)}>
-                  {`${e.lastName} ${e.firstName}`}
-                </Select.Option>
-              ))}
-            </Select>
-          );
-        }
+      render: (_, record: TransformedWorkHour) => {
         return (
-          <span
-            onClick={() => {
-              if (employee.id !== undefined) {
-                setEditingEmployee(employee.id);
-              }
-            }}>
-            {`${employee.lastName} ${employee.firstName}`}
-          </span>
+          <EmployeeSelect
+            employees={allEmployee}
+            editingEmployee={editingEmployee}
+            handleEmployeeChange={handleEmployeeChange}
+            record={record}></EmployeeSelect>
         );
       },
     },
@@ -192,7 +175,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       dataIndex: 'total',
       key: 'total',
       width: 150,
-      render: (text: any, record: TransformedWorkHour) => {
+      render: (_, record: TransformedWorkHour) => {
         return `${calculateTotalHours(record)}ч`;
       },
     },
