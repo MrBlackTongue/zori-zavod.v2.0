@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Input, Table } from 'antd';
+import { Button, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { PlusOutlined } from '@ant-design/icons';
 import {
@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import { getAllWorkHours, updateWorkHours } from '../../../services';
 import { useFetchAllData } from '../../../hooks';
 import { EmployeeSelect } from './EmployeeSelect';
+import { EditableCell } from './EditableCell';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -143,26 +144,13 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       width: 100,
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
         return (
-          <Input
-            placeholder={'00ч'}
-            // style={{ width: '100px' }}
-            defaultValue={dayData?.hours ? `${dayData.hours}ч` : undefined}
-            onFocus={() => {
-              setOriginalHours(dayData?.hours ?? 0);
-              setEditingDay({
-                id: dayData?.id,
-                workDate: dateFormat,
-                hours: dayData?.hours ?? 0,
-                employee: record.employee.id,
-              });
-            }}
-            onBlur={e => {
-              const newHours = parseInt(e.target.value, 10);
-              const employeeId = record.employee.id ?? 0;
-              if (!isNaN(newHours) && newHours !== originalHours) {
-                handleDayChange(dateFormat, employeeId, e.target.value);
-              }
-            }}
+          <EditableCell
+            dayData={dayData}
+            record={record}
+            dateFormat={dateFormat}
+            setOriginalHours={setOriginalHours}
+            setEditingDay={setEditingDay}
+            handleDayChange={handleDayChange}
           />
         );
       },
@@ -218,7 +206,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     <>
       <Table
         rowKey="id"
-        // bordered
         columns={columns}
         dataSource={allWorkHour}
         loading={isLoading}
