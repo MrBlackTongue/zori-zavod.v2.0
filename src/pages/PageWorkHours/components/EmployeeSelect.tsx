@@ -35,7 +35,7 @@ export const EmployeeSelect: React.FC<EditableSelectProps> = ({
       </Select>
     );
   }
-
+  console.log('record:', record);
   return (
     <span
       onClick={() => {

@@ -30,26 +30,48 @@ export const EditableCell: React.FC<EditableCellProps> = ({
     setEditingValue(dayData?.hours);
   }, [dayData?.hours]);
 
+  // Обработчик фокусировки
+  const handleFocus = () => {
+    setOriginalHours(dayData?.hours ?? 0);
+    setEditingDay({
+      id: dayData?.id,
+      workDate: dateFormat,
+      hours: dayData?.hours ?? 0,
+      employee: record.employee.id,
+    });
+  };
+
+  // Обработчик изменения
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditingValue(parseInt(e.target.value, 10));
+  };
+
+  // Обработчик потери фокуса
+  const handleBlur = () => {
+    const employeeId = record.employee.id ?? 0;
+    if (!isNaN(editingValue) && editingValue !== dayData?.hours) {
+      handleDayChange(dateFormat, employeeId, String(editingValue));
+    }
+  };
+
+  // Обработчик нажатия клавиши Enter
+  const handlePressEnter = () => {
+    const employeeId = record.employee.id ?? 0;
+    if (!isNaN(editingValue) && editingValue !== dayData?.hours) {
+      handleDayChange(dateFormat, employeeId, String(editingValue));
+      // Можете также вызвать функцию, чтобы закончить редактирование, если есть такая
+      // setEditingDay(null); // Если вы хотите сбросить состояние редактирования
+    }
+  };
+
   return (
     <Input
       placeholder={'00ч'}
       value={editingValue ? `${editingValue}` : ''}
-      onFocus={() => {
-        setOriginalHours(dayData?.hours ?? 0);
-        setEditingDay({
-          id: dayData?.id,
-          workDate: dateFormat,
-          hours: dayData?.hours ?? 0,
-          employee: record.employee.id,
-        });
-      }}
-      onChange={e => setEditingValue(parseInt(e.target.value, 10))}
-      onBlur={() => {
-        const employeeId = record.employee.id ?? 0;
-        if (!isNaN(editingValue) && editingValue !== dayData?.hours) {
-          handleDayChange(dateFormat, employeeId, String(editingValue));
-        }
-      }}
+      onFocus={handleFocus}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onPressEnter={handlePressEnter}
     />
   );
 };
