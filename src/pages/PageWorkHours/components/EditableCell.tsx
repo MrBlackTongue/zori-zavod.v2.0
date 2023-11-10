@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from 'antd';
 import type {
   TypeWorkDay,
@@ -25,10 +25,15 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 }) => {
   const [editingValue, setEditingValue] = useState(dayData?.hours);
 
+  useEffect(() => {
+    // Обновляем состояние editingValue каждый раз, когда изменяется dayData.hours
+    setEditingValue(dayData?.hours);
+  }, [dayData?.hours]);
+
   return (
     <Input
       placeholder={'00ч'}
-      value={editingValue ? `${editingValue}ч` : ''}
+      value={editingValue ? `${editingValue}` : ''}
       onFocus={() => {
         setOriginalHours(dayData?.hours ?? 0);
         setEditingDay({
