@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { DatePicker, Flex, FloatButton, Select, Tooltip } from 'antd';
 import dayjs from 'dayjs';
-import { useFetchAllData } from '../../hooks';
+import { useDataListLoader, useFetchAllData } from '../../hooks';
 import { TableEmployeeReport } from './components/TableEmployeeReport';
+import { TypeEmployee } from '../../types';
+import { getAllEmployee } from '../../services';
 
 export const PageEmployeeReport: React.FC = () => {
   // Выбранные даты
@@ -16,10 +18,13 @@ export const PageEmployeeReport: React.FC = () => {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number>();
 
   // Хук для получения данных
-  const { allOperation, allEmployee } = useFetchAllData({
+  const { allOperation } = useFetchAllData({
     depsOperation: true,
-    depsEmployee: true,
   });
+
+  // Хук для получения всех данных и загрузки
+  const { isLoading, dataList, getDataList } =
+    useDataListLoader<TypeEmployee[]>();
 
   // Создание объекта фильтра с использованием useMemo
   const filter = useMemo(
@@ -47,6 +52,19 @@ export const PageEmployeeReport: React.FC = () => {
     setSelectedEmployeeId(value || undefined);
   };
 
+  const handleDropdownVisibleChange = useCallback(
+    (visible: boolean) => {
+      if (visible) {
+        getDataList(getAllEmployee).catch((error: unknown) => {
+          if (error instanceof Error) {
+            console.error('Ошибка при получении данных: ', error.message);
+          }
+        });
+      }
+    },
+    [getDataList],
+  );
+
   // Изменить выбранную дату
   const onChangeDateFrom = (value: any): void => {
     setSelectedDateFrom(value ? dayjs(value).format('YYYY-MM-DD') : undefined);
@@ -68,10 +86,12 @@ export const PageEmployeeReport: React.FC = () => {
           allowClear
           style={{ width: '250px' }}
           placeholder="Выберите сотрудника"
+          loading={isLoading}
+          onDropdownVisibleChange={handleDropdownVisibleChange}
           onChange={onChangeEmployee}
           filterOption={onSearchSelect}>
-          {allEmployee && allEmployee.length > 0
-            ? allEmployee.map(employee => (
+          {dataList && dataList.length > 0
+            ? dataList.map(employee => (
                 <Select.Option
                   key={employee.id}
                   value={employee.id}

@@ -6,7 +6,7 @@ import {
   getEmployeeById,
   updateEmployee,
 } from '../../../services';
-import { EmployeeFormView } from '../view/EmployeeForm.view';
+import { EmployeeFormView } from './EmployeeForm.view';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const EmployeeFormContainer = () => {

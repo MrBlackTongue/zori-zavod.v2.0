@@ -8,8 +8,8 @@ import {
   SUBSCRIPTION,
 } from '../../services';
 import { PageSubscription } from '../../modules/PageSubscription/PageSubscription';
-import { EmployeeFormContainer } from '../../modules/Employee/container/EmployeeForm.container';
-import { ClientFormContainer } from '../../modules/Client/container/ClientForm.container';
+import { EmployeeFormContainer } from '../../modules/Employee/EmployeeForm/EmployeeForm.container';
+import { ClientFormContainer } from '../../modules/Client/ClientForm/ClientForm.container';
 
 export const ContentRoutes: React.FC = () => {
   return (

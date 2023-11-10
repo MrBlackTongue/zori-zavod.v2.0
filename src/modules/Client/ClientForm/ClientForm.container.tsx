@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Form } from 'antd';
 import { TypeClient } from '../../../types';
 import { createClient, getClientById, updateClient } from '../../../services';
-import { ClientFormView } from '../view/ClientForm.view';
+import { ClientFormView } from './ClientForm.view';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const ClientFormContainer = () => {

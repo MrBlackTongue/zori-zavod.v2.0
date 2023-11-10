@@ -45,8 +45,8 @@ import { PageProduct } from '../../modules/PageProduct/PageProduct';
 import { PageProductGroup } from '../../modules/PageProductGroup/PageProductGroup';
 import { PageEstimatedPrice } from '../../modules/PageEstimatedPrice/PageEstimatedPrice';
 import { PageUnit } from '../../modules/PageUnit/PageUnit';
-import { ClientTableContainer } from '../../modules/Client/container/ClientTable.container';
-import { EmployeeTableContainer } from '../../modules/Employee/container/EmployeeTable.container';
+import { ClientTableContainer } from '../../modules/Client/ClientTable/ClientTable.container';
+import { EmployeeTableContainer } from '../../modules/Employee/EmployeeTable/EmployeeTable.container';
 
 export const menuKeyToRoutes: Record<
   string,

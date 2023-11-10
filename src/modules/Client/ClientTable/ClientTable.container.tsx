@@ -1,48 +1,33 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import type { TablePaginationConfig } from 'antd/es/table';
-import type { TableRowSelection } from 'antd/lib/table/interface';
-import {
-  deleteEmployeeById,
-  EMPLOYEE,
-  getAllEmployee,
-} from '../../../services';
-import { TypeEmployee } from '../../../types';
+import { CLIENT, deleteClientById, getAllClient } from '../../../services';
+import { TypeClient } from '../../../types';
+import { ClientTableView } from './ClientTable.view';
 import { useNavigate } from 'react-router-dom';
-import { EmployeeTableView } from '../view/EmployeeTable.view';
+import { TableRowSelection } from 'antd/lib/table/interface';
+import usePagination from '../../../hooks/usePagination';
 
-export const EmployeeTableContainer = () => {
+export const ClientTableContainer = () => {
   const navigate = useNavigate();
 
   // Обновление таблицы
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
 
-  // Spinner и список всех сотрудников
+  // Spinner и список всех клиентов
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>();
+  const [allClient, setAllClient] = useState<TypeClient[]>();
 
   // Состояние для выбранных строк
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
-  // Параметры для пагинации
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-  });
+  // Использование хука для пагинации
+  const { pagination, handleChangeTable } = usePagination(10);
 
   const hasSelected = selectedRowKeys.length > 0;
 
   // Переход на другую страницу по адресу
-  const handleNavigateToEmployeeForm = (id?: number): void => {
-    const path = id ? `${EMPLOYEE}/${id}` : EMPLOYEE;
+  const handleNavigateToClientForm = (id?: number): void => {
+    const path = id ? `${CLIENT}/${id}` : CLIENT;
     navigate(path);
-  };
-
-  // Параметры изменения таблицы
-  const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination(prevPagination => ({
-      current: pagination.current ?? prevPagination.current,
-      pageSize: pagination.pageSize ?? prevPagination.pageSize,
-    }));
   };
 
   // Обработчик выбора строк
@@ -51,7 +36,7 @@ export const EmployeeTableContainer = () => {
   };
 
   // Конфигурация для rowSelection
-  const rowSelection: TableRowSelection<TypeEmployee> = {
+  const rowSelection: TableRowSelection<TypeClient> = {
     selectedRowKeys,
     onChange: onSelectChange,
   };
@@ -66,7 +51,7 @@ export const EmployeeTableContainer = () => {
     setIsLoading(true);
     // Проходим по всем выбранным ключам и удаляем соответствующие записи
     await Promise.all(
-      selectedRowKeys.map(key => deleteEmployeeById(Number(key))),
+      selectedRowKeys.map(key => deleteClientById(Number(key))),
     );
     setSelectedRowKeys([]);
     setIsUpdateTable(prev => !prev);
@@ -76,9 +61,9 @@ export const EmployeeTableContainer = () => {
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setIsLoading(true);
-    getAllEmployee()
+    getAllClient()
       .then(data => {
-        setAllEmployee(data);
+        setAllClient(data);
         setIsLoading(false);
       })
       .catch(error => console.error('Ошибка при получении данных: ', error));
@@ -89,14 +74,14 @@ export const EmployeeTableContainer = () => {
   }, [isUpdateTable, handleUpdateTable]);
 
   return (
-    <EmployeeTableView
-      allEmployee={allEmployee}
+    <ClientTableView
+      allClient={allClient}
       isLoading={isLoading}
       pagination={pagination}
       selectedRowKeys={selectedRowKeys}
       hasSelected={hasSelected}
       rowSelection={rowSelection}
-      handleNavigateToEmployeeForm={handleNavigateToEmployeeForm}
+      handleNavigateToClientForm={handleNavigateToClientForm}
       handleChangeTable={handleChangeTable}
       handleDeleteSelected={handleDeleteSelected}
       handleClearSelected={handleClearSelected}
