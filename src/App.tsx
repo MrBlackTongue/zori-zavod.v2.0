@@ -1,12 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import './App.css';
-import { Layout } from 'antd';
-import { MenuMain } from './components/MenuMain/MenuMain';
-import { MenuUser } from './components/MenuUser/MenuUser';
-import { TabsComponent } from './components/TabsComponent/TabsComponent';
-import { ContentRoutes } from './components/ContentRoutes/ContentRoutes';
-import { useLocation } from 'react-router-dom';
-import { menuKeyToRoutes } from './components/TabsComponent/menuKeyToRoutes';
+import {Layout} from 'antd';
+import {MenuMain} from './components/molecules/MenuMain/MenuMain';
+import {MenuUser} from './components/molecules/MenuUser/MenuUser';
+import {TabsComponent} from './components/molecules/TabsComponent/TabsComponent';
+import {ContentRoutes} from './routes/ContentRoutes/ContentRoutes';
+import {useLocation} from 'react-router-dom';
+import {menuKeyToRoutes} from './components/molecules/TabsComponent/menuKeyToRoutes'; // Извлекаем все пути из menuKeyToRoutes
 
 // Извлекаем все пути из menuKeyToRoutes
 const allPathsToShowTabs = Object.values(menuKeyToRoutes)
@@ -31,7 +31,7 @@ function App() {
       <Header className="app-header">
         <a href="/" rel="noopener noreferrer" className="logo-container">
           <img
-            src="/images/header_logo_dark_montserrat.png"
+            src="/src/assets/images/header_logo_dark_montserrat.png"
             alt="beta"
             className="logo-header"
           />
