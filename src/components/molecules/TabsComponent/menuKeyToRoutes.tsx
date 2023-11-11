@@ -271,7 +271,7 @@ export const menuKeyToRoutes: Record<
   '08': [
     {
       id: EMPLOYEES,
-      title: 'Команда',
+      title: 'Сотрудники',
       route: (
         <Route
           key={EMPLOYEES}

@@ -5,21 +5,22 @@ import {
   getAllEmployee,
 } from '../../../../services';
 import { TypeEmployee } from '../../../../types';
-import { useNavigate } from 'react-router-dom';
 import { EmployeeTableView } from './EmployeeTable.view';
 import usePagination from '../../../../hooks/usePagination';
 import useRowSelection from '../../../../hooks/useRowSelection';
 import { useDataListLoader } from '../../../../hooks';
+import useNavigateToPath from '../../../../hooks/useNavigateToPath';
 
 export const EmployeeTableContainer = () => {
-  const navigate = useNavigate();
-
-  // Хук для получения всех данных и загрузки
+  // Хук для загрузки и получения всех данных
   const { isLoading, dataList, getDataList } =
     useDataListLoader<TypeEmployee[]>();
 
   // Хука для пагинации
   const { pagination, handleChangeTable } = usePagination(10);
+
+  // Хук для навигации
+  const handleNavigateToEmployeeForm = useNavigateToPath(EMPLOYEE);
 
   // Хук для выбора строк
   const {
@@ -29,15 +30,6 @@ export const EmployeeTableContainer = () => {
     setSelectedRowKeys,
     handleClearSelected,
   } = useRowSelection<TypeEmployee>();
-
-  // Переход на другую страницу по адресу
-  const handleNavigateToEmployeeForm = useCallback(
-    (id?: number): void => {
-      const path = id ? `${EMPLOYEE}/${id}` : EMPLOYEE;
-      navigate(path);
-    },
-    [navigate],
-  );
 
   // Функция массового удаления
   const handleDeleteSelected = useCallback(async () => {

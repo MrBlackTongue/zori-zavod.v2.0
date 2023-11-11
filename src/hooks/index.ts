@@ -5,3 +5,4 @@ export * from './useRegistration';
 export * from './usePagination';
 export * from './useRowSelection';
 export * from './useDataListLoader';
+export * from './useNavigateToPath';

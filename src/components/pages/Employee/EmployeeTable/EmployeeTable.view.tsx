@@ -127,7 +127,7 @@ export const EmployeeTableView: React.FC<EmployeeTableViewProps> = ({
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className="flex space-between">
         <Space style={{ marginBottom: 16 }}>
           <Popconfirm
             placement="topRight"
