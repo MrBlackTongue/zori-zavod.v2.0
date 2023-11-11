@@ -33,3 +33,49 @@
 .space-between {
   justify-content: space-between;
 }
+
+/* Table style */
+.table-even-row {
+  /*background-color: #fff; !* Цвет для четных строк *!*/
+}
+
+.table-odd-row {
+  /*background-color: #f5f5f5; !* Цвет для нечетных строк *!*/
+}
+
+.ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
+  background-color: #b3d8ff !important; /* Яркий цвет для подсветки */
+}
+
+.ant-table-summary > .ant-table-row > .ant-table-cell {
+  background-color: inherit !important; /* Убираем подсветку для итоговых строк */
+}
+
+/* Tabs style */
+.ant-tabs-nav-list {
+  padding-left: 30px;
+  height: 32px;
+}
+
+.ant-tabs-tab {
+  border-top: 1px solid #1677ff !important;
+  border-right: 1px solid #1677ff !important;
+  border-left: 1px solid #1677ff !important;
+  border-bottom: 1px solid transparent !important; /* Прозрачная нижняя граница */
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #fff !important; /* Белый текст для активного Tab */
+}
+
+.ant-tabs-tab-active {
+  background-color: #1677ff !important; /* Яркий фон для активного Tab */
+}
+
+.ant-tabs-nav-wrap {
+  border-bottom: 5px solid #1677ff !important; /* Цвет нижней границы */
+}
+
+.ant-tabs-tab-active {
+  border-bottom: 1px solid #1677ff !important; /* Жирная нижняя граница синего цвета */
+}
