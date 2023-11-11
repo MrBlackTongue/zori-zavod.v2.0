@@ -3,9 +3,11 @@ import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './PageRate.css';
 import { MenuOutlined } from '@ant-design/icons';
-import { CreateModalRegistrationUser } from '../PageLanding/components/CreateModalRegistrationUser';
+import { ModalRegistration } from '../PageLanding/ModalRegistration/ModalRegistration';
 import { useRegistration } from '../../../hooks';
-import { checkAuthorization } from '../../../services';
+import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../services';
+import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
+import rateImage from 'assets/images/rate_image.png';
 
 export const PageRate = () => {
   const navigate = useNavigate();
@@ -15,14 +17,14 @@ export const PageRate = () => {
     useRegistration();
 
   const handleRate = () => {
-    navigate('/rate');
+    navigate(`${RATE}`);
   };
 
   // Переход на другую страницу по адресу
   const handleLogin = () => {
     checkAuthorization()
       .then(isUserAuthorized => {
-        navigate(isUserAuthorized ? '/employee' : '/login');
+        navigate(isUserAuthorized ? `${EMPLOYEES}` : `${LOGIN}`);
       })
       .catch(error => {
         console.error('Ошибка при проверке авторизации:', error);
@@ -64,11 +66,7 @@ export const PageRate = () => {
     <div className="page-rate rate-flex rate-column rate-center-column">
       <div className="rate-header rate-flex rate-row rate-center-row">
         <a href="/" rel="noopener noreferrer">
-          <img
-            src="/src/assets/images/header_logo_light_montserrat.png"
-            alt="logo"
-            className="logo"
-          />
+          <img src={headerLogoLightMontserrat} alt="logo" className="logo" />
         </a>
         <Dropdown
           menu={{ items }}
@@ -112,7 +110,7 @@ export const PageRate = () => {
           </div>
         </div>
         <img
-          src="/src/assets/images/rate_image.png"
+          src={rateImage}
           alt="rate"
           className="rate-jumbotron rate-flex rate-column"
         />
@@ -124,7 +122,7 @@ export const PageRate = () => {
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
         <p className="rate-footer-text-three">© Zolotenkov 2022-2023</p>
       </div>
-      <CreateModalRegistrationUser
+      <ModalRegistration
         isOpen={isModalOpen}
         createItem={handleCreateNewUser}
         onCancel={() => setIsModalOpen(false)}

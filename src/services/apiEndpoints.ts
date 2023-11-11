@@ -36,3 +36,5 @@ export const ESTIMATED_PRICE = '/estimated-price';
 export const CHECK_AUTHORIZATION = '/check-authorization';
 export const STORAGE_PLACE = '/storage-place';
 export const LOGOUT = '/logout';
+export const RATE = '/rate';
+export const LOGIN = '/login';

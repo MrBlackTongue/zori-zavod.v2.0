@@ -11,10 +11,14 @@ import { Button, Form, Input, Modal } from 'antd';
 import '../../../../App.css';
 import { CreateModalProps, TypeUserInfo } from '../../../../types';
 import { useFormHandler } from '../../../../hooks';
+import { EMPLOYEES } from '../../../../services';
+import './ModalRegistration.css';
 
-export const CreateModalRegistrationUser: React.FC<
-  CreateModalProps<TypeUserInfo>
-> = ({ isOpen, createItem, onCancel }) => {
+export const ModalRegistration: React.FC<CreateModalProps<TypeUserInfo>> = ({
+  isOpen,
+  createItem,
+  onCancel,
+}) => {
   const [form] = Form.useForm();
 
   // Хук для отправки формы и отмены ввода
@@ -29,6 +33,16 @@ export const CreateModalRegistrationUser: React.FC<
     (visible: boolean) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />),
     [],
   );
+
+  // Обработчик нажатия клавиш для поля ввода телефона
+  const handlePhoneInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    const regex = /^\d+$/;
+    if (!regex.test(e.key)) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <Modal
@@ -74,11 +88,7 @@ export const CreateModalRegistrationUser: React.FC<
             placeholder="Телефон"
             style={{ width: '100%' }}
             maxLength={11}
-            onKeyPress={e => {
-              if (!/\d/.test(e.key)) {
-                e.preventDefault();
-              }
-            }}
+            onKeyDown={handlePhoneInputKeyDown}
           />
         </Form.Item>
 
@@ -103,7 +113,7 @@ export const CreateModalRegistrationUser: React.FC<
             Зарегистрироваться
           </Button>
           <div className="registration-login">
-            <a href="/employee" className="registration-login-text">
+            <a href={EMPLOYEES} className="registration-login-text">
               У меня уже есть аккаунт
             </a>
           </div>

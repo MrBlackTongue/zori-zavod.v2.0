@@ -2,10 +2,22 @@ import React from 'react';
 import { Button, Card, Col, Dropdown, MenuProps, Row, Space } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { CreateModalRegistrationUser } from './components/CreateModalRegistrationUser';
+import { ModalRegistration } from './ModalRegistration/ModalRegistration';
 import './PageLanding.css';
-import { checkAuthorization } from '../../../services';
+import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../services';
 import { useRegistration } from '../../../hooks';
+import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
+import mainImage from 'assets/images/main_image.png';
+import imageOne from 'assets/images/image_one.png';
+import imageTwo from 'assets/images/image_two.png';
+import groupAccounting from 'assets/images/group_accounting.png';
+import groupProcurement from 'assets/images/group_procurement.png';
+import groupWarehouse from 'assets/images/group_warehouse.png';
+import cardTap from 'assets/images/card_tap.png';
+import cardInternational from 'assets/images/card_international.png';
+import cardDocument from 'assets/images/card_document.png';
+import meeting from 'assets/images/meeting.png';
+import transactions from 'assets/images/transactions.png';
 
 export const PageLanding = () => {
   const navigate = useNavigate();
@@ -18,7 +30,7 @@ export const PageLanding = () => {
   const handleLogin = () => {
     checkAuthorization()
       .then(isUserAuthorized => {
-        navigate(isUserAuthorized ? '/employee' : '/login');
+        navigate(isUserAuthorized ? `${EMPLOYEES}` : `${LOGIN}`);
       })
       .catch(error => {
         console.error('Ошибка при проверке авторизации:', error);
@@ -26,7 +38,7 @@ export const PageLanding = () => {
   };
 
   const handleRate = () => {
-    navigate('/rate');
+    navigate(`${RATE}`);
   };
 
   // Выпадающее меню
@@ -64,11 +76,7 @@ export const PageLanding = () => {
     <div className="page-landing flex column center-column">
       <div className="header flex row center-row">
         <a href="/" rel="noopener noreferrer">
-          <img
-            src="/src/assets/images/header_logo_light_montserrat.png"
-            alt="logo"
-            className="logo"
-          />
+          <img src={headerLogoLightMontserrat} alt="logo" className="logo" />
         </a>
         <Dropdown
           menu={{ items }}
@@ -121,14 +129,14 @@ export const PageLanding = () => {
           </Space>
         </div>
         <img
-          src="/src/assets/images/main_image.png"
+          src={mainImage}
           alt="web-app"
           className="jumbotron-one flex column center-row center-column"
         />
       </div>
       <div className="block-two flex row center-row center-column">
         <img
-          src="/src/assets/images/image_one.png"
+          src={imageOne}
           alt="factoryApp"
           className="jumbotron-block center-row center-column"
         />
@@ -143,16 +151,12 @@ export const PageLanding = () => {
             </p>
           </div>
         </div>
-        <img
-          src="/src/assets/images/image_two.png"
-          alt="people_working"
-          className="jumbotron-block2"
-        />
+        <img src={imageTwo} alt="people_working" className="jumbotron-block2" />
       </div>
       <div className="block-three flex column center-column">
         <div className="block-group flex row center-row space-around">
           <img
-            src="/src/assets/images/group_accounting.png"
+            src={groupAccounting}
             alt="accounting"
             className="jumbotron-two flex column center-row center-column"
           />
@@ -175,14 +179,14 @@ export const PageLanding = () => {
             </p>
           </div>
           <img
-            src="/src/assets/images/group_procurement.png"
-            alt="Procurement_management"
+            src={groupProcurement}
+            alt="procurement_management"
             className="jumbotron-two flex column center-row center-column"
           />
         </div>
         <div className="block-group flex row center-row space-around">
           <img
-            src="/src/assets/images/group_warehouse.png"
+            src={groupWarehouse}
             alt="warehouse_management"
             className="jumbotron-two flex column center-row center-column"
           />
@@ -207,11 +211,7 @@ export const PageLanding = () => {
           <Row gutter={[30, 30]} justify="center" align="top">
             <Col span={12} xs={24} lg={12}>
               <Card bordered={false} className="card">
-                <img
-                  alt="tap"
-                  src="/src/assets/images/card_tap.png"
-                  className="card-image"
-                />
+                <img alt="tap" src={cardTap} className="card-image" />
                 <div className="card-title text-bold">
                   Простота в управлении
                 </div>
@@ -223,7 +223,7 @@ export const PageLanding = () => {
               <Card bordered={false} className="card">
                 <img
                   alt="earth"
-                  src="/src/assets/images/card_international.png"
+                  src={cardInternational}
                   className="card-image"
                 />
                 <div className="card-title text-bold">
@@ -235,11 +235,7 @@ export const PageLanding = () => {
             </Col>
             <Col span={12} xs={24} lg={12}>
               <Card bordered={false} className="card">
-                <img
-                  alt="file2"
-                  src="/src/assets/images/card_document.png"
-                  className="card-image"
-                />
+                <img alt="file2" src={cardDocument} className="card-image" />
                 <div className="card-title text-bold">
                   Отчеты в реальном времени
                 </div>
@@ -251,11 +247,7 @@ export const PageLanding = () => {
         </div>
       </div>
       <div className="block-five flex row center-row space-around">
-        <img
-          alt="meeting"
-          src="/src/assets/images/meeting.png"
-          className="image-container"
-        />
+        <img alt="meeting" src={meeting} className="image-container" />
         <div className="block-column flex column center-column center-row">
           <div className="title-mini text-bold center-text">
             Попробуйте Zolotenkov прямо сейчас!
@@ -271,7 +263,7 @@ export const PageLanding = () => {
         </div>
         <img
           alt="transactions"
-          src="/src/assets/images/transactions.png"
+          src={transactions}
           className="image-container2"
         />
       </div>
@@ -280,7 +272,7 @@ export const PageLanding = () => {
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
         <p className="footer-text-three">© Zolotenkov 2022-2023</p>
       </div>
-      <CreateModalRegistrationUser
+      <ModalRegistration
         isOpen={isModalOpen}
         createItem={handleCreateNewUser}
         onCancel={() => setIsModalOpen(false)}

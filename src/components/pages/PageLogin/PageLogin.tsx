@@ -6,11 +6,12 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
-import { loginUser } from '../../../services';
+import { EMPLOYEES, loginUser } from '../../../services';
 import { useNavigate } from 'react-router-dom';
 import './PageLogin.css';
-import { CreateModalRegistrationUser } from '../PageLanding/components/CreateModalRegistrationUser';
+import { ModalRegistration } from '../PageLanding/ModalRegistration/ModalRegistration';
 import { useRegistration } from '../../../hooks';
+import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
 
 export const PageLogin: React.FC = () => {
   const [form] = Form.useForm();
@@ -34,7 +35,7 @@ export const PageLogin: React.FC = () => {
         loginUser(values)
           .then(response => {
             if (response?.jwt) {
-              navigate('/employees');
+              navigate(`${EMPLOYEES}`);
             }
           })
           .catch(error => console.error('Ошибка при авторизации: ', error));
@@ -48,11 +49,7 @@ export const PageLogin: React.FC = () => {
     <div className="login-form-container">
       <div className="login-header">
         <a href="/" rel="noopener noreferrer">
-          <img
-            src="/src/assets/images/header_logo_light_montserrat.png"
-            alt="logo"
-            className="logo"
-          />
+          <img src={headerLogoLightMontserrat} alt="logo" className="logo" />
         </a>
       </div>
       <Form form={form} className="login-form" onFinish={onFinish}>
@@ -120,7 +117,7 @@ export const PageLogin: React.FC = () => {
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
         <p className="footer-text-three">© Zolotenkov 2022-2023</p>
       </div>
-      <CreateModalRegistrationUser
+      <ModalRegistration
         isOpen={isModalOpen}
         createItem={handleCreateNewUser}
         onCancel={() => setIsModalOpen(false)}

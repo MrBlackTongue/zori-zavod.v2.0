@@ -6,7 +6,8 @@ import {MenuUser} from './components/molecules/MenuUser/MenuUser';
 import {TabsComponent} from './components/molecules/TabsComponent/TabsComponent';
 import {ContentRoutes} from './routes/ContentRoutes/ContentRoutes';
 import {useLocation} from 'react-router-dom';
-import {menuKeyToRoutes} from './components/molecules/TabsComponent/menuKeyToRoutes'; // Извлекаем все пути из menuKeyToRoutes
+import {menuKeyToRoutes} from './components/molecules/TabsComponent/menuKeyToRoutes';
+import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png';
 
 // Извлекаем все пути из menuKeyToRoutes
 const allPathsToShowTabs = Object.values(menuKeyToRoutes)
@@ -31,7 +32,7 @@ function App() {
       <Header className="app-header">
         <a href="/" rel="noopener noreferrer" className="logo-container">
           <img
-            src="/src/assets/images/header_logo_dark_montserrat.png"
+            src={headerLogoDarkMontserrat}
             alt="beta"
             className="logo-header"
           />
