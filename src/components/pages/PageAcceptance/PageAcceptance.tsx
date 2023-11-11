@@ -7,7 +7,7 @@ import { TableAcceptance } from './components/TableAcceptance';
 import { CreateModalAcceptance } from './components/CreateModalAcceptance';
 import dayjs from 'dayjs';
 import { useFetchAllData } from '../../../hooks';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageAcceptance: React.FC = () => {
   // Обновить таблицу, открыть закрыть модальное окно, текст поиска
@@ -48,7 +48,7 @@ export const PageAcceptance: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <Flex
         gap="small"
         justify="flex-end"

@@ -10,7 +10,7 @@ import { TypeProduct, TypeProductFormValue } from '../../../types';
 import { TableProduct } from './components/TableProduct';
 import { CreateModalProduct } from './components/CreateModalProduct';
 import { UpdateDrawerProduct } from './components/UpdateDrawerProduct';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageProduct: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -65,7 +65,7 @@ export const PageProduct: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <Flex
         gap="small"
         justify="flex-end"

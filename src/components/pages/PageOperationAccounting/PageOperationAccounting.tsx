@@ -14,7 +14,7 @@ import { CreateModalOperationAccounting } from './components/CreateModalOperatio
 import { UpdateDrawerOperationAccounting } from './components/UpdateDrawerOperationAccounting';
 import dayjs from 'dayjs';
 import { useFetchAllData } from '../../../hooks';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageOperationAccounting: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -120,7 +120,7 @@ export const PageOperationAccounting: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <Flex
         gap="small"
         justify="flex-end"

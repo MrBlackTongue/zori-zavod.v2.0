@@ -1,10 +1,12 @@
 import React from 'react';
-import { Button, FloatButton, Popconfirm, Space, Table, Tag } from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { FloatButton, Tag } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/lib/table/interface';
 import { TypeEmployee } from '../../../../types';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
+import { AddButton } from '../../../atoms/AddButton/AddButton';
+import { DeleteWithConfirmationButton } from '../../../atoms/DeleteWithConfirmationButton/DeleteWithConfirmationButton';
+import { BasicTable } from '../../../molecules/BasicTable/BasicTable';
 
 type EmployeeTableViewProps = {
   allEmployee: TypeEmployee[] | undefined;
@@ -128,49 +130,22 @@ export const EmployeeTableView: React.FC<EmployeeTableViewProps> = ({
   return (
     <div>
       <div className="flex space-between">
-        <Space style={{ marginBottom: 16 }}>
-          <Popconfirm
-            placement="topRight"
-            disabled={!hasSelected}
-            title="Вы действительно хотите удалить выбранные записи из таблицы?"
-            onConfirm={handleDeleteSelected}
-            onCancel={handleClearSelected}
-            okText="Да"
-            cancelText="Отмена">
-            <Button type="primary" disabled={!hasSelected} danger>
-              <DeleteOutlined /> Удалить
-            </Button>
-          </Popconfirm>
-          <span style={{ marginLeft: 8 }}>
-            {hasSelected ? `Выбранные элементы ${selectedRowKeys.length}` : ''}
-          </span>
-        </Space>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => handleNavigateToEmployeeForm()}>
-          Добавить
-        </Button>
+        <DeleteWithConfirmationButton
+          hasSelected={hasSelected}
+          selectedCount={selectedRowKeys.length}
+          onConfirm={handleDeleteSelected}
+          onCancel={handleClearSelected}
+        />
+        <AddButton onClick={() => handleNavigateToEmployeeForm()} />
       </div>
-      <Table
-        rowKey="id"
-        bordered
-        size="middle"
+      <BasicTable
+        data={allEmployee}
+        isLoading={isLoading}
         columns={columns}
-        dataSource={allEmployee}
-        loading={isLoading}
-        onChange={handleChangeTable}
+        pagination={pagination}
         rowSelection={rowSelection}
-        onRow={record => {
-          return {
-            onClick: () => handleNavigateToEmployeeForm(record.id),
-          };
-        }}
-        pagination={{
-          ...pagination,
-          position: ['bottomCenter'],
-          totalBoundaryShowSizeChanger: 10,
-        }}
+        onRowClick={record => handleNavigateToEmployeeForm(record.id)}
+        onChangeTable={handleChangeTable}
         rowClassName={(_, index) =>
           index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
         }

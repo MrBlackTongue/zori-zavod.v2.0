@@ -9,7 +9,7 @@ import { TypeProductBatch, TypeProductBatchFormValue } from '../../../types';
 import { TableProductBatch } from './components/TableProductBatch';
 import { CreateModalProductBatch } from './components/CreateModalProductBatch';
 import { UpdateDrawerProductBatch } from './components/UpdateDrawerProductBatch';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageProductBatch: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -62,7 +62,7 @@ export const PageProductBatch: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableProductBatch
         isUpdateTable={isUpdateTable}

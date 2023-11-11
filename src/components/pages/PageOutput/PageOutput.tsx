@@ -10,7 +10,7 @@ import { TableOutput } from './components/TableOutput';
 import { CreateModalOutput } from './components/CreateModalOutput';
 import { UpdateDrawerOutput } from './components/UpdateDrawerOutput';
 import dayjs from 'dayjs';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageOutput: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -62,7 +62,7 @@ export const PageOutput: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableOutput
         isUpdateTable={isUpdateTable}

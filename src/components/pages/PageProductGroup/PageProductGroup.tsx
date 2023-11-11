@@ -9,7 +9,7 @@ import { TypeProductGroup, TypeProductGroupFormValue } from '../../../types';
 import { TableProductGroup } from './components/TableProductGroup';
 import { CreateModalProductGroup } from './components/CreateModalProductGroup';
 import { UpdateDrawerProductGroup } from './components/UpdateDrawerProductGroup';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageProductGroup: React.FC = () => {
   // Обновление таблицы, открыть/закрыть модальное окно, drawer
@@ -62,7 +62,7 @@ export const PageProductGroup: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableProductGroup
         isUpdateTable={isUpdateTable}

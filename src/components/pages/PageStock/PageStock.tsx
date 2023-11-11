@@ -12,7 +12,7 @@ import { TableStock } from './components/TableStock';
 import { CreateModalStock } from './components/CreateModalStock';
 import { UpdateDrawerStock } from './components/UpdateDrawerStock';
 import { useFetchAllData } from '../../../hooks';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageStock: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -84,7 +84,7 @@ export const PageStock: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <Flex
         gap="small"
         justify="flex-end"

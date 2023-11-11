@@ -5,7 +5,7 @@ import { TypeUnit, TypeUnitFormValue } from '../../../types';
 import { TableUnit } from './components/TableUnit';
 import { CreateModalUnit } from './components/CreateModalUnit';
 import { UpdateDrawerUnit } from './components/UpdateDrawerUnit';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageUnit: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -51,7 +51,7 @@ export const PageUnit: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableUnit
         isUpdateTable={isUpdateTable}

@@ -11,7 +11,7 @@ import { TablePurchase } from './components/TablePurchase';
 import { CreateModalPurchase } from './components/CreateModalPurchase';
 import { UpdateDrawerPurchase } from './components/UpdateDrawerPurchase';
 import dayjs from 'dayjs';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PagePurchase: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -72,7 +72,7 @@ export const PagePurchase: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <Flex
         gap="small"
         justify="flex-end"

@@ -1,22 +1,15 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Button } from 'antd';
-import './AddButton.css';
 import { PlusOutlined } from '@ant-design/icons';
 
-interface AddButtonProps {
-  setIsModalOpen: (isOpen: boolean) => void;
-}
+type AddButtonProps = {
+  onClick: () => void;
+};
 
-const AddButton: FC<AddButtonProps> = ({ setIsModalOpen }) => (
-  <div className="add-new-item-button">
-    <Button
-      style={{ top: -35 }}
-      type="primary"
-      icon={<PlusOutlined />}
-      onClick={() => setIsModalOpen(true)}>
+export const AddButton: React.FC<AddButtonProps> = ({ onClick }) => {
+  return (
+    <Button type="primary" icon={<PlusOutlined />} onClick={onClick}>
       Добавить
     </Button>
-  </div>
-);
-
-export default AddButton;
+  );
+};

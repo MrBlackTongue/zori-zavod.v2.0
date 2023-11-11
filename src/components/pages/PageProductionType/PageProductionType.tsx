@@ -12,7 +12,7 @@ import {
 import { TableProductionType } from './components/TableProductionType';
 import { CreateModalProductionType } from './components/CreateModalProductionType';
 import { UpdateDrawerProductionType } from './components/UpdateDrawerProductionType';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageProductionType: React.FC = () => {
   // Обновление таблицы, открыть/закрыть модальное окно, drawer
@@ -65,7 +65,7 @@ export const PageProductionType: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableProductionType
         isUpdateTable={isUpdateTable}

@@ -9,7 +9,7 @@ import { TypeStoragePlace, TypeStoragePlaceFormValue } from '../../../types';
 import { TableStoragePlace } from './components/TableStoragePlace';
 import { CreateModalStoragePlace } from './components/CreateModalStoragePlace';
 import { UpdateDrawerStoragePlace } from './components/UpdateDrawerStoragePlace';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageStoragePlace: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
@@ -60,7 +60,7 @@ export const PageStoragePlace: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableStoragePlace
         isUpdateTable={isUpdateTable}

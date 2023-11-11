@@ -10,7 +10,7 @@ import { TableWriteOff } from './components/TableWriteOff';
 import { CreateModalWriteOff } from './components/CreateModalWriteOff';
 import { UpdateDrawerWriteOff } from './components/UpdateDrawerWriteOff';
 import { DetailDrawerWriteOff } from './components/DetailDrawerWriteOff';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageWriteOff: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer, детальный drawer
@@ -71,7 +71,7 @@ export const PageWriteOff: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableWriteOff
         isUpdateTable={isUpdateTable}

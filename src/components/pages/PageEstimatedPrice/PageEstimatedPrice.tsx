@@ -13,7 +13,7 @@ import { TableEstimatedPrice } from './components/TableEstimatedPrice';
 import { CreateModalEstimatedPrice } from './components/CreateModalEstimatedPrice';
 import { UpdateDrawerEstimatedPrice } from './components/UpdateDrawerEstimatedPrice';
 import dayjs from 'dayjs';
-import AddButton from '../../atoms/AddButton/AddButton';
+import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
 export const PageEstimatedPrice: React.FC = () => {
   // Обновление таблицы, открыть/закрыть модальное окно, драйвер
@@ -68,7 +68,7 @@ export const PageEstimatedPrice: React.FC = () => {
 
   return (
     <div>
-      <AddButton setIsModalOpen={setIsModalOpen} />
+      <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
       <TableEstimatedPrice
         isUpdateTable={isUpdateTable}
