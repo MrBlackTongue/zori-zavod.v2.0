@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Menu } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './MenuMain.css';
+import './MainMenu.css';
 import {
   AppstoreAddOutlined,
   AppstoreOutlined,
@@ -12,7 +12,7 @@ import {
   ShoppingCartOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import { menuKeyToRoutes } from '../TabsComponent/menuKeyToRoutes';
+import { menuKeyToRoutes } from '../NavigationTabs/menuKeyToRoutes';
 
 const items = [
   {
@@ -125,7 +125,7 @@ const findMenuKeyByPath = (path: string) => {
   return null;
 };
 
-export const MenuMain: React.FC<MenuMainProps> = ({
+export const MainMenu: React.FC<MenuMainProps> = ({
   onMenuKeyChange,
   selectedMenuKey,
 }) => {

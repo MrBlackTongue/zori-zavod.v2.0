@@ -3,7 +3,7 @@ import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './PageRate.css';
 import { MenuOutlined } from '@ant-design/icons';
-import { ModalRegistration } from '../../molecules/ModalRegistration/ModalRegistration';
+import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
 import { useRegistration } from '../../../hooks';
 import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../services';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
@@ -122,7 +122,7 @@ export const PageRate = () => {
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
         <p className="rate-footer-text-three">© Zolotenkov 2022-2023</p>
       </div>
-      <ModalRegistration
+      <RegistrationModal
         isOpen={isModalOpen}
         createItem={handleCreateNewUser}
         onCancel={() => setIsModalOpen(false)}

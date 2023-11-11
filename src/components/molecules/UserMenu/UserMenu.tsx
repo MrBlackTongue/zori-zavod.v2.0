@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { DownOutlined, LogoutOutlined } from '@ant-design/icons';
 import { getUserSubscription, logoutUser } from '../../../services';
 import { TypeSubscription } from '../../../types';
-import './MenuUser.css';
+import './UserMenu.css';
 
-export const MenuUser: React.FC = () => {
+export const UserMenu: React.FC = () => {
   // Информация о подписке
   const [subscriptionInfo, setSubscriptionInfo] = useState<TypeSubscription>();
 

@@ -14,7 +14,7 @@ interface TabsComponentProps {
   selectedMenuKey: string;
 }
 
-export const TabsComponent: React.FC<TabsComponentProps> = ({
+export const NavigationTabs: React.FC<TabsComponentProps> = ({
   selectedMenuKey,
 }) => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export const TabsComponent: React.FC<TabsComponentProps> = ({
   );
 
   const [activeTabKey, setActiveTabKey] = useState(
-    () => getActiveTabKeyFromLocalStorage() || DEFAULT_TAB_KEY,
+    () => getActiveTabKeyFromLocalStorage() ?? DEFAULT_TAB_KEY,
   );
   // Формирование массива объектов для свойства items компонента Tabs
   const tabItems = tabInfoArray.map(tabInfo => ({

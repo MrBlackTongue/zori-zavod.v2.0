@@ -11,9 +11,9 @@ import { Button, Form, Input, Modal } from 'antd';
 import { CreateModalProps, TypeUserInfo } from '../../../types';
 import { useFormHandler } from '../../../hooks';
 import { EMPLOYEES } from '../../../services';
-import './ModalRegistration.css';
+import './RegistrationModal.css';
 
-export const ModalRegistration: React.FC<CreateModalProps<TypeUserInfo>> = ({
+export const RegistrationModal: React.FC<CreateModalProps<TypeUserInfo>> = ({
   isOpen,
   createItem,
   onCancel,

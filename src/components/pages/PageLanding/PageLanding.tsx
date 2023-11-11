@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, Col, Dropdown, MenuProps, Row, Space } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { ModalRegistration } from '../../molecules/ModalRegistration/ModalRegistration';
+import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
 import './PageLanding.css';
 import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../services';
 import { useRegistration } from '../../../hooks';
@@ -272,7 +272,7 @@ export const PageLanding = () => {
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
         <p className="footer-text-three">© Zolotenkov 2022-2023</p>
       </div>
-      <ModalRegistration
+      <RegistrationModal
         isOpen={isModalOpen}
         createItem={handleCreateNewUser}
         onCancel={() => setIsModalOpen(false)}

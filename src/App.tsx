@@ -1,13 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import './App.css';
-import { Layout } from 'antd';
-import { MenuMain } from './components/molecules/MenuMain/MenuMain';
-import { MenuUser } from './components/molecules/MenuUser/MenuUser';
-import { TabsComponent } from './components/molecules/TabsComponent/TabsComponent';
-import { ContentRoutes } from './routes/ContentRoutes/ContentRoutes';
-import { useLocation } from 'react-router-dom';
-import { menuKeyToRoutes } from './components/molecules/TabsComponent/menuKeyToRoutes';
-import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png';
+import {Layout} from 'antd';
+import {MainMenu} from './components/molecules/MainMenu/MainMenu';
+import {UserMenu} from './components/molecules/UserMenu/UserMenu';
+import {NavigationTabs} from './components/molecules/NavigationTabs/NavigationTabs';
+import {ContentRoutes} from './routes/ContentRoutes/ContentRoutes';
+import {useLocation} from 'react-router-dom';
+import {menuKeyToRoutes} from './components/molecules/NavigationTabs/menuKeyToRoutes';
+import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png'; // Извлекаем все пути из menuKeyToRoutes
 
 // Извлекаем все пути из menuKeyToRoutes
 const allPathsToShowTabs = Object.values(menuKeyToRoutes)
@@ -20,7 +20,7 @@ function App() {
 
   const location = useLocation();
 
-  // Проверка, нужно ли показывать TabsComponent на текущей странице
+  // Проверка, нужно ли показывать NavigationTabs на текущей странице
   const shouldShowTabs = allPathsToShowTabs.includes(location.pathname);
 
   const memoizedSetSelectedMenuKey = useCallback((key: string) => {
@@ -38,14 +38,14 @@ function App() {
           />
           <p className="logo-beta">beta</p>
         </a>
-        <MenuMain
+        <MainMenu
           selectedMenuKey={selectedMenuKey}
           onMenuKeyChange={memoizedSetSelectedMenuKey}
         />
-        <MenuUser />
+        <UserMenu />
       </Header>
       <Content className="app-content">
-        {shouldShowTabs && <TabsComponent selectedMenuKey={selectedMenuKey} />}
+        {shouldShowTabs && <NavigationTabs selectedMenuKey={selectedMenuKey} />}
         <ContentRoutes />
       </Content>
       <Footer className="app-footer">
