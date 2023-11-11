@@ -1,48 +1,43 @@
 import React from 'react';
 import { Table } from 'antd';
-import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import type { TableRowSelection } from 'antd/lib/table/interface';
+import type { ColumnsType } from 'antd/es/table';
+import { useTable } from '../../../contexts/TableContext';
+import { TypeWithId } from '../../../types';
 
 type BasicTableProps<T> = {
-  data: T[] | undefined;
-  isLoading: boolean;
-  columns: ColumnsType<T>;
-  pagination: TablePaginationConfig;
-  rowSelection: TableRowSelection<T>;
-  onRowClick: (record: T) => void;
-  onChangeTable: (pagination: TablePaginationConfig) => void;
-  rowClassName?: (record: T, index: number) => string;
+  columns: ColumnsType<TypeWithId<T>>;
 };
 
-export const BasicTable = <T extends {}>({
-  data,
-  isLoading,
-  columns,
-  pagination,
-  rowSelection,
-  onRowClick,
-  onChangeTable,
-  rowClassName = () => '',
-}: BasicTableProps<T>) => {
+export const BasicTable = <T extends {}>({ columns }: BasicTableProps<T>) => {
+  const {
+    data,
+    isLoading,
+    pagination,
+    rowSelection,
+    handleNavigateToForm,
+    handleChangeTable,
+  } = useTable<TypeWithId<T>>();
   return (
-    <Table
+    <Table<TypeWithId<T>>
       rowKey="id"
       bordered
       size="middle"
       columns={columns}
       dataSource={data}
       loading={isLoading}
-      onChange={onChangeTable}
+      onChange={handleChangeTable}
       rowSelection={rowSelection}
-      onRow={record => ({
-        onClick: () => onRowClick(record),
+      onRow={(record: TypeWithId<T>) => ({
+        onClick: () => handleNavigateToForm(Number(record.id)),
       })}
       pagination={{
         ...pagination,
         position: ['bottomCenter'],
         totalBoundaryShowSizeChanger: 10,
       }}
-      rowClassName={rowClassName}
+      rowClassName={(_, index) =>
+        index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
+      }
     />
   );
 };

@@ -10,6 +10,7 @@ import usePagination from '../../../../hooks/usePagination';
 import useRowSelection from '../../../../hooks/useRowSelection';
 import { useDataListLoader } from '../../../../hooks';
 import useNavigateToPath from '../../../../hooks/useNavigateToPath';
+import { TableProvider } from '../../../../contexts/TableContext';
 
 export const EmployeeTableContainer = () => {
   // Хук для загрузки и получения всех данных
@@ -20,7 +21,7 @@ export const EmployeeTableContainer = () => {
   const { pagination, handleChangeTable } = usePagination(10);
 
   // Хук для навигации
-  const handleNavigateToEmployeeForm = useNavigateToPath(EMPLOYEE);
+  const handleNavigateToForm = useNavigateToPath(EMPLOYEE);
 
   // Хук для выбора строк
   const {
@@ -32,20 +33,22 @@ export const EmployeeTableContainer = () => {
   } = useRowSelection<TypeEmployee>();
 
   // Функция массового удаления
-  const handleDeleteSelected = useCallback(async () => {
-    try {
-      // Проходим по всем выбранным ключам и удаляем соответствующие записи
-      await Promise.all(
-        selectedRowKeys.map(key => deleteEmployeeById(Number(key))),
-      );
-      await getDataList(getAllEmployee);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error('Ошибка при удалении сотрудников', error.message);
+  const handleDeleteSelected = useCallback(() => {
+    (async () => {
+      try {
+        // Проходим по всем выбранным ключам и удаляем соответствующие записи
+        await Promise.all(
+          selectedRowKeys.map(key => deleteEmployeeById(Number(key))),
+        );
+        await getDataList(getAllEmployee);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error('Ошибка при удалении сотрудников', error.message);
+        }
+      } finally {
+        setSelectedRowKeys([]);
       }
-    } finally {
-      setSelectedRowKeys([]);
-    }
+    })();
   }, [selectedRowKeys, getDataList, setSelectedRowKeys]);
 
   useEffect(() => {
@@ -57,17 +60,20 @@ export const EmployeeTableContainer = () => {
   }, [getDataList]);
 
   return (
-    <EmployeeTableView
-      allEmployee={dataList}
-      isLoading={isLoading}
-      pagination={pagination}
-      selectedRowKeys={selectedRowKeys}
-      hasSelected={hasSelected}
-      rowSelection={rowSelection}
-      handleNavigateToEmployeeForm={handleNavigateToEmployeeForm}
-      handleChangeTable={handleChangeTable}
-      handleDeleteSelected={handleDeleteSelected}
-      handleClearSelected={handleClearSelected}
-    />
+    <TableProvider<TypeEmployee>
+      value={{
+        data: dataList,
+        isLoading,
+        pagination,
+        selectedRowKeys,
+        hasSelected,
+        rowSelection,
+        handleNavigateToForm,
+        handleChangeTable,
+        handleDeleteSelected,
+        handleClearSelected,
+      }}>
+      <EmployeeTableView />
+    </TableProvider>
   );
 };

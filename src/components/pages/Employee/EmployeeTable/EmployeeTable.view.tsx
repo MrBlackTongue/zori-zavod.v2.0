@@ -1,39 +1,14 @@
 import React from 'react';
-import { FloatButton, Tag } from 'antd';
-import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import type { TableRowSelection } from 'antd/lib/table/interface';
-import { TypeEmployee } from '../../../../types';
+import { Flex, FloatButton, Tag } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import { TypeEmployee, TypeWithId } from '../../../../types';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
 import { AddButton } from '../../../atoms/AddButton/AddButton';
 import { DeleteWithConfirmationButton } from '../../../atoms/DeleteWithConfirmationButton/DeleteWithConfirmationButton';
 import { BasicTable } from '../../../molecules/BasicTable/BasicTable';
 
-type EmployeeTableViewProps = {
-  allEmployee: TypeEmployee[] | undefined;
-  isLoading: boolean;
-  pagination: TablePaginationConfig;
-  selectedRowKeys: React.Key[];
-  hasSelected: boolean;
-  rowSelection: TableRowSelection<TypeEmployee>;
-  handleNavigateToEmployeeForm: (id?: number) => void;
-  handleChangeTable: (pagination: TablePaginationConfig) => void;
-  handleDeleteSelected: () => void;
-  handleClearSelected: () => void;
-};
-
-export const EmployeeTableView: React.FC<EmployeeTableViewProps> = ({
-  allEmployee,
-  isLoading,
-  pagination,
-  selectedRowKeys,
-  hasSelected,
-  rowSelection,
-  handleNavigateToEmployeeForm,
-  handleChangeTable,
-  handleDeleteSelected,
-  handleClearSelected,
-}) => {
-  const columns: ColumnsType<TypeEmployee> = [
+export const EmployeeTableView = () => {
+  const columns: ColumnsType<TypeWithId<TypeEmployee>> = [
     {
       title: (
         <>
@@ -129,27 +104,11 @@ export const EmployeeTableView: React.FC<EmployeeTableViewProps> = ({
 
   return (
     <div>
-      <div className="flex space-between">
-        <DeleteWithConfirmationButton
-          hasSelected={hasSelected}
-          selectedCount={selectedRowKeys.length}
-          onConfirm={handleDeleteSelected}
-          onCancel={handleClearSelected}
-        />
-        <AddButton onClick={() => handleNavigateToEmployeeForm()} />
-      </div>
-      <BasicTable
-        data={allEmployee}
-        isLoading={isLoading}
-        columns={columns}
-        pagination={pagination}
-        rowSelection={rowSelection}
-        onRowClick={record => handleNavigateToEmployeeForm(record.id)}
-        onChangeTable={handleChangeTable}
-        rowClassName={(_, index) =>
-          index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
-        }
-      />
+      <Flex justify="space-between">
+        <DeleteWithConfirmationButton />
+        <AddButton />
+      </Flex>
+      <BasicTable columns={columns} />
       <FloatButton.BackTop />
     </div>
   );
