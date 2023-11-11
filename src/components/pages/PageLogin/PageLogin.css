@@ -63,11 +63,6 @@
         margin-left: 15px;
     }
 
-    .registration-form-button {
-        width: 100%;
-        font-weight: bold;
-    }
-
     .login-footer {
         display: flex;
         flex-direction: column;

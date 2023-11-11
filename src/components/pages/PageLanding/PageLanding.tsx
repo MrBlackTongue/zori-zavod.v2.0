@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, Col, Dropdown, MenuProps, Row, Space } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { ModalRegistration } from './ModalRegistration/ModalRegistration';
+import { ModalRegistration } from '../../molecules/ModalRegistration/ModalRegistration';
 import './PageLanding.css';
 import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../services';
 import { useRegistration } from '../../../hooks';

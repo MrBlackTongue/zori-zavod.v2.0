@@ -9,7 +9,7 @@ import { Button, Form, Input } from 'antd';
 import { EMPLOYEES, loginUser } from '../../../services';
 import { useNavigate } from 'react-router-dom';
 import './PageLogin.css';
-import { ModalRegistration } from '../PageLanding/ModalRegistration/ModalRegistration';
+import { ModalRegistration } from '../../molecules/ModalRegistration/ModalRegistration';
 import { useRegistration } from '../../../hooks';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './assets/styles/globals.css';
 import { BrowserRouter } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import ru_RU from 'antd/lib/locale/ru_RU';

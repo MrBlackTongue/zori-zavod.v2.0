@@ -3,7 +3,7 @@ import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './PageRate.css';
 import { MenuOutlined } from '@ant-design/icons';
-import { ModalRegistration } from '../PageLanding/ModalRegistration/ModalRegistration';
+import { ModalRegistration } from '../../molecules/ModalRegistration/ModalRegistration';
 import { useRegistration } from '../../../hooks';
 import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../services';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
@@ -63,8 +63,8 @@ export const PageRate = () => {
   ];
 
   return (
-    <div className="page-rate rate-flex rate-column rate-center-column">
-      <div className="rate-header rate-flex rate-row rate-center-row">
+    <div className="page-rate flex column center-column">
+      <div className="rate-header flex row center-row">
         <a href="/" rel="noopener noreferrer">
           <img src={headerLogoLightMontserrat} alt="logo" className="logo" />
         </a>
@@ -81,26 +81,26 @@ export const PageRate = () => {
         <Space>
           <Button
             type="default"
-            className="button-login rate-text-bold"
+            className="button-login text-bold"
             onClick={handleLogin}>
             Войти
           </Button>
           <Button
             type="primary"
-            className="button-registration rate-text-bold"
+            className="button-registration text-bold"
             onClick={() => setIsModalOpen(true)}>
             Регистрация
           </Button>
         </Space>
       </div>
-      <div className="rate-block rate-flex rate-row rate-center-row">
-        <div className="rate-text-block rate-flex rate-column">
+      <div className="rate-block flex row center-row">
+        <div className="rate-text-block flex column">
           <div className="rate-title">Пробный период на 14 дней</div>
           <div className="rate-text">
-            <span className="rate-text-bold">14 дней бесплатно</span>, потом 99
+            <span className="text-bold">14 дней бесплатно</span>, потом 99
             руб/сут. Оптимизируйте бизнес прямо сейчас!
           </div>
-          <div className="rate-flex rate-column">
+          <div className="flex column">
             <Button
               type="primary"
               className="button-buy"
@@ -112,10 +112,10 @@ export const PageRate = () => {
         <img
           src={rateImage}
           alt="rate"
-          className="rate-jumbotron rate-flex rate-column"
+          className="rate-jumbotron flex column"
         />
       </div>
-      <div className="rate-footer rate-flex rate-column rate-center-row rate-center-column">
+      <div className="rate-footer flex column center-row center-column">
         <p className="rate-footer-text-two">Лазарь Олег Михайлович</p>
         <p className="rate-footer-text-two">ИНН: 143521547685</p>
         <p className="footer-text-one">Связаться с нами:</p>

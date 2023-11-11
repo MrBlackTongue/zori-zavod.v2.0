@@ -8,10 +8,9 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Button, Form, Input, Modal } from 'antd';
-import '../../../../App.css';
-import { CreateModalProps, TypeUserInfo } from '../../../../types';
-import { useFormHandler } from '../../../../hooks';
-import { EMPLOYEES } from '../../../../services';
+import { CreateModalProps, TypeUserInfo } from '../../../types';
+import { useFormHandler } from '../../../hooks';
+import { EMPLOYEES } from '../../../services';
 import './ModalRegistration.css';
 
 export const ModalRegistration: React.FC<CreateModalProps<TypeUserInfo>> = ({
@@ -51,7 +50,9 @@ export const ModalRegistration: React.FC<CreateModalProps<TypeUserInfo>> = ({
       centered
       open={isOpen}
       onCancel={handleReset}
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}>
+      styles={{
+        mask: { backgroundColor: 'rgba(0, 0, 0, 0.75)' },
+      }}>
       <Form form={form} className="registration-form" onFinish={handleSubmit}>
         <Form.Item>
           <div className="registration-title">Регистрация</div>
