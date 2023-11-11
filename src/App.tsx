@@ -1,12 +1,12 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
-import {Layout} from 'antd';
-import {MenuMain} from './components/molecules/MenuMain/MenuMain';
-import {MenuUser} from './components/molecules/MenuUser/MenuUser';
-import {TabsComponent} from './components/molecules/TabsComponent/TabsComponent';
-import {ContentRoutes} from './routes/ContentRoutes/ContentRoutes';
-import {useLocation} from 'react-router-dom';
-import {menuKeyToRoutes} from './components/molecules/TabsComponent/menuKeyToRoutes';
+import { Layout } from 'antd';
+import { MenuMain } from './components/molecules/MenuMain/MenuMain';
+import { MenuUser } from './components/molecules/MenuUser/MenuUser';
+import { TabsComponent } from './components/molecules/TabsComponent/TabsComponent';
+import { ContentRoutes } from './routes/ContentRoutes/ContentRoutes';
+import { useLocation } from 'react-router-dom';
+import { menuKeyToRoutes } from './components/molecules/TabsComponent/menuKeyToRoutes';
 import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png';
 
 // Извлекаем все пути из menuKeyToRoutes

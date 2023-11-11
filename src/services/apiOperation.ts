@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypeOperation} from '../types';
-import {OPERATION, TITLE} from './apiEndpoints';
+import { TypeApiResponse, TypeOperation } from '../types';
+import { OPERATION, TITLE } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить список всех типов операций
 export async function getAllOperation(): Promise<TypeOperation[]> {

@@ -1,7 +1,16 @@
-import {api} from './api';
-import {AUTHENTICATE, CHECK_AUTHORIZATION, LOGOUT, REGISTRATION,} from './apiEndpoints';
-import {TypeApiResponse, TypeUserInfo} from '../types';
-import {handleErrorResponseMessage, handleRegistrationUserMessage, handleResponseLogoutMessage,} from '../utils'; // Зарегистрировать нового пользователя
+import { api } from './api';
+import {
+  AUTHENTICATE,
+  CHECK_AUTHORIZATION,
+  LOGOUT,
+  REGISTRATION,
+} from './apiEndpoints';
+import { TypeApiResponse, TypeUserInfo } from '../types';
+import {
+  handleErrorResponseMessage,
+  handleRegistrationUserMessage,
+  handleResponseLogoutMessage,
+} from '../utils'; // Зарегистрировать нового пользователя
 
 // Зарегистрировать нового пользователя
 export async function registrationUser(

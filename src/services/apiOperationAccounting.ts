@@ -4,14 +4,14 @@ import {
   TypeOperationAccounting,
   TypeOperationAccountingFilter,
 } from '../types';
-import {FILTER, OPERATION_ACCOUNTING} from './apiEndpoints';
+import { FILTER, OPERATION_ACCOUNTING } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить данные учетной операции по id
 export async function getOperationAccountingById(

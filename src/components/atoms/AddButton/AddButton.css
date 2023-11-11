@@ -1,7 +1,7 @@
 .add-new-item-button {
-    display: flex;
-    align-content: center;
-    justify-content: flex-end;
-    max-height: 0;
-    margin-bottom: 10px;
+  display: flex;
+  align-content: center;
+  justify-content: flex-end;
+  max-height: 0;
+  margin-bottom: 10px;
 }
