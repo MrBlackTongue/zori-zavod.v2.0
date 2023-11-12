@@ -79,3 +79,11 @@
 .ant-tabs-tab-active {
   border-bottom: 1px solid #1677ff !important; /* Жирная нижняя граница синего цвета */
 }
+
+/* Form style */
+.form-style {
+  min-height: 70vh;
+  background-color: white;
+  border-radius: 7px;
+  padding-top: 10px;
+}

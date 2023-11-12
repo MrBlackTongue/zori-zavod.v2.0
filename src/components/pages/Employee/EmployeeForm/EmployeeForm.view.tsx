@@ -11,14 +11,8 @@ export const EmployeeFormView: React.FC<FormProps<TypeEmployeeFormValue>> = ({
   onCancel,
 }) => {
   return (
-    <div
-      style={{
-        minHeight: '70vh',
-        backgroundColor: 'white',
-        borderRadius: '7px',
-        paddingTop: '10px',
-      }}>
-      <h2 style={{ textAlign: 'center' }}>{title}</h2>
+    <div className="form-style">
+      <h2 className="center-text">{title}</h2>
       <Form
         form={form}
         labelCol={{ span: 6 }}

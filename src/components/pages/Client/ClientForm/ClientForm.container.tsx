@@ -17,16 +17,16 @@ export const ClientFormContainer = () => {
   const [title, setTitle] = useState('');
 
   // Приведение rawId к числу или установка в undefined
-  const clientId = rawId && !isNaN(Number(rawId)) ? Number(rawId) : undefined;
-  const isCreateMode = clientId === undefined;
-  const isUpdateMode = clientId !== undefined;
+  const itemId = rawId && !isNaN(Number(rawId)) ? Number(rawId) : undefined;
+  const isCreateMode = itemId === undefined;
+  const isUpdateMode = itemId !== undefined;
 
   // Функция для создания или обновления
   const handleSubmit = async (values: TypeClient) => {
     if (isCreateMode) {
       await createClient(values);
     } else {
-      await updateClient({ ...values, id: clientId });
+      await updateClient({ ...values, id: itemId });
     }
     navigate(-1);
   };
@@ -38,15 +38,15 @@ export const ClientFormContainer = () => {
 
   // Получение данных для редактирования
   const handleGetClient = useCallback(async () => {
-    if (isUpdateMode && clientId) {
+    if (isUpdateMode && itemId) {
       try {
-        const data = await getClientById(clientId);
+        const data = await getClientById(itemId);
         form.setFieldsValue(data);
       } catch (error) {
         console.error('Ошибка при получении данных сотрудника:', error);
       }
     }
-  }, [clientId, form, isUpdateMode]);
+  }, [itemId, form, isUpdateMode]);
 
   // Загрузка данных при редактировании
   useEffect(() => {
