@@ -15,7 +15,7 @@ export const EmployeeFormContainer = () => {
       updateFunction={updateEmployee}
       getByIdFunction={getEmployeeById}
       FormViewComponent={EmployeeFormView}
-      titleCreate="Добавление сотрудника"
+      titleCreate="Добавление нового сотрудника"
       titleEdit="Редактирование сотрудника"
     />
   );

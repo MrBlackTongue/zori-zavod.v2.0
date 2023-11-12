@@ -43,7 +43,7 @@ export const EmployeeTableContainer = () => {
         await getDataList(getAllEmployee);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.error('Ошибка при удалении сотрудников', error.message);
+          console.error('Ошибка при удалении записи', error.message);
         }
       } finally {
         setSelectedRowKeys([]);

@@ -6,7 +6,7 @@ interface FormActionsProps {
 }
 
 const FormActions: React.FC<FormActionsProps> = ({ onCancel }) => (
-  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+  <Form.Item className="flex center-column">
     <Space>
       <Button type="primary" htmlType="submit">
         Сохранить
