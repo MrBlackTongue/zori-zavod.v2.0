@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypeOperationTimesheet} from '../types';
-import {OPERATION_ACCOUNTING, OPERATION_TIMESHEET} from './apiEndpoints';
+import { TypeApiResponse, TypeOperationTimesheet } from '../types';
+import { OPERATION_ACCOUNTING, OPERATION_TIMESHEET } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить список всех сотрудников в табеле рабочего времени по id учетной операции
 export async function getOperationTimesheetByIdOperationAccounting(

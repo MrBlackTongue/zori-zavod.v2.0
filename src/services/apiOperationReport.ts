@@ -1,7 +1,7 @@
-import {TypeOperationReport, TypeOperationReportFilter} from '../types';
-import {api} from './api';
-import {OPERATION, REPORT} from './apiEndpoints';
-import {handleErrorResponseMessage} from '../utils';
+import { TypeOperationReport, TypeOperationReportFilter } from '../types';
+import { api } from './api';
+import { OPERATION, REPORT } from './apiEndpoints';
+import { handleErrorResponseMessage } from '../utils';
 
 // Получить список всех отчетов по операциям
 export async function getAllOperationReportByFilter(

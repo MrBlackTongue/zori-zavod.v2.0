@@ -1,0 +1,44 @@
+.registration-form {
+  width: 100%;
+  height: 520px;
+  background-color: #ffffff;
+  padding: 2vw 3vw;
+  border-radius: 20px;
+}
+
+.registration-title {
+  text-align: center;
+  margin: 10px auto 0;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.registration-form-button {
+  margin-top: 15px;
+  height: 55px;
+  width: 100%;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.registration-login {
+  font-size: 14px;
+  margin: 15px auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+}
+
+.registration-login-text {
+  text-decoration: underline;
+}
+
+.registration-login:hover {
+  text-decoration: none;
+}
+
+.registration-text-offer {
+  font-size: 12px;
+  margin: 10px auto;
+}

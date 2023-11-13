@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypeEstimatedPrice} from '../types';
-import {ESTIMATED_PRICE} from './apiEndpoints';
+import { TypeApiResponse, TypeEstimatedPrice } from '../types';
+import { ESTIMATED_PRICE } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить список всех расчетных цен
 export async function getAllEstimatedPrice(): Promise<TypeEstimatedPrice[]> {

@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypePurchase} from '../types';
-import {PRODUCT, PURCHASE} from './apiEndpoints';
+import { TypeApiResponse, TypePurchase } from '../types';
+import { PRODUCT, PURCHASE } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить список всех закупок
 export async function getAllPurchase(): Promise<TypePurchase[]> {
