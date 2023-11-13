@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Popconfirm, Space } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import { useTable } from '../../../contexts/TableContext';
+import { useBasicTable } from '../../../contexts/BasicTableContext';
 
 export const DeleteWithConfirmationButton = () => {
   const {
@@ -9,14 +9,14 @@ export const DeleteWithConfirmationButton = () => {
     selectedRowKeys,
     handleDeleteSelected,
     handleClearSelected,
-  } = useTable();
+  } = useBasicTable();
 
   return (
     <Space style={{ marginBottom: 16 }}>
       <Popconfirm
         placement="topRight"
         disabled={!hasSelected}
-        title="Вы действительно хотите удалить выбранные записи из таблицы?"
+        title="Вы действительно хотите удалить выбранные элементы из таблицы?"
         onConfirm={handleDeleteSelected}
         onCancel={handleClearSelected}
         okText="Да"

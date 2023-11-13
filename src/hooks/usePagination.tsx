@@ -7,6 +7,7 @@ const usePagination = (initialPageSize = 10) => {
     pageSize: initialPageSize,
   });
 
+  // Параметры изменения пагинации таблицы
   const handleChangeTable = useCallback(
     (newPagination: TablePaginationConfig) => {
       setPagination(prevPagination => ({

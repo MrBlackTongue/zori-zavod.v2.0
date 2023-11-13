@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { useTable } from '../../../contexts/TableContext';
+import { useBasicTable } from '../../../contexts/BasicTableContext';
 
 export const AddButton = () => {
-  const { handleNavigateToForm } = useTable();
+  const { handleNavigateToForm } = useBasicTable();
 
   return (
     <Button

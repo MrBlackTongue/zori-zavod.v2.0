@@ -2,7 +2,7 @@ import React, { createContext, Key, ReactNode, useContext } from 'react';
 import { TablePaginationConfig } from 'antd/es/table/interface';
 import { TableRowSelection } from 'antd/lib/table/interface';
 
-export type TableContextType<T> = {
+export type BasicTableContextType<T> = {
   data: T[] | undefined;
   isLoading: boolean;
   pagination: TablePaginationConfig;
@@ -15,16 +15,18 @@ export type TableContextType<T> = {
   handleClearSelected: () => void;
 };
 
-export type TableProviderProps<T> = {
+export type BasicTableProviderProps<T> = {
   children: ReactNode;
-  value: TableContextType<T>;
+  value: BasicTableContextType<T>;
 };
 
-const TableContext = createContext<TableContextType<any> | null>(null);
+const BasicTableContext = createContext<BasicTableContextType<any> | null>(
+  null,
+);
 
-export const useTable = <T,>() => {
+export const useBasicTable = <T,>() => {
   const context = useContext(
-    TableContext as React.Context<TableContextType<T> | null>,
+    BasicTableContext as React.Context<BasicTableContextType<T> | null>,
   );
   if (!context) {
     throw new Error('useTable must be used within a TableProvider');
@@ -32,9 +34,11 @@ export const useTable = <T,>() => {
   return context;
 };
 
-export const TableProvider = <T,>({
+export const BasicTableProvider = <T,>({
   children,
   value,
-}: TableProviderProps<T>) => (
-  <TableContext.Provider value={value}>{children}</TableContext.Provider>
+}: BasicTableProviderProps<T>) => (
+  <BasicTableContext.Provider value={value}>
+    {children}
+  </BasicTableContext.Provider>
 );

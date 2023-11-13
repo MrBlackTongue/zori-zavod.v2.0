@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useTable } from '../../../contexts/TableContext';
+import { useBasicTable } from '../../../contexts/BasicTableContext';
 import { TypeWithId } from '../../../types';
 
 type BasicTableProps<T> = {
@@ -16,7 +16,7 @@ export const BasicTable = <T extends {}>({ columns }: BasicTableProps<T>) => {
     rowSelection,
     handleNavigateToForm,
     handleChangeTable,
-  } = useTable<TypeWithId<T>>();
+  } = useBasicTable<TypeWithId<T>>();
   return (
     <Table<TypeWithId<T>>
       rowKey="id"

@@ -6,7 +6,7 @@ import usePagination from '../../../../hooks/usePagination';
 import { useDataListLoader } from '../../../../hooks';
 import useNavigateToPath from '../../../../hooks/useNavigateToPath';
 import useRowSelection from '../../../../hooks/useRowSelection';
-import { TableProvider } from '../../../../contexts/TableContext';
+import { BasicTableProvider } from '../../../../contexts/BasicTableContext';
 
 export const ClientTableContainer = () => {
   // Хук для загрузки и получения всех данных
@@ -56,7 +56,7 @@ export const ClientTableContainer = () => {
   }, [getDataList]);
 
   return (
-    <TableProvider<TypeClient>
+    <BasicTableProvider<TypeClient>
       value={{
         data: dataList,
         isLoading,
@@ -70,6 +70,6 @@ export const ClientTableContainer = () => {
         handleClearSelected,
       }}>
       <ClientTableView />
-    </TableProvider>
+    </BasicTableProvider>
   );
 };

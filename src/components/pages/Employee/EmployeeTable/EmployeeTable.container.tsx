@@ -10,7 +10,7 @@ import usePagination from '../../../../hooks/usePagination';
 import useRowSelection from '../../../../hooks/useRowSelection';
 import { useDataListLoader } from '../../../../hooks';
 import useNavigateToPath from '../../../../hooks/useNavigateToPath';
-import { TableProvider } from '../../../../contexts/TableContext';
+import { BasicTableProvider } from '../../../../contexts/BasicTableContext';
 
 export const EmployeeTableContainer = () => {
   // Хук для загрузки и получения всех данных
@@ -60,7 +60,7 @@ export const EmployeeTableContainer = () => {
   }, [getDataList]);
 
   return (
-    <TableProvider<TypeEmployee>
+    <BasicTableProvider<TypeEmployee>
       value={{
         data: dataList,
         isLoading,
@@ -74,6 +74,6 @@ export const EmployeeTableContainer = () => {
         handleClearSelected,
       }}>
       <EmployeeTableView />
-    </TableProvider>
+    </BasicTableProvider>
   );
 };
