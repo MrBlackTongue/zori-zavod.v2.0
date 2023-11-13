@@ -40,10 +40,6 @@ export const PageSubscription: React.FC = () => {
         message: 'Внимание',
         description: 'Вам необходимо оплатить подписку!',
         placement: 'topRight',
-        style: {
-          marginLeft: '-60vw',
-          marginTop: 50,
-        },
         type: 'warning',
       });
       localStorage.removeItem('redirectedDueToUnpaidSubscription');
