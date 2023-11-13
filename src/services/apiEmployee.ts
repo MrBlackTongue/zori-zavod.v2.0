@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypeEmployee} from '../types';
-import {EMPLOYEE, EMPLOYEES} from './apiEndpoints';
+import { TypeApiResponse, TypeEmployee } from '../types';
+import { EMPLOYEE, EMPLOYEES } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить список всех сотрудников
 export async function getAllEmployee(): Promise<TypeEmployee[]> {

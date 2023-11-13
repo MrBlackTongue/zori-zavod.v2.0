@@ -1,7 +1,7 @@
-import {PAYMENT} from './apiEndpoints';
-import {handleErrorResponseMessage} from '../utils';
-import {api} from './api';
-import {TypePayment} from '../types';
+import { PAYMENT } from './apiEndpoints';
+import { handleErrorResponseMessage } from '../utils';
+import { api } from './api';
+import { TypePayment } from '../types';
 
 // Пополнить баланс пользователя
 export async function replenishBalance(data: number): Promise<string> {

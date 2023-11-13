@@ -21,7 +21,6 @@
   max-height: 60px;
   top: 7px;
   right: -3px;
-
 }
 
 .logo-beta {
@@ -32,10 +31,10 @@
 }
 
 .app-content {
-  margin: 24px 16px;
-  padding: 24px;
+  padding: 0 10px;
+  margin: 25px 30px;
   border-radius: 8px;
-  background: white;
+  /*background: white;*/
   /*!*overflow: auto;*!   Разобраться с пустым местом справа  */
 }
 
@@ -49,21 +48,4 @@
   align-content: center;
   justify-content: flex-end;
   margin-bottom: 15px;
-}
-
-/* Table style */
-.table-even-row {
-  background-color: #fff; /* Цвет для четных строк */
-}
-
-.table-odd-row {
-  background-color: #f5f5f5; /* Цвет для нечетных строк */
-}
-
-.ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
-  background-color: #b3d8ff !important; /* Яркий цвет для подсветки */
-}
-
-.ant-table-summary > .ant-table-row > .ant-table-cell {
-  background-color: inherit !important; /* Убираем подсветку для итоговых строк */
 }

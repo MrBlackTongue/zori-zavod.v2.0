@@ -1,7 +1,11 @@
-import {TypeAcceptance, TypeApiResponse} from '../types';
-import {ACCEPTANCE, MOVEMENT, PRODUCT} from './apiEndpoints';
-import {handleErrorResponseMessage, handleResponseCreateMessage, handleResponseDeleteMessage,} from '../utils';
-import {api} from './api';
+import { TypeAcceptance, TypeApiResponse } from '../types';
+import { ACCEPTANCE, MOVEMENT, PRODUCT } from './apiEndpoints';
+import {
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+} from '../utils';
+import { api } from './api';
 
 // Получить список всех приемок товаров
 export async function getAllAcceptance(): Promise<TypeAcceptance[]> {

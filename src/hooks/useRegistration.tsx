@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registrationUser } from '../services';
+import { EMPLOYEES, registrationUser } from '../services';
 import { TypeUserInfo } from '../types';
 
 export const useRegistration = () => {
@@ -22,7 +22,7 @@ export const useRegistration = () => {
 
     try {
       await registrationUser(user);
-      navigate('/employees');
+      navigate(`${EMPLOYEES}`);
     } catch (error) {
       console.error('Ошибка при регистрации:', error);
     }
