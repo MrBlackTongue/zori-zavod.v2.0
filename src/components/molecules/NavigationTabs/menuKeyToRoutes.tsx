@@ -22,6 +22,7 @@ import {
   STOCK,
   STORAGE_PLACE,
   UNIT,
+  WORK_HOURS,
   WRITE_OFF,
 } from '../../../services';
 import { PageShipment } from '../../pages/PageShipment/PageShipment';

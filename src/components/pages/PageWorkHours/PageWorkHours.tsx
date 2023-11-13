@@ -3,8 +3,8 @@ import { Button, DatePicker, Flex, FloatButton } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import 'dayjs/locale/ru';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import '../../App.css';
-import { TableWorkHours } from './components/TableWorkHours';
+import '../../../App.css';
+import { TableWorkHours } from './TableWorkHours';
 import dayjs from 'dayjs';
 
 export const PageWorkHours: React.FC = () => {
