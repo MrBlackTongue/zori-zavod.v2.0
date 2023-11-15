@@ -9,12 +9,13 @@ import {
   TypeWorkHour,
   TypeWorkHoursFilter,
   TypeEditingDayState,
-} from '../../../types';
+} from '../../../../types';
 import dayjs from 'dayjs';
-import { getAllWorkHours, updateWorkHours } from '../../../services';
-import { useFetchAllData } from '../../../hooks';
+import { getAllWorkHours, updateWorkHours } from '../../../../services';
+import { useFetchAllData } from '../../../../hooks';
 import { EmployeeSelect } from './EmployeeSelect';
 import { EditableCell } from './EditableCell';
+import { EditableRow } from './EditableRow';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -86,11 +87,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     setEditingEmployee(employeeId);
   };
 
-  const handleDayChange = (
-    date: string,
-    employeeId: number,
-    newValue: string,
-  ) => {
+  const handleSave = (date: string, employeeId: number, newValue: string) => {
     const newHours = parseInt(newValue, 10); // Преобразование введенного значения в число
     if (!isNaN(newHours)) {
       // Создаем объект с новыми данными
@@ -143,6 +140,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       key: dateFormat,
       width: 100,
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
+        const hours =
+          dayData && dayData.hours !== null ? dayData.hours.toString() : '';
+        // Преобразуем часы в строку для отображения
         return (
           <EditableCell
             dayData={dayData}
@@ -150,7 +150,11 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
             dateFormat={dateFormat}
             setOriginalHours={setOriginalHours}
             setEditingDay={setEditingDay}
-            handleDayChange={handleDayChange}
+            handleSave={handleSave}
+            children={hours} // передаем часы как children
+            title="Часы" // заголовок для сообщения об ошибке
+            editable={true} // установите в true, если ячейка должна быть редактируемой
+            dataIndex={dateFormat} // уникальный ключ для каждой ячейки
           />
         );
       },
@@ -163,6 +167,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       dataIndex: 'total',
       key: 'total',
       width: 150,
+
       render: (_, record: TransformedWorkHour) => {
         return `${calculateTotalHours(record)}ч`;
       },
@@ -179,6 +184,17 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
   };
+
+  // const handleSave = (row: DataType) => {
+  //   const newData = [...dataSource];
+  //   const index = newData.findIndex(item => row.key === item.key);
+  //   const item = newData[index];
+  //   newData.splice(index, 1, {
+  //     ...item,
+  //     ...row,
+  //   });
+  //   setDataSource(newData);
+  // };
 
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
@@ -202,10 +218,20 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     handleUpdateTable();
   }, [handleUpdateTable, filter]);
 
+  const components = {
+    body: {
+      row: EditableRow,
+      cell: EditableCell,
+    },
+  };
+
   return (
     <>
       <Table
         rowKey="id"
+        bordered={true}
+        components={components}
+        rowClassName={() => 'editable-row'}
         columns={columns}
         dataSource={allWorkHour}
         loading={isLoading}

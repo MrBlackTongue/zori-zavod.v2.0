@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select } from 'antd';
-import type { TransformedWorkHour, TypeEmployee } from '../../../types';
+import type { TransformedWorkHour, TypeEmployee } from '../../../../types';
 
 interface EditableSelectProps {
   employees: TypeEmployee[]; // Изменим название свойства на `employees`, чтобы было понятно, что это массив
