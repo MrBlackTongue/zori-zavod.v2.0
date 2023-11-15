@@ -1,14 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Form, Input, InputRef } from 'antd';
-import {
-  TransformedWorkHour,
-  TypeEditingDayState,
-  TypeWorkDay,
-} from '../../../../types';
+import { TransformedWorkHour, TypeEditingDayState } from '../../../../types';
 import { EditableContext } from './EditableRow';
 
 interface EditableCellProps {
-  dayData: TypeWorkDay;
   record: TransformedWorkHour;
   dateFormat: string;
   setOriginalHours: (hours: number) => void;
@@ -30,7 +25,6 @@ interface EditableCellProps {
 // }
 
 export const EditableCell: React.FC<EditableCellProps> = ({
-  dayData,
   record,
   dateFormat,
   setOriginalHours,
@@ -40,7 +34,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   children,
   dataIndex,
   // title,
-  // editable,
+  editable,
   ...restProps
 }) => {
   const [editing, setEditing] = useState(false);
@@ -61,7 +55,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
   const toggleEdit = () => {
     setEditing(!editing);
-    form.setFieldsValue(dayData?.hours);
+    form.setFieldsValue({ [dataIndex]: children });
   };
 
   const save = async () => {
@@ -93,7 +87,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
   let childNode = children;
 
-  if (editing) {
+  if (editable) {
     childNode = editing ? (
       <Form.Item
         style={{ margin: 0 }}

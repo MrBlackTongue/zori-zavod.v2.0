@@ -139,13 +139,13 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       dataIndex: dateFormat,
       key: dateFormat,
       width: 100,
+      editable: true,
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
         const hours =
           dayData && dayData.hours !== null ? dayData.hours.toString() : '';
         // Преобразуем часы в строку для отображения
         return (
           <EditableCell
-            dayData={dayData}
             record={record}
             dateFormat={dateFormat}
             setOriginalHours={setOriginalHours}
