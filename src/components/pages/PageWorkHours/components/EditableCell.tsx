@@ -61,7 +61,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
   const toggleEdit = () => {
     setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: children });
+    form.setFieldsValue({ [dataIndex]: children ?? null });
 
     if (!editing) {
       // если переходим в режим редактирования
@@ -111,9 +111,14 @@ export const EditableCell: React.FC<EditableCellProps> = ({
     ) : (
       <div
         className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
+        style={{
+          paddingRight: 45,
+        }}
         onClick={toggleEdit}>
-        {children}
+        {children || <span dangerouslySetInnerHTML={{ __html: '&nbsp;' }} />}
+        //когда children равно null или undefined, вместо этого отображается
+        span с неразрывным пробелом. Это обеспечивает, что даже пустые ячейки
+        имеют некоторый размер, благодаря чему они остаются кликабельными.
       </div>
     );
   }
