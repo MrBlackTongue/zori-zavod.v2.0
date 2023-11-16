@@ -3,12 +3,12 @@ import { Button, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { PlusOutlined } from '@ant-design/icons';
 import {
-  TransformedWorkHour,
   TableProps,
+  TransformedWorkHour,
+  TypeEditingDayState,
   TypeWorkDay,
   TypeWorkHour,
   TypeWorkHoursFilter,
-  TypeEditingDayState,
 } from '../../../../types';
 import dayjs from 'dayjs';
 import { getAllWorkHours, updateWorkHours } from '../../../../services';
@@ -155,6 +155,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
             title="Часы" // заголовок для сообщения об ошибке
             editable={true} // установите в true, если ячейка должна быть редактируемой
             dataIndex={dateFormat} // уникальный ключ для каждой ячейки
+            dayData={dayData}
           />
         );
       },

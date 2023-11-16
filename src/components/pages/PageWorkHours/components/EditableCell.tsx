@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Form, Input, InputRef } from 'antd';
-import { TransformedWorkHour, TypeEditingDayState } from '../../../../types';
+import {
+  TransformedWorkHour,
+  TypeEditingDayState,
+  TypeWorkDay,
+} from '../../../../types';
 import { EditableContext } from './EditableRow';
 
 interface EditableCellProps {
@@ -13,6 +17,7 @@ interface EditableCellProps {
   title: string; // Добавляем title
   editable: boolean; // Добавляем editable (если необходимо)
   dataIndex: string; // Добавляем dataIndex (если необходимо)
+  dayData: TypeWorkDay;
 }
 
 // interface EditableCellProps {
@@ -35,6 +40,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   dataIndex,
   // title,
   editable,
+  dayData,
   ...restProps
 }) => {
   const [editing, setEditing] = useState(false);
@@ -56,6 +62,16 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   const toggleEdit = () => {
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: children });
+
+    if (!editing) {
+      // если переходим в режим редактирования
+      setEditingDay({
+        id: dayData?.id,
+        workDate: dateFormat,
+        hours: dayData?.hours ?? 0,
+        employee: record.employee.id,
+      });
+    }
   };
 
   const save = async () => {
@@ -89,16 +105,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
   if (editable) {
     childNode = editing ? (
-      <Form.Item
-        style={{ margin: 0 }}
-        name={dataIndex}
-        // rules={[
-        //   {
-        //     required: true,
-        //     message: `${title} is required.`,
-        //   },
-        // ]}
-      >
+      <Form.Item style={{ margin: 0 }} name={dataIndex}>
         <Input ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
