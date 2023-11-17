@@ -102,6 +102,15 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       updateWorkHours(workHourUpdate)
         .then(response => {
           console.log('Успешное обновление: ', response);
+
+          // Обновление локального состояния
+          const updatedWorkHours = allWorkHour.map(item => {
+            if (item.employee.id === employeeId) {
+              return { ...item, [date]: { ...item[date], hours: newHours } };
+            }
+            return item;
+          });
+          setAllWorkHour(updatedWorkHours);
         })
         .catch(error => {
           // Обработка ошибки
