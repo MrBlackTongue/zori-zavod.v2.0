@@ -89,7 +89,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
 
   const handleSave = (date: string, employeeId: number, newValue: string) => {
     const newHours = parseInt(newValue, 10); // Преобразование введенного значения в число
-    if (!isNaN(newHours)) {
+    if (!isNaN(newHours) && newHours !== originalHours) {
       // Создаем объект с новыми данными
       const workHourUpdate: TypeEditingDayState = {
         id: editingDay?.id,
@@ -157,6 +157,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
           <EditableCell
             record={record}
             dateFormat={dateFormat}
+            originalHours={originalHours}
             setOriginalHours={setOriginalHours}
             setEditingDay={setEditingDay}
             handleSave={handleSave}

@@ -10,6 +10,7 @@ import { EditableContext } from './EditableRow';
 interface EditableCellProps {
   record: TransformedWorkHour;
   dateFormat: string;
+  originalHours: number | null;
   setOriginalHours: (hours: number) => void;
   setEditingDay: (editingDay: TypeEditingDayState | null) => void;
   handleSave: (date: string, employeeId: number, newValue: string) => void;
@@ -33,6 +34,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   record,
   dateFormat,
   setOriginalHours,
+  originalHours,
   setEditingDay,
   // handleDayChange,
   handleSave,
@@ -65,6 +67,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
     if (!editing) {
       // если переходим в режим редактирования
+      setOriginalHours(dayData?.hours ?? 0);
       setEditingDay({
         id: dayData?.id,
         workDate: dateFormat,
@@ -84,11 +87,11 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       const newHoursRaw = values[date];
       const newHours =
         newHoursRaw !== undefined ? parseInt(newHoursRaw, 10) : 0;
+      console.log('originalHours:', originalHours);
 
-      if (!isNaN(newHours)) {
+      if (!isNaN(newHours) && newHours !== originalHours) {
         const employeeId = record.employee?.id; // Используйте оператор ?. для защиты от undefined
-
-        if (employeeId !== undefined) {
+        if (employeeId !== undefined && newHours !== originalHours) {
           handleSave(date, employeeId, newHours.toString());
         } else {
           console.error('Employee ID is undefined');
