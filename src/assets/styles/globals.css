@@ -51,6 +51,21 @@
   background-color: inherit !important; /* Убираем подсветку для итоговых строк */
 }
 
+.editable-cell {
+    position: relative;
+}
+
+.editable-cell-value-wrap {
+    padding: 5px 12px;
+    cursor: pointer;
+}
+
+.editable-row:hover .editable-cell-value-wrap {
+    padding: 4px 11px;
+    border: 1px solid #001529;
+    border-radius: 2px;
+}
+
 /* Tabs style */
 .ant-tabs-nav-list {
   padding-left: 30px;

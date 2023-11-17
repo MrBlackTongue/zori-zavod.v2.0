@@ -88,36 +88,27 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   };
 
   const handleSave = (date: string, employeeId: number, newValue: string) => {
-    const newHours = parseInt(newValue, 10); // Преобразование введенного значения в число
+    const newHours = parseInt(newValue, 10);
     if (!isNaN(newHours) && newHours !== originalHours) {
-      // Создаем объект с новыми данными
-      const workHourUpdate: TypeEditingDayState = {
+      const workHourUpdate = {
         id: editingDay?.id,
         workDate: date,
         hours: newHours,
         employee: { id: employeeId },
       };
-      console.log('workHourUpdate', workHourUpdate);
-      // Отправляем данные на сервер
       updateWorkHours(workHourUpdate)
-        .then(response => {
-          console.log('Успешное обновление: ', response);
-
-          // Обновление локального состояния
-          const updatedWorkHours = allWorkHour.map(item => {
-            if (item.employee.id === employeeId) {
-              return { ...item, [date]: { ...item[date], hours: newHours } };
-            }
-            return item;
-          });
-          setAllWorkHour(updatedWorkHours);
+        .then(() => {
+          setAllWorkHour(prevWorkHours =>
+            prevWorkHours.map(item =>
+              item.employee.id === employeeId
+                ? { ...item, [date]: { ...item[date], hours: newHours } }
+                : item,
+            ),
+          );
         })
-        .catch(error => {
-          // Обработка ошибки
-          console.error('Ошибка при обновлении часов работы: ', error);
-        });
-    } else {
-      console.error('Введенные данные не являются числом');
+        .catch(error =>
+          console.error('Ошибка при обновлении часов работы:', error),
+        );
     }
   };
 
@@ -195,17 +186,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       pageSize: pagination.pageSize ?? prevPagination.pageSize,
     }));
   };
-
-  // const handleSave = (row: DataType) => {
-  //   const newData = [...dataSource];
-  //   const index = newData.findIndex(item => row.key === item.key);
-  //   const item = newData[index];
-  //   newData.splice(index, 1, {
-  //     ...item,
-  //     ...row,
-  //   });
-  //   setDataSource(newData);
-  // };
 
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {

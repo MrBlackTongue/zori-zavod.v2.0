@@ -21,26 +21,15 @@ interface EditableCellProps {
   dayData: TypeWorkDay;
 }
 
-// interface EditableCellProps {
-//   title: React.ReactNode;
-//   editable: boolean;
-//   children: React.ReactNode;
-//   dataIndex: keyof Item;
-//   record: TypeWorkDay;
-//   handleSave: (record: Item) => void;
-// }
-
 export const EditableCell: React.FC<EditableCellProps> = ({
   record,
   dateFormat,
   setOriginalHours,
   originalHours,
   setEditingDay,
-  // handleDayChange,
   handleSave,
   children,
   dataIndex,
-  // title,
   editable,
   dayData,
   ...restProps
@@ -71,7 +60,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       setEditingDay({
         id: dayData?.id,
         workDate: dateFormat,
-        hours: dayData?.hours ?? 0,
+        hours: originalHours ?? 0,
         employee: record.employee.id,
       });
     }
@@ -80,7 +69,6 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   const save = async () => {
     try {
       const values = await form.validateFields();
-
       toggleEdit();
 
       const date = Object.keys(values)[0];
@@ -96,8 +84,6 @@ export const EditableCell: React.FC<EditableCellProps> = ({
         } else {
           console.error('Employee ID is undefined');
         }
-      } else {
-        console.error('New hours is undefined or not a number');
       }
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
