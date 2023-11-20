@@ -16,7 +16,6 @@ import { useFetchAllData } from '../../../../hooks';
 import { EmployeeSelect } from './EmployeeSelect';
 import { EditableCell } from './EditableCell';
 import { EditableRow } from './EditableRow';
-import { parseFormattedHours } from '../../../../utils';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -78,7 +77,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     Object.keys(workHour).forEach(key => {
       if (key !== 'employee' && workHour[key] instanceof Object) {
         const day = workHour[key] as TypeWorkDay;
-        total += day.hours;
+        total += day.duration;
       }
     });
     return total;
@@ -89,12 +88,12 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   };
 
   const handleSave = (date: string, employeeId: number, newValue: string) => {
-    const newHours = parseFormattedHours(newValue);
+    const newHours = parseInt(newValue, 10);
     if (!isNaN(newHours) && newHours !== originalHours) {
       const workHourUpdate = {
         id: editingDay?.id,
         workDate: date,
-        hours: newHours,
+        duration: newHours,
         employee: { id: employeeId },
       };
       updateWorkHours(workHourUpdate)
@@ -102,7 +101,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
           setAllWorkHour(prevWorkHours =>
             prevWorkHours.map(item =>
               item.employee.id === employeeId
-                ? { ...item, [date]: { ...item[date], hours: newHours } }
+                ? { ...item, [date]: { ...item[date], duration: newHours } }
                 : item,
             ),
           );
@@ -143,7 +142,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       editable: true,
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
         const hours =
-          dayData && dayData.hours !== null ? dayData.hours.toString() : '';
+          dayData && dayData.duration !== null
+            ? dayData.duration.toString()
+            : '';
         // Преобразуем часы в строку для отображения
         return (
           <EditableCell

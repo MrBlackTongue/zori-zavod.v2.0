@@ -43,15 +43,27 @@ export const numberParser = (displayValue?: string) => {
   return parseFloat(displayValue.replace(',', '.'));
 };
 
-export function parseFormattedHours(timeStr: string): number {
-  const [hours, minutes] = timeStr.split(':').map(Number);
-  return hours + minutes / 60;
-}
+// Функция форматирования минут в часы
+export const formatMinutesToTime = (minutes: number) => {
+  if (minutes === null || minutes === undefined) {
+    return '';
+  }
 
-export function formatHours(hours: number): string {
-  const wholeHours = Math.floor(hours);
-  const minutes = Math.round((hours - wholeHours) * 60);
-  return `${wholeHours.toString().padStart(2, '0')}:${minutes
-    .toString()
-    .padStart(2, '0')}`;
-}
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+
+  return `${hours}:${mins.toString().padStart(2, '0')}`;
+};
+
+// Функция форматирования часов в минуты
+export const timeToMinutes = (timeString: string) => {
+  const parts = timeString.split(':');
+  if (parts.length === 2) {
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    if (!isNaN(hours) && !isNaN(minutes)) {
+      return hours * 60 + minutes;
+    }
+  }
+  return null; // возвращаем null в случае невалидного ввода
+};
