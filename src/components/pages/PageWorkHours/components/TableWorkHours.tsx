@@ -72,15 +72,16 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   };
 
   // Функция для вычисления итоговых часов
-  const calculateTotalHours = (workHour: TransformedWorkHour): number => {
-    let total = 0;
+  const calculateTotalHours = (workHour: TransformedWorkHour): string => {
+    let totalMinutes = 0;
     Object.keys(workHour).forEach(key => {
       if (key !== 'employee' && workHour[key] instanceof Object) {
         const day = workHour[key] as TypeWorkDay;
-        total += day.duration;
+        totalMinutes += day.duration || 0;
       }
     });
-    return total;
+    const totalHours = Math.floor(totalMinutes / 60);
+    return `${totalHours}`;
   };
 
   const handleEmployeeChange = (employeeId: number) => {
