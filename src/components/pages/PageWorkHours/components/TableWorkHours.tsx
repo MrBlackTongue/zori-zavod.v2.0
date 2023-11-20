@@ -16,6 +16,7 @@ import { useFetchAllData } from '../../../../hooks';
 import { EmployeeSelect } from './EmployeeSelect';
 import { EditableCell } from './EditableCell';
 import { EditableRow } from './EditableRow';
+import { parseFormattedHours } from '../../../../utils';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -88,7 +89,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   };
 
   const handleSave = (date: string, employeeId: number, newValue: string) => {
-    const newHours = parseInt(newValue, 10);
+    const newHours = parseFormattedHours(newValue);
     if (!isNaN(newHours) && newHours !== originalHours) {
       const workHourUpdate = {
         id: editingDay?.id,

@@ -6,6 +6,7 @@ import {
   TypeWorkDay,
 } from '../../../../types';
 import { EditableContext } from './EditableRow';
+import { formatHours, parseFormattedHours } from '../../../../utils';
 
 interface EditableCellProps {
   record: TransformedWorkHour;
@@ -72,10 +73,8 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       toggleEdit();
 
       const date = Object.keys(values)[0];
-      const newHoursRaw = values[date];
-      const newHours =
-        newHoursRaw !== undefined ? parseInt(newHoursRaw, 10) : 0;
-      console.log('originalHours:', originalHours);
+      const timeStr = values[date];
+      const newHours = parseFormattedHours(timeStr);
 
       if (!isNaN(newHours) && newHours !== originalHours) {
         const employeeId = record.employee?.id; // Используйте оператор ?. для защиты от undefined
@@ -90,6 +89,9 @@ export const EditableCell: React.FC<EditableCellProps> = ({
     }
   };
 
+  const formattedHours =
+    dayData && dayData.hours !== null ? formatHours(dayData.hours) : '';
+
   let childNode = children;
 
   if (editable) {
@@ -100,14 +102,11 @@ export const EditableCell: React.FC<EditableCellProps> = ({
     ) : (
       <div
         className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 45,
-        }}
+        style={{ paddingRight: 45 }}
         onClick={toggleEdit}>
-        {children || <span dangerouslySetInnerHTML={{ __html: '&nbsp;' }} />}
-        {/*//когда children равно null или undefined, вместо этого отображается*/}
-        {/*span с неразрывным пробелом. Это обеспечивает, что даже пустые ячейки*/}
-        {/*имеют некоторый размер, благодаря чему они остаются кликабельными.*/}
+        {formattedHours || (
+          <span dangerouslySetInnerHTML={{ __html: '&nbsp;' }} />
+        )}
       </div>
     );
   }

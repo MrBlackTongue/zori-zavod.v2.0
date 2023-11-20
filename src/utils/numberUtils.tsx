@@ -42,3 +42,16 @@ export const numberParser = (displayValue?: string) => {
   if (displayValue === undefined) return 0;
   return parseFloat(displayValue.replace(',', '.'));
 };
+
+export function parseFormattedHours(timeStr: string): number {
+  const [hours, minutes] = timeStr.split(':').map(Number);
+  return hours + minutes / 60;
+}
+
+export function formatHours(hours: number): string {
+  const wholeHours = Math.floor(hours);
+  const minutes = Math.round((hours - wholeHours) * 60);
+  return `${wholeHours.toString().padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}`;
+}
