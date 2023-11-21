@@ -43,12 +43,14 @@
   /*background-color: #f5f5f5; !* Цвет для нечетных строк *!*/
 }
 
-.ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
-  background-color: #b3d8ff !important; /* Яркий цвет для подсветки */
+.ant-table-tbody > .ant-table-row:hover {
+  box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.15),
+    /* Тень сверху */ 0 3px 6px 0 rgba(0, 0, 0, 0.15); /* Тень снизу */
 }
 
-.ant-table-summary > .ant-table-row > .ant-table-cell {
-  background-color: inherit !important; /* Убираем подсветку для итоговых строк */
+.ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
 }
 
 .editable-cell {
@@ -71,13 +73,12 @@
 /* Tabs style */
 .ant-tabs-nav-list {
   padding-left: 30px;
-  height: 32px;
+  height: 30px;
 }
 
 .ant-tabs-tab {
-  border-top: 1px solid #1677ff !important;
-  border-right: 1px solid #1677ff !important;
-  border-left: 1px solid #1677ff !important;
+  background-color: white !important;
+  border: 1px solid rgba(100, 100, 103, 0.3) !important;
   border-bottom: 1px solid transparent !important; /* Прозрачная нижняя граница */
 }
 
@@ -87,14 +88,11 @@
 
 .ant-tabs-tab-active {
   background-color: #1677ff !important; /* Яркий фон для активного Tab */
+  border-bottom: 1px solid #1677ff !important; /* Жирная нижняя граница синего цвета */
 }
 
 .ant-tabs-nav-wrap {
   border-bottom: 5px solid #1677ff !important; /* Цвет нижней границы */
-}
-
-.ant-tabs-tab-active {
-  border-bottom: 1px solid #1677ff !important; /* Жирная нижняя граница синего цвета */
 }
 
 /* Form style */
