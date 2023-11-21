@@ -104,7 +104,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
   if (editable) {
     childNode = editing ? (
-      <Form.Item style={{ margin: 0 }} name={dataIndex}>
+      <Form.Item style={{ margin: 0, width: 80 }} name={dataIndex}>
         <Input
           ref={inputRef}
           onPressEnter={save}
@@ -113,12 +113,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
         />
       </Form.Item>
     ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 45,
-        }}
-        onClick={toggleEdit}>
+      <div className="editable-cell-value-wrap" onClick={toggleEdit}>
         {formattedHours || <span style={{ color: 'lightgray' }}>чч:мм</span>}
       </div>
     );
