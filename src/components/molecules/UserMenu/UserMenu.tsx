@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, MenuProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { DownOutlined, LogoutOutlined } from '@ant-design/icons';
-import { getUserSubscription, logoutUser } from '../../../services';
+import {
+  getUserSubscription,
+  LOGIN,
+  logoutUser,
+  SUBSCRIPTION,
+} from '../../../services';
 import { TypeSubscription } from '../../../types';
 import './UserMenu.css';
 
@@ -13,13 +18,13 @@ export const UserMenu: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubscription = () => {
-    navigate('/subscription');
+    navigate(`${SUBSCRIPTION}`);
   };
 
   const handleLogout = async () => {
     try {
       await logoutUser();
-      navigate('/login');
+      navigate(`${LOGIN}`);
     } catch (error) {
       console.error('Ошибка при выходе из системы:', error);
     }
