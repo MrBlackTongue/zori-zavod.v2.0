@@ -105,7 +105,12 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   if (editable) {
     childNode = editing ? (
       <Form.Item style={{ margin: 0 }} name={dataIndex}>
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        <Input
+          ref={inputRef}
+          onPressEnter={save}
+          onBlur={save}
+          placeholder={dayData && dayData.duration === null ? 'чч:мм' : ''}
+        />
       </Form.Item>
     ) : (
       <div
@@ -114,12 +119,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
           paddingRight: 45,
         }}
         onClick={toggleEdit}>
-        {formattedHours || (
-          <span dangerouslySetInnerHTML={{ __html: '&nbsp;' }} />
-        )}
-        {/*//когда children равно null или undefined, вместо этого отображается*/}
-        {/*span с неразрывным пробелом. Это обеспечивает, что даже пустые ячейки*/}
-        {/*имеют некоторый размер, благодаря чему они остаются кликабельными.*/}
+        {formattedHours || <span style={{ color: 'lightgray' }}>чч:мм</span>}
       </div>
     );
   }

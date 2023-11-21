@@ -16,6 +16,7 @@ import { useFetchAllData } from '../../../../hooks';
 import { EmployeeSelect } from './EmployeeSelect';
 import { EditableCell } from './EditableCell';
 import { EditableRow } from './EditableRow';
+import { formatMinutesToTime } from '../../../../utils';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -81,7 +82,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       }
     });
     const totalHours = Math.floor(totalMinutes / 60);
-    return `${totalHours}`;
+    return formatMinutesToTime(totalMinutes);
   };
 
   const handleEmployeeChange = (employeeId: number) => {
@@ -174,7 +175,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       width: 150,
 
       render: (_, record: TransformedWorkHour) => {
-        return `${calculateTotalHours(record)}ч`;
+        return `${calculateTotalHours(record)}`;
       },
     },
   ];
