@@ -16,7 +16,7 @@ interface EditableCellProps {
   setEditingDay: (editingDay: TypeEditingDayState | null) => void;
   handleSave: (date: string, employeeId: number, newValue: string) => void;
   children: React.ReactNode; // Добавляем children
-  title: string; // Добавляем title
+  // title: string; // Добавляем title
   editable: boolean; // Добавляем editable (если необходимо)
   dataIndex: string; // Добавляем dataIndex (если необходимо)
   dayData: TypeWorkDay;
@@ -59,10 +59,14 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
   const toggleEdit = () => {
     setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: children ?? null });
 
+    // Если мы переходим в режим редактирования, устанавливаем форматированное время в поле ввода
     if (!editing) {
-      // если переходим в режим редактирования
+      const formattedTime =
+        dayData && dayData.duration !== null
+          ? formatMinutesToTime(dayData.duration)
+          : '';
+      form.setFieldsValue({ [dataIndex]: formattedTime });
       setOriginalHours(dayData?.duration ?? 0);
       setEditingDay({
         id: dayData?.id,

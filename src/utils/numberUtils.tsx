@@ -43,7 +43,7 @@ export const numberParser = (displayValue?: string) => {
   return parseFloat(displayValue.replace(',', '.'));
 };
 
-// Функция форматирования минут в часы
+// Функция форматирует минуы в часы
 export const formatMinutesToTime = (minutes: number) => {
   if (minutes === null || minutes === undefined) {
     return '';
@@ -55,9 +55,15 @@ export const formatMinutesToTime = (minutes: number) => {
   return `${hours}:${mins.toString().padStart(2, '0')}`;
 };
 
-// Функция форматирования часов в минуты
+// Функция форматирует часы в минуты
 export const timeToMinutes = (timeString: string) => {
-  const parts = timeString.split(':');
+  let parts = timeString.split(/[:.,/ ]+/);
+
+  if (parts.length === 1) {
+    // Если есть только одно число, считаем его часами
+    parts = [parts[0], '0'];
+  }
+
   if (parts.length === 2) {
     const hours = parseInt(parts[0], 10);
     const minutes = parseInt(parts[1], 10);
