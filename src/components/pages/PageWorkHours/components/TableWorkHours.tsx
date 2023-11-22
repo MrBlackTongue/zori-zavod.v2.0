@@ -1,22 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import {
   TableProps,
   TransformedWorkHour,
   TypeEditingDayState,
+  TypeRow,
   TypeWorkDay,
   TypeWorkHour,
   TypeWorkHoursFilter,
 } from '../../../../types';
 import dayjs from 'dayjs';
-import { getAllWorkHours, updateWorkHours } from '../../../../services';
+import {
+  createWorkHours,
+  getAllWorkHours,
+  logoutUser,
+  updateWorkHours,
+} from '../../../../services';
 import { useFetchAllData } from '../../../../hooks';
 import { EmployeeSelect } from './EmployeeSelect';
 import { EditableCell } from './EditableCell';
 import { EditableRow } from './EditableRow';
 import { formatMinutesToTime } from '../../../../utils';
 import './TableWorkHour.css';
+import { PlusOutlined } from '@ant-design/icons';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -118,26 +125,23 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   };
 
   // Функция для расчета общего количества часов всех сотрудников
-  const calculateTotalAllHours = useCallback(
-    (workHours: TransformedWorkHour[]): string => {
-      let totalMinutes = 0;
-      workHours.forEach(workHour => {
-        Object.keys(workHour).forEach(key => {
-          if (
-            key !== 'employee' &&
-            workHour[key] instanceof Object &&
-            'duration' in workHour[key]
-          ) {
-            const day = workHour[key] as TypeWorkDay;
-            totalMinutes += day.duration || 0;
-            console.log('workHours', workHours);
-          }
-        });
+  const calculateTotalAllHours = (workHours: TransformedWorkHour[]): string => {
+    let totalMinutes = 0;
+    workHours.forEach(workHour => {
+      Object.keys(workHour).forEach(key => {
+        // Добавляем проверку на null перед тем как обращаться к свойству duration
+        const dayOrEmployee = workHour[key];
+        if (
+          dayOrEmployee &&
+          'duration' in dayOrEmployee &&
+          dayOrEmployee.duration !== null
+        ) {
+          totalMinutes += dayOrEmployee.duration;
+        }
       });
-      return formatMinutesToTime(totalMinutes);
-    },
-    [],
-  );
+    });
+    return formatMinutesToTime(totalMinutes);
+  };
 
   useEffect(() => {
     const total = calculateTotalAllHours(allWorkHour);
@@ -151,26 +155,78 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   const handleSave = (date: string, employeeId: number, newValue: string) => {
     const newHours = parseInt(newValue, 10);
     if (employeeId && !isNaN(newHours) && newHours !== originalHours) {
-      const workHourUpdate = {
-        id: editingDay?.id,
+      const workHourData = {
         workDate: date,
         duration: newHours,
         employee: { id: employeeId },
       };
-      updateWorkHours(workHourUpdate)
-        .then(() => {
-          setAllWorkHour(prevWorkHours =>
-            prevWorkHours.map(item =>
-              item.employee.id === employeeId
-                ? { ...item, [date]: { ...item[date], duration: newHours } }
-                : item,
-            ),
-          );
-        })
-        .catch(error =>
-          console.error('Ошибка при обновлении часов работы:', error),
-        );
+
+      // Проверяем, нужно ли создать новую запись или обновить существующую
+      if (editingDay?.id) {
+        // Обновляем существующую запись
+        updateWorkHours({ ...workHourData, id: editingDay.id })
+          .then(() => {
+            setAllWorkHour(prevWorkHours =>
+              prevWorkHours.map(item =>
+                item.employee && item.employee.id === employeeId
+                  ? ({
+                      ...item,
+                      [date]: { ...item[date], duration: newHours },
+                    } as TransformedWorkHour)
+                  : item,
+              ),
+            );
+          })
+          .catch(error => {
+            console.error('Ошибка при обновлении часов работы:', error);
+          });
+      } else {
+        // Создаем новую запись
+        createWorkHours(workHourData)
+          .then(newWorkHour => {
+            setAllWorkHour(prevWorkHours =>
+              prevWorkHours.map(item =>
+                item.employee && item.employee.id === employeeId
+                  ? ({
+                      ...item,
+                      [date]: { ...newWorkHour },
+                    } as TransformedWorkHour)
+                  : item,
+              ),
+            );
+          })
+          .catch(error => {
+            console.error('Ошибка при создании часов работы:', error);
+          });
+      }
     }
+  };
+
+  // Функция для добавления новой строки
+  const addNewRow = () => {
+    const newRow: TypeRow = {
+      employee: null, // employee пока не выбран
+      days: days.reduce(
+        (acc, day) => {
+          const formattedDate = day.format('YYYY-MM-DD');
+          acc[formattedDate] = {
+            date: formattedDate,
+            duration: null, // Инициализация с пустым значением
+            id: null, // Идентификатор пока неизвестен
+          };
+          return acc;
+        },
+        {} as Record<string, TypeWorkDay>,
+      ),
+    };
+
+    // Преобразовываем TypeRow в TransformedWorkHour для добавления в состояние
+    const transformedRow: TransformedWorkHour = {
+      employee: newRow.employee,
+      ...newRow.days,
+    };
+
+    setAllWorkHour(prevWorkHours => [...prevWorkHours, transformedRow]);
   };
 
   // Колонки для сотрудников и итогов
@@ -219,6 +275,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
             record={record}
             dateFormat={dateFormat}
             originalHours={originalHours}
+            editingEmployee={editingEmployee}
             setOriginalHours={setOriginalHours}
             setEditingDay={setEditingDay}
             handleSave={handleSave}
@@ -311,9 +368,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
           totalBoundaryShowSizeChanger: 10,
         }}
       />
-      {/*<Button type="primary" icon={<PlusOutlined />} onClick={addNewRow}>*/}
-      {/*  Добавить*/}
-      {/*</Button>*/}
+      <Button type="primary" icon={<PlusOutlined />} onClick={addNewRow}>
+        Добавить
+      </Button>
     </>
   );
 };

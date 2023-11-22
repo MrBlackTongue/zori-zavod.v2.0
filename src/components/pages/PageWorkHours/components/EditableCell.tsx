@@ -12,7 +12,8 @@ interface EditableCellProps {
   record: TransformedWorkHour;
   dateFormat: string;
   originalHours: number | null;
-  setOriginalHours: (duration: number) => void;
+  editingEmployee: number | null;
+  setOriginalHours: (duration: number | null) => void;
   setEditingDay: (editingDay: TypeEditingDayState | null) => void;
   handleSave: (date: string, employeeId: number, newValue: string) => void;
   children: React.ReactNode; // Добавляем children
@@ -28,6 +29,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   setOriginalHours,
   originalHours,
   setEditingDay,
+  editingEmployee,
   handleSave,
   children,
   dataIndex,
@@ -65,14 +67,14 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       const formattedTime =
         dayData && dayData.duration !== null
           ? formatMinutesToTime(dayData.duration)
-          : '';
+          : null;
       form.setFieldsValue({ [dataIndex]: formattedTime });
       setOriginalHours(dayData?.duration ?? 0);
       setEditingDay({
-        id: dayData?.id,
+        id: dayData.id,
         workDate: dateFormat,
         duration: originalHours ?? 0,
-        employee: record.employee.id,
+        employee: record.employee?.id,
       });
     }
   };
@@ -87,8 +89,8 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       const newDuration = timeToMinutes(timeString); // преобразуем время в минуты
 
       if (newDuration !== null && newDuration !== originalHours) {
-        const employeeId = record.employee?.id;
-        if (employeeId !== undefined) {
+        const employeeId = record.employee?.id ?? editingEmployee;
+        if (employeeId !== undefined && employeeId !== null) {
           handleSave(date, employeeId, newDuration.toString());
         } else {
           console.error('Employee ID is undefined');
@@ -102,7 +104,7 @@ export const EditableCell: React.FC<EditableCellProps> = ({
 
   let childNode = children;
 
-  if (editable) {
+  if (editable && (editingEmployee !== null || record.employee)) {
     childNode = editing ? (
       <Form.Item style={{ margin: 0, width: 80 }} name={dataIndex}>
         <Input

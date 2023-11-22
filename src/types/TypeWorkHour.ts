@@ -8,24 +8,25 @@ export interface TypeWorkHour {
 }
 
 export interface TypeRow {
-  employee: TypeEmployee;
+  employee: TypeEmployee | null;
   days: Record<string, TypeWorkDay>;
 }
 
 export interface TypeWorkDay {
   date: string;
-  duration: number;
-  id: number;
+  duration: number | null;
+  id?: number | null;
   workDate?: string;
 }
 
 export interface TransformedWorkHour {
-  employee: TypeEmployee;
-  [date: string]: TypeWorkDay | TypeEmployee;
+  employee: TypeEmployee | null;
+
+  [date: string]: TypeWorkDay | TypeEmployee | null;
 }
 
 export interface TypeEditingDayState {
-  id?: number;
+  id?: number | null;
   workDate: string;
   duration: number;
   employee: TypeEmployee | number | undefined;

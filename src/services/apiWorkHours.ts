@@ -1,7 +1,6 @@
 import {
   TypeApiResponse,
   TypeEditingDayState,
-  //   TypeEditingDayStatePut,
   TypeWorkDay,
   TypeWorkHour,
 } from '../types';
@@ -70,7 +69,7 @@ export async function getWorkHoursById(
 
 // Добавить новую запись о рабочем дне
 export async function createWorkHours(
-    data: TypeWorkHour,
+  data: TypeEditingDayState,
 ): Promise<TypeApiResponse> {
   try {
     const response = await api.post(WORK_HOURS, data);

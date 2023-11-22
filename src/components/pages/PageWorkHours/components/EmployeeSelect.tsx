@@ -10,23 +10,20 @@ interface EditableSelectProps {
 }
 
 export const EmployeeSelect: React.FC<EditableSelectProps> = ({
-  employees, // Исправляем название свойства здесь тоже
+  employees,
   editingEmployee,
   handleEmployeeChange,
   record,
 }) => {
-  // Проверяем, что record и record.employee определены
-  if (!record?.employee) {
-    // Рендерим запасной UI или возвращаем null, чтобы ничего не рендерить
-    return <span>Нет данных о сотруднике</span>;
-  }
-  // Продолжаем рендеринг, если record.employee.id определен
-  if (editingEmployee === record.employee.id) {
+  const showSelect = !record.employee;
+  // Отображаем Select, если сотрудник не выбран или если редактируем именно эту ячейку
+  if (showSelect) {
     return (
       <Select
-        defaultValue={String(record.employee.id)} // Используем `id` сотрудника из `record`
+        defaultValue={record.employee?.id ? String(record.employee.id) : null}
         style={{ width: 200 }}
-        onChange={value => handleEmployeeChange(Number(value))}>
+        onChange={value => handleEmployeeChange(Number(value))}
+        placeholder="Выберите сотрудника">
         {employees.map(e => (
           <Select.Option key={e.id} value={String(e.id)}>
             {`${e.lastName} ${e.firstName}`}
@@ -35,20 +32,17 @@ export const EmployeeSelect: React.FC<EditableSelectProps> = ({
       </Select>
     );
   }
-  console.log('record:', record);
+
+  // Дополнительная проверка для обеспечения безопасности типов
+  if (!record.employee || typeof record.employee.id !== 'number') {
+    return <span style={{ color: 'lightgray' }}>Сотрудник не выбран</span>;
+  }
+
+  console.log('record', record);
+  // Если сотрудник уже выбран и ячейка не редактируется, отображаем имя сотрудника
   return (
-    <span
-      onClick={() => {
-        if (typeof record.employee.id === 'number') {
-          handleEmployeeChange(record.employee.id);
-        } else {
-          // Обработайте случай, когда id не определен
-          console.error('Employee ID is undefined');
-        }
-      }}>
-      {' '}
-      {/* Используем `id` сотрудника из `record` */}
-      {`${record.employee.lastName} ${record.employee.firstName}`}
+    <span>
+      {record.employee.lastName} {record.employee.firstName}
     </span>
   );
 };
