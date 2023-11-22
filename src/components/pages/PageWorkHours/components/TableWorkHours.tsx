@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Table } from 'antd';
+import { Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import { PlusOutlined } from '@ant-design/icons';
 import {
   TableProps,
   TransformedWorkHour,
@@ -35,6 +34,10 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   );
 
   const [originalHours, setOriginalHours] = useState<number | null>(null);
+
+  const [totalHoursPerDay, setTotalHoursPerDay] = useState<
+    Record<string, string>
+  >({});
 
   // Хук для получения данных
   const { allEmployee } = useFetchAllData({ depsEmployee: true });
@@ -72,6 +75,32 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       };
     });
   };
+
+  const calculateTotalHoursPerDay = (workHours: TransformedWorkHour[]) => {
+    const totalMinutesPerDay: Record<string, number> = {};
+
+    workHours.forEach(workHour => {
+      Object.keys(workHour).forEach(key => {
+        if (key !== 'employee' && workHour[key] instanceof Object) {
+          const day = workHour[key] as TypeWorkDay;
+          totalMinutesPerDay[day.date] =
+            (totalMinutesPerDay[day.date] || 0) + (day.duration || 0);
+        }
+      });
+    });
+
+    const totalHoursPerDay: Record<string, string> = {};
+    Object.keys(totalMinutesPerDay).forEach(date => {
+      totalHoursPerDay[date] = formatMinutesToTime(totalMinutesPerDay[date]);
+    });
+
+    return totalHoursPerDay;
+  };
+
+  useEffect(() => {
+    const totals = calculateTotalHoursPerDay(allWorkHour);
+    setTotalHoursPerDay(totals);
+  }, [allWorkHour]);
 
   // Функция для вычисления итоговых часов
   const calculateTotalHours = (workHour: TransformedWorkHour): string => {
@@ -138,7 +167,15 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   const daysColumns: ColumnsType<TransformedWorkHour> = days.map(day => {
     const dateFormat = day.format('YYYY-MM-DD');
     return {
-      title: `${day.format('dd')}\n${day.format('DD.MM')}`,
+      title: (
+        <>
+          {day.format('dd')} {day.format('DD.MM')}
+          <br />
+          <span style={{ fontWeight: 'normal', fontSize: 'small' }}>
+            {totalHoursPerDay[dateFormat] || '0 ч'}
+          </span>
+        </>
+      ),
       dataIndex: dateFormat,
       key: dateFormat,
       width: 90,
@@ -148,7 +185,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
           dayData && dayData.duration !== null
             ? dayData.duration.toString()
             : '';
-        // Преобразуем часы в строку для отображения
         return (
           <EditableCell
             record={record}
@@ -157,10 +193,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
             setOriginalHours={setOriginalHours}
             setEditingDay={setEditingDay}
             handleSave={handleSave}
-            children={hours} // передаем часы как children
-            // title="Часы" // заголовок для сообщения об ошибке
-            editable={true} // установите в true, если ячейка должна быть редактируемой
-            dataIndex={dateFormat} // уникальный ключ для каждой ячейки
+            children={hours}
+            editable={true}
+            dataIndex={dateFormat}
             dayData={dayData}
           />
         );
