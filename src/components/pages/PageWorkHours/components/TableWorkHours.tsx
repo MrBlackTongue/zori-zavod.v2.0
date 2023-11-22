@@ -17,6 +17,7 @@ import { EmployeeSelect } from './EmployeeSelect';
 import { EditableCell } from './EditableCell';
 import { EditableRow } from './EditableRow';
 import { formatMinutesToTime } from '../../../../utils';
+import './TableWorkHour.css';
 
 export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   filter,
@@ -81,7 +82,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         totalMinutes += day.duration || 0;
       }
     });
-    const totalHours = Math.floor(totalMinutes / 60);
+    // const totalHours = Math.floor(totalMinutes / 60);
     return formatMinutesToTime(totalMinutes);
   };
 
@@ -91,7 +92,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
 
   const handleSave = (date: string, employeeId: number, newValue: string) => {
     const newHours = parseInt(newValue, 10);
-    if (!isNaN(newHours) && newHours !== originalHours) {
+    if (employeeId && !isNaN(newHours) && newHours !== originalHours) {
       const workHourUpdate = {
         id: editingDay?.id,
         workDate: date,
@@ -140,7 +141,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       title: `${day.format('dd')}\n${day.format('DD.MM')}`,
       dataIndex: dateFormat,
       key: dateFormat,
-      width: 100,
+      width: 90,
       editable: true,
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
         const hours =
@@ -227,6 +228,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         bordered={true}
         components={components}
         rowClassName={() => 'editable-row'}
+        className="table-work-hour"
         columns={columns}
         dataSource={allWorkHour}
         loading={isLoading}
@@ -237,9 +239,9 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
           totalBoundaryShowSizeChanger: 10,
         }}
       />
-      <Button type="primary" icon={<PlusOutlined />}>
-        Добавить
-      </Button>
+      {/*<Button type="primary" icon={<PlusOutlined />} onClick={addNewRow}>*/}
+      {/*  Добавить*/}
+      {/*</Button>*/}
     </>
   );
 };

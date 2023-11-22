@@ -8,6 +8,7 @@ import {
 import { WORK_HOURS } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
+  handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
@@ -62,6 +63,18 @@ export async function getWorkHoursById(
   try {
     const response = await api.get<TypeWorkDay>(`${WORK_HOURS}/${id}`);
     return response.data;
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
+}
+
+// Добавить новую запись о рабочем дне
+export async function createWorkHours(
+    data: TypeWorkHour,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.post(WORK_HOURS, data);
+    return handleResponseCreateMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
   }
