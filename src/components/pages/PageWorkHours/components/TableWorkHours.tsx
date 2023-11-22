@@ -39,6 +39,8 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     Record<string, string>
   >({});
 
+  const [totalAllHours, setTotalAllHours] = useState<string>('0 ч');
+
   // Хук для получения данных
   const { allEmployee } = useFetchAllData({ depsEmployee: true });
 
@@ -114,6 +116,33 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     // const totalHours = Math.floor(totalMinutes / 60);
     return formatMinutesToTime(totalMinutes);
   };
+
+  // Функция для расчета общего количества часов всех сотрудников
+  const calculateTotalAllHours = useCallback(
+    (workHours: TransformedWorkHour[]): string => {
+      let totalMinutes = 0;
+      workHours.forEach(workHour => {
+        Object.keys(workHour).forEach(key => {
+          if (
+            key !== 'employee' &&
+            workHour[key] instanceof Object &&
+            'duration' in workHour[key]
+          ) {
+            const day = workHour[key] as TypeWorkDay;
+            totalMinutes += day.duration || 0;
+            console.log('workHours', workHours);
+          }
+        });
+      });
+      return formatMinutesToTime(totalMinutes);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    const total = calculateTotalAllHours(allWorkHour);
+    setTotalAllHours(total);
+  }, [allWorkHour, calculateTotalAllHours]);
 
   const handleEmployeeChange = (employeeId: number) => {
     setEditingEmployee(employeeId);
@@ -203,14 +232,22 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     };
   });
 
-  const totalColumn: ColumnsType<any> = [
+  const totalColumn: ColumnsType<TransformedWorkHour> = [
     {
-      title: 'Итого',
+      title: (
+        <>
+          Итого
+          <br />
+          <span style={{ fontWeight: 'normal', fontSize: 'small' }}>
+            {totalAllHours}
+          </span>
+        </>
+      ),
       dataIndex: 'total',
       key: 'total',
       width: 150,
-
       render: (_, record: TransformedWorkHour) => {
+        // Рассчитываем итог для каждого сотрудника
         return `${calculateTotalHours(record)}`;
       },
     },
