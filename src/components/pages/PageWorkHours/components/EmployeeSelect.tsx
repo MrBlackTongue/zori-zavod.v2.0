@@ -38,7 +38,7 @@ export const EmployeeSelect: React.FC<EditableSelectProps> = ({
     return <span style={{ color: 'lightgray' }}>Сотрудник не выбран</span>;
   }
 
-  console.log('record', record);
+  // console.log('record', record);
   // Если сотрудник уже выбран и ячейка не редактируется, отображаем имя сотрудника
   return (
     <span>

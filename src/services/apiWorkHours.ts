@@ -31,18 +31,6 @@ export async function getAllWorkHours(
   }
 }
 
-// Удалить запись о рабочих часах
-export async function deleteWorkHoursById(
-  id: number,
-): Promise<TypeApiResponse> {
-  try {
-    const response = await api.delete(`${WORK_HOURS}/${id}`);
-    return handleResponseDeleteMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
-}
-
 // Редактирование данных о рабочем дне
 export async function updateWorkHours(
   data: TypeEditingDayState,
@@ -55,25 +43,25 @@ export async function updateWorkHours(
   }
 }
 
-// Получить данные рабочего дня по id
-export async function getWorkHoursById(
-  id: number,
-): Promise<TypeWorkDay | undefined> {
+// Добавить новую запись о рабочем дне
+export async function createWorkHours(
+  data: TypeEditingDayState,
+): Promise<TypeEditingDayState> {
   try {
-    const response = await api.get<TypeWorkDay>(`${WORK_HOURS}/${id}`);
-    return response.data;
+    const response = await api.post(WORK_HOURS, data);
+    return handleResponseCreateMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
   }
 }
 
-// Добавить новую запись о рабочем дне
-export async function createWorkHours(
-  data: TypeEditingDayState,
+// Удалить запись о рабочих часах
+export async function deleteWorkHoursById(
+    id: number,
 ): Promise<TypeApiResponse> {
   try {
-    const response = await api.post(WORK_HOURS, data);
-    return handleResponseCreateMessage(response);
+    const response = await api.delete(`${WORK_HOURS}/${id}`);
+    return handleResponseDeleteMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
   }
