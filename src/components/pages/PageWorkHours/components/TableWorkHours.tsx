@@ -39,7 +39,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   const [editingDay, setEditingDay] = useState<TypeEditingDayState | null>(
     null,
   );
-  console.log('editingDay',editingDay);
   const [originalHours, setOriginalHours] = useState<number | null>(null);
 
   const [totalHoursPerDay, setTotalHoursPerDay] = useState<
@@ -152,40 +151,44 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     setEditingEmployee(employeeId);
   };
 
-  const handleSave = (date: string, employeeId: number, newValue: string) => {
+  const handleUpdateNewRecord = (date: string, employeeId: number, newValue: string) => {
     const newHours = parseInt(newValue, 10);
     if (employeeId && !isNaN(newHours) && newHours !== originalHours) {
       const workHourData = {
-        id: editingDay?.id,
         workDate: date,
         duration: newHours,
         employee: { id: employeeId },
       };
+    updateWorkHours({ ...workHourData, id: editingDay?.id})
+        .then(() => {
+          setAllWorkHour(prevWorkHours => {
+                console.log('prevWorkHours', prevWorkHours);
+                return prevWorkHours.map(item => item.employee && item.employee.id === employeeId
+                    ? ({
+                      ...item,
+                      [date]: {...item[date], duration: newHours},
+                    } as TransformedWorkHour)
+                    : item
+                );
+              }
+          );
+        })
+        .catch(error => {
+          console.error('Ошибка при обновлении часов работы:', error);
+        });
 
-      // Проверяем, нужно ли создать новую запись или обновить существующую
-      if (editingDay?.id) {
-        // Обновляем существующую запись
-        updateWorkHours({ ...workHourData})
-          .then(() => {
-            setAllWorkHour(prevWorkHours => {
-              console.log('prevWorkHours', prevWorkHours);
-              return prevWorkHours.map(item => item.employee && item.employee.id === employeeId
-                  ? ({
-                    ...item,
-                    [date]: {...item[date], duration: newHours},
-                  } as TransformedWorkHour)
-                  : item
-              );
-                }
-            );
-          })
 
-          .catch(error => {
-            console.error('Ошибка при обновлении часов работы:', error);
-          });
-      } else {
-        // Создаем новую запись
-        createWorkHours(workHourData)
+  }};
+  
+  const handleCreateNewRecord = (date: string, employeeId: number, newValue: string) => {
+    const newHours = parseInt(newValue, 10);
+    if (employeeId && !isNaN(newHours) && newHours !== originalHours) {
+      const workHourData = {
+        workDate: date,
+        duration: newHours,
+        employee: { id: employeeId },
+      };
+      createWorkHours(workHourData)
           .then(() => {
             setAllWorkHour(prevWorkHours => {
                   return prevWorkHours.map(item => item.employee === null || item.employee.id === employeeId
@@ -199,12 +202,11 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
             );
             console.log('allWorkHour', allWorkHour);
           })
-          .catch(error => {
-            console.error('Ошибка при создании часов работы:', error);
-          });
-      }
-    }
-  };
+        .catch(error => {
+          console.error('Ошибка при обновлении часов работы:', error);
+        });
+  }};
+
 
   // Функция для добавления новой строки
   const addNewRow = () => {
@@ -282,11 +284,13 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
             editingEmployee={editingEmployee}
             setOriginalHours={setOriginalHours}
             setEditingDay={setEditingDay}
-            handleSave={handleSave}
+            handleCreateNewRecord={handleCreateNewRecord}
+            handleUpdateRecord={handleUpdateNewRecord}
             children={hours}
             editable={true}
             dataIndex={dateFormat}
             dayData={dayData}
+            editingDay={editingDay}
           />
         );
       },

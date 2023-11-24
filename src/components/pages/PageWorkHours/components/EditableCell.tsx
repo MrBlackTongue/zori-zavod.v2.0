@@ -15,7 +15,9 @@ interface EditableCellProps {
   editingEmployee: number | null;
   setOriginalHours: (duration: number | null) => void;
   setEditingDay: (editingDay: TypeEditingDayState | null) => void;
-  handleSave: (date: string, employeeId: number, newValue: string) => void;
+  editingDay: TypeEditingDayState | null;
+  handleUpdateRecord: (date: string, employeeId: number, newValue: string) => void;
+  handleCreateNewRecord: (date: string, employeeId: number, newValue: string) => void;
   children: React.ReactNode; // Добавляем children
   // title: string; // Добавляем title
   editable: boolean; // Добавляем editable (если необходимо)
@@ -29,8 +31,10 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   setOriginalHours,
   originalHours,
   setEditingDay,
+                                                            editingDay,
   editingEmployee,
-  handleSave,
+                                                            handleUpdateRecord,
+                                                            handleCreateNewRecord,
   children,
   dataIndex,
   editable,
@@ -91,16 +95,24 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       if (newDuration !== null && newDuration !== originalHours) {
         const employeeId = record.employee?.id ?? editingEmployee;
         if (employeeId !== undefined && employeeId !== null) {
-          handleSave(date, employeeId, newDuration.toString());
+          if (editingDay?.id === null) {
+            // Вызываем функцию для создания новой записи
+            handleCreateNewRecord(date, employeeId, newDuration.toString());
+          } else {
+            // Вызываем функцию для обновления существующей записи
+            handleUpdateRecord(date, employeeId, newDuration.toString());
+          }
         } else {
           console.error('Employee ID is undefined');
         }
       }
       console.log('newDuration:', newDuration);
+      console.log('recordId:', record);
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
   };
+
 
   let childNode = children;
 
