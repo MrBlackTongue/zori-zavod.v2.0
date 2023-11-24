@@ -16,8 +16,16 @@ interface EditableCellProps {
   setOriginalHours: (duration: number | null) => void;
   setEditingDay: (editingDay: TypeEditingDayState | null) => void;
   editingDay: TypeEditingDayState | null;
-  handleUpdateRecord: (date: string, employeeId: number, newValue: string) => void;
-  handleCreateNewRecord: (date: string, employeeId: number, newValue: string) => void;
+  handleUpdateRecord: (
+    date: string,
+    employeeId: number,
+    newValue: string,
+  ) => void;
+  handleCreateNewRecord: (
+    date: string,
+    employeeId: number,
+    newValue: string,
+  ) => void;
   children: React.ReactNode; // Добавляем children
   // title: string; // Добавляем title
   editable: boolean; // Добавляем editable (если необходимо)
@@ -31,10 +39,10 @@ export const EditableCell: React.FC<EditableCellProps> = ({
   setOriginalHours,
   originalHours,
   setEditingDay,
-                                                            editingDay,
+  editingDay,
   editingEmployee,
-                                                            handleUpdateRecord,
-                                                            handleCreateNewRecord,
+  handleUpdateRecord,
+  handleCreateNewRecord,
   children,
   dataIndex,
   editable,
@@ -92,27 +100,28 @@ export const EditableCell: React.FC<EditableCellProps> = ({
       const timeString = values[date]; // получаем строку времени в формате чч:мм
       const newDuration = timeToMinutes(timeString); // преобразуем время в минуты
 
-      if (newDuration !== null && newDuration !== originalHours) {
-        const employeeId = record.employee?.id ?? editingEmployee;
-        if (employeeId !== undefined && employeeId !== null) {
-          if (editingDay?.id === null) {
-            // Вызываем функцию для создания новой записи
-            handleCreateNewRecord(date, employeeId, newDuration.toString());
-          } else {
-            // Вызываем функцию для обновления существующей записи
-            handleUpdateRecord(date, employeeId, newDuration.toString());
-          }
-        } else {
-          console.error('Employee ID is undefined');
-        }
+      // Проверка на недопустимые значения
+      if (newDuration === null || newDuration === originalHours) {
+        return; // Ранний выход, если новая продолжительность не изменилась или недопустима
       }
+
+      const employeeId = record.employee?.id ?? editingEmployee;
+      if (employeeId === undefined || employeeId === null) {
+        console.error('Employee ID is undefined');
+        return; // Ранний выход, если идентификатор сотрудника не определен
+      }
+
+      // Вызываем соответствующую функцию обновления или создания записи
+      const handleRecord =
+        editingDay?.id === null ? handleCreateNewRecord : handleUpdateRecord;
+      handleRecord(date, employeeId, newDuration.toString());
+
       console.log('newDuration:', newDuration);
       console.log('recordId:', record);
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
   };
-
 
   let childNode = children;
 

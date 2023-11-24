@@ -14,7 +14,6 @@ import dayjs from 'dayjs';
 import {
   createWorkHours,
   getAllWorkHours,
-  logoutUser,
   updateWorkHours,
 } from '../../../../services';
 import { useFetchAllData } from '../../../../hooks';
@@ -151,7 +150,11 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     setEditingEmployee(employeeId);
   };
 
-  const handleUpdateNewRecord = (date: string, employeeId: number, newValue: string) => {
+  const handleUpdateNewRecord = (
+    date: string,
+    employeeId: number,
+    newValue: string,
+  ) => {
     const newHours = parseInt(newValue, 10);
     if (employeeId && !isNaN(newHours) && newHours !== originalHours) {
       const workHourData = {
@@ -159,28 +162,31 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         duration: newHours,
         employee: { id: employeeId },
       };
-    updateWorkHours({ ...workHourData, id: editingDay?.id})
+      updateWorkHours({ ...workHourData, id: editingDay?.id })
         .then(() => {
           setAllWorkHour(prevWorkHours => {
-                console.log('prevWorkHours', prevWorkHours);
-                return prevWorkHours.map(item => item.employee && item.employee.id === employeeId
-                    ? ({
-                      ...item,
-                      [date]: {...item[date], duration: newHours},
-                    } as TransformedWorkHour)
-                    : item
-                );
-              }
-          );
+            console.log('prevWorkHours', prevWorkHours);
+            return prevWorkHours.map(item =>
+              item.employee && item.employee.id === employeeId
+                ? ({
+                    ...item,
+                    [date]: { ...item[date], duration: newHours },
+                  } as TransformedWorkHour)
+                : item,
+            );
+          });
         })
         .catch(error => {
           console.error('Ошибка при обновлении часов работы:', error);
         });
+    }
+  };
 
-
-  }};
-  
-  const handleCreateNewRecord = (date: string, employeeId: number, newValue: string) => {
+  const handleCreateNewRecord = (
+    date: any,
+    employeeId: number,
+    newValue: string,
+  ) => {
     const newHours = parseInt(newValue, 10);
     if (employeeId && !isNaN(newHours) && newHours !== originalHours) {
       const workHourData = {
@@ -189,24 +195,30 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         employee: { id: employeeId },
       };
       createWorkHours(workHourData)
-          .then(() => {
-            setAllWorkHour(prevWorkHours => {
-                  return prevWorkHours.map(item => item.employee === null || item.employee.id === employeeId
-                      ? ({
-                        ...item,
-                        [date]: {...item[date], duration: newHours, id: editingDay?.id},
-                      } as TransformedWorkHour)
-                      : item
-                  );
-                }
-            );
-            console.log('allWorkHour', allWorkHour);
-          })
+        .then(response => {
+          // Получаем ID новой записи из ответа сервера
+          const newRecordId = response.id; // Предполагаем, что id возвращается в response
+          setAllWorkHour(prevWorkHours =>
+            prevWorkHours.map(item => {
+              if (item.employee === null || item.employee.id === employeeId) {
+                return {
+                  ...item,
+                  [date]: {
+                    ...item[date],
+                    duration: newHours,
+                    id: newRecordId,
+                  },
+                };
+              }
+              return item;
+            }),
+          );
+        })
         .catch(error => {
-          console.error('Ошибка при обновлении часов работы:', error);
+          console.error('Ошибка при создании часов работы:', error);
         });
-  }};
-
+    }
+  };
 
   // Функция для добавления новой строки
   const addNewRow = () => {
