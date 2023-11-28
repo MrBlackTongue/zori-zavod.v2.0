@@ -4,13 +4,8 @@ import { TypeProduct } from '../../../types';
 import { useDataListLoader } from '../../../hooks';
 import { getAllProduct } from '../../../api';
 
-interface SelectValue {
-  id: number;
-}
-
 interface ProductSelectProps {
-  // onChange: (value: string) => void;
-  onChange: (value: SelectValue | undefined) => void;
+  onChange: (value: { id: number } | undefined) => void;
   onClear: () => void;
   onSearch: (input: string, option: any) => boolean;
   value?: string | { id: string | number };
@@ -36,14 +31,7 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({
         }
       : undefined;
 
-  // let selectValue: string | undefined;
-  //
-  // if (typeof value === 'object' && value !== null && 'id' in value) {
-  //   selectValue = String(value.id); // Преобразование числового id в строку
-  // } else if (typeof value === 'string') {
-  //   selectValue = value; // Использование строки как есть
-  // }
-
+  // Изменить значение в Select
   const handleChange = (value: { value: string; label: string }) => {
     if (value) {
       onChange({ id: parseInt(value.value, 10) });
@@ -52,6 +40,7 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({
     }
   };
 
+  // Загрузить данные для Select
   const handleDropdownVisibleChange = useCallback(
     (visible: boolean) => {
       if (visible) {

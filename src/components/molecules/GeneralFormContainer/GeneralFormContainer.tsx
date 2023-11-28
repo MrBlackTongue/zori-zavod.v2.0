@@ -3,25 +3,23 @@ import { Form } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormViewProps, TypeApiResponse } from '../../../types';
 
-interface GeneralFormContainerProps<T, TypeApiResponse, ExtraProps = {}> {
+interface GeneralFormContainerProps<T> {
   createFunction: (values: T) => Promise<TypeApiResponse>;
   updateFunction: (values: T) => Promise<TypeApiResponse>;
   getByIdFunction: (id: number) => Promise<T | undefined>;
-  FormViewComponent: React.ComponentType<FormViewProps<T, ExtraProps>>;
+  FormViewComponent: React.ComponentType<FormViewProps<T>>;
   titleCreate: string;
   titleEdit: string;
-  extraProps?: ExtraProps;
 }
 
-export const GeneralFormContainer = <T, ExtraProps = {}>({
+export const GeneralFormContainer = <T,>({
   createFunction,
   updateFunction,
   getByIdFunction,
   FormViewComponent,
   titleCreate,
   titleEdit,
-  extraProps, // Специфичные для формы пропсы
-}: GeneralFormContainerProps<T, TypeApiResponse, ExtraProps>) => {
+}: GeneralFormContainerProps<T>) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { id: rawId } = useParams<string>();
@@ -82,7 +80,6 @@ export const GeneralFormContainer = <T, ExtraProps = {}>({
       title={title}
       onFinish={handleSubmit}
       onCancel={handleCancel}
-      {...extraProps}
     />
   );
 };

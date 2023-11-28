@@ -1,27 +1,14 @@
 import React from 'react';
 import { Checkbox, DatePicker, Form, InputNumber } from 'antd';
-import {
-  FormPurchaseProps,
-  FormViewProps,
-  TypePurchaseFormValue,
-} from '../../../../types';
+import { FormViewProps, TypePurchaseFormValue } from '../../../../types';
 import { numberFormatter, numberParser } from '../../../../utils';
 import FormActions from '../../../atoms/FormActions/FormActions';
 import { ProductSelect } from '../../../atoms/ProductSelect/ProductSelect';
 import { useTransformedSelect } from '../../../../hooks';
 
 export const PurchaseFormView: React.FC<
-  FormViewProps<TypePurchaseFormValue, FormPurchaseProps>
-> = ({ form, title, onFinish, onCancel, extraProps }) => {
-  // Используйте значения из extraProps
-  // const { onChangeProduct, onClearProduct, onSearchProduct } = extraProps ?? {};
-
-  // Хук для управления полем product
-  // const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
-  //   form,
-  //   'product',
-  // );
-
+  FormViewProps<TypePurchaseFormValue>
+> = ({ form, title, onFinish, onCancel }) => {
   const { onChange, onClear, onSearch } = useTransformedSelect(form, 'product');
 
   return (
@@ -43,26 +30,6 @@ export const PurchaseFormView: React.FC<
             onClear={onClear}
             onSearch={onSearch}
           />
-          {/*<Select*/}
-          {/*  showSearch*/}
-          {/*  allowClear*/}
-          {/*  placeholder="Выберите товар"*/}
-          {/*  onChange={onChangeProduct}*/}
-          {/*  onClear={onClearProduct}*/}
-          {/*  filterOption={onSearchProduct}>*/}
-          {/*  {allProduct && allProduct.length > 0*/}
-          {/*    ? allProduct.map(product => (*/}
-          {/*        <Select.Option*/}
-          {/*          key={product.id}*/}
-          {/*          value={product.id}*/}
-          {/*          label={product.title}>*/}
-          {/*          <Tooltip placement="right" title={product.title}>*/}
-          {/*            {product.title}*/}
-          {/*          </Tooltip>*/}
-          {/*        </Select.Option>*/}
-          {/*      ))*/}
-          {/*    : null}*/}
-          {/*</Select>*/}
         </Form.Item>
         <Form.Item
           label="Цена"

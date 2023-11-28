@@ -19,9 +19,3 @@ export type TypePurchaseFormValue = {
   productBatch?: number;
   paid?: boolean;
 };
-
-export interface FormPurchaseProps {
-  onChangeProduct: (value: string) => void;
-  onClearProduct: () => void;
-  onSearchProduct: (input: string, option: any) => boolean;
-}

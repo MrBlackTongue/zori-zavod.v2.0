@@ -6,7 +6,7 @@ import { TableEmployeeReport } from './components/TableEmployeeReport';
 import { TypeEmployee } from '../../../types';
 import { getAllEmployee } from '../../../api';
 
-export const PageEmployeeReport: React.FC = () => {
+export const PageEmployeeReport = () => {
   // Выбранные даты
   const [selectedDateFrom, setSelectedDateFrom] = useState<
     string | undefined

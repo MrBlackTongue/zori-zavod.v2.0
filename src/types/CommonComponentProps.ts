@@ -29,10 +29,9 @@ export interface DetailDrawerProps {
   selectedItemId: number | undefined;
 }
 
-export interface FormViewProps<T, ExtraProps = {}> {
+export interface FormViewProps<T> {
   form: FormInstance<T>;
   title: string;
   onFinish: (values: T) => void;
   onCancel: () => void;
-  extraProps?: ExtraProps; // Дополнительные пропсы
 }
