@@ -6,7 +6,7 @@ import {
   EditOutlined,
   EllipsisOutlined,
 } from '@ant-design/icons';
-import { getAllWriteOff } from '../../../../services';
+import { getAllWriteOff } from '../../../../api';
 import {
   TableProps,
   TypeEmployee,

@@ -1,10 +1,6 @@
 import React from 'react';
 import { TypeClient } from '../../../../types';
-import {
-  createClient,
-  getClientById,
-  updateClient,
-} from '../../../../services';
+import { createClient, getClientById, updateClient } from '../../../../api';
 import { ClientFormView } from './ClientForm.view';
 import { GeneralFormContainer } from '../../../molecules/GeneralFormContainer/GeneralFormContainer';
 

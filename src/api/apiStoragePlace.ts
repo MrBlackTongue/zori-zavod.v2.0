@@ -1,12 +1,12 @@
-import { TypeApiResponse, TypeStoragePlace } from '../types';
-import { STORAGE_PLACE } from './apiEndpoints';
+import {TypeApiResponse, TypeStoragePlace} from '../types';
+import {STORAGE_PLACE} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api';
+import {api} from './api';
 
 // Получить список всех мест хранения
 export async function getAllStoragePlace(): Promise<TypeStoragePlace[]> {

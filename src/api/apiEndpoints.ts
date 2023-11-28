@@ -10,6 +10,7 @@ export const UNIT = '/unit';
 export const CLIENT = '/client';
 export const CLIENTS = '/clients';
 export const PURCHASE = '/purchase';
+export const PURCHASES = '/purchases';
 export const TITLE = '/title';
 export const BATCH = '/batch';
 export const PRODUCT_MOVEMENT = '/product-movement';

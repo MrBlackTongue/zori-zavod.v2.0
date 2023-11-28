@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Button, Drawer, Form, Space } from 'antd';
 import { TypeWriteOffFormValue, UpdateDrawerProps } from '../../../../types';
-import { getWriteOffById } from '../../../../services';
+import { getWriteOffById } from '../../../../api';
 import {
   useFetchAllData,
   useFormHandler,

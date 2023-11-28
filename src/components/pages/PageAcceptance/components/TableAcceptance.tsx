@@ -2,10 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import {
-  getAllAcceptance,
-  getAllAcceptanceByTitle,
-} from '../../../../services';
+import { getAllAcceptance, getAllAcceptanceByTitle } from '../../../../api';
 import {
   TableProps,
   TypeAcceptance,

@@ -1,7 +1,7 @@
-import { TypeProductReport, TypeProductReportFilter } from '../types';
-import { PRODUCT, REPORT } from './apiEndpoints';
-import { handleErrorResponseMessage } from '../utils';
-import { api } from './api';
+import {TypeProductReport, TypeProductReportFilter} from '../types';
+import {PRODUCT, REPORT} from './apiEndpoints';
+import {handleErrorResponseMessage} from '../utils';
+import {api} from './api';
 
 // Получить список всех отчетов по товарам
 export async function getAllProductReportByFilter(

@@ -11,7 +11,7 @@ import {
   TypeProductBatch,
   TypeUnit,
 } from '../../../../types';
-import { getAllProductBatch } from '../../../../services';
+import { getAllProductBatch } from '../../../../api';
 import { renderNumber } from '../../../../utils';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
 import {

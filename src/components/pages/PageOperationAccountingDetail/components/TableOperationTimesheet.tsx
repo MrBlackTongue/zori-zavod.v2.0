@@ -7,7 +7,7 @@ import {
   TypeEmployee,
   TypeOperationTimesheet,
 } from '../../../../types';
-import { getOperationTimesheetByIdOperationAccounting } from '../../../../services';
+import { getOperationTimesheetByIdOperationAccounting } from '../../../../api';
 import { renderNumber } from '../../../../utils';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
 import {

@@ -6,7 +6,7 @@ import {
   deleteStockById,
   getStockById,
   updateStock,
-} from '../../../services';
+} from '../../../api';
 import { TypeStock, TypeStockFormValue } from '../../../types';
 import { TableStock } from './components/TableStock';
 import { CreateModalStock } from './components/CreateModalStock';

@@ -5,7 +5,7 @@ import {
   createOperation,
   deleteOperationById,
   updateOperation,
-} from '../../../services';
+} from '../../../api';
 import { TypeOperation, TypeOperationFormValue } from '../../../types';
 import { TableOperation } from './components/TableOperation';
 import { CreateModalOperation } from './components/CreateModalOperation';

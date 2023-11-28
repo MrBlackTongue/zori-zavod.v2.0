@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Flex, FloatButton, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { createAcceptance, deleteAcceptanceById } from '../../../services';
+import { createAcceptance, deleteAcceptanceById } from '../../../api';
 import { TypeAcceptance, TypeAcceptanceFormValue } from '../../../types';
 import { TableAcceptance } from './components/TableAcceptance';
 import { CreateModalAcceptance } from './components/CreateModalAcceptance';

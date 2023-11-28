@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EMPLOYEES, registrationUser } from '../services';
+import { EMPLOYEES, registrationUser } from '../api';
 import { TypeUserInfo } from '../types';
 
 export const useRegistration = () => {

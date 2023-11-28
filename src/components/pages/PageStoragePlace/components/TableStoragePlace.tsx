@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { getAllStoragePlace } from '../../../../services';
+import { getAllStoragePlace } from '../../../../api';
 import { TableProps, TypeStoragePlace } from '../../../../types';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
 import {

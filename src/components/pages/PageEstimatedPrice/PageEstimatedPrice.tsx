@@ -4,7 +4,7 @@ import {
   createEstimatedPrice,
   deleteEstimatedPriceById,
   updateEstimatedPrice,
-} from '../../../services';
+} from '../../../api';
 import {
   TypeEstimatedPrice,
   TypeEstimatedPriceFormValue,

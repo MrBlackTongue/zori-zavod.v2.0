@@ -1,12 +1,12 @@
-import { TypeApiResponse, TypeProductionType } from '../types';
-import { PRODUCTION_TYPE } from './apiEndpoints';
+import {TypeApiResponse, TypeProductionType} from '../types';
+import {PRODUCTION_TYPE} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api';
+import {api} from './api';
 
 // Получить список типов производства
 export async function getAllProductionType(): Promise<TypeProductionType[]> {

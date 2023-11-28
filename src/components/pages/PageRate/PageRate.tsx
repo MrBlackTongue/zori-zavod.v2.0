@@ -5,7 +5,7 @@ import './PageRate.css';
 import { MenuOutlined } from '@ant-design/icons';
 import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
 import { useRegistration } from '../../../hooks';
-import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../services';
+import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../api';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
 import rateImage from 'assets/images/rate_image.png';
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FloatButton } from 'antd';
-import { createUnit, deleteUnitById, updateUnit } from '../../../services';
+import { createUnit, deleteUnitById, updateUnit } from '../../../api';
 import { TypeUnit, TypeUnitFormValue } from '../../../types';
 import { TableUnit } from './components/TableUnit';
 import { CreateModalUnit } from './components/CreateModalUnit';

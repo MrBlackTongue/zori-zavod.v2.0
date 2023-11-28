@@ -4,7 +4,7 @@ import {
   TypeStoragePlaceFormValue,
   UpdateDrawerProps,
 } from '../../../../types';
-import { getStoragePlaceById } from '../../../../services';
+import { getStoragePlaceById } from '../../../../api';
 import { useFormHandler } from '../../../../hooks';
 import { FormStoragePlace } from './FormStoragePlace';
 

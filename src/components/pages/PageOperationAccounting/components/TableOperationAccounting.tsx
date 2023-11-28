@@ -10,7 +10,7 @@ import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import {
   getAllOperationAccountingByFilter,
   OPERATION_ACCOUNTING,
-} from '../../../../services';
+} from '../../../../api';
 import {
   TableProps,
   TypeOperationAccounting,

@@ -4,7 +4,7 @@ import {
   TypeProductBatchFormValue,
   UpdateDrawerProps,
 } from '../../../../types';
-import { getProductBatchById } from '../../../../services';
+import { getProductBatchById } from '../../../../api';
 import {
   useFetchAllData,
   useFormHandler,

@@ -4,7 +4,7 @@ import type {
   ColumnsType,
   TablePaginationConfig,
 } from 'antd/es/table/interface';
-import { getAllCostPriceByFilter } from '../../../../services';
+import { getAllCostPriceByFilter } from '../../../../api';
 import {
   TableProps,
   TypeCostPriceReport,

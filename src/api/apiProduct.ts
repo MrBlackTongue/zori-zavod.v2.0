@@ -1,12 +1,12 @@
-import { TypeApiResponse, TypeProduct } from '../types';
-import { OUTPUT, PRODUCT, TITLE } from './apiEndpoints';
+import {TypeApiResponse, TypeProduct} from '../types';
+import {OUTPUT, PRODUCT, TITLE} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api';
+import {api} from './api';
 
 // Получить список всех товаров
 export async function getAllProduct(): Promise<TypeProduct[]> {

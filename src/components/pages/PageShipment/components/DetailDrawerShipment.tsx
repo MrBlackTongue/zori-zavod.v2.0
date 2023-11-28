@@ -12,7 +12,7 @@ import {
   createShipmentProductMovement,
   deleteShipmentProductMovementById,
   getShipmentById,
-} from '../../../../services';
+} from '../../../../api';
 import { CreateModalDetailShipment } from './CreateModalDetailShipment';
 
 export const DetailDrawerShipment: React.FC<DetailDrawerProps> = ({

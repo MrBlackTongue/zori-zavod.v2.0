@@ -1,11 +1,7 @@
-import { TypeApiResponse, TypeWriteOffMovement } from '../types';
-import { MOVEMENT, WRITE_OFF } from './apiEndpoints';
-import {
-  handleErrorResponseMessage,
-  handleResponseCreateMessage,
-  handleResponseDeleteMessage,
-} from '../utils';
-import { api } from './api';
+import {TypeApiResponse, TypeWriteOffMovement} from '../types';
+import {MOVEMENT, WRITE_OFF} from './apiEndpoints';
+import {handleErrorResponseMessage, handleResponseCreateMessage, handleResponseDeleteMessage,} from '../utils';
+import {api} from './api';
 
 // Получить список всех движений списания товара
 export async function getAllWriteOffMovementByWriteOffId(

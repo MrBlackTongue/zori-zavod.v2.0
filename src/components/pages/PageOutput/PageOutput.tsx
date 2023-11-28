@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { FloatButton } from 'antd';
-import {
-  createOutput,
-  deleteOutputById,
-  updateOutput,
-} from '../../../services';
+import { createOutput, deleteOutputById, updateOutput } from '../../../api';
 import { TypeOutput, TypeOutputFormValue } from '../../../types';
 import { TableOutput } from './components/TableOutput';
 import { CreateModalOutput } from './components/CreateModalOutput';

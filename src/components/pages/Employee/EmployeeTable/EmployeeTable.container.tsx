@@ -1,9 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import {
-  deleteEmployeeById,
-  EMPLOYEE,
-  getAllEmployee,
-} from '../../../../services';
+import { deleteEmployeeById, EMPLOYEE, getAllEmployee } from '../../../../api';
 import { TypeEmployee } from '../../../../types';
 import { EmployeeTableView } from './EmployeeTable.view';
 import usePagination from '../../../../hooks/usePagination';

@@ -4,7 +4,7 @@ import {
   TypeProductGroupFormValue,
   UpdateDrawerProps,
 } from '../../../../types';
-import { getProductGroupById } from '../../../../services';
+import { getProductGroupById } from '../../../../api';
 import {
   useFetchAllData,
   useFormHandler,

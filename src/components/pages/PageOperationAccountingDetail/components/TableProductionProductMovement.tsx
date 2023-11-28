@@ -9,7 +9,7 @@ import {
   TypeStock,
   TypeUnit,
 } from '../../../../types';
-import { getProductionProductMovementByIdOperationAccounting } from '../../../../services';
+import { getProductionProductMovementByIdOperationAccounting } from '../../../../api';
 import dayjs from 'dayjs';
 import { renderNumber } from '../../../../utils';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';

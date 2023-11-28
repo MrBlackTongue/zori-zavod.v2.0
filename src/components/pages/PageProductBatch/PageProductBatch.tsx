@@ -4,7 +4,7 @@ import {
   createProductBatch,
   deleteProductBatchById,
   updateProductBatch,
-} from '../../../services';
+} from '../../../api';
 import { TypeProductBatch, TypeProductBatchFormValue } from '../../../types';
 import { TableProductBatch } from './components/TableProductBatch';
 import { CreateModalProductBatch } from './components/CreateModalProductBatch';

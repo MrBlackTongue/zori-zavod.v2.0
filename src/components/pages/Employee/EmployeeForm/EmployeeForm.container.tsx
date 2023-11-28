@@ -4,7 +4,7 @@ import {
   createEmployee,
   getEmployeeById,
   updateEmployee,
-} from '../../../../services';
+} from '../../../../api';
 import { EmployeeFormView } from './EmployeeForm.view';
 import { GeneralFormContainer } from '../../../molecules/GeneralFormContainer/GeneralFormContainer';
 

@@ -1,12 +1,12 @@
-import { TypeApiResponse, TypeWriteOff } from '../types';
-import { WRITE_OFF } from './apiEndpoints';
+import {TypeApiResponse, TypeWriteOff} from '../types';
+import {WRITE_OFF} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api';
+import {api} from './api';
 
 // Получить список всех списаний
 export async function getAllWriteOff(): Promise<TypeWriteOff[]> {

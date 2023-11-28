@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { useDataListLoader, useFetchAllData } from '../../../hooks';
 import { TableEmployeeReport } from './components/TableEmployeeReport';
 import { TypeEmployee } from '../../../types';
-import { getAllEmployee } from '../../../services';
+import { getAllEmployee } from '../../../api';
 
 export const PageEmployeeReport: React.FC = () => {
   // Выбранные даты

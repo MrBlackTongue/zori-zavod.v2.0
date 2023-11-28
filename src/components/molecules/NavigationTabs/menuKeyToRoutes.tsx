@@ -16,20 +16,20 @@ import {
   PRODUCT_GROUP,
   PRODUCT_MOVEMENT,
   PRODUCTION_TYPE,
-  PURCHASE,
+  PURCHASES,
   REPORT,
   SHIPMENT,
   STOCK,
   STORAGE_PLACE,
   UNIT,
   WRITE_OFF,
-} from '../../../services';
+} from '../../../api';
 import { PageShipment } from '../../pages/PageShipment/PageShipment';
 import { PageOperationAccounting } from '../../pages/PageOperationAccounting/PageOperationAccounting';
 import { PageOperation } from '../../pages/PageOperation/PageOperation';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageOutput } from '../../pages/PageOutput/PageOutput';
-import { PagePurchase } from '../../pages/PagePurchase/PagePurchase';
+import { PurchaseTableContainer } from '../../pages/1Purchase/PurchaseTable/PurchaseTable.container';
 import { PageProductBatch } from '../../pages/PageProductBatch/PageProductBatch';
 import { PageAcceptance } from '../../pages/PageAcceptance/PageAcceptance';
 import { PageStock } from '../../pages/PageStock/PageStock';
@@ -99,10 +99,14 @@ export const menuKeyToRoutes: Record<
   ],
   '03': [
     {
-      id: PURCHASE,
+      id: PURCHASES,
       title: 'Закупки',
       route: (
-        <Route key={PURCHASE} path={PURCHASE} element={<PagePurchase />} />
+        <Route
+          key={PURCHASES}
+          path={PURCHASES}
+          element={<PurchaseTableContainer />}
+        />
       ),
     },
     {

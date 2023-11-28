@@ -1,32 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Form, FormInstance } from 'antd';
+import { Form } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TypeApiResponse } from '../../../types';
+import { FormViewProps, TypeApiResponse } from '../../../types';
 
-interface GeneralFormContainerProps<T, TypeApiResponse> {
+interface GeneralFormContainerProps<T, TypeApiResponse, ExtraProps = {}> {
   createFunction: (values: T) => Promise<TypeApiResponse>;
   updateFunction: (values: T) => Promise<TypeApiResponse>;
   getByIdFunction: (id: number) => Promise<T | undefined>;
-  FormViewComponent: React.ComponentType<FormViewProps<T>>;
+  FormViewComponent: React.ComponentType<FormViewProps<T, ExtraProps>>;
   titleCreate: string;
   titleEdit: string;
+  extraProps?: ExtraProps;
 }
 
-interface FormViewProps<T> {
-  form: FormInstance<T>;
-  title: string;
-  onFinish: (values: T) => void;
-  onCancel: () => void;
-}
-
-export const GeneralFormContainer = <T,>({
+export const GeneralFormContainer = <T, ExtraProps = {}>({
   createFunction,
   updateFunction,
   getByIdFunction,
   FormViewComponent,
   titleCreate,
   titleEdit,
-}: GeneralFormContainerProps<T, TypeApiResponse>) => {
+  extraProps, // Специфичные для формы пропсы
+}: GeneralFormContainerProps<T, TypeApiResponse, ExtraProps>) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { id: rawId } = useParams<string>();
@@ -87,6 +82,7 @@ export const GeneralFormContainer = <T,>({
       title={title}
       onFinish={handleSubmit}
       onCancel={handleCancel}
+      {...extraProps}
     />
   );
 };

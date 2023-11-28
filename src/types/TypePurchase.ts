@@ -1,6 +1,5 @@
 import { TypeProduct } from './TypeProduct';
 import { Dayjs } from 'dayjs';
-import { FormInstance } from 'antd/lib/form';
 
 export type TypePurchase = {
   id?: number;
@@ -22,8 +21,6 @@ export type TypePurchaseFormValue = {
 };
 
 export interface FormPurchaseProps {
-  form: FormInstance;
-  allProduct: TypeProduct[];
   onChangeProduct: (value: string) => void;
   onClearProduct: () => void;
   onSearchProduct: (input: string, option: any) => boolean;

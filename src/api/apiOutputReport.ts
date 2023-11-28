@@ -1,7 +1,7 @@
-import { TypeOutputReport, TypeOutputReportFilter } from '../types';
-import { OUTPUT, REPORT } from './apiEndpoints';
-import { handleErrorResponseMessage } from '../utils';
-import { api } from './api';
+import {TypeOutputReport, TypeOutputReportFilter} from '../types';
+import {OUTPUT, REPORT} from './apiEndpoints';
+import {handleErrorResponseMessage} from '../utils';
+import {api} from './api';
 
 // Получить список всех отчетов по выпускам
 export async function getAllOutputReportByFilter(

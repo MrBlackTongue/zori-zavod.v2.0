@@ -5,7 +5,7 @@ import {
   createShipment,
   deleteShipmentById,
   updateShipment,
-} from '../../../services';
+} from '../../../api';
 import { TypeShipment, TypeShipmentFormValue } from '../../../types';
 import { TableShipment } from './components/TableShipment';
 import { CreateModalShipment } from './components/CreateModalShipment';

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Button, Drawer, Form, Space } from 'antd';
 import { TypeShipmentFormValue, UpdateDrawerProps } from '../../../../types';
-import { getShipmentById } from '../../../../services';
+import { getShipmentById } from '../../../../api';
 import dayjs from 'dayjs';
 import {
   useFetchAllData,

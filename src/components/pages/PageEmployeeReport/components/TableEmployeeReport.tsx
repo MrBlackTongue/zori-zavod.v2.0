@@ -4,7 +4,7 @@ import type {
   ColumnsType,
   TablePaginationConfig,
 } from 'antd/es/table/interface';
-import { getAllEmployeeReportByFilter } from '../../../../services';
+import { getAllEmployeeReportByFilter } from '../../../../api';
 import {
   TableProps,
   TypeEmployeeReport,

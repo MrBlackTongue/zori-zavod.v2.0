@@ -1,12 +1,12 @@
-import { TypeApiResponse, TypeProductGroup } from '../types';
-import { GROUP, PRODUCT_GROUP, TREE } from './apiEndpoints';
+import {TypeApiResponse, TypeProductGroup} from '../types';
+import {GROUP, PRODUCT_GROUP, TREE} from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api';
+import {api} from './api';
 
 // Получить список всех товарных групп
 export async function getAllProductGroup(): Promise<TypeProductGroup[]> {

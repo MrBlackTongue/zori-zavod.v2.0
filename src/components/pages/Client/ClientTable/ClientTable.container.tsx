@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { CLIENT, deleteClientById, getAllClient } from '../../../../services';
+import { CLIENT, deleteClientById, getAllClient } from '../../../../api';
 import { TypeClient } from '../../../../types';
 import { ClientTableView } from './ClientTable.view';
 import usePagination from '../../../../hooks/usePagination';

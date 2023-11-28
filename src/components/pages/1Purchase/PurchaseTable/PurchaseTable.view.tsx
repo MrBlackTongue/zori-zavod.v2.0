@@ -11,7 +11,7 @@ import {
   TypePurchase,
   TypeUnit,
 } from '../../../../types';
-import { getAllPurchase, getAllPurchaseByTitle } from '../../../../services';
+import { getAllPurchase, getAllPurchaseByTitle } from '../../../../api';
 import dayjs from 'dayjs';
 import { renderAsRuble, renderNumber } from '../../../../utils';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
@@ -21,7 +21,7 @@ import {
   ACTIONS_OVERVIEW_CONTENT,
 } from '../../../atoms/CustomPopover/ContentPopover';
 
-export const TablePurchase: React.FC<TableProps> = ({
+export const PurchaseTableView: React.FC<TableProps> = ({
   isUpdateTable,
   openDrawer,
   onDelete,

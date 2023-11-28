@@ -5,15 +5,13 @@ import {
   createPurchase,
   deletePurchaseById,
   updatePurchase,
-} from '../../../services';
-import { TypePurchase, TypePurchaseFormValue } from '../../../types';
-import { TablePurchase } from './components/TablePurchase';
-import { CreateModalPurchase } from './components/CreateModalPurchase';
-import { UpdateDrawerPurchase } from './components/UpdateDrawerPurchase';
+} from '../../../../api';
+import { TypePurchase, TypePurchaseFormValue } from '../../../../types';
+import { PurchaseTableView } from './PurchaseTable.view';
 import dayjs from 'dayjs';
-import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
+import AddButtonOld from '../../../atoms/AddButtonOld/AddButtonOld';
 
-export const PagePurchase: React.FC = () => {
+export const PurchaseTableContainer: React.FC = () => {
   // Обновление таблицы, открыть закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -88,22 +86,11 @@ export const PagePurchase: React.FC = () => {
         />
       </Flex>
       <FloatButton.BackTop />
-      <TablePurchase
+      <PurchaseTableView
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeletePurchase}
         searchText={searchText}
-      />
-      <CreateModalPurchase
-        isOpen={isModalOpen}
-        createItem={handleCreatePurchase}
-        onCancel={() => setIsModalOpen(false)}
-      />
-      <UpdateDrawerPurchase
-        isOpen={isDrawerOpen}
-        selectedItemId={selectedPurchaseId}
-        updateItem={handleUpdatePurchase}
-        onCancel={() => setIsDrawerOpen(false)}
       />
     </div>
   );
