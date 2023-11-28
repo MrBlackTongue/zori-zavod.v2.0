@@ -66,6 +66,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
 
   // Функция трансформации данных с сервера
   const transformData = (data: TypeWorkHour) => {
+    console.log('Received Data:', data); // Выводим исходные данные
     const { rows } = data;
     return Object.values(rows).map(row => {
       const { employee, days } = row;
@@ -222,9 +223,10 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
 
   // Функция для добавления новой строки
   const addNewRow = () => {
-    const newRow: TypeRow = {
+    // Создаем объект напрямую в формате TransformedWorkHour
+    const newRow: TransformedWorkHour = {
       employee: null, // employee пока не выбран
-      days: days.reduce(
+      ...days.reduce(
         (acc, day) => {
           const formattedDate = day.format('YYYY-MM-DD');
           acc[formattedDate] = {
@@ -238,13 +240,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
       ),
     };
 
-    // Преобразовываем TypeRow в TransformedWorkHour для добавления в состояние
-    const transformedRow: TransformedWorkHour = {
-      employee: newRow.employee,
-      ...newRow.days,
-    };
-
-    setAllWorkHour(prevWorkHours => [...prevWorkHours, transformedRow]);
+    setAllWorkHour(prevWorkHours => [...prevWorkHours, newRow]);
   };
 
   // Колонки для сотрудников и итогов
@@ -381,6 +377,7 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         columns={columns}
         dataSource={allWorkHour}
         loading={isLoading}
+        size={'middle'}
         onChange={handleChangeTable}
         pagination={{
           ...pagination,

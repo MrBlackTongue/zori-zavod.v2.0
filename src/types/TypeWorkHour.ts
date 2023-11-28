@@ -27,7 +27,7 @@ export interface TransformedWorkHour {
 
 export interface TypeEditingDayState {
   id?: number | null;
-  workDate: string;
+  workDate: string | null;
   duration: number;
   employee: TypeEmployee | number | undefined;
 }
