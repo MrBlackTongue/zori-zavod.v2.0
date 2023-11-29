@@ -6,7 +6,7 @@ import {
   deletePurchaseById,
   updatePurchase,
 } from '../../../../api';
-import { TypePurchase, TypePurchaseFormValue } from '../../../../types';
+import { TypePurchase } from '../../../../types';
 import { PurchaseTableView } from './PurchaseTable.view';
 import dayjs from 'dayjs';
 import AddButtonOld from '../../../atoms/AddButtonOld/AddButtonOld';
@@ -24,14 +24,12 @@ export const PurchaseTableContainer: React.FC = () => {
   const [searchText, setSearchText] = useState<string>('');
 
   // Добавить новую закупку
-  const handleCreatePurchase = async (
-    values: TypePurchaseFormValue,
-  ): Promise<void> => {
+  const handleCreatePurchase = async (values: TypePurchase): Promise<void> => {
     const purchase: TypePurchase = {
       amount: values.amount,
       cost: values.cost,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      product: { id: values.product },
+      product: values.product ? { id: values.product.id } : undefined,
       paid: values.paid,
     };
     setIsModalOpen(false);
@@ -46,15 +44,13 @@ export const PurchaseTableContainer: React.FC = () => {
   };
 
   // Обновить закупку
-  const handleUpdatePurchase = async (
-    values: TypePurchaseFormValue,
-  ): Promise<void> => {
+  const handleUpdatePurchase = async (values: TypePurchase): Promise<void> => {
     const purchase: TypePurchase = {
       id: selectedPurchaseId,
       amount: values.amount,
       cost: values.cost,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      product: { id: values.product },
+      product: values.product ? { id: values.product.id } : undefined,
       paid: values.paid,
     };
     setIsDrawerOpen(false);

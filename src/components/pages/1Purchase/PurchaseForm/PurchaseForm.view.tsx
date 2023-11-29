@@ -1,14 +1,17 @@
 import React from 'react';
 import { Checkbox, DatePicker, Form, InputNumber } from 'antd';
-import { FormViewProps, TypePurchaseFormValue } from '../../../../types';
+import { FormViewProps, TypePurchase } from '../../../../types';
 import { numberFormatter, numberParser } from '../../../../utils';
 import FormActions from '../../../atoms/FormActions/FormActions';
 import { ProductSelect } from '../../../atoms/ProductSelect/ProductSelect';
 import { useTransformedSelect } from '../../../../hooks';
 
-export const PurchaseFormView: React.FC<
-  FormViewProps<TypePurchaseFormValue>
-> = ({ form, title, onFinish, onCancel }) => {
+export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
+  form,
+  title,
+  onFinish,
+  onCancel,
+}) => {
   const { onChange, onClear, onSearch } = useTransformedSelect(form, 'product');
 
   return (

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form, Input } from 'antd';
-import { FormViewProps, TypeClientFormValue } from '../../../../types';
+import { FormViewProps, TypeClient } from '../../../../types';
 import FormActions from '../../../atoms/FormActions/FormActions';
 
-export const ClientFormView: React.FC<FormViewProps<TypeClientFormValue>> = ({
+export const ClientFormView: React.FC<FormViewProps<TypeClient>> = ({
   form,
   title,
   onFinish,

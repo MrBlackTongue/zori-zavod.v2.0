@@ -9,13 +9,3 @@ export type TypePurchase = {
   product?: TypeProduct;
   paid?: boolean;
 };
-
-export type TypePurchaseFormValue = {
-  id?: number;
-  amount?: number;
-  cost?: number;
-  date?: string;
-  product?: number;
-  productBatch?: number;
-  paid?: boolean;
-};
