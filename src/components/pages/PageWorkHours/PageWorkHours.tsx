@@ -4,7 +4,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import 'dayjs/locale/ru';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import '../../../App.css';
-import { TableWorkHours } from './components/TableWorkHours';
+import { TableWorkHours } from '../WorkHours/components/TableWorkHours';
 import dayjs from 'dayjs';
 
 export const PageWorkHours: React.FC = () => {

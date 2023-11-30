@@ -1,52 +1,40 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Table } from 'antd';
-import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import dayjs from 'dayjs';
+import {
+  getAllWorkHours,
+  updateWorkHours,
+  createWorkHours,
+} from '../../../../services';
+import { useFetchAllData } from '../../../../hooks';
 import {
   TableProps,
   TransformedWorkHour,
   TypeEditingDayState,
-  TypeRow,
   TypeWorkDay,
   TypeWorkHour,
   TypeWorkHoursFilter,
 } from '../../../../types';
-import dayjs from 'dayjs';
-import {
-  createWorkHours,
-  getAllWorkHours,
-  updateWorkHours,
-} from '../../../../services';
-import { useFetchAllData } from '../../../../hooks';
-import { EmployeeSelect } from './EmployeeSelect';
-import { EditableCell } from './EditableCell';
-import { EditableRow } from './EditableRow';
 import { formatMinutesToTime } from '../../../../utils';
-import './TableWorkHour.css';
-import { PlusOutlined } from '@ant-design/icons';
+import { WorkHoursTableView } from './WorkHoursTable.view';
+import { TablePaginationConfig } from 'antd';
+import { EditableCell } from '../components/EditableCell';
+import { EditableRow } from '../components/EditableRow';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
 
-export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
-  filter,
-}) => {
-  // Spinner и список всех сотрудников и рабочих часов
+export const WorkHoursTableContainer: React.FC<
+  TableProps<TypeWorkHoursFilter>
+> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allWorkHour, setAllWorkHour] = useState<TransformedWorkHour[]>([]);
-
-  // Локальное состояние для управления редактированием ячейки сотрудника
   const [editingEmployee, setEditingEmployee] = useState<number | null>(null);
-
-  // Локальное состояние для управления редактированием ячейки дня
   const [editingDay, setEditingDay] = useState<TypeEditingDayState | null>(
     null,
   );
   const [originalHours, setOriginalHours] = useState<number | null>(null);
-
   const [totalHoursPerDay, setTotalHoursPerDay] = useState<
     Record<string, string>
   >({});
-
-  const [totalAllHours, setTotalAllHours] = useState<string>('0 ч');
-
-  // Хук для получения данных
+  const [totalAllHours, setTotalAllHours] = useState<string>('0 �');
   const { allEmployee } = useFetchAllData({ depsEmployee: true });
 
   // Параметры для пагинации
@@ -54,6 +42,48 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     current: 1,
     pageSize: 10,
   });
+
+  dayjs.locale('ru');
+  dayjs.extend(weekOfYear);
+
+  // Установка текущей недели по умолчанию
+  const [selectedDate, setSelectedDate] = useState(dayjs().startOf('week'));
+
+  // Переключение на предыдущую неделю
+  const prevWeek = () => {
+    setSelectedDate(prevDate => prevDate.subtract(1, 'week'));
+  };
+
+  // Переключение на следующую неделю
+  const nextWeek = () => {
+    setSelectedDate(prevDate => prevDate.add(1, 'week'));
+  };
+
+  // Обработчик изменения даты
+  const handleDateChange = (date: any) => {
+    setSelectedDate(dayjs(date));
+  };
+
+  // Создание объекта фильтра с использованием useMemo
+  const filter = useMemo(
+    () => ({
+      selectedDate: selectedDate,
+      startDate: selectedDate.startOf('week').format('YYYY-MM-DD'), // начало недели
+      endDate: selectedDate.endOf('week').format('YYYY-MM-DD'), // конец недели
+    }),
+    [selectedDate],
+  );
+
+  const getWeekFormat = (date: dayjs.Dayjs | null) => {
+    if (!date || !date.isValid()) return '';
+
+    const startOfWeek = date.startOf('week');
+    const endOfWeek = date.endOf('week');
+    const weekNumber = startOfWeek.week();
+    return `неделя ${weekNumber}:  ${startOfWeek.format(
+      'D MMM',
+    )} - ${endOfWeek.format('D MMM YYYY')}`;
+  };
 
   // Дата начала и конца недели
   const startDate = (filter?.selectedDate ?? dayjs()).startOf('week');
@@ -119,7 +149,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
         totalMinutes += day.duration || 0;
       }
     });
-    // const totalHours = Math.floor(totalMinutes / 60);
     return formatMinutesToTime(totalMinutes);
   };
 
@@ -243,92 +272,6 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
     setAllWorkHour(prevWorkHours => [...prevWorkHours, newRow]);
   };
 
-  // Колонки для сотрудников и итогов
-  const baseColumns: ColumnsType<TransformedWorkHour> = [
-    {
-      title: 'Сотрудник',
-      dataIndex: 'employee',
-      key: 'employee',
-      width: 300,
-      render: (_, record: TransformedWorkHour) => {
-        return (
-          <EmployeeSelect
-            employees={allEmployee}
-            editingEmployee={editingEmployee}
-            handleEmployeeChange={handleEmployeeChange}
-            record={record}></EmployeeSelect>
-        );
-      },
-    },
-  ];
-
-  // Колонки для дней недели
-  const daysColumns: ColumnsType<TransformedWorkHour> = days.map(day => {
-    const dateFormat = day.format('YYYY-MM-DD');
-    return {
-      title: (
-        <>
-          {day.format('dd')} {day.format('DD.MM')}
-          <br />
-          <span style={{ fontWeight: 'normal', fontSize: 'small' }}>
-            {totalHoursPerDay[dateFormat] || '0 ч'}
-          </span>
-        </>
-      ),
-      dataIndex: dateFormat,
-      key: dateFormat,
-      width: 90,
-      editable: true,
-      render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
-        const hours =
-          dayData && dayData.duration !== null
-            ? dayData.duration.toString()
-            : '';
-        return (
-          <EditableCell
-            record={record}
-            dateFormat={dateFormat}
-            originalHours={originalHours}
-            editingEmployee={editingEmployee}
-            setOriginalHours={setOriginalHours}
-            setEditingDay={setEditingDay}
-            handleCreateNewRecord={handleCreateNewRecord}
-            handleUpdateRecord={handleUpdateNewRecord}
-            children={hours}
-            editable={true}
-            dataIndex={dateFormat}
-            dayData={dayData}
-            editingDay={editingDay}
-          />
-        );
-      },
-    };
-  });
-
-  const totalColumn: ColumnsType<TransformedWorkHour> = [
-    {
-      title: (
-        <>
-          Итого
-          <br />
-          <span style={{ fontWeight: 'normal', fontSize: 'small' }}>
-            {totalAllHours}
-          </span>
-        </>
-      ),
-      dataIndex: 'total',
-      key: 'total',
-      width: 150,
-      render: (_, record: TransformedWorkHour) => {
-        // Рассчитываем итог для каждого сотрудника
-        return `${calculateTotalHours(record)}`;
-      },
-    },
-  ];
-
-  // Объединение всех колонок
-  const columns = [...baseColumns, ...daysColumns, ...totalColumn];
-
   // Параметры изменения таблицы
   const handleChangeTable = (pagination: TablePaginationConfig): void => {
     setPagination(prevPagination => ({
@@ -367,27 +310,30 @@ export const TableWorkHours: React.FC<TableProps<TypeWorkHoursFilter>> = ({
   };
 
   return (
-    <>
-      <Table
-        rowKey="id"
-        bordered={true}
-        components={components}
-        rowClassName={() => 'editable-row'}
-        className="table-work-hour"
-        columns={columns}
-        dataSource={allWorkHour}
-        loading={isLoading}
-        size={'middle'}
-        onChange={handleChangeTable}
-        pagination={{
-          ...pagination,
-          position: ['bottomCenter'],
-          totalBoundaryShowSizeChanger: 10,
-        }}
-      />
-      <Button type="primary" icon={<PlusOutlined />} onClick={addNewRow}>
-        Добавить
-      </Button>
-    </>
+    <WorkHoursTableView
+      isLoading={isLoading}
+      allWorkHour={allWorkHour}
+      editingEmployee={editingEmployee}
+      originalHours={originalHours}
+      totalHoursPerDay={totalHoursPerDay}
+      totalAllHours={totalAllHours}
+      handleEmployeeChange={handleEmployeeChange}
+      handleUpdateNewRecord={handleUpdateNewRecord}
+      handleCreateNewRecord={handleCreateNewRecord}
+      addNewRow={addNewRow}
+      days={days}
+      selectedDate={selectedDate}
+      // setSelectedDate={setSelectedDate}
+      // filter={filter}
+      allEmployee={allEmployee}
+      setOriginalHours={setOriginalHours}
+      setEditingDay={setEditingDay}
+      editingDay={editingDay}
+      calculateTotalHours={calculateTotalHours}
+      prevWeek={prevWeek}
+      handleDateChange={handleDateChange}
+      getWeekFormat={getWeekFormat}
+      nextWeek={nextWeek}
+    />
   );
 };
