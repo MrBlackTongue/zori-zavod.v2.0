@@ -48,7 +48,7 @@ import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimated
 import { PageUnit } from '../../pages/PageUnit/PageUnit';
 import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable.container';
 import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/EmployeeTable.container';
-import { PageWorkHours } from '../../pages/PageWorkHours/PageWorkHours';
+import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/WorkHoursTable.container';
 
 export const menuKeyToRoutes: Record<
   string,
@@ -275,7 +275,11 @@ export const menuKeyToRoutes: Record<
       id: WORK_HOURS,
       title: 'Табель учета рабочего времени',
       route: (
-        <Route key={WORK_HOURS} path={WORK_HOURS} element={<PageWorkHours />} />
+        <Route
+          key={WORK_HOURS}
+          path={WORK_HOURS}
+          element={<WorkHoursTableContainer />}
+        />
       ),
     },
     {
