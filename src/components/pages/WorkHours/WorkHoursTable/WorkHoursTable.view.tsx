@@ -178,7 +178,7 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
   return (
     <>
       <Flex
-        gap="small"
+        gap="3px"
         justify="flex-end"
         align="center"
         wrap="wrap"

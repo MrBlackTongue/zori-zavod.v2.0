@@ -34,8 +34,10 @@ export const WorkHoursTableContainer: React.FC<
   const [totalHoursPerDay, setTotalHoursPerDay] = useState<
     Record<string, string>
   >({});
-  const [totalAllHours, setTotalAllHours] = useState<string>('0 �');
+  const [totalAllHours, setTotalAllHours] = useState<string>('0ч');
   const { allEmployee } = useFetchAllData({ depsEmployee: true });
+
+  const [dataUpdated, setDataUpdated] = useState(false);
 
   // Параметры для пагинации
   //   const [pagination, setPagination] = useState({
@@ -81,8 +83,8 @@ export const WorkHoursTableContainer: React.FC<
     const endOfWeek = date.endOf('week');
     const weekNumber = startOfWeek.week();
     return `неделя ${weekNumber}:  ${startOfWeek.format(
-      'DD MMM',
-    )} - ${endOfWeek.format('DD MMM YYYY')}`;
+      'D MMM',
+    )} - ${endOfWeek.format('D MMM YYYY')}`;
   };
 
   // Дата начала и конца недели
@@ -94,6 +96,7 @@ export const WorkHoursTableContainer: React.FC<
     days.push(startDate.add(i, 'day'));
   }
 
+  // Функция возвращения к текущей неделе
   const goToCurrentWeek = () => {
     setSelectedDate(dayjs().startOf('week'));
   };
@@ -230,23 +233,7 @@ export const WorkHoursTableContainer: React.FC<
       };
       createWorkHours(workHourData)
         .then(response => {
-          // Получаем ID новой записи из ответа сервера
-          const newRecordId = response.id; // Предполагаем, что id возвращается в response
-          setAllWorkHour(prevWorkHours =>
-            prevWorkHours.map(item => {
-              if (item.employee === null || item.employee.id === employeeId) {
-                return {
-                  ...item,
-                  [date]: {
-                    ...item[date],
-                    duration: newHours,
-                    id: newRecordId,
-                  },
-                };
-              }
-              return item;
-            }),
-          );
+          setDataUpdated(prev => !prev); // Переключаем состояние
         })
         .catch(error => {
           console.error('Ошибка при создании часов работы:', error);
@@ -304,7 +291,13 @@ export const WorkHoursTableContainer: React.FC<
 
   useEffect(() => {
     handleUpdateTable();
-  }, [handleUpdateTable, filter]);
+  }, [handleUpdateTable, filter, dataUpdated]);
+
+  useEffect(() => {
+    if (allWorkHour.length === 0) {
+      addNewRow();
+    }
+  }, [allWorkHour.length]);
 
   return (
     <WorkHoursTableView
