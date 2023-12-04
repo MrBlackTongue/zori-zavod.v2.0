@@ -1,6 +1,11 @@
 import React from 'react';
 import { Button, DatePicker, Flex, FloatButton, Table } from 'antd';
-import { LeftOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
+import {
+  HomeOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import {
   TransformedWorkHour,
@@ -13,7 +18,6 @@ import { EditableCell } from '../components/EditableCell';
 import { EmployeeSelect } from '../components/EmployeeSelect';
 import dayjs from 'dayjs';
 import '../components/TableWorkHour.css';
-import moment from 'dayjs';
 
 interface WorkHoursTableViewProps {
   isLoading: boolean;
@@ -40,14 +44,15 @@ interface WorkHoursTableViewProps {
   setEditingDay: (editingDay: TypeEditingDayState | null) => void;
   editingDay: TypeEditingDayState | null;
   calculateTotalHours: any; // не уверен что здесь правильно
-  prevWeek: () => void; // не уверен что здесь правильно
-  handleDateChange: (date: dayjs.Dayjs | null) => void;
-  selectedDate: dayjs.Dayjs;
-  getWeekFormat: (date: dayjs.Dayjs | null) => string;
+  prevWeek: () => void;
   nextWeek: () => void;
-  handleChangeTable: (pagination: TablePaginationConfig) => void;
-
-  pagination: TablePaginationConfig;
+  selectedDate: dayjs.Dayjs;
+  goToCurrentWeek: () => void;
+  handleDateChange: (date: dayjs.Dayjs | null) => void;
+  getWeekFormat: (date: dayjs.Dayjs | null) => string;
+  // handleChangeTable: (pagination: TablePaginationConfig) => void;
+  handleUpdateTable: () => void;
+  // pagination: TablePaginationConfig;
 }
 
 export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
@@ -72,8 +77,10 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
   selectedDate,
   getWeekFormat,
   nextWeek,
-  handleChangeTable,
-  pagination,
+  goToCurrentWeek,
+  // handleChangeTable,
+  // pagination,
+  handleUpdateTable,
 }) => {
   // Колонки для сотрудников и итогов
   const baseColumns: ColumnsType<TransformedWorkHour> = [
@@ -150,7 +157,7 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
       ),
       dataIndex: 'total',
       key: 'total',
-      width: 150,
+      width: 100,
       render: (_, record: TransformedWorkHour) => {
         // Рассчитываем итог для каждого сотрудника
         return `${calculateTotalHours(record)}`;
@@ -179,13 +186,16 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
         <Button onClick={prevWeek}>
           <LeftOutlined />
         </Button>
+        <Button onClick={goToCurrentWeek}>
+          <HomeOutlined />
+        </Button>
         <DatePicker
           allowClear={false}
           picker="week"
           onChange={handleDateChange}
           value={selectedDate}
           format={getWeekFormat(selectedDate)}
-          style={{ width: '280px' }}
+          style={{ width: 300 }}
           className="no-clear-button"
         />
         <Button onClick={nextWeek}>
@@ -203,14 +213,19 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
         dataSource={allWorkHour}
         loading={isLoading}
         size={'middle'}
-        onChange={handleChangeTable}
-        pagination={{
-          ...pagination,
-          position: ['bottomCenter'],
-          totalBoundaryShowSizeChanger: 10,
-        }}
+        pagination={false}
+        // onChange={handleChangeTable}
+        // pagination={{
+        //   ...pagination,
+        //   position: ['bottomCenter'],
+        //   totalBoundaryShowSizeChanger: 10,
+        // }}
       />
-      <Button type="primary" icon={<PlusOutlined />} onClick={addNewRow}>
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        style={{ marginTop: 15 }}
+        onClick={addNewRow}>
         Добавить
       </Button>
     </>

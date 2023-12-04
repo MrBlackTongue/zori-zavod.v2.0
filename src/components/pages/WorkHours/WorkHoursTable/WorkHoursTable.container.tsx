@@ -38,10 +38,10 @@ export const WorkHoursTableContainer: React.FC<
   const { allEmployee } = useFetchAllData({ depsEmployee: true });
 
   // Параметры для пагинации
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-  });
+  //   const [pagination, setPagination] = useState({
+  //     current: 1,
+  //     pageSize: 10,
+  //   });
 
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
@@ -81,8 +81,8 @@ export const WorkHoursTableContainer: React.FC<
     const endOfWeek = date.endOf('week');
     const weekNumber = startOfWeek.week();
     return `неделя ${weekNumber}:  ${startOfWeek.format(
-      'D MMM',
-    )} - ${endOfWeek.format('D MMM YYYY')}`;
+      'DD MMM',
+    )} - ${endOfWeek.format('DD MMM YYYY')}`;
   };
 
   // Дата начала и конца недели
@@ -93,6 +93,10 @@ export const WorkHoursTableContainer: React.FC<
   for (let i = 0; i < 7; i++) {
     days.push(startDate.add(i, 'day'));
   }
+
+  const goToCurrentWeek = () => {
+    setSelectedDate(dayjs().startOf('week'));
+  };
 
   // Функция трансформации данных с сервера
   const transformData = (data: TypeWorkHour) => {
@@ -273,12 +277,12 @@ export const WorkHoursTableContainer: React.FC<
   };
 
   // Параметры изменения таблицы
-  const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination(prevPagination => ({
-      current: pagination.current ?? prevPagination.current,
-      pageSize: pagination.pageSize ?? prevPagination.pageSize,
-    }));
-  };
+  // const handleChangeTable = (pagination: TablePaginationConfig): void => {
+  //   setPagination(prevPagination => ({
+  //     current: pagination.current ?? prevPagination.current,
+  //     pageSize: pagination.pageSize ?? prevPagination.pageSize,
+  //   }));
+  // };
 
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
@@ -316,8 +320,6 @@ export const WorkHoursTableContainer: React.FC<
       addNewRow={addNewRow}
       days={days}
       selectedDate={selectedDate}
-      // setSelectedDate={setSelectedDate}
-      // filter={filter}
       allEmployee={allEmployee}
       setOriginalHours={setOriginalHours}
       setEditingDay={setEditingDay}
@@ -327,8 +329,10 @@ export const WorkHoursTableContainer: React.FC<
       handleDateChange={handleDateChange}
       getWeekFormat={getWeekFormat}
       nextWeek={nextWeek}
-      handleChangeTable={handleChangeTable}
-      pagination={pagination}
+      // handleChangeTable={handleChangeTable}
+      // pagination={pagination}
+      handleUpdateTable={handleUpdateTable}
+      goToCurrentWeek={goToCurrentWeek}
     />
   );
 };
