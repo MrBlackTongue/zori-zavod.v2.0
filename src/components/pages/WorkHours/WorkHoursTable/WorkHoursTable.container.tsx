@@ -302,13 +302,6 @@ export const WorkHoursTableContainer: React.FC<
     handleUpdateTable();
   }, [handleUpdateTable, filter]);
 
-  const components = {
-    body: {
-      row: EditableRow,
-      cell: EditableCell,
-    },
-  };
-
   return (
     <WorkHoursTableView
       isLoading={isLoading}
@@ -334,6 +327,8 @@ export const WorkHoursTableContainer: React.FC<
       handleDateChange={handleDateChange}
       getWeekFormat={getWeekFormat}
       nextWeek={nextWeek}
+      handleChangeTable={handleChangeTable}
+      pagination={pagination}
     />
   );
 };

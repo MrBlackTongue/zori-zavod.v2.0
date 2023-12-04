@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, DatePicker, Flex, FloatButton, Table } from 'antd';
 import { LeftOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
-import type { ColumnsType } from 'antd/es/table';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import {
   TransformedWorkHour,
   TypeEditingDayState,
@@ -12,6 +12,7 @@ import { EditableRow } from '../components/EditableRow';
 import { EditableCell } from '../components/EditableCell';
 import { EmployeeSelect } from '../components/EmployeeSelect';
 import dayjs from 'dayjs';
+import '../components/TableWorkHour.css';
 import moment from 'dayjs';
 
 interface WorkHoursTableViewProps {
@@ -44,6 +45,9 @@ interface WorkHoursTableViewProps {
   selectedDate: dayjs.Dayjs;
   getWeekFormat: (date: dayjs.Dayjs | null) => string;
   nextWeek: () => void;
+  handleChangeTable: (pagination: TablePaginationConfig) => void;
+
+  pagination: TablePaginationConfig;
 }
 
 export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
@@ -68,6 +72,8 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
   selectedDate,
   getWeekFormat,
   nextWeek,
+  handleChangeTable,
+  pagination,
 }) => {
   // Колонки для сотрудников и итогов
   const baseColumns: ColumnsType<TransformedWorkHour> = [
@@ -152,6 +158,13 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
     },
   ];
 
+  const components = {
+    body: {
+      row: EditableRow,
+      cell: EditableCell,
+    },
+  };
+
   // Объединение всех колонок
   const columns = [...baseColumns, ...daysColumns, ...totalColumn];
 
@@ -183,19 +196,16 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
       <Table
         rowKey="id"
         bordered={true}
-        components={{
-          body: {
-            row: EditableRow,
-            cell: EditableCell,
-          },
-        }}
+        components={components}
         rowClassName={() => 'editable-row'}
         className="table-work-hour"
         columns={columns}
         dataSource={allWorkHour}
         loading={isLoading}
         size={'middle'}
+        onChange={handleChangeTable}
         pagination={{
+          ...pagination,
           position: ['bottomCenter'],
           totalBoundaryShowSizeChanger: 10,
         }}

@@ -5,6 +5,7 @@ import {
   TypeEditingDayState,
   TypeWorkDay,
 } from '../../../../types';
+import '../components/TableWorkHour.css';
 import { EditableContext } from './EditableRow';
 import { formatMinutesToTime, timeToMinutes } from '../../../../utils';
 
