@@ -5,6 +5,7 @@ import { numberFormatter, numberParser } from '../../../../utils';
 import FormActions from '../../../atoms/FormActions/FormActions';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 import { useTransformedSelect } from '../../../../hooks';
+import { getAllProduct } from '../../../../api';
 
 export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
   form,
@@ -32,6 +33,16 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
             onChange={onChange}
             onClear={onClear}
             onSearch={onSearch}
+            fetchDataList={() =>
+              getAllProduct() as Promise<
+                {
+                  id: number;
+                  title: string;
+                }[]
+              >
+            }
+            placeholder="Выберите товар"
+            renderLabel={item => item.title}
           />
         </Form.Item>
         <Form.Item

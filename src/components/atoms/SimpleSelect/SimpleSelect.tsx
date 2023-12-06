@@ -1,25 +1,39 @@
 import React, { useCallback } from 'react';
 import { Select, Tooltip } from 'antd';
-import { TypeProduct } from '../../../types';
 import { useDataListLoader } from '../../../hooks';
-import { getAllProduct } from '../../../api';
 
-interface SimpleSelectProps {
+interface SimpleSelectProps<T> {
   onChange: (value: { id: number } | undefined) => void;
   onClear: () => void;
   onSearch: (input: string, option: any) => boolean;
   value?: string | { id: string | number };
+  fetchDataList: () => Promise<T[]>;
+  placeholder: string;
+  renderLabel: (item: T) => string;
 }
 
-export const SimpleSelect: React.FC<SimpleSelectProps> = ({
+export const SimpleSelect = <
+  T extends {
+    id: number;
+    title: string;
+  },
+>({
+  value,
   onChange,
   onClear,
   onSearch,
-  value,
-}) => {
+  fetchDataList,
+  placeholder,
+  renderLabel,
+}: SimpleSelectProps<T>) => {
   // Хук для получения всех данных и загрузки
-  const { isLoading, dataList, getDataList } =
-    useDataListLoader<TypeProduct[]>();
+  const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
+
+  const selectOptions = dataList?.map(item => ({
+    key: item.id,
+    value: item.id,
+    label: renderLabel(item),
+  }));
 
   // Преобразование текущего значения формы в формат, подходящий для Select
   const selectValue =
@@ -44,7 +58,7 @@ export const SimpleSelect: React.FC<SimpleSelectProps> = ({
   const handleDropdownVisibleChange = useCallback(
     (visible: boolean) => {
       if (visible) {
-        getDataList(getAllProduct).catch((error: unknown) => {
+        getDataList(fetchDataList).catch((error: unknown) => {
           if (error instanceof Error) {
             console.error('Ошибка при получении данных: ', error.message);
           }
@@ -53,27 +67,36 @@ export const SimpleSelect: React.FC<SimpleSelectProps> = ({
     },
     [getDataList],
   );
+
   return (
     <Select
       showSearch
       allowClear
       labelInValue
-      placeholder="Выберите товар"
+      placeholder={placeholder}
       value={selectValue}
       loading={isLoading}
       onChange={handleChange}
       onClear={onClear}
       filterOption={onSearch}
       onDropdownVisibleChange={handleDropdownVisibleChange}>
-      {dataList && dataList.length > 0
-        ? dataList.map(elem => (
-            <Select.Option key={elem.id} value={elem.id} label={elem.title}>
-              <Tooltip placement="right" title={elem.title}>
-                {elem.title}
-              </Tooltip>
-            </Select.Option>
-          ))
-        : null}
+      {selectOptions?.map(option => (
+        <Select.Option key={option.key} value={option.value}>
+          <Tooltip placement="right" title={option.label}>
+            {option.label}
+          </Tooltip>
+        </Select.Option>
+      ))}
+
+      {/*{selectOptions && dataList.length > 0*/}
+      {/*  ? dataList.map(elem => (*/}
+      {/*      <Select.Option key={elem.id} value={elem.id} label={elem.title}>*/}
+      {/*        <Tooltip placement="right" title={elem.title}>*/}
+      {/*          {elem.title}*/}
+      {/*        </Tooltip>*/}
+      {/*      </Select.Option>*/}
+      {/*    ))*/}
+      {/*  : null}*/}
     </Select>
   );
 };
