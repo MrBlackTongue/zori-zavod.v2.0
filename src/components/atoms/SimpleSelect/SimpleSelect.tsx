@@ -4,14 +4,14 @@ import { TypeProduct } from '../../../types';
 import { useDataListLoader } from '../../../hooks';
 import { getAllProduct } from '../../../api';
 
-interface ProductSelectProps {
+interface SimpleSelectProps {
   onChange: (value: { id: number } | undefined) => void;
   onClear: () => void;
   onSearch: (input: string, option: any) => boolean;
   value?: string | { id: string | number };
 }
 
-export const ProductSelect: React.FC<ProductSelectProps> = ({
+export const SimpleSelect: React.FC<SimpleSelectProps> = ({
   onChange,
   onClear,
   onSearch,
@@ -66,13 +66,10 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({
       filterOption={onSearch}
       onDropdownVisibleChange={handleDropdownVisibleChange}>
       {dataList && dataList.length > 0
-        ? dataList.map(product => (
-            <Select.Option
-              key={product.id}
-              value={product.id}
-              label={product.title}>
-              <Tooltip placement="right" title={product.title}>
-                {product.title}
+        ? dataList.map(elem => (
+            <Select.Option key={elem.id} value={elem.id} label={elem.title}>
+              <Tooltip placement="right" title={elem.title}>
+                {elem.title}
               </Tooltip>
             </Select.Option>
           ))

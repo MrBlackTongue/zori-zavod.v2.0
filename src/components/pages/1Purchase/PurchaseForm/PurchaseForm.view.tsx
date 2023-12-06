@@ -3,7 +3,7 @@ import { Checkbox, DatePicker, Form, InputNumber } from 'antd';
 import { FormViewProps, TypePurchase } from '../../../../types';
 import { numberFormatter, numberParser } from '../../../../utils';
 import FormActions from '../../../atoms/FormActions/FormActions';
-import { ProductSelect } from '../../../atoms/ProductSelect/ProductSelect';
+import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 import { useTransformedSelect } from '../../../../hooks';
 
 export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
@@ -27,7 +27,7 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
           label="Товар"
           name="product"
           rules={[{ required: true, message: 'выберите товар' }]}>
-          <ProductSelect
+          <SimpleSelect
             value={form.getFieldValue('product')}
             onChange={onChange}
             onClear={onClear}
