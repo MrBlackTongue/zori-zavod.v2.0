@@ -16,9 +16,6 @@ import {
 } from '../../../../types';
 import { formatMinutesToTime } from '../../../../utils';
 import { WorkHoursTableView } from './WorkHoursTable.view';
-import { TablePaginationConfig } from 'antd';
-import { EditableCell } from '../components/EditableCell';
-import { EditableRow } from '../components/EditableRow';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 
 export const WorkHoursTableContainer: React.FC<

@@ -43,7 +43,7 @@ interface WorkHoursTableViewProps {
   setOriginalHours: (duration: number | null) => void;
   setEditingDay: (editingDay: TypeEditingDayState | null) => void;
   editingDay: TypeEditingDayState | null;
-  calculateTotalHours: any; // не уверен что здесь правильно
+  calculateTotalHours: (workHour: TransformedWorkHour) => string;
   prevWeek: () => void;
   nextWeek: () => void;
   selectedDate: dayjs.Dayjs;
@@ -83,19 +83,30 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
   handleUpdateTable,
 }) => {
   // Колонки для сотрудников и итогов
-  const baseColumns: ColumnsType<TransformedWorkHour> = [
+  const employeeColumn: ColumnsType<TransformedWorkHour> = [
     {
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'employee',
       width: 300,
       render: (_, record: TransformedWorkHour) => {
+        // Если сотрудник не выбран, отображаем селектор
+        if (!record.employee) {
+          const options = allEmployee.map(employee => ({
+            id: employee.id,
+            name: `${employee.lastName} ${employee.firstName}`,
+          }));
+
+          const handleChange = (employeeId: number) => {
+            handleEmployeeChange(employeeId);
+          };
+
+          return <EmployeeSelect options={options} onChange={handleChange} />;
+        }
+
+        // Если сотрудник уже выбран, отображаем его имя и фамилию
         return (
-          <EmployeeSelect
-            employees={allEmployee}
-            editingEmployee={editingEmployee}
-            handleEmployeeChange={handleEmployeeChange}
-            record={record}></EmployeeSelect>
+          <span>{`${record.employee.lastName} ${record.employee.firstName}`}</span>
         );
       },
     },
@@ -173,7 +184,7 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
   };
 
   // Объединение всех колонок
-  const columns = [...baseColumns, ...daysColumns, ...totalColumn];
+  const columns = [...employeeColumn, ...daysColumns, ...totalColumn];
 
   return (
     <>
