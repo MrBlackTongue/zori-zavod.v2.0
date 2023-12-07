@@ -3,7 +3,7 @@ import { FormInstance, Select, Tooltip } from 'antd';
 import { useDataListLoader, useTransformedSelect } from '../../../hooks';
 
 interface SimpleSelectProps<T> {
-  form: FormInstance;
+  form?: FormInstance;
   fieldName: string;
   value?: string | { id: string | number };
   fetchDataList: () => Promise<T[]>;
@@ -27,17 +27,17 @@ export const SimpleSelect = <
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
 
-  // Хук для управления полем Select
+  // Хук для управления полем select
   const { onChange, onClear, onSearch } = useTransformedSelect(form, fieldName);
 
-  // Преобразование данных для использования в Select
+  // Преобразование данных для использования в select
   const selectOptions = dataList?.map(item => ({
     key: item.id,
     value: item.id,
     label: renderLabel(item),
   }));
 
-  // Преобразование текущего значения формы в формат, подходящий для Select
+  // Преобразование текущего значения формы в формат, подходящий для select
   const selectValue =
     typeof value === 'object' && value !== null && 'id' in value
       ? {
@@ -46,7 +46,7 @@ export const SimpleSelect = <
         }
       : undefined;
 
-  // Изменить значение в Select
+  // Изменить значение в select
   const handleChange = (value: { value: string; label: string }) => {
     if (value) {
       onChange({ id: parseInt(value.value, 10) });
@@ -55,7 +55,7 @@ export const SimpleSelect = <
     }
   };
 
-  // Загрузить данные для Select
+  // Загрузить данные для select
   const handleDropdownVisibleChange = useCallback(
     (visible: boolean) => {
       if (visible) {

@@ -1,14 +1,21 @@
 import { FormInstance } from 'antd';
 
-export const useTransformedSelect = (form: FormInstance, fieldName: string) => {
+export const useTransformedSelect = (
+  form?: FormInstance,
+  fieldName?: string,
+) => {
   // Изменить значение в select
   const onChange = (value: { id: number } | undefined) => {
-    form.setFieldsValue({ [fieldName]: value });
+    if (form && fieldName) {
+      form.setFieldsValue({ [fieldName]: value });
+    }
   };
 
   // Очистить поле select
   const onClear = () => {
-    form.setFieldsValue({ [fieldName]: undefined });
+    if (form && fieldName) {
+      form.setFieldsValue({ [fieldName]: undefined });
+    }
   };
 
   // Поиск в select
