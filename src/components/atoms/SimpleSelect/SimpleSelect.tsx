@@ -5,7 +5,11 @@ import { useDataListLoader } from '../../../hooks';
 interface SimpleSelectProps<T> {
   form?: FormInstance;
   fieldName: string;
-  value?: string | { id: string | number };
+  value?:
+    | number
+    | {
+        id: number;
+      };
   fetchDataList: () => Promise<T[]>;
   placeholder: string;
   renderLabel: (item: T) => string;
@@ -35,13 +39,20 @@ export const SimpleSelect = <
   }));
 
   // Преобразование текущего значения формы в формат, подходящий для select
-  const selectValue =
-    typeof value === 'object' && value !== null && 'id' in value
-      ? {
-          value: value.id.toString(),
-          label: dataList?.find(el => el.id === value.id)?.title ?? '',
-        }
-      : undefined;
+  const selectValue = (() => {
+    // Извлекаем id
+    const id = typeof value === 'object' && value !== null ? value.id : value;
+
+    // Если id определен, ищем соответствующий элемент и возвращаем объект для select
+    if (id !== undefined) {
+      const foundItem = dataList?.find(el => el.id === id);
+      return foundItem
+        ? { value: id, label: foundItem.title ?? '' }
+        : undefined;
+    }
+
+    return undefined;
+  })();
 
   // Изменить значение в select
   const onChange = (value: { id: number } | undefined) => {
@@ -63,9 +74,9 @@ export const SimpleSelect = <
   };
 
   // Изменить значение в select
-  const handleChange = (value: { value: string; label: string }) => {
+  const handleChange = (value: { value: number; label: string }) => {
     if (value) {
-      onChange({ id: parseInt(value.value, 10) });
+      onChange({ id: value.value });
     } else {
       onChange(undefined);
     }
