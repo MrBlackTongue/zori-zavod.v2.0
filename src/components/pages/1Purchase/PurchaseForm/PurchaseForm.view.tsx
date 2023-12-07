@@ -4,7 +4,6 @@ import { FormViewProps, TypePurchase } from '../../../../types';
 import { numberFormatter, numberParser } from '../../../../utils';
 import FormActions from '../../../atoms/FormActions/FormActions';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
-import { useTransformedSelect } from '../../../../hooks';
 import { getAllProduct } from '../../../../api';
 
 export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
@@ -13,8 +12,6 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
   onFinish,
   onCancel,
 }) => {
-  const { onChange, onClear, onSearch } = useTransformedSelect(form, 'product');
-
   return (
     <div className="form-style">
       <h2 className="center-text">{title}</h2>
@@ -29,10 +26,11 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
           name="product"
           rules={[{ required: true, message: 'выберите товар' }]}>
           <SimpleSelect
+            form={form}
+            fieldName="product"
+            placeholder="Выберите товар"
             value={form.getFieldValue('product')}
-            onChange={onChange}
-            onClear={onClear}
-            onSearch={onSearch}
+            renderLabel={item => item.title}
             fetchDataList={() =>
               getAllProduct() as Promise<
                 {
@@ -41,8 +39,6 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
                 }[]
               >
             }
-            placeholder="Выберите товар"
-            renderLabel={item => item.title}
           />
         </Form.Item>
         <Form.Item

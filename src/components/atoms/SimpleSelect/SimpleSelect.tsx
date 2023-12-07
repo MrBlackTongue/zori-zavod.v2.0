@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
-import { Select, Tooltip } from 'antd';
-import { useDataListLoader } from '../../../hooks';
+import { FormInstance, Select, Tooltip } from 'antd';
+import { useDataListLoader, useTransformedSelect } from '../../../hooks';
 
 interface SimpleSelectProps<T> {
-  onChange: (value: { id: number } | undefined) => void;
-  onClear: () => void;
-  onSearch: (input: string, option: any) => boolean;
+  form: FormInstance;
+  fieldName: string;
   value?: string | { id: string | number };
   fetchDataList: () => Promise<T[]>;
   placeholder: string;
@@ -18,10 +17,9 @@ export const SimpleSelect = <
     title: string;
   },
 >({
+  form,
+  fieldName,
   value,
-  onChange,
-  onClear,
-  onSearch,
   fetchDataList,
   placeholder,
   renderLabel,
@@ -29,6 +27,10 @@ export const SimpleSelect = <
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
 
+  // Хук для управления полем Select
+  const { onChange, onClear, onSearch } = useTransformedSelect(form, fieldName);
+
+  // Преобразование данных для использования в Select
   const selectOptions = dataList?.map(item => ({
     key: item.id,
     value: item.id,
@@ -40,8 +42,7 @@ export const SimpleSelect = <
     typeof value === 'object' && value !== null && 'id' in value
       ? {
           value: value.id.toString(),
-          label:
-            dataList?.find(product => product.id === value.id)?.title ?? '',
+          label: dataList?.find(el => el.id === value.id)?.title ?? '',
         }
       : undefined;
 
@@ -81,22 +82,15 @@ export const SimpleSelect = <
       filterOption={onSearch}
       onDropdownVisibleChange={handleDropdownVisibleChange}>
       {selectOptions?.map(option => (
-        <Select.Option key={option.key} value={option.value}>
+        <Select.Option
+          key={option.key}
+          value={option.value}
+          label={option.label}>
           <Tooltip placement="right" title={option.label}>
             {option.label}
           </Tooltip>
         </Select.Option>
       ))}
-
-      {/*{selectOptions && dataList.length > 0*/}
-      {/*  ? dataList.map(elem => (*/}
-      {/*      <Select.Option key={elem.id} value={elem.id} label={elem.title}>*/}
-      {/*        <Tooltip placement="right" title={elem.title}>*/}
-      {/*          {elem.title}*/}
-      {/*        </Tooltip>*/}
-      {/*      </Select.Option>*/}
-      {/*    ))*/}
-      {/*  : null}*/}
     </Select>
   );
 };
