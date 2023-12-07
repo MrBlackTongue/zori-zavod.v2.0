@@ -15,7 +15,7 @@ import {
 } from '../../../../types';
 import { EditableRow } from '../components/EditableRow';
 import { EditableCell } from '../components/EditableCell';
-import { EmployeeSelect } from '../components/EmployeeSelect';
+import { EditableSelect } from '../components/EditableSelect';
 import dayjs from 'dayjs';
 import '../components/TableWorkHour.css';
 
@@ -90,23 +90,22 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
       key: 'employee',
       width: 300,
       render: (_, record: TransformedWorkHour) => {
-        // Если сотрудник не выбран, отображаем селектор
-        if (!record.employee) {
-          const options = allEmployee.map(employee => ({
-            id: employee.id,
+        // Фильтруем сотрудников, чтобы убедиться, что у всех есть id
+        const options = allEmployee
+          .filter(employee => employee.id !== undefined)
+          .map(employee => ({
+            id: employee.id as number, // TypeScript теперь уверен, что id определен
             name: `${employee.lastName} ${employee.firstName}`,
           }));
 
-          const handleChange = (employeeId: number) => {
-            handleEmployeeChange(employeeId);
-          };
-
-          return <EmployeeSelect options={options} onChange={handleChange} />;
-        }
-
-        // Если сотрудник уже выбран, отображаем его имя и фамилию
         return (
-          <span>{`${record.employee.lastName} ${record.employee.firstName}`}</span>
+          <EditableSelect
+            options={options}
+            onChange={(value: number) => handleEmployeeChange(Number(value))}
+            defaultValue={record.employee?.id}
+            isEditable={!record.employee}
+            placeholder="Выберите сотрудника"
+          />
         );
       },
     },
