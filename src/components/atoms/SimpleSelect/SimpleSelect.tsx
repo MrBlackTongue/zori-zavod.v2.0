@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { FormInstance, Select, Tooltip } from 'antd';
-import { useDataListLoader, useTransformedSelect } from '../../../hooks';
+import { useDataListLoader } from '../../../hooks';
 
 interface SimpleSelectProps<T> {
   form?: FormInstance;
@@ -27,9 +27,6 @@ export const SimpleSelect = <
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
 
-  // Хук для управления полем select
-  const { onChange, onClear, onSearch } = useTransformedSelect(form, fieldName);
-
   // Преобразование данных для использования в select
   const selectOptions = dataList?.map(item => ({
     key: item.id,
@@ -45,6 +42,25 @@ export const SimpleSelect = <
           label: dataList?.find(el => el.id === value.id)?.title ?? '',
         }
       : undefined;
+
+  // Изменить значение в select
+  const onChange = (value: { id: number } | undefined) => {
+    if (form && fieldName) {
+      form.setFieldsValue({ [fieldName]: value });
+    }
+  };
+
+  // Очистить поле select
+  const onClear = () => {
+    if (form && fieldName) {
+      form.setFieldsValue({ [fieldName]: undefined });
+    }
+  };
+
+  // Поиск в select
+  const onSearch = (searchText: string, option: any) => {
+    return option.label.toLowerCase().includes(searchText.toLowerCase());
+  };
 
   // Изменить значение в select
   const handleChange = (value: { value: string; label: string }) => {
