@@ -30,15 +30,9 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
             fieldName="product"
             placeholder="Выберите товар"
             value={form.getFieldValue('product')}
-            renderLabel={item => item.title}
-            fetchDataList={() =>
-              getAllProduct() as Promise<
-                {
-                  id: number;
-                  title: string;
-                }[]
-              >
-            }
+            getId={item => item.id ?? 0}
+            getLabel={item => item.title ?? ''}
+            fetchDataList={() => getAllProduct()}
           />
         </Form.Item>
         <Form.Item

@@ -5,60 +5,52 @@ import { useDataListLoader } from '../../../hooks';
 interface SimpleSelectProps<T> {
   form?: FormInstance;
   fieldName: string;
-  value?:
-    | number
-    | {
-        id: number;
-      };
+  value?: number | { id: number };
   fetchDataList: () => Promise<T[]>;
   placeholder: string;
-  renderLabel: (item: T) => string;
+  getId: (item: T) => number;
+  getLabel: (item: T) => string;
 }
 
-export const SimpleSelect = <
-  T extends {
-    id: number;
-    title: string;
-  },
->({
+export const SimpleSelect = <T,>({
   form,
   fieldName,
   value,
   fetchDataList,
   placeholder,
-  renderLabel,
+  getId,
+  getLabel,
 }: SimpleSelectProps<T>) => {
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
 
   // Преобразование данных для использования в select
   const selectOptions = dataList?.map(item => ({
-    key: item.id,
-    value: item.id,
-    label: renderLabel(item),
+    key: getId(item),
+    value: getId(item),
+    label: getLabel(item),
   }));
 
   // Преобразование текущего значения формы в формат, подходящий для select
-  const selectValue = (() => {
-    // Извлекаем id
-    const id = typeof value === 'object' && value !== null ? value.id : value;
+  let selectValue;
 
-    // Если id определен, ищем соответствующий элемент и возвращаем объект для select
-    if (id !== undefined) {
-      const foundItem = dataList?.find(el => el.id === id);
-      return foundItem
-        ? { value: id, label: foundItem.title ?? '' }
-        : undefined;
-    }
+  // Извлекаем id
+  const id = typeof value === 'object' && value !== null ? value.id : value;
 
-    return undefined;
-  })();
+  // Находим элемент в dataList по id
+  const foundItem =
+    id !== undefined ? dataList?.find(el => getId(el) === id) : undefined;
 
-  // Изменить значение в select
-  const onChange = (value: { id: number } | undefined) => {
-    if (form && fieldName) {
-      form.setFieldsValue({ [fieldName]: value });
-    }
+  // Если элемент найден, формируем объект selectValue
+  if (foundItem) {
+    selectValue = { value: getId(foundItem), label: getLabel(foundItem) };
+  } else {
+    selectValue = undefined;
+  }
+
+  // Поиск в select
+  const onSearch = (searchText: string, option: any) => {
+    return option.label.toLowerCase().includes(searchText.toLowerCase());
   };
 
   // Очистить поле select
@@ -68,18 +60,16 @@ export const SimpleSelect = <
     }
   };
 
-  // Поиск в select
-  const onSearch = (searchText: string, option: any) => {
-    return option.label.toLowerCase().includes(searchText.toLowerCase());
+  // Изменить значение в select в форме
+  const updateFormValue = (value: { id: number }) => {
+    if (form && fieldName) {
+      form.setFieldsValue({ [fieldName]: value });
+    }
   };
 
   // Изменить значение в select
-  const handleChange = (value: { value: number; label: string }) => {
-    if (value) {
-      onChange({ id: value.value });
-    } else {
-      onChange(undefined);
-    }
+  const onChange = (value: { value: number }) => {
+    updateFormValue({ id: value.value });
   };
 
   // Загрузить данные для select
@@ -93,7 +83,7 @@ export const SimpleSelect = <
         });
       }
     },
-    [getDataList],
+    [getDataList, fetchDataList],
   );
 
   return (
@@ -104,7 +94,7 @@ export const SimpleSelect = <
       placeholder={placeholder}
       value={selectValue}
       loading={isLoading}
-      onChange={handleChange}
+      onChange={onChange}
       onClear={onClear}
       filterOption={onSearch}
       onDropdownVisibleChange={handleDropdownVisibleChange}>
