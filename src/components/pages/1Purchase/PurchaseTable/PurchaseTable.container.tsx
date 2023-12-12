@@ -1,93 +1,113 @@
-import React, { useState } from 'react';
-import { Flex, FloatButton, Input } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  createPurchase,
   deletePurchaseById,
-  updatePurchase,
+  getAllEmployee,
+  getAllPurchase,
+  getAllPurchaseByTitle,
+  PURCHASE,
 } from '../../../../api';
 import { TypePurchase } from '../../../../types';
+import { useDataListLoader } from '../../../../hooks';
+import usePagination from '../../../../hooks/usePagination';
+import useNavigateToPath from '../../../../hooks/useNavigateToPath';
+import useRowSelection from '../../../../hooks/useRowSelection';
+import { BasicTableProvider } from '../../../../contexts/BasicTableContext';
 import { PurchaseTableView } from './PurchaseTable.view';
-import dayjs from 'dayjs';
-import AddButtonOld from '../../../atoms/AddButtonOld/AddButtonOld';
 
-export const PurchaseTableContainer: React.FC = () => {
-  // Обновление таблицы, открыть закрыть модальное окно, drawer
-  const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
-  // id выбранной закупки
-  const [selectedPurchaseId, setSelectedPurchaseId] = useState<number>();
-
+export const PurchaseTableContainer = () => {
   // Текст поиска
   const [searchText, setSearchText] = useState<string>('');
 
-  // Добавить новую закупку
-  const handleCreatePurchase = async (values: TypePurchase): Promise<void> => {
-    const purchase: TypePurchase = {
-      amount: values.amount,
-      cost: values.cost,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      product: values.product ? { id: values.product.id } : undefined,
-      paid: values.paid,
+  // Хук для загрузки и получения всех данных
+  const { isLoading, dataList, getDataList } =
+    useDataListLoader<TypePurchase[]>();
+
+  // Хука для пагинации
+  const { pagination, handleChangeTable } = usePagination(10);
+
+  // Хук для навигации
+  const handleNavigateToForm = useNavigateToPath(PURCHASE);
+
+  // Хук для выбора строк
+  const {
+    hasSelected,
+    rowSelection,
+    selectedRowKeys,
+    setSelectedRowKeys,
+    handleClearSelected,
+  } = useRowSelection<TypePurchase>();
+
+  // Функция для поиска
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
+  // Функция массового удаления
+  const handleDeleteSelected = useCallback(() => {
+    (async () => {
+      try {
+        // Проходим по всем выбранным ключам и удаляем соответствующие записи
+        await Promise.all(
+          selectedRowKeys.map(key => deletePurchaseById(Number(key))),
+        );
+        await getDataList(getAllEmployee);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error('Ошибка при удалении записи', error.message);
+        }
+      } finally {
+        setSelectedRowKeys([]);
+      }
+    })();
+  }, [selectedRowKeys, getDataList, setSelectedRowKeys]);
+
+  // Функция, которая вызывается для обновления данных в таблице
+  useEffect(() => {
+    const executeFetch = async () => {
+      try {
+        if (searchText) {
+          await getDataList(() => getAllPurchaseByTitle(searchText));
+        } else {
+          await getDataList(getAllPurchase);
+        }
+      } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+      }
     };
-    setIsModalOpen(false);
-    await createPurchase(purchase);
-    setIsUpdateTable(prevState => !prevState);
-  };
 
-  // Открыть drawer
-  const openDrawer = (id: number): void => {
-    setSelectedPurchaseId(id);
-    setIsDrawerOpen(true);
-  };
+    executeFetch().catch(error => console.error(error));
+  }, [searchText, getDataList]);
 
-  // Обновить закупку
-  const handleUpdatePurchase = async (values: TypePurchase): Promise<void> => {
-    const purchase: TypePurchase = {
-      id: selectedPurchaseId,
-      amount: values.amount,
-      cost: values.cost,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      product: values.product ? { id: values.product.id } : undefined,
-      paid: values.paid,
-    };
-    setIsDrawerOpen(false);
-    await updatePurchase(purchase);
-    setIsUpdateTable(prevState => !prevState);
-  };
-
-  // Удалить запись из таблицы
-  const handleDeletePurchase = async (id: number): Promise<void> => {
-    await deletePurchaseById(id);
-    setIsUpdateTable(prevState => !prevState);
-  };
+  // // Обновить закупку
+  // const handleUpdatePurchase = async (values: TypePurchase): Promise<void> => {
+  //   const purchase: TypePurchase = {
+  //     amount: values.amount,
+  //     cost: values.cost,
+  //     date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+  //     product: values.product ? { id: values.product.id } : undefined,
+  //     paid: values.paid,
+  //   };
+  //   await updatePurchase(purchase);
+  // };
 
   return (
-    <div>
-      <AddButtonOld setIsModalOpen={setIsModalOpen} />
-      <Flex
-        gap="small"
-        justify="flex-end"
-        align="center"
-        wrap="wrap"
-        style={{ marginBottom: 15 }}>
-        <Input
-          allowClear
-          placeholder="Поиск по товарам"
-          style={{ width: '210px' }}
-          onChange={event => setSearchText(event.target.value)}
-          prefix={<SearchOutlined />}
-        />
-      </Flex>
-      <FloatButton.BackTop />
-      <PurchaseTableView
-        isUpdateTable={isUpdateTable}
-        openDrawer={openDrawer}
-        onDelete={handleDeletePurchase}
-        searchText={searchText}
-      />
-    </div>
+    <BasicTableProvider<TypePurchase>
+      value={{
+        data: dataList,
+        isLoading,
+        pagination,
+        selectedRowKeys,
+        hasSelected,
+        rowSelection,
+        handleNavigateToForm,
+        handleChangeTable,
+        handleDeleteSelected,
+        handleClearSelected,
+        searchText,
+        setSearchText,
+        handleSearchChange,
+      }}>
+      <PurchaseTableView />
+    </BasicTableProvider>
   );
 };

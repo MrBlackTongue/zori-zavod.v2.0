@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypeShipment} from '../types';
-import {SHIPMENT} from './apiEndpoints';
+import { TypeApiResponse, TypeShipment } from '../types';
+import { SHIPMENT } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить список всех отгрузок
 export async function getAllShipment(): Promise<TypeShipment[]> {

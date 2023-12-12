@@ -1,44 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Popconfirm, Space, Table, Tag, Tooltip } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import type {
-  ColumnsType,
-  TablePaginationConfig,
-} from 'antd/es/table/interface';
+import React from 'react';
+import { Flex, FloatButton, Input, Tag } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import type { ColumnsType } from 'antd/es/table/interface';
 import {
-  TableProps,
   TypeProduct,
   TypePurchase,
   TypeUnit,
+  TypeWithId,
 } from '../../../../types';
-import { getAllPurchase, getAllPurchaseByTitle } from '../../../../api';
 import dayjs from 'dayjs';
 import { renderAsRuble, renderNumber } from '../../../../utils';
-import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
-import {
-  ACTIONS_INSTRUCTION_CONTENT_DELETE,
-  ACTIONS_INSTRUCTION_CONTENT_EDIT,
-  ACTIONS_OVERVIEW_CONTENT,
-} from '../../../atoms/CustomPopover/ContentPopover';
+import { DeleteWithConfirmationButton } from '../../../atoms/DeleteWithConfirmationButton/DeleteWithConfirmationButton';
+import { AddButton } from '../../../atoms/AddButton/AddButton';
+import { BasicTable } from '../../../molecules/BasicTable/BasicTable';
+import { useBasicTable } from '../../../../contexts/BasicTableContext';
 
-export const PurchaseTableView: React.FC<TableProps> = ({
-  isUpdateTable,
-  openDrawer,
-  onDelete,
-  searchText,
-}) => {
-  // Spinner и список всех закупок
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allPurchase, setAllPurchase] = useState<TypePurchase[]>();
-
-  // Параметры для пагинации
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-  });
-
-  // Колонки в таблице
-  const columns: ColumnsType<TypePurchase> = [
+export const PurchaseTableView = () => {
+  const columns: ColumnsType<TypeWithId<TypePurchase>> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -112,118 +90,32 @@ export const PurchaseTableView: React.FC<TableProps> = ({
         </Tag>
       ),
     },
-    {
-      title: (
-        <>
-          Действия
-          <CustomPopover
-            content={
-              <p style={{ fontSize: '13px', maxWidth: 350 }}>
-                {ACTIONS_OVERVIEW_CONTENT}
-                <br />
-                <br />
-                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
-                <br />
-                <br />
-                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
-              </p>
-            }
-          />
-        </>
-      ),
-      dataIndex: 'id',
-      key: 'id',
-      width: 130,
-      align: 'center',
-      render: (id: number) => (
-        <Space>
-          <Tooltip title="Изменить" placement="bottomRight">
-            <Button
-              type="primary"
-              size="small"
-              shape="circle"
-              ghost
-              onClick={() => openDrawer?.(id)}>
-              <EditOutlined />
-            </Button>
-          </Tooltip>
-          <Tooltip title="Удалить" placement="bottomRight">
-            <Popconfirm
-              placement="topRight"
-              title="Вы действительно хотите удалить эту закупку?"
-              onConfirm={() => onDelete?.(id)}
-              okText="Да"
-              cancelText="Отмена">
-              <Button
-                type="primary"
-                size="small"
-                shape="circle"
-                style={{ color: 'tomato', borderColor: 'tomato' }}
-                ghost>
-                <DeleteOutlined />
-              </Button>
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
-    },
   ];
 
-  // Параметры изменения таблицы
-  const handleChangeTable = (pagination: TablePaginationConfig): void => {
-    setPagination(prevPagination => ({
-      current: pagination.current ?? prevPagination.current,
-      pageSize: pagination.pageSize ?? prevPagination.pageSize,
-    }));
-  };
-
-  // Функция для обновления таблицы закупок
-  const handleUpdateTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllPurchase()
-      .then(data => {
-        setAllPurchase(data);
-        setIsLoading(false);
-      })
-      .catch(error => console.error('Ошибка при получении данных: ', error));
-  }, []);
-
-  // Функция для поиска по таблице закупок
-  const handleSearchTable = useCallback((): void => {
-    setIsLoading(true);
-    getAllPurchaseByTitle(searchText ?? '')
-      .then(data => {
-        setAllPurchase(data);
-        setIsLoading(false);
-      })
-      .catch(error => console.error('Ошибка при получении данных: ', error));
-  }, [searchText]);
-
-  useEffect(() => {
-    if (searchText) {
-      handleSearchTable();
-    } else {
-      handleUpdateTable();
-    }
-  }, [searchText, isUpdateTable, handleSearchTable, handleUpdateTable]);
+  const { handleSearchChange } = useBasicTable<TypePurchase>();
 
   return (
-    <Table
-      rowKey="id"
-      bordered
-      size="middle"
-      columns={columns}
-      dataSource={allPurchase}
-      loading={isLoading}
-      onChange={handleChangeTable}
-      pagination={{
-        ...pagination,
-        position: ['bottomCenter'],
-        totalBoundaryShowSizeChanger: 10,
-      }}
-      rowClassName={(_, index) =>
-        index % 2 === 0 ? 'table-even-row' : 'table-odd-row'
-      }
-    />
+    <div>
+      <Flex
+        gap="small"
+        justify="flex-end"
+        align="center"
+        wrap="wrap"
+        style={{ marginBottom: 15 }}>
+        <Input
+          allowClear
+          placeholder="Поиск по товарам"
+          style={{ width: '210px' }}
+          onChange={handleSearchChange}
+          prefix={<SearchOutlined />}
+        />
+      </Flex>
+      <Flex justify="space-between">
+        <DeleteWithConfirmationButton />
+        <AddButton />
+      </Flex>
+      <BasicTable columns={columns} />
+      <FloatButton.BackTop />
+    </div>
   );
 };

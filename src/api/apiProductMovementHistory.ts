@@ -1,7 +1,7 @@
-import {TypeProductMovementHistory} from '../types';
-import {HISTORY, PRODUCT_MOVEMENT} from './apiEndpoints';
-import {handleErrorResponseMessage} from '../utils';
-import {api} from './api';
+import { TypeProductMovementHistory } from '../types';
+import { HISTORY, PRODUCT_MOVEMENT } from './apiEndpoints';
+import { handleErrorResponseMessage } from '../utils';
+import { api } from './api';
 
 // Получить всю историю движения товаров
 export async function getAllProductMovementHistory(): Promise<

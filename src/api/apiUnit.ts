@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypeUnit} from '../types';
-import {UNIT} from './apiEndpoints';
+import { TypeApiResponse, TypeUnit } from '../types';
+import { UNIT } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить список всех единиц измерения
 export async function getAllUnit(): Promise<TypeUnit[]> {

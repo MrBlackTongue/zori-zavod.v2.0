@@ -1,12 +1,12 @@
-import {TypeApiResponse, TypeProductBatch} from '../types';
-import {BATCH, PRODUCT} from './apiEndpoints';
+import { TypeApiResponse, TypeProductBatch } from '../types';
+import { BATCH, PRODUCT } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить все партии товаров
 export async function getAllProductBatch(): Promise<TypeProductBatch[]> {

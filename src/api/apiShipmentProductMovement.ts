@@ -1,7 +1,11 @@
-import {TypeApiResponse, TypeShipmentProductMovement} from '../types';
-import {MOVEMENT, SHIPMENT} from './apiEndpoints';
-import {handleErrorResponseMessage, handleResponseCreateMessage, handleResponseDeleteMessage,} from '../utils';
-import {api} from './api';
+import { TypeApiResponse, TypeShipmentProductMovement } from '../types';
+import { MOVEMENT, SHIPMENT } from './apiEndpoints';
+import {
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+} from '../utils';
+import { api } from './api';
 
 // Получить все движения товаров по id отгрузки
 export async function getAllProductMovementByShipmentId(

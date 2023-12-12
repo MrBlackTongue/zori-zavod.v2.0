@@ -1,7 +1,11 @@
-import {TypeApiResponse, TypeProductionProductMovement} from '../types';
-import {MOVEMENT, OPERATION_ACCOUNTING, PRODUCTION} from './apiEndpoints';
-import {handleErrorResponseMessage, handleResponseCreateMessage, handleResponseDeleteMessage,} from '../utils';
-import {api} from './api';
+import { TypeApiResponse, TypeProductionProductMovement } from '../types';
+import { MOVEMENT, OPERATION_ACCOUNTING, PRODUCTION } from './apiEndpoints';
+import {
+  handleErrorResponseMessage,
+  handleResponseCreateMessage,
+  handleResponseDeleteMessage,
+} from '../utils';
+import { api } from './api';
 
 // Получить список всех производственных движений товара по id учетной операции
 export async function getProductionProductMovementByIdOperationAccounting(
