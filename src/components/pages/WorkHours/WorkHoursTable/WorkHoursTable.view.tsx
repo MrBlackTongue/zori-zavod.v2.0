@@ -95,13 +95,15 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
           .filter(employee => employee.id !== undefined)
           .map(employee => ({
             id: employee.id as number, // TypeScript теперь уверен, что id определен
-            name: `${employee.lastName} ${employee.firstName}`,
+            label: `${employee.lastName} ${employee.firstName}`,
           }));
 
         return (
           <EditableSelect
             options={options}
-            onChange={(value: number) => handleEmployeeChange(Number(value))}
+            onChange={(value: number | null) =>
+              handleEmployeeChange(Number(value))
+            }
             defaultValue={record.employee?.id}
             isEditable={!record.employee}
             placeholder="Выберите сотрудника"
