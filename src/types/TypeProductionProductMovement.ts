@@ -1,6 +1,5 @@
 import { TypeStock } from './TypeStock';
 import { Dayjs } from 'dayjs';
-import { TypeProductBatch } from './TypeProductBatch';
 import { TypeOperationAccounting } from './TypeOperationAccounting';
 
 export type TypeProductionProductMovement = {
@@ -9,7 +8,6 @@ export type TypeProductionProductMovement = {
   income?: boolean;
   stock?: TypeStock;
   date?: Dayjs | string;
-  productBatch?: TypeProductBatch;
   operationAccounting?: TypeOperationAccounting;
 };
 
@@ -18,6 +16,5 @@ export type TypeProductionProductMovementFormValue = {
   income?: boolean;
   stock?: number;
   date?: string;
-  productBatch?: number;
   operationAccounting?: number;
 };

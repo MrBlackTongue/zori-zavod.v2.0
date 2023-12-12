@@ -23,7 +23,7 @@ export const CreateModalAcceptance: React.FC<
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const { allStock, allPurchase, allProductBatch } = useFetchAllData({
+  const { allStock, allPurchase } = useFetchAllData({
     depsStock: isOpen,
     depsPurchase: isOpen,
     depsProductBatch: isOpen,
@@ -49,13 +49,6 @@ export const CreateModalAcceptance: React.FC<
     onClearSelect: onClearPurchase,
     onSearchSelect: onSearchPurchase,
   } = useFormSelect(form, 'purchase');
-
-  // Хук для управления полем productBatch
-  const {
-    onChangeSelect: onChangeProductBatch,
-    onClearSelect: onClearProductBatch,
-    onSearchSelect: onSearchProductBatch,
-  } = useFormSelect(form, 'productBatch');
 
   const preSubmitValidation = (): boolean => {
     const selectedStock = form.getFieldValue('stock');
@@ -165,30 +158,7 @@ export const CreateModalAcceptance: React.FC<
               : null}
           </Select>
         </Form.Item>
-        <Form.Item label="Партия товара" name="productBatch">
-          <Select
-            showSearch
-            allowClear
-            placeholder="Выберите партию товара"
-            onChange={onChangeProductBatch}
-            onClear={onClearProductBatch}
-            filterOption={onSearchProductBatch}>
-            {allProductBatch && allProductBatch.length > 0
-              ? allProductBatch.map(productBatch => (
-                  <Select.Option
-                    key={productBatch.id}
-                    value={productBatch.id}
-                    label={`${productBatch.product?.title}, ${productBatch.id}`}>
-                    <Tooltip
-                      placement="right"
-                      title={`${productBatch.product?.title}`}>
-                      {`${productBatch.product?.title}`}
-                    </Tooltip>
-                  </Select.Option>
-                ))
-              : null}
-          </Select>
-        </Form.Item>
+        <Form.Item label="Партия товара" name="productBatch"></Form.Item>
         <Form.Item
           label="Количество"
           name="amount"

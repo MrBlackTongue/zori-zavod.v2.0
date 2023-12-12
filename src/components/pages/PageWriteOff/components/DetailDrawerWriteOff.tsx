@@ -32,7 +32,6 @@ export const DetailDrawerWriteOff: React.FC<DetailDrawerProps> = ({
       income: values.income,
       stock: { id: values.stock },
       date: dayjs(values.date).format('YYYY-MM-DD'),
-      productBatch: { id: values.productBatch },
       writeOff: { id: selectedItemId },
     };
     setIsModalOpen(false);

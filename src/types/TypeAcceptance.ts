@@ -1,4 +1,3 @@
-import { TypeProductBatch } from './TypeProductBatch';
 import { TypePurchase } from './TypePurchase';
 import { Dayjs } from 'dayjs';
 import { TypeStock } from './TypeStock';
@@ -9,7 +8,6 @@ export type TypeAcceptance = {
   income?: true;
   stock?: TypeStock;
   date?: Dayjs | string;
-  productBatch?: TypeProductBatch;
   purchase?: TypePurchase;
 };
 
@@ -18,6 +16,5 @@ export type TypeAcceptanceFormValue = {
   income?: true;
   stock?: number;
   date?: string;
-  productBatch?: number;
   purchase?: number;
 };
