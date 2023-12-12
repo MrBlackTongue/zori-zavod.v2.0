@@ -4,22 +4,26 @@ import { useDataListLoader } from '../../../hooks';
 
 interface SimpleSelectProps<T> {
   form?: FormInstance;
-  fieldName: string;
+  fieldName?: string;
   value?: number | { id: number };
+  onValueChange?: (value: number | undefined) => void;
   fetchDataList: () => Promise<T[]>;
   placeholder: string;
   getId: (item: T) => number;
   getLabel: (item: T) => string;
+  style?: React.CSSProperties;
 }
 
 export const SimpleSelect = <T,>({
   form,
   fieldName,
   value,
+  onValueChange,
   fetchDataList,
   placeholder,
   getId,
   getLabel,
+  style,
 }: SimpleSelectProps<T>) => {
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
@@ -32,7 +36,7 @@ export const SimpleSelect = <T,>({
   }));
 
   // Преобразование текущего значения формы в формат, подходящий для select
-  let selectValue;
+  let selectValue: { value: number; label: string } | undefined;
 
   // Извлекаем id
   const id = typeof value === 'object' && value !== null ? value.id : value;
@@ -61,15 +65,21 @@ export const SimpleSelect = <T,>({
   };
 
   // Изменить значение в select в форме
-  const updateFormValue = (value: { id: number }) => {
+  const updateFormValue = (value: { id: number } | undefined) => {
     if (form && fieldName) {
       form.setFieldsValue({ [fieldName]: value });
     }
   };
 
   // Изменить значение в select
-  const onChange = (value: { value: number }) => {
-    updateFormValue({ id: value.value });
+  const onChange = (value: { value: number } | undefined) => {
+    if (value) {
+      updateFormValue({ id: value.value });
+      onValueChange?.(value.value);
+    } else {
+      updateFormValue(undefined);
+      onValueChange?.(undefined);
+    }
   };
 
   // Загрузить данные для select
@@ -91,6 +101,7 @@ export const SimpleSelect = <T,>({
       showSearch
       allowClear
       labelInValue
+      style={style}
       placeholder={placeholder}
       value={selectValue}
       loading={isLoading}
