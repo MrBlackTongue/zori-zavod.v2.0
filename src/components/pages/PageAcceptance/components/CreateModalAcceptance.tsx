@@ -158,7 +158,6 @@ export const CreateModalAcceptance: React.FC<
               : null}
           </Select>
         </Form.Item>
-        <Form.Item label="Партия товара" name="productBatch"></Form.Item>
         <Form.Item
           label="Количество"
           name="amount"
