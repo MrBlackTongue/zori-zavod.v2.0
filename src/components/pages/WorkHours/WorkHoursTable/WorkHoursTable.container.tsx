@@ -32,7 +32,7 @@ export const WorkHoursTableContainer: React.FC<
     Record<string, string>
   >({});
   const [totalAllHours, setTotalAllHours] = useState<string>('0ч');
-  const { allEmployee } = useFetchAllData({ depsEmployee: true });
+  // const { allEmployee } = useFetchAllData({ depsEmployee: true });
 
   const [dataUpdated, setDataUpdated] = useState(false);
 
@@ -180,10 +180,6 @@ export const WorkHoursTableContainer: React.FC<
     setTotalAllHours(total);
   }, [allWorkHour, calculateTotalAllHours]);
 
-  const handleEmployeeChange = (employeeId: number) => {
-    setEditingEmployee(employeeId);
-  };
-
   const handleUpdateNewRecord = (
     date: string,
     employeeId: number,
@@ -286,6 +282,10 @@ export const WorkHoursTableContainer: React.FC<
     }
   }, [filter]);
 
+  const handleEmployeeChange = (employeeId: number | null) => {
+    setEditingEmployee(employeeId);
+  };
+
   useEffect(() => {
     handleUpdateTable();
   }, [handleUpdateTable, filter, dataUpdated]);
@@ -310,7 +310,7 @@ export const WorkHoursTableContainer: React.FC<
       addNewRow={addNewRow}
       days={days}
       selectedDate={selectedDate}
-      allEmployee={allEmployee}
+      // allEmployee={allEmployee}
       setOriginalHours={setOriginalHours}
       setEditingDay={setEditingDay}
       editingDay={editingDay}

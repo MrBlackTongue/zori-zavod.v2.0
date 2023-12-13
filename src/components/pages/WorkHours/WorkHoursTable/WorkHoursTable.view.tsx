@@ -15,9 +15,10 @@ import {
 } from '../../../../types';
 import { EditableRow } from '../components/EditableRow';
 import { EditableCell } from '../components/EditableCell';
-import { EditableSelect } from '../components/EditableSelect';
+import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect';
 import dayjs from 'dayjs';
 import '../components/TableWorkHour.css';
+import { getAllEmployee } from '../../../../services';
 
 interface WorkHoursTableViewProps {
   isLoading: boolean;
@@ -26,7 +27,7 @@ interface WorkHoursTableViewProps {
   originalHours: number | null;
   totalHoursPerDay: Record<string, string>;
   totalAllHours: string;
-  handleEmployeeChange: (employeeId: number) => void;
+  handleEmployeeChange: (employeeId: number | null) => void;
   handleUpdateNewRecord: (
     date: string,
     employeeId: number,
@@ -39,7 +40,7 @@ interface WorkHoursTableViewProps {
   ) => void;
   addNewRow: () => void;
   days: dayjs.Dayjs[];
-  allEmployee: TypeEmployee[];
+  // allEmployee: TypeEmployee[];
   setOriginalHours: (duration: number | null) => void;
   setEditingDay: (editingDay: TypeEditingDayState | null) => void;
   editingDay: TypeEditingDayState | null;
@@ -67,7 +68,7 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
   handleCreateNewRecord,
   addNewRow,
   days,
-  allEmployee,
+  // allEmployee,
   setOriginalHours,
   setEditingDay,
   editingDay,
@@ -90,23 +91,17 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
       key: 'employee',
       width: 300,
       render: (_, record: TransformedWorkHour) => {
-        // Фильтруем сотрудников, чтобы убедиться, что у всех есть id
-        const options = allEmployee
-          .filter(employee => employee.id !== undefined)
-          .map(employee => ({
-            id: employee.id as number, // TypeScript теперь уверен, что id определен
-            label: `${employee.lastName} ${employee.firstName}`,
-          }));
-
         return (
           <EditableSelect
-            options={options}
-            onChange={(value: number | null) =>
-              handleEmployeeChange(Number(value))
-            }
-            defaultValue={record.employee?.id}
+            value={record.employee?.id}
             isEditable={!record.employee}
             placeholder="Выберите сотрудника"
+            getId={item => item.id ?? 0}
+            getLabel={item => `${item.lastName} ${item.firstName}`}
+            fetchDataList={getAllEmployee}
+            onValueChange={newValue => {
+              handleEmployeeChange(newValue ?? null);
+            }}
           />
         );
       },
