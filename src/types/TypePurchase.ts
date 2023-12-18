@@ -17,7 +17,6 @@ export type TypePurchaseFormValue = {
   cost?: number;
   date?: string;
   product?: number;
-  productBatch?: number;
   paid?: boolean;
 };
 
