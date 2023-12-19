@@ -32,7 +32,6 @@ export const PageAcceptance: React.FC = () => {
       income: true,
       date: dayjs(values.date).format('YYYY-MM-DD'),
       stock: stock,
-      productBatch: { id: values.productBatch },
       purchase: purchase,
     };
     setIsModalOpen(false);
