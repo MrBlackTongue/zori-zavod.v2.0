@@ -8,6 +8,7 @@ interface GeneralFormContainerProps<T> {
   updateFunction: (values: T) => Promise<TypeApiResponse>;
   getByIdFunction: (id: number) => Promise<T | undefined>;
   FormViewComponent: React.ComponentType<FormViewProps<T>>;
+  processData?: (data: T) => T;
   titleCreate: string;
   titleEdit: string;
 }
@@ -19,6 +20,7 @@ export const GeneralFormContainer = <T,>({
   FormViewComponent,
   titleCreate,
   titleEdit,
+  processData = data => data,
 }: GeneralFormContainerProps<T>) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -32,11 +34,15 @@ export const GeneralFormContainer = <T,>({
 
   const handleSubmit = async (values: T) => {
     try {
+      // Применяем processBeforeSubmit к значениям формы, если она предоставлена
+      let processedValues = processData ? processData(values) : values;
+
       if (isCreateMode) {
-        await createFunction(values);
+        await createFunction(processedValues);
       } else {
-        await updateFunction({ ...values, id: itemId } as T);
+        await updateFunction({ ...processedValues, id: itemId });
       }
+
       navigate(-1);
     } catch (error) {
       console.error('Ошибка при сохранении данных:', error);
@@ -50,13 +56,16 @@ export const GeneralFormContainer = <T,>({
   const handleGetData = useCallback(async () => {
     if (isUpdateMode && itemId) {
       try {
-        const data = await getByIdFunction(itemId);
-        form.setFieldsValue(data);
+        let data = await getByIdFunction(itemId);
+        if (data) {
+          const processedData = processData(data);
+          form.setFieldsValue(processedData);
+        }
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }
     }
-  }, [itemId, form, getByIdFunction, isUpdateMode]);
+  }, [itemId, form, getByIdFunction, isUpdateMode, processData]);
 
   useEffect(() => {
     (async () => {

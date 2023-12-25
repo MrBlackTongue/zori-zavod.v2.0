@@ -1,5 +1,5 @@
 import React from 'react';
-import { TypeClient } from '../../../../types';
+import { TypePurchase } from '../../../../types';
 import {
   createPurchase,
   getPurchaseById,
@@ -7,30 +7,27 @@ import {
 } from '../../../../api';
 import { PurchaseFormView } from './PurchaseForm.view';
 import { GeneralFormContainer } from '../../../molecules/GeneralFormContainer/GeneralFormContainer';
+import dayjs from 'dayjs';
 
 export const PurchaseFormContainer = () => {
-  // // Функция для получения данных о закупке по id и обновления формы
-  // const handleGetPurchase = useCallback((): void => {
-  //   if (selectedItemId) {
-  //     getPurchaseById(selectedItemId)
-  //       .then(data => {
-  //         form.setFieldsValue({
-  //           ...data,
-  //           date: dayjs(data?.date),
-  //           product: data?.product?.id === 0 ? '' : data?.product?.id,
-  //           paid: data?.paid ?? false,
-  //         });
-  //       })
-  //       .catch(error => console.error('Ошибка при получении данных: ', error));
-  //   }
-  // }, [selectedItemId, form]);
+  const processPurchaseData = (data: TypePurchase) => {
+    if (typeof data.date === 'string') {
+      // Преобразование строки в объект dayjs
+      return { ...data, date: dayjs(data.date, 'YYYY-MM-DD') };
+    } else if (data.date && dayjs.isDayjs(data.date)) {
+      // Преобразование объекта dayjs обратно в строку
+      return { ...data, date: data.date.format('YYYY-MM-DD') };
+    }
+    return data;
+  };
 
   return (
-    <GeneralFormContainer<TypeClient>
+    <GeneralFormContainer<TypePurchase>
       createFunction={createPurchase}
       updateFunction={updatePurchase}
       getByIdFunction={getPurchaseById}
       FormViewComponent={PurchaseFormView}
+      processData={processPurchaseData}
       titleCreate="Добавление новой закупки"
       titleEdit="Редактирование закупки"
     />
