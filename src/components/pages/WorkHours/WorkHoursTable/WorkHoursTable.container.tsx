@@ -14,9 +14,10 @@ import {
   TypeWorkHour,
   TypeWorkHoursFilter,
 } from '../../../../types';
-import { formatMinutesToTime } from '../../../../utils';
+import { formatMinutesToTime, timeToMinutes } from '../../../../utils';
 import { WorkHoursTableView } from './WorkHoursTable.view';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import { logDOM } from '@testing-library/react';
 
 export const WorkHoursTableContainer: React.FC<
   TableProps<TypeWorkHoursFilter>
@@ -32,7 +33,6 @@ export const WorkHoursTableContainer: React.FC<
     Record<string, string>
   >({});
   const [totalAllHours, setTotalAllHours] = useState<string>('0ч');
-  // const { allEmployee } = useFetchAllData({ depsEmployee: true });
 
   const [dataUpdated, setDataUpdated] = useState(false);
 
@@ -100,7 +100,6 @@ export const WorkHoursTableContainer: React.FC<
 
   // Функция трансформации данных с сервера
   const transformData = (data: TypeWorkHour) => {
-    console.log('Received Data:', data); // Выводим исходные данные
     const { rows } = data;
     return Object.values(rows).map(row => {
       const { employee, days } = row;
@@ -181,27 +180,32 @@ export const WorkHoursTableContainer: React.FC<
   }, [allWorkHour, calculateTotalAllHours]);
 
   const handleUpdateNewRecord = (
-    date: string,
-    employeeId: number,
+    date: any,
     newValue: string,
+    employeeId: number | null,
   ) => {
-    const newHours = parseInt(newValue, 10);
-    if (employeeId && !isNaN(newHours) && newHours !== originalHours) {
+    const newHours = timeToMinutes(newValue);
+    if (
+      employeeId &&
+      !isNaN(newHours as number) &&
+      newHours !== originalHours
+    ) {
       const workHourData = {
-        workDate: date,
+        workDate: editingDay?.workDate,
         duration: newHours,
         employee: { id: employeeId },
       };
+      console.log('workHourData:', workHourData);
       updateWorkHours({ ...workHourData, id: editingDay?.id })
         .then(() => {
           setAllWorkHour(prevWorkHours => {
             console.log('prevWorkHours', prevWorkHours);
             return prevWorkHours.map(item =>
               item.employee && item.employee.id === employeeId
-                ? ({
+                ? {
                     ...item,
                     [date]: { ...item[date], duration: newHours },
-                  } as TransformedWorkHour)
+                  }
                 : item,
             );
           });
@@ -214,16 +218,22 @@ export const WorkHoursTableContainer: React.FC<
 
   const handleCreateNewRecord = (
     date: any,
-    employeeId: number,
     newValue: string,
+    employeeId: number | null,
   ) => {
-    const newHours = parseInt(newValue, 10);
-    if (employeeId && !isNaN(newHours) && newHours !== originalHours) {
+    console.log('handleCreateNewRecord:', { date, employeeId, newValue });
+    const newHours = timeToMinutes(newValue);
+    if (
+      employeeId &&
+      !isNaN(newHours as number) &&
+      newHours !== originalHours
+    ) {
       const workHourData = {
-        workDate: date,
+        workDate: editingDay?.workDate,
         duration: newHours,
         employee: { id: employeeId },
       };
+      console.log('workHourData:', workHourData);
       createWorkHours(workHourData)
         .then(response => {
           setDataUpdated(prev => !prev); // Переключаем состояние
@@ -274,7 +284,6 @@ export const WorkHoursTableContainer: React.FC<
       )
         .then(data => {
           const transformedData = transformData(data);
-          console.log('transformedData', transformedData);
           setAllWorkHour(transformedData);
           setIsLoading(false);
         })
@@ -284,6 +293,22 @@ export const WorkHoursTableContainer: React.FC<
 
   const handleEmployeeChange = (employeeId: number | null) => {
     setEditingEmployee(employeeId);
+  };
+
+  const handleEditStart = ({
+    id,
+    workDate,
+    duration,
+    employee,
+  }: TypeEditingDayState) => {
+    setOriginalHours(duration);
+    setEditingDay({
+      id: id,
+      workDate: workDate,
+      duration: originalHours ?? 0,
+      employee: employee ?? 0,
+    });
+    console.log('editingDay', editingDay);
   };
 
   useEffect(() => {
@@ -301,7 +326,7 @@ export const WorkHoursTableContainer: React.FC<
       isLoading={isLoading}
       allWorkHour={allWorkHour}
       editingEmployee={editingEmployee}
-      originalHours={originalHours}
+      handleEditStart={handleEditStart}
       totalHoursPerDay={totalHoursPerDay}
       totalAllHours={totalAllHours}
       handleEmployeeChange={handleEmployeeChange}
@@ -311,8 +336,6 @@ export const WorkHoursTableContainer: React.FC<
       days={days}
       selectedDate={selectedDate}
       // allEmployee={allEmployee}
-      setOriginalHours={setOriginalHours}
-      setEditingDay={setEditingDay}
       editingDay={editingDay}
       calculateTotalHours={calculateTotalHours}
       prevWeek={prevWeek}
@@ -323,6 +346,7 @@ export const WorkHoursTableContainer: React.FC<
       // pagination={pagination}
       handleUpdateTable={handleUpdateTable}
       goToCurrentWeek={goToCurrentWeek}
+      originalHours={originalHours}
     />
   );
 };

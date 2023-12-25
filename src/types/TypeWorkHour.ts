@@ -29,7 +29,7 @@ export interface TypeEditingDayState {
   id?: number | null;
   workDate: string | null;
   duration: number;
-  employee: TypeEmployee | number | undefined;
+  employee: TypeEmployee | number | undefined | null;
 }
 
 export interface TypeWorkHoursFilter {

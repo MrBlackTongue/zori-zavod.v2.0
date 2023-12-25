@@ -32,9 +32,12 @@ export async function getAllWorkHours(
 }
 
 // Редактирование данных о рабочем дне
-export async function updateWorkHours(
-  data: TypeEditingDayState,
-): Promise<TypeEditingDayState> {
+export async function updateWorkHours(data: {
+  duration: number | null;
+  workDate: any;
+  id: number | null | undefined;
+  employee: { id: number };
+}): Promise<TypeEditingDayState> {
   try {
     const response = await api.put<TypeApiResponse>(WORK_HOURS, data);
     return handleResponseUpdateMessage(response);
@@ -44,9 +47,11 @@ export async function updateWorkHours(
 }
 
 // Добавить новую запись о рабочем дне
-export async function createWorkHours(
-  data: TypeEditingDayState,
-): Promise<TypeEditingDayState> {
+export async function createWorkHours(data: {
+  duration: number | null;
+  workDate: any;
+  employee: { id: number };
+}): Promise<TypeEditingDayState> {
   try {
     const response = await api.post(WORK_HOURS, data);
     return handleResponseCreateMessage(response);
@@ -57,7 +62,7 @@ export async function createWorkHours(
 
 // Удалить запись о рабочих часах
 export async function deleteWorkHoursById(
-    id: number,
+  id: number,
 ): Promise<TypeApiResponse> {
   try {
     const response = await api.delete(`${WORK_HOURS}/${id}`);

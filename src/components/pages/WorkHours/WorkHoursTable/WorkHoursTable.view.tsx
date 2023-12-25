@@ -19,30 +19,35 @@ import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect
 import dayjs from 'dayjs';
 import '../components/TableWorkHour.css';
 import { getAllEmployee } from '../../../../services';
+import { formatMinutesToTime } from '../../../../utils';
 
 interface WorkHoursTableViewProps {
   isLoading: boolean;
   allWorkHour: TransformedWorkHour[];
   editingEmployee: number | null;
-  originalHours: number | null;
   totalHoursPerDay: Record<string, string>;
   totalAllHours: string;
+  originalHours: number | null;
   handleEmployeeChange: (employeeId: number | null) => void;
   handleUpdateNewRecord: (
-    date: string,
-    employeeId: number,
+    date: TransformedWorkHour,
     newValue: string,
+    employeeId: number | null,
   ) => void;
   handleCreateNewRecord: (
-    date: any,
-    employeeId: number,
+    date: TransformedWorkHour,
     newValue: string,
+    employeeId: number | null,
   ) => void;
   addNewRow: () => void;
   days: dayjs.Dayjs[];
+  handleEditStart: (args: {
+    duration: any;
+    workDate: string;
+    id: number | null | undefined;
+    employee: number | null;
+  }) => void;
   // allEmployee: TypeEmployee[];
-  setOriginalHours: (duration: number | null) => void;
-  setEditingDay: (editingDay: TypeEditingDayState | null) => void;
   editingDay: TypeEditingDayState | null;
   calculateTotalHours: (workHour: TransformedWorkHour) => string;
   prevWeek: () => void;
@@ -60,17 +65,16 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
   isLoading,
   allWorkHour,
   editingEmployee,
-  originalHours,
   totalHoursPerDay,
   totalAllHours,
+  originalHours,
   handleEmployeeChange,
   handleUpdateNewRecord,
   handleCreateNewRecord,
+  handleEditStart,
   addNewRow,
   days,
   // allEmployee,
-  setOriginalHours,
-  setEditingDay,
   editingDay,
   calculateTotalHours,
   prevWeek,
@@ -126,25 +130,52 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
       width: 90,
       editable: true,
       render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
-        const hours =
-          dayData && dayData.duration !== null
-            ? dayData.duration.toString()
+        if (
+          !dayData ||
+          typeof dayData !== 'object' ||
+          !('duration' in dayData)
+        ) {
+          // Если dayData не соответствует ожидаемому формату, возвращаем пустой элемент
+          return <td></td>;
+        }
+        const formattedHours =
+          dayData.duration !== null
+            ? formatMinutesToTime(dayData.duration)
             : '';
+
         return (
-          <EditableCell
-            record={record}
-            dateFormat={dateFormat}
-            originalHours={originalHours}
-            editingEmployee={editingEmployee}
-            setOriginalHours={setOriginalHours}
-            setEditingDay={setEditingDay}
-            handleCreateNewRecord={handleCreateNewRecord}
-            handleUpdateRecord={handleUpdateNewRecord}
-            children={hours}
-            editable={true}
+          <EditableCell<TransformedWorkHour>
+            rowData={record}
+            initialValue={formattedHours}
+            editingId={editingEmployee}
+            formattedHours={formattedHours}
+            onEditStart={() => {
+              // Здесь мы передаем только необходимые данные
+              handleEditStart({
+                id: dayData.id,
+                workDate: dateFormat,
+                duration: dayData.duration,
+                employee: editingEmployee,
+              });
+            }}
+            handleUpdateRecord={(date, newValue) =>
+              handleUpdateNewRecord(
+                date,
+                newValue,
+                record.employee?.id ?? editingEmployee,
+              )
+            }
+            handleCreateNewRecord={(date, newValue) =>
+              handleCreateNewRecord(
+                date,
+                newValue,
+                record.employee?.id ?? editingEmployee,
+              )
+            }
+            children={dayData.duration?.toString() || ''}
+            editable
             dataIndex={dateFormat}
-            dayData={dayData}
-            editingDay={editingDay}
+            cellId={dayData.id}
           />
         );
       },
