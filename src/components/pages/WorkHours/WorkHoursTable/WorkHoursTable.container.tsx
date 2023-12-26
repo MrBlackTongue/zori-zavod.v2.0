@@ -184,6 +184,7 @@ export const WorkHoursTableContainer: React.FC<
     newValue: string,
     employeeId: number | null,
   ) => {
+    console.log('handleUpdateNewRecord:', { date, employeeId, newValue });
     const newHours = timeToMinutes(newValue);
     if (
       employeeId &&
@@ -198,17 +199,7 @@ export const WorkHoursTableContainer: React.FC<
       console.log('workHourData:', workHourData);
       updateWorkHours({ ...workHourData, id: editingDay?.id })
         .then(() => {
-          setAllWorkHour(prevWorkHours => {
-            console.log('prevWorkHours', prevWorkHours);
-            return prevWorkHours.map(item =>
-              item.employee && item.employee.id === employeeId
-                ? {
-                    ...item,
-                    [date]: { ...item[date], duration: newHours },
-                  }
-                : item,
-            );
-          });
+          setDataUpdated(prev => !prev); // Переключаем состояние
         })
         .catch(error => {
           console.error('Ошибка при обновлении часов работы:', error);
