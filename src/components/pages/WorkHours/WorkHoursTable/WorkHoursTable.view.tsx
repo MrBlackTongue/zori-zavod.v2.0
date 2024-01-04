@@ -13,80 +13,39 @@ import {
   TypeEmployee,
   TypeWorkDay,
 } from '../../../../types';
-import { EditableRow } from '../components/EditableRow';
-import { EditableCell } from '../components/EditableCell';
+import { EditableRow } from '../../../molecules/EditableRow/EditableRow';
+import { EditableCell } from '../../../molecules/EditableCell/EditableCell';
 import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect';
 import dayjs from 'dayjs';
 import '../components/TableWorkHour.css';
 import { getAllEmployee } from '../../../../services';
 import { formatMinutesToTime } from '../../../../utils';
+import { useWorkHoursContext } from '../../../../contexts/WorkHoursContext';
 
-interface WorkHoursTableViewProps {
-  isLoading: boolean;
-  allWorkHour: TransformedWorkHour[];
-  editingEmployee: number | null;
-  totalHoursPerDay: Record<string, string>;
-  totalAllHours: string;
-  originalHours: number | null;
-  handleEmployeeChange: (employeeId: number | null) => void;
-  handleUpdateNewRecord: (
-    date: TransformedWorkHour,
-    newValue: string,
-    employeeId: number | null,
-  ) => void;
-  handleCreateNewRecord: (
-    date: TransformedWorkHour,
-    newValue: string,
-    employeeId: number | null,
-  ) => void;
-  addNewRow: () => void;
-  days: dayjs.Dayjs[];
-  handleEditStart: (args: {
-    duration: any;
-    workDate: string;
-    id: number | null | undefined;
-    employee: number | null;
-  }) => void;
-  // allEmployee: TypeEmployee[];
-  editingDay: TypeEditingDayState | null;
-  calculateTotalHours: (workHour: TransformedWorkHour) => string;
-  prevWeek: () => void;
-  nextWeek: () => void;
-  selectedDate: dayjs.Dayjs;
-  goToCurrentWeek: () => void;
-  handleDateChange: (date: dayjs.Dayjs | null) => void;
-  getWeekFormat: (date: dayjs.Dayjs | null) => string;
-  // handleChangeTable: (pagination: TablePaginationConfig) => void;
-  handleUpdateTable: () => void;
-  // pagination: TablePaginationConfig;
-}
+export const WorkHoursTableView: React.FC = () => {
+  const {
+    isLoading,
+    allWorkHour,
+    editingEmployee,
+    totalHoursPerDay,
+    totalAllHours,
+    handleEmployeeChange,
+    handleUpdateNewRecord,
+    handleCreateNewRecord,
+    handleEditStart,
+    addNewRow,
+    days,
+    selectedDate,
+    editingDay,
+    calculateTotalHours,
+    prevWeek,
+    nextWeek,
+    goToCurrentWeek,
+    handleDateChange,
+    getWeekFormat,
+    handleUpdateTable,
+  } = useWorkHoursContext();
 
-export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
-  isLoading,
-  allWorkHour,
-  editingEmployee,
-  totalHoursPerDay,
-  totalAllHours,
-  originalHours,
-  handleEmployeeChange,
-  handleUpdateNewRecord,
-  handleCreateNewRecord,
-  handleEditStart,
-  addNewRow,
-  days,
-  // allEmployee,
-  editingDay,
-  calculateTotalHours,
-  prevWeek,
-  handleDateChange,
-  selectedDate,
-  getWeekFormat,
-  nextWeek,
-  goToCurrentWeek,
-  // handleChangeTable,
-  // pagination,
-  handleUpdateTable,
-}) => {
   // Колонки для сотрудников и итогов
   const employeeColumn: ColumnsType<TransformedWorkHour> = [
     {
@@ -172,6 +131,7 @@ export const WorkHoursTableView: React.FC<WorkHoursTableViewProps> = ({
                 record.employee?.id ?? editingEmployee,
               )
             }
+            isEditableCondition={record => record.employee?.id != null}
             children={dayData.duration?.toString() || ''}
             editable
             dataIndex={dateFormat}

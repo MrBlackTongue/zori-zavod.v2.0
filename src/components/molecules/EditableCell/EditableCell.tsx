@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Form, Input, InputRef } from 'antd';
-import '../components/TableWorkHour.css';
-import { EditableContext } from './EditableRow';
+import '../../pages/WorkHours/components/TableWorkHour.css';
+import { EditableContext } from '../EditableRow/EditableRow';
+import { useWorkHoursContext } from '../../../contexts/WorkHoursContext';
 
 interface EditableCellProps<T> {
   rowData: T;
@@ -16,6 +17,7 @@ interface EditableCellProps<T> {
   initialValue?: any; // Исходное значение для редактирования
   formattedHours: string;
   cellId: number | null | undefined;
+  isEditableCondition?: (rowData: T) => boolean;
 }
 
 export const EditableCell = <T,>({
@@ -28,21 +30,25 @@ export const EditableCell = <T,>({
   dataIndex,
   editable,
   formatValue = value => value.toString(),
+  isEditableCondition = () => true, // По умолчанию всегда редактируема
   initialValue,
   formattedHours,
   cellId,
   ...restProps
 }: EditableCellProps<T>) => {
+  const {} = useWorkHoursContext();
+
   const [editing, setEditing] = useState(false);
   const [originalValue, setOriginalValue] = useState<number | null>(null);
   const inputRef = useRef<InputRef>(null);
-
   const context = useContext(EditableContext);
   useEffect(() => {
     if (editing) {
       inputRef.current!.focus();
     }
   }, [editing]);
+
+  const isEditable = editable && isEditableCondition(rowData);
 
   if (!context) {
     // обработка случая, когда контекст не предоставлен
@@ -75,7 +81,7 @@ export const EditableCell = <T,>({
 
   let childNode = children;
 
-  if (editable && editingId !== null) {
+  if (editable) {
     childNode = editing ? (
       <Form.Item style={{ margin: 0, width: 80 }} name={dataIndex}>
         <Input ref={inputRef} onPressEnter={save} onBlur={save} />

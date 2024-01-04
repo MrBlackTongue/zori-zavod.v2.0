@@ -5,7 +5,6 @@ import {
   updateWorkHours,
   createWorkHours,
 } from '../../../../services';
-import { useFetchAllData } from '../../../../hooks';
 import {
   TableProps,
   TransformedWorkHour,
@@ -17,7 +16,7 @@ import {
 import { formatMinutesToTime, timeToMinutes } from '../../../../utils';
 import { WorkHoursTableView } from './WorkHoursTable.view';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import { logDOM } from '@testing-library/react';
+import { WorkHoursProvider } from '../../../../contexts/WorkHoursContext';
 
 export const WorkHoursTableContainer: React.FC<
   TableProps<TypeWorkHoursFilter>
@@ -35,12 +34,6 @@ export const WorkHoursTableContainer: React.FC<
   const [totalAllHours, setTotalAllHours] = useState<string>('0ч');
 
   const [dataUpdated, setDataUpdated] = useState(false);
-
-  // Параметры для пагинации
-  //   const [pagination, setPagination] = useState({
-  //     current: 1,
-  //     pageSize: 10,
-  //   });
 
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
@@ -257,14 +250,6 @@ export const WorkHoursTableContainer: React.FC<
     setAllWorkHour(prevWorkHours => [...prevWorkHours, newRow]);
   };
 
-  // Параметры изменения таблицы
-  // const handleChangeTable = (pagination: TablePaginationConfig): void => {
-  //   setPagination(prevPagination => ({
-  //     current: pagination.current ?? prevPagination.current,
-  //     pageSize: pagination.pageSize ?? prevPagination.pageSize,
-  //   }));
-  // };
-
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     if (filter) {
@@ -312,32 +297,32 @@ export const WorkHoursTableContainer: React.FC<
     }
   }, [allWorkHour.length]);
 
+  const contextValue = {
+    isLoading,
+    allWorkHour,
+    editingEmployee,
+    handleEditStart,
+    totalHoursPerDay,
+    totalAllHours,
+    handleEmployeeChange,
+    handleUpdateNewRecord,
+    handleCreateNewRecord,
+    addNewRow,
+    days,
+    selectedDate,
+    editingDay,
+    calculateTotalHours,
+    prevWeek,
+    nextWeek,
+    goToCurrentWeek,
+    handleDateChange,
+    getWeekFormat,
+    handleUpdateTable,
+  };
+
   return (
-    <WorkHoursTableView
-      isLoading={isLoading}
-      allWorkHour={allWorkHour}
-      editingEmployee={editingEmployee}
-      handleEditStart={handleEditStart}
-      totalHoursPerDay={totalHoursPerDay}
-      totalAllHours={totalAllHours}
-      handleEmployeeChange={handleEmployeeChange}
-      handleUpdateNewRecord={handleUpdateNewRecord}
-      handleCreateNewRecord={handleCreateNewRecord}
-      addNewRow={addNewRow}
-      days={days}
-      selectedDate={selectedDate}
-      // allEmployee={allEmployee}
-      editingDay={editingDay}
-      calculateTotalHours={calculateTotalHours}
-      prevWeek={prevWeek}
-      handleDateChange={handleDateChange}
-      getWeekFormat={getWeekFormat}
-      nextWeek={nextWeek}
-      // handleChangeTable={handleChangeTable}
-      // pagination={pagination}
-      handleUpdateTable={handleUpdateTable}
-      goToCurrentWeek={goToCurrentWeek}
-      originalHours={originalHours}
-    />
+    <WorkHoursProvider value={contextValue}>
+      <WorkHoursTableView />
+    </WorkHoursProvider>
   );
 };
