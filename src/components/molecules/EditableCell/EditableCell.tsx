@@ -6,49 +6,41 @@ import { useWorkHoursContext } from '../../../contexts/WorkHoursContext';
 
 interface EditableCellProps<T> {
   rowData: T;
-  editingId: number | null;
-  onEditStart: (args: T) => void;
-  handleUpdateRecord: (rowData: T, newValue: string) => void;
-  handleCreateNewRecord: (rowData: T, newValue: string) => void;
-  children: React.ReactNode; // Добавляем children
-  editable: boolean; // Добавляем editable (если необходимо)
-  dataIndex: string; // Добавляем dataIndex (если необходимо)
-  formatValue?: (value: any) => string; // Функция для форматирования значения
-  initialValue?: any; // Исходное значение для редактирования
-  formattedHours: string;
+  children: React.ReactNode;
+  dataIndex: string;
+  formattedHours: any;
   cellId: number | null | undefined;
-  isEditableCondition?: (rowData: T) => boolean;
+  recordId: number | undefined;
+  editable: boolean; // Добавляем editable (если необходимо)
 }
 
 export const EditableCell = <T,>({
   rowData,
-  editingId,
-  onEditStart,
-  handleUpdateRecord,
-  handleCreateNewRecord,
+  recordId,
   children,
   dataIndex,
-  editable,
-  formatValue = value => value.toString(),
-  isEditableCondition = () => true, // По умолчанию всегда редактируема
-  initialValue,
   formattedHours,
   cellId,
+  editable,
   ...restProps
 }: EditableCellProps<T>) => {
-  const {} = useWorkHoursContext();
+  const {
+    editingId,
+    handleUpdateRecord,
+    handleCreateNewRecord,
+    handleEditStart,
+  } = useWorkHoursContext();
 
   const [editing, setEditing] = useState(false);
   const [originalValue, setOriginalValue] = useState<number | null>(null);
   const inputRef = useRef<InputRef>(null);
   const context = useContext(EditableContext);
+
   useEffect(() => {
     if (editing) {
       inputRef.current!.focus();
     }
   }, [editing]);
-
-  const isEditable = editable && isEditableCondition(rowData);
 
   if (!context) {
     // обработка случая, когда контекст не предоставлен
@@ -59,9 +51,9 @@ export const EditableCell = <T,>({
   const toggleEdit = () => {
     setEditing(!editing);
     if (!editing) {
-      form.setFieldsValue({ [dataIndex]: formatValue(initialValue) });
-      setOriginalValue(initialValue);
-      onEditStart(rowData);
+      form.setFieldsValue({ [dataIndex]: formattedHours });
+      setOriginalValue(formattedHours);
+      handleEditStart(dataIndex, rowData);
     }
   };
 
@@ -73,9 +65,11 @@ export const EditableCell = <T,>({
       return;
     }
     if (cellId === null) {
-      handleCreateNewRecord(rowData, newValue);
+      // @ts-ignore
+      handleCreateNewRecord(rowData, newValue, editingId ?? recordId);
     } else {
-      handleUpdateRecord(rowData, newValue);
+      // @ts-ignore
+      handleUpdateRecord(rowData, newValue, editingId ?? recordId);
     }
   };
 

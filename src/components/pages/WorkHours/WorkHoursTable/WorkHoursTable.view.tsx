@@ -6,17 +6,11 @@ import {
   PlusOutlined,
   RightOutlined,
 } from '@ant-design/icons';
-import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import {
-  TransformedWorkHour,
-  TypeEditingDayState,
-  TypeEmployee,
-  TypeWorkDay,
-} from '../../../../types';
+import type { ColumnsType } from 'antd/es/table';
+import { TransformedWorkHour, TypeWorkDay } from '../../../../types';
 import { EditableRow } from '../../../molecules/EditableRow/EditableRow';
 import { EditableCell } from '../../../molecules/EditableCell/EditableCell';
 import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect';
-import dayjs from 'dayjs';
 import '../components/TableWorkHour.css';
 import { getAllEmployee } from '../../../../services';
 import { formatMinutesToTime } from '../../../../utils';
@@ -26,24 +20,18 @@ export const WorkHoursTableView: React.FC = () => {
   const {
     isLoading,
     allWorkHour,
-    editingEmployee,
     totalHoursPerDay,
     totalAllHours,
     handleEmployeeChange,
-    handleUpdateNewRecord,
-    handleCreateNewRecord,
-    handleEditStart,
     addNewRow,
     days,
     selectedDate,
-    editingDay,
     calculateTotalHours,
     prevWeek,
     nextWeek,
     goToCurrentWeek,
     handleDateChange,
     getWeekFormat,
-    handleUpdateTable,
   } = useWorkHoursContext();
 
   // Колонки для сотрудников и итогов
@@ -105,33 +93,8 @@ export const WorkHoursTableView: React.FC = () => {
         return (
           <EditableCell<TransformedWorkHour>
             rowData={record}
-            initialValue={formattedHours}
-            editingId={editingEmployee}
+            recordId={record.employee?.id}
             formattedHours={formattedHours}
-            onEditStart={() => {
-              // Здесь мы передаем только необходимые данные
-              handleEditStart({
-                id: dayData.id,
-                workDate: dateFormat,
-                duration: dayData.duration,
-                employee: editingEmployee,
-              });
-            }}
-            handleUpdateRecord={(date, newValue) =>
-              handleUpdateNewRecord(
-                date,
-                newValue,
-                record.employee?.id ?? editingEmployee,
-              )
-            }
-            handleCreateNewRecord={(date, newValue) =>
-              handleCreateNewRecord(
-                date,
-                newValue,
-                record.employee?.id ?? editingEmployee,
-              )
-            }
-            isEditableCondition={record => record.employee?.id != null}
             children={dayData.duration?.toString() || ''}
             editable
             dataIndex={dateFormat}

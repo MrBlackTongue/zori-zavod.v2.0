@@ -6,11 +6,11 @@ import { TransformedWorkHour, TypeEditingDayState } from '../types';
 interface WorkHoursContextType {
   isLoading: boolean;
   allWorkHour: TransformedWorkHour[];
-  editingEmployee: number | null;
+  editingId: number | null;
   totalHoursPerDay: Record<string, string>;
   totalAllHours: string;
   handleEmployeeChange: (employeeId: number | null) => void;
-  handleUpdateNewRecord: (
+  handleUpdateRecord: (
     date: TransformedWorkHour,
     newValue: string,
     employeeId: number | null,
@@ -22,13 +22,7 @@ interface WorkHoursContextType {
   ) => void;
   addNewRow: () => void;
   days: dayjs.Dayjs[];
-  handleEditStart: (args: {
-    duration: any;
-    workDate: string;
-    id: number | null | undefined;
-    employee: number | null;
-  }) => void;
-  // allEmployee: TypeEmployee[];
+  handleEditStart: any;
   editingDay: TypeEditingDayState | null;
   calculateTotalHours: (workHour: TransformedWorkHour) => string;
   prevWeek: () => void;

@@ -172,7 +172,7 @@ export const WorkHoursTableContainer: React.FC<
     setTotalAllHours(total);
   }, [allWorkHour, calculateTotalAllHours]);
 
-  const handleUpdateNewRecord = (
+  const handleUpdateRecord = (
     date: any,
     newValue: string,
     employeeId: number | null,
@@ -271,20 +271,27 @@ export const WorkHoursTableContainer: React.FC<
     setEditingEmployee(employeeId);
   };
 
-  const handleEditStart = ({
-    id,
-    workDate,
-    duration,
-    employee,
-  }: TypeEditingDayState) => {
-    setOriginalHours(duration);
+  const handleEditStart = (dataIndex: string, rowData: TransformedWorkHour) => {
+    // Извлекаем информацию о дне и сотруднике
+    const workDayInfo = rowData[dataIndex] as TypeWorkDay;
+    const employeeInfo = rowData.employee;
+    console.log('workDayInfo', workDayInfo);
+    console.log('employeeInfo', employeeInfo);
+
+    // Проверяем, есть ли информация о рабочем дне
+    if (!workDayInfo || !employeeInfo) {
+      // Обработка ошибки или пропуск, если данных нет
+      return;
+    }
+
+    setOriginalHours(workDayInfo.duration);
+
     setEditingDay({
-      id: id,
-      workDate: workDate,
+      id: workDayInfo.id,
+      workDate: workDayInfo.date,
       duration: originalHours ?? 0,
-      employee: employee ?? 0,
+      employee: employeeInfo.id ?? 0, // Предполагаем, что у сотрудника всегда есть ID
     });
-    console.log('editingDay', editingDay);
   };
 
   useEffect(() => {
@@ -300,12 +307,12 @@ export const WorkHoursTableContainer: React.FC<
   const contextValue = {
     isLoading,
     allWorkHour,
-    editingEmployee,
+    editingId: editingEmployee,
     handleEditStart,
     totalHoursPerDay,
     totalAllHours,
     handleEmployeeChange,
-    handleUpdateNewRecord,
+    handleUpdateRecord,
     handleCreateNewRecord,
     addNewRow,
     days,

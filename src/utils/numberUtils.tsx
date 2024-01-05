@@ -57,7 +57,10 @@ export const formatMinutesToTime = (minutes: number) => {
 
 // Функция форматирует часы в минуты
 export const timeToMinutes = (timeString: string) => {
-  let parts = timeString.split(/[:.,/ ]+/);
+  // Удаление начальных и конечных пробелов
+  const trimmedTimeString = timeString.trim();
+
+  let parts = trimmedTimeString.split(/[:.,/ ]+/);
 
   if (parts.length === 1) {
     // Если есть только одно число, считаем его часами
