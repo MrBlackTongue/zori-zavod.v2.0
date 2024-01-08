@@ -66,10 +66,10 @@ export const EditableCell = <T,>({
     }
     if (cellId === null) {
       // @ts-ignore
-      handleCreateNewRecord(rowData, newValue, editingId ?? recordId);
+      handleCreateNewRecord(rowData, newValue, recordId ?? editingId);
     } else {
       // @ts-ignore
-      handleUpdateRecord(rowData, newValue, editingId ?? recordId);
+      handleUpdateRecord(rowData, newValue, recordId ?? editingId);
     }
   };
 

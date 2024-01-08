@@ -278,19 +278,13 @@ export const WorkHoursTableContainer: React.FC<
     console.log('workDayInfo', workDayInfo);
     console.log('employeeInfo', employeeInfo);
 
-    // Проверяем, есть ли информация о рабочем дне
-    if (!workDayInfo || !employeeInfo) {
-      // Обработка ошибки или пропуск, если данных нет
-      return;
-    }
-
     setOriginalHours(workDayInfo.duration);
 
     setEditingDay({
       id: workDayInfo.id,
       workDate: workDayInfo.date,
       duration: originalHours ?? 0,
-      employee: employeeInfo.id ?? 0, // Предполагаем, что у сотрудника всегда есть ID
+      employee: employeeInfo?.id,
     });
   };
 
