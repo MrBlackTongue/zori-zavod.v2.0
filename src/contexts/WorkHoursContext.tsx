@@ -5,7 +5,7 @@ import { TransformedWorkHour, TypeEditingDayState } from '../types';
 // Определение обобщенных типов для данных контекста
 interface WorkHoursContextType {
   isLoading: boolean;
-  allWorkHour: TransformedWorkHour[];
+  allData: TransformedWorkHour[];
   editingId: number | null;
   totalHoursPerDay: Record<string, string>;
   totalAllHours: string;

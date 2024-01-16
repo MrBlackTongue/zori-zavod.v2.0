@@ -21,7 +21,6 @@ export interface TypeWorkDay {
 
 export interface TransformedWorkHour {
   employee: TypeEmployee | null;
-
   [date: string]: TypeWorkDay | TypeEmployee | null;
 }
 

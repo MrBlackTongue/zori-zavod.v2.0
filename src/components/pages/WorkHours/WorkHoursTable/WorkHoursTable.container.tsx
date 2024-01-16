@@ -35,6 +35,10 @@ export const WorkHoursTableContainer: React.FC<
 
   const [dataUpdated, setDataUpdated] = useState(false);
 
+  // const [highlightedEmployeeId, setHighlightedEmployeeId] = useState<
+  //   number | null
+  // >(null);
+
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
 
@@ -221,6 +225,7 @@ export const WorkHoursTableContainer: React.FC<
       createWorkHours(workHourData)
         .then(response => {
           setDataUpdated(prev => !prev); // Переключаем состояние
+          setEditingEmployee(null);
         })
         .catch(error => {
           console.error('Ошибка при создании часов работы:', error);
@@ -246,7 +251,6 @@ export const WorkHoursTableContainer: React.FC<
         {} as Record<string, TypeWorkDay>,
       ),
     };
-
     setAllWorkHour(prevWorkHours => [...prevWorkHours, newRow]);
   };
 
@@ -275,8 +279,6 @@ export const WorkHoursTableContainer: React.FC<
     // Извлекаем информацию о дне и сотруднике
     const workDayInfo = rowData[dataIndex] as TypeWorkDay;
     const employeeInfo = rowData.employee;
-    console.log('workDayInfo', workDayInfo);
-    console.log('employeeInfo', employeeInfo);
 
     setOriginalHours(workDayInfo.duration);
 
@@ -300,7 +302,7 @@ export const WorkHoursTableContainer: React.FC<
 
   const contextValue = {
     isLoading,
-    allWorkHour,
+    allData: allWorkHour,
     editingId: editingEmployee,
     handleEditStart,
     totalHoursPerDay,

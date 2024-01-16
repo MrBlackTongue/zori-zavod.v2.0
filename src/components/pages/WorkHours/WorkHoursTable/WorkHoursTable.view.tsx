@@ -19,7 +19,7 @@ import { useWorkHoursContext } from '../../../../contexts/WorkHoursContext';
 export const WorkHoursTableView: React.FC = () => {
   const {
     isLoading,
-    allWorkHour,
+    allData,
     totalHoursPerDay,
     totalAllHours,
     handleEmployeeChange,
@@ -32,6 +32,7 @@ export const WorkHoursTableView: React.FC = () => {
     goToCurrentWeek,
     handleDateChange,
     getWeekFormat,
+    editingId,
   } = useWorkHoursContext();
 
   // Колонки для сотрудников и итогов
@@ -135,7 +136,6 @@ export const WorkHoursTableView: React.FC = () => {
 
   // Объединение всех колонок
   const columns = [...employeeColumn, ...daysColumns, ...totalColumn];
-
   return (
     <>
       <Flex
@@ -168,10 +168,15 @@ export const WorkHoursTableView: React.FC = () => {
         rowKey="id"
         bordered={true}
         components={components}
-        rowClassName={() => 'editable-row'}
+        rowClassName={record => {
+          if (editingId === record.employee?.id) {
+            return 'highlighted-row';
+          }
+          return '';
+        }}
         className="table-work-hour"
         columns={columns}
-        dataSource={allWorkHour}
+        dataSource={allData}
         loading={isLoading}
         size={'middle'}
         pagination={false}

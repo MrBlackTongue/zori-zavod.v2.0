@@ -22,3 +22,19 @@
     border: 1px solid #d8d8d8;
     border-radius: 5px;
 }
+
+@keyframes blink {
+    20% {
+        background-color: transparent;
+    }
+    75% {
+        background-color: lightgreen;
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+.highlighted-row {
+    animation: blink 2.5s ease-in-out;
+}
