@@ -5,6 +5,7 @@
 .table-work-hour .ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
     border-left-color: inherit;
     border-right-color: inherit;
+    background-color: transparent;
 }
 
 .editable-cell {
@@ -28,7 +29,7 @@
         background-color: transparent;
     }
     65% {
-        background-color: lightgreen;
+        background-color: #a3f1a3;
     }
     100% {
         background-color: transparent;

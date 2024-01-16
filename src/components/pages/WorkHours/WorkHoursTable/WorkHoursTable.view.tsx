@@ -170,9 +170,9 @@ export const WorkHoursTableView: React.FC = () => {
         components={components}
         rowClassName={record => {
           if (editingId === record.employee?.id) {
-            return 'highlighted-row';
+            return 'highlighted-row editable-row';
           }
-          return '';
+          return 'editable-row';
         }}
         className="table-work-hour"
         columns={columns}
