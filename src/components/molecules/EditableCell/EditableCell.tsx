@@ -75,7 +75,7 @@ export const EditableCell = <T,>({
 
   let childNode = children;
 
-  if (editable) {
+  if ((editable && editingId) || recordId) {
     childNode = editing ? (
       <Form.Item style={{ margin: 0, width: 80 }} name={dataIndex}>
         <Input ref={inputRef} onPressEnter={save} onBlur={save} />

@@ -24,10 +24,10 @@
 }
 
 @keyframes blink {
-    20% {
+    15% {
         background-color: transparent;
     }
-    75% {
+    65% {
         background-color: lightgreen;
     }
     100% {
@@ -36,5 +36,5 @@
 }
 
 .highlighted-row {
-    animation: blink 2.5s ease-in-out;
+    animation: blink 2.2s ease-in-out;
 }
