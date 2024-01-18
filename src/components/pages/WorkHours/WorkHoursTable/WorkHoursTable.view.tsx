@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, DatePicker, Flex, FloatButton, Table } from 'antd';
+import { Button, DatePicker, Flex, FloatButton, Popconfirm, Table } from 'antd';
 import {
+  DeleteOutlined,
   HomeOutlined,
   LeftOutlined,
   PlusOutlined,
@@ -33,6 +34,7 @@ export const WorkHoursTableView: React.FC = () => {
     handleDateChange,
     getWeekFormat,
     editingId,
+    handleDeleteRow,
   } = useWorkHoursContext();
 
   // Колонки для сотрудников и итогов
@@ -41,7 +43,7 @@ export const WorkHoursTableView: React.FC = () => {
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'employee',
-      width: 300,
+      width: 200,
       render: (_, record: TransformedWorkHour) => {
         return (
           <EditableSelect
@@ -119,13 +121,49 @@ export const WorkHoursTableView: React.FC = () => {
       ),
       dataIndex: 'total',
       key: 'total',
-      width: 100,
-      render: (_, record: TransformedWorkHour) => {
-        // Рассчитываем итог для каждого сотрудника
-        return `${calculateTotalHours(record)}`;
-      },
+      width: 80,
+      render: (_, record: TransformedWorkHour) => (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <div>{`${calculateTotalHours(record)}`}</div>
+          <div className="delete-button">
+            <Popconfirm
+              placement="topLeft"
+              title="Вы действительно хотите удалить сотрудника из таблицы?"
+              onConfirm={() => handleDeleteRow(record)}
+              okText="Да"
+              cancelText="Отмена">
+              <Button
+                type="default"
+                // onClick={}
+                icon={<DeleteOutlined />}
+              />
+            </Popconfirm>
+          </div>
+        </div>
+      ),
     },
   ];
+
+  // Колонка для кнопки удаления
+  // const deleteColumn = {
+  //   title: '',
+  //   key: 'action',
+  //   width: 50,
+  //   render: () => (
+  //     <div className="delete-button">
+  //       <Button
+  //         type="default"
+  //         // onClick={() => handleDelete(record.id)}
+  //         icon={<DeleteOutlined />}
+  //       />
+  //     </div>
+  //   ),
+  // };
 
   const components = {
     body: {
@@ -135,7 +173,12 @@ export const WorkHoursTableView: React.FC = () => {
   };
 
   // Объединение всех колонок
-  const columns = [...employeeColumn, ...daysColumns, ...totalColumn];
+  const columns = [
+    ...employeeColumn,
+    ...daysColumns,
+    ...totalColumn,
+    // deleteColumn,
+  ];
   return (
     <>
       <Flex

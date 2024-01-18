@@ -4,6 +4,7 @@ import {
   getAllWorkHours,
   updateWorkHours,
   createWorkHours,
+  deleteWorkHoursById,
 } from '../../../../services';
 import {
   TableProps,
@@ -34,10 +35,6 @@ export const WorkHoursTableContainer: React.FC<
   const [totalAllHours, setTotalAllHours] = useState<string>('0ч');
 
   const [dataUpdated, setDataUpdated] = useState(false);
-
-  // const [highlightedEmployeeId, setHighlightedEmployeeId] = useState<
-  //   number | null
-  // >(null);
 
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
@@ -71,7 +68,7 @@ export const WorkHoursTableContainer: React.FC<
   );
 
   const getWeekFormat = (date: dayjs.Dayjs | null) => {
-    if (!date || !date.isValid()) return '';
+    if (!date?.isValid()) return '';
 
     const startOfWeek = date.startOf('week');
     const endOfWeek = date.endOf('week');
@@ -122,7 +119,7 @@ export const WorkHoursTableContainer: React.FC<
         if (key !== 'employee' && workHour[key] instanceof Object) {
           const day = workHour[key] as TypeWorkDay;
           totalMinutesPerDay[day.date] =
-            (totalMinutesPerDay[day.date] || 0) + (day.duration || 0);
+            (totalMinutesPerDay[day.date] || 0) + (day.duration ?? 0);
         }
       });
     });
@@ -146,7 +143,7 @@ export const WorkHoursTableContainer: React.FC<
     Object.keys(workHour).forEach(key => {
       if (key !== 'employee' && workHour[key] instanceof Object) {
         const day = workHour[key] as TypeWorkDay;
-        totalMinutes += day.duration || 0;
+        totalMinutes += day.duration ?? 0;
       }
     });
     return formatMinutesToTime(totalMinutes);
@@ -223,7 +220,7 @@ export const WorkHoursTableContainer: React.FC<
       };
       console.log('workHourData:', workHourData);
       createWorkHours(workHourData)
-        .then(response => {
+        .then(() => {
           setDataUpdated(prev => !prev); // Переключаем состояние
           setEditingEmployee(null);
         })
@@ -275,6 +272,30 @@ export const WorkHoursTableContainer: React.FC<
     setEditingEmployee(employeeId);
   };
 
+  // Функция для удаления строки
+  const handleDeleteRow = useCallback(
+    async (record: TransformedWorkHour) => {
+      try {
+        // Собираем все ID рабочих часов из строки
+        const idsToDelete = Object.values(record)
+          .filter(item => item?.id)
+          .map(item => item && item.id);
+
+        // Удаляем каждую запись о рабочих часах в строке
+        const deletePromises = idsToDelete.map(id =>
+          id ? deleteWorkHoursById(id) : null,
+        );
+        await Promise.all(deletePromises);
+
+        // Обновляем данные
+        handleUpdateTable();
+      } catch (error) {
+        console.error('Ошибка при удалении строки: ', error);
+      }
+    },
+    [handleUpdateTable],
+  );
+
   const handleEditStart = (dataIndex: string, rowData: TransformedWorkHour) => {
     // Извлекаем информацию о дне и сотруднике
     const workDayInfo = rowData[dataIndex] as TypeWorkDay;
@@ -321,6 +342,7 @@ export const WorkHoursTableContainer: React.FC<
     handleDateChange,
     getWeekFormat,
     handleUpdateTable,
+    handleDeleteRow,
   };
 
   return (
