@@ -43,13 +43,9 @@
 .table-work-hour .ant-table-tbody > .ant-table-row .delete-button {
     visibility: hidden;
     opacity: 0;
-    margin-right: 8px;
 }
 
 .table-work-hour .ant-table-tbody > .ant-table-row:hover .delete-button {
     visibility: visible;
     opacity: 1;
-    margin-right: 8px;
-
 }
-

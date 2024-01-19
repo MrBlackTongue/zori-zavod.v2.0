@@ -33,6 +33,7 @@ interface WorkHoursContextType {
   getWeekFormat: (date: dayjs.Dayjs | null) => string;
   handleUpdateTable: () => void;
   handleDeleteRow: (record: TransformedWorkHour) => void;
+  setSearchText: (event: string) => void;
 }
 
 const WorkHoursContext = createContext<WorkHoursContextType | null>(null);

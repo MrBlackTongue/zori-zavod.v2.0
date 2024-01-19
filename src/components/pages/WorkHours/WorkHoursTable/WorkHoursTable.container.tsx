@@ -36,6 +36,9 @@ export const WorkHoursTableContainer: React.FC<
 
   const [dataUpdated, setDataUpdated] = useState(false);
 
+  // Текст поиска
+  const [searchText, setSearchText] = useState<string>('');
+
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
 
@@ -251,22 +254,37 @@ export const WorkHoursTableContainer: React.FC<
     setAllWorkHour(prevWorkHours => [...prevWorkHours, newRow]);
   };
 
+  // Функция для поиска по таблице закупок
+  const handleSearchTable = useCallback((): void => {
+    setIsLoading(true);
+    const startDate = selectedDate.startOf('week').format('YYYY-MM-DD');
+    const endDate = selectedDate.endOf('week').format('YYYY-MM-DD');
+
+    getAllWorkHours(searchText, startDate, endDate)
+      .then(data => {
+        const transformedData = transformData(data);
+        setAllWorkHour(transformedData);
+        setIsLoading(false);
+      })
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, [searchText, selectedDate]);
+
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
-    if (filter) {
-      setIsLoading(true);
-      getAllWorkHours(
-        dayjs(filter?.startDate).format('YYYY-MM-DD'),
-        dayjs(filter?.endDate).format('YYYY-MM-DD'),
-      )
-        .then(data => {
-          const transformedData = transformData(data);
-          setAllWorkHour(transformedData);
-          setIsLoading(false);
-        })
-        .catch(error => console.error('Ошибка при получении данных: ', error));
-    }
-  }, [filter]);
+    setIsLoading(true);
+    // Если текст поиска не установлен, загружаем все данные
+    getAllWorkHours(
+      searchText,
+      dayjs(filter?.startDate).format('YYYY-MM-DD'),
+      dayjs(filter?.endDate).format('YYYY-MM-DD'),
+    )
+      .then(data => {
+        const transformedData = transformData(data);
+        setAllWorkHour(transformedData);
+        setIsLoading(false);
+      })
+      .catch(error => console.error('Ошибка при получении данных: ', error));
+  }, [filter, searchText, handleSearchTable]);
 
   const handleEmployeeChange = (employeeId: number | null) => {
     setEditingEmployee(employeeId);
@@ -279,7 +297,7 @@ export const WorkHoursTableContainer: React.FC<
         // Собираем все ID рабочих часов из строки
         const idsToDelete = Object.values(record)
           .filter(item => item?.id)
-          .map(item => item && item.id);
+          .map(item => item?.id);
 
         // Удаляем каждую запись о рабочих часах в строке
         const deletePromises = idsToDelete.map(id =>
@@ -310,6 +328,14 @@ export const WorkHoursTableContainer: React.FC<
       employee: employeeInfo?.id,
     });
   };
+
+  useEffect(() => {
+    if (searchText) {
+      handleSearchTable();
+    } else {
+      handleUpdateTable();
+    }
+  }, [searchText, selectedDate, handleSearchTable, handleUpdateTable]);
 
   useEffect(() => {
     handleUpdateTable();
@@ -343,6 +369,7 @@ export const WorkHoursTableContainer: React.FC<
     getWeekFormat,
     handleUpdateTable,
     handleDeleteRow,
+    setSearchText,
   };
 
   return (

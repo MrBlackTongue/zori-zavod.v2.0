@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Form } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import { useWorkHoursContext } from '../../../contexts/WorkHoursContext';
@@ -37,9 +37,11 @@ export const EditableRow: React.FC<EditableRowProps> = ({
     }
   }, [highLightRowIndex, rowRef.current?.rowIndex]);
 
+  const contextValue = useMemo(() => ({ form, index }), [form, index]);
+
   return (
     <Form form={form} component={false}>
-      <EditableContext.Provider value={{ form, index }}>
+      <EditableContext.Provider value={contextValue}>
         <tr ref={rowRef} {...props} />
       </EditableContext.Provider>
     </Form>

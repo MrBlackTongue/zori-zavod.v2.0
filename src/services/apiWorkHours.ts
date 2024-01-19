@@ -1,9 +1,4 @@
-import {
-  TypeApiResponse,
-  TypeEditingDayState,
-  TypeWorkDay,
-  TypeWorkHour,
-} from '../types';
+import { TypeApiResponse, TypeEditingDayState, TypeWorkHour } from '../types';
 import { WORK_HOURS } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
@@ -15,14 +10,16 @@ import { api } from './api';
 
 // Получить список всех сотрудников и рабочих часов
 export async function getAllWorkHours(
+  employee: string,
   startDate: string,
   endDate: string,
 ): Promise<TypeWorkHour> {
   try {
-    const response = await api.get(WORK_HOURS, {
+    const response = await api.post(`${WORK_HOURS}/all`, null, {
       params: {
-        startDate,
-        endDate,
+        employee: employee || null,
+        startDate: startDate,
+        endDate: endDate,
       },
     });
     return response.data;

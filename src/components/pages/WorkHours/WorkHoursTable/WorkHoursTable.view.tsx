@@ -1,11 +1,20 @@
 import React from 'react';
-import { Button, DatePicker, Flex, FloatButton, Popconfirm, Table } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Flex,
+  FloatButton,
+  Input,
+  Popconfirm,
+  Table,
+} from 'antd';
 import {
   DeleteOutlined,
   HomeOutlined,
   LeftOutlined,
   PlusOutlined,
   RightOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import { TransformedWorkHour, TypeWorkDay } from '../../../../types';
@@ -35,6 +44,7 @@ export const WorkHoursTableView: React.FC = () => {
     getWeekFormat,
     editingId,
     handleDeleteRow,
+    setSearchText,
   } = useWorkHoursContext();
 
   // Колонки для сотрудников и итогов
@@ -98,11 +108,11 @@ export const WorkHoursTableView: React.FC = () => {
             rowData={record}
             recordId={record.employee?.id}
             formattedHours={formattedHours}
-            children={dayData.duration?.toString() || ''}
             editable
             dataIndex={dateFormat}
-            cellId={dayData.id}
-          />
+            cellId={dayData.id}>
+            {dayData.duration?.toString() ?? ''}
+          </EditableCell>
         );
       },
     };
@@ -138,8 +148,8 @@ export const WorkHoursTableView: React.FC = () => {
               okText="Да"
               cancelText="Отмена">
               <Button
+                style={{ color: 'tomato', borderColor: 'tomato' }}
                 type="default"
-                // onClick={}
                 icon={<DeleteOutlined />}
               />
             </Popconfirm>
@@ -149,22 +159,6 @@ export const WorkHoursTableView: React.FC = () => {
     },
   ];
 
-  // Колонка для кнопки удаления
-  // const deleteColumn = {
-  //   title: '',
-  //   key: 'action',
-  //   width: 50,
-  //   render: () => (
-  //     <div className="delete-button">
-  //       <Button
-  //         type="default"
-  //         // onClick={() => handleDelete(record.id)}
-  //         icon={<DeleteOutlined />}
-  //       />
-  //     </div>
-  //   ),
-  // };
-
   const components = {
     body: {
       row: EditableRow,
@@ -173,38 +167,42 @@ export const WorkHoursTableView: React.FC = () => {
   };
 
   // Объединение всех колонок
-  const columns = [
-    ...employeeColumn,
-    ...daysColumns,
-    ...totalColumn,
-    // deleteColumn,
-  ];
+  const columns = [...employeeColumn, ...daysColumns, ...totalColumn];
   return (
     <>
       <Flex
         gap="3px"
-        justify="flex-end"
+        justify="space-between"
         align="center"
         wrap="wrap"
         style={{ marginBottom: 15 }}>
-        <Button onClick={prevWeek}>
-          <LeftOutlined />
-        </Button>
-        <Button onClick={goToCurrentWeek}>
-          <HomeOutlined />
-        </Button>
-        <DatePicker
-          allowClear={false}
-          picker="week"
-          onChange={handleDateChange}
-          value={selectedDate}
-          format={getWeekFormat(selectedDate)}
-          style={{ width: 300 }}
-          className="no-clear-button"
+        <Input
+          allowClear
+          placeholder="Поиск по сотрудникам"
+          style={{ width: '210px' }}
+          onChange={event => setSearchText(event.target.value.trim())}
+          prefix={<SearchOutlined />}
         />
-        <Button onClick={nextWeek}>
-          <RightOutlined />
-        </Button>
+        <div>
+          <Button onClick={prevWeek}>
+            <LeftOutlined />
+          </Button>
+          <Button onClick={goToCurrentWeek}>
+            <HomeOutlined />
+          </Button>
+          <DatePicker
+            allowClear={false}
+            picker="week"
+            onChange={handleDateChange}
+            value={selectedDate}
+            format={getWeekFormat(selectedDate)}
+            style={{ width: 300 }}
+            className="no-clear-button"
+          />
+          <Button onClick={nextWeek}>
+            <RightOutlined />
+          </Button>
+        </div>
       </Flex>
       <FloatButton.BackTop />
       <Table
