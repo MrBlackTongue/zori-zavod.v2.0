@@ -8,8 +8,8 @@ import {
 } from '../../../../api';
 import {
   TableProps,
-  TransformedWorkHour,
   TypeEditingDayState,
+  TypeTransformedWorkHour,
   TypeWorkDay,
   TypeWorkHour,
   TypeWorkHoursFilter,
@@ -23,7 +23,7 @@ export const WorkHoursTableContainer: React.FC<
   TableProps<TypeWorkHoursFilter>
 > = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allWorkHour, setAllWorkHour] = useState<TransformedWorkHour[]>([]);
+  const [allWorkHour, setAllWorkHour] = useState<TypeTransformedWorkHour[]>([]);
   const [editingEmployee, setEditingEmployee] = useState<number | null>(null);
   const [editingDay, setEditingDay] = useState<TypeEditingDayState | null>(
     null,
@@ -43,6 +43,15 @@ export const WorkHoursTableContainer: React.FC<
 
   dayjs.locale('ru');
   dayjs.extend(weekOfYear);
+
+  const filter2 = useMemo(
+    () => ({
+      employee: searchText, // Используйте searchText как фильтр по сотруднику
+      startDate: selectedDate.startOf('week').format('YYYY-MM-DD'), // начало недели
+      endDate: selectedDate.endOf('week').format('YYYY-MM-DD'), // конец недели
+    }),
+    [searchText, selectedDate],
+  );
 
   // Переключение на предыдущую неделю
   const prevWeek = () => {
@@ -110,7 +119,7 @@ export const WorkHoursTableContainer: React.FC<
     });
   };
 
-  const calculateTotalHoursPerDay = (workHours: TransformedWorkHour[]) => {
+  const calculateTotalHoursPerDay = (workHours: TypeTransformedWorkHour[]) => {
     const totalMinutesPerDay: Record<string, number> = {};
 
     workHours.forEach(workHour => {
@@ -137,7 +146,7 @@ export const WorkHoursTableContainer: React.FC<
   }, [allWorkHour]);
 
   // Функция для вычисления итоговых часов
-  const calculateTotalHours = (workHour: TransformedWorkHour): string => {
+  const calculateTotalHours = (workHour: TypeTransformedWorkHour): string => {
     let totalMinutes = 0;
     Object.keys(workHour).forEach(key => {
       if (key !== 'employee' && workHour[key] instanceof Object) {
@@ -150,7 +159,7 @@ export const WorkHoursTableContainer: React.FC<
 
   // Функция для расчета общего количества часов всех сотрудников
   const calculateTotalAllHours = useCallback(
-    (workHours: TransformedWorkHour[]): string => {
+    (workHours: TypeTransformedWorkHour[]): string => {
       let totalMinutes = 0;
       workHours.forEach(workHour => {
         Object.keys(workHour).forEach(key => {
@@ -231,7 +240,7 @@ export const WorkHoursTableContainer: React.FC<
   // Функция для добавления новой строки
   const addNewRow = useCallback(() => {
     // Создаем объект напрямую в формате TransformedWorkHour
-    const newRow: TransformedWorkHour = {
+    const newRow: TypeTransformedWorkHour = {
       employee: null, // employee пока не выбран
       ...days.reduce(
         (acc, day) => {
@@ -254,27 +263,33 @@ export const WorkHoursTableContainer: React.FC<
   };
 
   // Функция для удаления строки
-  const handleDeleteRow = useCallback(async (record: TransformedWorkHour) => {
-    try {
-      // Собираем все ID рабочих часов из строки
-      const idsToDelete = Object.values(record)
-        .filter(item => item?.id)
-        .map(item => item?.id);
+  const handleDeleteRow = useCallback(
+    async (record: TypeTransformedWorkHour) => {
+      try {
+        // Собираем все ID рабочих часов из строки
+        const idsToDelete = Object.values(record)
+          .filter(item => item?.id)
+          .map(item => item?.id);
 
-      // Удаляем каждую запись о рабочих часах в строке
-      const deletePromises = idsToDelete.map(id =>
-        id ? deleteWorkHoursById(id) : null,
-      );
-      await Promise.all(deletePromises);
+        // Удаляем каждую запись о рабочих часах в строке
+        const deletePromises = idsToDelete.map(id =>
+          id ? deleteWorkHoursById(id) : null,
+        );
+        await Promise.all(deletePromises);
 
-      // Обновляем данные
-      loadAndUpdateData();
-    } catch (error) {
-      console.error('Ошибка при удалении строки: ', error);
-    }
-  }, []);
+        // Обновляем данные
+        loadAndUpdateData();
+      } catch (error) {
+        console.error('Ошибка при удалении строки: ', error);
+      }
+    },
+    [],
+  );
 
-  const handleEditStart = (dataIndex: string, rowData: TransformedWorkHour) => {
+  const handleEditStart = (
+    dataIndex: string,
+    rowData: TypeTransformedWorkHour,
+  ) => {
     // Извлекаем информацию о дне и сотруднике
     const workDayInfo = rowData[dataIndex] as TypeWorkDay;
     const employeeInfo = rowData.employee;
@@ -292,18 +307,16 @@ export const WorkHoursTableContainer: React.FC<
   // Функция для загрузки и обновления данных
   const loadAndUpdateData = useCallback(() => {
     setIsLoading(true);
-    const startDate = selectedDate.startOf('week').format('YYYY-MM-DD');
-    const endDate = selectedDate.endOf('week').format('YYYY-MM-DD');
 
-    // Загрузка данных в зависимости от наличия текста поиска
-    getAllWorkHours(searchText, startDate, endDate)
+    // Загрузка данных с использованием фильтра
+    getAllWorkHours(filter2)
       .then(data => {
         const transformedData = transformData(data);
         setAllWorkHour(transformedData);
       })
       .catch(error => console.error('Ошибка при получении данных: ', error))
       .finally(() => setIsLoading(false));
-  }, [searchText, selectedDate]);
+  }, [filter2]);
 
   useEffect(() => {
     loadAndUpdateData();

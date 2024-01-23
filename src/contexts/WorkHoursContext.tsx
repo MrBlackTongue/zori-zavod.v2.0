@@ -1,22 +1,22 @@
-import React, { createContext, ReactNode, useContext } from 'react';
+import React, {createContext, ReactNode, useContext} from 'react';
 import dayjs from 'dayjs';
-import { TransformedWorkHour, TypeEditingDayState } from '../types'; // Определение обобщенных типов для данных контекста
+import {TypeEditingDayState, TypeTransformedWorkHour} from '../types'; // Определение обобщенных типов для данных контекста
 
 // Определение обобщенных типов для данных контекста
 interface WorkHoursContextType {
   isLoading: boolean;
-  allData: TransformedWorkHour[];
+  allData: TypeTransformedWorkHour[];
   editingId: number | null;
   totalHoursPerDay: Record<string, string>;
   totalAllHours: string;
   handleEmployeeChange: (employeeId: number | null) => void;
   handleUpdateRecord: (
-    date: TransformedWorkHour,
+    date: TypeTransformedWorkHour,
     newValue: string,
     employeeId: number | null,
   ) => void;
   handleCreateNewRecord: (
-    date: TransformedWorkHour,
+    date: TypeTransformedWorkHour,
     newValue: string,
     employeeId: number | null,
   ) => void;
@@ -24,14 +24,14 @@ interface WorkHoursContextType {
   days: dayjs.Dayjs[];
   handleEditStart: any;
   editingDay: TypeEditingDayState | null;
-  calculateTotalHours: (workHour: TransformedWorkHour) => string;
+  calculateTotalHours: (workHour: TypeTransformedWorkHour) => string;
   prevWeek: () => void;
   nextWeek: () => void;
   selectedDate: dayjs.Dayjs;
   goToCurrentWeek: () => void;
   handleDateChange: (date: dayjs.Dayjs | null) => void;
   getWeekFormat: (date: dayjs.Dayjs | null) => string;
-  handleDeleteRow: (record: TransformedWorkHour) => void;
+  handleDeleteRow: (record: TypeTransformedWorkHour) => void;
   setSearchText: (event: string) => void;
   loadAndUpdateData: () => void;
 }

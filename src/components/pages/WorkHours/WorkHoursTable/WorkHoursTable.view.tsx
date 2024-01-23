@@ -17,7 +17,7 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { TransformedWorkHour, TypeWorkDay } from '../../../../types';
+import { TypeTransformedWorkHour, TypeWorkDay } from '../../../../types';
 import { EditableRow } from '../../../molecules/EditableRow/EditableRow';
 import { EditableCell } from '../../../molecules/EditableCell/EditableCell';
 import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect';
@@ -48,13 +48,13 @@ export const WorkHoursTableView: React.FC = () => {
   } = useWorkHoursContext();
 
   // Колонки для сотрудников и итогов
-  const employeeColumn: ColumnsType<TransformedWorkHour> = [
+  const employeeColumn: ColumnsType<TypeTransformedWorkHour> = [
     {
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'employee',
       width: 200,
-      render: (_, record: TransformedWorkHour) => {
+      render: (_, record: TypeTransformedWorkHour) => {
         return (
           <EditableSelect
             value={record.employee?.id}
@@ -73,7 +73,7 @@ export const WorkHoursTableView: React.FC = () => {
   ];
 
   // Колонки для дней недели
-  const daysColumns: ColumnsType<TransformedWorkHour> = days.map(day => {
+  const daysColumns: ColumnsType<TypeTransformedWorkHour> = days.map(day => {
     const dateFormat = day.format('YYYY-MM-DD');
     return {
       title: (
@@ -89,7 +89,7 @@ export const WorkHoursTableView: React.FC = () => {
       key: dateFormat,
       width: 90,
       editable: true,
-      render: (dayData: TypeWorkDay, record: TransformedWorkHour) => {
+      render: (dayData: TypeWorkDay, record: TypeTransformedWorkHour) => {
         if (
           !dayData ||
           typeof dayData !== 'object' ||
@@ -104,7 +104,7 @@ export const WorkHoursTableView: React.FC = () => {
             : '';
 
         return (
-          <EditableCell<TransformedWorkHour>
+          <EditableCell<TypeTransformedWorkHour>
             rowData={record}
             recordId={record.employee?.id}
             formattedHours={formattedHours}
@@ -118,7 +118,7 @@ export const WorkHoursTableView: React.FC = () => {
     };
   });
 
-  const totalColumn: ColumnsType<TransformedWorkHour> = [
+  const totalColumn: ColumnsType<TypeTransformedWorkHour> = [
     {
       title: (
         <>
@@ -132,7 +132,7 @@ export const WorkHoursTableView: React.FC = () => {
       dataIndex: 'total',
       key: 'total',
       width: 80,
-      render: (_, record: TransformedWorkHour) => (
+      render: (_, record: TypeTransformedWorkHour) => (
         <div
           style={{
             display: 'flex',

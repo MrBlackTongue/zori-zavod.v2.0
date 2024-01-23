@@ -4,31 +4,37 @@ import dayjs, { Dayjs } from 'dayjs';
 export interface TypeWorkHour {
   weekStartDate: string;
   weekEndDate: string;
-  rows: Record<string, TypeRow>;
-}
-
-export interface TypeRow {
-  employee: TypeEmployee | null;
-  days: Record<string, TypeWorkDay>;
+  rows: {
+    [key: string]: {
+      employee: TypeEmployee;
+      days: { [key: string]: TypeWorkDay };
+    };
+  };
 }
 
 export interface TypeWorkDay {
+  id?: number | null;
   date: string;
   duration: number | null;
-  id?: number | null;
-  workDate?: string;
 }
 
-export interface TransformedWorkHour {
+export interface TypeTransformedWorkHour {
   employee: TypeEmployee | null;
   [date: string]: TypeWorkDay | TypeEmployee | null;
 }
 
 export interface TypeEditingDayState {
   id?: number | null;
+  employee: TypeEmployee | number | undefined | null;
   workDate: string | null;
   duration: number;
-  employee: TypeEmployee | number | undefined | null;
+}
+
+/* Типы для фильтров для главного запроса */
+export interface TypeWorkHoursFilter2 {
+  employee?: string;
+  startDate: string;
+  endDate: string;
 }
 
 export interface TypeWorkHoursFilter {
