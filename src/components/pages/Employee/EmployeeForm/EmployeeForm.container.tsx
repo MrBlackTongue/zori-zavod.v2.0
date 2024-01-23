@@ -53,7 +53,7 @@ export const EmployeeFormContainer = () => {
         console.error('Ошибка при получении данных:', error);
       }
     }
-  }, [itemId, form, getEmployeeById, isCreateMode]);
+  }, [itemId, form, isCreateMode]);
 
   // Загрузка данных при редактировании
   useEffect(() => {
@@ -66,7 +66,7 @@ export const EmployeeFormContainer = () => {
         }
       }
     })();
-  }, [handleGetData]);
+  }, [handleGetData, isCreateMode]);
 
   return (
     <EmployeeFormView

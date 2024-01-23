@@ -49,7 +49,7 @@ export const ClientFormContainer = () => {
         console.error('Ошибка при получении данных:', error);
       }
     }
-  }, [itemId, form, getClientById, isCreateMode]);
+  }, [itemId, form, isCreateMode]);
 
   // Загрузка данных при редактировании
   useEffect(() => {
@@ -62,7 +62,7 @@ export const ClientFormContainer = () => {
         }
       }
     })();
-  }, [handleGetData]);
+  }, [handleGetData, isCreateMode]);
 
   return (
     <ClientFormView

@@ -62,7 +62,7 @@ export const PurchaseFormContainer = () => {
         console.error('Ошибка при получении данных:', error);
       }
     }
-  }, [itemId, form, getPurchaseById, isCreateMode]);
+  }, [itemId, form, isCreateMode]);
 
   // Загрузка данных при редактировании
   useEffect(() => {
@@ -75,7 +75,7 @@ export const PurchaseFormContainer = () => {
         }
       }
     })();
-  }, [handleGetData]);
+  }, [handleGetData, isCreateMode]);
 
   return (
     <PurchaseFormView
