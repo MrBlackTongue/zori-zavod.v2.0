@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Form } from 'antd';
+import { Form, FormInstance } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormViewProps, TypeApiResponse } from '../../../types';
 
@@ -9,6 +9,7 @@ interface GeneralFormContainerProps<T> {
   getByIdFunction: (id: number) => Promise<T | undefined>;
   FormViewComponent: React.ComponentType<FormViewProps<T>>;
   processData?: (data: T) => T;
+  setFormValues?: (form: FormInstance, data: T) => void;
   titleCreate: string;
   titleEdit: string;
 }
@@ -21,6 +22,7 @@ export const GeneralFormContainer = <T,>({
   titleCreate,
   titleEdit,
   processData = data => data,
+  setFormValues,
 }: GeneralFormContainerProps<T>) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -58,15 +60,20 @@ export const GeneralFormContainer = <T,>({
       try {
         let data = await getByIdFunction(itemId);
         if (data) {
-          const processedData = processData(data);
-          form.setFieldsValue(processedData);
+          const processedData = processData ? processData(data) : data;
+          if (setFormValues) {
+            // Используем кастомную функцию для установки значений формы
+            setFormValues(form, processedData);
+          } else {
+            // Устанавливаем значения формы обычным способом
+            form.setFieldsValue(processedData);
+          }
         }
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }
     }
-  }, [itemId, form, getByIdFunction, isUpdateMode, processData]);
-
+  }, [itemId, form, getByIdFunction, isUpdateMode, processData, setFormValues]);
   useEffect(() => {
     (async () => {
       if (isUpdateMode) {

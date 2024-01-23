@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { FormInstance, Select, Tooltip } from 'antd';
 import { useDataListLoader } from '../../../hooks';
 
@@ -95,6 +95,17 @@ export const SimpleSelect = <T,>({
     },
     [getDataList, fetchDataList],
   );
+
+  // Эффект для предварительной загрузки данных, если value определено
+  useEffect(() => {
+    if (value) {
+      getDataList(fetchDataList).catch((error: unknown) => {
+        if (error instanceof Error) {
+          console.error('Ошибка при получении данных: ', error.message);
+        }
+      });
+    }
+  }, [value, getDataList, fetchDataList]);
 
   return (
     <Select

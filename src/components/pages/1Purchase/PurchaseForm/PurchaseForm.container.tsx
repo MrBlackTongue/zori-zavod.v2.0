@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { Form } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
 import { TypePurchase } from '../../../../types';
 import {
   createPurchase,
@@ -6,30 +8,79 @@ import {
   updatePurchase,
 } from '../../../../api';
 import { PurchaseFormView } from './PurchaseForm.view';
-import { GeneralFormContainer } from '../../../molecules/GeneralFormContainer/GeneralFormContainer';
 import dayjs from 'dayjs';
 
 export const PurchaseFormContainer = () => {
-  const processPurchaseData = (data: TypePurchase) => {
-    if (typeof data.date === 'string') {
-      // Преобразование строки в объект dayjs
-      return { ...data, date: dayjs(data.date, 'YYYY-MM-DD') };
-    } else if (data.date && dayjs.isDayjs(data.date)) {
-      // Преобразование объекта dayjs обратно в строку
-      return { ...data, date: data.date.format('YYYY-MM-DD') };
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const { id: rawId } = useParams<string>();
+
+  // Приведение rawId к числу или установка в undefined
+  const itemId = rawId && !isNaN(Number(rawId)) ? Number(rawId) : undefined;
+  const isCreateMode = itemId === undefined;
+
+  const title = isCreateMode ? 'Создание закупки' : 'Редактирование закупки';
+
+  // Функция для создания или обновления
+  const handleSubmit = async (values: TypePurchase) => {
+    try {
+      const formattedData = {
+        ...values,
+        date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      };
+      if (isCreateMode) {
+        await createPurchase(formattedData);
+      } else {
+        await updatePurchase({ ...formattedData, id: itemId });
+      }
+      navigate(-1);
+    } catch (error) {
+      console.error('Ошибка при сохранении данных:', error);
     }
-    return data;
   };
 
+  // Функция для отмены создания и возврата на предыдущую страницу
+  const handleCancel = () => {
+    navigate(-1);
+  };
+
+  // Получить данные для редактирования
+  const handleGetData = useCallback(async () => {
+    if (!isCreateMode && itemId) {
+      try {
+        const data = await getPurchaseById(itemId);
+        if (data) {
+          const formattedData = {
+            ...data,
+            date: data.date ? dayjs(data.date) : null,
+          };
+          form.setFieldsValue(formattedData);
+        }
+      } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+      }
+    }
+  }, [itemId, form, getPurchaseById, isCreateMode]);
+
+  // Загрузка данных при редактировании
+  useEffect(() => {
+    (async () => {
+      if (!isCreateMode) {
+        try {
+          await handleGetData();
+        } catch (error) {
+          console.error('Ошибка при получении данных:', error);
+        }
+      }
+    })();
+  }, [handleGetData]);
+
   return (
-    <GeneralFormContainer<TypePurchase>
-      createFunction={createPurchase}
-      updateFunction={updatePurchase}
-      getByIdFunction={getPurchaseById}
-      FormViewComponent={PurchaseFormView}
-      processData={processPurchaseData}
-      titleCreate="Добавление новой закупки"
-      titleEdit="Редактирование закупки"
+    <PurchaseFormView
+      form={form}
+      title={title}
+      onFinish={handleSubmit}
+      onCancel={handleCancel}
     />
   );
 };

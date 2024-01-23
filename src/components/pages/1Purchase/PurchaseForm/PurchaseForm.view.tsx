@@ -36,12 +36,6 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
           />
         </Form.Item>
         <Form.Item
-          label="Цена"
-          name="cost"
-          rules={[{ required: true, message: 'введите цену' }]}>
-          <InputNumber placeholder="100" style={{ width: '100%' }} min={0} />
-        </Form.Item>
-        <Form.Item
           label="Количество"
           name="amount"
           rules={[{ required: true, message: 'введите количество' }]}>
@@ -52,6 +46,12 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
             formatter={numberFormatter}
             parser={numberParser}
           />
+        </Form.Item>
+        <Form.Item
+          label="Цена"
+          name="cost"
+          rules={[{ required: true, message: 'введите цену' }]}>
+          <InputNumber placeholder="100" style={{ width: '100%' }} min={0} />
         </Form.Item>
         <Form.Item
           label="Дата"
