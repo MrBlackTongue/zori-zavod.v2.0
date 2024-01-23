@@ -4,7 +4,7 @@ import {
   TypeOperationAccountingFormValue,
   UpdateDrawerProps,
 } from '../../../../types';
-import { getOperationAccountingById } from '../../../../services';
+import { getOperationAccountingById } from '../../../../api';
 import dayjs from 'dayjs';
 import {
   useFetchAllData,

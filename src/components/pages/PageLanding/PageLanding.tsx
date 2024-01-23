@@ -4,7 +4,7 @@ import { MenuOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
 import './PageLanding.css';
-import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../services';
+import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../api';
 import { useRegistration } from '../../../hooks';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
 import mainImage from 'assets/images/main_image.png';

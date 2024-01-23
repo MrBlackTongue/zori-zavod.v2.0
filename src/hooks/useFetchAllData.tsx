@@ -25,7 +25,7 @@ import {
   getAllStock,
   getAllStoragePlace,
   getAllUnit,
-} from '../services';
+} from '../api';
 
 export const useFetchAllData = (deps: {
   depsStock?: boolean;

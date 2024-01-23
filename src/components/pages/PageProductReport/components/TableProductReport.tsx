@@ -4,7 +4,7 @@ import type {
   ColumnsType,
   TablePaginationConfig,
 } from 'antd/es/table/interface';
-import { getAllProductReportByFilter } from '../../../../services';
+import { getAllProductReportByFilter } from '../../../../api';
 import {
   TableProps,
   TypeProductReport,

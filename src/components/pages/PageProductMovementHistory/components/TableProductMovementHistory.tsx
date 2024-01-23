@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import {
   getAllProductMovementHistory,
   getProductMovementHistoryById,
-} from '../../../../services';
+} from '../../../../api';
 import {
   TableProps,
   TypeProductMovementHistory,

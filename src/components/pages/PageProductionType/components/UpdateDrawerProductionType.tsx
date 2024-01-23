@@ -4,7 +4,7 @@ import {
   TypeProductionTypeFormValue,
   UpdateDrawerProps,
 } from '../../../../types';
-import { getProductionTypeById } from '../../../../services';
+import { getProductionTypeById } from '../../../../api';
 import { FormProductionType } from './FormProductionType';
 import { useFormHandler } from '../../../../hooks';
 

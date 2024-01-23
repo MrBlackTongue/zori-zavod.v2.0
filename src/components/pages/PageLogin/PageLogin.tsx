@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
-import { EMPLOYEES, loginUser } from '../../../services';
+import { EMPLOYEES, loginUser } from '../../../api';
 import { useNavigate } from 'react-router-dom';
 import './PageLogin.css';
 import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';

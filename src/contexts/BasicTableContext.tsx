@@ -13,6 +13,9 @@ export type BasicTableContextType<T> = {
   handleChangeTable: (pagination: TablePaginationConfig) => void;
   handleDeleteSelected: () => void;
   handleClearSelected: () => void;
+  searchText?: string;
+  setSearchText?: React.Dispatch<React.SetStateAction<string>>;
+  handleSearchChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export type BasicTableProviderProps<T> = {

@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
-import { TypeEmployee } from '../../../../types';
-import {
-  createEmployee,
-  getEmployeeById,
-  updateEmployee,
-} from '../../../../api';
-import { EmployeeFormView } from './EmployeeForm.view';
 import { Form } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
+import { TypePurchase } from '../../../../types';
+import {
+  createPurchase,
+  getPurchaseById,
+  updatePurchase,
+} from '../../../../api';
+import { PurchaseFormView } from './PurchaseForm.view';
+import dayjs from 'dayjs';
 
-export const EmployeeFormContainer = () => {
+export const PurchaseFormContainer = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { id: rawId } = useParams<string>();
@@ -19,16 +20,20 @@ export const EmployeeFormContainer = () => {
   const isCreateMode = itemId === undefined;
 
   const title = isCreateMode
-    ? 'Добавление нового сотрудника'
-    : 'Редактирование сотрудника';
+    ? 'Добавление новой закупки'
+    : 'Редактирование закупки';
 
   // Функция для создания или обновления
-  const handleSubmit = async (values: TypeEmployee) => {
+  const handleSubmit = async (values: TypePurchase) => {
     try {
+      const formattedData = {
+        ...values,
+        date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      };
       if (isCreateMode) {
-        await createEmployee(values);
+        await createPurchase(formattedData);
       } else {
-        await updateEmployee({ ...values, id: itemId });
+        await updatePurchase({ ...formattedData, id: itemId });
       }
       navigate(-1);
     } catch (error) {
@@ -45,9 +50,13 @@ export const EmployeeFormContainer = () => {
   const handleGetData = useCallback(async () => {
     if (!isCreateMode && itemId) {
       try {
-        const data = await getEmployeeById(itemId);
+        const data = await getPurchaseById(itemId);
         if (data) {
-          form.setFieldsValue(data);
+          const formattedData = {
+            ...data,
+            date: data.date ? dayjs(data.date) : null,
+          };
+          form.setFieldsValue(formattedData);
         }
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
@@ -69,7 +78,7 @@ export const EmployeeFormContainer = () => {
   }, [handleGetData, isCreateMode]);
 
   return (
-    <EmployeeFormView
+    <PurchaseFormView
       form={form}
       title={title}
       onFinish={handleSubmit}

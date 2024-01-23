@@ -4,7 +4,7 @@ import {
   createProductGroup,
   deleteProductGroupById,
   updateProductGroup,
-} from '../../../services';
+} from '../../../api';
 import { TypeProductGroup, TypeProductGroupFormValue } from '../../../types';
 import { TableProductGroup } from './components/TableProductGroup';
 import { CreateModalProductGroup } from './components/CreateModalProductGroup';

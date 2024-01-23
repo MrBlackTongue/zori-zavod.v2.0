@@ -1,5 +1,5 @@
 import { TypeApiResponse, TypePurchase } from '../types';
-import { PRODUCT, PURCHASE } from './apiEndpoints';
+import { PRODUCT, PURCHASE, PURCHASES } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -11,7 +11,7 @@ import { api } from './api';
 // Получить список всех закупок
 export async function getAllPurchase(): Promise<TypePurchase[]> {
   try {
-    const response = await api.get(PURCHASE);
+    const response = await api.get(PURCHASES);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);
@@ -69,7 +69,7 @@ export async function getAllPurchaseByTitle(
   title: string,
 ): Promise<TypePurchase[]> {
   try {
-    const response = await api.get(`${PURCHASE + PRODUCT}/${title}`);
+    const response = await api.get(`${PURCHASES + PRODUCT}/${title}`);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);

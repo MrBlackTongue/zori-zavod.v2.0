@@ -4,7 +4,7 @@ import {
   createProductionType,
   deleteProductionTypeById,
   updateProductionType,
-} from '../../../services';
+} from '../../../api';
 import {
   TypeProductionType,
   TypeProductionTypeFormValue,

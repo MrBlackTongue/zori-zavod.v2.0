@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { Flex, FloatButton, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import {
-  createProduct,
-  deleteProductById,
-  updateProduct,
-} from '../../../services';
+import { createProduct, deleteProductById, updateProduct } from '../../../api';
 import { TypeProduct, TypeProductFormValue } from '../../../types';
 import { TableProduct } from './components/TableProduct';
 import { CreateModalProduct } from './components/CreateModalProduct';

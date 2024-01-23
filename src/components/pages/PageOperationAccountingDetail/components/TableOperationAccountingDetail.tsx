@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { getOperationAccountingById } from '../../../../services';
+import { getOperationAccountingById } from '../../../../api';
 import {
   TableProps,
   TypeOperationAccounting,

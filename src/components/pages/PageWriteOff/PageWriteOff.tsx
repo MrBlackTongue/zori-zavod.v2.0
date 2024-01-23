@@ -4,7 +4,7 @@ import {
   createWriteOff,
   deleteWriteOffById,
   updateWriteOff,
-} from '../../../services';
+} from '../../../api';
 import { TypeWriteOff, TypeWriteOffFormValue } from '../../../types';
 import { TableWriteOff } from './components/TableWriteOff';
 import { CreateModalWriteOff } from './components/CreateModalWriteOff';
