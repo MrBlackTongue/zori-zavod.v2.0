@@ -133,7 +133,6 @@ export const PageOperationAccountingDetail: React.FC = () => {
       income: values.income,
       stock: { id: values.stock },
       date: operationDate,
-      productBatch: { id: values.productBatch },
       operationAccounting: {
         id: Number(id),
       },

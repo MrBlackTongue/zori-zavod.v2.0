@@ -5,7 +5,6 @@ import {
   TypeOperation,
   TypeOutput,
   TypeProduct,
-  TypeProductBatch,
   TypeProductGroup,
   TypeProductionType,
   TypePurchase,
@@ -19,7 +18,6 @@ import {
   getAllOperation,
   getAllOutput,
   getAllProduct,
-  getAllProductBatch,
   getAllProductGroup,
   getAllProductionType,
   getAllProductOutput,
@@ -48,9 +46,6 @@ export const useFetchAllData = (deps: {
 }) => {
   const [allStock, setAllStock] = useState<TypeStock[]>([]);
   const [allPurchase, setAllPurchase] = useState<TypePurchase[]>([]);
-  const [allProductBatch, setAllProductBatch] = useState<TypeProductBatch[]>(
-    [],
-  );
   const [allUnit, setAllUnit] = useState<TypeUnit[]>([]);
   const [allOperation, setAllOperation] = useState<TypeOperation[]>([]);
   const [allProductionType, setAllProductionType] = useState<
@@ -83,14 +78,6 @@ export const useFetchAllData = (deps: {
         .catch(error => console.error('Ошибка при получении данных: ', error));
     }
   }, [deps.depsPurchase]);
-
-  useEffect(() => {
-    if (deps.depsProductBatch) {
-      getAllProductBatch()
-        .then(data => setAllProductBatch(data))
-        .catch(error => console.error('Ошибка при получении данных: ', error));
-    }
-  }, [deps.depsProductBatch]);
 
   useEffect(() => {
     if (deps.depsUnit) {
@@ -175,7 +162,6 @@ export const useFetchAllData = (deps: {
   return {
     allStock,
     allPurchase,
-    allProductBatch,
     allUnit,
     allOperation,
     allProductionType,

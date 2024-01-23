@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
 import {
   ACCEPTANCE,
-  BATCH,
   CLIENTS,
   COST_PRICE,
   EMPLOYEE,
@@ -30,7 +29,6 @@ import { PageOperation } from '../../pages/PageOperation/PageOperation';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageOutput } from '../../pages/PageOutput/PageOutput';
 import { PurchaseTableContainer } from '../../pages/1Purchase/PurchaseTable/PurchaseTable.container';
-import { PageProductBatch } from '../../pages/PageProductBatch/PageProductBatch';
 import { PageAcceptance } from '../../pages/PageAcceptance/PageAcceptance';
 import { PageStock } from '../../pages/PageStock/PageStock';
 import { PageWriteOff } from '../../pages/PageWriteOff/PageWriteOff';
@@ -106,17 +104,6 @@ export const menuKeyToRoutes: Record<
           key={PURCHASES}
           path={PURCHASES}
           element={<PurchaseTableContainer />}
-        />
-      ),
-    },
-    {
-      title: 'Партии товаров',
-      id: `${PRODUCT}${BATCH}`,
-      route: (
-        <Route
-          key={`${PRODUCT}${BATCH}`}
-          path={`${PRODUCT}${BATCH}`}
-          element={<PageProductBatch />}
         />
       ),
     },
