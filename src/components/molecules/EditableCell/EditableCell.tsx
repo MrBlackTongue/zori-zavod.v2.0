@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Form, Input, InputRef } from 'antd';
-import '../../pages/WorkHours/components/TableWorkHour.css';
 import { EditableContext } from '../EditableRow/EditableRow';
 import { useWorkHoursContext } from '../../../contexts/WorkHoursContext';
 

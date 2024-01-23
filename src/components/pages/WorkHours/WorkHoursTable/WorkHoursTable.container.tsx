@@ -81,14 +81,11 @@ export const WorkHoursTableContainer: React.FC<
     )} - ${endOfWeek.format('D MMM YYYY')}`;
   };
 
-  // Дата начала и конца недели
-  const startDate = (filter?.selectedDate ?? dayjs()).startOf('week');
-
-  const days: dayjs.Dayjs[] = [];
-
-  for (let i = 0; i < 7; i++) {
-    days.push(startDate.add(i, 'day'));
-  }
+  // Используйте useMemo для инициализации массива 'days'
+  const days = useMemo(() => {
+    const start = (filter?.selectedDate ?? dayjs()).startOf('week');
+    return Array.from({ length: 7 }, (_, i) => start.add(i, 'day'));
+  }, [filter?.selectedDate]);
 
   // Функция возвращения к текущей неделе
   const goToCurrentWeek = () => {
@@ -153,23 +150,26 @@ export const WorkHoursTableContainer: React.FC<
   };
 
   // Функция для расчета общего количества часов всех сотрудников
-  const calculateTotalAllHours = (workHours: TransformedWorkHour[]): string => {
-    let totalMinutes = 0;
-    workHours.forEach(workHour => {
-      Object.keys(workHour).forEach(key => {
-        // Добавляем проверку на null перед тем как обращаться к свойству duration
-        const dayOrEmployee = workHour[key];
-        if (
-          dayOrEmployee &&
-          'duration' in dayOrEmployee &&
-          dayOrEmployee.duration !== null
-        ) {
-          totalMinutes += dayOrEmployee.duration;
-        }
+  const calculateTotalAllHours = useCallback(
+    (workHours: TransformedWorkHour[]): string => {
+      let totalMinutes = 0;
+      workHours.forEach(workHour => {
+        Object.keys(workHour).forEach(key => {
+          // Добавляем проверку на null перед тем как обращаться к свойству duration
+          const dayOrEmployee = workHour[key];
+          if (
+            dayOrEmployee &&
+            'duration' in dayOrEmployee &&
+            dayOrEmployee.duration !== null
+          ) {
+            totalMinutes += dayOrEmployee.duration;
+          }
+        });
       });
-    });
-    return formatMinutesToTime(totalMinutes);
-  };
+      return formatMinutesToTime(totalMinutes);
+    },
+    [],
+  );
 
   useEffect(() => {
     const total = calculateTotalAllHours(allWorkHour);
@@ -181,7 +181,6 @@ export const WorkHoursTableContainer: React.FC<
     newValue: string,
     employeeId: number | null,
   ) => {
-    console.log('handleUpdateNewRecord:', { date, employeeId, newValue });
     const newHours = timeToMinutes(newValue);
     if (
       employeeId &&
@@ -193,7 +192,6 @@ export const WorkHoursTableContainer: React.FC<
         duration: newHours,
         employee: { id: employeeId },
       };
-      console.log('workHourData:', workHourData);
       updateWorkHours({ ...workHourData, id: editingDay?.id })
         .then(() => {
           setDataUpdated(prev => !prev); // Переключаем состояние
@@ -209,7 +207,6 @@ export const WorkHoursTableContainer: React.FC<
     newValue: string,
     employeeId: number | null,
   ) => {
-    console.log('handleCreateNewRecord:', { date, employeeId, newValue });
     const newHours = timeToMinutes(newValue);
     if (
       employeeId &&
@@ -221,7 +218,6 @@ export const WorkHoursTableContainer: React.FC<
         duration: newHours,
         employee: { id: employeeId },
       };
-      console.log('workHourData:', workHourData);
       createWorkHours(workHourData)
         .then(() => {
           setDataUpdated(prev => !prev); // Переключаем состояние
@@ -234,7 +230,7 @@ export const WorkHoursTableContainer: React.FC<
   };
 
   // Функция для добавления новой строки
-  const addNewRow = () => {
+  const addNewRow = useCallback(() => {
     // Создаем объект напрямую в формате TransformedWorkHour
     const newRow: TransformedWorkHour = {
       employee: null, // employee пока не выбран
@@ -252,7 +248,7 @@ export const WorkHoursTableContainer: React.FC<
       ),
     };
     setAllWorkHour(prevWorkHours => [...prevWorkHours, newRow]);
-  };
+  }, [days]);
 
   // Функция для поиска по таблице закупок
   const handleSearchTable = useCallback((): void => {
@@ -284,7 +280,7 @@ export const WorkHoursTableContainer: React.FC<
         setIsLoading(false);
       })
       .catch(error => console.error('Ошибка при получении данных: ', error));
-  }, [filter, searchText, handleSearchTable]);
+  }, [filter, searchText]);
 
   const handleEmployeeChange = (employeeId: number | null) => {
     setEditingEmployee(employeeId);
@@ -345,7 +341,7 @@ export const WorkHoursTableContainer: React.FC<
     if (allWorkHour.length === 0) {
       addNewRow();
     }
-  }, [allWorkHour.length]);
+  }, [allWorkHour.length, addNewRow]);
 
   const contextValue = {
     isLoading,

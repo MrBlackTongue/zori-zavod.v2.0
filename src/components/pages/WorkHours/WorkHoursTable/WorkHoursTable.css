@@ -1,0 +1,51 @@
+.table-work-hour .ant-table-tbody > .ant-table-row:hover {
+  box-shadow: none;
+}
+
+.table-work-hour .ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
+  border-left-color: inherit;
+  border-right-color: inherit;
+  background-color: transparent;
+}
+
+.editable-cell {
+  position: relative;
+}
+
+.editable-cell-value-wrap {
+  padding: 5px 12px;
+  cursor: pointer;
+  width: 80px;
+}
+
+.editable-row:hover .editable-cell-value-wrap {
+  padding: 4.2px 11.2px;
+  border: 1px solid #d8d8d8;
+  border-radius: 5px;
+}
+
+@keyframes blink {
+  15% {
+    background-color: transparent;
+  }
+  65% {
+    background-color: #a3f1a3;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.highlighted-row {
+  animation: blink 2.2s ease-in-out;
+}
+
+.table-work-hour .ant-table-tbody > .ant-table-row .delete-button {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.table-work-hour .ant-table-tbody > .ant-table-row:hover .delete-button {
+  visibility: visible;
+  opacity: 1;
+}
