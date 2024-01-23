@@ -27,14 +27,14 @@ export const PurchaseTableView = () => {
       dataIndex: 'date',
       key: 'date',
       render: (date: any) =>
-        date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
+        date ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
     {
       title: 'Товар',
       dataIndex: 'product',
       key: 'product',
       render: (product: TypeProduct) =>
-        product !== null ? <div>{product.title}</div> : null,
+        product ? <div>{product.title}</div> : null,
     },
     {
       title: 'Количество',
@@ -48,8 +48,7 @@ export const PurchaseTableView = () => {
       title: 'Ед. изм',
       dataIndex: ['product', 'unit'],
       key: 'unit',
-      render: (unit: TypeUnit) =>
-        unit !== null ? <div>{unit.name}</div> : null,
+      render: (unit: TypeUnit) => (unit ? <div>{unit.name}</div> : null),
     },
     {
       title: 'Цена за единицу',
