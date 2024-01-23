@@ -1,12 +1,17 @@
-import {TypeApiResponse, TypeEditingDayState, TypeWorkHour, TypeWorkHoursFilter2,} from '../types';
-import {WORK_HOURS} from './apiEndpoints';
+import {
+  TypeApiResponse,
+  TypeEditingDayState,
+  TypeWorkHour,
+  TypeWorkHoursFilter2,
+} from '../types';
+import { WORK_HOURS } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import {api} from './api';
+import { api } from './api';
 
 // Получить список всех сотрудников и рабочих часов
 export async function getAllWorkHours(
@@ -38,11 +43,9 @@ export async function updateWorkHours(data: {
 }
 
 // Добавить новую запись о рабочем дне
-export async function createWorkHours(data: {
-  duration: number | null;
-  workDate: any;
-  employee: { id: number };
-}): Promise<TypeEditingDayState> {
+export async function createWorkHours(
+  data: TypeEditingDayState,
+): Promise<TypeEditingDayState> {
   try {
     const response = await api.post(WORK_HOURS, data);
     return handleResponseCreateMessage(response);

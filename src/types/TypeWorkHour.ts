@@ -23,11 +23,12 @@ export interface TypeTransformedWorkHour {
   [date: string]: TypeWorkDay | TypeEmployee | null;
 }
 
+/* Почему здесь столько number | undefined | null??? */
 export interface TypeEditingDayState {
   id?: number | null;
   employee: TypeEmployee | number | undefined | null;
   workDate: string | null;
-  duration: number;
+  duration: number | null;
 }
 
 /* Типы для фильтров для главного запроса */

@@ -221,9 +221,9 @@ export const WorkHoursTableContainer: React.FC<
       !isNaN(newHours as number) &&
       newHours !== originalHours
     ) {
-      const workHourData = {
-        workDate: editingDay?.workDate,
-        duration: newHours,
+      const workHourData: TypeEditingDayState = {
+        workDate: editingDay?.workDate ?? null,
+        duration: newHours ?? null,
         employee: { id: employeeId },
       };
       createWorkHours(workHourData)
