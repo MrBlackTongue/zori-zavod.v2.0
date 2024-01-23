@@ -10,7 +10,7 @@ interface EditableCellProps<T> {
   formattedHours: any;
   cellId: number | null | undefined;
   recordId: number | undefined;
-  editable: boolean; // Добавляем editable (если необходимо)
+  editable: boolean;
 }
 
 export const EditableCell = <T,>({

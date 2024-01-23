@@ -1,6 +1,6 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 import dayjs from 'dayjs';
-import { TransformedWorkHour, TypeEditingDayState } from '../types';
+import { TransformedWorkHour, TypeEditingDayState } from '../types'; // Определение обобщенных типов для данных контекста
 
 // Определение обобщенных типов для данных контекста
 interface WorkHoursContextType {
@@ -31,9 +31,9 @@ interface WorkHoursContextType {
   goToCurrentWeek: () => void;
   handleDateChange: (date: dayjs.Dayjs | null) => void;
   getWeekFormat: (date: dayjs.Dayjs | null) => string;
-  handleUpdateTable: () => void;
   handleDeleteRow: (record: TransformedWorkHour) => void;
   setSearchText: (event: string) => void;
+  loadAndUpdateData: () => void;
 }
 
 const WorkHoursContext = createContext<WorkHoursContextType | null>(null);

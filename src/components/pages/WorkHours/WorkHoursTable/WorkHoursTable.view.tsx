@@ -221,12 +221,6 @@ export const WorkHoursTableView: React.FC = () => {
         loading={isLoading}
         size={'middle'}
         pagination={false}
-        // onChange={handleChangeTable}
-        // pagination={{
-        //   ...pagination,
-        //   position: ['bottomCenter'],
-        //   totalBoundaryShowSizeChanger: 10,
-        // }}
       />
       <Button
         type="primary"
