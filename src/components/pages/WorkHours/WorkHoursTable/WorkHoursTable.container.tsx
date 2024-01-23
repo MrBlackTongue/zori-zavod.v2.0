@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import {
-  getAllWorkHours,
-  updateWorkHours,
   createWorkHours,
   deleteWorkHoursById,
-} from '../../../../services';
+  getAllWorkHours,
+  updateWorkHours,
+} from '../../../../api';
 import {
   TableProps,
   TransformedWorkHour,

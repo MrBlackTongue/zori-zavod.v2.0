@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EMPLOYEES, registrationUser } from '../api';
+import { registrationUser, WORK_HOURS } from '../api';
 import { TypeUserInfo } from '../types';
 
 export const useRegistration = () => {
@@ -22,7 +22,7 @@ export const useRegistration = () => {
 
     try {
       await registrationUser(user);
-      navigate(`${EMPLOYEES}`);
+      navigate(`${WORK_HOURS}`);
     } catch (error) {
       console.error('Ошибка при регистрации:', error);
     }

@@ -29,7 +29,7 @@ import { PageOperationAccounting } from '../../pages/PageOperationAccounting/Pag
 import { PageOperation } from '../../pages/PageOperation/PageOperation';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageOutput } from '../../pages/PageOutput/PageOutput';
-import { PurchaseTableContainer } from '../../pages/1Purchase/PurchaseTable/PurchaseTable.container';
+import { PurchaseTableContainer } from '../../pages/Purchase/PurchaseTable/PurchaseTable.container';
 import { PageAcceptance } from '../../pages/PageAcceptance/PageAcceptance';
 import { PageStock } from '../../pages/PageStock/PageStock';
 import { PageWriteOff } from '../../pages/PageWriteOff/PageWriteOff';

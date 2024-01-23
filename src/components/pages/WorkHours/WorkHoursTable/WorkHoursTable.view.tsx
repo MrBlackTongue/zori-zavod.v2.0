@@ -22,7 +22,7 @@ import { EditableRow } from '../../../molecules/EditableRow/EditableRow';
 import { EditableCell } from '../../../molecules/EditableCell/EditableCell';
 import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect';
 import '../components/TableWorkHour.css';
-import { getAllEmployee } from '../../../../services';
+import { getAllEmployee } from '../../../../api';
 import { formatMinutesToTime } from '../../../../utils';
 import { useWorkHoursContext } from '../../../../contexts/WorkHoursContext';
 
