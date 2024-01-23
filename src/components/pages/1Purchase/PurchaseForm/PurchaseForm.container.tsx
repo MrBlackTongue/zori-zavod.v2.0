@@ -19,7 +19,9 @@ export const PurchaseFormContainer = () => {
   const itemId = rawId && !isNaN(Number(rawId)) ? Number(rawId) : undefined;
   const isCreateMode = itemId === undefined;
 
-  const title = isCreateMode ? 'Создание закупки' : 'Редактирование закупки';
+  const title = isCreateMode
+    ? 'Добавление новой закупки'
+    : 'Редактирование закупки';
 
   // Функция для создания или обновления
   const handleSubmit = async (values: TypePurchase) => {

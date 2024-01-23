@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   deletePurchaseById,
-  getAllEmployee,
   getAllPurchase,
   getAllPurchaseByTitle,
   PURCHASE,
@@ -50,7 +49,7 @@ export const PurchaseTableContainer = () => {
         await Promise.all(
           selectedRowKeys.map(key => deletePurchaseById(Number(key))),
         );
-        await getDataList(getAllEmployee);
+        await getDataList(getAllPurchase);
       } catch (error: unknown) {
         if (error instanceof Error) {
           console.error('Ошибка при удалении записи', error.message);
@@ -77,18 +76,6 @@ export const PurchaseTableContainer = () => {
 
     executeFetch().catch(error => console.error(error));
   }, [searchText, getDataList]);
-
-  // // Обновить закупку
-  // const handleUpdatePurchase = async (values: TypePurchase): Promise<void> => {
-  //   const purchase: TypePurchase = {
-  //     amount: values.amount,
-  //     cost: values.cost,
-  //     date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-  //     product: values.product ? { id: values.product.id } : undefined,
-  //     paid: values.paid,
-  //   };
-  //   await updatePurchase(purchase);
-  // };
 
   return (
     <BasicTableProvider<TypePurchase>

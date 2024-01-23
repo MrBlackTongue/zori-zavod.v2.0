@@ -47,7 +47,7 @@ export const PageEmployeeReport = () => {
           placeholder="Выберите сотрудника"
           style={{ width: '250px' }}
           getId={item => item.id ?? 0}
-          getLabel={item => `${item.lastName}, ${item.firstName}` ?? ''}
+          getLabel={item => `${item.lastName} ${item.firstName}` ?? ''}
           fetchDataList={getAllEmployee}
           onValueChange={newValue => {
             setSelectedEmployeeId(newValue);
