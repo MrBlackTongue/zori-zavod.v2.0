@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Table, Typography } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
-import { getPaymentHistory } from '../../../../services';
+import { getPaymentHistory } from '../../../../api';
 import { TypePayment } from '../../../../types';
 import dayjs from 'dayjs';
 import { renderAsRuble } from '../../../../utils';

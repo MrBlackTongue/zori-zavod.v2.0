@@ -4,7 +4,7 @@ import {
   createStoragePlace,
   deleteStoragePlaceById,
   updateStoragePlace,
-} from '../../../services';
+} from '../../../api';
 import { TypeStoragePlace, TypeStoragePlaceFormValue } from '../../../types';
 import { TableStoragePlace } from './components/TableStoragePlace';
 import { CreateModalStoragePlace } from './components/CreateModalStoragePlace';

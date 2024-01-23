@@ -1,11 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
-import { TypeClient } from '../../../../types';
-import { createClient, getClientById, updateClient } from '../../../../api';
-import { ClientFormView } from './ClientForm.view';
 import { Form } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
+import { TypePurchase } from '../../../../types';
+import {
+  createPurchase,
+  getPurchaseById,
+  updatePurchase,
+} from '../../../../api';
+import { PurchaseFormView } from './PurchaseForm.view';
+import dayjs from 'dayjs';
 
-export const ClientFormContainer = () => {
+export const PurchaseFormContainer = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { id: rawId } = useParams<string>();
@@ -15,16 +20,20 @@ export const ClientFormContainer = () => {
   const isCreateMode = itemId === undefined;
 
   const title = isCreateMode
-    ? 'Добавление нового клиента'
-    : 'Редактирование клиента';
+    ? 'Добавление новой закупки'
+    : 'Редактирование закупки';
 
   // Функция для создания или обновления
-  const handleSubmit = async (values: TypeClient) => {
+  const handleSubmit = async (values: TypePurchase) => {
     try {
+      const formattedData = {
+        ...values,
+        date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      };
       if (isCreateMode) {
-        await createClient(values);
+        await createPurchase(formattedData);
       } else {
-        await updateClient({ ...values, id: itemId });
+        await updatePurchase({ ...formattedData, id: itemId });
       }
       navigate(-1);
     } catch (error) {
@@ -41,15 +50,19 @@ export const ClientFormContainer = () => {
   const handleGetData = useCallback(async () => {
     if (!isCreateMode && itemId) {
       try {
-        const data = await getClientById(itemId);
+        const data = await getPurchaseById(itemId);
         if (data) {
-          form.setFieldsValue(data);
+          const formattedData = {
+            ...data,
+            date: data.date ? dayjs(data.date) : null,
+          };
+          form.setFieldsValue(formattedData);
         }
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
       }
     }
-  }, [itemId, form, getClientById, isCreateMode]);
+  }, [itemId, form, getPurchaseById, isCreateMode]);
 
   // Загрузка данных при редактировании
   useEffect(() => {
@@ -65,7 +78,7 @@ export const ClientFormContainer = () => {
   }, [handleGetData]);
 
   return (
-    <ClientFormView
+    <PurchaseFormView
       form={form}
       title={title}
       onFinish={handleSubmit}

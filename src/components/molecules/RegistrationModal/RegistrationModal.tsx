@@ -10,7 +10,7 @@ import {
 import { Button, Form, Input, Modal } from 'antd';
 import { CreateModalProps, TypeUserInfo } from '../../../types';
 import { useFormHandler } from '../../../hooks';
-import { EMPLOYEES } from '../../../services';
+import { EMPLOYEES } from '../../../api';
 import './RegistrationModal.css';
 
 export const RegistrationModal: React.FC<CreateModalProps<TypeUserInfo>> = ({

@@ -11,7 +11,7 @@ import {
   getOperationAccountingById,
   updateOperationAccounting,
   updateOperationTimesheet,
-} from '../../../services';
+} from '../../../api';
 import {
   TypeOperationAccounting,
   TypeOperationAccountingFormValue,

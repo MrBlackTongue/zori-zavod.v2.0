@@ -1,10 +1,10 @@
 import React from 'react';
 import { Checkbox, Form, Input, InputNumber } from 'antd';
-import { FormProps, TypeEmployeeFormValue } from '../../../../types';
+import { FormViewProps, TypeEmployee } from '../../../../types';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
 import FormActions from '../../../atoms/FormActions/FormActions';
 
-export const EmployeeFormView: React.FC<FormProps<TypeEmployeeFormValue>> = ({
+export const EmployeeFormView: React.FC<FormViewProps<TypeEmployee>> = ({
   form,
   title,
   onFinish,

@@ -6,7 +6,7 @@ import type {
   TablePaginationConfig,
 } from 'antd/es/table/interface';
 import { TableProps, TypeEstimatedPrice, TypeProduct } from '../../../../types';
-import { getAllEstimatedPrice } from '../../../../services';
+import { getAllEstimatedPrice } from '../../../../api';
 import dayjs from 'dayjs';
 import { renderAsRuble } from '../../../../utils';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';

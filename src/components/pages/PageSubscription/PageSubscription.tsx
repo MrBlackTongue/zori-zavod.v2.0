@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, notification, Space, Typography } from 'antd';
 import './PageSubscription.css';
-import { getUserSubscription, replenishBalance } from '../../../services';
+import { getUserSubscription, replenishBalance } from '../../../api';
 import { TypePaymentFormValue, TypeSubscription } from '../../../types';
 import { ReplenishBalanceModal } from './components/ReplenishBalanceModal';
 import { TablePaymentHistory } from './components/TablePaymentHistory';

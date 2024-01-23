@@ -3,7 +3,7 @@ import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import type { ColumnFilterItem } from 'antd/es/table/interface';
-import { getAllProduct, getAllProductByTitle } from '../../../../services';
+import { getAllProduct, getAllProductByTitle } from '../../../../api';
 import {
   TableProps,
   TypeProduct,

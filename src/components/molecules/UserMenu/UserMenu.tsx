@@ -7,7 +7,7 @@ import {
   LOGIN,
   logoutUser,
   SUBSCRIPTION,
-} from '../../../services';
+} from '../../../api';
 import { TypeSubscription } from '../../../types';
 import './UserMenu.css';
 

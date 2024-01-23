@@ -4,7 +4,7 @@ import type {
   ColumnsType,
   TablePaginationConfig,
 } from 'antd/es/table/interface';
-import { getAllOperationReportByFilter } from '../../../../services';
+import { getAllOperationReportByFilter } from '../../../../api';
 import {
   TableProps,
   TypeOperationReport,

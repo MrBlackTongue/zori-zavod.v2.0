@@ -25,7 +25,7 @@ export const ClientTableView = () => {
       sorter: (a, b) =>
         (a.lastShipment ?? '') < (b.lastShipment ?? '') ? -1 : 1,
       render: (date: any) =>
-        date !== null ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
+        date ? <div>{dayjs(date).format('DD.MM.YYYY')}</div> : null,
     },
   ];
 

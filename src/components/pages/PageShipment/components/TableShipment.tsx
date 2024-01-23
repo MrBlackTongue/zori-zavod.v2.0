@@ -6,7 +6,7 @@ import {
   EditOutlined,
   EllipsisOutlined,
 } from '@ant-design/icons';
-import { getAllShipment } from '../../../../services';
+import { getAllShipment } from '../../../../api';
 import { TableProps, TypeClient, TypeShipment } from '../../../../types';
 import dayjs from 'dayjs';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';

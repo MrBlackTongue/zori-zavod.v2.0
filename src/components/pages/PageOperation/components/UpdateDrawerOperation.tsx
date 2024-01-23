@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Button, Drawer, Form, Space } from 'antd';
 import { TypeOperationFormValue, UpdateDrawerProps } from '../../../../types';
-import { getOperationById } from '../../../../services';
+import { getOperationById } from '../../../../api';
 import {
   useFetchAllData,
   useFormHandler,

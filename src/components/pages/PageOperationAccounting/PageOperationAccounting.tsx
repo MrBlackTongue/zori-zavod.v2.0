@@ -4,7 +4,7 @@ import {
   createOperationAccounting,
   deleteOperationAccountingById,
   updateOperationAccounting,
-} from '../../../services';
+} from '../../../api';
 import {
   TypeOperationAccounting,
   TypeOperationAccountingFormValue,

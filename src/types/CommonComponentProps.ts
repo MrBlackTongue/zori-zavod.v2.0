@@ -29,7 +29,7 @@ export interface DetailDrawerProps {
   selectedItemId: number | undefined;
 }
 
-export interface FormProps<T> {
+export interface FormViewProps<T> {
   form: FormInstance<T>;
   title: string;
   onFinish: (values: T) => void;

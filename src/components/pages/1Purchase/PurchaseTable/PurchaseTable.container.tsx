@@ -1,23 +1,31 @@
-import React, { useCallback, useEffect } from 'react';
-import { CLIENT, deleteClientById, getAllClient } from '../../../../api';
-import { TypeClient } from '../../../../types';
-import { ClientTableView } from './ClientTable.view';
-import usePagination from '../../../../hooks/usePagination';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  deletePurchaseById,
+  getAllPurchase,
+  getAllPurchaseByTitle,
+  PURCHASE,
+} from '../../../../api';
+import { TypePurchase } from '../../../../types';
 import { useDataListLoader } from '../../../../hooks';
+import usePagination from '../../../../hooks/usePagination';
 import useNavigateToPath from '../../../../hooks/useNavigateToPath';
 import useRowSelection from '../../../../hooks/useRowSelection';
 import { BasicTableProvider } from '../../../../contexts/BasicTableContext';
+import { PurchaseTableView } from './PurchaseTable.view';
 
-export const ClientTableContainer = () => {
+export const PurchaseTableContainer = () => {
+  // Текст поиска
+  const [searchText, setSearchText] = useState<string>('');
+
   // Хук для загрузки и получения всех данных
   const { isLoading, dataList, getDataList } =
-    useDataListLoader<TypeClient[]>();
+    useDataListLoader<TypePurchase[]>();
 
   // Хука для пагинации
   const { pagination, handleChangeTable } = usePagination(10);
 
   // Хук для навигации
-  const handleNavigateToForm = useNavigateToPath(CLIENT);
+  const handleNavigateToForm = useNavigateToPath(PURCHASE);
 
   // Хук для выбора строк
   const {
@@ -26,7 +34,12 @@ export const ClientTableContainer = () => {
     selectedRowKeys,
     setSelectedRowKeys,
     handleClearSelected,
-  } = useRowSelection<TypeClient>();
+  } = useRowSelection<TypePurchase>();
+
+  // Функция для поиска
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
 
   // Функция массового удаления
   const handleDeleteSelected = useCallback(() => {
@@ -34,9 +47,9 @@ export const ClientTableContainer = () => {
       try {
         // Проходим по всем выбранным ключам и удаляем соответствующие записи
         await Promise.all(
-          selectedRowKeys.map(key => deleteClientById(Number(key))),
+          selectedRowKeys.map(key => deletePurchaseById(Number(key))),
         );
-        await getDataList(getAllClient);
+        await getDataList(getAllPurchase);
       } catch (error: unknown) {
         if (error instanceof Error) {
           console.error('Ошибка при удалении записи', error.message);
@@ -47,16 +60,25 @@ export const ClientTableContainer = () => {
     })();
   }, [selectedRowKeys, getDataList, setSelectedRowKeys]);
 
+  // Функция, которая вызывается для обновления данных в таблице
   useEffect(() => {
-    getDataList(getAllClient).catch((error: unknown) => {
-      if (error instanceof Error) {
-        console.error('Ошибка при получении данных: ', error.message);
+    const executeFetch = async () => {
+      try {
+        if (searchText) {
+          await getDataList(() => getAllPurchaseByTitle(searchText));
+        } else {
+          await getDataList(getAllPurchase);
+        }
+      } catch (error) {
+        console.error('Ошибка при получении данных:', error);
       }
-    });
-  }, [getDataList]);
+    };
+
+    executeFetch().catch(error => console.error(error));
+  }, [searchText, getDataList]);
 
   return (
-    <BasicTableProvider<TypeClient>
+    <BasicTableProvider<TypePurchase>
       value={{
         data: dataList,
         isLoading,
@@ -68,8 +90,11 @@ export const ClientTableContainer = () => {
         handleChangeTable,
         handleDeleteSelected,
         handleClearSelected,
+        searchText,
+        setSearchText,
+        handleSearchChange,
       }}>
-      <ClientTableView />
+      <PurchaseTableView />
     </BasicTableProvider>
   );
 };

@@ -17,7 +17,7 @@ import {
   getAllStock,
   getAllStockByFilter,
   getAllStockByTitle,
-} from '../../../../services';
+} from '../../../../api';
 import { renderNumber } from '../../../../utils';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
 import {

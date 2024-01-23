@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Button, Drawer, Form, Space } from 'antd';
 import { TypeOutputFormValue, UpdateDrawerProps } from '../../../../types';
-import { getOutputById } from '../../../../services';
+import { getOutputById } from '../../../../api';
 import dayjs from 'dayjs';
 import {
   useFetchAllData,

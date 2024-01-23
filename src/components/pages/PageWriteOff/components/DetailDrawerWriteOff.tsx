@@ -10,7 +10,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import {
   createWriteOffMovement,
   deleteWriteOffMovementById,
-} from '../../../../services';
+} from '../../../../api';
 import dayjs from 'dayjs';
 import { CreateModalDetailWriteOff } from './CreateModalDetailWriteOff';
 
