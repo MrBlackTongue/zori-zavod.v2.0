@@ -30,3 +30,4 @@ export * from './TypeSubscription';
 export * from './TypeEstimatedPrice';
 export * from './TypeStoragePlace';
 export * from './TypeWithId';
+export * from './TypeMaterial';
