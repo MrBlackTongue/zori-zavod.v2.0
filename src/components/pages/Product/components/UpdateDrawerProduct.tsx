@@ -7,7 +7,7 @@ import {
   useFormHandler,
   useFormSelect,
 } from '../../../../hooks';
-import { FormProduct } from './FormProduct';
+import { ProductFormView } from './ProductForm.view';
 
 export const UpdateDrawerProduct: React.FC<
   UpdateDrawerProps<TypeProductFormValue>
@@ -77,7 +77,7 @@ export const UpdateDrawerProduct: React.FC<
           </Button>
         </Space>
       }>
-      <FormProduct
+      <ProductFormView
         form={form}
         allUnit={allUnit}
         onChangeUnit={onChangeUnit}

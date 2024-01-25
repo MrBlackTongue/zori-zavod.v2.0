@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Select, Tooltip } from 'antd';
 import { FormProductProps } from '../../../../types';
 
-export const FormProduct: React.FC<FormProductProps> = ({
+export const ProductFormView: React.FC<FormProductProps> = ({
   form,
   allUnit,
   onChangeUnit,

@@ -6,9 +6,9 @@ import {
   useFormHandler,
   useFormSelect,
 } from '../../../../hooks';
-import { FormProduct } from './FormProduct';
+import { ProductFormView } from './ProductForm.view';
 
-export const CreateModalProduct: React.FC<
+export const ProductFormContainer: React.FC<
   CreateModalProps<TypeProductFormValue>
 > = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
@@ -49,7 +49,7 @@ export const CreateModalProduct: React.FC<
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}>
-      <FormProduct
+      <ProductFormView
         form={form}
         allUnit={allUnit}
         onChangeUnit={onChangeUnit}
