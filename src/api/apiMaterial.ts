@@ -63,27 +63,3 @@ export async function updateMaterial(
     return handleErrorResponseMessage(error);
   }
 }
-
-// Пример функции для получения материалов по категории или другому критерию
-export async function getMaterialsByCategory(
-  categoryId: number,
-): Promise<TypeMaterial[]> {
-  try {
-    const response = await api.get(`${MATERIALS}/category/${categoryId}`);
-    return response.data;
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
-}
-
-// Пример функции для получения материалов по коду
-export async function getMaterialsByCode(
-  code: string,
-): Promise<TypeMaterial[]> {
-  try {
-    const response = await api.get(`${MATERIALS}/code/${code}`);
-    return response.data;
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
-}
