@@ -8,6 +8,7 @@ import {
   EMPLOYEES,
   ESTIMATED_PRICE,
   HISTORY,
+  MATERIALS,
   OPERATION,
   OPERATION_ACCOUNTING,
   OUTPUT,
@@ -45,6 +46,7 @@ import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimated
 import { PageUnit } from '../../pages/PageUnit/PageUnit';
 import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable.container';
 import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/EmployeeTable.container';
+import { MaterialTableContainer } from '../../pages/Material/MaterialTable/MaterialTable.container';
 
 export const menuKeyToRoutes: Record<
   string,
@@ -217,6 +219,17 @@ export const menuKeyToRoutes: Record<
       id: PRODUCT,
       title: 'Товары',
       route: <Route key={PRODUCT} path={PRODUCT} element={<PageProduct />} />,
+    },
+    {
+      id: MATERIALS,
+      title: 'Материалы',
+      route: (
+        <Route
+          key={MATERIALS}
+          path={MATERIALS}
+          element={<MaterialTableContainer />}
+        />
+      ),
     },
     {
       id: PRODUCT_GROUP,
