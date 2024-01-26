@@ -22,7 +22,7 @@ import {
   STOCK,
   STORAGE_PLACE,
   UNIT,
-  WRITE_OFF,
+  WRITE_OFFS,
 } from '../../../api';
 import { PageShipment } from '../../pages/PageShipment/PageShipment';
 import { PageOperationAccounting } from '../../pages/PageOperationAccounting/PageOperationAccounting';
@@ -32,7 +32,7 @@ import { PageOutput } from '../../pages/PageOutput/PageOutput';
 import { PurchaseTableContainer } from '../../pages/Purchase/PurchaseTable/PurchaseTable.container';
 import { PageAcceptance } from '../../pages/PageAcceptance/PageAcceptance';
 import { PageStock } from '../../pages/PageStock/PageStock';
-import { PageWriteOff } from '../../pages/PageWriteOff/PageWriteOff';
+import { WriteOffTableContainer } from '../../pages/WriteOff/WriteOffTable/WriteOffTable.container';
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
 import { PageProductMovementHistory } from '../../pages/PageProductMovementHistory/PageProductMovementHistory';
 import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
@@ -127,10 +127,14 @@ export const menuKeyToRoutes: Record<
       route: <Route key={STOCK} path={STOCK} element={<PageStock />} />,
     },
     {
-      id: WRITE_OFF,
+      id: WRITE_OFFS,
       title: 'Списание',
       route: (
-        <Route key={WRITE_OFF} path={WRITE_OFF} element={<PageWriteOff />} />
+        <Route
+          key={WRITE_OFFS}
+          path={WRITE_OFFS}
+          element={<WriteOffTableContainer />}
+        />
       ),
     },
     {
