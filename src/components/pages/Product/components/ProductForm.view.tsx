@@ -1,74 +1,58 @@
 import React from 'react';
-import { Form, Input, Select, Tooltip } from 'antd';
-import { FormProductProps } from '../../../../types';
+import { Form, Input } from 'antd';
+import { FormViewProps, TypeProduct } from '../../../../types';
+import { getAllProductGroup, getAllUnit } from '../../../../api';
+import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
+import FormActions from '../../../atoms/FormActions/FormActions';
 
-export const ProductFormView: React.FC<FormProductProps> = ({
+export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
   form,
-  allUnit,
-  onChangeUnit,
-  onClearUnit,
-  onSearchUnit,
-  allProductGroup,
-  onChangeProductGroup,
-  onClearProductGroup,
-  onSearchProductGroup,
+  title,
+  onFinish,
+  onCancel,
 }) => {
   return (
-    <Form
-      form={form}
-      labelCol={{ span: 6 }}
-      wrapperCol={{ span: 16 }}
-      style={{ marginTop: 30 }}>
-      <Form.Item
-        label="Название товара"
-        name="title"
-        rules={[{ required: true, message: 'введите название' }]}>
-        <Input placeholder="Название" />
-      </Form.Item>
-      <Form.Item
-        label="Единица измерения"
-        name="unit"
-        rules={[{ required: true, message: 'выберите ед. изм.' }]}>
-        <Select
-          showSearch
-          allowClear
-          placeholder="Выберите единицу измерения"
-          onChange={onChangeUnit}
-          onClear={onClearUnit}
-          filterOption={onSearchUnit}>
-          {allUnit && allUnit.length > 0
-            ? allUnit.map(unit => (
-                <Select.Option key={unit.id} value={unit.id} label={unit.name}>
-                  <Tooltip placement="right" title={unit.name}>
-                    {unit.name}
-                  </Tooltip>
-                </Select.Option>
-              ))
-            : null}
-        </Select>
-      </Form.Item>
-      <Form.Item label="Товарная группа" name="productGroup">
-        <Select
-          showSearch
-          allowClear
-          placeholder="Выберите товарную группу"
-          onChange={onChangeProductGroup}
-          onClear={onClearProductGroup}
-          filterOption={onSearchProductGroup}>
-          {allProductGroup && allProductGroup.length > 0
-            ? allProductGroup.map(productGroup => (
-                <Select.Option
-                  key={productGroup.id}
-                  value={productGroup.id}
-                  label={productGroup.title}>
-                  <Tooltip placement="right" title={productGroup.title}>
-                    {productGroup.title}
-                  </Tooltip>
-                </Select.Option>
-              ))
-            : null}
-        </Select>
-      </Form.Item>
-    </Form>
+    <div className="form-style">
+      <h2 className="center-text">{title}</h2>
+      <Form
+        form={form}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        style={{ marginTop: 30 }}
+        onFinish={onFinish}>
+        <Form.Item
+          label="Название товара"
+          name="title"
+          rules={[{ required: true, message: 'введите название' }]}>
+          <Input placeholder="Название" />
+        </Form.Item>
+        <Form.Item
+          label="Единица измерения"
+          name="unit"
+          rules={[{ required: true, message: 'выберите ед. изм.' }]}>
+          <SimpleSelect
+            form={form}
+            fieldName="unit"
+            placeholder="Выберите единицу измерения"
+            value={form.getFieldValue('unit')}
+            getId={item => item.id ?? 0}
+            getLabel={item => item.name ?? ''}
+            fetchDataList={() => getAllUnit()}
+          />
+        </Form.Item>
+        <Form.Item label="Товарная группа" name="productGroup">
+          <SimpleSelect
+            form={form}
+            fieldName="productGroup"
+            placeholder="Выберите товарную группу"
+            value={form.getFieldValue('productGroup')}
+            getId={item => item.id ?? 0}
+            getLabel={item => item.title ?? ''}
+            fetchDataList={() => getAllProductGroup()}
+          />
+        </Form.Item>
+        <FormActions onCancel={onCancel} />
+      </Form>
+    </div>
   );
 };
