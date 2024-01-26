@@ -1,5 +1,5 @@
 import { TypeApiResponse, TypeClient } from '../types';
-import { CLIENT, CLIENTS } from './apiEndpoints';
+import { CLIENT } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -11,7 +11,7 @@ import { api } from './api'; // Получить список всех клие�
 // Получить список всех клиентов
 export async function getAllClient(): Promise<TypeClient[]> {
   try {
-    const response = await api.get(CLIENTS);
+    const response = await api.get(CLIENT);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);

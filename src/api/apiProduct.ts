@@ -1,5 +1,5 @@
 import { TypeApiResponse, TypeProduct } from '../types';
-import { OUTPUT, PRODUCT, PRODUCTS, TITLE } from './apiEndpoints';
+import { OUTPUT, PRODUCT, TITLE } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -11,7 +11,7 @@ import { api } from './api'; // Получить список всех това�
 // Получить список всех товаров
 export async function getAllProduct(): Promise<TypeProduct[]> {
   try {
-    const response = await api.get(PRODUCTS);
+    const response = await api.get(PRODUCT);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);
