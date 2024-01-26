@@ -37,7 +37,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
             value={form.getFieldValue('unit')}
             getId={item => item.id ?? 0}
             getLabel={item => item.name ?? ''}
-            fetchDataList={() => getAllUnit()}
+            fetchDataList={getAllUnit}
           />
         </Form.Item>
         <Form.Item label="Товарная группа" name="productGroup">
@@ -48,7 +48,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
             value={form.getFieldValue('productGroup')}
             getId={item => item.id ?? 0}
             getLabel={item => item.title ?? ''}
-            fetchDataList={() => getAllProductGroup()}
+            fetchDataList={getAllProductGroup}
           />
         </Form.Item>
         <FormActions onCancel={onCancel} />
