@@ -1,17 +1,17 @@
 import { TypeApiResponse, TypeProduct } from '../types';
-import { OUTPUT, PRODUCT, TITLE } from './apiEndpoints';
+import { OUTPUT, PRODUCT, PRODUCTS, TITLE } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api';
+import { api } from './api'; // Получить список всех товаров
 
 // Получить список всех товаров
 export async function getAllProduct(): Promise<TypeProduct[]> {
   try {
-    const response = await api.get(PRODUCT);
+    const response = await api.get(PRODUCTS);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);
