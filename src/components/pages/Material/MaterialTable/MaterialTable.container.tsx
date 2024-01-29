@@ -1,9 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import {
-  deleteMaterialById,
-  getAllMaterials,
-  MATERIALS,
-} from '../../../../api';
+import { deleteMaterialById, getAllMaterials, MATERIAL } from '../../../../api';
 import { TypeMaterial } from '../../../../types';
 import { MaterialTableView } from './MaterialTable.view';
 import usePagination from '../../../../hooks/usePagination';
@@ -21,7 +17,7 @@ export const MaterialTableContainer = () => {
   const { pagination, handleChangeTable } = usePagination(10);
 
   // Хук для навигации
-  const handleNavigateToForm = useNavigateToPath(MATERIALS);
+  const handleNavigateToForm = useNavigateToPath(MATERIAL);
 
   // Хук для выбора строк
   const {
