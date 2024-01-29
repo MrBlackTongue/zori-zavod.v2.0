@@ -1,21 +1,16 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
-import {
-  FormProps,
-  TypeMaterialCategory,
-  TypeMaterialFormValue,
-  TypeUnit,
-} from '../../../../types';
+import { Form, Input } from 'antd';
+import { FormViewProps, TypeMaterial } from '../../../../types';
 import FormActions from '../../../atoms/FormActions/FormActions';
+import { getAllProductGroup, getAllUnit } from '../../../../api';
+import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 
-const { Option } = Select;
-
-export const MaterialFormView: React.FC<
-  FormProps<TypeMaterialFormValue> & {
-    allCategories: TypeMaterialCategory[];
-    allUnits: TypeUnit[];
-  }
-> = ({ form, title, onFinish, onCancel, allCategories, allUnits }) => {
+export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
+  form,
+  title,
+  onFinish,
+  onCancel,
+}) => {
   return (
     <div className="form-style">
       <h2 className="center-text">{title}</h2>
@@ -41,25 +36,29 @@ export const MaterialFormView: React.FC<
           label="Категория"
           name="category"
           rules={[{ required: true, message: 'Выберите категорию' }]}>
-          <Select placeholder="Выберите категорию" allowClear>
-            {allCategories.map(category => (
-              <Option key={category.id} value={category.id}>
-                {category.title}
-              </Option>
-            ))}
-          </Select>
+          <SimpleSelect
+            form={form}
+            fieldName="productGroup"
+            placeholder="Выберите товарную группу"
+            value={form.getFieldValue('productGroup')}
+            getId={item => item.id ?? 0}
+            getLabel={item => item.title ?? ''}
+            fetchDataList={() => getAllProductGroup()}
+          />
         </Form.Item>
         <Form.Item
           label="Единица измерения"
           name="unit"
           rules={[{ required: true, message: 'Выберите единицу измерения' }]}>
-          <Select placeholder="Выберите единицу" allowClear>
-            {allUnits.map(unit => (
-              <Option key={unit.id} value={unit.id}>
-                {unit.name}
-              </Option>
-            ))}
-          </Select>
+          <SimpleSelect
+            form={form}
+            fieldName="unit"
+            placeholder="Выберите единицу измерения"
+            value={form.getFieldValue('unit')}
+            getId={item => item.id ?? 0}
+            getLabel={item => item.name ?? ''}
+            fetchDataList={() => getAllUnit()}
+          />
         </Form.Item>
         <FormActions onCancel={onCancel} />
       </Form>

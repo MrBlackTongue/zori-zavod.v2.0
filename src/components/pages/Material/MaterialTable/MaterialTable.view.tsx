@@ -35,9 +35,8 @@ export const MaterialTableView = () => {
   return (
     <div>
       <Flex justify="space-between">
-        <DeleteWithConfirmationButton />{' '}
-        {/* Проверьте, что этот компонент правильно обрабатывает onClick */}
-        <AddButton /> {/* То же самое касается этого компонента */}
+        <DeleteWithConfirmationButton />
+        <AddButton />
       </Flex>
       <BasicTable columns={columns} />
       <FloatButton.BackTop />

@@ -39,4 +39,5 @@ export const STORAGE_PLACE = '/storage-place';
 export const LOGOUT = '/logout';
 export const RATE = '/rate';
 export const LOGIN = '/login';
+export const MATERIAL = '/material';
 export const MATERIALS = '/materials';
