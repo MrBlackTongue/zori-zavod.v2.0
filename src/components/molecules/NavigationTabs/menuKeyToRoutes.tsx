@@ -16,6 +16,7 @@ import {
   PRODUCT_GROUP,
   PRODUCT_MOVEMENT,
   PRODUCTION_TYPE,
+  PRODUCTS,
   PURCHASES,
   REPORT,
   SHIPMENT,
@@ -29,7 +30,7 @@ import { PageOperationAccounting } from '../../pages/PageOperationAccounting/Pag
 import { PageOperation } from '../../pages/PageOperation/PageOperation';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageOutput } from '../../pages/PageOutput/PageOutput';
-import { PurchaseTableContainer } from '../../pages/1Purchase/PurchaseTable/PurchaseTable.container';
+import { PurchaseTableContainer } from '../../pages/Purchase/PurchaseTable/PurchaseTable.container';
 import { PageAcceptance } from '../../pages/PageAcceptance/PageAcceptance';
 import { PageStock } from '../../pages/PageStock/PageStock';
 import { PageWriteOff } from '../../pages/PageWriteOff/PageWriteOff';
@@ -40,7 +41,7 @@ import { PageProductReport } from '../../pages/PageProductReport/PageProductRepo
 import { PageOperationReport } from '../../pages/PageOperationReport/PageOperationReport';
 import { PageEmployeeReport } from '../../pages/PageEmployeeReport/PageEmployeeReport';
 import { PageCostPriceReport } from '../../pages/PageCostPriceReport/PageCostPriceReport';
-import { PageProduct } from '../../pages/PageProduct/PageProduct';
+import { ProductTableContainer } from '../../pages/Product/ProductTable/ProductTable.container';
 import { PageProductGroup } from '../../pages/PageProductGroup/PageProductGroup';
 import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
 import { PageUnit } from '../../pages/PageUnit/PageUnit';
@@ -216,9 +217,15 @@ export const menuKeyToRoutes: Record<
   ],
   '06': [
     {
-      id: PRODUCT,
+      id: PRODUCTS,
       title: 'Товары',
-      route: <Route key={PRODUCT} path={PRODUCT} element={<PageProduct />} />,
+      route: (
+        <Route
+          key={PRODUCTS}
+          path={PRODUCTS}
+          element={<ProductTableContainer />}
+        />
+      ),
     },
     {
       id: MATERIALS,

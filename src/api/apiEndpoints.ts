@@ -5,6 +5,7 @@ export const EMPLOYEES = '/employees';
 export const OPERATION = '/operation';
 export const OUTPUT = '/output';
 export const PRODUCT = '/product';
+export const PRODUCTS = '/products';
 export const GROUP = '/group';
 export const UNIT = '/unit';
 export const CLIENT = '/client';

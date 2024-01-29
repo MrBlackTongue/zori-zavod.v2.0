@@ -44,7 +44,7 @@ const items = [
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
-        <div className="menu-item-div">Покупки</div>
+        <div className="menu-item-div">Закупки</div>
       </div>
     ),
   },
