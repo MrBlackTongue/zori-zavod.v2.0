@@ -101,7 +101,7 @@ export const PageStock: React.FC = () => {
         <Select
           showSearch
           allowClear
-          placeholder="Выберите товарную группу"
+          placeholder="Выберите категорию"
           style={{ width: '250px' }}
           onChange={onChangeProductGroup}
           filterOption={onSearchSelect}>

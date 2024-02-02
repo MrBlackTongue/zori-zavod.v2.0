@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import {
+  TypeCategory,
   TypeClient,
   TypeEmployee,
   TypeOperation,
   TypeOutput,
   TypeProduct,
-  TypeProductGroup,
   TypeProductionType,
   TypePurchase,
   TypeStock,
@@ -13,12 +13,12 @@ import {
   TypeUnit,
 } from '../types';
 import {
+  getAllCategory,
   getAllClient,
   getAllEmployee,
   getAllOperation,
   getAllOutput,
   getAllProduct,
-  getAllProductGroup,
   getAllProductionType,
   getAllProductOutput,
   getAllPurchase,
@@ -53,9 +53,7 @@ export const useFetchAllData = (deps: {
   >([]);
   const [allOutput, setAllOutput] = useState<TypeOutput[]>([]);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>(
-    [],
-  );
+  const [allProductGroup, setAllProductGroup] = useState<TypeCategory[]>([]);
   const [allClient, setAllClient] = useState<TypeClient[]>([]);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>([]);
   const [allProductOutput, setAllProductOutput] = useState<TypeProduct[]>([]);
@@ -121,7 +119,7 @@ export const useFetchAllData = (deps: {
 
   useEffect(() => {
     if (deps.depsProductGroup) {
-      getAllProductGroup()
+      getAllCategory()
         .then(data => setAllProductGroup(data))
         .catch(error => console.error('Ошибка при получении данных: ', error));
     }
