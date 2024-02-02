@@ -41,3 +41,4 @@ export const RATE = '/rate';
 export const LOGIN = '/login';
 export const MATERIAL = '/material';
 export const MATERIALS = '/materials';
+export const SEARCH = '/search';

@@ -1,5 +1,5 @@
 import { TypeApiResponse, TypeMaterial } from '../types';
-import { MATERIAL } from './apiEndpoints';
+import { MATERIAL, SEARCH } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -59,6 +59,20 @@ export async function updateMaterial(
   try {
     const response = await api.put(`${MATERIAL}/${data.id}`, data);
     return handleResponseUpdateMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
+}
+
+// Получить список всех материалов по названию и коду
+export async function getAllMaterialByTitle(
+  title: string,
+): Promise<TypeMaterial[]> {
+  try {
+    const response = await api.get(`${MATERIAL + SEARCH}`, {
+      params: { searchQuery: title },
+    });
+    return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);
   }
