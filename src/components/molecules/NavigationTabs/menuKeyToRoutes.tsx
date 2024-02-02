@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
 import {
   ACCEPTANCE,
+  CATEGORY,
   CLIENTS,
   COST_PRICE,
   EMPLOYEE,
@@ -13,7 +14,6 @@ import {
   OPERATION_ACCOUNTING,
   OUTPUT,
   PRODUCT,
-  PRODUCT_GROUP,
   PRODUCT_MOVEMENT,
   PRODUCTION_TYPE,
   PRODUCTS,
@@ -239,14 +239,10 @@ export const menuKeyToRoutes: Record<
       ),
     },
     {
-      id: PRODUCT_GROUP,
-      title: 'Группы товаров',
+      id: CATEGORY,
+      title: 'Категория товаров',
       route: (
-        <Route
-          key={PRODUCT_GROUP}
-          path={PRODUCT_GROUP}
-          element={<PageCategory />}
-        />
+        <Route key={CATEGORY} path={CATEGORY} element={<PageCategory />} />
       ),
     },
     {

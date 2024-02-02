@@ -42,3 +42,4 @@ export const LOGIN = '/login';
 export const MATERIAL = '/material';
 export const MATERIALS = '/materials';
 export const SEARCH = '/search';
+export const CATEGORY = '/category';
