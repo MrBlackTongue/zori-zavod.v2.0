@@ -3,8 +3,8 @@ import { Flex, FloatButton, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import {
+  TypeCategory,
   TypeProduct,
-  TypeProductGroup,
   TypeUnit,
   TypeWithId,
 } from '../../../../types';
@@ -30,10 +30,10 @@ export const ProductTableView = () => {
       render: (unit: TypeUnit) => (unit ? <div> {unit.name}</div> : null),
     },
     {
-      title: 'Товарная группа',
+      title: 'Категория',
       dataIndex: 'productGroup',
       key: 'productGroup',
-      render: (productGroup: TypeProductGroup) =>
+      render: (productGroup: TypeCategory) =>
         productGroup ? <div> {productGroup.title}</div> : null,
     },
   ];

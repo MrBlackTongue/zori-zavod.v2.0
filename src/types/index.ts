@@ -9,7 +9,7 @@ export * from './CommonComponentProps';
 export * from './TypeStock';
 export * from './TypeProductMovementHistory';
 export * from './TypeAcceptance';
-export * from './TypeProductGroup';
+export * from './TypeCategory';
 export * from './TypeOperationAccounting';
 export * from './TypeOperationTimesheet';
 export * from './TypeShipment';

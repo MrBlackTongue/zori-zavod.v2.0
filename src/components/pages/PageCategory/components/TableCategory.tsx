@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { getProductGroupTree } from '../../../../api';
-import { TableProps, TypeProductGroup } from '../../../../types';
+import { getCategoryTree } from '../../../../api';
+import { TableProps, TypeCategory } from '../../../../types';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
 import {
   ACTIONS_INSTRUCTION_CONTENT_DELETE,
@@ -11,14 +11,14 @@ import {
   ACTIONS_OVERVIEW_CONTENT,
 } from '../../../atoms/CustomPopover/ContentPopover';
 
-export const TableProductGroup: React.FC<TableProps> = ({
+export const TableCategory: React.FC<TableProps> = ({
   isUpdateTable,
   openDrawer,
   onDelete,
 }) => {
   // Spinner и список всех групп товаров
   const [loading, setLoading] = useState(false);
-  const [allProductGroup, setAllProductGroup] = useState<TypeProductGroup[]>();
+  const [allProductGroup, setAllProductGroup] = useState<TypeCategory[]>();
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -27,7 +27,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
   });
 
   // Колонки в таблице
-  const columns: ColumnsType<TypeProductGroup> = [
+  const columns: ColumnsType<TypeCategory> = [
     {
       title: 'Название',
       dataIndex: 'title',
@@ -100,7 +100,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
 
   // Рекурсивная функция для удаления пустых дочерних элементов
   const removeEmptyChildren = useCallback(
-    (productGroup: TypeProductGroup): TypeProductGroup => {
+    (productGroup: TypeCategory): TypeCategory => {
       if (productGroup.children && productGroup.children.length === 0) {
         const { children, ...rest } = productGroup;
         return rest;
@@ -119,7 +119,7 @@ export const TableProductGroup: React.FC<TableProps> = ({
   // Функция для обновления таблицы
   const handleUpdateTable = useCallback((): void => {
     setLoading(true);
-    getProductGroupTree()
+    getCategoryTree()
       .then(data => {
         const updatedData = data.map(removeEmptyChildren);
         setAllProductGroup(updatedData);

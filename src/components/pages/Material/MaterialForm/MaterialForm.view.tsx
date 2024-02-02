@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input } from 'antd';
 import { FormViewProps, TypeMaterial } from '../../../../types';
 import FormActions from '../../../atoms/FormActions/FormActions';
-import { getAllProductGroup, getAllUnit } from '../../../../api';
+import { getAllCategory, getAllUnit } from '../../../../api';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 
 export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
@@ -38,12 +38,12 @@ export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
           rules={[{ required: true, message: 'Выберите категорию' }]}>
           <SimpleSelect
             form={form}
-            fieldName="productGroup"
-            placeholder="Выберите товарную группу"
-            value={form.getFieldValue('productGroup')}
+            fieldName="category"
+            placeholder="Выберите категорию"
+            value={form.getFieldValue('category')}
             getId={item => item.id ?? 0}
             getLabel={item => item.title ?? ''}
-            fetchDataList={() => getAllProductGroup()}
+            fetchDataList={getAllCategory}
           />
         </Form.Item>
         <Form.Item
@@ -57,7 +57,7 @@ export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
             value={form.getFieldValue('unit')}
             getId={item => item.id ?? 0}
             getLabel={item => item.name ?? ''}
-            fetchDataList={() => getAllUnit()}
+            fetchDataList={getAllUnit}
           />
         </Form.Item>
         <FormActions onCancel={onCancel} />

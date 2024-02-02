@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { FloatButton } from 'antd';
 import {
-  createProductGroup,
-  deleteProductGroupById,
-  updateProductGroup,
+  createCategory,
+  deleteCategoryById,
+  updateCategory,
 } from '../../../api';
-import { TypeProductGroup, TypeProductGroupFormValue } from '../../../types';
-import { TableProductGroup } from './components/TableProductGroup';
-import { CreateModalProductGroup } from './components/CreateModalProductGroup';
-import { UpdateDrawerProductGroup } from './components/UpdateDrawerProductGroup';
+import { TypeCategory, TypeCategoryFormValue } from '../../../types';
+import { TableCategory } from './components/TableCategory';
+import { CreateModalCategory } from './components/CreateModalCategory';
+import { UpdateDrawerCategory } from './components/UpdateDrawerCategory';
 import AddButtonOld from '../../atoms/AddButtonOld/AddButtonOld';
 
-export const PageProductGroup: React.FC = () => {
+export const PageCategory: React.FC = () => {
   // Обновление таблицы, открыть/закрыть модальное окно, drawer
   const [isUpdateTable, setIsUpdateTable] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -23,14 +23,14 @@ export const PageProductGroup: React.FC = () => {
 
   // Добавить новую группу товаров
   const handleCreateProductGroup = async (
-    values: TypeProductGroupFormValue,
+    values: TypeCategoryFormValue,
   ): Promise<void> => {
-    const productGroup: TypeProductGroup = {
+    const productGroup: TypeCategory = {
       title: values.title,
       parent: values.parent ? { id: values.parent } : undefined,
     };
     setIsModalOpen(false);
-    await createProductGroup(productGroup);
+    await createCategory(productGroup);
     setIsUpdateTable(prevState => !prevState);
   };
 
@@ -42,21 +42,21 @@ export const PageProductGroup: React.FC = () => {
 
   // Обновить группу товаров
   const handleUpdateProductGroup = async (
-    values: TypeProductGroupFormValue,
+    values: TypeCategoryFormValue,
   ): Promise<void> => {
-    const productGroup: TypeProductGroup = {
+    const productGroup: TypeCategory = {
       id: selectedProductGroupId,
       title: values.title,
       parent: values.parent ? { id: values.parent } : undefined,
     };
     setIsDrawerOpen(false);
-    await updateProductGroup(productGroup);
+    await updateCategory(productGroup);
     setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
   const handleDeleteProductGroup = async (id: number): Promise<void> => {
-    await deleteProductGroupById(id);
+    await deleteCategoryById(id);
     setIsUpdateTable(prevState => !prevState);
   };
 
@@ -64,17 +64,17 @@ export const PageProductGroup: React.FC = () => {
     <div>
       <AddButtonOld setIsModalOpen={setIsModalOpen} />
       <FloatButton.BackTop />
-      <TableProductGroup
+      <TableCategory
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
         onDelete={handleDeleteProductGroup}
       />
-      <CreateModalProductGroup
+      <CreateModalCategory
         isOpen={isModalOpen}
         createItem={handleCreateProductGroup}
         onCancel={() => setIsModalOpen(false)}
       />
-      <UpdateDrawerProductGroup
+      <UpdateDrawerCategory
         isOpen={isDrawerOpen}
         selectedItemId={selectedProductGroupId}
         updateItem={handleUpdateProductGroup}

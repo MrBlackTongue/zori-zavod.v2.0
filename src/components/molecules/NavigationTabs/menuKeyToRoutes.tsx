@@ -42,7 +42,7 @@ import { PageOperationReport } from '../../pages/PageOperationReport/PageOperati
 import { PageEmployeeReport } from '../../pages/PageEmployeeReport/PageEmployeeReport';
 import { PageCostPriceReport } from '../../pages/PageCostPriceReport/PageCostPriceReport';
 import { ProductTableContainer } from '../../pages/Product/ProductTable/ProductTable.container';
-import { PageProductGroup } from '../../pages/PageProductGroup/PageProductGroup';
+import { PageCategory } from '../../pages/PageCategory/PageCategory';
 import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
 import { PageUnit } from '../../pages/PageUnit/PageUnit';
 import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable.container';
@@ -245,7 +245,7 @@ export const menuKeyToRoutes: Record<
         <Route
           key={PRODUCT_GROUP}
           path={PRODUCT_GROUP}
-          element={<PageProductGroup />}
+          element={<PageCategory />}
         />
       ),
     },

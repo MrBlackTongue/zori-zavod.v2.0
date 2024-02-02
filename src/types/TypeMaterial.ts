@@ -1,10 +1,10 @@
-import { TypeProductGroup } from './TypeProductGroup';
+import { TypeCategory } from './TypeCategory';
 import { TypeUnit } from './TypeUnit';
 
 export type TypeMaterial = {
   id?: number;
   name?: string;
   code?: string;
-  category?: TypeProductGroup;
+  category?: TypeCategory;
   unit?: TypeUnit;
 };

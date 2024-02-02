@@ -1,9 +1,9 @@
-import { TypeProductGroup } from './TypeProductGroup';
+import { TypeCategory } from './TypeCategory';
 import { TypeUnit } from './TypeUnit';
 
 export type TypeProduct = {
   id?: number;
   title?: string;
-  productGroup?: TypeProductGroup;
+  productGroup?: TypeCategory;
   unit?: TypeUnit;
 };
