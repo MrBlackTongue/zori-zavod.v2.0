@@ -3,7 +3,7 @@ import { TypeUnit } from './TypeUnit';
 
 export type TypeMaterial = {
   id?: number;
-  name?: string;
+  title?: string;
   code?: string;
   category?: TypeCategory;
   unit?: TypeUnit;
