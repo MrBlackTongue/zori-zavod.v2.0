@@ -22,20 +22,14 @@ export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
         onFinish={onFinish}>
         <Form.Item
           label="Название"
-          name="name"
+          name="title"
           rules={[{ required: true, message: 'Введите название материала' }]}>
           <Input placeholder="Введите название" />
         </Form.Item>
-        <Form.Item
-          label="Код"
-          name="code"
-          rules={[{ required: true, message: 'Введите код материала' }]}>
+        <Form.Item label="Код" name="code">
           <Input placeholder="Введите код" />
         </Form.Item>
-        <Form.Item
-          label="Категория"
-          name="category"
-          rules={[{ required: true, message: 'Выберите категорию' }]}>
+        <Form.Item label="Категория" name="category">
           <SimpleSelect
             form={form}
             fieldName="category"
@@ -46,10 +40,7 @@ export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
             fetchDataList={getAllCategory}
           />
         </Form.Item>
-        <Form.Item
-          label="Единица измерения"
-          name="unit"
-          rules={[{ required: true, message: 'Выберите единицу измерения' }]}>
+        <Form.Item label="Единица измерения" name="unit">
           <SimpleSelect
             form={form}
             fieldName="unit"

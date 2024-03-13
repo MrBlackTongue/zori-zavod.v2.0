@@ -57,7 +57,7 @@ export async function updateMaterial(
   data: TypeMaterial,
 ): Promise<TypeApiResponse> {
   try {
-    const response = await api.put(`${MATERIAL}/${data.id}`, data);
+    const response = await api.put(MATERIAL, data);
     return handleResponseUpdateMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);

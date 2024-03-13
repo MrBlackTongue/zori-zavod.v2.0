@@ -12,8 +12,8 @@ export const MaterialTableView = () => {
   const columns: ColumnsType<TypeWithId<TypeMaterial>> = [
     {
       title: 'Название',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
       title: 'Код',
