@@ -1,11 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import dayjs from 'dayjs';
-import {
-  createWorkHours,
-  deleteWorkHoursById,
-  getAllWorkHours,
-  updateWorkHours,
-} from '../../../../api';
+import {createWorkHours, deleteWorkHoursById, getAllWorkHours, updateWorkHours,} from '../../../../api';
 import {
   TableProps,
   TypeEditingDayState,
@@ -14,10 +9,31 @@ import {
   TypeWorkHour,
   TypeWorkHoursFilter,
 } from '../../../../types';
-import { formatMinutesToTime, timeToMinutes } from '../../../../utils';
-import { WorkHoursTableView } from './WorkHoursTable.view';
+import {formatMinutesToTime, timeToMinutes} from '../../../../utils';
+import {WorkHoursTableView} from './WorkHoursTable.view';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import { WorkHoursProvider } from '../../../../contexts/WorkHoursContext';
+import {WorkHoursProvider} from '../../../../contexts/WorkHoursContext';
+
+// Функция для расчета общего количества часов всех сотрудников
+const calculateTotalAllHours = (
+  workHours: TypeTransformedWorkHour[],
+): string => {
+  let totalMinutes = 0;
+  workHours.forEach(workHour => {
+    Object.keys(workHour).forEach(key => {
+      // Добавляем проверку на null перед тем как обращаться к свойству duration
+      const dayOrEmployee = workHour[key];
+      if (
+        dayOrEmployee &&
+        'duration' in dayOrEmployee &&
+        dayOrEmployee.duration !== null
+      ) {
+        totalMinutes += dayOrEmployee.duration;
+      }
+    });
+  });
+  return formatMinutesToTime(totalMinutes);
+};
 
 export const WorkHoursTableContainer: React.FC<
   TableProps<TypeWorkHoursFilter>
@@ -156,28 +172,6 @@ export const WorkHoursTableContainer: React.FC<
     });
     return formatMinutesToTime(totalMinutes);
   };
-
-  // Функция для расчета общего количества часов всех сотрудников
-  const calculateTotalAllHours = useCallback(
-    (workHours: TypeTransformedWorkHour[]): string => {
-      let totalMinutes = 0;
-      workHours.forEach(workHour => {
-        Object.keys(workHour).forEach(key => {
-          // Добавляем проверку на null перед тем как обращаться к свойству duration
-          const dayOrEmployee = workHour[key];
-          if (
-            dayOrEmployee &&
-            'duration' in dayOrEmployee &&
-            dayOrEmployee.duration !== null
-          ) {
-            totalMinutes += dayOrEmployee.duration;
-          }
-        });
-      });
-      return formatMinutesToTime(totalMinutes);
-    },
-    [],
-  );
 
   useEffect(() => {
     const total = calculateTotalAllHours(allWorkHour);
