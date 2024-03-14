@@ -30,3 +30,37 @@ export const numberParser = (displayValue?: string) => {
   if (displayValue === undefined) return 0;
   return parseFloat(displayValue.replace(',', '.'));
 };
+
+// Функция форматирует минуы в часы
+export const formatMinutesToTime = (minutes: number) => {
+  if (minutes === null || minutes === undefined) {
+    return '';
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+
+  return `${hours}:${mins.toString().padStart(2, '0')}`;
+};
+
+// Функция форматирует часы в минуты
+export const timeToMinutes = (timeString: string) => {
+  // Удаление начальных и конечных пробелов
+  const trimmedTimeString = timeString.trim();
+
+  let parts = trimmedTimeString.split(/[:.,/ ]+/);
+
+  if (parts.length === 1) {
+    // Если есть только одно число, считаем его часами
+    parts = [parts[0], '0'];
+  }
+
+  if (parts.length === 2) {
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    if (!isNaN(hours) && !isNaN(minutes)) {
+      return hours * 60 + minutes;
+    }
+  }
+  return null; // возвращаем null в случае невалидного ввода
+};

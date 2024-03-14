@@ -30,3 +30,4 @@ export * from './apiPayment';
 export * from './apiEstimatedPrice';
 export * from './apiStoragePlace';
 export * from './apiMaterial';
+export * from './apiWorkHours';

@@ -23,6 +23,7 @@ import {
   STOCK,
   STORAGE_PLACE,
   UNIT,
+  WORK_HOURS,
   WRITE_OFF,
 } from '../../../api';
 import { PageShipment } from '../../pages/PageShipment/PageShipment';
@@ -48,6 +49,7 @@ import { PageUnit } from '../../pages/PageUnit/PageUnit';
 import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable.container';
 import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/EmployeeTable.container';
 import { MaterialTableContainer } from '../../pages/Material/MaterialTable/MaterialTable.container';
+import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/WorkHoursTable.container';
 
 export const menuKeyToRoutes: Record<
   string,
@@ -276,6 +278,17 @@ export const menuKeyToRoutes: Record<
     },
   ],
   '08': [
+    {
+      id: WORK_HOURS,
+      title: 'Табель учета рабочего времени',
+      route: (
+        <Route
+          key={WORK_HOURS}
+          path={WORK_HOURS}
+          element={<WorkHoursTableContainer />}
+        />
+      ),
+    },
     {
       id: EMPLOYEES,
       title: 'Сотрудники',

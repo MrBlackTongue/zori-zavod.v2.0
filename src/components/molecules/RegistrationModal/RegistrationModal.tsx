@@ -10,7 +10,7 @@ import {
 import { Button, Form, Input, Modal } from 'antd';
 import { CreateModalProps, TypeUserInfo } from '../../../types';
 import { useFormHandler } from '../../../hooks';
-import { EMPLOYEES } from '../../../api';
+import { WORK_HOURS } from '../../../api';
 import './RegistrationModal.css';
 
 export const RegistrationModal: React.FC<CreateModalProps<TypeUserInfo>> = ({
@@ -114,7 +114,7 @@ export const RegistrationModal: React.FC<CreateModalProps<TypeUserInfo>> = ({
             Зарегистрироваться
           </Button>
           <div className="registration-login">
-            <a href={EMPLOYEES} className="registration-login-text">
+            <a href={WORK_HOURS} className="registration-login-text">
               У меня уже есть аккаунт
             </a>
           </div>

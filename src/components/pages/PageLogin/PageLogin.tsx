@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
-import { EMPLOYEES, loginUser } from '../../../api';
+import { loginUser, WORK_HOURS } from '../../../api';
 import { useNavigate } from 'react-router-dom';
 import './PageLogin.css';
 import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
@@ -35,7 +35,7 @@ export const PageLogin: React.FC = () => {
         loginUser(values)
           .then(response => {
             if (response?.jwt) {
-              navigate(`${EMPLOYEES}`);
+              navigate(`${WORK_HOURS}`);
             }
           })
           .catch(error => console.error('Ошибка при авторизации: ', error));
