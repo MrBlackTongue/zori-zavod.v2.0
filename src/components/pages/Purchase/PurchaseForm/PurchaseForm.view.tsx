@@ -32,7 +32,7 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
             value={form.getFieldValue('product')}
             getId={item => item.id ?? 0}
             getLabel={item => item.title ?? ''}
-            fetchDataList={() => getAllProduct()}
+            fetchDataList={getAllProduct}
           />
         </Form.Item>
         <Form.Item

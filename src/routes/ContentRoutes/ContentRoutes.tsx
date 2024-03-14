@@ -4,14 +4,18 @@ import { PageOperationAccountingDetail } from '../../components/pages/PageOperat
 import {
   CLIENT,
   EMPLOYEE,
+  MATERIAL,
   OPERATION_ACCOUNTING,
+  PRODUCT,
   PURCHASE,
   SUBSCRIPTION,
 } from '../../api';
 import { PageSubscription } from '../../components/pages/PageSubscription/PageSubscription';
 import { EmployeeFormContainer } from '../../components/pages/Employee/EmployeeForm/EmployeeForm.container';
 import { ClientFormContainer } from '../../components/pages/Client/ClientForm/ClientForm.container';
+import { MaterialFormContainer } from '../../components/pages/Material/MaterialForm/MaterialForm.container';
 import { PurchaseFormContainer } from '../../components/pages/Purchase/PurchaseForm/PurchaseForm.container';
+import { ProductFormContainer } from '../../components/pages/Product/components/ProductForm.container';
 
 export const ContentRoutes: React.FC = () => {
   return (
@@ -24,6 +28,8 @@ export const ContentRoutes: React.FC = () => {
       <Route path={`${EMPLOYEE}/:id?`} element={<EmployeeFormContainer />} />
       <Route path={`${CLIENT}/:id?`} element={<ClientFormContainer />} />
       <Route path={`${PURCHASE}/:id?`} element={<PurchaseFormContainer />} />
+      <Route path={`${PRODUCT}/:id?`} element={<ProductFormContainer />} />
+      <Route path={`${MATERIAL}/:id?`} element={<MaterialFormContainer />} />
     </Routes>
   );
 };

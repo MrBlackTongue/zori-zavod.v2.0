@@ -120,7 +120,7 @@ export const PageRate = () => {
         <p className="rate-footer-text-two">ИНН: 143521547685</p>
         <p className="footer-text-one">Связаться с нами:</p>
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
-        <p className="rate-footer-text-three">© Zolotenkov 2022-2023</p>
+        <p className="rate-footer-text-three">© Zolotenkov 2022-2024</p>
       </div>
       <RegistrationModal
         isOpen={isModalOpen}

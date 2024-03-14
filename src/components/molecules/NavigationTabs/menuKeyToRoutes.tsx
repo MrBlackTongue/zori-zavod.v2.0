@@ -2,19 +2,21 @@ import { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
 import {
   ACCEPTANCE,
+  CATEGORY,
   CLIENTS,
   COST_PRICE,
   EMPLOYEE,
   EMPLOYEES,
   ESTIMATED_PRICE,
   HISTORY,
+  MATERIALS,
   OPERATION,
   OPERATION_ACCOUNTING,
   OUTPUT,
   PRODUCT,
-  PRODUCT_GROUP,
   PRODUCT_MOVEMENT,
   PRODUCTION_TYPE,
+  PRODUCTS,
   PURCHASES,
   REPORT,
   SHIPMENT,
@@ -40,12 +42,13 @@ import { PageProductReport } from '../../pages/PageProductReport/PageProductRepo
 import { PageOperationReport } from '../../pages/PageOperationReport/PageOperationReport';
 import { PageEmployeeReport } from '../../pages/PageEmployeeReport/PageEmployeeReport';
 import { PageCostPriceReport } from '../../pages/PageCostPriceReport/PageCostPriceReport';
-import { PageProduct } from '../../pages/PageProduct/PageProduct';
-import { PageProductGroup } from '../../pages/PageProductGroup/PageProductGroup';
+import { ProductTableContainer } from '../../pages/Product/ProductTable/ProductTable.container';
+import { PageCategory } from '../../pages/PageCategory/PageCategory';
 import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
 import { PageUnit } from '../../pages/PageUnit/PageUnit';
 import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable.container';
 import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/EmployeeTable.container';
+import { MaterialTableContainer } from '../../pages/Material/MaterialTable/MaterialTable.container';
 import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/WorkHoursTable.container';
 
 export const menuKeyToRoutes: Record<
@@ -216,19 +219,32 @@ export const menuKeyToRoutes: Record<
   ],
   '06': [
     {
-      id: PRODUCT,
+      id: PRODUCTS,
       title: 'Товары',
-      route: <Route key={PRODUCT} path={PRODUCT} element={<PageProduct />} />,
-    },
-    {
-      id: PRODUCT_GROUP,
-      title: 'Группы товаров',
       route: (
         <Route
-          key={PRODUCT_GROUP}
-          path={PRODUCT_GROUP}
-          element={<PageProductGroup />}
+          key={PRODUCTS}
+          path={PRODUCTS}
+          element={<ProductTableContainer />}
         />
+      ),
+    },
+    {
+      id: MATERIALS,
+      title: 'Материалы',
+      route: (
+        <Route
+          key={MATERIALS}
+          path={MATERIALS}
+          element={<MaterialTableContainer />}
+        />
+      ),
+    },
+    {
+      id: CATEGORY,
+      title: 'Категория товаров',
+      route: (
+        <Route key={CATEGORY} path={CATEGORY} element={<PageCategory />} />
       ),
     },
     {

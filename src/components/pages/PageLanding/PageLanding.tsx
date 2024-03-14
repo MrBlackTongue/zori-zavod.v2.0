@@ -270,7 +270,7 @@ export const PageLanding = () => {
       <div className="footer flex column center-row center-column">
         <p className="footer-text-one">Связаться с нами:</p>
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
-        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
+        <p className="footer-text-three">© Zolotenkov 2022-2024</p>
       </div>
       <RegistrationModal
         isOpen={isModalOpen}

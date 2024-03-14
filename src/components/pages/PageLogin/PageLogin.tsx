@@ -48,7 +48,7 @@ export const PageLogin: React.FC = () => {
   return (
     <div className="login-form-container">
       <div className="login-header">
-        <a href="/" rel="noopener noreferrer">
+        <a href="https://zolotenkov.ru" rel="noopener noreferrer">
           <img src={headerLogoLightMontserrat} alt="logo" className="logo" />
         </a>
       </div>
@@ -115,7 +115,7 @@ export const PageLogin: React.FC = () => {
       <div className="footer flex column center-row center-column">
         <p className="footer-text-one">Связаться с нами:</p>
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
-        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
+        <p className="footer-text-three">© Zolotenkov 2022-2024</p>
       </div>
       <RegistrationModal
         isOpen={isModalOpen}

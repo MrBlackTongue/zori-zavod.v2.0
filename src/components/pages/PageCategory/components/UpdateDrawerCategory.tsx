@@ -1,19 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
 import { Button, Drawer, Form, Space } from 'antd';
-import {
-  TypeProductGroupFormValue,
-  UpdateDrawerProps,
-} from '../../../../types';
-import { getProductGroupById } from '../../../../api';
+import { TypeCategoryFormValue, UpdateDrawerProps } from '../../../../types';
+import { getCategoryById } from '../../../../api';
 import {
   useFetchAllData,
   useFormHandler,
   useFormSelect,
 } from '../../../../hooks';
-import { FormProductGroup } from './FormProductGroup';
+import { FormCategory } from './FormCategory';
 
-export const UpdateDrawerProductGroup: React.FC<
-  UpdateDrawerProps<TypeProductGroupFormValue>
+export const UpdateDrawerCategory: React.FC<
+  UpdateDrawerProps<TypeCategoryFormValue>
 > = ({ isOpen, selectedItemId, updateItem, onCancel }) => {
   const [form] = Form.useForm();
 
@@ -36,7 +33,7 @@ export const UpdateDrawerProductGroup: React.FC<
   // Функция для получения данных в drawer
   const handleGetParent = useCallback((): void => {
     if (selectedItemId) {
-      getProductGroupById(selectedItemId)
+      getCategoryById(selectedItemId)
         .then(data => {
           form.setFieldsValue({
             ...data,
@@ -67,7 +64,7 @@ export const UpdateDrawerProductGroup: React.FC<
           </Button>
         </Space>
       }>
-      <FormProductGroup
+      <FormCategory
         form={form}
         allProductGroup={allProductGroup}
         onChangeProductGroup={onChangeSelect}

@@ -1,21 +1,21 @@
 import { FormInstance } from 'antd/lib/form';
 
-export type TypeProductGroup = {
+export type TypeCategory = {
   id?: number;
   title?: string;
-  parent?: TypeProductGroup;
-  children?: TypeProductGroup[];
+  parent?: TypeCategory;
+  children?: TypeCategory[];
 };
 
-export type TypeProductGroupFormValue = {
+export type TypeCategoryFormValue = {
   id?: number;
   title?: string;
   parent?: number;
 };
 
-export interface FormProductGroupProps {
+export interface FormCategoryProps {
   form: FormInstance;
-  allProductGroup: TypeProductGroup[];
+  allProductGroup: TypeCategory[];
   onChangeProductGroup: (value: string) => void;
   onClearProductGroup: () => void;
   onSearchProductGroup: (input: string, option: any) => boolean;
