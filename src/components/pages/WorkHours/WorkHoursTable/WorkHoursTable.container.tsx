@@ -176,7 +176,7 @@ export const WorkHoursTableContainer: React.FC<
   useEffect(() => {
     const total = calculateTotalAllHours(allWorkHour);
     setTotalAllHours(total);
-  }, [allWorkHour, calculateTotalAllHours]);
+  }, [allWorkHour]);
 
   const handleUpdateRecord = (
     date: any,
@@ -256,6 +256,20 @@ export const WorkHoursTableContainer: React.FC<
     setEditingEmployee(employeeId);
   };
 
+  // Функция для загрузки и обновления данных
+  const loadAndUpdateData = useCallback(() => {
+    setIsLoading(true);
+
+    // Загрузка данных с использованием фильтра
+    getAllWorkHours(filter2)
+      .then(data => {
+        const transformedData = transformData(data);
+        setAllWorkHour(transformedData);
+      })
+      .catch(error => console.error('Ошибка при получении данных: ', error))
+      .finally(() => setIsLoading(false));
+  }, [filter2]);
+
   // Функция для удаления строки
   const handleDeleteRow = useCallback(
     async (record: TypeTransformedWorkHour) => {
@@ -277,7 +291,7 @@ export const WorkHoursTableContainer: React.FC<
         console.error('Ошибка при удалении строки: ', error);
       }
     },
-    [],
+    [loadAndUpdateData],
   );
 
   const handleEditStart = (
@@ -297,20 +311,6 @@ export const WorkHoursTableContainer: React.FC<
       employee: employeeInfo?.id,
     });
   };
-
-  // Функция для загрузки и обновления данных
-  const loadAndUpdateData = useCallback(() => {
-    setIsLoading(true);
-
-    // Загрузка данных с использованием фильтра
-    getAllWorkHours(filter2)
-      .then(data => {
-        const transformedData = transformData(data);
-        setAllWorkHour(transformedData);
-      })
-      .catch(error => console.error('Ошибка при получении данных: ', error))
-      .finally(() => setIsLoading(false));
-  }, [filter2]);
 
   useEffect(() => {
     loadAndUpdateData();
