@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import {
   TableProps,
   TypeProduct,
-  TypeProductionProductMovement,
+  TypeProductMovement,
   TypeStock,
   TypeUnit,
 } from '../../../../types';
-import { getProductionProductMovementByIdOperationAccounting } from '../../../../api';
 import dayjs from 'dayjs';
 import { renderNumber } from '../../../../utils';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
@@ -23,10 +22,10 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
     // Spinner и все движение товара на производстве
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [allProductionProductMovement, setAllProductionProductMovement] =
-      useState<TypeProductionProductMovement[]>();
+      useState<TypeProductMovement[]>();
 
     // Колонки в таблице
-    const columns: ColumnsType<TypeProductionProductMovement> = [
+    const columns: ColumnsType<TypeProductMovement> = [
       {
         title: 'Дата',
         dataIndex: 'date',
@@ -116,23 +115,23 @@ export const TableProductionProductMovement: React.FC<TableProps> = React.memo(
     ];
 
     // Обновить таблицу
-    const handleUpdateTable = useCallback(() => {
-      if (idDetail) {
-        setIsLoading(true);
-        getProductionProductMovementByIdOperationAccounting(idDetail)
-          .then(data => {
-            setAllProductionProductMovement(data);
-            setIsLoading(false);
-          })
-          .catch(error =>
-            console.error('Ошибка при получении данных: ', error),
-          );
-      }
-    }, [idDetail]);
+    // const handleUpdateTable = useCallback(() => {
+    //   if (idDetail) {
+    //     setIsLoading(true);
+    //     getProductMovementByIdAndEntityType(idDetail)
+    //       .then(data => {
+    //         setAllProductionProductMovement(data);
+    //         setIsLoading(false);
+    //       })
+    //       .catch(error =>
+    //         console.error('Ошибка при получении данных: ', error),
+    //       );
+    //   }
+    // }, [idDetail]);
 
-    useEffect(() => {
-      handleUpdateTable();
-    }, [idDetail, isUpdateTable, handleUpdateTable]);
+    // useEffect(() => {
+    //   handleUpdateTable();
+    // }, [idDetail, isUpdateTable, handleUpdateTable]);
 
     return (
       <Table

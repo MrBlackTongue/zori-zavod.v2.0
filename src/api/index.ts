@@ -14,7 +14,7 @@ export * from './apiCategory';
 export * from './apiOperationTimesheet';
 export * from './apiShipment';
 export * from './apiShipmentProductMovement';
-export * from './apiProductionProductMovement';
+export * from './apiProductMovement';
 export * from './apiProductionType';
 export * from './apiAuthenticate';
 export * from './api';
