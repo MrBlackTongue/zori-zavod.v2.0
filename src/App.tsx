@@ -7,7 +7,8 @@ import { NavigationTabs } from './components/molecules/NavigationTabs/Navigation
 import { ContentRoutes } from './routes/ContentRoutes/ContentRoutes';
 import { useLocation } from 'react-router-dom';
 import { menuKeyToRoutes } from './components/molecules/NavigationTabs/menuKeyToRoutes';
-import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png'; // Извлекаем все пути из menuKeyToRoutes
+import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png';
+import { WORK_HOURS } from './api'; // Извлекаем все пути из menuKeyToRoutes
 
 // Извлекаем все пути из menuKeyToRoutes
 const allPathsToShowTabs = Object.values(menuKeyToRoutes)
@@ -30,7 +31,10 @@ function App() {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header className="app-header">
-        <a href="/" rel="noopener noreferrer" className="logo-container">
+        <a
+          href={WORK_HOURS}
+          rel="noopener noreferrer"
+          className="logo-container">
           <img
             src={headerLogoDarkMontserrat}
             alt="beta"
@@ -50,7 +54,7 @@ function App() {
       </Content>
       <Footer className="app-footer">
         Email: svetlana@zolotenkov.ru
-        <p>© Zolotenkov 2022-2023</p>
+        <p>© Zolotenkov 2022-2024</p>
       </Footer>
     </Layout>
   );

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Form, Modal } from 'antd';
-import { CreateModalProps, TypeProductGroupFormValue } from '../../../../types';
+import { CreateModalProps, TypeCategoryFormValue } from '../../../../types';
 import {
   useFetchAllData,
   useFormHandler,
   useFormSelect,
 } from '../../../../hooks';
-import { FormProductGroup } from './FormProductGroup';
+import { FormCategory } from './FormCategory';
 
-export const CreateModalProductGroup: React.FC<
-  CreateModalProps<TypeProductGroupFormValue>
+export const CreateModalCategory: React.FC<
+  CreateModalProps<TypeCategoryFormValue>
 > = ({ isOpen, createItem, onCancel }) => {
   const [form] = Form.useForm();
 
@@ -38,7 +38,7 @@ export const CreateModalProductGroup: React.FC<
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}>
-      <FormProductGroup
+      <FormCategory
         form={form}
         allProductGroup={allProductGroup}
         onChangeProductGroup={onChangeSelect}

@@ -5,7 +5,7 @@ import './PageRate.css';
 import { MenuOutlined } from '@ant-design/icons';
 import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
 import { useRegistration } from '../../../hooks';
-import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../api';
+import { checkAuthorization, LOGIN, RATE, WORK_HOURS } from '../../../api';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
 import rateImage from 'assets/images/rate_image.png';
 
@@ -24,7 +24,7 @@ export const PageRate = () => {
   const handleLogin = () => {
     checkAuthorization()
       .then(isUserAuthorized => {
-        navigate(isUserAuthorized ? `${EMPLOYEES}` : `${LOGIN}`);
+        navigate(isUserAuthorized ? `${WORK_HOURS}` : `${LOGIN}`);
       })
       .catch(error => {
         console.error('Ошибка при проверке авторизации:', error);
@@ -120,7 +120,7 @@ export const PageRate = () => {
         <p className="rate-footer-text-two">ИНН: 143521547685</p>
         <p className="footer-text-one">Связаться с нами:</p>
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
-        <p className="rate-footer-text-three">© Zolotenkov 2022-2023</p>
+        <p className="rate-footer-text-three">© Zolotenkov 2022-2024</p>
       </div>
       <RegistrationModal
         isOpen={isModalOpen}

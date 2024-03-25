@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Input, Select, Tooltip } from 'antd';
-import { FormProductGroupProps } from '../../../../types';
+import { FormCategoryProps } from '../../../../types';
 
-export const FormProductGroup: React.FC<FormProductGroupProps> = ({
+export const FormCategory: React.FC<FormCategoryProps> = ({
   form,
   allProductGroup,
   onChangeProductGroup,

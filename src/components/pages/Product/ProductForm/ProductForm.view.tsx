@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 import { FormViewProps, TypeProduct } from '../../../../types';
-import { getAllProductGroup, getAllUnit } from '../../../../api';
+import { getAllCategory, getAllUnit } from '../../../../api';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 import FormActions from '../../../atoms/FormActions/FormActions';
 
@@ -40,15 +40,15 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
             fetchDataList={getAllUnit}
           />
         </Form.Item>
-        <Form.Item label="Товарная группа" name="productGroup">
+        <Form.Item label="Категория" name="productGroup">
           <SimpleSelect
             form={form}
             fieldName="productGroup"
-            placeholder="Выберите товарную группу"
+            placeholder="Выберите категорию"
             value={form.getFieldValue('productGroup')}
             getId={item => item.id ?? 0}
             getLabel={item => item.title ?? ''}
-            fetchDataList={getAllProductGroup}
+            fetchDataList={getAllCategory}
           />
         </Form.Item>
         <FormActions onCancel={onCancel} />

@@ -2,17 +2,18 @@ import { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
 import {
   ACCEPTANCE,
+  CATEGORY,
   CLIENTS,
   COST_PRICE,
   EMPLOYEE,
   EMPLOYEES,
   ESTIMATED_PRICE,
   HISTORY,
+  MATERIALS,
   OPERATION,
   OPERATION_ACCOUNTING,
   OUTPUT,
   PRODUCT,
-  PRODUCT_GROUP,
   PRODUCT_MOVEMENT,
   PRODUCTION_TYPE,
   PRODUCTS,
@@ -22,6 +23,7 @@ import {
   STOCK,
   STORAGE_PLACE,
   UNIT,
+  WORK_HOURS,
   WRITE_OFFS,
 } from '../../../api';
 import { PageShipment } from '../../pages/PageShipment/PageShipment';
@@ -41,11 +43,13 @@ import { PageOperationReport } from '../../pages/PageOperationReport/PageOperati
 import { PageEmployeeReport } from '../../pages/PageEmployeeReport/PageEmployeeReport';
 import { PageCostPriceReport } from '../../pages/PageCostPriceReport/PageCostPriceReport';
 import { ProductTableContainer } from '../../pages/Product/ProductTable/ProductTable.container';
-import { PageProductGroup } from '../../pages/PageProductGroup/PageProductGroup';
+import { PageCategory } from '../../pages/PageCategory/PageCategory';
 import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
 import { PageUnit } from '../../pages/PageUnit/PageUnit';
 import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable.container';
 import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/EmployeeTable.container';
+import { MaterialTableContainer } from '../../pages/Material/MaterialTable/MaterialTable.container';
+import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/WorkHoursTable.container';
 
 export const menuKeyToRoutes: Record<
   string,
@@ -230,14 +234,21 @@ export const menuKeyToRoutes: Record<
       ),
     },
     {
-      id: PRODUCT_GROUP,
-      title: 'Группы товаров',
+      id: MATERIALS,
+      title: 'Материалы',
       route: (
         <Route
-          key={PRODUCT_GROUP}
-          path={PRODUCT_GROUP}
-          element={<PageProductGroup />}
+          key={MATERIALS}
+          path={MATERIALS}
+          element={<MaterialTableContainer />}
         />
+      ),
+    },
+    {
+      id: CATEGORY,
+      title: 'Категория товаров',
+      route: (
+        <Route key={CATEGORY} path={CATEGORY} element={<PageCategory />} />
       ),
     },
     {
@@ -271,6 +282,17 @@ export const menuKeyToRoutes: Record<
     },
   ],
   '08': [
+    {
+      id: WORK_HOURS,
+      title: 'Табель учета рабочего времени',
+      route: (
+        <Route
+          key={WORK_HOURS}
+          path={WORK_HOURS}
+          element={<WorkHoursTableContainer />}
+        />
+      ),
+    },
     {
       id: EMPLOYEES,
       title: 'Сотрудники',

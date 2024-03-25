@@ -4,7 +4,7 @@ import { MenuOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
 import './PageLanding.css';
-import { checkAuthorization, EMPLOYEES, LOGIN, RATE } from '../../../api';
+import { checkAuthorization, LOGIN, RATE, WORK_HOURS } from '../../../api';
 import { useRegistration } from '../../../hooks';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
 import mainImage from 'assets/images/main_image.png';
@@ -30,7 +30,7 @@ export const PageLanding = () => {
   const handleLogin = () => {
     checkAuthorization()
       .then(isUserAuthorized => {
-        navigate(isUserAuthorized ? `${EMPLOYEES}` : `${LOGIN}`);
+        navigate(isUserAuthorized ? `${WORK_HOURS}` : `${LOGIN}`);
       })
       .catch(error => {
         console.error('Ошибка при проверке авторизации:', error);
@@ -270,7 +270,7 @@ export const PageLanding = () => {
       <div className="footer flex column center-row center-column">
         <p className="footer-text-one">Связаться с нами:</p>
         <p className="footer-text-two">Email: svetlana@zolotenkov.ru</p>
-        <p className="footer-text-three">© Zolotenkov 2022-2023</p>
+        <p className="footer-text-three">© Zolotenkov 2022-2024</p>
       </div>
       <RegistrationModal
         isOpen={isModalOpen}
