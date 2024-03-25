@@ -1,15 +1,16 @@
 import React from 'react';
-import { Col, DatePicker, Form, Input, Row } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Typography } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
-import FormActions from '../../../atoms/FormActions/FormActions';
 
 export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
-> = ({ form, title, onFinish, onCancel }) => {
+> = ({ form, onBlur }) => {
   return (
     <div className="form-style">
-      <h2>{title}</h2>
-      <Form form={form} layout="vertical" onFinish={onFinish}>
+      <Typography.Title level={4}>
+        {Form.useWatch('title', form)}
+      </Typography.Title>
+      <Form form={form} layout="vertical">
         <Row gutter={24}>
           <Col span={12}>
             <Form.Item
@@ -18,21 +19,27 @@ export const StockAdjustmentFormView: React.FC<
               rules={[
                 { required: true, message: 'введите название корректировки' },
               ]}>
-              <Input placeholder="Введите название корректировки" />
+              <Input
+                placeholder="Введите название корректировки"
+                onBlur={() => (onBlur ? onBlur('title') : null)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Дата" name="date">
-              <DatePicker style={{ width: '100%' }} format={'DD.MM.YYYY'} />
+              <DatePicker
+                style={{ width: '100%' }}
+                format={'DD.MM.YYYY'}
+                onBlur={() => (onBlur ? onBlur('date') : null)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Причина" name="reason">
-              <Input />
+              <Input onBlur={() => (onBlur ? onBlur('reason') : null)} />
             </Form.Item>
           </Col>
         </Row>
-        <FormActions onCancel={onCancel} />
       </Form>
     </div>
   );
