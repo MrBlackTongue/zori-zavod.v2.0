@@ -10,6 +10,7 @@ import {
   updateStockAdjustment,
 } from '../../../../api';
 import dayjs from 'dayjs';
+import { TypeStockAdjustment } from '../../../../types';
 
 export const StockAdjustmentFormContainer = () => {
   const [form] = Form.useForm();
@@ -21,6 +22,10 @@ export const StockAdjustmentFormContainer = () => {
 
   const navigate = useNavigate();
   const [currentItemId, setCurrentItemId] = useState(itemId);
+
+  const initialValues: TypeStockAdjustment = {
+    date: dayjs(),
+  };
 
   // Получить данные для редактирования
   const handleGetData = useCallback(async () => {
@@ -91,6 +96,7 @@ export const StockAdjustmentFormContainer = () => {
       form={form}
       onBlur={onBlurHandler}
       onCancel={handleCancel}
+      initialValues={initialValues}
     />
   );
 };

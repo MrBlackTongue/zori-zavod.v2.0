@@ -1,12 +1,11 @@
 import React from 'react';
 import { Col, DatePicker, Flex, Form, Input, Row, Typography } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
-import dayjs from 'dayjs';
 import { CloseOutlined } from '@ant-design/icons';
 
 export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
-> = ({ form, onBlur, onCancel }) => {
+> = ({ form, onBlur, onCancel, initialValues }) => {
   return (
     <div className="form-style">
       <Flex justify="space-between">
@@ -15,7 +14,7 @@ export const StockAdjustmentFormView: React.FC<
         </Typography.Title>
         <CloseOutlined onClick={onCancel} style={{ cursor: 'pointer' }} />{' '}
       </Flex>
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" initialValues={initialValues}>
         <Row gutter={24}>
           <Col span={12}>
             <Form.Item
@@ -35,7 +34,6 @@ export const StockAdjustmentFormView: React.FC<
               <DatePicker
                 style={{ width: '100%' }}
                 format={'DD.MM.YYYY'}
-                defaultValue={dayjs()}
                 onBlur={() => onBlur && onBlur('date')}
               />
             </Form.Item>
