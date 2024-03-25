@@ -8,8 +8,8 @@ import {
   OPERATION_ACCOUNTING,
   PRODUCT,
   PURCHASE,
+  STOCK_ADJUSTMENT,
   SUBSCRIPTION,
-  WRITE_OFF,
 } from '../../api';
 import { PageSubscription } from '../../components/pages/PageSubscription/PageSubscription';
 import { EmployeeFormContainer } from '../../components/pages/Employee/EmployeeForm/EmployeeForm.container';
@@ -17,7 +17,7 @@ import { ClientFormContainer } from '../../components/pages/Client/ClientForm/Cl
 import { MaterialFormContainer } from '../../components/pages/Material/MaterialForm/MaterialForm.container';
 import { PurchaseFormContainer } from '../../components/pages/Purchase/PurchaseForm/PurchaseForm.container';
 import { ProductFormContainer } from '../../components/pages/Product/ProductForm/ProductForm.container';
-import { WriteOffFormContainer } from '../../components/pages/WriteOff/WriteOffForm/WriteOffForm.container';
+import { StockAdjustmentFormContainer } from '../../components/pages/StockAdjustment/StockAdjustmentForm/StockAdjustmentForm.container';
 
 export const ContentRoutes: React.FC = () => {
   return (
@@ -32,7 +32,10 @@ export const ContentRoutes: React.FC = () => {
       <Route path={`${PURCHASE}/:id?`} element={<PurchaseFormContainer />} />
       <Route path={`${PRODUCT}/:id?`} element={<ProductFormContainer />} />
       <Route path={`${MATERIAL}/:id?`} element={<MaterialFormContainer />} />
-      <Route path={`${WRITE_OFF}/:id?`} element={<WriteOffFormContainer />} />
+      <Route
+        path={`${STOCK_ADJUSTMENT}/:id?`}
+        element={<StockAdjustmentFormContainer />}
+      />
     </Routes>
   );
 };

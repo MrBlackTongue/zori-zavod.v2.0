@@ -23,7 +23,7 @@ export * from './apiOperationReport';
 export * from './apiEmployeeReport';
 export * from './apiOutputReport';
 export * from './apiCostPrice';
-export * from './apiWriteOff';
+export * from './apiStockAdjustment';
 export * from './apiWriteOffMovement';
 export * from './apiSubscription';
 export * from './apiPayment';

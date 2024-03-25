@@ -1,23 +1,27 @@
 import React, { useCallback, useEffect } from 'react';
-import { deleteWriteOffById, getAllWriteOff, WRITE_OFF } from '../../../../api';
-import { TypeWriteOff } from '../../../../types';
-import { WriteOffTableView } from './WriteOffTable.view';
+import {
+  deleteStockAdjustmentById,
+  getAllStockAdjustment,
+  STOCK_ADJUSTMENT,
+} from '../../../../api';
+import { TypeStockAdjustment } from '../../../../types';
+import { StockAdjustmentTableView } from './StockAdjustmentTable.view';
 import { useDataListLoader } from '../../../../hooks';
 import useNavigateToPath from '../../../../hooks/useNavigateToPath';
 import usePagination from '../../../../hooks/usePagination';
 import useRowSelection from '../../../../hooks/useRowSelection';
 import { BasicTableProvider } from '../../../../contexts/BasicTableContext';
 
-export const WriteOffTableContainer = () => {
+export const StockAdjustmentTableContainer = () => {
   // Хук для загрузки и получения всех данных
   const { isLoading, dataList, getDataList } =
-    useDataListLoader<TypeWriteOff[]>();
+    useDataListLoader<TypeStockAdjustment[]>();
 
   // Хука для пагинации
   const { pagination, handleChangeTable } = usePagination(10);
 
   // Хук для навигации
-  const handleNavigateToForm = useNavigateToPath(WRITE_OFF);
+  const handleNavigateToForm = useNavigateToPath(STOCK_ADJUSTMENT);
 
   // Хук для выбора строк
   const {
@@ -26,7 +30,7 @@ export const WriteOffTableContainer = () => {
     selectedRowKeys,
     setSelectedRowKeys,
     handleClearSelected,
-  } = useRowSelection<TypeWriteOff>();
+  } = useRowSelection<TypeStockAdjustment>();
 
   // Функция массового удаления
   const handleDeleteSelected = useCallback(() => {
@@ -34,9 +38,9 @@ export const WriteOffTableContainer = () => {
       try {
         // Проходим по всем выбранным ключам и удаляем соответствующие записи
         await Promise.all(
-          selectedRowKeys.map(key => deleteWriteOffById(Number(key))),
+          selectedRowKeys.map(key => deleteStockAdjustmentById(Number(key))),
         );
-        await getDataList(getAllWriteOff);
+        await getDataList(getAllStockAdjustment);
       } catch (error: unknown) {
         if (error instanceof Error) {
           console.error('Ошибка при удалении записи', error.message);
@@ -48,7 +52,7 @@ export const WriteOffTableContainer = () => {
   }, [selectedRowKeys, getDataList, setSelectedRowKeys]);
 
   useEffect(() => {
-    getDataList(getAllWriteOff).catch((error: unknown) => {
+    getDataList(getAllStockAdjustment).catch((error: unknown) => {
       if (error instanceof Error) {
         console.error('Ошибка при получении данных: ', error.message);
       }
@@ -56,7 +60,7 @@ export const WriteOffTableContainer = () => {
   }, [getDataList]);
 
   return (
-    <BasicTableProvider<TypeWriteOff>
+    <BasicTableProvider<TypeStockAdjustment>
       value={{
         data: dataList,
         isLoading,
@@ -69,7 +73,7 @@ export const WriteOffTableContainer = () => {
         handleDeleteSelected,
         handleClearSelected,
       }}>
-      <WriteOffTableView />
+      <StockAdjustmentTableView />
     </BasicTableProvider>
   );
 };

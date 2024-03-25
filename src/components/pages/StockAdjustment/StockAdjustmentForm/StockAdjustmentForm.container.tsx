@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
-import { TypeWriteOff } from '../../../../types';
+import { TypeStockAdjustment } from '../../../../types';
 import { Form } from 'antd';
-import { WriteOffFormView } from './WriteOffForm.view';
+import { StockAdjustmentFormView } from './StockAdjustmentForm.view';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  createWriteOff,
-  getWriteOffById,
-  updateWriteOff,
+  createStockAdjustment,
+  getStockAdjustmentById,
+  updateStockAdjustment,
 } from '../../../../api';
+import dayjs from 'dayjs';
 
-export const WriteOffFormContainer = () => {
+export const StockAdjustmentFormContainer = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { id: rawId } = useParams<string>();
@@ -19,16 +20,20 @@ export const WriteOffFormContainer = () => {
   const isCreateMode = itemId === undefined;
 
   const title = isCreateMode
-    ? 'Добавление нового списания'
-    : 'Редактирование списания';
+    ? 'Добавление новой корректировки'
+    : 'Редактирование корректировки';
 
   // Функция для создания или обновления
-  const handleSubmit = async (values: TypeWriteOff) => {
+  const handleSubmit = async (values: TypeStockAdjustment) => {
     try {
+      const formattedData = {
+        ...values,
+        date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      };
       if (isCreateMode) {
-        await createWriteOff(values);
+        await createStockAdjustment(formattedData);
       } else {
-        await updateWriteOff({ ...values, id: itemId });
+        await updateStockAdjustment({ ...formattedData, id: itemId });
       }
       navigate(-1);
     } catch (error) {
@@ -44,9 +49,13 @@ export const WriteOffFormContainer = () => {
   const handleGetData = useCallback(async () => {
     if (!isCreateMode && itemId) {
       try {
-        const data = await getWriteOffById(itemId);
+        const data = await getStockAdjustmentById(itemId);
         if (data) {
-          form.setFieldsValue(data);
+          const formattedData = {
+            ...data,
+            date: data.date ? dayjs(data.date) : null,
+          };
+          form.setFieldsValue(formattedData);
         }
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
@@ -68,7 +77,7 @@ export const WriteOffFormContainer = () => {
   }, [handleGetData, isCreateMode]);
 
   return (
-    <WriteOffFormView
+    <StockAdjustmentFormView
       form={form}
       title={title}
       onFinish={handleSubmit}

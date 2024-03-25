@@ -8,7 +8,7 @@ import { ContentRoutes } from './routes/ContentRoutes/ContentRoutes';
 import { useLocation } from 'react-router-dom';
 import { menuKeyToRoutes } from './components/molecules/NavigationTabs/menuKeyToRoutes';
 import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png';
-import { WORK_HOURS } from './api'; // Извлекаем все пути из menuKeyToRoutes
+import { WORK_HOURS } from './api';
 
 // Извлекаем все пути из menuKeyToRoutes
 const allPathsToShowTabs = Object.values(menuKeyToRoutes)

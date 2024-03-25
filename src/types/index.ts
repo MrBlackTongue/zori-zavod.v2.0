@@ -23,7 +23,7 @@ export * from './TypeEmployeeReport';
 export * from './TypeOutputReport';
 export * from './TypeCostPriceReport';
 export * from './TypeUserInfo';
-export * from './TypeWriteOff';
+export * from './TypeStockAdjustment';
 export * from './TypeWriteOffMovement';
 export * from './TypePayment';
 export * from './TypeSubscription';
