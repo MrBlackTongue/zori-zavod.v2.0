@@ -33,7 +33,7 @@ export async function getStockAdjustmentById(
 // Добавить новое списание
 export async function createStockAdjustment(
   data: TypeStockAdjustment,
-): Promise<TypeApiResponse> {
+): Promise<TypeStockAdjustment> {
   try {
     const response = await api.post(STOCK_ADJUSTMENT, data);
     return handleResponseCreateMessage(response);

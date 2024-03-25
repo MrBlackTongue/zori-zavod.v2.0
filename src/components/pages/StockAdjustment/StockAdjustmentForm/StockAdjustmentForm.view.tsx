@@ -1,15 +1,20 @@
 import React from 'react';
-import { Col, DatePicker, Form, Input, Row, Typography } from 'antd';
+import { Col, DatePicker, Flex, Form, Input, Row, Typography } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
+import dayjs from 'dayjs';
+import { CloseOutlined } from '@ant-design/icons';
 
 export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
-> = ({ form, onBlur }) => {
+> = ({ form, onBlur, onCancel }) => {
   return (
     <div className="form-style">
-      <Typography.Title level={4}>
-        {Form.useWatch('title', form)}
-      </Typography.Title>
+      <Flex justify="space-between">
+        <Typography.Title level={4}>
+          {Form.useWatch('title', form)}
+        </Typography.Title>
+        <CloseOutlined onClick={onCancel} style={{ cursor: 'pointer' }} />{' '}
+      </Flex>
       <Form form={form} layout="vertical">
         <Row gutter={24}>
           <Col span={12}>
@@ -21,7 +26,7 @@ export const StockAdjustmentFormView: React.FC<
               ]}>
               <Input
                 placeholder="Введите название корректировки"
-                onBlur={() => (onBlur ? onBlur('title') : null)}
+                onBlur={() => onBlur && onBlur('title')}
               />
             </Form.Item>
           </Col>
@@ -30,13 +35,14 @@ export const StockAdjustmentFormView: React.FC<
               <DatePicker
                 style={{ width: '100%' }}
                 format={'DD.MM.YYYY'}
-                onBlur={() => (onBlur ? onBlur('date') : null)}
+                defaultValue={dayjs()}
+                onBlur={() => onBlur && onBlur('date')}
               />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Причина" name="reason">
-              <Input onBlur={() => (onBlur ? onBlur('reason') : null)} />
+              <Input onBlur={() => onBlur && onBlur('reason')} />
             </Form.Item>
           </Col>
         </Row>

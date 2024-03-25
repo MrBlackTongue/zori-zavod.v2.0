@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form } from 'antd';
 import { StockAdjustmentFormView } from './StockAdjustmentForm.view';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   createStockAdjustment,
   getStockAdjustmentById,
+  STOCK_ADJUSTMENT,
+  STOCK_ADJUSTMENTS,
   updateStockAdjustment,
 } from '../../../../api';
 import dayjs from 'dayjs';
@@ -16,6 +18,9 @@ export const StockAdjustmentFormContainer = () => {
   // Приведение rawId к числу или установка в undefined
   const itemId = rawId && !isNaN(Number(rawId)) ? Number(rawId) : undefined;
   const isCreateMode = itemId === undefined;
+
+  const navigate = useNavigate();
+  const [currentItemId, setCurrentItemId] = useState(itemId);
 
   // Получить данные для редактирования
   const handleGetData = useCallback(async () => {
@@ -35,32 +40,37 @@ export const StockAdjustmentFormContainer = () => {
     }
   }, [itemId, form, isCreateMode]);
 
+  // Создать или редактировать
   const onBlurHandler = async (field: any) => {
     const values = await form.validateFields();
 
-    // Выполнение действий в зависимости от того, в каком режиме мы находимся (создание или редактирование)
     const formattedData = {
       ...values,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
+      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : dayjs(),
     };
 
     if (isCreateMode) {
-      // Если мы в режиме создания, выполняем запрос на создание
-      if (field === 'title') {
-        createStockAdjustment(formattedData)
-          .then(() => {})
-          .catch(error => {
-            console.error('Ошибка при создании корректировки:', error);
-          });
+      if (currentItemId === undefined && field === 'title') {
+        try {
+          const response = await createStockAdjustment(formattedData);
+          setCurrentItemId(response.id);
+          navigate(`${STOCK_ADJUSTMENT}/${response.id}`);
+        } catch (error) {
+          console.error('Ошибка при создании корректировки:', error);
+        }
       }
     } else {
-      // Если мы в режиме редактирования, выполняем запрос на обновление
       updateStockAdjustment({ ...formattedData, id: itemId })
         .then(() => {})
         .catch(error => {
           console.error('Ошибка при обновлении корректировки:', error);
         });
     }
+  };
+
+  // Функция для возврата на предыдущую страницу
+  const handleCancel = () => {
+    navigate(`${STOCK_ADJUSTMENTS}`);
   };
 
   // Загрузка данных при редактировании
@@ -76,5 +86,11 @@ export const StockAdjustmentFormContainer = () => {
     })();
   }, [handleGetData, isCreateMode]);
 
-  return <StockAdjustmentFormView form={form} onBlur={onBlurHandler} />;
+  return (
+    <StockAdjustmentFormView
+      form={form}
+      onBlur={onBlurHandler}
+      onCancel={handleCancel}
+    />
+  );
 };
