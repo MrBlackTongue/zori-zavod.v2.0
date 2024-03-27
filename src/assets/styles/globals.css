@@ -34,16 +34,46 @@
   justify-content: space-between;
 }
 
-/* Table style */
+/* Basic table style */
 .ant-table-tbody > .ant-table-row:hover {
   box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.15) /* Тень сверху */,
   0 3px 6px 0 rgba(0, 0, 0, 0.15); /* Тень снизу */
 }
 
 .ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
-  border-left-color: transparent !important;
-  border-right-color: transparent !important;
+  border-left-color: transparent !important; /* Устанавливает цвет левой границы ячейки таблицы в прозрачный */
+  border-right-color: transparent !important; /* Устанавливает цвет правой границы ячейки таблицы в прозрачный */
 }
+
+/* Editable table style */
+.editable-table .ant-table-tbody > .ant-table-row:hover {
+  box-shadow: none; /* Отключает тень вокруг строки при наведении */
+}
+
+.editable-cell {
+  position: relative;
+}
+
+.editable-cell-value-wrap {
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.editable-row:hover .editable-cell-value-wrap {
+  padding: 4px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
 
 /* Tabs style */
 .ant-tabs-nav-list {
@@ -81,22 +111,22 @@
 /* Form style */
 .form-style .ant-input,
 .form-style .ant-picker {
-  border: none !important; /* Убирает все границы элемента */
-  border-radius: 0 !important; /* Убирает скругление углов */
-  box-shadow: none !important; /* Удаляет тень вокруг элемента */
-  border-bottom: 2px solid #d9d9d9 !important; /* Серый цвет нижней границы */
+  border: none; /* Убирает все границы элемента */
+  border-radius: 0; /* Убирает скругление углов */
+  box-shadow: none; /* Удаляет тень вокруг элемента */
+  border-bottom: 2px solid #d9d9d9; /* Серый цвет нижней границы */
 }
 
 .form-style .ant-input:hover,
 .form-style .ant-picker:hover {
-  box-shadow: none !important; /* Удаляет тень вокруг элемента */
-  border-bottom: 2px solid #a9a9a9 !important; /* Серый цвет нижней границы */
+  box-shadow: none; /* Удаляет тень вокруг элемента */
+  border-bottom: 2px solid #a9a9a9; /* Серый цвет нижней границы */
 }
 
 .form-style .ant-input:focus,
 .form-style .ant-picker-focused {
-  box-shadow: none !important; /* Удаляет тень вокруг элемента */
-  border-bottom: 2px solid #1677ff !important; /* Синий цвет для границы */
+  box-shadow: none; /* Удаляет тень вокруг элемента */
+  border-bottom: 2px solid #1677ff; /* Синий цвет для границы */
 }
 
 .close-icon-hover {

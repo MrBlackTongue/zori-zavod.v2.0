@@ -7,9 +7,9 @@ import { getProductMovementByIdAndEntityType } from '../../../../api';
 export const ProductMovementTableContainer = () => {
   const [data, setData] = useState<TypeProductMovement[]>();
 
-  const { id: rawId } = useParams<string>();
-  // Приведение rawId к числу или установка в undefined
-  const itemId = rawId && !isNaN(Number(rawId)) ? Number(rawId) : undefined;
+  // Преобразование id из пути в число
+  const { id: rawId } = useParams<{ id?: string }>();
+  const itemId = rawId ? parseInt(rawId, 10) : undefined;
 
   // Обновить таблицу
   const handleUpdateTable = useCallback(() => {
