@@ -50,12 +50,16 @@ export const StockAdjustmentFormView: React.FC<
                 style={{ width: '100%' }}
                 format={'DD.MM.YYYY'}
                 onBlur={() => onBlur?.('date')}
+                disabled={!form.getFieldValue('title')}
               />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Причина" name="reason">
-              <Input onBlur={() => onBlur?.('reason')} />
+              <Input
+                onBlur={() => onBlur?.('reason')}
+                disabled={!form.getFieldValue('title')}
+              />
             </Form.Item>
           </Col>
         </Row>

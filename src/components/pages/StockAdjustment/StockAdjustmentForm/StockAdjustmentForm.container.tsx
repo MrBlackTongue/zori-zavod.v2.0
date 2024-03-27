@@ -9,7 +9,7 @@ import {
   STOCK_ADJUSTMENTS,
   updateStockAdjustment,
 } from '../../../../api';
-import dayjs from 'dayjs';
+import dayjs, { ConfigType } from 'dayjs';
 import { TypeStockAdjustment } from '../../../../types';
 
 export const StockAdjustmentFormContainer = () => {
@@ -48,52 +48,52 @@ export const StockAdjustmentFormContainer = () => {
   }, [itemId, form, isCreateMode]);
 
   // Создать или редактировать
-  const onBlurHandler = async (field: any) => {
-    const values = await form.validateFields();
+  const onBlurHandler = async (field: string) => {
+    await form.validateFields();
+    const values = form.getFieldsValue(true);
 
-    // Форматируем дату из формы для сравнения
-    const currentFormattedDate = values.date
-      ? dayjs(values.date).format('YYYY-MM-DD')
-      : dayjs();
-    // Форматируем исходную дату для сравнения
-    const initialFormattedDate = initialFormData?.date
-      ? dayjs(initialFormData.date).format('YYYY-MM-DD')
-      : dayjs();
+    const prepareDateForComparison = (date: ConfigType | undefined) =>
+      dayjs(date).format('YYYY-MM-DD');
 
-    // Сравниваем даты
-    const dateChanged = currentFormattedDate !== initialFormattedDate;
-
-    // Проверяем, изменились ли остальные поля
-    const otherFieldsChanged = (
-      ['title', 'reason'] as (keyof TypeStockAdjustment)[]
-    ).some(field => initialFormData?.[field] !== values[field]);
-
-    const dataHasChanged = dateChanged || otherFieldsChanged;
-
-    const formattedData = {
-      ...values,
-      date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : dayjs(),
+    // Приведение исходных и текущих данных к общему формату для сравнения
+    const formattedInitialData = {
+      ...initialFormData,
+      date: prepareDateForComparison(initialFormData?.date),
     };
 
-    if (isCreateMode) {
-      if (currentItemId === undefined && field === 'title') {
-        try {
-          const response = await createStockAdjustment(formattedData);
-          setCurrentItemId(response.id);
-          navigate(`${STOCK_ADJUSTMENT}/${response.id}`);
-        } catch (error) {
-          console.error('Ошибка при создании корректировки:', error);
-        }
+    const formattedCurrentData = {
+      ...values,
+      date: prepareDateForComparison(values.date),
+    };
+
+    // Проверка изменений в данных
+    const dataHasChanged = (
+      ['title', 'reason', 'date'] as (keyof TypeStockAdjustment)[]
+    ).some(key => {
+      return formattedInitialData[key] !== formattedCurrentData[key];
+    });
+
+    if (!dataHasChanged) {
+      return;
+    }
+
+    // Обработка измененных данных
+    if (isCreateMode && currentItemId === undefined && field === 'title') {
+      try {
+        const response = await createStockAdjustment(formattedCurrentData);
+        setCurrentItemId(response.id);
+        setInitialFormData(formattedCurrentData);
+        navigate(`${STOCK_ADJUSTMENT}/${response.id}`);
+      } catch (error) {
+        console.error('Ошибка при создании корректировки:', error);
       }
-    } else if (dataHasChanged) {
-      updateStockAdjustment({
-        ...formattedData,
-        id: itemId,
-      })
-        .then(() => {})
-        .catch(error => {
-          console.error('Ошибка при обновлении корректировки:', error);
-        });
+    } else if (!isCreateMode) {
+      try {
+        await updateStockAdjustment(formattedCurrentData);
+        setInitialFormData(formattedCurrentData);
+      } catch (error) {
+        console.error('Ошибка при обновлении корректировки:', error);
+      }
     }
   };
 
