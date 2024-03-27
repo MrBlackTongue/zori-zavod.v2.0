@@ -13,7 +13,7 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
   onCancel,
 }) => {
   return (
-    <div className="form-style">
+    <div className="page-form-style">
       <h2 className="center-text">{title}</h2>
       <Form
         form={form}

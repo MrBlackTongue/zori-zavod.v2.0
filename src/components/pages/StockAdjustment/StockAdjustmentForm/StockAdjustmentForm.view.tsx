@@ -8,7 +8,7 @@ export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
 > = ({ form, onBlur, onCancel, initialValues }) => {
   return (
-    <div className="form-style">
+    <div className="page-form-style">
       <Flex
         justify="space-between"
         style={{
@@ -29,7 +29,11 @@ export const StockAdjustmentFormView: React.FC<
         </div>
         <CloseOutlined onClick={onCancel} className="close-icon-hover" />{' '}
       </Flex>
-      <Form form={form} layout="vertical" initialValues={initialValues}>
+      <Form
+        form={form}
+        layout="vertical"
+        className="form-style"
+        initialValues={initialValues}>
         <Row gutter={24}>
           <Col span={12}>
             <Form.Item
@@ -40,7 +44,7 @@ export const StockAdjustmentFormView: React.FC<
               ]}>
               <Input
                 placeholder="Введите название корректировки"
-                onBlur={() => onBlur?.('title')}
+                onBlur={onBlur}
               />
             </Form.Item>
           </Col>
@@ -49,17 +53,14 @@ export const StockAdjustmentFormView: React.FC<
               <DatePicker
                 style={{ width: '100%' }}
                 format={'DD.MM.YYYY'}
-                onBlur={() => onBlur?.('date')}
+                onBlur={onBlur}
                 disabled={!form.getFieldValue('title')}
               />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="Причина" name="reason">
-              <Input
-                onBlur={() => onBlur?.('reason')}
-                disabled={!form.getFieldValue('title')}
-              />
+              <Input onBlur={onBlur} disabled={!form.getFieldValue('title')} />
             </Form.Item>
           </Col>
         </Row>

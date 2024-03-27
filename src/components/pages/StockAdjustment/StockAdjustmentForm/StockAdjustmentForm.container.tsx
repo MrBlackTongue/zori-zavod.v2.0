@@ -14,14 +14,12 @@ import { TypeStockAdjustment } from '../../../../types';
 
 export const StockAdjustmentFormContainer = () => {
   const [form] = Form.useForm();
-  const { id: rawId } = useParams<string>();
-
-  // Приведение rawId к числу или установка в undefined
-  const itemId = rawId && !isNaN(Number(rawId)) ? Number(rawId) : undefined;
-  const isCreateMode = itemId === undefined;
-
   const navigate = useNavigate();
-  const [currentItemId, setCurrentItemId] = useState(itemId);
+
+  // Преобразование id из пути в число
+  const { id: rawId } = useParams<{ id?: string }>();
+  const itemId = rawId ? parseInt(rawId, 10) : undefined;
+
   const [initialFormData, setInitialFormData] = useState<TypeStockAdjustment>();
 
   const initialValues: TypeStockAdjustment = {
@@ -30,7 +28,7 @@ export const StockAdjustmentFormContainer = () => {
 
   // Получить данные для редактирования
   const handleGetData = useCallback(async () => {
-    if (!isCreateMode && itemId) {
+    if (itemId) {
       try {
         const data = await getStockAdjustmentById(itemId);
         if (data) {
@@ -45,10 +43,10 @@ export const StockAdjustmentFormContainer = () => {
         console.error('Ошибка при получении данных:', error);
       }
     }
-  }, [itemId, form, isCreateMode]);
+  }, [itemId, form]);
 
   // Создать или редактировать
-  const onBlurHandler = async (field: string) => {
+  const onBlurHandler = useCallback(async () => {
     await form.validateFields();
     const values = form.getFieldsValue(true);
 
@@ -73,21 +71,18 @@ export const StockAdjustmentFormContainer = () => {
       return formattedInitialData[key] !== formattedCurrentData[key];
     });
 
-    if (!dataHasChanged) {
-      return;
-    }
+    if (!dataHasChanged) return;
 
     // Обработка измененных данных
-    if (isCreateMode && currentItemId === undefined && field === 'title') {
+    if (!itemId) {
       try {
         const response = await createStockAdjustment(formattedCurrentData);
-        setCurrentItemId(response.id);
         setInitialFormData(formattedCurrentData);
         navigate(`${STOCK_ADJUSTMENT}/${response.id}`);
       } catch (error) {
         console.error('Ошибка при создании корректировки:', error);
       }
-    } else if (!isCreateMode) {
+    } else {
       try {
         await updateStockAdjustment(formattedCurrentData);
         setInitialFormData(formattedCurrentData);
@@ -95,7 +90,7 @@ export const StockAdjustmentFormContainer = () => {
         console.error('Ошибка при обновлении корректировки:', error);
       }
     }
-  };
+  }, [form, itemId, initialFormData, navigate]);
 
   // Функция для возврата на предыдущую страницу
   const handleCancel = () => {
@@ -105,7 +100,7 @@ export const StockAdjustmentFormContainer = () => {
   // Загрузка данных при редактировании
   useEffect(() => {
     (async () => {
-      if (!isCreateMode) {
+      if (itemId) {
         try {
           await handleGetData();
         } catch (error) {
@@ -113,7 +108,7 @@ export const StockAdjustmentFormContainer = () => {
         }
       }
     })();
-  }, [handleGetData, isCreateMode]);
+  }, [handleGetData]);
 
   return (
     <StockAdjustmentFormView
