@@ -86,3 +86,37 @@
   border-radius: 7px;
   padding: 15px;
 }
+
+.form-style .ant-input,
+.form-style .ant-picker {
+  border: none !important;
+  border-bottom: 2px solid #d9d9d9 !important;
+  border-radius: 0 !important;
+}
+
+.form-style .ant-input:hover,
+.form-style .ant-picker:hover {
+  border-bottom: 2px solid #a9a9a9 !important;
+  box-shadow: none !important;
+}
+
+
+.close-icon-hover {
+  cursor: pointer;
+  border-radius: 50%; /* Создает круглую форму */
+  padding: 10px; /* Расстояние от иконки до границ фона */
+  width: 40px; /* Явное задание ширины */
+  height: 40px; /* Явное задание высоты */
+  /* Центрирование содержимого элемента, если требуется */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease-in-out; /* Плавное появление фона */
+}
+
+.close-icon-hover:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Полупрозрачный фон при наведении */
+}
+
+
+

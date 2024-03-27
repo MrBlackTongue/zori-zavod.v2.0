@@ -22,6 +22,7 @@ export const StockAdjustmentFormContainer = () => {
 
   const navigate = useNavigate();
   const [currentItemId, setCurrentItemId] = useState(itemId);
+  const [initialFormData, setInitialFormData] = useState<TypeStockAdjustment>();
 
   const initialValues: TypeStockAdjustment = {
     date: dayjs(),
@@ -35,9 +36,10 @@ export const StockAdjustmentFormContainer = () => {
         if (data) {
           const formattedData = {
             ...data,
-            date: data.date ? dayjs(data.date) : null,
+            date: data.date ? dayjs(data.date) : dayjs(),
           };
           form.setFieldsValue(formattedData);
+          setInitialFormData(formattedData);
         }
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
@@ -48,6 +50,25 @@ export const StockAdjustmentFormContainer = () => {
   // Создать или редактировать
   const onBlurHandler = async (field: any) => {
     const values = await form.validateFields();
+
+    // Форматируем дату из формы для сравнения
+    const currentFormattedDate = values.date
+      ? dayjs(values.date).format('YYYY-MM-DD')
+      : dayjs();
+    // Форматируем исходную дату для сравнения
+    const initialFormattedDate = initialFormData?.date
+      ? dayjs(initialFormData.date).format('YYYY-MM-DD')
+      : dayjs();
+
+    // Сравниваем даты
+    const dateChanged = currentFormattedDate !== initialFormattedDate;
+
+    // Проверяем, изменились ли остальные поля
+    const otherFieldsChanged = (
+      ['title', 'reason'] as (keyof TypeStockAdjustment)[]
+    ).some(field => initialFormData?.[field] !== values[field]);
+
+    const dataHasChanged = dateChanged || otherFieldsChanged;
 
     const formattedData = {
       ...values,
@@ -64,8 +85,11 @@ export const StockAdjustmentFormContainer = () => {
           console.error('Ошибка при создании корректировки:', error);
         }
       }
-    } else {
-      updateStockAdjustment({ ...formattedData, id: itemId })
+    } else if (dataHasChanged) {
+      updateStockAdjustment({
+        ...formattedData,
+        id: itemId,
+      })
         .then(() => {})
         .catch(error => {
           console.error('Ошибка при обновлении корректировки:', error);

@@ -20,7 +20,6 @@ import { CreateModalOperationTimesheet } from './components/CreateModalOperation
 import { UpdateDrawerOperationAccounting } from '../PageOperationAccounting/components/UpdateDrawerOperationAccounting';
 import { TableOperationTimesheet } from './components/TableOperationTimesheet';
 import { UpdateDrawerOperationTimesheet } from './components/UpdateDrawerOperationTimesheet';
-import { TableProductionProductMovement } from './components/TableProductionProductMovement';
 import { CreateModalProductionProductMovement } from './components/CreateModalProductionProductMovement';
 import dayjs from 'dayjs';
 
@@ -214,11 +213,11 @@ export const PageOperationAccountingDetail: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <TableProductionProductMovement
-        isUpdateTable={isUpdateAllTable}
-        // onDelete={handleDeleteProductionProductMovement}
-        idDetail={id ? Number(id) : undefined}
-      />
+      {/*<ProductMovementTableView*/}
+      {/*  // isUpdateTable={isUpdateAllTable}*/}
+      {/*  // onDelete={handleDeleteProductionProductMovement}*/}
+      {/*  // idDetail={id ? Number(id) : undefined}*/}
+      {/*/>*/}
       <CreateModalProductionProductMovement
         isOpen={isModalProductionProductMovementOpen}
         createItem={() => {}}
