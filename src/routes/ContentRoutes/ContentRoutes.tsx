@@ -9,9 +9,7 @@ import {
   PRODUCT,
   PURCHASE,
   STOCK_ADJUSTMENT,
-  SUBSCRIPTION,
 } from '../../api';
-import { PageSubscription } from '../../components/pages/PageSubscription/PageSubscription';
 import { EmployeeFormContainer } from '../../components/pages/Employee/EmployeeForm/EmployeeForm.container';
 import { ClientFormContainer } from '../../components/pages/Client/ClientForm/ClientForm.container';
 import { MaterialFormContainer } from '../../components/pages/Material/MaterialForm/MaterialForm.container';
@@ -22,7 +20,7 @@ import { StockAdjustmentFormContainer } from '../../components/pages/StockAdjust
 export const ContentRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path={`${SUBSCRIPTION}`} element={<PageSubscription />} />
+      {/*<Route path={`${SUBSCRIPTION}`} element={<PageSubscription />} />*/}
       <Route
         path={`${OPERATION_ACCOUNTING}/:id`}
         element={<PageOperationAccountingDetail />}
