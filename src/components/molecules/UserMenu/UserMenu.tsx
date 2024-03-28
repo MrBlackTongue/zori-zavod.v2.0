@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, MenuProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { DownOutlined, LogoutOutlined } from '@ant-design/icons';
-import {
-  getUserSubscription,
-  LOGIN,
-  logoutUser,
-  SUBSCRIPTION,
-} from '../../../api';
+import { getUserSubscription, LOGIN, logoutUser } from '../../../api';
 import { TypeSubscription } from '../../../types';
 import './UserMenu.css';
 
@@ -17,9 +12,9 @@ export const UserMenu: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSubscription = () => {
-    navigate(`${SUBSCRIPTION}`);
-  };
+  // const handleSubscription = () => {
+  //   navigate(`${SUBSCRIPTION}`);
+  // };
 
   const handleLogout = async () => {
     try {
@@ -31,17 +26,17 @@ export const UserMenu: React.FC = () => {
   };
 
   const items: MenuProps['items'] = [
-    {
-      key: '1',
-      label: (
-        <Button
-          type="default"
-          onClick={handleSubscription}
-          className="dropdown-item-menu">
-          Подписка
-        </Button>
-      ),
-    },
+    // {
+    //   key: '1',
+    //   label: (
+    //     <Button
+    //       type="default"
+    //       onClick={handleSubscription}
+    //       className="dropdown-item-menu">
+    //       Подписка
+    //     </Button>
+    //   ),
+    // },
     {
       key: '2',
       label: (
