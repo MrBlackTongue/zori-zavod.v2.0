@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input } from 'antd';
 
-interface EditableCellNewProps {
+interface EditableInputCellProps {
   value: string;
   row: {
     id?: string | number | undefined;
@@ -16,7 +16,7 @@ interface EditableCellNewProps {
   ) => void;
 }
 
-export const EditableCellNew: React.FC<EditableCellNewProps> = ({
+export const EditableInputCell: React.FC<EditableInputCellProps> = ({
   value: initialValue,
   row: { id },
   column: { id: dataIndex },
