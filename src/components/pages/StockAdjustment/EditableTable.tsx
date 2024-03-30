@@ -1,6 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import type { GetRef } from 'antd';
 import { Form, Input, Table } from 'antd';
+import { TypeProductMovement, TypeStock } from '../../../types';
+import { useParams } from 'react-router-dom';
+import { getProductMovementByIdAndEntityType } from '../../../api';
 
 type InputRef = GetRef<typeof Input>;
 type FormInstance<T> = GetRef<typeof Form<T>>;
@@ -9,9 +18,9 @@ const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
 interface Item {
   key: string;
-  name: string;
-  age: string;
-  address: string;
+  stock: number;
+  product: string;
+  amount: number;
 }
 
 interface EditableRowProps {
@@ -103,52 +112,44 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: string;
-  address: string;
-}
-
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
 const App: React.FC = () => {
-  const [dataSource, setDataSource] = useState<DataType[]>([
-    {
-      key: '0',
-      name: 'Edward King 0',
-      age: '32',
-      address: 'London, Park Lane no. 0',
-    },
-    {
-      key: '1',
-      name: 'Edward King 1',
-      age: '32',
-      address: 'London, Park Lane no. 1',
-    },
-  ]);
+  const [dataSource, setDataSource] = useState<TypeProductMovement[]>([]);
+
+  // Преобразование id из пути в число
+  const { id: rawId } = useParams<{ id?: string }>();
+  const itemId = rawId ? parseInt(rawId, 10) : undefined;
 
   const defaultColumns: (ColumnTypes[number] & {
     editable?: boolean;
     dataIndex: string;
   })[] = [
     {
-      title: 'name',
-      dataIndex: 'name',
-      width: '30%',
+      title: 'ID на складе',
+      dataIndex: 'stock',
+      width: '15%',
+      render: (stock: TypeStock) => stock?.id,
+    },
+    {
+      title: 'Товар',
+      dataIndex: 'product',
+      width: '40%',
+    },
+    {
+      title: 'Корректировка',
+      dataIndex: 'amount',
+      width: '20%',
       editable: true,
     },
     {
-      title: 'age',
-      dataIndex: 'age',
-    },
-    {
-      title: 'address',
-      dataIndex: 'address',
+      title: 'На складе',
+      dataIndex: 'stock',
+      render: (amountInStock: TypeStock) => amountInStock?.amount,
     },
   ];
 
-  const handleSave = (row: DataType) => {
+  const handleSave = (row: TypeProductMovement) => {
     const newData = [...dataSource];
     const index = newData.findIndex(item => row.key === item.key);
     const item = newData[index];
@@ -172,7 +173,7 @@ const App: React.FC = () => {
     }
     return {
       ...col,
-      onCell: (record: DataType) => ({
+      onCell: (record: TypeProductMovement) => ({
         record,
         editable: col.editable,
         dataIndex: col.dataIndex,
@@ -181,6 +182,28 @@ const App: React.FC = () => {
       }),
     };
   });
+
+  // Обновить таблицу
+  const handleUpdateTable = useCallback(() => {
+    if (itemId) {
+      getProductMovementByIdAndEntityType('STOCK_ADJUSTMENT', itemId)
+        .then(data => {
+          if (data) {
+            const newDataSource = data.map((item, index) => ({
+              ...item,
+              key: index.toString(),
+              product: item.stock?.product?.title,
+            }));
+            setDataSource(newDataSource);
+          }
+        })
+        .catch(error => console.error('Ошибка при получении данных: ', error));
+    }
+  }, [itemId]);
+
+  useEffect(() => {
+    handleUpdateTable();
+  }, [handleUpdateTable]);
 
   return (
     <Table
