@@ -12,7 +12,7 @@
   position: relative; /* Относительное позиционирование */
 }
 
-.editable-cell-value-wrap {
+.table-work-hour .editable-cell-value-wrap {
   padding: 5px 12px;
   cursor: pointer; /* Курсор в виде указателя */
   width: 80px;
