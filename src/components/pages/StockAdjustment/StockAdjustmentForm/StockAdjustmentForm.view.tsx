@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, DatePicker, Flex, Form, Input, Row } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
 import { CloseOutlined } from '@ant-design/icons';
-import { ProductMovementTableContainer } from '../ProductMovementTable/ProductMovementTable.container';
+import { ProductMovementTable } from '../ProductMovementTable';
 
 export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
@@ -65,7 +65,8 @@ export const StockAdjustmentFormView: React.FC<
           </Col>
         </Row>
       </Form>
-      <ProductMovementTableContainer />
+      {/*<ProductMovementTableContainer />*/}
+      <ProductMovementTable />
     </div>
   );
 };
