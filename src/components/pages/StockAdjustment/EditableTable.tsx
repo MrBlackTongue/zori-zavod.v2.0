@@ -7,12 +7,14 @@ import React, {
 } from 'react';
 import type { GetRef } from 'antd';
 import { Form, InputNumber, Table } from 'antd';
-import { TypeProduct, TypeProductMovement, TypeStock } from '../../../types';
+import { TypeProductMovement, TypeStock } from '../../../types';
 import { useParams } from 'react-router-dom';
 import {
+  getAllStock,
   getProductMovementByIdAndEntityType,
   updateProductMovement,
 } from '../../../api';
+import { EditableSelect } from '../../molecules/EditableSelect/EditableSelect';
 
 type InputRef = GetRef<typeof InputNumber>;
 type FormInstance<T> = GetRef<typeof Form<T>>;
@@ -124,7 +126,17 @@ export const EditableTable = () => {
       title: 'Товар',
       dataIndex: ['stock', 'product'],
       width: '40%',
-      render: (product: TypeProduct) => product?.title,
+      render: (_, record) => (
+        <EditableSelect
+          value={record.stock?.id}
+          isEditable={true}
+          placeholder="Выберите товар"
+          fetchDataList={getAllStock}
+          getId={item => item.id ?? 0}
+          getLabel={item => item?.product?.title ?? ''}
+          onValueChange={value => handleStockChange(record.key, value)}
+        />
+      ),
     },
     {
       title: 'Корректировка',
@@ -158,6 +170,34 @@ export const EditableTable = () => {
         });
         return newData;
       });
+      handleUpdateTable();
+    } catch (error) {
+      console.error('Ошибка при обновлении данных:', error);
+    }
+  };
+
+  const handleStockChange = async (
+    key: string,
+    stockId: number | undefined,
+  ) => {
+    try {
+      const newData = [...dataSource];
+      const index = newData.findIndex(item => key === item.key);
+      const item = newData[index];
+      const updatedItem = {
+        ...item,
+        stock: { id: stockId },
+        amount: 0,
+      };
+
+      await updateProductMovement(updatedItem);
+
+      setDataSource(prevDataSource => {
+        const newData = [...prevDataSource];
+        newData.splice(index, 1, updatedItem);
+        return newData;
+      });
+
       handleUpdateTable();
     } catch (error) {
       console.error('Ошибка при обновлении данных:', error);
@@ -210,12 +250,12 @@ export const EditableTable = () => {
 
   return (
     <Table
-      components={components}
-      className={'editable-table'}
-      rowClassName={() => 'editable-row'}
       bordered
       size={'small'}
       pagination={false}
+      components={components}
+      className={'editable-table'}
+      rowClassName={() => 'editable-row'}
       dataSource={dataSource}
       columns={columns as ColumnTypes}
     />

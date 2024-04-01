@@ -24,7 +24,7 @@ export const EditableSelect = <T,>({
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
 
-  // Формируем список опций на основе данных сотрудников
+  // Формируем список опций на основе данных
   const options = dataList
     ?.filter(el => getId(el) !== undefined)
     .map(item => ({
@@ -64,7 +64,6 @@ export const EditableSelect = <T,>({
   // Загрузка данных при монтировании компонента
   useEffect(() => {
     getDataList(fetchDataList).catch(error => {
-      // Обработка ошибок при запросе данных
       console.error('Ошибка при загрузке данных:', error);
     });
   }, [getDataList, fetchDataList]);
@@ -73,9 +72,8 @@ export const EditableSelect = <T,>({
     return (
       <Select
         showSearch
-        allowClear
         value={value}
-        style={{ width: 200 }}
+        style={{ width: '100%' }}
         onChange={onChange}
         filterOption={onSearch}
         placeholder={placeholder}

@@ -53,7 +53,7 @@ export const WorkHoursTableView: React.FC = () => {
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'employee',
-      width: 200,
+      width: '20%',
       render: (_, record: TypeTransformedWorkHour) => {
         return (
           <EditableSelect
