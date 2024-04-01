@@ -4,8 +4,9 @@ import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
   handleResponseDeleteMessage,
+  handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api'; // Получить список всех движений товара по id сущности и типу сущности
+import { api } from './api';
 
 // Получить список всех движений товара по id сущности и типу сущности
 export async function getProductMovementByIdAndEntityType(
@@ -51,6 +52,18 @@ export async function deleteProductMovementByIdAndEntityType(
       params: { entityType, id },
     });
     return handleResponseDeleteMessage(response);
+  } catch (error) {
+    return handleErrorResponseMessage(error);
+  }
+}
+
+// Редактировать движение товара
+export async function updateProductMovement(
+  data: TypeProductMovement,
+): Promise<TypeApiResponse> {
+  try {
+    const response = await api.put(`${PRODUCT_MOVEMENT}`, data);
+    return handleResponseUpdateMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
   }

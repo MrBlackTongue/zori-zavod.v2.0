@@ -6,12 +6,15 @@ import React, {
   useState,
 } from 'react';
 import type { GetRef } from 'antd';
-import { Form, Input, Table } from 'antd';
-import { TypeProductMovement, TypeStock } from '../../../types';
+import { Form, InputNumber, Table } from 'antd';
+import { TypeProduct, TypeProductMovement, TypeStock } from '../../../types';
 import { useParams } from 'react-router-dom';
-import { getProductMovementByIdAndEntityType } from '../../../api';
+import {
+  getProductMovementByIdAndEntityType,
+  updateProductMovement,
+} from '../../../api';
 
-type InputRef = GetRef<typeof Input>;
+type InputRef = GetRef<typeof InputNumber>;
 type FormInstance<T> = GetRef<typeof Form<T>>;
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
@@ -78,7 +81,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
       toggleEdit();
       handleSave({ ...record, ...values });
     } catch (errInfo) {
-      console.log('Save failed:', errInfo);
+      console.log('Ошибка сохранения:', errInfo);
     }
   };
 
@@ -86,16 +89,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
   if (editable) {
     childNode = editing ? (
-      <Form.Item
-        style={{ margin: 0 }}
-        name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}>
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+      <Form.Item style={{ margin: 0 }} name={dataIndex}>
+        <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
       <div
@@ -114,7 +109,7 @@ type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
-const App: React.FC = () => {
+export const EditableTable = () => {
   const [dataSource, setDataSource] = useState<TypeProductMovement[]>([]);
 
   // Преобразование id из пути в число
@@ -123,18 +118,13 @@ const App: React.FC = () => {
 
   const defaultColumns: (ColumnTypes[number] & {
     editable?: boolean;
-    dataIndex: string;
+    dataIndex: string[] | string;
   })[] = [
     {
-      title: 'ID на складе',
-      dataIndex: 'stock',
-      width: '15%',
-      render: (stock: TypeStock) => stock?.id,
-    },
-    {
       title: 'Товар',
-      dataIndex: 'product',
+      dataIndex: ['stock', 'product'],
       width: '40%',
+      render: (product: TypeProduct) => product?.title,
     },
     {
       title: 'Корректировка',
@@ -149,15 +139,29 @@ const App: React.FC = () => {
     },
   ];
 
-  const handleSave = (row: TypeProductMovement) => {
-    const newData = [...dataSource];
-    const index = newData.findIndex(item => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    setDataSource(newData);
+  const handleSave = async (row: TypeProductMovement) => {
+    try {
+      const { key, date, ...rowWithoutKeyDate } = row;
+      const originalItem = dataSource.find(item => item.key === row.key);
+      if (originalItem && originalItem.amount === row.amount) {
+        return;
+      }
+
+      await updateProductMovement(rowWithoutKeyDate);
+      setDataSource(prevDataSource => {
+        const newData = [...prevDataSource];
+        const index = newData.findIndex(item => row.key === item.key);
+        const item = newData[index];
+        newData.splice(index, 1, {
+          ...item,
+          ...row,
+        });
+        return newData;
+      });
+      handleUpdateTable();
+    } catch (error) {
+      console.error('Ошибка при обновлении данных:', error);
+    }
   };
 
   const components = {
@@ -192,7 +196,6 @@ const App: React.FC = () => {
             const newDataSource = data.map((item, index) => ({
               ...item,
               key: index.toString(),
-              product: item.stock?.product?.title,
             }));
             setDataSource(newDataSource);
           }
@@ -208,13 +211,13 @@ const App: React.FC = () => {
   return (
     <Table
       components={components}
+      className={'editable-table'}
       rowClassName={() => 'editable-row'}
       bordered
       size={'small'}
+      pagination={false}
       dataSource={dataSource}
       columns={columns as ColumnTypes}
     />
   );
 };
-
-export default App;

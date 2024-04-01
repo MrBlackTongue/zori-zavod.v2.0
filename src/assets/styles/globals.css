@@ -50,6 +50,11 @@
   box-shadow: none; /* Отключает тень вокруг строки при наведении */
 }
 
+.editable-table .ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
+  border-left-color: #f0f0f0 !important;
+  border-right-color: #f0f0f0 !important;
+}
+
 .editable-cell {
   position: relative;
 }

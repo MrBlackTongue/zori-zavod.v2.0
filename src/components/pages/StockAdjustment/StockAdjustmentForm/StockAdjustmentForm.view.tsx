@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, DatePicker, Flex, Form, Input, Row } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
 import { CloseOutlined } from '@ant-design/icons';
-import EditableTable from '../EditableTable';
+import { EditableTable } from '../EditableTable';
 
 export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
