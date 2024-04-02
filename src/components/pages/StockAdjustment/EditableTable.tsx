@@ -90,12 +90,22 @@ const EditableCell: React.FC<EditableCellProps> = ({
     }
   };
 
+  const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.target.select();
+  };
+
   let childNode = children;
 
   if (editable) {
     childNode = editing ? (
       <Form.Item style={{ margin: 0 }} name={dataIndex}>
-        <InputNumber ref={inputRef} onPressEnter={save} onBlur={save} />
+        <InputNumber
+          ref={inputRef}
+          onPressEnter={save}
+          onBlur={save}
+          autoFocus
+          onFocus={handleInputFocus}
+        />
       </Form.Item>
     ) : (
       <div
@@ -148,7 +158,7 @@ export const EditableTable = () => {
       ),
     },
     {
-      title: 'Корректировка',
+      title: 'Движение',
       dataIndex: 'amount',
       width: '20%',
       editable: true,
