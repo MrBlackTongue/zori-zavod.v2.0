@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Select, Tooltip } from 'antd';
 import { useDataListLoader } from '../../../hooks';
 
@@ -21,10 +21,10 @@ export const EditableSelect = <T,>({
   getLabel,
   onValueChange,
 }: EditableSelectProps<T>) => {
-  // Хук для получения всех данных и загрузки
+  const [open, setOpen] = useState(false);
+  const selectRef = useRef<any>(null);
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
 
-  // Формируем список опций на основе данных
   const options = dataList
     ?.filter(el => getId(el) !== undefined)
     .map(item => ({
@@ -33,67 +33,99 @@ export const EditableSelect = <T,>({
       label: getLabel(item),
     }));
 
-  // Поиск в select
   const onSearch = (value: string, option: any) => {
     return option.label.toLowerCase().includes(value.toLowerCase());
   };
 
-  // Изменить значение в select
   const onChange = (value: number | undefined) => {
     if (value) {
       onValueChange?.(value);
     } else {
       onValueChange?.(undefined);
     }
+    setOpen(false);
   };
 
-  // Загрузить данные для select
-  const handleDropdownVisibleChange = useCallback(
-    (visible: boolean) => {
-      if (visible) {
-        getDataList(fetchDataList).catch((error: unknown) => {
-          if (error instanceof Error) {
-            console.error('Ошибка при получении данных: ', error.message);
-          }
-        });
+  const loadData = useCallback(() => {
+    getDataList(fetchDataList).catch((error: unknown) => {
+      if (error instanceof Error) {
+        console.error('Ошибка при получении данных: ', error.message);
       }
-    },
-    [getDataList, fetchDataList],
-  );
-
-  // Загрузка данных при монтировании компонента
-  useEffect(() => {
-    getDataList(fetchDataList).catch(error => {
-      console.error('Ошибка при загрузке данных:', error);
     });
   }, [getDataList, fetchDataList]);
 
+  const handleDropdownVisibleChange = useCallback(
+    (visible: boolean) => {
+      if (visible) {
+        loadData();
+      }
+    },
+    [loadData],
+  );
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const toggleOpen = () => {
+    setOpen(true);
+    setTimeout(() => {
+      selectRef.current?.focus();
+    }, 0);
+  };
+
+  const handleBlur = () => {
+    setOpen(false);
+  };
+
+  const renderSelect = () => (
+    <Select
+      ref={selectRef}
+      showSearch
+      value={value}
+      style={{ width: '100%' }}
+      onChange={onChange}
+      onBlur={handleBlur}
+      filterOption={onSearch}
+      placeholder={placeholder}
+      loading={isLoading}
+      onDropdownVisibleChange={handleDropdownVisibleChange}
+      open={open}
+      onMouseDown={e => e.preventDefault()}>
+      {options?.map(option => (
+        <Select.Option
+          key={option.key}
+          value={option.value}
+          label={option.label}>
+          <Tooltip placement="right" title={option.label}>
+            {option.label}
+          </Tooltip>
+        </Select.Option>
+      ))}
+    </Select>
+  );
+
+  const renderLabel = () => {
+    const selectedOption = options?.find(option => option.value === value);
+    return selectedOption ? selectedOption.label : placeholder;
+  };
+
+  let childNode;
+
   if (isEditable) {
-    return (
-      <Select
-        showSearch
-        value={value}
-        style={{ width: '100%' }}
-        onChange={onChange}
-        filterOption={onSearch}
-        placeholder={placeholder}
-        loading={isLoading}
-        onDropdownVisibleChange={handleDropdownVisibleChange}>
-        {' '}
-        {options?.map(option => (
-          <Select.Option
-            key={option.key}
-            value={option.value}
-            label={option.label}>
-            <Tooltip placement="right" title={option.label}>
-              {option.label}
-            </Tooltip>
-          </Select.Option>
-        ))}
-      </Select>
+    childNode = open ? (
+      renderSelect()
+    ) : (
+      <div
+        className="editable-cell-value-wrap"
+        style={{ paddingRight: 24, width: '100%' }}
+        onMouseDown={toggleOpen}>
+        {renderLabel()}
+      </div>
     );
   } else {
-    const selectedOption = options?.find(option => option.value === value);
-    return <span>{selectedOption ? selectedOption.label : 'Не выбрано'}</span>;
+    childNode = <span>{renderLabel()}</span>;
   }
+
+  return <>{childNode}</>;
 };
