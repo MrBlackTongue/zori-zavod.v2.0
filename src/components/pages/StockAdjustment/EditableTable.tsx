@@ -10,13 +10,14 @@ import { Button, Form, InputNumber, Popconfirm, Table } from 'antd';
 import { TypeProductMovement, TypeStock } from '../../../types';
 import { useParams } from 'react-router-dom';
 import {
+  createProductionProductMovement,
   deleteProductMovementByIdAndEntityType,
   getAllStock,
   getProductMovementByIdAndEntityType,
   updateProductMovement,
 } from '../../../api';
 import { EditableSelect } from '../../molecules/EditableSelect/EditableSelect';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
 type InputRef = GetRef<typeof InputNumber>;
 type FormInstance<T> = GetRef<typeof Form<T>>;
@@ -204,15 +205,43 @@ export const EditableTable = () => {
     }
   };
 
+  const addNewRow = () => {
+    const newRow: TypeProductMovement = {
+      stock: { id: undefined },
+      amount: 0,
+    };
+
+    setDataSource(prevDataSource => [
+      ...prevDataSource,
+      { ...newRow, key: prevDataSource.length.toString() },
+    ]);
+  };
+
   const handleSave = async (row: TypeProductMovement) => {
     try {
       const { key, date, ...rowWithoutKeyDate } = row;
       const originalItem = dataSource.find(item => item.key === row.key);
-      if (originalItem && originalItem.amount === row.amount) {
-        return;
+
+      if (row.id) {
+        if (originalItem && originalItem.amount === row.amount) {
+          return;
+        }
+        await updateProductMovement(rowWithoutKeyDate);
+      } else {
+        if (row.stock?.id && row.amount !== 0) {
+          const response = await createProductionProductMovement(
+            'STOCK_ADJUSTMENT',
+            itemId!,
+            rowWithoutKeyDate,
+          );
+          if (response && response.status && response.data) {
+            row.id = response.data.id;
+          }
+        } else {
+          return;
+        }
       }
 
-      await updateProductMovement(rowWithoutKeyDate);
       setDataSource(prevDataSource => {
         const newData = [...prevDataSource];
         const index = newData.findIndex(item => row.key === item.key);
@@ -225,7 +254,7 @@ export const EditableTable = () => {
       });
       handleUpdateTable();
     } catch (error) {
-      console.error('Ошибка при обновлении данных:', error);
+      console.error('Ошибка при сохранении данных:', error);
     }
   };
 
@@ -243,7 +272,18 @@ export const EditableTable = () => {
         amount: 0,
       };
 
-      await updateProductMovement(updatedItem);
+      if (item.id) {
+        await updateProductMovement(updatedItem);
+      } else {
+        if (itemId) {
+          await createProductionProductMovement(
+            'STOCK_ADJUSTMENT',
+            itemId,
+            updatedItem,
+          );
+          updatedItem.id = dataSource.length + 1;
+        }
+      }
 
       setDataSource(prevDataSource => {
         const newData = [...prevDataSource];
@@ -302,15 +342,24 @@ export const EditableTable = () => {
   }, [handleUpdateTable]);
 
   return (
-    <Table
-      bordered
-      size={'small'}
-      pagination={false}
-      components={components}
-      className={'editable-table'}
-      rowClassName={() => 'editable-row'}
-      dataSource={dataSource}
-      columns={columns as ColumnTypes}
-    />
+    <div>
+      <Table
+        bordered
+        size={'small'}
+        pagination={false}
+        components={components}
+        className={'editable-table'}
+        rowClassName={() => 'editable-row'}
+        dataSource={dataSource}
+        columns={columns as ColumnTypes}
+      />
+      <Button
+        type="link"
+        icon={<PlusOutlined />}
+        style={{ marginTop: 15 }}
+        onClick={addNewRow}>
+        Добавить
+      </Button>
+    </div>
   );
 };
