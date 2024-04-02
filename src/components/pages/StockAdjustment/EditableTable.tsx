@@ -6,15 +6,17 @@ import React, {
   useState,
 } from 'react';
 import type { GetRef } from 'antd';
-import { Form, InputNumber, Table } from 'antd';
+import { Button, Form, InputNumber, Popconfirm, Table } from 'antd';
 import { TypeProductMovement, TypeStock } from '../../../types';
 import { useParams } from 'react-router-dom';
 import {
+  deleteProductMovementByIdAndEntityType,
   getAllStock,
   getProductMovementByIdAndEntityType,
   updateProductMovement,
 } from '../../../api';
 import { EditableSelect } from '../../molecules/EditableSelect/EditableSelect';
+import { DeleteOutlined } from '@ant-design/icons';
 
 type InputRef = GetRef<typeof InputNumber>;
 type FormInstance<T> = GetRef<typeof Form<T>>;
@@ -123,6 +125,12 @@ export const EditableTable = () => {
     dataIndex: string[] | string;
   })[] = [
     {
+      title: '',
+      dataIndex: 'number',
+      width: '5%',
+      render: (_, __, index) => index + 1 + '.',
+    },
+    {
       title: 'Товар',
       dataIndex: ['stock', 'product'],
       width: '40%',
@@ -149,7 +157,52 @@ export const EditableTable = () => {
       dataIndex: 'stock',
       render: (amountInStock: TypeStock) => amountInStock?.amount,
     },
+    {
+      title: '',
+      dataIndex: 'delete',
+      width: '3%',
+      align: 'center',
+      render: (_, record) => (
+        <div className={'delete-button'}>
+          <Popconfirm
+            placement="topLeft"
+            title="Вы действительно хотите удалить строку?"
+            onConfirm={() => handleDeleteRow(record)}
+            okText="Да"
+            cancelText="Отмена">
+            <Button
+              size={'small'}
+              style={{ color: 'tomato', borderColor: 'tomato' }}
+              type="default"
+              icon={<DeleteOutlined />}
+            />
+          </Popconfirm>
+        </div>
+      ),
+    },
   ];
+
+  const handleDeleteRow = async (row: TypeProductMovement) => {
+    try {
+      if (row.id) {
+        await deleteProductMovementByIdAndEntityType(
+          'STOCK_ADJUSTMENT',
+          row.id,
+        );
+        setDataSource(prevDataSource => {
+          const newData = [...prevDataSource];
+          const index = newData.findIndex(item => row.key === item.key);
+          newData.splice(index, 1);
+          return newData;
+        });
+        handleUpdateTable();
+      } else {
+        console.error('Ошибка при удалении данных: отсутствует id');
+      }
+    } catch (error) {
+      console.error('Ошибка при удалении данных:', error);
+    }
+  };
 
   const handleSave = async (row: TypeProductMovement) => {
     try {

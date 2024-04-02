@@ -70,15 +70,15 @@
   border-radius: 5px;
 }
 
+.editable-table .ant-table-tbody > .ant-table-row .delete-button {
+  visibility: hidden; /* Кнопка становится невидимой */
+  opacity: 0; /* Кнопка полностью прозрачная */
+}
 
-
-
-
-
-
-
-
-
+.editable-table .ant-table-tbody > .ant-table-row:hover .delete-button {
+  visibility: visible; /* Кнопка становится видимой */
+  opacity: 1; /* Кнопка полностью непрозрачная */
+}
 
 /* Tabs style */
 .ant-tabs-nav-list {
