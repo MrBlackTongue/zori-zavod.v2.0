@@ -39,7 +39,6 @@ export const EditableTable = () => {
       render: (_, record) => (
         <EditableSelect
           value={record.stock?.id}
-          isEditable={true}
           placeholder="Выберите товар"
           fetchDataList={getAllStock}
           getId={item => item.id ?? 0}

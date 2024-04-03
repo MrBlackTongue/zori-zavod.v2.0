@@ -4,7 +4,6 @@ import { useDataListLoader } from '../../../hooks';
 
 interface EditableSelectProps<T> {
   value?: number;
-  isEditable: boolean;
   placeholder: string;
   fetchDataList: () => Promise<T[]>;
   getId: (item: T) => number;
@@ -14,17 +13,19 @@ interface EditableSelectProps<T> {
 
 export const EditableSelect = <T,>({
   value,
-  isEditable,
   placeholder,
   fetchDataList,
   getId,
   getLabel,
   onValueChange,
 }: EditableSelectProps<T>) => {
-  const [open, setOpen] = useState(false);
   const selectRef = useRef<any>(null);
-  const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
 
+  // Хук для получения всех данных и загрузки
+  const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Формирование значений для выпадающего списка
   const options = dataList
     ?.filter(el => getId(el) !== undefined)
     .map(item => ({
@@ -33,19 +34,18 @@ export const EditableSelect = <T,>({
       label: getLabel(item),
     }));
 
+  // Функция для поиска значения
   const onSearch = (value: string, option: any) => {
     return option.label.toLowerCase().includes(value.toLowerCase());
   };
 
+  // Обработчик изменения выбранного значения
   const onChange = (value: number | undefined) => {
-    if (value) {
-      onValueChange?.(value);
-    } else {
-      onValueChange?.(undefined);
-    }
-    setOpen(false);
+    onValueChange?.(value);
+    setIsOpen(false);
   };
 
+  // Функция для загрузки данных списка
   const loadData = useCallback(() => {
     getDataList(fetchDataList).catch((error: unknown) => {
       if (error instanceof Error) {
@@ -54,6 +54,7 @@ export const EditableSelect = <T,>({
     });
   }, [getDataList, fetchDataList]);
 
+  // Обработчик изменения видимости выпадающего списка
   const handleDropdownVisibleChange = useCallback(
     (visible: boolean) => {
       if (visible) {
@@ -63,34 +64,37 @@ export const EditableSelect = <T,>({
     [loadData],
   );
 
+  // Загрузка данных списка при монтировании компонента
   useEffect(() => {
     loadData();
   }, [loadData]);
 
+  // Функция для открытия выпадающего списка и установки фокуса на него
   const toggleOpen = () => {
-    setOpen(true);
+    setIsOpen(true);
     setTimeout(() => {
       selectRef.current?.focus();
     }, 0);
   };
 
+  // Обработчик потери фокуса выпадающего списка
   const handleBlur = () => {
-    setOpen(false);
+    setIsOpen(false);
   };
 
   const renderSelect = () => (
     <Select
-      ref={selectRef}
       showSearch
       value={value}
-      style={{ width: '100%' }}
+      open={isOpen}
+      ref={selectRef}
+      loading={isLoading}
       onChange={onChange}
       onBlur={handleBlur}
       filterOption={onSearch}
       placeholder={placeholder}
-      loading={isLoading}
+      style={{ width: '100%' }}
       onDropdownVisibleChange={handleDropdownVisibleChange}
-      open={open}
       onMouseDown={e => e.preventDefault()}>
       {options?.map(option => (
         <Select.Option
@@ -110,22 +114,14 @@ export const EditableSelect = <T,>({
     return selectedOption ? selectedOption.label : placeholder;
   };
 
-  let childNode;
-
-  if (isEditable) {
-    childNode = open ? (
-      renderSelect()
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24, width: '100%' }}
-        onMouseDown={toggleOpen}>
-        {renderLabel()}
-      </div>
-    );
-  } else {
-    childNode = <span>{renderLabel()}</span>;
-  }
-
-  return <>{childNode}</>;
+  return isOpen ? (
+    renderSelect()
+  ) : (
+    <div
+      className="editable-cell-value-wrap"
+      style={{ paddingRight: 24, width: '100%' }}
+      onMouseDown={toggleOpen}>
+      {renderLabel()}
+    </div>
+  );
 };
