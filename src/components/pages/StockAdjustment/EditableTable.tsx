@@ -1,12 +1,5 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import type { GetRef } from 'antd';
-import { Button, Form, InputNumber, Popconfirm, Table } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Popconfirm, Table } from 'antd';
 import { TypeProductMovement, TypeStock } from '../../../types';
 import { useParams } from 'react-router-dom';
 import {
@@ -18,107 +11,7 @@ import {
 } from '../../../api';
 import { EditableSelect } from '../../molecules/EditableSelect/EditableSelect';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-
-type InputRef = GetRef<typeof InputNumber>;
-type FormInstance<T> = GetRef<typeof Form<T>>;
-
-const EditableContext = React.createContext<FormInstance<any> | null>(null);
-
-interface Item {
-  key: string;
-  stock: number;
-  product: string;
-  amount: number;
-}
-
-interface EditableRowProps {
-  index: number;
-}
-
-const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
-
-interface EditableCellProps {
-  title: React.ReactNode;
-  editable: boolean;
-  children: React.ReactNode;
-  dataIndex: keyof Item;
-  record: Item;
-  handleSave: (record: Item) => void;
-}
-
-const EditableCell: React.FC<EditableCellProps> = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef<InputRef>(null);
-  const form = useContext(EditableContext)!;
-
-  useEffect(() => {
-    if (editing) {
-      inputRef.current!.focus();
-    }
-  }, [editing]);
-
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
-  };
-
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log('Ошибка сохранения:', errInfo);
-    }
-  };
-
-  const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-    event.target.select();
-  };
-
-  let childNode = children;
-
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item style={{ margin: 0 }} name={dataIndex}>
-        <InputNumber
-          ref={inputRef}
-          onPressEnter={save}
-          onBlur={save}
-          autoFocus
-          onFocus={handleInputFocus}
-        />
-      </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={toggleEdit}>
-        {children}
-      </div>
-    );
-  }
-
-  return <td {...restProps}>{childNode}</td>;
-};
+import { EditableInputNumber } from '../../molecules/EditableInputNumber/EditableInputNumber';
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -131,14 +24,11 @@ export const EditableTable = () => {
   const { id: rawId } = useParams<{ id?: string }>();
   const itemId = rawId ? parseInt(rawId, 10) : undefined;
 
-  const defaultColumns: (ColumnTypes[number] & {
-    editable?: boolean;
-    dataIndex: string[] | string;
-  })[] = [
+  const columns: ColumnTypes = [
     {
       title: '',
       dataIndex: 'number',
-      width: '5%',
+      width: 40,
       render: (_, __, index) => index + 1 + '.',
     },
     {
@@ -161,12 +51,24 @@ export const EditableTable = () => {
       title: 'Движение',
       dataIndex: 'amount',
       width: '20%',
-      editable: true,
+      render: (_, record) => (
+        <EditableInputNumber
+          editable={true}
+          dataIndex="amount"
+          record={record}
+          handleSave={handleSave}>
+          {record.amount} {record.stock?.product?.unit?.name}
+        </EditableInputNumber>
+      ),
     },
     {
       title: 'На складе',
       dataIndex: 'stock',
-      render: (amountInStock: TypeStock) => amountInStock?.amount,
+      render: (stock: TypeStock) => {
+        const amount = stock?.amount ?? 0;
+        const unitName = stock?.product?.unit?.name ?? '';
+        return `${amount} ${unitName}`;
+      },
     },
     {
       title: '',
@@ -307,29 +209,6 @@ export const EditableTable = () => {
     }
   };
 
-  const components = {
-    body: {
-      row: EditableRow,
-      cell: EditableCell,
-    },
-  };
-
-  const columns = defaultColumns.map(col => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record: TypeProductMovement) => ({
-        record,
-        editable: col.editable,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        handleSave,
-      }),
-    };
-  });
-
   // Обновить таблицу
   const handleUpdateTable = useCallback(() => {
     if (itemId) {
@@ -357,11 +236,10 @@ export const EditableTable = () => {
         bordered
         size={'small'}
         pagination={false}
-        components={components}
         className={'editable-table'}
         rowClassName={() => 'editable-row'}
         dataSource={dataSource}
-        columns={columns as ColumnTypes}
+        columns={columns}
       />
       <Button
         type="link"
