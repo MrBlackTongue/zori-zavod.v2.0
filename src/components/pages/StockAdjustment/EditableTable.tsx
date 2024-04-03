@@ -56,7 +56,10 @@ export const EditableTable = () => {
           dataIndex="amount"
           record={record}
           handleSave={handleSave}>
-          {renderNumber(record.amount)} {record.stock?.product?.unit?.name}
+          {renderNumber(record.amount)}{' '}
+          <span style={{ color: '#61666D' }}>
+            {record.stock?.product?.unit?.name}
+          </span>
         </EditableInputNumber>
       ),
     },
@@ -66,7 +69,12 @@ export const EditableTable = () => {
       render: (stock: TypeStock) => {
         const amount = stock?.amount ?? 0;
         const unitName = stock?.product?.unit?.name ?? '';
-        return `${renderNumber(amount)} ${unitName}`;
+        return (
+          <>
+            {renderNumber(amount)}{' '}
+            <span style={{ color: '#61666D' }}>{unitName}</span>
+          </>
+        );
       },
     },
     {
