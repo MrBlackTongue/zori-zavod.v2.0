@@ -12,6 +12,7 @@ import {
 import { EditableSelect } from '../../molecules/EditableSelect/EditableSelect';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { EditableInputNumber } from '../../molecules/EditableInputNumber/EditableInputNumber';
+import { renderNumber } from '../../../utils';
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -53,11 +54,10 @@ export const EditableTable = () => {
       width: '20%',
       render: (_, record) => (
         <EditableInputNumber
-          editable={true}
           dataIndex="amount"
           record={record}
           handleSave={handleSave}>
-          {record.amount} {record.stock?.product?.unit?.name}
+          {renderNumber(record.amount)} {record.stock?.product?.unit?.name}
         </EditableInputNumber>
       ),
     },
@@ -67,7 +67,7 @@ export const EditableTable = () => {
       render: (stock: TypeStock) => {
         const amount = stock?.amount ?? 0;
         const unitName = stock?.product?.unit?.name ?? '';
-        return `${amount} ${unitName}`;
+        return `${renderNumber(amount)} ${unitName}`;
       },
     },
     {

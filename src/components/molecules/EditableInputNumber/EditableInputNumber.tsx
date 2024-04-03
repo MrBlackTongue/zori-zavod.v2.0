@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import type { GetRef } from 'antd';
-import { Form, InputNumber } from 'antd';
+import React, {useRef, useState} from 'react';
+import type {GetRef} from 'antd';
+import {Form, InputNumber} from 'antd';
 
+// Тип для ссылки на InputNumber
 type InputRef = GetRef<typeof InputNumber>;
 
 interface EditableInputNumberProps<T> {
-  editable: boolean;
   children: React.ReactNode;
   dataIndex: keyof T;
   record: T;
@@ -13,7 +13,6 @@ interface EditableInputNumberProps<T> {
 }
 
 export const EditableInputNumber = <T,>({
-  editable,
   children,
   dataIndex,
   record,
@@ -23,18 +22,14 @@ export const EditableInputNumber = <T,>({
   const inputRef = useRef<InputRef>(null);
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    if (editing) {
-      inputRef.current!.focus();
-    }
-  }, [editing]);
-
+  // Функция для переключения режима редактирования и установки значения поля формы
   const toggleEdit = () => {
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
   };
 
-  const save = async () => {
+  // Функция для сохранения изменений
+  const onSave = async () => {
     try {
       const values = await form.validateFields();
 
@@ -45,35 +40,32 @@ export const EditableInputNumber = <T,>({
     }
   };
 
-  const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+  // Функция для выделения текста при фокусировке на InputNumber
+  const onFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     event.target.select();
   };
 
-  if (editable) {
-    if (editing) {
-      return (
-        <Form form={form}>
-          <Form.Item style={{ margin: 0 }} name={dataIndex as string}>
-            <InputNumber
-              ref={inputRef}
-              onPressEnter={save}
-              onBlur={save}
-              autoFocus
-              onFocus={handleInputFocus}
-            />
-          </Form.Item>
-        </Form>
-      );
-    }
+  if (editing) {
     return (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={toggleEdit}>
-        {children}
-      </div>
+      <Form form={form}>
+        <Form.Item style={{ margin: 0 }} name={dataIndex as string}>
+          <InputNumber
+            autoFocus
+            ref={inputRef}
+            onBlur={onSave}
+            onPressEnter={onSave}
+            onFocus={onFocus}
+          />
+        </Form.Item>
+      </Form>
     );
   }
-
-  return <>{children}</>;
+  return (
+    <div
+      className="editable-cell-value-wrap"
+      style={{ paddingRight: 24 }}
+      onClick={toggleEdit}>
+      {children}
+    </div>
+  );
 };
