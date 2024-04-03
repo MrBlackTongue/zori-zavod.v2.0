@@ -1,6 +1,6 @@
-import React, {useRef, useState} from 'react';
-import type {GetRef} from 'antd';
-import {Form, InputNumber} from 'antd';
+import React, { useRef, useState } from 'react';
+import type { GetRef } from 'antd';
+import { InputNumber } from 'antd';
 
 // Тип для ссылки на InputNumber
 type InputRef = GetRef<typeof InputNumber>;
@@ -19,25 +19,21 @@ export const EditableInputNumber = <T,>({
   handleSave,
 }: EditableInputNumberProps<T>) => {
   const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState<number | null>(
+    record[dataIndex] as number,
+  );
   const inputRef = useRef<InputRef>(null);
-  const [form] = Form.useForm();
 
-  // Функция для переключения режима редактирования и установки значения поля формы
+  // Функция для переключения режима редактирования
   const toggleEdit = () => {
     setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+    setValue(record[dataIndex] as number);
   };
 
   // Функция для сохранения изменений
-  const onSave = async () => {
-    try {
-      const values = await form.validateFields();
-
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log('Ошибка сохранения:', errInfo);
-    }
+  const onSave = () => {
+    toggleEdit();
+    handleSave({ ...record, [dataIndex]: value });
   };
 
   // Функция для выделения текста при фокусировке на InputNumber
@@ -45,19 +41,22 @@ export const EditableInputNumber = <T,>({
     event.target.select();
   };
 
+  // Функция для обработки изменений значения InputNumber
+  const onChange = (newValue: number | null) => {
+    setValue(newValue);
+  };
+
   if (editing) {
     return (
-      <Form form={form}>
-        <Form.Item style={{ margin: 0 }} name={dataIndex as string}>
-          <InputNumber
-            autoFocus
-            ref={inputRef}
-            onBlur={onSave}
-            onPressEnter={onSave}
-            onFocus={onFocus}
-          />
-        </Form.Item>
-      </Form>
+      <InputNumber
+        autoFocus
+        ref={inputRef}
+        value={value}
+        onChange={onChange}
+        onBlur={onSave}
+        onPressEnter={onSave}
+        onFocus={onFocus}
+      />
     );
   }
   return (
