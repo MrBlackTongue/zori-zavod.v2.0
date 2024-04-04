@@ -11,17 +11,18 @@ import {
 } from '../../../../api';
 import dayjs, { ConfigType } from 'dayjs';
 import { TypeStockAdjustment } from '../../../../types';
+import { useSaving } from '../../../../contexts/SavingContext';
 
 export const StockAdjustmentFormContainer = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const { setIsSaving } = useSaving();
 
   // Преобразование id из пути в число
   const { id: rawId } = useParams<{ id?: string }>();
   const itemId = rawId ? parseInt(rawId, 10) : undefined;
 
   const [initialFormData, setInitialFormData] = useState<TypeStockAdjustment>();
-
   const initialValues: TypeStockAdjustment = {
     date: dayjs(),
   };
@@ -47,6 +48,7 @@ export const StockAdjustmentFormContainer = () => {
 
   // Создать или редактировать
   const onBlurHandler = useCallback(async () => {
+    setIsSaving(true);
     await form.validateFields();
     const values = form.getFieldsValue(true);
 
@@ -90,6 +92,7 @@ export const StockAdjustmentFormContainer = () => {
         console.error('Ошибка при обновлении корректировки:', error);
       }
     }
+    setIsSaving(false);
   }, [form, itemId, initialFormData, navigate]);
 
   // Функция для возврата на предыдущую страницу

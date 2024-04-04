@@ -16,24 +16,27 @@ import { MaterialFormContainer } from '../../components/pages/Material/MaterialF
 import { PurchaseFormContainer } from '../../components/pages/Purchase/PurchaseForm/PurchaseForm.container';
 import { ProductFormContainer } from '../../components/pages/Product/ProductForm/ProductForm.container';
 import { StockAdjustmentFormContainer } from '../../components/pages/StockAdjustment/StockAdjustmentForm/StockAdjustmentForm.container';
+import { SavingProvider } from '../../contexts/SavingContext';
 
 export const ContentRoutes: React.FC = () => {
   return (
-    <Routes>
-      {/*<Route path={`${SUBSCRIPTION}`} element={<PageSubscription />} />*/}
-      <Route
-        path={`${OPERATION_ACCOUNTING}/:id`}
-        element={<PageOperationAccountingDetail />}
-      />
-      <Route path={`${EMPLOYEE}/:id?`} element={<EmployeeFormContainer />} />
-      <Route path={`${CLIENT}/:id?`} element={<ClientFormContainer />} />
-      <Route path={`${PURCHASE}/:id?`} element={<PurchaseFormContainer />} />
-      <Route path={`${PRODUCT}/:id?`} element={<ProductFormContainer />} />
-      <Route path={`${MATERIAL}/:id?`} element={<MaterialFormContainer />} />
-      <Route
-        path={`${STOCK_ADJUSTMENT}/:id?`}
-        element={<StockAdjustmentFormContainer />}
-      />
-    </Routes>
+    <SavingProvider>
+      <Routes>
+        {/*<Route path={`${SUBSCRIPTION}`} element={<PageSubscription />} />*/}
+        <Route
+          path={`${OPERATION_ACCOUNTING}/:id`}
+          element={<PageOperationAccountingDetail />}
+        />
+        <Route path={`${EMPLOYEE}/:id?`} element={<EmployeeFormContainer />} />
+        <Route path={`${CLIENT}/:id?`} element={<ClientFormContainer />} />
+        <Route path={`${PURCHASE}/:id?`} element={<PurchaseFormContainer />} />
+        <Route path={`${PRODUCT}/:id?`} element={<ProductFormContainer />} />
+        <Route path={`${MATERIAL}/:id?`} element={<MaterialFormContainer />} />
+        <Route
+          path={`${STOCK_ADJUSTMENT}/:id?`}
+          element={<StockAdjustmentFormContainer />}
+        />
+      </Routes>
+    </SavingProvider>
   );
 };

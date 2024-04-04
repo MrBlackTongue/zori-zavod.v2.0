@@ -13,6 +13,7 @@ import { EditableSelect } from '../../molecules/EditableSelect/EditableSelect';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { EditableInputNumber } from '../../molecules/EditableInputNumber/EditableInputNumber';
 import { renderNumber } from '../../../utils';
+import { useSaving } from '../../../contexts/SavingContext';
 
 const ENTITY_TYPE = 'STOCK_ADJUSTMENT';
 
@@ -21,6 +22,8 @@ type EditableTableProps = Parameters<typeof Table>[0];
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
 export const EditableTable = () => {
+  const { setIsSaving } = useSaving();
+
   const [dataSource, setDataSource] = useState<TypeProductMovement[]>([]);
 
   // Преобразование id из пути в число
@@ -105,6 +108,7 @@ export const EditableTable = () => {
   ];
 
   const handleDeleteRow = async (row: TypeProductMovement) => {
+    setIsSaving(true);
     if (!row.id) {
       console.error('Ошибка при удалении данных: отсутствует id');
       return;
@@ -118,6 +122,8 @@ export const EditableTable = () => {
       handleUpdateTable();
     } catch (error) {
       console.error('Ошибка при удалении данных:', error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -134,6 +140,7 @@ export const EditableTable = () => {
   };
 
   const handleSave = async (row: TypeProductMovement) => {
+    setIsSaving(true);
     try {
       const { key, date, ...rowWithoutKeyDate } = row;
       const originalItem = dataSource.find(item => item.key === row.key);
@@ -171,6 +178,8 @@ export const EditableTable = () => {
       handleUpdateTable();
     } catch (error) {
       console.error('Ошибка при сохранении данных:', error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -178,6 +187,7 @@ export const EditableTable = () => {
     key: string,
     stockId: number | undefined,
   ) => {
+    setIsSaving(true);
     try {
       const newData = [...dataSource];
       const index = newData.findIndex(item => key === item.key);
@@ -206,6 +216,8 @@ export const EditableTable = () => {
       handleUpdateTable();
     } catch (error) {
       console.error('Ошибка при обновлении данных:', error);
+    } finally {
+      setIsSaving(false);
     }
   };
 

@@ -1,14 +1,9 @@
 import { TypeApiResponse, TypeStockAdjustment } from '../types';
 import { STOCK_ADJUSTMENT } from './apiEndpoints';
-import {
-  handleErrorResponseMessage,
-  handleResponseCreateMessage,
-  handleResponseDeleteMessage,
-  handleResponseUpdateMessage,
-} from '../utils';
+import { handleErrorResponseMessage } from '../utils';
 import { api } from './api';
 
-// Получить список всех списаний
+// Получить список всех корректировок
 export async function getAllStockAdjustment(): Promise<TypeStockAdjustment[]> {
   try {
     const response = await api.get(STOCK_ADJUSTMENT);
@@ -18,7 +13,7 @@ export async function getAllStockAdjustment(): Promise<TypeStockAdjustment[]> {
   }
 }
 
-// Получить данные списания по id
+// Получить данные корректировки по id
 export async function getStockAdjustmentById(
   id: number,
 ): Promise<TypeStockAdjustment | undefined> {
@@ -30,38 +25,23 @@ export async function getStockAdjustmentById(
   }
 }
 
-// Добавить новое списание
+// Добавить новую корректировку
 export async function createStockAdjustment(
   data: TypeStockAdjustment,
 ): Promise<TypeStockAdjustment> {
-  try {
-    const response = await api.post(STOCK_ADJUSTMENT, data);
-    return handleResponseCreateMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  return api.post(STOCK_ADJUSTMENT, data);
 }
 
-// Удалить списание по id
+// Удалить корректировку по id
 export async function deleteStockAdjustmentById(
   id: number,
 ): Promise<TypeApiResponse> {
-  try {
-    const response = await api.delete(`${STOCK_ADJUSTMENT}/${id}`);
-    return handleResponseDeleteMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  return api.delete(`${STOCK_ADJUSTMENT}/${id}`);
 }
 
-// Редактировать списание
-export async function updateStockAdjustment(
+// Редактировать корректировки
+export function updateStockAdjustment(
   data: TypeStockAdjustment,
 ): Promise<TypeApiResponse> {
-  try {
-    const response = await api.put(STOCK_ADJUSTMENT, data);
-    return handleResponseUpdateMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  return api.put(STOCK_ADJUSTMENT, data);
 }

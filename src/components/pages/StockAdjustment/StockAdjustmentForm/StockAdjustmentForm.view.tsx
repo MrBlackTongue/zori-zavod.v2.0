@@ -3,10 +3,13 @@ import { Col, DatePicker, Flex, Form, Input, Row } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
 import { CloseOutlined } from '@ant-design/icons';
 import { EditableTable } from '../EditableTable';
+import { useSaving } from '../../../../contexts/SavingContext';
 
 export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
 > = ({ form, onBlur, onCancel, initialValues }) => {
+  const { isSaving } = useSaving();
+
   return (
     <div className="page-form-style">
       <Flex
@@ -27,7 +30,18 @@ export const StockAdjustmentFormView: React.FC<
             {Form.useWatch('title', form)}
           </div>
         </div>
-        <CloseOutlined onClick={onCancel} className="close-icon-hover" />{' '}
+        <Flex align="center">
+          {isSaving ? (
+            <div style={{ marginRight: 10, color: 'tomato' }}>
+              сохранение...
+            </div>
+          ) : (
+            <div style={{ marginRight: 10, color: '#949a9e' }}>
+              все изменения сохранены
+            </div>
+          )}
+          <CloseOutlined onClick={onCancel} className="close-icon-hover" />{' '}
+        </Flex>
       </Flex>
       <Form
         form={form}
@@ -65,7 +79,6 @@ export const StockAdjustmentFormView: React.FC<
           </Col>
         </Row>
       </Form>
-      {/*<ProductMovementTableContainer />*/}
       <EditableTable />
     </div>
   );

@@ -1,11 +1,6 @@
 import { TypeApiResponse, TypeProductMovement } from '../types';
 import { PRODUCT_MOVEMENT } from './apiEndpoints';
-import {
-  handleErrorResponseMessage,
-  handleResponseCreateMessage,
-  handleResponseDeleteMessage,
-  handleResponseUpdateMessage,
-} from '../utils';
+import { handleErrorResponseMessage } from '../utils';
 import { api } from './api';
 
 // Получить список всех движений товара по id сущности и типу сущности
@@ -29,38 +24,27 @@ export async function createProductMovement(
   entityId: number,
   data: TypeProductMovement,
 ): Promise<TypeApiResponse> {
-  try {
-    const response = await api.post(`${PRODUCT_MOVEMENT}`, data, {
-      params: {
-        entityType,
-        entityId,
-      },
-    });
-    return handleResponseCreateMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  return api.post(`${PRODUCT_MOVEMENT}`, data, {
+    params: {
+      entityType,
+      entityId,
+    },
+  });
 }
 
 // Удалить движение товара по id и типу сущности
-export async function deleteProductMovementByIdAndEntityType(
+export function deleteProductMovementByIdAndEntityType(
   entityType: string,
   id: number,
 ): Promise<TypeApiResponse> {
-  try {
-    const response = await api.delete(`${PRODUCT_MOVEMENT}/${id}`, {
-      params: { entityType, id },
-    });
-    return handleResponseDeleteMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  return api.delete(`${PRODUCT_MOVEMENT}/${id}`, {
+    params: { entityType, id },
+  });
 }
 
 // Редактировать движение товара
-export async function updateProductMovement(
+export function updateProductMovement(
   data: TypeProductMovement,
 ): Promise<TypeApiResponse> {
-  const response = await api.put(`${PRODUCT_MOVEMENT}`, data);
-  return handleResponseUpdateMessage(response);
+  return api.put(`${PRODUCT_MOVEMENT}`, data);
 }
