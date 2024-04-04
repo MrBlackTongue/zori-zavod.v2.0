@@ -24,7 +24,7 @@ export async function getProductMovementByIdAndEntityType(
 }
 
 // Добавить движение товара
-export async function createProductionProductMovement(
+export async function createProductMovement(
   entityType: string,
   entityId: number,
   data: TypeProductMovement,
@@ -61,10 +61,6 @@ export async function deleteProductMovementByIdAndEntityType(
 export async function updateProductMovement(
   data: TypeProductMovement,
 ): Promise<TypeApiResponse> {
-  try {
-    const response = await api.put(`${PRODUCT_MOVEMENT}`, data);
-    return handleResponseUpdateMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  const response = await api.put(`${PRODUCT_MOVEMENT}`, data);
+  return handleResponseUpdateMessage(response);
 }

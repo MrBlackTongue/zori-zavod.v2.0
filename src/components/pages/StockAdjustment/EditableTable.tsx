@@ -3,7 +3,7 @@ import { Button, Popconfirm, Table } from 'antd';
 import { TypeProductMovement, TypeStock } from '../../../types';
 import { useParams } from 'react-router-dom';
 import {
-  createProductionProductMovement,
+  createProductMovement,
   deleteProductMovementByIdAndEntityType,
   getAllStock,
   getProductMovementByIdAndEntityType,
@@ -13,6 +13,8 @@ import { EditableSelect } from '../../molecules/EditableSelect/EditableSelect';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { EditableInputNumber } from '../../molecules/EditableInputNumber/EditableInputNumber';
 import { renderNumber } from '../../../utils';
+
+const ENTITY_TYPE = 'STOCK_ADJUSTMENT';
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -103,22 +105,17 @@ export const EditableTable = () => {
   ];
 
   const handleDeleteRow = async (row: TypeProductMovement) => {
+    if (!row.id) {
+      console.error('Ошибка при удалении данных: отсутствует id');
+      return;
+    }
+
     try {
-      if (row.id) {
-        await deleteProductMovementByIdAndEntityType(
-          'STOCK_ADJUSTMENT',
-          row.id,
-        );
-        setDataSource(prevDataSource => {
-          const newData = [...prevDataSource];
-          const index = newData.findIndex(item => row.key === item.key);
-          newData.splice(index, 1);
-          return newData;
-        });
-        handleUpdateTable();
-      } else {
-        console.error('Ошибка при удалении данных: отсутствует id');
-      }
+      await deleteProductMovementByIdAndEntityType(ENTITY_TYPE, row.id);
+      setDataSource(prevDataSource =>
+        prevDataSource.filter(item => item.key !== row.key),
+      );
+      handleUpdateTable();
     } catch (error) {
       console.error('Ошибка при удалении данных:', error);
     }
@@ -148,7 +145,7 @@ export const EditableTable = () => {
         await updateProductMovement(rowWithoutKeyDate);
       } else {
         if (row.stock?.id && row.amount !== 0) {
-          const response = await createProductionProductMovement(
+          const response = await createProductMovement(
             'STOCK_ADJUSTMENT',
             itemId!,
             rowWithoutKeyDate,
@@ -195,11 +192,7 @@ export const EditableTable = () => {
         await updateProductMovement(updatedItem);
       } else {
         if (itemId) {
-          await createProductionProductMovement(
-            'STOCK_ADJUSTMENT',
-            itemId,
-            updatedItem,
-          );
+          await createProductMovement('STOCK_ADJUSTMENT', itemId, updatedItem);
           updatedItem.id = dataSource.length + 1;
         }
       }
