@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, DatePicker, Flex, Form, Input, Row } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
 import { CloseOutlined } from '@ant-design/icons';
-import { EditableTable } from '../EditableTable';
+import { ProductMovementTableContainer } from '../ProductMovementTable/ProductMovementTable.container';
 import { useSaving } from '../../../../contexts/SavingContext';
 
 export const StockAdjustmentFormView: React.FC<
@@ -79,7 +79,7 @@ export const StockAdjustmentFormView: React.FC<
           </Col>
         </Row>
       </Form>
-      <EditableTable />
+      <ProductMovementTableContainer />
     </div>
   );
 };
