@@ -34,6 +34,6 @@ export interface FormViewProps<T> {
   title?: string;
   onFinish?: (values: T) => void;
   onBlur?: () => void;
-  onCancel?: () => void;
+  onCancel: () => void;
   initialValues?: Partial<T>;
 }

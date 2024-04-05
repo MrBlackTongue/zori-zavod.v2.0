@@ -1,9 +1,9 @@
 import React from 'react';
-import { Col, DatePicker, Flex, Form, Input, Row } from 'antd';
+import { Col, DatePicker, Form, Input, Row } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
-import { CloseOutlined } from '@ant-design/icons';
 import { ProductMovementTableContainer } from '../ProductMovementTable/ProductMovementTable.container';
 import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
+import { FormHeader } from '../../../atoms/FormHeader/FormHeader';
 
 export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
@@ -12,37 +12,12 @@ export const StockAdjustmentFormView: React.FC<
 
   return (
     <div className="page-form-style">
-      <Flex
-        justify="space-between"
-        style={{
-          borderBottom: '5px solid rgba(22, 119, 255, 0.5)',
-          marginBottom: 10,
-        }}>
-        <div>
-          Корректировка
-          <div
-            style={{
-              marginTop: 10,
-              marginBottom: 10,
-              fontSize: 18,
-              fontWeight: 'bold',
-            }}>
-            {Form.useWatch('title', form)}
-          </div>
-        </div>
-        <Flex align="center">
-          {isSaving ? (
-            <div style={{ marginRight: 10, color: 'tomato' }}>
-              сохранение...
-            </div>
-          ) : (
-            <div style={{ marginRight: 10, color: '#949a9e' }}>
-              все изменения сохранены
-            </div>
-          )}
-          <CloseOutlined onClick={onCancel} className="close-icon-hover" />{' '}
-        </Flex>
-      </Flex>
+      <FormHeader
+        header="Корректировка"
+        title={Form.useWatch('title', form)}
+        isSaving={isSaving}
+        onCancel={onCancel}
+      />
       <Form
         form={form}
         layout="vertical"
