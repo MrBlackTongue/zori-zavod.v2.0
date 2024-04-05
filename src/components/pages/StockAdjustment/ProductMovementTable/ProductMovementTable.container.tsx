@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Popconfirm, Table } from 'antd';
+import { Button, Table } from 'antd';
 import { TypeProductMovement, TypeStock } from '../../../../types';
 import { useParams } from 'react-router-dom';
 import {
@@ -10,10 +10,11 @@ import {
   updateProductMovement,
 } from '../../../../api';
 import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { EditableInputNumber } from '../../../molecules/EditableInputNumber/EditableInputNumber';
 import { renderNumber } from '../../../../utils';
 import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
+import { DeleteRowButton } from '../../../atoms/DeleteRowButton/DeleteRowButton';
 
 const ENTITY_TYPE = 'STOCK_ADJUSTMENT';
 
@@ -89,22 +90,8 @@ export const ProductMovementTableContainer = () => {
       dataIndex: 'delete',
       width: '3%',
       align: 'center',
-      render: (_, record) => (
-        <div className={'delete-button'}>
-          <Popconfirm
-            placement="topLeft"
-            title="Вы действительно хотите удалить строку?"
-            onConfirm={() => handleDeleteRow(record)}
-            okText="Да"
-            cancelText="Отмена">
-            <Button
-              size={'small'}
-              style={{ color: 'tomato', borderColor: 'tomato' }}
-              type="default"
-              icon={<DeleteOutlined />}
-            />
-          </Popconfirm>
-        </div>
+      render: (_, record: TypeProductMovement) => (
+        <DeleteRowButton record={record} handleDeleteRow={handleDeleteRow} />
       ),
     },
   ];
@@ -113,6 +100,7 @@ export const ProductMovementTableContainer = () => {
     setIsSaving(true);
     if (!row.id) {
       console.error('Ошибка при удалении данных: отсутствует id');
+      setIsSaving(false);
       return;
     }
 
