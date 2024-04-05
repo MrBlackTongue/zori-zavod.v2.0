@@ -16,11 +16,11 @@ import { MaterialFormContainer } from '../../components/pages/Material/MaterialF
 import { PurchaseFormContainer } from '../../components/pages/Purchase/PurchaseForm/PurchaseForm.container';
 import { ProductFormContainer } from '../../components/pages/Product/ProductForm/ProductForm.container';
 import { StockAdjustmentFormContainer } from '../../components/pages/StockAdjustment/StockAdjustmentForm/StockAdjustmentForm.container';
-import { SavingProvider } from '../../contexts/SavingContext';
+import { LoadingAndSavingProvider } from '../../contexts/LoadingAndSavingContext';
 
 export const ContentRoutes: React.FC = () => {
   return (
-    <SavingProvider>
+    <LoadingAndSavingProvider>
       <Routes>
         {/*<Route path={`${SUBSCRIPTION}`} element={<PageSubscription />} />*/}
         <Route
@@ -37,6 +37,6 @@ export const ContentRoutes: React.FC = () => {
           element={<StockAdjustmentFormContainer />}
         />
       </Routes>
-    </SavingProvider>
+    </LoadingAndSavingProvider>
   );
 };

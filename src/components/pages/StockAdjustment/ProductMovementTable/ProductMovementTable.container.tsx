@@ -13,7 +13,7 @@ import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { EditableInputNumber } from '../../../molecules/EditableInputNumber/EditableInputNumber';
 import { renderNumber } from '../../../../utils';
-import { useSaving } from '../../../../contexts/SavingContext';
+import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
 
 const ENTITY_TYPE = 'STOCK_ADJUSTMENT';
 
@@ -22,9 +22,10 @@ type EditableTableProps = Parameters<typeof Table>[0];
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
 export const ProductMovementTableContainer = () => {
-  const { setIsSaving } = useSaving();
+  const { setIsSaving } = useLoadingAndSaving();
 
   const [dataSource, setDataSource] = useState<TypeProductMovement[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Преобразование id из пути в число
   const { id: rawId } = useParams<{ id?: string }>();
@@ -150,19 +151,17 @@ export const ProductMovementTableContainer = () => {
           return;
         }
         await updateProductMovement(rowWithoutKeyDate);
-      } else {
-        if (row.stock?.id && row.amount !== 0) {
-          const response = await createProductMovement(
-            'STOCK_ADJUSTMENT',
-            itemId!,
-            rowWithoutKeyDate,
-          );
-          if (response && response.status && response.data) {
-            row.id = response.data.id;
-          }
-        } else {
-          return;
+      } else if (row.stock?.id && row.amount !== 0) {
+        const response = await createProductMovement(
+          'STOCK_ADJUSTMENT',
+          itemId!,
+          rowWithoutKeyDate,
+        );
+        if (response?.data?.id) {
+          row.id = response.data.id;
         }
+      } else {
+        return;
       }
 
       setDataSource(prevDataSource => {
@@ -200,11 +199,9 @@ export const ProductMovementTableContainer = () => {
 
       if (item.id) {
         await updateProductMovement(updatedItem);
-      } else {
-        if (itemId) {
-          await createProductMovement('STOCK_ADJUSTMENT', itemId, updatedItem);
-          updatedItem.id = dataSource.length + 1;
-        }
+      } else if (itemId) {
+        await createProductMovement('STOCK_ADJUSTMENT', itemId, updatedItem);
+        updatedItem.id = dataSource.length + 1;
       }
 
       setDataSource(prevDataSource => {
@@ -224,6 +221,7 @@ export const ProductMovementTableContainer = () => {
   // Обновить таблицу
   const handleUpdateTable = useCallback(() => {
     if (itemId) {
+      setIsLoading(true);
       getProductMovementByIdAndEntityType('STOCK_ADJUSTMENT', itemId)
         .then(data => {
           if (data) {
@@ -234,7 +232,8 @@ export const ProductMovementTableContainer = () => {
             setDataSource(newDataSource);
           }
         })
-        .catch(error => console.error('Ошибка при получении данных: ', error));
+        .catch(error => console.error('Ошибка при получении данных: ', error))
+        .finally(() => setIsLoading(false));
     }
   }, [itemId]);
 
@@ -248,6 +247,7 @@ export const ProductMovementTableContainer = () => {
         bordered
         size={'small'}
         pagination={false}
+        loading={isLoading}
         className={'editable-table'}
         rowClassName={() => 'editable-row'}
         dataSource={dataSource}

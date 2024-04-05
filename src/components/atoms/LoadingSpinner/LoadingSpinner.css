@@ -1,0 +1,10 @@
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner-content {
+  padding: 50px;
+  border-radius: 4px;
+}

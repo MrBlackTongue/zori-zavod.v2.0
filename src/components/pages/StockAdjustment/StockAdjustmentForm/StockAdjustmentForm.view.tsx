@@ -3,12 +3,12 @@ import { Col, DatePicker, Flex, Form, Input, Row } from 'antd';
 import { FormViewProps, TypeProductionType } from '../../../../types';
 import { CloseOutlined } from '@ant-design/icons';
 import { ProductMovementTableContainer } from '../ProductMovementTable/ProductMovementTable.container';
-import { useSaving } from '../../../../contexts/SavingContext';
+import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
 
 export const StockAdjustmentFormView: React.FC<
   FormViewProps<TypeProductionType>
 > = ({ form, onBlur, onCancel, initialValues }) => {
-  const { isSaving } = useSaving();
+  const { isSaving } = useLoadingAndSaving();
 
   return (
     <div className="page-form-style">

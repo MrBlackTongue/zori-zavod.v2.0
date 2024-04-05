@@ -11,12 +11,13 @@ import {
 } from '../../../../api';
 import dayjs, { ConfigType } from 'dayjs';
 import { TypeStockAdjustment } from '../../../../types';
-import { useSaving } from '../../../../contexts/SavingContext';
+import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
+import { LoadingSpinner } from '../../../atoms/LoadingSpinner/LoadingSpinner';
 
 export const StockAdjustmentFormContainer = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const { setIsSaving } = useSaving();
+  const { isLoading, setIsLoading, setIsSaving } = useLoadingAndSaving();
 
   // Преобразование id из пути в число
   const { id: rawId } = useParams<{ id?: string }>();
@@ -30,6 +31,7 @@ export const StockAdjustmentFormContainer = () => {
   // Получить данные для редактирования
   const handleGetData = useCallback(async () => {
     if (itemId) {
+      setIsLoading(true);
       try {
         const data = await getStockAdjustmentById(itemId);
         if (data) {
@@ -42,6 +44,8 @@ export const StockAdjustmentFormContainer = () => {
         }
       } catch (error) {
         console.error('Ошибка при получении данных:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
   }, [itemId, form]);
@@ -114,11 +118,17 @@ export const StockAdjustmentFormContainer = () => {
   }, [handleGetData]);
 
   return (
-    <StockAdjustmentFormView
-      form={form}
-      onBlur={onBlurHandler}
-      onCancel={handleCancel}
-      initialValues={initialValues}
-    />
+    <>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <StockAdjustmentFormView
+          form={form}
+          onBlur={onBlurHandler}
+          onCancel={handleCancel}
+          initialValues={initialValues}
+        />
+      )}
+    </>
   );
 };

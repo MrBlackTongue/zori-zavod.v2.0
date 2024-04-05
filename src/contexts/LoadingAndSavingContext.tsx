@@ -1,27 +1,34 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 
-interface SavingContextProps {
+interface LoadingAndSavingContextProps {
   isSaving: boolean;
   setIsSaving: (isSaving: boolean) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 // Создание контекста с типом и начальными значениями
-const SavingContext = createContext<SavingContextProps>({
+const LoadingAndSavingContext = createContext<LoadingAndSavingContextProps>({
   isSaving: false,
   setIsSaving: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
 });
 
 // Хук для удобного доступа к контексту
-export const useSaving = () => useContext(SavingContext);
+export const useLoadingAndSaving = () => useContext(LoadingAndSavingContext);
 
 // Определение типа для компонента-провайдера
-interface SavingProviderProps {
+interface LoadingAndSavingProviderProps {
   children: React.ReactNode;
 }
 
 // Компонент-провайдер для контекста
-export const SavingProvider: React.FC<SavingProviderProps> = ({ children }) => {
+export const LoadingAndSavingProvider: React.FC<
+  LoadingAndSavingProviderProps
+> = ({ children }) => {
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Обертка для установки состояния с задержкой
   const setIsSavingDelayed = (saving: boolean) => {
@@ -34,10 +41,24 @@ export const SavingProvider: React.FC<SavingProviderProps> = ({ children }) => {
     }
   };
 
+  // Обертка для установки состояния загрузки
+  const setIsLoadingImmediate = (loading: boolean) => {
+    setIsLoading(loading);
+  };
+
+  const contextValue = useMemo(
+    () => ({
+      isSaving,
+      setIsSaving: setIsSavingDelayed,
+      isLoading,
+      setIsLoading: setIsLoadingImmediate,
+    }),
+    [isSaving, isLoading],
+  );
+
   return (
-    <SavingContext.Provider
-      value={{ isSaving, setIsSaving: setIsSavingDelayed }}>
+    <LoadingAndSavingContext.Provider value={contextValue}>
       {children}
-    </SavingContext.Provider>
+    </LoadingAndSavingContext.Provider>
   );
 };
