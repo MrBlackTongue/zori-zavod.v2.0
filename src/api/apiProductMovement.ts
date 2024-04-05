@@ -1,6 +1,5 @@
 import { TypeApiResponse, TypeProductMovement } from '../types';
 import { PRODUCT_MOVEMENT } from './apiEndpoints';
-import { handleErrorResponseMessage } from '../utils';
 import { api } from './api';
 
 // Получить список всех движений товара по id сущности и типу сущности
@@ -8,18 +7,14 @@ export async function getProductMovementByIdAndEntityType(
   entityType: string,
   id: number,
 ): Promise<TypeProductMovement[] | undefined> {
-  try {
-    const response = await api.get(`${PRODUCT_MOVEMENT}/${id}`, {
-      params: { entityType, id },
-    });
-    return response.data;
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  const response = await api.get(`${PRODUCT_MOVEMENT}/${id}`, {
+    params: { entityType, id },
+  });
+  return response.data;
 }
 
 // Добавить движение товара
-export async function createProductMovement(
+export function createProductMovement(
   entityType: string,
   entityId: number,
   data: TypeProductMovement,
