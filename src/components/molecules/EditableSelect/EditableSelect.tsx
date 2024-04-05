@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Select, Tooltip } from 'antd';
 import { useDataListLoader } from '../../../hooks';
 
 interface EditableSelectProps<T> {
   value?: number;
+  label?: string;
   placeholder: string;
   fetchDataList: () => Promise<T[]>;
   getId: (item: T) => number;
@@ -13,6 +14,7 @@ interface EditableSelectProps<T> {
 
 export const EditableSelect = <T,>({
   value,
+  label,
   placeholder,
   fetchDataList,
   getId,
@@ -64,13 +66,9 @@ export const EditableSelect = <T,>({
     [loadData],
   );
 
-  // Загрузка данных списка при монтировании компонента
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
-
   // Функция для открытия выпадающего списка и установки фокуса на него
   const toggleOpen = () => {
+    loadData();
     setIsOpen(true);
     setTimeout(() => {
       selectRef.current?.focus();
@@ -111,7 +109,7 @@ export const EditableSelect = <T,>({
 
   const renderLabel = () => {
     const selectedOption = options?.find(option => option.value === value);
-    return selectedOption ? selectedOption.label : placeholder;
+    return selectedOption ? selectedOption.label : label ?? placeholder;
   };
 
   return isOpen ? (

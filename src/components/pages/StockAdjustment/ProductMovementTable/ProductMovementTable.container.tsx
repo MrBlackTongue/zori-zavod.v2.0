@@ -45,6 +45,7 @@ export const ProductMovementTableContainer = () => {
       render: (_, record) => (
         <EditableSelect
           value={record.stock?.id}
+          label={record.stock?.product?.title}
           placeholder="Выберите товар"
           fetchDataList={getAllStock}
           getId={item => item.id ?? 0}
