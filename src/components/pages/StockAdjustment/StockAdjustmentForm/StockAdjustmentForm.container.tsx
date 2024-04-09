@@ -109,7 +109,7 @@ export const StockAdjustmentFormContainer = () => {
       if (!itemId) {
         await createAdjustment(currentData);
       } else {
-        await updateAdjustment(currentData);
+        await updateAdjustment({ ...currentData, id: itemId });
       }
     } catch (error) {
       console.error('Ошибка валидации:', error);
