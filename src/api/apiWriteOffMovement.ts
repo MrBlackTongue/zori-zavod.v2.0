@@ -1,5 +1,5 @@
 import { TypeApiResponse, TypeWriteOffMovement } from '../types';
-import { MOVEMENT, WRITE_OFF } from './apiEndpoints';
+import { MOVEMENT, STOCK_ADJUSTMENT } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -12,7 +12,9 @@ export async function getAllWriteOffMovementByWriteOffId(
   id: number,
 ): Promise<TypeWriteOffMovement[] | undefined> {
   try {
-    const response = await api.get(`${MOVEMENT}${WRITE_OFF}${WRITE_OFF}/${id}`);
+    const response = await api.get(
+      `${MOVEMENT}${STOCK_ADJUSTMENT}${STOCK_ADJUSTMENT}/${id}`,
+    );
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);
@@ -24,7 +26,7 @@ export async function createWriteOffMovement(
   data: TypeWriteOffMovement,
 ): Promise<TypeApiResponse> {
   try {
-    const response = await api.post(`${MOVEMENT}${WRITE_OFF}`, data);
+    const response = await api.post(`${MOVEMENT}${STOCK_ADJUSTMENT}`, data);
     return handleResponseCreateMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
@@ -36,7 +38,7 @@ export async function deleteWriteOffMovementById(
   id: number,
 ): Promise<TypeApiResponse> {
   try {
-    const response = await api.delete(`${MOVEMENT}${WRITE_OFF}/${id}`);
+    const response = await api.delete(`${MOVEMENT}${STOCK_ADJUSTMENT}/${id}`);
     return handleResponseDeleteMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);

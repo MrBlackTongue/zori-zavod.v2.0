@@ -20,7 +20,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { TypeTransformedWorkHour, TypeWorkDay } from '../../../../types';
 import { EditableRow } from '../../../molecules/EditableRow/EditableRow';
 import { EditableCell } from '../../../molecules/EditableCell/EditableCell';
-import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect';
+import { EditableSelectOld } from '../../../molecules/EditableSelectOld/EditableSelectOld';
 import './WorkHoursTable.css';
 import { getAllEmployee } from '../../../../api';
 import { formatMinutesToTime } from '../../../../utils';
@@ -53,19 +53,17 @@ export const WorkHoursTableView: React.FC = () => {
       title: 'Сотрудник',
       dataIndex: 'employee',
       key: 'employee',
-      width: 200,
+      width: '20%',
       render: (_, record: TypeTransformedWorkHour) => {
         return (
-          <EditableSelect
+          <EditableSelectOld
             value={record.employee?.id}
             isEditable={!record.employee}
             placeholder="Выберите сотрудника"
             getId={item => item.id ?? 0}
             getLabel={item => `${item.lastName} ${item.firstName}`}
             fetchDataList={getAllEmployee}
-            onValueChange={newValue => {
-              handleEmployeeChange(newValue ?? null);
-            }}
+            onValueChange={newValue => handleEmployeeChange(newValue ?? null)}
           />
         );
       },

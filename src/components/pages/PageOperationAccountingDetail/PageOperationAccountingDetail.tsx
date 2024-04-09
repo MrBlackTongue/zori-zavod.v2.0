@@ -4,11 +4,8 @@ import { Button, Divider, FloatButton, Space } from 'antd';
 import { PlusOutlined, RollbackOutlined } from '@ant-design/icons';
 import {
   createOperationTimesheet,
-  createProductionProductMovement,
   deleteOperationAccountingById,
   deleteOperationTimesheetById,
-  deleteProductionProductMovementById,
-  getOperationAccountingById,
   updateOperationAccounting,
   updateOperationTimesheet,
 } from '../../../api';
@@ -17,15 +14,12 @@ import {
   TypeOperationAccountingFormValue,
   TypeOperationTimesheet,
   TypeOperationTimesheetFormValue,
-  TypeProductionProductMovement,
-  TypeProductionProductMovementFormValue,
 } from '../../../types';
 import { TableOperationAccountingDetail } from './components/TableOperationAccountingDetail';
 import { CreateModalOperationTimesheet } from './components/CreateModalOperationTimesheet';
 import { UpdateDrawerOperationAccounting } from '../PageOperationAccounting/components/UpdateDrawerOperationAccounting';
 import { TableOperationTimesheet } from './components/TableOperationTimesheet';
 import { UpdateDrawerOperationTimesheet } from './components/UpdateDrawerOperationTimesheet';
-import { TableProductionProductMovement } from './components/TableProductionProductMovement';
 import { CreateModalProductionProductMovement } from './components/CreateModalProductionProductMovement';
 import dayjs from 'dayjs';
 
@@ -121,34 +115,34 @@ export const PageOperationAccountingDetail: React.FC = () => {
   };
 
   // Создать запись движения товара на производстве
-  const handleCreateProductionProductMovement = async (
-    values: TypeProductionProductMovementFormValue,
-  ): Promise<void> => {
-    if (!id) return;
-    const operationAccounting = await getOperationAccountingById(Number(id));
-    let operationDate = operationAccounting?.date;
-
-    const productionProductMovement: TypeProductionProductMovement = {
-      amount: values.amount,
-      income: values.income,
-      stock: { id: values.stock },
-      date: operationDate,
-      operationAccounting: {
-        id: Number(id),
-      },
-    };
-    setIsModalProductionProductMovementOpen(false);
-    await createProductionProductMovement(productionProductMovement);
-    setIsUpdateAllTable(prevState => !prevState);
-  };
+  // const handleCreateProductionProductMovement = async (
+  //   values: TypeProductionProductMovementFormValue,
+  // ): Promise<void> => {
+  //   if (!id) return;
+  //   const operationAccounting = await getOperationAccountingById(Number(id));
+  //   let operationDate = operationAccounting?.date;
+  //
+  //   const productionProductMovement: TypeProductMovement = {
+  //     amount: values.amount,
+  //     income: values.income,
+  //     stock: { id: values.stock },
+  //     date: operationDate,
+  //     operationAccounting: {
+  //       id: Number(id),
+  //     },
+  //   };
+  //   setIsModalProductionProductMovementOpen(false);
+  //   await createProductionProductMovement(productionProductMovement);
+  //   setIsUpdateAllTable(prevState => !prevState);
+  // };
 
   // Удалить запись движения товара на производстве
-  const handleDeleteProductionProductMovement = async (
-    id: number,
-  ): Promise<void> => {
-    await deleteProductionProductMovementById(id);
-    setIsUpdateAllTable(prevState => !prevState);
-  };
+  // const handleDeleteProductionProductMovement = async (
+  //   id: number,
+  // ): Promise<void> => {
+  //   await deleteProductMovementByIdAndEntityType(id);
+  //   setIsUpdateAllTable(prevState => !prevState);
+  // };
 
   // Переход на другую страницу по адресу
   const handleBack = (): void => {
@@ -219,14 +213,14 @@ export const PageOperationAccountingDetail: React.FC = () => {
           </Button>
         </Space>
       </div>
-      <TableProductionProductMovement
-        isUpdateTable={isUpdateAllTable}
-        onDelete={handleDeleteProductionProductMovement}
-        idDetail={id ? Number(id) : undefined}
-      />
+      {/*<ProductMovementTableView*/}
+      {/*  // isUpdateTable={isUpdateAllTable}*/}
+      {/*  // onDelete={handleDeleteProductionProductMovement}*/}
+      {/*  // idDetail={id ? Number(id) : undefined}*/}
+      {/*/>*/}
       <CreateModalProductionProductMovement
         isOpen={isModalProductionProductMovementOpen}
-        createItem={handleCreateProductionProductMovement}
+        createItem={() => {}}
         onCancel={() => setIsModalProductionProductMovementOpen(false)}
       />
     </div>

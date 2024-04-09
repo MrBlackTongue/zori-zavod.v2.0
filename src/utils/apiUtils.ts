@@ -46,9 +46,6 @@ export function handleResponseLogoutMessage(response: any) {
 }
 
 export function handleErrorResponseMessage(error: any) {
-  console.error(error);
-
-  // В зависимости от статуса ошибки, вы можете отобразить разные сообщения
   if (error.response && error.response.status === 400) {
     void message.error('Ошибка в запросе');
   } else if (error.response && error.response.status === 500) {

@@ -6,7 +6,7 @@ import {
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api'; // Получить список всех товаров
+import { api } from './api';
 
 // Получить список всех товаров
 export async function getAllProduct(): Promise<TypeProduct[]> {

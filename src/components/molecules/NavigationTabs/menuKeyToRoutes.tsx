@@ -21,10 +21,10 @@ import {
   REPORT,
   SHIPMENT,
   STOCK,
+  STOCK_ADJUSTMENTS,
   STORAGE_PLACE,
   UNIT,
   WORK_HOURS,
-  WRITE_OFF,
 } from '../../../api';
 import { PageShipment } from '../../pages/PageShipment/PageShipment';
 import { PageOperationAccounting } from '../../pages/PageOperationAccounting/PageOperationAccounting';
@@ -34,7 +34,7 @@ import { PageOutput } from '../../pages/PageOutput/PageOutput';
 import { PurchaseTableContainer } from '../../pages/Purchase/PurchaseTable/PurchaseTable.container';
 import { PageAcceptance } from '../../pages/PageAcceptance/PageAcceptance';
 import { PageStock } from '../../pages/PageStock/PageStock';
-import { PageWriteOff } from '../../pages/PageWriteOff/PageWriteOff';
+import { StockAdjustmentTableContainer } from '../../pages/StockAdjustment/StockAdjustmentTable/StockAdjustmentTable.container';
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
 import { PageProductMovementHistory } from '../../pages/PageProductMovementHistory/PageProductMovementHistory';
 import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
@@ -131,10 +131,14 @@ export const menuKeyToRoutes: Record<
       route: <Route key={STOCK} path={STOCK} element={<PageStock />} />,
     },
     {
-      id: WRITE_OFF,
-      title: 'Списание',
+      id: STOCK_ADJUSTMENTS,
+      title: 'Корректировка',
       route: (
-        <Route key={WRITE_OFF} path={WRITE_OFF} element={<PageWriteOff />} />
+        <Route
+          key={STOCK_ADJUSTMENTS}
+          path={STOCK_ADJUSTMENTS}
+          element={<StockAdjustmentTableContainer />}
+        />
       ),
     },
     {

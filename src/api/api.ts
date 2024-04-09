@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL, LOGIN, SUBSCRIPTION } from './apiEndpoints';
+import { message } from 'antd';
 
 export const api = axios.create({
   baseURL: API_URL,
@@ -18,6 +19,9 @@ api.interceptors.response.use(
         window.location.assign(`${SUBSCRIPTION}`);
         break;
       default:
+        void message.error(
+          error.response?.data?.message ?? 'Произошла неизвестная ошибка',
+        );
         break;
     }
   },

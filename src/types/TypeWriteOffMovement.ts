@@ -1,5 +1,5 @@
 import { TypeStock } from './TypeStock';
-import { TypeWriteOff } from './TypeWriteOff';
+import { TypeStockAdjustment } from './TypeStockAdjustment';
 import { Dayjs } from 'dayjs';
 
 export type TypeWriteOffMovement = {
@@ -8,7 +8,7 @@ export type TypeWriteOffMovement = {
   income?: boolean;
   stock?: TypeStock;
   date?: Dayjs | string;
-  writeOff?: TypeWriteOff;
+  writeOff?: TypeStockAdjustment;
 };
 
 export type TypeWriteOffMovementFormValue = {

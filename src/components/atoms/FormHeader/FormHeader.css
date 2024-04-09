@@ -1,0 +1,11 @@
+.form-header {
+  border-bottom: 5px solid rgba(22, 119, 255, 0.5);
+  margin-bottom: 10px;
+}
+
+.form-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}

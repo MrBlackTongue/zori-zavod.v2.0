@@ -34,24 +34,50 @@
   justify-content: space-between;
 }
 
-/* Table style */
-.table-even-row {
-  /*background-color: #fff; !* Цвет для четных строк *!*/
-}
-
-.table-odd-row {
-  /*background-color: #f5f5f5; !* Цвет для нечетных строк *!*/
-}
-
+/* Basic table style */
 .ant-table-tbody > .ant-table-row:hover {
-  box-shadow:
-    0 -3px 6px 0 rgba(0, 0, 0, 0.15),
-    /* Тень сверху */ 0 3px 6px 0 rgba(0, 0, 0, 0.15); /* Тень снизу */
+  box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.15) /* Тень сверху */,
+  0 3px 6px 0 rgba(0, 0, 0, 0.15); /* Тень снизу */
 }
 
 .ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
-  border-left-color: transparent !important;
-  border-right-color: transparent !important;
+  border-left-color: transparent !important; /* Устанавливает цвет левой границы ячейки таблицы в прозрачный */
+  border-right-color: transparent !important; /* Устанавливает цвет правой границы ячейки таблицы в прозрачный */
+}
+
+/* Editable table style */
+.editable-table .ant-table-tbody > .ant-table-row:hover {
+  box-shadow: none; /* Отключает тень вокруг строки при наведении */
+}
+
+.editable-table .ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
+  border-left-color: #f0f0f0 !important;
+  border-right-color: #f0f0f0 !important;
+}
+
+.editable-cell {
+  position: relative;
+}
+
+.editable-cell-value-wrap {
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.editable-row:hover .editable-cell-value-wrap {
+  padding: 4px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}
+
+.editable-table .ant-table-tbody > .ant-table-row .delete-button {
+  visibility: hidden; /* Кнопка становится невидимой */
+  opacity: 0; /* Кнопка полностью прозрачная */
+}
+
+.editable-table .ant-table-tbody > .ant-table-row:hover .delete-button {
+  visibility: visible; /* Кнопка становится видимой */
+  opacity: 1; /* Кнопка полностью непрозрачная */
 }
 
 /* Tabs style */
@@ -79,10 +105,48 @@
   border-bottom: 5px solid #1677ff !important; /* Цвет нижней границы */
 }
 
-/* Form style */
-.form-style {
+/* Page form style */
+.page-form-style {
   min-height: 70vh;
   background-color: white;
   border-radius: 7px;
-  padding-top: 10px;
+  padding: 15px;
+}
+
+/* Form style */
+.form-style .ant-input,
+.form-style .ant-picker {
+  border: none; /* Убирает все границы элемента */
+  border-radius: 0; /* Убирает скругление углов */
+  box-shadow: none; /* Удаляет тень вокруг элемента */
+  border-bottom: 2px solid #d9d9d9; /* Серый цвет нижней границы */
+}
+
+.form-style .ant-input:hover,
+.form-style .ant-picker:hover {
+  box-shadow: none; /* Удаляет тень вокруг элемента */
+  border-bottom: 2px solid #a9a9a9; /* Серый цвет нижней границы */
+}
+
+.form-style .ant-input:focus,
+.form-style .ant-picker-focused {
+  box-shadow: none; /* Удаляет тень вокруг элемента */
+  border-bottom: 2px solid #1677ff; /* Синий цвет для границы */
+}
+
+.close-icon-hover {
+  cursor: pointer;
+  border-radius: 50%; /* Создает круглую форму */
+  padding: 10px; /* Расстояние от иконки до границ фона */
+  width: 40px; /* Явное задание ширины */
+  height: 40px; /* Явное задание высоты */
+  /* Центрирование содержимого элемента, если требуется */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease-in-out; /* Плавное появление фона */
+}
+
+.close-icon-hover:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Полупрозрачный фон при наведении */
 }
