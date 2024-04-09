@@ -19,7 +19,7 @@ export async function getStockAdjustmentById(
 // Добавить новую корректировку
 export function createStockAdjustment(
   data: TypeStockAdjustment,
-): Promise<TypeStockAdjustment> {
+): Promise<TypeApiResponse> {
   return api.post(STOCK_ADJUSTMENT, data);
 }
 

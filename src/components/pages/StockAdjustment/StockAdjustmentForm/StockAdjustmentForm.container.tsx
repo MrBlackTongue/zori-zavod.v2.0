@@ -71,7 +71,7 @@ export const StockAdjustmentFormContainer = () => {
     try {
       const response = await createStockAdjustment(data);
       setInitialFormData(data);
-      navigate(`${STOCK_ADJUSTMENT}/${response.id}`);
+      navigate(`${STOCK_ADJUSTMENT}/${response.data.id}`);
     } catch (error) {
       console.error('Ошибка при создании корректировки:', error);
     }
