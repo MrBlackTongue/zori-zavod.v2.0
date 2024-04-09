@@ -89,27 +89,30 @@ export const StockAdjustmentFormContainer = () => {
 
   // Создать или редактировать
   const onBlurHandler = useCallback(async () => {
-    setIsSaving(true);
-    await form.validateFields();
-    const values = form.getFieldsValue(true);
+    try {
+      await form.validateFields(['title']);
+      const values = form.getFieldsValue(true);
 
-    const currentData = {
-      ...values,
-      date: formatDate(values.date),
-    };
+      const currentData = {
+        ...values,
+        date: formatDate(values.date),
+      };
 
-    if (!hasDataChanged(initialFormData, currentData)) {
+      if (!hasDataChanged(initialFormData, currentData)) {
+        return;
+      }
+
+      setIsSaving(true);
+      if (!itemId) {
+        await createAdjustment(currentData);
+      } else {
+        await updateAdjustment(currentData);
+      }
+    } catch (error) {
+      console.error('Ошибка валидации:', error);
+    } finally {
       setIsSaving(false);
-      return;
     }
-
-    if (!itemId) {
-      await createAdjustment(currentData);
-    } else {
-      await updateAdjustment(currentData);
-    }
-
-    setIsSaving(false);
   }, [form, itemId, initialFormData, navigate]);
 
   // Функция для возврата на предыдущую страницу
