@@ -48,7 +48,7 @@ export const StockAdjustmentFormContainer = () => {
         setIsLoading(false);
       }
     }
-  }, [itemId, form]);
+  }, [itemId, form, setIsLoading]);
 
   // Преобразование даты
   const formatDate = (date: ConfigType | undefined) =>
@@ -67,25 +67,28 @@ export const StockAdjustmentFormContainer = () => {
   };
 
   // Обработка создания новой корректировки
-  const createAdjustment = async (data: TypeStockAdjustment) => {
-    try {
-      const response = await createStockAdjustment(data);
-      setInitialFormData(data);
-      navigate(`${STOCK_ADJUSTMENT}/${response.data.id}`);
-    } catch (error) {
-      console.error('Ошибка при создании корректировки:', error);
-    }
-  };
+  const createAdjustment = useCallback(
+    async (data: TypeStockAdjustment) => {
+      try {
+        const response = await createStockAdjustment(data);
+        setInitialFormData(data);
+        navigate(`${STOCK_ADJUSTMENT}/${response.data.id}`);
+      } catch (error) {
+        console.error('Ошибка при создании корректировки:', error);
+      }
+    },
+    [navigate],
+  );
 
   // Обработка обновления существующей корректировки
-  const updateAdjustment = async (data: TypeStockAdjustment) => {
+  const updateAdjustment = useCallback(async (data: TypeStockAdjustment) => {
     try {
       await updateStockAdjustment(data);
       setInitialFormData(data);
     } catch (error) {
       console.error('Ошибка при обновлении корректировки:', error);
     }
-  };
+  }, []);
 
   // Создать или редактировать
   const onBlurHandler = useCallback(async () => {
@@ -113,7 +116,14 @@ export const StockAdjustmentFormContainer = () => {
     } finally {
       setIsSaving(false);
     }
-  }, [form, itemId, initialFormData, navigate]);
+  }, [
+    form,
+    itemId,
+    initialFormData,
+    createAdjustment,
+    setIsSaving,
+    updateAdjustment,
+  ]);
 
   // Функция для возврата на предыдущую страницу
   const handleCancel = () => {
@@ -131,6 +141,7 @@ export const StockAdjustmentFormContainer = () => {
         }
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -22,6 +22,25 @@ export const ProductMovementTableContainer = () => {
   const { id: rawId } = useParams<{ id?: string }>();
   const itemId = rawId ? parseInt(rawId, 10) : undefined;
 
+  // Обновить таблицу
+  const updateTable = useCallback(() => {
+    if (itemId) {
+      setIsLoading(true);
+      getProductMovementByIdAndEntityType(ENTITY_TYPE, itemId)
+        .then(data => {
+          if (data) {
+            const newDataSource = data.map((item, index) => ({
+              ...item,
+              key: index.toString(),
+            }));
+            setDataSource(newDataSource);
+          }
+        })
+        .catch(error => console.error('Ошибка при получении данных: ', error))
+        .finally(() => setIsLoading(false));
+    }
+  }, [itemId]);
+
   const addNewRow = () => {
     const newRow: TypeProductMovement = {
       stock: { id: undefined },
@@ -54,24 +73,27 @@ export const ProductMovementTableContainer = () => {
     [itemId],
   );
 
-  const deleteRow = useCallback(async (row: TypeProductMovement) => {
-    setIsSaving(true);
+  const deleteRow = useCallback(
+    async (row: TypeProductMovement) => {
+      setIsSaving(true);
 
-    if (row.id) {
-      try {
-        await deleteProductMovementByIdAndEntityType(ENTITY_TYPE, row.id);
-      } catch (error) {
-        console.error('Ошибка при удалении данных:', error);
+      if (row.id) {
+        try {
+          await deleteProductMovementByIdAndEntityType(ENTITY_TYPE, row.id);
+        } catch (error) {
+          console.error('Ошибка при удалении данных:', error);
+        }
       }
-    }
 
-    setDataSource(prevDataSource =>
-      prevDataSource.filter(item => item.key !== row.key),
-    );
+      setDataSource(prevDataSource =>
+        prevDataSource.filter(item => item.key !== row.key),
+      );
 
-    updateTable();
-    setIsSaving(false);
-  }, []);
+      updateTable();
+      setIsSaving(false);
+    },
+    [setIsSaving, updateTable],
+  );
 
   const updateDataSource = useCallback((row: TypeProductMovement) => {
     setDataSource(prevDataSource => {
@@ -117,7 +139,14 @@ export const ProductMovementTableContainer = () => {
         setIsSaving(false);
       }
     },
-    [dataSource, itemId],
+    [
+      createNewRow,
+      dataSource,
+      setIsSaving,
+      updateDataSource,
+      updateRow,
+      updateTable,
+    ],
   );
 
   const onSaveStock = useCallback(
@@ -150,30 +179,20 @@ export const ProductMovementTableContainer = () => {
         setIsSaving(false);
       }
     },
-    [dataSource, itemId],
+    [
+      dataSource,
+      itemId,
+      createNewRow,
+      setIsSaving,
+      updateRow,
+      updateTable,
+      updateDataSource,
+    ],
   );
-
-  // Обновить таблицу
-  const updateTable = useCallback(() => {
-    if (itemId) {
-      setIsLoading(true);
-      getProductMovementByIdAndEntityType(ENTITY_TYPE, itemId)
-        .then(data => {
-          if (data) {
-            const newDataSource = data.map((item, index) => ({
-              ...item,
-              key: index.toString(),
-            }));
-            setDataSource(newDataSource);
-          }
-        })
-        .catch(error => console.error('Ошибка при получении данных: ', error))
-        .finally(() => setIsLoading(false));
-    }
-  }, [itemId]);
 
   useEffect(() => {
     updateTable();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
