@@ -19,7 +19,9 @@ api.interceptors.response.use(
         window.location.assign(`${SUBSCRIPTION}`);
         break;
       default:
-        void message.error(error.response?.data?.message);
+        void message.error(
+          error.response?.data?.message ?? 'Произошла неизвестная ошибка',
+        );
         break;
     }
   },

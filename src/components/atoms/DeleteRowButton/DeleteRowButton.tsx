@@ -4,19 +4,19 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 interface DeleteRowButtonProps<T> {
   record: T;
-  handleDeleteRow: (row: T) => void;
+  deleteRow: (row: T) => void;
 }
 
 export const DeleteRowButton = <T,>({
   record,
-  handleDeleteRow,
+  deleteRow,
 }: DeleteRowButtonProps<T>) => {
   return (
     <div className="delete-button">
       <Popconfirm
         placement="topLeft"
         title="Вы действительно хотите удалить строку?"
-        onConfirm={() => handleDeleteRow(record)}
+        onConfirm={() => deleteRow(record)}
         okText="Да"
         cancelText="Отмена">
         <Button

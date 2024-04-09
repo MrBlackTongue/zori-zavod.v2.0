@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Table } from 'antd';
+import { Table } from 'antd';
 import { TypeProductMovement, TypeStock } from '../../../../types';
 import { useParams } from 'react-router-dom';
 import {
@@ -10,11 +10,11 @@ import {
   updateProductMovement,
 } from '../../../../api';
 import { EditableSelect } from '../../../molecules/EditableSelect/EditableSelect';
-import { PlusOutlined } from '@ant-design/icons';
 import { EditableInputNumber } from '../../../molecules/EditableInputNumber/EditableInputNumber';
 import { renderNumber } from '../../../../utils';
 import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
 import { DeleteRowButton } from '../../../atoms/DeleteRowButton/DeleteRowButton';
+import { AddNewRowButton } from '../../../atoms/AddNewRowButton/AddNewRowButton';
 
 const ENTITY_TYPE = 'STOCK_ADJUSTMENT';
 
@@ -51,7 +51,7 @@ export const ProductMovementTableContainer = () => {
           fetchDataList={getAllStock}
           getId={item => item.id ?? 0}
           getLabel={item => item?.product?.title ?? ''}
-          onValueChange={value => handleStockChange(record.key, value)}
+          onValueChange={value => onSaveStock(record.key, value)}
         />
       ),
     },
@@ -59,11 +59,11 @@ export const ProductMovementTableContainer = () => {
       title: 'Движение',
       dataIndex: 'amount',
       width: '20%',
-      render: (_, record) => (
+      render: (_, record: TypeProductMovement) => (
         <EditableInputNumber
           dataIndex="amount"
           record={record}
-          handleSave={handleSave}>
+          save={onSaveAmount}>
           {renderNumber(record.amount)}{' '}
           <span style={{ color: '#61666D' }}>
             {record.stock?.product?.unit?.name}
@@ -90,32 +90,11 @@ export const ProductMovementTableContainer = () => {
       dataIndex: 'delete',
       width: '3%',
       align: 'center',
-      render: (_, record: TypeProductMovement) => (
-        <DeleteRowButton record={record} handleDeleteRow={handleDeleteRow} />
+      render: (_, record) => (
+        <DeleteRowButton record={record} deleteRow={deleteRow} />
       ),
     },
   ];
-
-  const handleDeleteRow = async (row: TypeProductMovement) => {
-    setIsSaving(true);
-    if (!row.id) {
-      console.error('Ошибка при удалении данных: отсутствует id');
-      setIsSaving(false);
-      return;
-    }
-
-    try {
-      await deleteProductMovementByIdAndEntityType(ENTITY_TYPE, row.id);
-      setDataSource(prevDataSource =>
-        prevDataSource.filter(item => item.key !== row.key),
-      );
-      handleUpdateTable();
-    } catch (error) {
-      console.error('Ошибка при удалении данных:', error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   const addNewRow = () => {
     const newRow: TypeProductMovement = {
@@ -129,89 +108,130 @@ export const ProductMovementTableContainer = () => {
     ]);
   };
 
-  const handleSave = async (row: TypeProductMovement) => {
-    setIsSaving(true);
-    try {
-      const { key, date, ...rowWithoutKeyDate } = row;
-      const originalItem = dataSource.find(item => item.key === row.key);
+  const updateRow = useCallback(async (row: TypeProductMovement) => {
+    const { key, date, ...rowWithoutKeyDate } = row;
+    await updateProductMovement(rowWithoutKeyDate);
+  }, []);
 
-      if (row.id) {
-        if (originalItem && originalItem.amount === row.amount) {
+  const createNewRow = useCallback(
+    async (row: TypeProductMovement) => {
+      const { key, date, ...rowWithoutKeyDate } = row;
+      const response = await createProductMovement(
+        ENTITY_TYPE,
+        itemId!,
+        rowWithoutKeyDate,
+      );
+      if (response?.data?.id) {
+        row.id = response.data.id;
+      }
+    },
+    [itemId],
+  );
+
+  const deleteRow = useCallback(async (row: TypeProductMovement) => {
+    setIsSaving(true);
+
+    if (row.id) {
+      try {
+        await deleteProductMovementByIdAndEntityType(ENTITY_TYPE, row.id);
+      } catch (error) {
+        console.error('Ошибка при удалении данных:', error);
+      }
+    }
+
+    setDataSource(prevDataSource =>
+      prevDataSource.filter(item => item.key !== row.key),
+    );
+
+    updateTable();
+    setIsSaving(false);
+  }, []);
+
+  const updateDataSource = useCallback((row: TypeProductMovement) => {
+    setDataSource(prevDataSource => {
+      const newData = [...prevDataSource];
+      const index = newData.findIndex(item => row.key === item.key);
+      const item = newData[index];
+      newData.splice(index, 1, {
+        ...item,
+        ...row,
+      });
+      return newData;
+    });
+  }, []);
+
+  const onSaveAmount = useCallback(
+    async (row: TypeProductMovement) => {
+      try {
+        const isExistingRow = !!row.id;
+        const originalItem = dataSource.find(item => item.key === row.key);
+        const isNewRowValid = row.stock?.id;
+        const isAmountUnchanged =
+          originalItem && originalItem.amount === row.amount;
+
+        if (isExistingRow && isAmountUnchanged) {
           return;
         }
-        await updateProductMovement(rowWithoutKeyDate);
-      } else if (row.stock?.id && row.amount !== 0) {
-        const response = await createProductMovement(
-          'STOCK_ADJUSTMENT',
-          itemId!,
-          rowWithoutKeyDate,
-        );
-        if (response?.data?.id) {
-          row.id = response.data.id;
+
+        if (isExistingRow) {
+          setIsSaving(true);
+          await updateRow(row);
+        } else if (isNewRowValid) {
+          setIsSaving(true);
+          await createNewRow(row);
+        } else {
+          return;
         }
-      } else {
-        return;
-      }
 
-      setDataSource(prevDataSource => {
-        const newData = [...prevDataSource];
-        const index = newData.findIndex(item => row.key === item.key);
+        updateDataSource(row);
+        updateTable();
+      } catch (error) {
+        console.error('Ошибка при сохранении данных:', error);
+      } finally {
+        setIsSaving(false);
+      }
+    },
+    [dataSource, itemId],
+  );
+
+  const onSaveStock = useCallback(
+    async (key: string, stockId: number | undefined) => {
+      setIsSaving(true);
+      try {
+        const newData = [...dataSource];
+        const index = newData.findIndex(item => key === item.key);
         const item = newData[index];
-        newData.splice(index, 1, {
+        const updatedItem = {
           ...item,
-          ...row,
-        });
-        return newData;
-      });
-      handleUpdateTable();
-    } catch (error) {
-      console.error('Ошибка при сохранении данных:', error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
+          stock: { id: stockId },
+          amount: 0,
+        };
 
-  const handleStockChange = async (
-    key: string,
-    stockId: number | undefined,
-  ) => {
-    setIsSaving(true);
-    try {
-      const newData = [...dataSource];
-      const index = newData.findIndex(item => key === item.key);
-      const item = newData[index];
-      const updatedItem = {
-        ...item,
-        stock: { id: stockId },
-        amount: 0,
-      };
+        const isExistingRow = !!item.id;
 
-      if (item.id) {
-        await updateProductMovement(updatedItem);
-      } else if (itemId) {
-        await createProductMovement('STOCK_ADJUSTMENT', itemId, updatedItem);
-        updatedItem.id = dataSource.length + 1;
+        if (isExistingRow) {
+          await updateRow(updatedItem);
+        } else if (itemId) {
+          await createNewRow(updatedItem);
+          updatedItem.id = dataSource.length + 1;
+        }
+
+        updateDataSource(updatedItem);
+        updateTable();
+      } catch (error) {
+        console.error('Ошибка при обновлении данных:', error);
+      } finally {
+        setIsSaving(false);
       }
-
-      setDataSource(prevDataSource => {
-        const newData = [...prevDataSource];
-        newData.splice(index, 1, updatedItem);
-        return newData;
-      });
-
-      handleUpdateTable();
-    } catch (error) {
-      console.error('Ошибка при обновлении данных:', error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
+    },
+    [dataSource, itemId],
+  );
 
   // Обновить таблицу
-  const handleUpdateTable = useCallback(() => {
+  const updateTable = useCallback(() => {
     if (itemId) {
       setIsLoading(true);
-      getProductMovementByIdAndEntityType('STOCK_ADJUSTMENT', itemId)
+      getProductMovementByIdAndEntityType(ENTITY_TYPE, itemId)
         .then(data => {
           if (data) {
             const newDataSource = data.map((item, index) => ({
@@ -227,8 +247,8 @@ export const ProductMovementTableContainer = () => {
   }, [itemId]);
 
   useEffect(() => {
-    handleUpdateTable();
-  }, [handleUpdateTable]);
+    updateTable();
+  }, [updateTable]);
 
   return (
     <div>
@@ -242,13 +262,7 @@ export const ProductMovementTableContainer = () => {
         dataSource={dataSource}
         columns={columns}
       />
-      <Button
-        type="link"
-        icon={<PlusOutlined />}
-        style={{ marginTop: 15 }}
-        onClick={addNewRow}>
-        Добавить
-      </Button>
+      <AddNewRowButton onClick={addNewRow} />
     </div>
   );
 };

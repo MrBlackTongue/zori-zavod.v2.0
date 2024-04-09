@@ -9,14 +9,14 @@ interface EditableInputNumberProps<T> {
   children: React.ReactNode;
   dataIndex: keyof T;
   record: T;
-  handleSave: (record: T) => void;
+  save: (record: T) => void;
 }
 
 export const EditableInputNumber = <T,>({
   children,
   dataIndex,
   record,
-  handleSave,
+  save,
 }: EditableInputNumberProps<T>) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState<number | null>(
@@ -33,7 +33,7 @@ export const EditableInputNumber = <T,>({
   // Функция для сохранения изменений
   const onSave = () => {
     toggleEdit();
-    handleSave({ ...record, [dataIndex]: value });
+    save({ ...record, [dataIndex]: value });
   };
 
   // Функция для выделения текста при фокусировке на InputNumber
@@ -63,7 +63,14 @@ export const EditableInputNumber = <T,>({
     <div
       className="editable-cell-value-wrap"
       style={{ paddingRight: 24 }}
-      onClick={toggleEdit}>
+      onClick={toggleEdit}
+      onKeyDown={event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          toggleEdit();
+        }
+      }}
+      tabIndex={0}
+      role="button">
       {children}
     </div>
   );
