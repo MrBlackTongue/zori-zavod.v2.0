@@ -128,7 +128,7 @@ export const StockAdjustmentFormContainer = () => {
         }
       }
     })();
-  }, [handleGetData]);
+  }, []);
 
   return (
     <>

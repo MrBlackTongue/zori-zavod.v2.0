@@ -174,7 +174,7 @@ export const ProductMovementTableContainer = () => {
 
   useEffect(() => {
     updateTable();
-  }, [updateTable]);
+  }, []);
 
   return (
     <ProductMovementTableView
