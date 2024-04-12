@@ -117,7 +117,7 @@ const findMenuKeyByPath = (path: string) => {
   for (const key of Object.keys(menuKeyToRoutes)) {
     for (const { route } of menuKeyToRoutes[key]) {
       // Если путь начинается с route.props.path, значит это родительский путь
-      if (path.startsWith(route.props.path)) {
+      if (path.startsWith(route?.props.path)) {
         return key;
       }
     }

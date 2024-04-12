@@ -13,7 +13,7 @@ import { WORK_HOURS } from './api';
 // Извлекаем все пути из menuKeyToRoutes
 const allPathsToShowTabs = Object.values(menuKeyToRoutes)
   .flat()
-  .map(routeInfo => routeInfo.route.props.path);
+  .map(routeInfo => routeInfo.route?.props.path);
 
 function App() {
   const { Header, Content, Footer } = Layout;
@@ -49,7 +49,8 @@ function App() {
         <UserMenu />
       </Header>
       <Content className="app-content">
-        {shouldShowTabs && <NavigationTabs selectedMenuKey={selectedMenuKey} />}
+        <NavigationTabs selectedMenuKey={selectedMenuKey} />
+        {/*{shouldShowTabs && <NavigationTabs selectedMenuKey={selectedMenuKey} />}*/}
         <ContentRoutes />
       </Content>
       <Footer className="app-footer">

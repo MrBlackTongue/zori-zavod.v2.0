@@ -81,27 +81,27 @@
 }
 
 /* Tabs style */
-.ant-tabs-nav-list {
+.child-tabs-style .ant-tabs-nav-list {
   padding-left: 30px;
   height: 30px;
 }
 
-.ant-tabs-tab {
+.child-tabs-style .ant-tabs-tab {
   background-color: white !important;
   border: 1px solid rgba(100, 100, 103, 0.3) !important;
   border-bottom: 1px solid transparent !important; /* Прозрачная нижняя граница */
 }
 
-.ant-tabs-tab-active .ant-tabs-tab-btn {
+.child-tabs-style .ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #fff !important; /* Белый текст для активного Tab */
 }
 
-.ant-tabs-tab-active {
+.child-tabs-style .ant-tabs-tab-active {
   background-color: #1677ff !important; /* Яркий фон для активного Tab */
   border-bottom: 1px solid #1677ff !important; /* Жирная нижняя граница синего цвета */
 }
 
-.ant-tabs-nav-wrap {
+.child-tabs-style .ant-tabs-nav-wrap {
   border-bottom: 5px solid #1677ff !important; /* Цвет нижней границы */
 }
 

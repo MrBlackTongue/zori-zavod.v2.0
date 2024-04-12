@@ -53,15 +53,28 @@ import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/Wo
 
 export const menuKeyToRoutes: Record<
   string,
-  { id: string; route: ReactElement; title: string }[]
+  {
+    id: string;
+    title: string;
+    route?: ReactElement;
+    childTabs?: {
+      id: string;
+      title: string;
+      content: ReactElement;
+    }[];
+  }[]
 > = {
   '01': [
     {
-      id: SHIPMENT,
-      title: 'Отгрузки',
-      route: (
-        <Route key={SHIPMENT} path={SHIPMENT} element={<PageShipment />} />
-      ),
+      id: 'sell',
+      title: 'Бубка',
+      childTabs: [
+        {
+          id: SHIPMENT,
+          title: 'Отгрузки',
+          content: <PageShipment />,
+        },
+      ],
     },
   ],
   '02': [

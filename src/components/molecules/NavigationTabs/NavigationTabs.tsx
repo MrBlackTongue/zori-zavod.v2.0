@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Tabs } from 'antd';
 import { menuKeyToRoutes } from './menuKeyToRoutes';
+import { ChildTabs } from './ChildTabs';
 
 const DEFAULT_TAB_KEY = '0';
 
@@ -31,7 +32,11 @@ export const NavigationTabs: React.FC<TabsComponentProps> = ({
   const tabItems = tabInfoArray.map(tabInfo => ({
     key: tabInfo.id,
     label: tabInfo.title,
-    children: <Routes>{tabInfo.route}</Routes>,
+    children: tabInfo.childTabs ? (
+      <ChildTabs parentTabId={tabInfo.id} childTabs={tabInfo.childTabs} />
+    ) : (
+      <Routes>{tabInfo.route}</Routes>
+    ),
   }));
 
   // Обработчик изменения Tabs
@@ -40,6 +45,10 @@ export const NavigationTabs: React.FC<TabsComponentProps> = ({
       const selectedTab = tabInfoArray.find(tab => tab.id === key);
       if (selectedTab?.route?.props?.path) {
         navigate(selectedTab.route.props.path);
+      } else if (selectedTab?.childTabs) {
+        const firstChildTab = selectedTab.childTabs[0];
+        const path = `${selectedTab.id}/${firstChildTab.id}`;
+        navigate(path);
       }
     },
     [navigate, tabInfoArray],
@@ -57,7 +66,12 @@ export const NavigationTabs: React.FC<TabsComponentProps> = ({
 
     // Поиск tab, соответствующего текущему пути
     const selectedTab = tabInfoArray.find(
-      tab => tab.route.props.path === location.pathname,
+      tab =>
+        tab.route?.props.path === location.pathname ||
+        tab.childTabs?.some(childTab => {
+          const childTabPath = `${tab.id}/${childTab.id}`;
+          return location.pathname.includes(childTabPath);
+        }),
     );
 
     // Установка найденного ключа как активного
@@ -71,7 +85,6 @@ export const NavigationTabs: React.FC<TabsComponentProps> = ({
 
   return (
     <Tabs
-      type="card"
       activeKey={activeTabKey}
       onChange={handleTabChange}
       items={tabItems}
