@@ -26,12 +26,26 @@ export const MainTabs: React.FC<TabsComponentProps> = ({ selectedMenuKey }) => {
   const [activeTabKey, setActiveTabKey] = useState(
     () => getActiveTabKeyFromLocalStorage() ?? DEFAULT_TAB_KEY,
   );
+
+  // Извлекаем все пути дочерних tabs из tabInfoArray
+  const childTabPaths = tabInfoArray.flatMap(
+    tabInfo =>
+      tabInfo.childTabs?.map(childTab => `${tabInfo.id}${childTab.id}`) || [],
+  );
+
+  // Проверка, нужно ли показывать дочерние tabs на текущей странице
+  const shouldShowChildTabs = childTabPaths.some(path =>
+    location.pathname.includes(path),
+  );
+
   // Формирование массива объектов для свойства items компонента NavigationTabs
   const tabItems = tabInfoArray.map(tabInfo => ({
     key: tabInfo.id,
     label: tabInfo.title,
     children: tabInfo.childTabs ? (
-      <ChildTabs parentTabId={tabInfo.id} childTabs={tabInfo.childTabs} />
+      shouldShowChildTabs ? (
+        <ChildTabs parentTabId={tabInfo.id} childTabs={tabInfo.childTabs} />
+      ) : null
     ) : (
       <Routes>{tabInfo.route}</Routes>
     ),

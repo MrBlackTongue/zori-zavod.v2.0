@@ -1,28 +1,16 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
-import {Layout} from 'antd';
-import {MainMenu} from './components/molecules/MainMenu/MainMenu';
-import {UserMenu} from './components/molecules/UserMenu/UserMenu';
-import {MainTabs} from './components/molecules/NavigationTabs/MainTabs';
-import {ContentRoutes} from './routes/ContentRoutes/ContentRoutes';
-import {useLocation} from 'react-router-dom';
-import {menuKeyToRoutes} from './components/molecules/NavigationTabs/menuKeyToRoutes';
+import { Layout } from 'antd';
+import { MainMenu } from './components/molecules/MainMenu/MainMenu';
+import { UserMenu } from './components/molecules/UserMenu/UserMenu';
+import { MainTabs } from './components/molecules/NavigationTabs/MainTabs';
+import { ContentRoutes } from './routes/ContentRoutes/ContentRoutes';
 import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png';
-import {WORK_HOURS} from './api'; // Извлекаем все пути из menuKeyToRoutes
-
-// Извлекаем все пути из menuKeyToRoutes
-const allPathsToShowTabs = Object.values(menuKeyToRoutes)
-  .flat()
-  .map(routeInfo => routeInfo.route?.props.path);
+import { WORK_HOURS } from './api';
 
 function App() {
   const { Header, Content, Footer } = Layout;
   const [selectedMenuKey, setSelectedMenuKey] = useState<string>('');
-
-  const location = useLocation();
-
-  // Проверка, нужно ли показывать NavigationTabs на текущей странице
-  const shouldShowTabs = allPathsToShowTabs.includes(location.pathname);
 
   const memoizedSetSelectedMenuKey = useCallback((key: string) => {
     setSelectedMenuKey(key);
@@ -50,7 +38,6 @@ function App() {
       </Header>
       <Content className="app-content">
         <MainTabs selectedMenuKey={selectedMenuKey} />
-        {/*{shouldShowTabs && <NavigationTabs selectedMenuKey={selectedMenuKey} />}*/}
         <ContentRoutes />
       </Content>
       <Footer className="app-footer">

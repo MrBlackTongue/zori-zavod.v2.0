@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Menu } from 'antd';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './MainMenu.css';
 import {
   AppstoreAddOutlined,
@@ -12,20 +12,33 @@ import {
   ShoppingCartOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
+import {
+  CLIENTS,
+  OPERATION,
+  OPERATION_ACCOUNTING,
+  PRODUCTS,
+  PURCHASES,
+  REPORT,
+  SHIPMENT,
+  STOCK,
+  WORK_HOURS,
+} from '../../../api';
 import { menuKeyToRoutes } from '../NavigationTabs/menuKeyToRoutes';
 
 const items = [
   {
     key: '01',
+    defaultPath: `/sell${SHIPMENT}`,
     label: (
-      <div className="menu-item-container">
+      <Link to={`/sell${SHIPMENT}`} className="menu-item-container">
         <ShopOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
         <div className="menu-item-div">Продажи</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '02',
+    defaultPath: OPERATION_ACCOUNTING,
     label: (
       <div className="menu-item-container">
         <AppstoreAddOutlined
@@ -38,6 +51,7 @@ const items = [
   },
   {
     key: '03',
+    defaultPath: PURCHASES,
     label: (
       <div className="menu-item-container">
         <ShoppingCartOutlined
@@ -50,6 +64,7 @@ const items = [
   },
   {
     key: '04',
+    defaultPath: STOCK,
     label: (
       <div className="menu-item-container">
         <AppstoreOutlined
@@ -62,6 +77,7 @@ const items = [
   },
   {
     key: '05',
+    defaultPath: `${REPORT}${OPERATION}`,
     label: (
       <div className="menu-item-container">
         <BarChartOutlined
@@ -74,6 +90,7 @@ const items = [
   },
   {
     key: '06',
+    defaultPath: PRODUCTS,
     label: (
       <div className="menu-item-container">
         <CarryOutOutlined
@@ -86,6 +103,7 @@ const items = [
   },
   {
     key: '07',
+    defaultPath: CLIENTS,
     label: (
       <div className="menu-item-container">
         <TeamOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
@@ -95,6 +113,7 @@ const items = [
   },
   {
     key: '08',
+    defaultPath: WORK_HOURS,
     label: (
       <div className="menu-item-container">
         <ScheduleOutlined
@@ -115,10 +134,20 @@ interface MenuMainProps {
 // Функция ищет ключ меню соответствующий заданному пути
 const findMenuKeyByPath = (path: string) => {
   for (const key of Object.keys(menuKeyToRoutes)) {
-    for (const { route } of menuKeyToRoutes[key]) {
-      // Если путь начинается с route.props.path, значит это родительский путь
-      if (path.startsWith(route?.props.path)) {
+    for (const tabInfo of menuKeyToRoutes[key]) {
+      if (
+        tabInfo.route?.props?.path &&
+        path.startsWith(tabInfo.route.props.path)
+      ) {
         return key;
+      }
+      if (tabInfo.childTabs) {
+        for (const childTab of tabInfo.childTabs) {
+          const childTabPath = `${tabInfo.id}${childTab.id}`;
+          if (path.includes(childTabPath)) {
+            return key;
+          }
+        }
       }
     }
   }
@@ -135,10 +164,10 @@ export const MainMenu: React.FC<MenuMainProps> = ({
   // Функция меняет ключ меню и переходит по новому маршруту
   const handleSelect = ({ key }: { key: string }) => {
     onMenuKeyChange(key);
-    const firstRoute = menuKeyToRoutes[key]?.[0]?.route?.props?.path;
-    if (firstRoute) {
+    const menuItem = items.find(item => item.key === key);
+    if (menuItem?.defaultPath && location.pathname !== menuItem?.defaultPath) {
       localStorage.setItem('activeMenuKey', key);
-      navigate(firstRoute);
+      navigate(menuItem.defaultPath, { replace: true });
     }
   };
 
