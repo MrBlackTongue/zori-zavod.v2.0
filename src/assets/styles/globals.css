@@ -80,7 +80,7 @@
   opacity: 1; /* Кнопка полностью непрозрачная */
 }
 
-/* Tabs style */
+/* NavigationTabs style */
 .child-tabs-style .ant-tabs-nav-list {
   padding-left: 30px;
   height: 30px;

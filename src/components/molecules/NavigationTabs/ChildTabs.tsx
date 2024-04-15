@@ -21,7 +21,7 @@ export const ChildTabs: React.FC<ChildTabsProps> = ({
   const handleChildTabChange = (key: string) => {
     const selectedTab = childTabs.find(tab => tab.id === key);
     if (selectedTab) {
-      const path = `${parentTabId}/${selectedTab.id}`;
+      const path = `${parentTabId}${selectedTab.id}`;
       navigate(path);
     }
   };
@@ -38,7 +38,7 @@ export const ChildTabs: React.FC<ChildTabsProps> = ({
         className={'child-tabs-style'}
         activeKey={
           childTabs.find(tab => {
-            const childTabPath = `${parentTabId}/${tab.id}`;
+            const childTabPath = `${parentTabId}${tab.id}`;
             return location.pathname.includes(childTabPath);
           })?.id
         }
@@ -49,7 +49,7 @@ export const ChildTabs: React.FC<ChildTabsProps> = ({
         {childTabs.map(tab => (
           <Route
             key={tab.id}
-            path={`${parentTabId}/${tab.id}`}
+            path={`${parentTabId}${tab.id}`}
             element={tab.content}
           />
         ))}

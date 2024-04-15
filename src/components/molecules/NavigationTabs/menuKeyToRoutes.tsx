@@ -66,13 +66,18 @@ export const menuKeyToRoutes: Record<
 > = {
   '01': [
     {
-      id: 'sell',
+      id: '/sell',
       title: 'Бубка',
       childTabs: [
         {
           id: SHIPMENT,
           title: 'Отгрузки',
           content: <PageShipment />,
+        },
+        {
+          id: OPERATION,
+          title: 'Операции',
+          content: <PageOperation />,
         },
       ],
     },
