@@ -4,10 +4,8 @@ import { Tabs } from 'antd';
 import { menuKeyToRoutes } from './menuKeyToRoutes';
 import { ChildTabs } from './ChildTabs';
 
-const DEFAULT_TAB_KEY = '0';
-
-const getActiveTabKeyFromLocalStorage = () =>
-  localStorage.getItem('activeTabKey');
+const getActiveTabKeyFromLocalStorage = (): string | undefined =>
+  localStorage.getItem('activeTabKey') || undefined;
 const setActiveTabKeyToLocalStorage = (key: string) =>
   localStorage.setItem('activeTabKey', key);
 
@@ -23,8 +21,8 @@ export const MainTabs: React.FC<TabsComponentProps> = ({ selectedMenuKey }) => {
     [selectedMenuKey],
   );
 
-  const [activeTabKey, setActiveTabKey] = useState(
-    () => getActiveTabKeyFromLocalStorage() ?? DEFAULT_TAB_KEY,
+  const [activeTabKey, setActiveTabKey] = useState(() =>
+    getActiveTabKeyFromLocalStorage(),
   );
 
   // Извлекаем все пути дочерних tabs из tabInfoArray
@@ -35,7 +33,7 @@ export const MainTabs: React.FC<TabsComponentProps> = ({ selectedMenuKey }) => {
 
   // Проверка, нужно ли показывать дочерние tabs на текущей странице
   const shouldShowChildTabs = childTabPaths.some(path =>
-    location.pathname.includes(path),
+    location.pathname.startsWith(path),
   );
 
   // Формирование массива объектов для свойства items компонента NavigationTabs
@@ -48,9 +46,7 @@ export const MainTabs: React.FC<TabsComponentProps> = ({ selectedMenuKey }) => {
             ? `${tabInfo.id}${tabInfo.childTabs[0].id}`
             : tabInfo.route?.props?.path || tabInfo.id
         }
-        style={{
-          color: 'inherit',
-        }}>
+        style={{ color: 'inherit' }}>
         {tabInfo.title}
       </Link>
     ),
@@ -80,13 +76,10 @@ export const MainTabs: React.FC<TabsComponentProps> = ({ selectedMenuKey }) => {
 
   // useEffect для установки активного ключа tab
   useEffect(() => {
-    let activeTabKeyToSet = tabInfoArray[0]?.id || DEFAULT_TAB_KEY;
+    const savedActiveTabKey = getActiveTabKeyFromLocalStorage();
 
     // Восстановление активного ключа из localStorage
-    const savedActiveTabKey = getActiveTabKeyFromLocalStorage();
-    if (savedActiveTabKey) {
-      activeTabKeyToSet = savedActiveTabKey;
-    }
+    let activeTabKeyToSet = savedActiveTabKey || tabInfoArray[0]?.id;
 
     // Поиск tab, соответствующего текущему пути
     const selectedTab = tabInfoArray.find(
@@ -94,7 +87,7 @@ export const MainTabs: React.FC<TabsComponentProps> = ({ selectedMenuKey }) => {
         tab.route?.props.path === location.pathname ||
         tab.childTabs?.some(childTab => {
           const childTabPath = `${tab.id}${childTab.id}`;
-          return location.pathname.includes(childTabPath);
+          return location.pathname.startsWith(childTabPath);
         }),
     );
 

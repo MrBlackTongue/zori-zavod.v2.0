@@ -139,12 +139,18 @@ export const menuKeyToRoutes: Record<
   ],
   '04': [
     {
-      id: STOCK,
+      id: '/inventory',
       title: 'Остатки',
-      route: <Route key={STOCK} path={STOCK} element={<PageStock />} />,
+      childTabs: [
+        {
+          id: STOCK,
+          title: '',
+          content: <PageStock />,
+        },
+      ],
     },
     {
-      id: '',
+      id: STOCK,
       title: 'Корректировка',
       childTabs: [
         {

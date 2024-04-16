@@ -28,7 +28,6 @@ import { menuKeyToRoutes } from '../NavigationTabs/menuKeyToRoutes';
 const items = [
   {
     key: '01',
-    defaultPath: `/sell${SHIPMENT}`,
     label: (
       <Link to={`/sell${SHIPMENT}`} className="menu-item-container">
         <ShopOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
@@ -38,7 +37,6 @@ const items = [
   },
   {
     key: '02',
-    defaultPath: OPERATION_ACCOUNTING,
     label: (
       <Link to={`${OPERATION_ACCOUNTING}`} className="menu-item-container">
         <AppstoreAddOutlined
@@ -51,7 +49,6 @@ const items = [
   },
   {
     key: '03',
-    defaultPath: PURCHASES,
     label: (
       <Link to={`${PURCHASES}`} className="menu-item-container">
         <ShoppingCartOutlined
@@ -64,9 +61,8 @@ const items = [
   },
   {
     key: '04',
-    defaultPath: STOCK,
     label: (
-      <Link to={`${STOCK}`} className="menu-item-container">
+      <Link to={`/inventory${STOCK}`} className="menu-item-container">
         <AppstoreOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
@@ -77,7 +73,6 @@ const items = [
   },
   {
     key: '05',
-    defaultPath: `${REPORT}${OPERATION}`,
     label: (
       <Link to={`${REPORT}${OPERATION}`} className="menu-item-container">
         <BarChartOutlined
@@ -90,7 +85,6 @@ const items = [
   },
   {
     key: '06',
-    defaultPath: PRODUCTS,
     label: (
       <Link to={`${PRODUCTS}`} className="menu-item-container">
         <CarryOutOutlined
@@ -103,7 +97,6 @@ const items = [
   },
   {
     key: '07',
-    defaultPath: CLIENTS,
     label: (
       <Link to={`${CLIENTS}`} className="menu-item-container">
         <TeamOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
@@ -113,7 +106,6 @@ const items = [
   },
   {
     key: '08',
-    defaultPath: WORK_HOURS,
     label: (
       <Link to={`${WORK_HOURS}`} className="menu-item-container">
         <ScheduleOutlined
@@ -176,9 +168,10 @@ export const MainMenu: React.FC<MenuMainProps> = ({
   const handleSelect = ({ key }: { key: string }) => {
     onMenuKeyChange(key);
     const menuItem = items.find(item => item.key === key);
-    if (menuItem?.defaultPath && location.pathname !== menuItem?.defaultPath) {
+    const linkPath = menuItem?.label?.props?.to;
+    if (linkPath && location.pathname !== linkPath) {
       localStorage.setItem('activeMenuKey', key);
-      navigate(menuItem.defaultPath, { replace: true });
+      navigate(linkPath, { replace: true });
     }
   };
 
