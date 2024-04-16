@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Tabs } from 'antd';
 import { menuKeyToRoutes } from './menuKeyToRoutes';
 import { ChildTabs } from './ChildTabs';
@@ -41,7 +41,19 @@ export const MainTabs: React.FC<TabsComponentProps> = ({ selectedMenuKey }) => {
   // Формирование массива объектов для свойства items компонента NavigationTabs
   const tabItems = tabInfoArray.map(tabInfo => ({
     key: tabInfo.id,
-    label: tabInfo.title,
+    label: (
+      <Link
+        to={
+          tabInfo.childTabs
+            ? `${tabInfo.id}${tabInfo.childTabs[0].id}`
+            : tabInfo.route?.props?.path || tabInfo.id
+        }
+        style={{
+          color: 'inherit',
+        }}>
+        {tabInfo.title}
+      </Link>
+    ),
     children: tabInfo.childTabs ? (
       shouldShowChildTabs ? (
         <ChildTabs parentTabId={tabInfo.id} childTabs={tabInfo.childTabs} />

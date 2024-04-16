@@ -67,17 +67,12 @@ export const menuKeyToRoutes: Record<
   '01': [
     {
       id: '/sell',
-      title: 'Бубка',
+      title: '',
       childTabs: [
         {
           id: SHIPMENT,
           title: 'Отгрузки',
           content: <PageShipment />,
-        },
-        {
-          id: OPERATION,
-          title: 'Операции',
-          content: <PageOperation />,
         },
       ],
     },
@@ -149,15 +144,15 @@ export const menuKeyToRoutes: Record<
       route: <Route key={STOCK} path={STOCK} element={<PageStock />} />,
     },
     {
-      id: STOCK_ADJUSTMENTS,
+      id: '',
       title: 'Корректировка',
-      route: (
-        <Route
-          key={STOCK_ADJUSTMENTS}
-          path={STOCK_ADJUSTMENTS}
-          element={<StockAdjustmentTableContainer />}
-        />
-      ),
+      childTabs: [
+        {
+          id: STOCK_ADJUSTMENTS,
+          title: '',
+          content: <StockAdjustmentTableContainer />,
+        },
+      ],
     },
     {
       id: STORAGE_PLACE,

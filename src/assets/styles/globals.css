@@ -105,6 +105,21 @@
   border-bottom: 5px solid #1677ff !important; /* Цвет нижней границы */
 }
 
+/* Стили для tabs без названия */
+.child-tabs-style-display-none .ant-tabs-nav-wrap {
+  border-bottom: 5px solid #1677ff !important; /* Цвет нижней границы */
+}
+
+.child-tabs-style-display-none .ant-tabs-tab-active {
+  display: none; /* Скрыть tabs */
+}
+
+.child-tabs-style-display-none .ant-tabs-nav-wrap {
+  padding-top: 35px;
+}
+
+
+
 /* Page form style */
 .page-form-style {
   min-height: 70vh;

@@ -39,7 +39,7 @@ export const ChildTabs: React.FC<ChildTabsProps> = ({
         activeKey={
           childTabs.find(tab => {
             const childTabPath = `${parentTabId}${tab.id}`;
-            return location.pathname.includes(childTabPath);
+            return location.pathname.startsWith(childTabPath);
           })?.id
         }
         onChange={handleChildTabChange}
@@ -49,7 +49,7 @@ export const ChildTabs: React.FC<ChildTabsProps> = ({
         {childTabs.map(tab => (
           <Route
             key={tab.id}
-            path={`${parentTabId}${tab.id}`}
+            path={`${parentTabId}${tab.id}/*`}
             element={tab.content}
           />
         ))}
