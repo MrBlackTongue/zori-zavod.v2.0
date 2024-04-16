@@ -40,88 +40,88 @@ const items = [
     key: '02',
     defaultPath: OPERATION_ACCOUNTING,
     label: (
-      <div className="menu-item-container">
+      <Link to={`${OPERATION_ACCOUNTING}`} className="menu-item-container">
         <AppstoreAddOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Создать</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '03',
     defaultPath: PURCHASES,
     label: (
-      <div className="menu-item-container">
+      <Link to={`${PURCHASES}`} className="menu-item-container">
         <ShoppingCartOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Закупки</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '04',
     defaultPath: STOCK,
     label: (
-      <div className="menu-item-container">
+      <Link to={`${STOCK}`} className="menu-item-container">
         <AppstoreOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Склад</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '05',
     defaultPath: `${REPORT}${OPERATION}`,
     label: (
-      <div className="menu-item-container">
+      <Link to={`${REPORT}${OPERATION}`} className="menu-item-container">
         <BarChartOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Отчеты</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '06',
     defaultPath: PRODUCTS,
     label: (
-      <div className="menu-item-container">
+      <Link to={`${PRODUCTS}`} className="menu-item-container">
         <CarryOutOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Товары</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '07',
     defaultPath: CLIENTS,
     label: (
-      <div className="menu-item-container">
+      <Link to={`${CLIENTS}`} className="menu-item-container">
         <TeamOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
         <div className="menu-item-div">Контакты</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '08',
     defaultPath: WORK_HOURS,
     label: (
-      <div className="menu-item-container">
+      <Link to={`${WORK_HOURS}`} className="menu-item-container">
         <ScheduleOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Команда</div>
-      </div>
+      </Link>
     ),
   },
 ];
@@ -131,26 +131,37 @@ interface MenuMainProps {
   selectedMenuKey: string;
 }
 
-// Функция ищет ключ меню соответствующий заданному пути
+// todo: удалить прямые route из главных Tabs и перенести все в дочерние, и уже потом удалить isPathStartsWith и все что с ними связано
+// Функция для проверки, начинается ли путь с заданного маршрута
+const isPathStartsWith = (path: string, route: string) => {
+  return path.startsWith(route);
+};
+
+// Функция для проверки, включает ли путь заданный дочерний маршрут
+const isPathIncludesChildTab = (path: string, tabInfo: any) => {
+  return tabInfo.childTabs?.some((childTab: any) => {
+    const childTabPath = `${tabInfo.id}${childTab.id}`;
+    return path.includes(childTabPath);
+  });
+};
+
+// Функция для поиска ключа меню по заданному пути
 const findMenuKeyByPath = (path: string) => {
   for (const key of Object.keys(menuKeyToRoutes)) {
-    for (const tabInfo of menuKeyToRoutes[key]) {
-      if (
-        tabInfo.route?.props?.path &&
-        path.startsWith(tabInfo.route.props.path)
-      ) {
-        return key;
-      }
-      if (tabInfo.childTabs) {
-        for (const childTab of tabInfo.childTabs) {
-          const childTabPath = `${tabInfo.id}${childTab.id}`;
-          if (path.includes(childTabPath)) {
-            return key;
-          }
-        }
-      }
+    const matchedTabInfo = menuKeyToRoutes[key].find((tabInfo: any) => {
+      const routePath = tabInfo.route?.props?.path;
+      return routePath && isPathStartsWith(path, routePath);
+    });
+
+    const matchedChildTabInfo = menuKeyToRoutes[key].find((tabInfo: any) => {
+      return isPathIncludesChildTab(path, tabInfo);
+    });
+
+    if (matchedTabInfo || matchedChildTabInfo) {
+      return key;
     }
   }
+
   return null;
 };
 
