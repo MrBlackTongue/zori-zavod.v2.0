@@ -92,11 +92,11 @@ export const CreateModalProductionProductMovement: React.FC<
                   <Select.Option
                     key={stock.id}
                     value={stock.id}
-                    label={`${stock.product?.title}, ${stock.id}`}>
+                    label={`${stock.item?.title}, ${stock.id}`}>
                     <Tooltip
                       placement="right"
-                      title={`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}>
-                      {`${stock.product?.title}, ID: ${stock.id}, ${stock?.amount}`}
+                      title={`${stock.item?.title}, ID: ${stock.id}, ${stock?.amount}`}>
+                      {`${stock.item?.title}, ID: ${stock.id}, ${stock?.amount}`}
                     </Tooltip>
                   </Select.Option>
                 ))

@@ -4,6 +4,7 @@ import { TypeUnit } from './TypeUnit';
 export type TypeProduct = {
   id?: number;
   title?: string;
-  productGroup?: TypeCategory;
+  type?: 'PRODUCT';
+  category?: TypeCategory;
   unit?: TypeUnit;
 };

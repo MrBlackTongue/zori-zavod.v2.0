@@ -23,7 +23,7 @@ export const PageOutput: React.FC = () => {
   ): Promise<void> => {
     const output: TypeOutput = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      product: { id: values.product },
+      item: { id: values.item },
     };
     setIsModalOpen(false);
     await createOutput(output);
@@ -43,7 +43,7 @@ export const PageOutput: React.FC = () => {
     const output: TypeOutput = {
       id: selectedOutputId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
-      product: { id: values.product },
+      item: { id: values.item },
     };
     setIsDrawerOpen(false);
     await updateOutput(output);

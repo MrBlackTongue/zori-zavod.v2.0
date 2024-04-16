@@ -1,81 +1,35 @@
-import { TypeApiResponse, TypeStock } from '../types';
-import { GROUP, STOCK, TITLE } from './apiEndpoints';
-import {
-  handleErrorResponseMessage,
-  handleResponseCreateMessage,
-  handleResponseDeleteMessage,
-  handleResponseUpdateMessage,
-} from '../utils';
+import { TypeMaterial, TypeProduct, TypeStock } from '../types';
+import { CATEGORY, MATERIALS, PRODUCTS, STOCK, TITLE } from './apiEndpoints';
 import { api } from './api';
 
 // Получить список всех остатков со склада
 export async function getAllStock(): Promise<TypeStock[]> {
-  try {
-    const response = await api.get(STOCK);
-    return response.data;
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  const response = await api.get(STOCK);
+  return response.data;
 }
 
-// Получить данные остатка со склада по id
-export async function getStockById(id: number): Promise<TypeStock | undefined> {
-  try {
-    const response = await api.get(`${STOCK}/${id}`);
-    return response.data;
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+// Получить список всех остатков товаров
+export async function getAllStockProducts(): Promise<TypeProduct[]> {
+  const response = await api.get(`${STOCK}${PRODUCTS}`);
+  return response.data;
 }
 
-// Добавить новый остаток на складе
-export async function createStock(data: TypeStock): Promise<TypeApiResponse> {
-  try {
-    const response = await api.post(STOCK, data);
-    return handleResponseCreateMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
-}
-
-// Удалить остаток на складе по id
-export async function deleteStockById(id: number): Promise<TypeApiResponse> {
-  try {
-    const response = await api.delete(`${STOCK}/${id}`);
-    return handleResponseDeleteMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
-}
-
-// Редактировать остаток на складе
-export async function updateStock(data: TypeStock): Promise<TypeApiResponse> {
-  try {
-    const response = await api.put(STOCK, data);
-    return handleResponseUpdateMessage(response);
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+// Получить список всех остатков материалов
+export async function getAllStockMaterials(): Promise<TypeMaterial[]> {
+  const response = await api.get(`${STOCK}${MATERIALS}`);
+  return response.data;
 }
 
 // Получить список всех отфильтрованных остатков на складе по название
 export async function getAllStockByTitle(title: string): Promise<TypeStock[]> {
-  try {
-    const response = await api.get(`${STOCK}${TITLE}/${title}`);
-    return response.data;
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  const response = await api.get(`${STOCK}${TITLE}/${title}`);
+  return response.data;
 }
 
 // Получить список всех отфильтрованных остатков на складе
 export async function getAllStockByFilter(
   id: number,
 ): Promise<TypeStock[] | undefined> {
-  try {
-    const response = await api.get(`${STOCK}${GROUP}/${id}`);
-    return response.data;
-  } catch (error) {
-    return handleErrorResponseMessage(error);
-  }
+  const response = await api.get(`${STOCK}${CATEGORY}/${id}`);
+  return response.data;
 }

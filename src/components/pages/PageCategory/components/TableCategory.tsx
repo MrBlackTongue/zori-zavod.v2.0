@@ -18,7 +18,7 @@ export const TableCategory: React.FC<TableProps> = ({
 }) => {
   // Spinner и список всех групп товаров
   const [loading, setLoading] = useState(false);
-  const [allProductGroup, setAllProductGroup] = useState<TypeCategory[]>();
+  const [allCategory, setAllCategory] = useState<TypeCategory[]>();
 
   // Параметры для пагинации
   const [pagination, setPagination] = useState({
@@ -100,18 +100,18 @@ export const TableCategory: React.FC<TableProps> = ({
 
   // Рекурсивная функция для удаления пустых дочерних элементов
   const removeEmptyChildren = useCallback(
-    (productGroup: TypeCategory): TypeCategory => {
-      if (productGroup.children && productGroup.children.length === 0) {
-        const { children, ...rest } = productGroup;
+    (category: TypeCategory): TypeCategory => {
+      if (category.children && category.children.length === 0) {
+        const { children, ...rest } = category;
         return rest;
       }
-      if (productGroup.children) {
+      if (category.children) {
         return {
-          ...productGroup,
-          children: productGroup.children.map(removeEmptyChildren),
+          ...category,
+          children: category.children.map(removeEmptyChildren),
         };
       }
-      return productGroup;
+      return category;
     },
     [],
   );
@@ -122,7 +122,7 @@ export const TableCategory: React.FC<TableProps> = ({
     getCategoryTree()
       .then(data => {
         const updatedData = data.map(removeEmptyChildren);
-        setAllProductGroup(updatedData);
+        setAllCategory(updatedData);
         setLoading(false);
       })
       .catch(error => console.error('Ошибка при получении данных: ', error));
@@ -138,7 +138,7 @@ export const TableCategory: React.FC<TableProps> = ({
       bordered
       size="middle"
       columns={columns}
-      dataSource={allProductGroup}
+      dataSource={allCategory}
       loading={loading}
       onChange={handleChangeTable}
       pagination={{

@@ -3,7 +3,7 @@ import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getAllOutput } from '../../../../api';
-import { TableProps, TypeOutput, TypeProduct } from '../../../../types';
+import { TableProps, TypeItem, TypeOutput } from '../../../../types';
 import dayjs from 'dayjs';
 import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
 import {
@@ -43,10 +43,9 @@ export const TableOutput: React.FC<TableProps> = ({
     },
     {
       title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: (product: TypeProduct) =>
-        product !== null ? <div>{product.title}</div> : null,
+      dataIndex: 'item',
+      key: 'item',
+      render: (item: TypeItem) => (item ? item.title : null),
     },
     {
       title: (

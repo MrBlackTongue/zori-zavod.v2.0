@@ -18,44 +18,43 @@ export const PageCategory: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // id выбранной группы товаров
-  const [selectedProductGroupId, setSelectedProductGroupId] =
-    useState<number>();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
 
   // Добавить новую группу товаров
-  const handleCreateProductGroup = async (
+  const handleCreateCategory = async (
     values: TypeCategoryFormValue,
   ): Promise<void> => {
-    const productGroup: TypeCategory = {
+    const category: TypeCategory = {
       title: values.title,
       parent: values.parent ? { id: values.parent } : undefined,
     };
     setIsModalOpen(false);
-    await createCategory(productGroup);
+    await createCategory(category);
     setIsUpdateTable(prevState => !prevState);
   };
 
   // Открыть drawer
   const openDrawer = (id: number): void => {
-    setSelectedProductGroupId(id);
+    setSelectedCategoryId(id);
     setIsDrawerOpen(true);
   };
 
   // Обновить группу товаров
-  const handleUpdateProductGroup = async (
+  const handleUpdateCategory = async (
     values: TypeCategoryFormValue,
   ): Promise<void> => {
-    const productGroup: TypeCategory = {
-      id: selectedProductGroupId,
+    const category: TypeCategory = {
+      id: selectedCategoryId,
       title: values.title,
       parent: values.parent ? { id: values.parent } : undefined,
     };
     setIsDrawerOpen(false);
-    await updateCategory(productGroup);
+    await updateCategory(category);
     setIsUpdateTable(prevState => !prevState);
   };
 
   // Удалить запись из таблицы
-  const handleDeleteProductGroup = async (id: number): Promise<void> => {
+  const handleDeleteCategory = async (id: number): Promise<void> => {
     await deleteCategoryById(id);
     setIsUpdateTable(prevState => !prevState);
   };
@@ -67,17 +66,17 @@ export const PageCategory: React.FC = () => {
       <TableCategory
         isUpdateTable={isUpdateTable}
         openDrawer={openDrawer}
-        onDelete={handleDeleteProductGroup}
+        onDelete={handleDeleteCategory}
       />
       <CreateModalCategory
         isOpen={isModalOpen}
-        createItem={handleCreateProductGroup}
+        createItem={handleCreateCategory}
         onCancel={() => setIsModalOpen(false)}
       />
       <UpdateDrawerCategory
         isOpen={isDrawerOpen}
-        selectedItemId={selectedProductGroupId}
-        updateItem={handleUpdateProductGroup}
+        selectedItemId={selectedCategoryId}
+        updateItem={handleUpdateCategory}
         onCancel={() => setIsDrawerOpen(false)}
       />
     </div>

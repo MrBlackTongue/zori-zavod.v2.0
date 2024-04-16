@@ -1,10 +1,9 @@
-import { TypeProduct } from './TypeProduct';
-import { FormInstance } from 'antd/lib/form';
 import { TypeStoragePlace } from './TypeStoragePlace';
+import { TypeItem } from './TypeItem';
 
 export type TypeStock = {
   id?: number;
-  product?: TypeProduct;
+  item?: TypeItem;
   amount?: number;
   storagePlace?: TypeStoragePlace;
 };
@@ -12,22 +11,3 @@ export type TypeStock = {
 export type TypeStockFilter = {
   id?: number;
 };
-
-export type TypeStockFormValue = {
-  id?: number;
-  product?: number;
-  amount?: number;
-  storagePlace?: number;
-};
-
-export interface FormStockProps {
-  form: FormInstance;
-  allProduct: TypeProduct[];
-  onChangeProduct: (value: string) => void;
-  onClearProduct: () => void;
-  onSearchProduct: (input: string, option: any) => boolean;
-  allStoragePlace: TypeStoragePlace[];
-  onChangeStoragePlace: (value: string) => void;
-  onClearStoragePlace: () => void;
-  onSearchStoragePlace: (input: string, option: any) => boolean;
-}

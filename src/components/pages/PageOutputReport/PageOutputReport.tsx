@@ -61,15 +61,15 @@ export const PageOutputReport: React.FC = () => {
                 <Select.Option
                   key={output.id}
                   value={output.id}
-                  label={`${output.product?.title}, ${output.date}, ${output.id}`}>
+                  label={`${output.item?.title}, ${output.date}, ${output.id}`}>
                   <Tooltip
                     placement="right"
                     title={`
                     ${dayjs(output.date).format('DD.MM')},
-                    ${output.product?.title},
+                    ${output.item?.title},
                     ID: ${output.id}`}>
                     {`${dayjs(output.date).format('DD.MM')},
-                    ${output.product?.title},
+                    ${output.item?.title},
                     ID: ${output.id}`}
                   </Tooltip>
                 </Select.Option>

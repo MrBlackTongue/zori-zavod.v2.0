@@ -49,7 +49,7 @@ export const ProductMovementTableView: React.FC<
           placeholder="Выберите товар"
           fetchDataList={getAllStock}
           getId={item => item.id ?? 0}
-          getLabel={item => item?.product?.title ?? ''}
+          getLabel={item => item?.item?.title ?? ''}
           onValueChange={value => onSaveStock(record.key, value)}
         />
       ),
@@ -65,7 +65,7 @@ export const ProductMovementTableView: React.FC<
           save={onSaveAmount}>
           {renderNumber(record.amount)}{' '}
           <span style={{ color: '#61666D' }}>
-            {record.stock?.product?.unit?.name}
+            {record.stock?.item?.unit?.name}
           </span>
         </EditableInputNumber>
       ),
@@ -75,7 +75,7 @@ export const ProductMovementTableView: React.FC<
       dataIndex: 'stock',
       render: (stock: TypeStock) => {
         const amount = stock?.amount ?? 0;
-        const unitName = stock?.product?.unit?.name ?? '';
+        const unitName = stock?.item?.unit?.name ?? '';
         return (
           <>
             {renderNumber(amount)}{' '}

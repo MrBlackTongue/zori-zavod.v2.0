@@ -94,15 +94,15 @@ export const CreateModalDetailShipment: React.FC<
                   <Select.Option
                     key={stock.id}
                     value={stock.id}
-                    label={`${stock.product?.title}, ${stock.id}`}>
+                    label={`${stock.item?.title}, ${stock.id}`}>
                     <Tooltip
                       placement="right"
-                      title={`${stock.product?.title}, ID: ${
+                      title={`${stock.item?.title}, ID: ${
                         stock.id
                       }, ${stock?.amount?.toLocaleString('ru-RU', {
                         maximumFractionDigits: 2,
                       })}`}>
-                      {`${stock.product?.title}, ID: ${
+                      {`${stock.item?.title}, ID: ${
                         stock.id
                       }, ${stock?.amount?.toLocaleString('ru-RU', {
                         maximumFractionDigits: 2,

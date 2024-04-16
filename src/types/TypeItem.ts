@@ -1,11 +1,10 @@
 import { TypeCategory } from './TypeCategory';
 import { TypeUnit } from './TypeUnit';
 
-export type TypeMaterial = {
+export type TypeItem = {
   id?: number;
   title?: string;
-  type?: 'MATERIAL';
-  code?: string;
+  type?: 'PRODUCT' | 'MATERIAL';
   category?: TypeCategory;
   unit?: TypeUnit;
 };

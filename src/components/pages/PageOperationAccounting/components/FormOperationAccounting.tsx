@@ -64,12 +64,12 @@ export const FormOperationAccounting: React.FC<
                 <Select.Option
                   key={output.id}
                   value={output.id}
-                  label={`${output?.date}, ${output?.product?.title}, ${output.id}`}>
+                  label={`${output?.date}, ${output?.item?.title}, ${output.id}`}>
                   <Tooltip
                     placement="right"
                     title={`${dayjs(output?.date).format('DD.MM.')}, ${output
-                      ?.product?.title}, ID: ${output.id}`}>
-                    {`${dayjs(output?.date).format('DD.MM.')}, ${output?.product
+                      ?.item?.title}, ID: ${output.id}`}>
+                    {`${dayjs(output?.date).format('DD.MM.')}, ${output?.item
                       ?.title}, ID: ${output.id}`}
                   </Tooltip>
                 </Select.Option>

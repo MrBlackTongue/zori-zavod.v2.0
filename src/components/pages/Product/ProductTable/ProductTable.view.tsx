@@ -31,10 +31,10 @@ export const ProductTableView = () => {
     },
     {
       title: 'Категория',
-      dataIndex: 'productGroup',
-      key: 'productGroup',
-      render: (productGroup: TypeCategory) =>
-        productGroup ? <div> {productGroup.title}</div> : null,
+      dataIndex: 'category',
+      key: 'category',
+      render: (category: TypeCategory) =>
+        category ? <div> {category.title}</div> : null,
     },
   ];
 

@@ -6,7 +6,7 @@ import {
   handleResponseDeleteMessage,
   handleResponseUpdateMessage,
 } from '../utils';
-import { api } from './api'; // Получить список всех клиентов
+import { api } from './api';
 
 // Получить список всех клиентов
 export async function getAllClient(): Promise<TypeClient[]> {

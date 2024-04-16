@@ -36,7 +36,7 @@ export const useFetchAllData = (deps: {
   depsProductionType?: boolean;
   depsOutput?: boolean;
   depsProduct?: boolean;
-  depsProductGroup?: boolean;
+  depsCategory?: boolean;
   depsClient?: boolean;
   depsEmployee?: boolean;
   depsMeterType?: boolean;
@@ -53,7 +53,7 @@ export const useFetchAllData = (deps: {
   >([]);
   const [allOutput, setAllOutput] = useState<TypeOutput[]>([]);
   const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
-  const [allProductGroup, setAllProductGroup] = useState<TypeCategory[]>([]);
+  const [allCategory, setAllCategory] = useState<TypeCategory[]>([]);
   const [allClient, setAllClient] = useState<TypeClient[]>([]);
   const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>([]);
   const [allProductOutput, setAllProductOutput] = useState<TypeProduct[]>([]);
@@ -118,12 +118,12 @@ export const useFetchAllData = (deps: {
   }, [deps.depsProduct]);
 
   useEffect(() => {
-    if (deps.depsProductGroup) {
+    if (deps.depsCategory) {
       getAllCategory()
-        .then(data => setAllProductGroup(data))
+        .then(data => setAllCategory(data))
         .catch(error => console.error('Ошибка при получении данных: ', error));
     }
-  }, [deps.depsProductGroup]);
+  }, [deps.depsCategory]);
 
   useEffect(() => {
     if (deps.depsClient) {
@@ -165,7 +165,7 @@ export const useFetchAllData = (deps: {
     allProductionType,
     allOutput,
     allProduct,
-    allProductGroup,
+    allCategory,
     allClient,
     allEmployee,
     allProductOutput,

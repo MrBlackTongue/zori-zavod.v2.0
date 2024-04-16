@@ -1,17 +1,19 @@
 import { TypeProduct } from './TypeProduct';
 import { Dayjs } from 'dayjs';
 import { FormInstance } from 'antd/lib/form';
+import { TypeItem } from './TypeItem';
 
 export type TypeOutput = {
   id?: number;
   date?: Dayjs | string;
-  product?: TypeProduct;
+  item?: TypeItem;
+  quantity?: number;
 };
 
 export type TypeOutputFormValue = {
   id?: number;
   date?: string;
-  product?: number;
+  item?: number;
 };
 
 export interface FormOutputProps {

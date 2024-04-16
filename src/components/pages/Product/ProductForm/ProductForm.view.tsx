@@ -40,12 +40,12 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
             fetchDataList={getAllUnit}
           />
         </Form.Item>
-        <Form.Item label="Категория" name="productGroup">
+        <Form.Item label="Категория" name="category">
           <SimpleSelect
             form={form}
-            fieldName="productGroup"
+            fieldName="category"
             placeholder="Выберите категорию"
-            value={form.getFieldValue('productGroup')}
+            value={form.getFieldValue('category')}
             getId={item => item.id ?? 0}
             getLabel={item => item.title ?? ''}
             fetchDataList={getAllCategory}

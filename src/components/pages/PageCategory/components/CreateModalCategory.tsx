@@ -14,7 +14,7 @@ export const CreateModalCategory: React.FC<
   const [form] = Form.useForm();
 
   // Хук для получения данных
-  const { allProductGroup } = useFetchAllData({ depsProductGroup: isOpen });
+  const { allCategory } = useFetchAllData({ depsCategory: isOpen });
 
   // Хук для отправки формы и отмены ввода
   const { handleSubmit, handleReset } = useFormHandler(
@@ -23,10 +23,10 @@ export const CreateModalCategory: React.FC<
     onCancel,
   );
 
-  // Хук для управления полем productGroup
+  // Хук для управления полем category
   const { onChangeSelect, onClearSelect, onSearchSelect } = useFormSelect(
     form,
-    'productGroup',
+    'category',
   );
 
   return (
@@ -40,10 +40,10 @@ export const CreateModalCategory: React.FC<
       onCancel={handleReset}>
       <FormCategory
         form={form}
-        allProductGroup={allProductGroup}
-        onChangeProductGroup={onChangeSelect}
-        onClearProductGroup={onClearSelect}
-        onSearchProductGroup={onSearchSelect}
+        allCategory={allCategory}
+        onChangeCategory={onChangeSelect}
+        onClearCategory={onClearSelect}
+        onSearchCategory={onSearchSelect}
       />
     </Modal>
   );

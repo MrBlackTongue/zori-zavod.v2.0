@@ -45,7 +45,7 @@ export const TableDetailShipment: React.FC<TableProps> = ({
       title: 'Товар',
       dataIndex: 'stock',
       key: 'productTitle',
-      render: (stock: TypeStock) => stock?.product?.title,
+      render: (stock: TypeStock) => stock?.item?.title,
     },
     {
       title: 'Количество',

@@ -4,10 +4,10 @@ import { FormCategoryProps } from '../../../../types';
 
 export const FormCategory: React.FC<FormCategoryProps> = ({
   form,
-  allProductGroup,
-  onChangeProductGroup,
-  onClearProductGroup,
-  onSearchProductGroup,
+  allCategory,
+  onChangeCategory,
+  onClearCategory,
+  onSearchCategory,
 }) => {
   return (
     <Form
@@ -28,17 +28,17 @@ export const FormCategory: React.FC<FormCategoryProps> = ({
           showSearch
           allowClear
           placeholder="Выберите родительскую группу"
-          onChange={onChangeProductGroup}
-          onClear={onClearProductGroup}
-          filterOption={onSearchProductGroup}>
-          {allProductGroup && allProductGroup.length > 0
-            ? allProductGroup.map(productGroup => (
+          onChange={onChangeCategory}
+          onClear={onClearCategory}
+          filterOption={onSearchCategory}>
+          {allCategory && allCategory.length > 0
+            ? allCategory.map(category => (
                 <Select.Option
-                  key={productGroup.id}
-                  value={productGroup.id}
-                  label={productGroup.title}>
-                  <Tooltip placement="right" title={productGroup.title}>
-                    {productGroup.title}
+                  key={category.id}
+                  value={category.id}
+                  label={category.title}>
+                  <Tooltip placement="right" title={category.title}>
+                    {category.title}
                   </Tooltip>
                 </Select.Option>
               ))

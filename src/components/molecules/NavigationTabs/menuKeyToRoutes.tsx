@@ -1,20 +1,17 @@
 import { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
 import {
-  ACCEPTANCE,
   CATEGORY,
   CLIENTS,
   COST_PRICE,
   EMPLOYEE,
   EMPLOYEES,
   ESTIMATED_PRICE,
-  HISTORY,
   MATERIALS,
   OPERATION,
   OPERATION_ACCOUNTING,
   OUTPUT,
   PRODUCT,
-  PRODUCT_MOVEMENT,
   PRODUCTION_TYPE,
   PRODUCTS,
   PURCHASES,
@@ -32,11 +29,9 @@ import { PageOperation } from '../../pages/PageOperation/PageOperation';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageOutput } from '../../pages/PageOutput/PageOutput';
 import { PurchaseTableContainer } from '../../pages/Purchase/PurchaseTable/PurchaseTable.container';
-import { PageAcceptance } from '../../pages/PageAcceptance/PageAcceptance';
 import { PageStock } from '../../pages/PageStock/PageStock';
 import { StockAdjustmentTableContainer } from '../../pages/StockAdjustment/StockAdjustmentTable/StockAdjustmentTable.container';
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
-import { PageProductMovementHistory } from '../../pages/PageProductMovementHistory/PageProductMovementHistory';
 import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
 import { PageProductReport } from '../../pages/PageProductReport/PageProductReport';
 import { PageOperationReport } from '../../pages/PageOperationReport/PageOperationReport';
@@ -125,17 +120,6 @@ export const menuKeyToRoutes: Record<
         />
       ),
     },
-    {
-      id: ACCEPTANCE,
-      title: 'Приемка товаров',
-      route: (
-        <Route
-          key={ACCEPTANCE}
-          path={ACCEPTANCE}
-          element={<PageAcceptance />}
-        />
-      ),
-    },
   ],
   '04': [
     {
@@ -168,17 +152,6 @@ export const menuKeyToRoutes: Record<
           key={STORAGE_PLACE}
           path={STORAGE_PLACE}
           element={<PageStoragePlace />}
-        />
-      ),
-    },
-    {
-      id: `${PRODUCT_MOVEMENT}${HISTORY}`,
-      title: 'История товаров',
-      route: (
-        <Route
-          key={`${PRODUCT_MOVEMENT}${HISTORY}`}
-          path={`${PRODUCT_MOVEMENT}${HISTORY}`}
-          element={<PageProductMovementHistory />}
         />
       ),
     },

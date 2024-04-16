@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Popconfirm, Space, Table, Tooltip } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Table } from 'antd';
 import type {
   ColumnsType,
   TablePaginationConfig,
@@ -19,17 +18,9 @@ import {
   getAllStockByTitle,
 } from '../../../../api';
 import { renderNumber } from '../../../../utils';
-import { CustomPopover } from '../../../atoms/CustomPopover/CustomPopover';
-import {
-  ACTIONS_INSTRUCTION_CONTENT_DELETE,
-  ACTIONS_INSTRUCTION_CONTENT_EDIT,
-  ACTIONS_OVERVIEW_CONTENT,
-} from '../../../atoms/CustomPopover/ContentPopover';
 
 export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
   isUpdateTable,
-  openDrawer,
-  onDelete,
   searchText,
   filter,
 }) => {
@@ -54,13 +45,12 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     },
     {
       title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
+      dataIndex: 'item',
+      key: 'item',
       showSorterTooltip: false,
       sorter: (a, b) =>
-        (a.product?.title ?? '') < (b.product?.title ?? '') ? -1 : 1,
-      render: (product: TypeProduct) =>
-        product !== null ? <div>{product.title}</div> : null,
+        (a.item?.title ?? '') < (b.item?.title ?? '') ? -1 : 1,
+      render: (product: TypeProduct) => (product ? product.title : null),
     },
     {
       title: 'Количество',
@@ -72,72 +62,16 @@ export const TableStock: React.FC<TableProps<TypeStockFilter>> = ({
     },
     {
       title: 'Ед. изм',
-      dataIndex: ['product', 'unit'],
+      dataIndex: ['item', 'unit'],
       key: 'unit',
-      render: (unit: TypeUnit) =>
-        unit !== null ? <div>{unit.name}</div> : null,
+      render: (unit: TypeUnit) => (unit ? unit.name : null),
     },
     {
       title: 'Место хранения',
       dataIndex: 'storagePlace',
       key: 'storagePlace',
       render: (storagePlace: TypeStoragePlace) =>
-        storagePlace !== null ? <div>{storagePlace.title}</div> : null,
-    },
-    {
-      title: (
-        <>
-          Действия
-          <CustomPopover
-            content={
-              <p style={{ fontSize: '13px', maxWidth: 350 }}>
-                {ACTIONS_OVERVIEW_CONTENT}
-                <br />
-                <br />
-                {ACTIONS_INSTRUCTION_CONTENT_EDIT}
-                <br />
-                <br />
-                {ACTIONS_INSTRUCTION_CONTENT_DELETE}
-              </p>
-            }
-          />
-        </>
-      ),
-      dataIndex: 'id',
-      key: 'id',
-      width: 130,
-      align: 'center',
-      render: (id: number) => (
-        <Space>
-          <Tooltip title="Изменить" placement="bottomRight">
-            <Button
-              type="primary"
-              size="small"
-              shape="circle"
-              ghost
-              onClick={() => openDrawer?.(id)}>
-              <EditOutlined />
-            </Button>
-          </Tooltip>
-          <Tooltip title="Удалить" placement="bottomRight">
-            <Popconfirm
-              placement="topRight"
-              title="Вы действительно хотите удалить эту ячейку остатков?"
-              onConfirm={() => onDelete?.(id)}
-              okText="Да"
-              cancelText="Отмена">
-              <Button
-                type="primary"
-                size="small"
-                shape="circle"
-                style={{ color: 'tomato', borderColor: 'tomato' }}
-                ghost>
-                <DeleteOutlined />
-              </Button>
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
+        storagePlace ? storagePlace.title : null,
     },
   ];
 

@@ -1,5 +1,5 @@
 import { TypeApiResponse, TypeCategory } from '../types';
-import { GROUP, PRODUCT_GROUP, TREE } from './apiEndpoints';
+import { CATEGORY, TREE } from './apiEndpoints';
 import {
   handleErrorResponseMessage,
   handleResponseCreateMessage,
@@ -11,7 +11,7 @@ import { api } from './api'; // Получить список категорий
 // Получить список категорий
 export async function getAllCategory(): Promise<TypeCategory[]> {
   try {
-    const response = await api.get(`${PRODUCT_GROUP}${GROUP}`);
+    const response = await api.get(`${CATEGORY}`);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);
@@ -23,7 +23,7 @@ export async function getCategoryById(
   id: number,
 ): Promise<TypeCategory | undefined> {
   try {
-    const response = await api.get(`${PRODUCT_GROUP}${GROUP}/${id}`);
+    const response = await api.get(`${CATEGORY}/${id}`);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);
@@ -35,7 +35,7 @@ export async function createCategory(
   data: TypeCategory,
 ): Promise<TypeApiResponse> {
   try {
-    const response = await api.post(`${PRODUCT_GROUP}${GROUP}`, data);
+    const response = await api.post(`${CATEGORY}`, data);
     return handleResponseCreateMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
@@ -45,7 +45,7 @@ export async function createCategory(
 // Удалить категорию по id
 export async function deleteCategoryById(id: number): Promise<TypeApiResponse> {
   try {
-    const response = await api.delete(`${PRODUCT_GROUP}${GROUP}/${id}`);
+    const response = await api.delete(`${CATEGORY}/${id}`);
     return handleResponseDeleteMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
@@ -57,7 +57,7 @@ export async function updateCategory(
   data: TypeCategory,
 ): Promise<TypeApiResponse> {
   try {
-    const response = await api.put(`${PRODUCT_GROUP}${GROUP}`, data);
+    const response = await api.put(`${CATEGORY}`, data);
     return handleResponseUpdateMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
@@ -67,7 +67,7 @@ export async function updateCategory(
 // Получить дерево категорий
 export async function getCategoryTree(): Promise<TypeCategory[]> {
   try {
-    const response = await api.get(`${PRODUCT_GROUP}${GROUP}${TREE}`);
+    const response = await api.get(`${CATEGORY}${TREE}`);
     return response.data;
   } catch (error) {
     return handleErrorResponseMessage(error);

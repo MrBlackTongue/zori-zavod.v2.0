@@ -15,8 +15,8 @@ export type TypeCategoryFormValue = {
 
 export interface FormCategoryProps {
   form: FormInstance;
-  allProductGroup: TypeCategory[];
-  onChangeProductGroup: (value: string) => void;
-  onClearProductGroup: () => void;
-  onSearchProductGroup: (input: string, option: any) => boolean;
+  allCategory: TypeCategory[];
+  onChangeCategory: (value: string) => void;
+  onClearCategory: () => void;
+  onSearchCategory: (input: string, option: any) => boolean;
 }

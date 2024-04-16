@@ -38,7 +38,7 @@ export const UpdateDrawerOutput: React.FC<
         .then(data => {
           form.setFieldsValue({
             date: dayjs(data?.date),
-            product: data?.product?.id === 0 ? '' : data?.product?.id,
+            product: data?.item?.id === 0 ? '' : data?.item?.id,
           });
         })
         .catch(error => console.error('Ошибка при получении данных: ', error));
