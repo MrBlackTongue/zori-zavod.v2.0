@@ -55,7 +55,7 @@ export const ProductMovementTableView: React.FC<
       ),
     },
     {
-      title: 'Движение',
+      title: 'Движение +/-',
       dataIndex: 'amount',
       width: '20%',
       render: (_, record: TypeProductMovement) => (

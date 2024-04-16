@@ -53,15 +53,28 @@ import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/Wo
 
 export const menuKeyToRoutes: Record<
   string,
-  { id: string; route: ReactElement; title: string }[]
+  {
+    id: string;
+    title: string;
+    route?: ReactElement;
+    childTabs?: {
+      id: string;
+      title: string;
+      content: ReactElement;
+    }[];
+  }[]
 > = {
   '01': [
     {
-      id: SHIPMENT,
-      title: 'Отгрузки',
-      route: (
-        <Route key={SHIPMENT} path={SHIPMENT} element={<PageShipment />} />
-      ),
+      id: '/sell',
+      title: '',
+      childTabs: [
+        {
+          id: SHIPMENT,
+          title: 'Отгрузки',
+          content: <PageShipment />,
+        },
+      ],
     },
   ],
   '02': [
@@ -126,20 +139,26 @@ export const menuKeyToRoutes: Record<
   ],
   '04': [
     {
-      id: STOCK,
+      id: '/inventory',
       title: 'Остатки',
-      route: <Route key={STOCK} path={STOCK} element={<PageStock />} />,
+      childTabs: [
+        {
+          id: STOCK,
+          title: '',
+          content: <PageStock />,
+        },
+      ],
     },
     {
-      id: STOCK_ADJUSTMENTS,
+      id: STOCK,
       title: 'Корректировка',
-      route: (
-        <Route
-          key={STOCK_ADJUSTMENTS}
-          path={STOCK_ADJUSTMENTS}
-          element={<StockAdjustmentTableContainer />}
-        />
-      ),
+      childTabs: [
+        {
+          id: STOCK_ADJUSTMENTS,
+          title: '',
+          content: <StockAdjustmentTableContainer />,
+        },
+      ],
     },
     {
       id: STORAGE_PLACE,

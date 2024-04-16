@@ -32,9 +32,8 @@
 
 .app-content {
   padding: 0 10px;
-  margin: 25px 30px;
-  border-radius: 8px;
-  /*background: white;*/
+  margin: 0 30px;
+  /*margin: 25px 30px;*/
   /*!*overflow: auto;*!   Разобраться с пустым местом справа  */
 }
 

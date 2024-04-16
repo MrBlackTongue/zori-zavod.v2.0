@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Menu } from 'antd';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './MainMenu.css';
 import {
   AppstoreAddOutlined,
@@ -12,97 +12,108 @@ import {
   ShoppingCartOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
+import {
+  CLIENTS,
+  OPERATION,
+  OPERATION_ACCOUNTING,
+  PRODUCTS,
+  PURCHASES,
+  REPORT,
+  SHIPMENT,
+  STOCK,
+  WORK_HOURS,
+} from '../../../api';
 import { menuKeyToRoutes } from '../NavigationTabs/menuKeyToRoutes';
 
 const items = [
   {
     key: '01',
     label: (
-      <div className="menu-item-container">
+      <Link to={`/sell${SHIPMENT}`} className="menu-item-container">
         <ShopOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
         <div className="menu-item-div">Продажи</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '02',
     label: (
-      <div className="menu-item-container">
+      <Link to={`${OPERATION_ACCOUNTING}`} className="menu-item-container">
         <AppstoreAddOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Создать</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '03',
     label: (
-      <div className="menu-item-container">
+      <Link to={`${PURCHASES}`} className="menu-item-container">
         <ShoppingCartOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Закупки</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '04',
     label: (
-      <div className="menu-item-container">
+      <Link to={`/inventory${STOCK}`} className="menu-item-container">
         <AppstoreOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Склад</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '05',
     label: (
-      <div className="menu-item-container">
+      <Link to={`${REPORT}${OPERATION}`} className="menu-item-container">
         <BarChartOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Отчеты</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '06',
     label: (
-      <div className="menu-item-container">
+      <Link to={`${PRODUCTS}`} className="menu-item-container">
         <CarryOutOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Товары</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '07',
     label: (
-      <div className="menu-item-container">
+      <Link to={`${CLIENTS}`} className="menu-item-container">
         <TeamOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
         <div className="menu-item-div">Контакты</div>
-      </div>
+      </Link>
     ),
   },
   {
     key: '08',
     label: (
-      <div className="menu-item-container">
+      <Link to={`${WORK_HOURS}`} className="menu-item-container">
         <ScheduleOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
         <div className="menu-item-div">Команда</div>
-      </div>
+      </Link>
     ),
   },
 ];
@@ -112,16 +123,37 @@ interface MenuMainProps {
   selectedMenuKey: string;
 }
 
-// Функция ищет ключ меню соответствующий заданному пути
+// todo: удалить прямые route из главных Tabs и перенести все в дочерние, и уже потом удалить isPathStartsWith и все что с ними связано
+// Функция для проверки, начинается ли путь с заданного маршрута
+const isPathStartsWith = (path: string, route: string) => {
+  return path.startsWith(route);
+};
+
+// Функция для проверки, включает ли путь заданный дочерний маршрут
+const isPathIncludesChildTab = (path: string, tabInfo: any) => {
+  return tabInfo.childTabs?.some((childTab: any) => {
+    const childTabPath = `${tabInfo.id}${childTab.id}`;
+    return path.includes(childTabPath);
+  });
+};
+
+// Функция для поиска ключа меню по заданному пути
 const findMenuKeyByPath = (path: string) => {
   for (const key of Object.keys(menuKeyToRoutes)) {
-    for (const { route } of menuKeyToRoutes[key]) {
-      // Если путь начинается с route.props.path, значит это родительский путь
-      if (path.startsWith(route.props.path)) {
-        return key;
-      }
+    const matchedTabInfo = menuKeyToRoutes[key].find((tabInfo: any) => {
+      const routePath = tabInfo.route?.props?.path;
+      return routePath && isPathStartsWith(path, routePath);
+    });
+
+    const matchedChildTabInfo = menuKeyToRoutes[key].find((tabInfo: any) => {
+      return isPathIncludesChildTab(path, tabInfo);
+    });
+
+    if (matchedTabInfo || matchedChildTabInfo) {
+      return key;
     }
   }
+
   return null;
 };
 
@@ -135,10 +167,11 @@ export const MainMenu: React.FC<MenuMainProps> = ({
   // Функция меняет ключ меню и переходит по новому маршруту
   const handleSelect = ({ key }: { key: string }) => {
     onMenuKeyChange(key);
-    const firstRoute = menuKeyToRoutes[key]?.[0]?.route?.props?.path;
-    if (firstRoute) {
+    const menuItem = items.find(item => item.key === key);
+    const linkPath = menuItem?.label?.props?.to;
+    if (linkPath && location.pathname !== linkPath) {
       localStorage.setItem('activeMenuKey', key);
-      navigate(firstRoute);
+      navigate(linkPath, { replace: true });
     }
   };
 
