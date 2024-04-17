@@ -29,7 +29,7 @@ import { PageOperation } from '../../pages/PageOperation/PageOperation';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageOutput } from '../../pages/PageOutput/PageOutput';
 import { PurchaseTableContainer } from '../../pages/Purchase/PurchaseTable/PurchaseTable.container';
-import { PageStock } from '../../pages/PageStock/PageStock';
+import { StockTableContainer } from '../../pages/Stock/StockTable/StockTable.container';
 import { StockAdjustmentTableContainer } from '../../pages/StockAdjustment/StockAdjustmentTable/StockAdjustmentTable.container';
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
 import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
@@ -124,12 +124,12 @@ export const menuKeyToRoutes: Record<
   '04': [
     {
       id: '/inventory',
-      title: 'Остатки',
+      title: 'Инвентарь',
       childTabs: [
         {
           id: STOCK,
-          title: '',
-          content: <PageStock />,
+          title: 'Все остатки',
+          content: <StockTableContainer />,
         },
       ],
     },

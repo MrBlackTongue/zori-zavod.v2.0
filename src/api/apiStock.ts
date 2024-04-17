@@ -1,6 +1,6 @@
-import { TypeMaterial, TypeProduct, TypeStock } from '../types';
-import { CATEGORY, MATERIALS, PRODUCTS, STOCK, TITLE } from './apiEndpoints';
-import { api } from './api';
+import {TypeMaterial, TypeProduct, TypeStock} from '../types';
+import {CATEGORY, MATERIALS, PRODUCTS, STOCK, TITLE} from './apiEndpoints';
+import {api} from './api';
 
 // Получить список всех остатков со склада
 export async function getAllStock(): Promise<TypeStock[]> {
@@ -27,9 +27,7 @@ export async function getAllStockByTitle(title: string): Promise<TypeStock[]> {
 }
 
 // Получить список всех отфильтрованных остатков на складе
-export async function getAllStockByFilter(
-  id: number,
-): Promise<TypeStock[] | undefined> {
+export async function getAllStockByFilter(id: number): Promise<TypeStock[]> {
   const response = await api.get(`${STOCK}${CATEGORY}/${id}`);
-  return response.data;
+  return response.data ?? [];
 }

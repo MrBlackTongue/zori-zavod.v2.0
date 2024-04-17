@@ -28,7 +28,7 @@ export const BasicTable = <T extends {}>({ columns }: BasicTableProps<T>) => {
       onChange={handleChangeTable}
       rowSelection={rowSelection}
       onRow={(record: TypeWithId<T>) => ({
-        onClick: () => handleNavigateToForm(Number(record.id)),
+        onClick: () => handleNavigateToForm?.(Number(record.id)),
       })}
       pagination={{
         ...pagination,
