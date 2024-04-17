@@ -39,7 +39,7 @@ export const ChildTabs: React.FC<ChildTabsProps> = ({
   return (
     <>
       <Tabs
-        type={'card'}
+        type="card"
         className={
           hasTitle ? 'child-tabs-style' : 'child-tabs-style-without-title'
         }

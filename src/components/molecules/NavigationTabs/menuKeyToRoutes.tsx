@@ -20,6 +20,7 @@ import {
   SHIPMENT,
   STOCK,
   STOCK_ADJUSTMENTS,
+  STOCKS,
   STORAGE_PLACE,
   UNIT,
   WORK_HOURS,
@@ -47,6 +48,7 @@ import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/Emplo
 import { MaterialTableContainer } from '../../pages/Material/MaterialTable/MaterialTable.container';
 import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/WorkHoursTable.container';
 import { StockProductsTableContainer } from '../../pages/Stock/StockProductsTable/StockProductsTable.container';
+import { StockMaterialsTableContainer } from '../../pages/Stock/StockMaterialsTable/StockMaterialsTable.container';
 
 export const menuKeyToRoutes: Record<
   string,
@@ -125,18 +127,23 @@ export const menuKeyToRoutes: Record<
   ],
   '04': [
     {
-      id: '/inventory',
-      title: 'Инвентарь',
+      id: STOCKS,
+      title: 'Остатки',
       childTabs: [
         {
           id: ALL,
-          title: 'Все остатки',
+          title: 'Все',
           content: <StockTableContainer />,
         },
         {
           id: PRODUCTS,
           title: 'Товары',
           content: <StockProductsTableContainer />,
+        },
+        {
+          id: MATERIALS,
+          title: 'Материалы',
+          content: <StockMaterialsTableContainer />,
         },
       ],
     },

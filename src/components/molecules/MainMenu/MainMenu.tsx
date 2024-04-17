@@ -21,6 +21,7 @@ import {
   PURCHASES,
   REPORT,
   SHIPMENT,
+  STOCKS,
   WORK_HOURS,
 } from '../../../api';
 import { menuKeyToRoutes } from '../NavigationTabs/menuKeyToRoutes';
@@ -62,7 +63,7 @@ const items = [
   {
     key: '04',
     label: (
-      <Link to={`/inventory${ALL}`} className="menu-item-container">
+      <Link to={`${STOCKS}${ALL}`} className="menu-item-container">
         <AppstoreOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
