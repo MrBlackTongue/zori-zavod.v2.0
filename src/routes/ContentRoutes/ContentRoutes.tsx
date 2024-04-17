@@ -8,6 +8,7 @@ import {
   OPERATION_ACCOUNTING,
   PRODUCT,
   PURCHASE,
+  STOCK,
   STOCK_ADJUSTMENT,
 } from '../../api';
 import { EmployeeFormContainer } from '../../components/pages/Employee/EmployeeForm/EmployeeForm.container';
@@ -33,7 +34,7 @@ export const ContentRoutes: React.FC = () => {
         <Route path={`${PRODUCT}/:id?`} element={<ProductFormContainer />} />
         <Route path={`${MATERIAL}/:id?`} element={<MaterialFormContainer />} />
         <Route
-          path={`${STOCK_ADJUSTMENT}/:id?`}
+          path={`${STOCK}${STOCK_ADJUSTMENT}/:id?`}
           element={<StockAdjustmentFormContainer />}
         />
       </Routes>

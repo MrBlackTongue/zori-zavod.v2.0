@@ -52,10 +52,7 @@ export async function deleteOperationTimesheetById(
 ): Promise<TypeApiResponse> {
   try {
     const response = await api.delete(`${OPERATION_TIMESHEET}/${id}`);
-    return handleResponseDeleteMessage(
-      response,
-      // Получить список всех сотрудников в табеле рабочего времени по id учетной операции
-    );
+    return handleResponseDeleteMessage(response);
   } catch (error) {
     return handleErrorResponseMessage(error);
   }

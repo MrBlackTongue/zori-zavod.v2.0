@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StockTableView } from './StockTable.view';
+import { StockAllTableView } from './StockAllTable.view';
 import { useDataListLoader } from '../../../../hooks';
 import { TypeStock } from '../../../../types';
 import usePagination from '../../../../hooks/usePagination';
@@ -10,7 +10,7 @@ import {
   getAllStockByTitle,
 } from '../../../../api';
 
-export const StockTableContainer: React.FC = () => {
+export const StockAllTableContainer: React.FC = () => {
   // Текст поиска
   const [searchText, setSearchText] = useState<string>('');
 
@@ -67,7 +67,7 @@ export const StockTableContainer: React.FC = () => {
         handleSearchChange,
         handleFilterChange,
       }}>
-      <StockTableView />
+      <StockAllTableView />
     </BasicTableProvider>
   );
 };

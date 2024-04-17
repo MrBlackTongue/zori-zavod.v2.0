@@ -52,8 +52,8 @@ export const UpdateDrawerCategory: React.FC<
 
   return (
     <Drawer
-      title={`Редактирование группы товаров`}
-      width={680}
+      title={`Редактирование категории`}
+      width={760}
       open={isOpen}
       onClose={handleReset}
       extra={

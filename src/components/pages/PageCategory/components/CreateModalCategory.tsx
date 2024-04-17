@@ -31,10 +31,10 @@ export const CreateModalCategory: React.FC<
 
   return (
     <Modal
-      title="Добавление новой группы товаров"
+      title="Добавление новой категории"
       okText="Сохранить"
       cancelText="Отмена"
-      width={680}
+      width={760}
       open={isOpen}
       onOk={handleSubmit}
       onCancel={handleReset}>

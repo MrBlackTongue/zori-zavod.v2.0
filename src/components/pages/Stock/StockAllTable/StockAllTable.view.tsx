@@ -15,7 +15,7 @@ import { useBasicTable } from '../../../../contexts/BasicTableContext';
 import { getAllCategory } from '../../../../api';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 
-export const StockTableView = () => {
+export const StockAllTableView = () => {
   const columns: ColumnsType<TypeWithId<TypeStock>> = [
     {
       title: 'ID',

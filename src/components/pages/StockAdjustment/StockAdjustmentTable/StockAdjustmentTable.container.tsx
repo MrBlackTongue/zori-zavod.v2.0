@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import {
   deleteStockAdjustmentById,
   getAllStockAdjustment,
+  STOCK,
   STOCK_ADJUSTMENT,
 } from '../../../../api';
 import { TypeStockAdjustment } from '../../../../types';
@@ -21,7 +22,7 @@ export const StockAdjustmentTableContainer = () => {
   const { pagination, handleChangeTable } = usePagination(10);
 
   // Хук для навигации
-  const handleNavigateToForm = useNavigateToPath(STOCK_ADJUSTMENT);
+  const handleNavigateToForm = useNavigateToPath(`${STOCK}${STOCK_ADJUSTMENT}`);
 
   // Хук для выбора строк
   const {

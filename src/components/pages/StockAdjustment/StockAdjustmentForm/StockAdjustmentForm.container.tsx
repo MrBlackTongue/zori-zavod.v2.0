@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
   createStockAdjustment,
   getStockAdjustmentById,
+  STOCK,
   STOCK_ADJUSTMENT,
   STOCK_ADJUSTMENTS,
   updateStockAdjustment,
@@ -72,7 +73,7 @@ export const StockAdjustmentFormContainer = () => {
       try {
         const response = await createStockAdjustment(data);
         setInitialFormData(data);
-        navigate(`${STOCK_ADJUSTMENT}/${response.data.id}`);
+        navigate(`${STOCK}${STOCK_ADJUSTMENT}/${response.data.id}`);
       } catch (error) {
         console.error('Ошибка при создании корректировки:', error);
       }
@@ -127,7 +128,7 @@ export const StockAdjustmentFormContainer = () => {
 
   // Функция для возврата на предыдущую страницу
   const handleCancel = () => {
-    navigate(`${STOCK_ADJUSTMENTS}`);
+    navigate(`${STOCK}${STOCK_ADJUSTMENTS}`);
   };
 
   // Загрузка данных при редактировании
