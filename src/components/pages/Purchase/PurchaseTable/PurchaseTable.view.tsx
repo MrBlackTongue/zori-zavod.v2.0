@@ -3,7 +3,7 @@ import { Flex, FloatButton, Input, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table/interface';
 import {
-  TypeProduct,
+  TypeItem,
   TypePurchase,
   TypeUnit,
   TypeWithId,
@@ -31,10 +31,9 @@ export const PurchaseTableView = () => {
     },
     {
       title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: (product: TypeProduct) =>
-        product ? <div>{product.title}</div> : null,
+      dataIndex: 'item',
+      key: 'item',
+      render: (item: TypeItem) => (item ? <div>{item.title}</div> : null),
     },
     {
       title: 'Количество',
@@ -46,7 +45,7 @@ export const PurchaseTableView = () => {
     },
     {
       title: 'Ед. изм',
-      dataIndex: ['product', 'unit'],
+      dataIndex: ['item', 'unit'],
       key: 'unit',
       render: (unit: TypeUnit) => (unit ? <div>{unit.name}</div> : null),
     },

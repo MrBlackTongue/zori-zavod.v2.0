@@ -1,6 +1,12 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
-import {createWorkHours, deleteWorkHoursById, getAllWorkHours, updateWorkHours,} from '../../../../api';
+import 'dayjs/locale/ru';
+import {
+  createWorkHours,
+  deleteWorkHoursById,
+  getAllWorkHours,
+  updateWorkHours,
+} from '../../../../api';
 import {
   TableProps,
   TypeEditingDayState,
@@ -9,10 +15,13 @@ import {
   TypeWorkHour,
   TypeWorkHoursFilter,
 } from '../../../../types';
-import {formatMinutesToTime, timeToMinutes} from '../../../../utils';
-import {WorkHoursTableView} from './WorkHoursTable.view';
+import { formatMinutesToTime, timeToMinutes } from '../../../../utils';
+import { WorkHoursTableView } from './WorkHoursTable.view';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import {WorkHoursProvider} from '../../../../contexts/WorkHoursContext';
+import { WorkHoursProvider } from '../../../../contexts/WorkHoursContext';
+
+dayjs.extend(weekOfYear);
+dayjs.locale('ru');
 
 // Функция для расчета общего количества часов всех сотрудников
 const calculateTotalAllHours = (
@@ -56,9 +65,6 @@ export const WorkHoursTableContainer: React.FC<
 
   // Установка текущей недели по умолчанию
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf('week'));
-
-  dayjs.locale('ru');
-  dayjs.extend(weekOfYear);
 
   const filter2 = useMemo(
     () => ({

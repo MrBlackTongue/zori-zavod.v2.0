@@ -17,10 +17,10 @@ export const PageCategory: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  // id выбранной группы товаров
+  // id выбранной категории
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>();
 
-  // Добавить новую группу товаров
+  // Добавить новую категорию
   const handleCreateCategory = async (
     values: TypeCategoryFormValue,
   ): Promise<void> => {
@@ -39,7 +39,7 @@ export const PageCategory: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
-  // Обновить группу товаров
+  // Обновить категорию
   const handleUpdateCategory = async (
     values: TypeCategoryFormValue,
   ): Promise<void> => {

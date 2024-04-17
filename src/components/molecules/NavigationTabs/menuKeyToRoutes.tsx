@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
 import {
+  ALL,
   CATEGORY,
   CLIENTS,
   COST_PRICE,
@@ -11,7 +12,6 @@ import {
   OPERATION,
   OPERATION_ACCOUNTING,
   OUTPUT,
-  PRODUCT,
   PRODUCTION_TYPE,
   PRODUCTS,
   PURCHASES,
@@ -19,6 +19,7 @@ import {
   SHIPMENT,
   STOCK,
   STOCK_ADJUSTMENTS,
+  STOCKS,
   STORAGE_PLACE,
   UNIT,
   WORK_HOURS,
@@ -29,11 +30,10 @@ import { PageOperation } from '../../pages/PageOperation/PageOperation';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageOutput } from '../../pages/PageOutput/PageOutput';
 import { PurchaseTableContainer } from '../../pages/Purchase/PurchaseTable/PurchaseTable.container';
-import { PageStock } from '../../pages/PageStock/PageStock';
+import { StockAllTableContainer } from '../../pages/Stock/StockAllTable/StockAllTable.container';
 import { StockAdjustmentTableContainer } from '../../pages/StockAdjustment/StockAdjustmentTable/StockAdjustmentTable.container';
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
 import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
-import { PageProductReport } from '../../pages/PageProductReport/PageProductReport';
 import { PageOperationReport } from '../../pages/PageOperationReport/PageOperationReport';
 import { PageEmployeeReport } from '../../pages/PageEmployeeReport/PageEmployeeReport';
 import { PageCostPriceReport } from '../../pages/PageCostPriceReport/PageCostPriceReport';
@@ -45,6 +45,8 @@ import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable
 import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/EmployeeTable.container';
 import { MaterialTableContainer } from '../../pages/Material/MaterialTable/MaterialTable.container';
 import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/WorkHoursTable.container';
+import { StockProductsTableContainer } from '../../pages/Stock/StockProductsTable/StockProductsTable.container';
+import { StockMaterialsTableContainer } from '../../pages/Stock/StockMaterialsTable/StockMaterialsTable.container';
 
 export const menuKeyToRoutes: Record<
   string,
@@ -123,13 +125,23 @@ export const menuKeyToRoutes: Record<
   ],
   '04': [
     {
-      id: '/inventory',
+      id: STOCKS,
       title: 'Остатки',
       childTabs: [
         {
-          id: STOCK,
-          title: '',
-          content: <PageStock />,
+          id: ALL,
+          title: 'Все',
+          content: <StockAllTableContainer />,
+        },
+        {
+          id: PRODUCTS,
+          title: 'Товары',
+          content: <StockProductsTableContainer />,
+        },
+        {
+          id: MATERIALS,
+          title: 'Материалы',
+          content: <StockMaterialsTableContainer />,
         },
       ],
     },
@@ -179,17 +191,17 @@ export const menuKeyToRoutes: Record<
         />
       ),
     },
-    {
-      id: `${REPORT}${PRODUCT}`,
-      title: 'По товарам',
-      route: (
-        <Route
-          key={`${REPORT}${PRODUCT}`}
-          path={`${REPORT}${PRODUCT}`}
-          element={<PageProductReport />}
-        />
-      ),
-    },
+    // {
+    //   id: `${REPORT}${PRODUCT}`,
+    //   title: 'По товарам',
+    //   route: (
+    //     <Route
+    //       key={`${REPORT}${PRODUCT}`}
+    //       path={`${REPORT}${PRODUCT}`}
+    //       element={<PageProductReport />}
+    //     />
+    //   ),
+    // },
     {
       id: `${REPORT}${EMPLOYEE}`,
       title: 'По сотрудникам',
@@ -238,7 +250,7 @@ export const menuKeyToRoutes: Record<
     },
     {
       id: CATEGORY,
-      title: 'Категория товаров',
+      title: 'Категория',
       route: (
         <Route key={CATEGORY} path={CATEGORY} element={<PageCategory />} />
       ),

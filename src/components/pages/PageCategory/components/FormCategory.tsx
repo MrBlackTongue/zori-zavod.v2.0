@@ -18,16 +18,14 @@ export const FormCategory: React.FC<FormCategoryProps> = ({
       <Form.Item
         label="Название"
         name="title"
-        rules={[
-          { required: true, message: 'введите название группы товаров' },
-        ]}>
+        rules={[{ required: true, message: 'введите название категории' }]}>
         <Input placeholder="Название" />
       </Form.Item>
-      <Form.Item label="Родительская группа" name="parent">
+      <Form.Item label="Родительская категория" name="parent">
         <Select
           showSearch
           allowClear
-          placeholder="Выберите родительскую группу"
+          placeholder="Выберите родительскую категорию"
           onChange={onChangeCategory}
           onClear={onClearCategory}
           filterOption={onSearchCategory}>

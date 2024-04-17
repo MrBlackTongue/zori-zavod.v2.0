@@ -23,13 +23,13 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
         onFinish={onFinish}>
         <Form.Item
           label="Товар"
-          name="product"
+          name="item"
           rules={[{ required: true, message: 'выберите товар' }]}>
           <SimpleSelect
             form={form}
-            fieldName="product"
+            fieldName="item"
             placeholder="Выберите товар"
-            value={form.getFieldValue('product')}
+            value={form.getFieldValue('item')}
             getId={item => item.id ?? 0}
             getLabel={item => item.title ?? ''}
             fetchDataList={getAllProduct}

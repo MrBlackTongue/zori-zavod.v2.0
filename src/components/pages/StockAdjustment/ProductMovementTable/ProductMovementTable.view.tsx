@@ -40,12 +40,12 @@ export const ProductMovementTableView: React.FC<
     },
     {
       title: 'Товар',
-      dataIndex: ['stock', 'product'],
+      dataIndex: ['stock', 'item'],
       width: '40%',
       render: (_, record) => (
         <EditableSelect
           value={record.stock?.id}
-          label={record.stock?.product?.title}
+          label={record.stock?.item?.title}
           placeholder="Выберите товар"
           fetchDataList={getAllStock}
           getId={item => item.id ?? 0}

@@ -6,16 +6,17 @@ export type BasicTableContextType<T> = {
   data: T[] | undefined;
   isLoading: boolean;
   pagination: TablePaginationConfig;
-  selectedRowKeys: Key[];
-  hasSelected: boolean;
-  rowSelection: TableRowSelection<T>;
-  handleNavigateToForm: (id?: number) => void;
+  selectedRowKeys?: Key[];
+  hasSelected?: boolean;
+  rowSelection?: TableRowSelection<T>;
+  handleNavigateToForm?: (id?: number) => void;
   handleChangeTable: (pagination: TablePaginationConfig) => void;
-  handleDeleteSelected: () => void;
-  handleClearSelected: () => void;
+  handleDeleteSelected?: () => void;
+  handleClearSelected?: () => void;
   searchText?: string;
   setSearchText?: React.Dispatch<React.SetStateAction<string>>;
   handleSearchChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFilterChange?: (filterName: string, value: any) => void;
 };
 
 export type BasicTableProviderProps<T> = {

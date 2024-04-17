@@ -1,4 +1,4 @@
-import {TypeEmployee} from './TypeEmployee';
+import { TypeEmployee } from './TypeEmployee';
 
 /* Типы для добавления и редактирования */
 export interface TypeEditingDayState {

@@ -16,7 +16,7 @@ export const TableCategory: React.FC<TableProps> = ({
   openDrawer,
   onDelete,
 }) => {
-  // Spinner и список всех групп товаров
+  // Spinner и список всех категорий
   const [loading, setLoading] = useState(false);
   const [allCategory, setAllCategory] = useState<TypeCategory[]>();
 
@@ -71,7 +71,7 @@ export const TableCategory: React.FC<TableProps> = ({
           <Tooltip title="Удалить" placement="bottomRight">
             <Popconfirm
               placement="topRight"
-              title="Вы действительно хотите удалить эту группу товаров?"
+              title="Вы действительно хотите удалить эту категорию?"
               onConfirm={() => onDelete?.(id)}
               okText="Да"
               cancelText="Отмена">

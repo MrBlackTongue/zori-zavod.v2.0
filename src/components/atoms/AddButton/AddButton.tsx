@@ -10,7 +10,7 @@ export const AddButton = () => {
     <Button
       type="primary"
       icon={<PlusOutlined />}
-      onClick={() => handleNavigateToForm()}>
+      onClick={() => handleNavigateToForm?.()}>
       Добавить
     </Button>
   );

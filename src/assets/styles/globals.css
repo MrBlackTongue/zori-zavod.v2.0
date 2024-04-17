@@ -90,6 +90,7 @@
   background-color: white !important;
   border: 1px solid rgba(100, 100, 103, 0.3) !important;
   border-bottom: 1px solid transparent !important; /* Прозрачная нижняя граница */
+  border-radius: 6px 6px 0 0 !important;
 }
 
 .child-tabs-style .ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -117,8 +118,6 @@
 .child-tabs-style-without-title .ant-tabs-nav-wrap {
   padding-top: 35px;
 }
-
-
 
 /* Page form style */
 .page-form-style {

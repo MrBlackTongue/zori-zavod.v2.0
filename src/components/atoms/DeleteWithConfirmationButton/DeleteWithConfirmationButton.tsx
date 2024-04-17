@@ -26,7 +26,7 @@ export const DeleteWithConfirmationButton = () => {
         </Button>
       </Popconfirm>
       <span style={{ marginLeft: 8 }}>
-        {hasSelected ? `Выбранные элементы ${selectedRowKeys.length}` : ''}
+        {hasSelected ? `Выбранные элементы ${selectedRowKeys?.length}` : ''}
       </span>
     </Space>
   );
