@@ -13,6 +13,7 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 import {
+  ALL,
   CLIENTS,
   OPERATION,
   OPERATION_ACCOUNTING,
@@ -20,7 +21,6 @@ import {
   PURCHASES,
   REPORT,
   SHIPMENT,
-  STOCK,
   WORK_HOURS,
 } from '../../../api';
 import { menuKeyToRoutes } from '../NavigationTabs/menuKeyToRoutes';
@@ -62,7 +62,7 @@ const items = [
   {
     key: '04',
     label: (
-      <Link to={`/inventory${STOCK}`} className="menu-item-container">
+      <Link to={`/inventory${ALL}`} className="menu-item-container">
         <AppstoreOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}

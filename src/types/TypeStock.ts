@@ -7,7 +7,3 @@ export type TypeStock = {
   amount?: number;
   storagePlace?: TypeStoragePlace;
 };
-
-export type TypeStockFilter = {
-  id?: number;
-};

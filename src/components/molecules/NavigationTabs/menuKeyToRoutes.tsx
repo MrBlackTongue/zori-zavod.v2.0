@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
 import {
+  ALL,
   CATEGORY,
   CLIENTS,
   COST_PRICE,
@@ -45,6 +46,7 @@ import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable
 import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/EmployeeTable.container';
 import { MaterialTableContainer } from '../../pages/Material/MaterialTable/MaterialTable.container';
 import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/WorkHoursTable.container';
+import { StockProductsTableContainer } from '../../pages/Stock/StockProductsTable/StockProductsTable.container';
 
 export const menuKeyToRoutes: Record<
   string,
@@ -127,9 +129,14 @@ export const menuKeyToRoutes: Record<
       title: 'Инвентарь',
       childTabs: [
         {
-          id: STOCK,
+          id: ALL,
           title: 'Все остатки',
           content: <StockTableContainer />,
+        },
+        {
+          id: PRODUCTS,
+          title: 'Товары',
+          content: <StockProductsTableContainer />,
         },
       ],
     },
