@@ -4,7 +4,8 @@ import { useDataListLoader } from '../../../../hooks';
 import { TypeStock } from '../../../../types';
 import usePagination from '../../../../hooks/usePagination';
 import { BasicTableProvider } from '../../../../contexts/BasicTableContext';
-import { getAllStockMaterials } from '../../../../api';
+import { getAllStockMaterials, MATERIAL } from '../../../../api';
+import useNavigateToPath from '../../../../hooks/useNavigateToPath';
 
 export const StockMaterialsTableContainer: React.FC = () => {
   // Хук для загрузки и получения всех данных
@@ -12,6 +13,9 @@ export const StockMaterialsTableContainer: React.FC = () => {
 
   // Хука для пагинации
   const { pagination, handleChangeTable } = usePagination(10);
+
+  // Хук для навигации
+  const handleNavigateToForm = useNavigateToPath(MATERIAL);
 
   // Функция, которая вызывается для обновления данных в таблице
   useEffect(() => {
@@ -33,6 +37,7 @@ export const StockMaterialsTableContainer: React.FC = () => {
         isLoading,
         pagination,
         handleChangeTable,
+        handleNavigateToForm,
       }}>
       <StockMaterialsTableView />
     </BasicTableProvider>

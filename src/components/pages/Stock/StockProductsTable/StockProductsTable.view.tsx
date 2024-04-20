@@ -54,7 +54,7 @@ export const StockProductsTableView = () => {
 
   return (
     <div>
-      <BasicTable columns={columns} />
+      <BasicTable columns={columns} idKey="item.id" />
       <FloatButton.BackTop />
     </div>
   );

@@ -6,9 +6,13 @@ import { TypeWithId } from '../../../types';
 
 type BasicTableProps<T> = {
   columns: ColumnsType<TypeWithId<T>>;
+  idKey?: string;
 };
 
-export const BasicTable = <T extends {}>({ columns }: BasicTableProps<T>) => {
+export const BasicTable = <T extends {}>({
+  columns,
+  idKey = 'id',
+}: BasicTableProps<T>) => {
   const {
     data,
     isLoading,
@@ -27,8 +31,13 @@ export const BasicTable = <T extends {}>({ columns }: BasicTableProps<T>) => {
       loading={isLoading}
       onChange={handleChangeTable}
       rowSelection={rowSelection}
-      onRow={(record: TypeWithId<T>) => ({
-        onClick: () => handleNavigateToForm?.(Number(record.id)),
+      onRow={(record: TypeWithId<T> & Record<string, any>) => ({
+        onClick: () => {
+          const idValue = idKey
+            .split('.')
+            .reduce((obj, key) => obj && obj[key], record);
+          handleNavigateToForm?.(Number(idValue));
+        },
       })}
       pagination={{
         ...pagination,
