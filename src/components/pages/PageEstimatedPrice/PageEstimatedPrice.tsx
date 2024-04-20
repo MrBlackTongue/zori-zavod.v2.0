@@ -32,7 +32,7 @@ export const PageEstimatedPrice: React.FC = () => {
     const estimatedPrice: TypeEstimatedPrice = {
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       price: values.price,
-      product: { id: values.product },
+      item: { id: values.item },
     };
     setIsModalOpen(false);
     await createEstimatedPrice(estimatedPrice);
@@ -53,7 +53,7 @@ export const PageEstimatedPrice: React.FC = () => {
       id: selectedEstimatedPriceId,
       date: values.date ? dayjs(values.date).format('YYYY-MM-DD') : undefined,
       price: values.price,
-      product: { id: values.product },
+      item: { id: values.item },
     };
     setIsDrawerOpen(false);
     await updateEstimatedPrice(estimatedPrice);

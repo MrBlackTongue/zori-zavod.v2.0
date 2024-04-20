@@ -5,10 +5,10 @@ import { numberFormatter, numberParser } from '../../../../utils';
 
 export const FormEstimatedPrice: React.FC<FormEstimatedPriceProps> = ({
   form,
-  allProduct,
-  onChangeProduct,
-  onClearProduct,
-  onSearchProduct,
+  allItem,
+  onChangeItem,
+  onClearItem,
+  onSearchItem,
 }) => {
   return (
     <Form
@@ -18,23 +18,20 @@ export const FormEstimatedPrice: React.FC<FormEstimatedPriceProps> = ({
       style={{ marginTop: 30 }}>
       <Form.Item
         label="Товар"
-        name="product"
+        name="item"
         rules={[{ required: true, message: 'Выберите товар' }]}>
         <Select
           showSearch
           allowClear
           placeholder="Выберите товар"
-          onChange={onChangeProduct}
-          onClear={onClearProduct}
-          filterOption={onSearchProduct}>
-          {allProduct && allProduct.length > 0
-            ? allProduct.map(product => (
-                <Select.Option
-                  key={product.id}
-                  value={product.id}
-                  label={product.title}>
-                  <Tooltip placement="right" title={product.title}>
-                    {product.title}
+          onChange={onChangeItem}
+          onClear={onClearItem}
+          filterOption={onSearchItem}>
+          {allItem && allItem.length > 0
+            ? allItem.map(item => (
+                <Select.Option key={item.id} value={item.id} label={item.title}>
+                  <Tooltip placement="right" title={item.title}>
+                    {item.title}
                   </Tooltip>
                 </Select.Option>
               ))

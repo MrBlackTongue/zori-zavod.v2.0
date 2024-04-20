@@ -43,10 +43,10 @@ export const CreateModalEstimatedPrice: React.FC<
       onCancel={handleReset}>
       <FormEstimatedPrice
         form={form}
-        allProduct={allProduct}
-        onChangeProduct={onChangeSelect}
-        onClearProduct={onClearSelect}
-        onSearchProduct={onSearchSelect}
+        allItem={allProduct}
+        onChangeItem={onChangeSelect}
+        onClearItem={onClearSelect}
+        onSearchItem={onSearchSelect}
       />
     </Modal>
   );

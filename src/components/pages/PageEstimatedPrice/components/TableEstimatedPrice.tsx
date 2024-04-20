@@ -5,7 +5,7 @@ import type {
   ColumnsType,
   TablePaginationConfig,
 } from 'antd/es/table/interface';
-import { TableProps, TypeEstimatedPrice, TypeProduct } from '../../../../types';
+import { TableProps, TypeEstimatedPrice, TypeItem } from '../../../../types';
 import { getAllEstimatedPrice } from '../../../../api';
 import dayjs from 'dayjs';
 import { renderAsRuble } from '../../../../utils';
@@ -48,10 +48,9 @@ export const TableEstimatedPrice: React.FC<TableProps> = ({
     },
     {
       title: 'Товар',
-      dataIndex: 'product',
-      key: 'product',
-      render: (product: TypeProduct) =>
-        product !== null ? <div>{product.title}</div> : null,
+      dataIndex: 'item',
+      key: 'item',
+      render: (item: TypeItem) => (item ? item.title : null),
     },
     {
       title: 'Цена',

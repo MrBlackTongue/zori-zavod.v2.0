@@ -42,7 +42,7 @@ export const UpdateDrawerEstimatedPrice: React.FC<
           form.setFieldsValue({
             ...data,
             date: dayjs(data?.date),
-            product: data?.product?.id === 0 ? '' : data?.product?.id,
+            item: data?.item?.id === 0 ? '' : data?.item?.id,
             price: data?.price ?? false,
           });
         })
@@ -72,10 +72,10 @@ export const UpdateDrawerEstimatedPrice: React.FC<
       }>
       <FormEstimatedPrice
         form={form}
-        allProduct={allProduct}
-        onChangeProduct={onChangeSelect}
-        onClearProduct={onClearSelect}
-        onSearchProduct={onSearchSelect}
+        allItem={allProduct}
+        onChangeItem={onChangeSelect}
+        onClearItem={onClearSelect}
+        onSearchItem={onSearchSelect}
       />
     </Drawer>
   );
