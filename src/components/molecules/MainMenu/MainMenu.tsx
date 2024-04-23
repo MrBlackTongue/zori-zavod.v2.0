@@ -15,6 +15,7 @@ import {
 import {
   ALL,
   CLIENTS,
+  ITEMS,
   OPERATION,
   OPERATION_ACCOUNTING,
   PRODUCTS,
@@ -87,12 +88,12 @@ const items = [
   {
     key: '06',
     label: (
-      <Link to={`${PRODUCTS}`} className="menu-item-container">
+      <Link to={`${ITEMS}${PRODUCTS}`} className="menu-item-container">
         <CarryOutOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
         />
-        <div className="menu-item-div">Товары</div>
+        <div className="menu-item-div">Элементы</div>
       </Link>
     ),
   },

@@ -4,6 +4,7 @@ import { PageOperationAccountingDetail } from '../../components/pages/PageOperat
 import {
   CLIENT,
   EMPLOYEE,
+  ITEMS,
   MATERIAL,
   OPERATION_ACCOUNTING,
   PRODUCT,
@@ -31,8 +32,14 @@ export const ContentRoutes: React.FC = () => {
         <Route path={`${EMPLOYEE}/:id?`} element={<EmployeeFormContainer />} />
         <Route path={`${CLIENT}/:id?`} element={<ClientFormContainer />} />
         <Route path={`${PURCHASE}/:id?`} element={<PurchaseFormContainer />} />
-        <Route path={`${PRODUCT}/:id?`} element={<ProductFormContainer />} />
-        <Route path={`${MATERIAL}/:id?`} element={<MaterialFormContainer />} />
+        <Route
+          path={`${ITEMS}${PRODUCT}/:id?`}
+          element={<ProductFormContainer />}
+        />
+        <Route
+          path={`${ITEMS}${MATERIAL}/:id?`}
+          element={<MaterialFormContainer />}
+        />
         <Route
           path={`${STOCK}${STOCK_ADJUSTMENT}/:id?`}
           element={<StockAdjustmentFormContainer />}

@@ -8,6 +8,7 @@ import {
   EMPLOYEE,
   EMPLOYEES,
   ESTIMATED_PRICE,
+  ITEMS,
   MATERIALS,
   OPERATION,
   OPERATION_ACCOUNTING,
@@ -227,26 +228,20 @@ export const menuKeyToRoutes: Record<
   ],
   '06': [
     {
-      id: PRODUCTS,
-      title: 'Товары',
-      route: (
-        <Route
-          key={PRODUCTS}
-          path={PRODUCTS}
-          element={<ProductTableContainer />}
-        />
-      ),
-    },
-    {
-      id: MATERIALS,
-      title: 'Материалы',
-      route: (
-        <Route
-          key={MATERIALS}
-          path={MATERIALS}
-          element={<MaterialTableContainer />}
-        />
-      ),
+      id: ITEMS,
+      title: 'Элементы',
+      childTabs: [
+        {
+          id: PRODUCTS,
+          title: 'Товары',
+          content: <ProductTableContainer />,
+        },
+        {
+          id: MATERIALS,
+          title: 'Материалы',
+          content: <MaterialTableContainer />,
+        },
+      ],
     },
     {
       id: CATEGORY,
