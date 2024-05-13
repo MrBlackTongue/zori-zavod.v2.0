@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StockAllTableView } from './StockAllTable.view';
 import { useDataListLoader } from '../../../../hooks';
 import { TypeStock } from '../../../../types';
@@ -8,6 +8,9 @@ import {
   getAllStock,
   getAllStockByFilter,
   getAllStockByTitle,
+  ITEMS,
+  MATERIAL,
+  PRODUCT,
 } from '../../../../api';
 
 export const StockAllTableContainer: React.FC = () => {
@@ -22,6 +25,16 @@ export const StockAllTableContainer: React.FC = () => {
 
   // Состояние для фильтров
   const [filters, setFilters] = useState<Record<string, any>>({});
+
+  const getItemPath = useCallback((record: TypeStock) => {
+    const { item } = record;
+    if (item?.type === 'PRODUCT') {
+      return `${ITEMS}${PRODUCT}/${item.id}`;
+    } else if (item?.type === 'MATERIAL') {
+      return `${ITEMS}${MATERIAL}/${item.id}`;
+    }
+    return undefined;
+  }, []);
 
   // Функция для обработки изменений фильтров
   const handleFilterChange = (filterName: string, value: any) => {
@@ -66,6 +79,7 @@ export const StockAllTableContainer: React.FC = () => {
         setSearchText,
         handleSearchChange,
         handleFilterChange,
+        itemPath: getItemPath,
       }}>
       <StockAllTableView />
     </BasicTableProvider>
