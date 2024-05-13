@@ -42,3 +42,4 @@ export const SEARCH = '/search';
 export const CATEGORY = '/category';
 export const WORK_HOURS = '/work-hours';
 export const ALL = '/all';
+export const ITEMS = '/items';

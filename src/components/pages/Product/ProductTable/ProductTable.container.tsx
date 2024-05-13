@@ -3,6 +3,7 @@ import {
   deleteProductById,
   getAllProduct,
   getAllProductByTitle,
+  ITEMS,
   PRODUCT,
 } from '../../../../api';
 import { TypeProduct } from '../../../../types';
@@ -25,7 +26,7 @@ export const ProductTableContainer: React.FC = () => {
   const { pagination, handleChangeTable } = usePagination(10);
 
   // Хук для навигации
-  const handleNavigateToForm = useNavigateToPath(PRODUCT);
+  const handleNavigateToForm = useNavigateToPath(`${ITEMS}${PRODUCT}`);
 
   // Хук для выбора строк
   const {

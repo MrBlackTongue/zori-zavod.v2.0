@@ -3,6 +3,7 @@ import {
   deleteMaterialById,
   getAllMaterialByTitle,
   getAllMaterials,
+  ITEMS,
   MATERIAL,
 } from '../../../../api';
 import { TypeMaterial } from '../../../../types';
@@ -25,7 +26,7 @@ export const MaterialTableContainer = () => {
   const { pagination, handleChangeTable } = usePagination(10);
 
   // Хук для навигации
-  const handleNavigateToForm = useNavigateToPath(MATERIAL);
+  const handleNavigateToForm = useNavigateToPath(`${ITEMS}${MATERIAL}`);
 
   // Хук для выбора строк
   const {

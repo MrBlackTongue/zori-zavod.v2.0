@@ -1,6 +1,7 @@
 import React, { createContext, Key, ReactNode, useContext } from 'react';
 import { TablePaginationConfig } from 'antd/es/table/interface';
 import { TableRowSelection } from 'antd/lib/table/interface';
+import { TypeWithId } from '../types';
 
 export type BasicTableContextType<T> = {
   data: T[] | undefined;
@@ -17,6 +18,7 @@ export type BasicTableContextType<T> = {
   setSearchText?: React.Dispatch<React.SetStateAction<string>>;
   handleSearchChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleFilterChange?: (filterName: string, value: any) => void;
+  itemPath?: (record: TypeWithId<T>) => string | undefined;
 };
 
 export type BasicTableProviderProps<T> = {

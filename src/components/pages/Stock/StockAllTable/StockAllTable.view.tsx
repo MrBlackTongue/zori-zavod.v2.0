@@ -56,7 +56,8 @@ export const StockAllTableView = () => {
     },
   ];
 
-  const { handleSearchChange, handleFilterChange } = useBasicTable<TypeStock>();
+  const { handleSearchChange, handleFilterChange, itemPath } =
+    useBasicTable<TypeStock>();
 
   return (
     <div>
@@ -84,7 +85,7 @@ export const StockAllTableView = () => {
           }}
         />
       </Flex>
-      <BasicTable columns={columns} />
+      <BasicTable columns={columns} itemPath={itemPath} />
       <FloatButton.BackTop />
     </div>
   );
