@@ -53,7 +53,7 @@ export const ProductFormContainer = () => {
   ) => {
     if (!initialData) return true;
 
-    return (['title'] as (keyof TypeProduct)[]).some(
+    return (['title', 'unit', 'category'] as (keyof TypeProduct)[]).some(
       key => initialData[key] !== currentData[key],
     );
   };

@@ -11,6 +11,7 @@ interface SimpleSelectProps<T> {
   placeholder: string;
   getId: (item: T) => number;
   getLabel: (item: T) => string;
+  onBlur?: () => void;
   style?: React.CSSProperties;
 }
 
@@ -23,6 +24,7 @@ export const SimpleSelect = <T,>({
   placeholder,
   getId,
   getLabel,
+  onBlur,
   style,
 }: SimpleSelectProps<T>) => {
   // Хук для получения всех данных и загрузки
@@ -113,6 +115,7 @@ export const SimpleSelect = <T,>({
       // allowClear
       labelInValue
       style={style}
+      onBlur={onBlur}
       placeholder={placeholder}
       value={selectValue}
       loading={isLoading}

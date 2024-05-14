@@ -44,6 +44,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
             <Form.Item label="Единица измерения" name="unit">
               <SimpleSelect
                 form={form}
+                onBlur={onBlur}
                 fieldName="unit"
                 placeholder="Выберите единицу измерения"
                 value={form.getFieldValue('unit')}
@@ -57,6 +58,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
             <Form.Item label="Категория" name="category">
               <SimpleSelect
                 form={form}
+                onBlur={onBlur}
                 fieldName="category"
                 placeholder="Выберите категорию"
                 value={form.getFieldValue('category')}
