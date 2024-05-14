@@ -110,7 +110,7 @@ export const SimpleSelect = <T,>({
   return (
     <Select
       showSearch
-      allowClear
+      // allowClear
       labelInValue
       style={style}
       placeholder={placeholder}
