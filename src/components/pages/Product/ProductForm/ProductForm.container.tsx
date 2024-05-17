@@ -23,10 +23,9 @@ export const ProductFormContainer = () => {
   const { id: rawId } = useParams<{ id?: string }>();
   const itemId = rawId ? parseInt(rawId, 10) : undefined;
 
-  const [initialFormData, setInitialFormData] = useState<TypeProduct>();
-  const initialValues: TypeProduct = {
-    // date: dayjs(),
-  };
+  const [initialFormData, setInitialFormData] = useState<TypeProduct | null>(
+    null,
+  );
 
   // Получить данные для редактирования
   const handleGetData = useCallback(async () => {
@@ -48,13 +47,17 @@ export const ProductFormContainer = () => {
 
   // Сравнение данных формы
   const hasDataChanged = (
-    initialData: TypeProduct | undefined,
+    initialData: TypeProduct | null,
     currentData: TypeProduct,
   ) => {
-    if (!initialData) return true;
+    if (initialData === null) {
+      return false;
+    }
 
-    return (['title', 'unit', 'category'] as (keyof TypeProduct)[]).some(
-      key => initialData[key] !== currentData[key],
+    return (
+      initialData.title !== currentData.title ||
+      initialData.category?.id !== currentData.category?.id ||
+      initialData.unit?.id !== currentData.unit?.id
     );
   };
 
@@ -133,7 +136,6 @@ export const ProductFormContainer = () => {
           form={form}
           onBlur={onBlurHandler}
           onCancel={handleCancel}
-          initialValues={initialValues}
         />
       )}
     </>

@@ -15,7 +15,6 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
   form,
   onBlur,
   onCancel,
-  initialValues,
 }) => {
   const { isSaving } = useLoadingAndSaving();
 
@@ -27,11 +26,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
         isSaving={isSaving}
         onCancel={onCancel}
       />
-      <Form
-        form={form}
-        layout="vertical"
-        className="form-style"
-        initialValues={initialValues}>
+      <Form form={form} layout="vertical" className="form-style">
         <Row gutter={24}>
           <Col span={12}>
             <Form.Item
