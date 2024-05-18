@@ -1,12 +1,7 @@
 import React from 'react';
 import { Col, Form, Input, Row } from 'antd';
 import { FormViewProps, TypeProduct } from '../../../../types';
-import {
-  createCategory,
-  createUnit,
-  getAllCategory,
-  getAllUnit,
-} from '../../../../api';
+import { getAllCategory, getAllUnit } from '../../../../api';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
 import { FormHeader } from '../../../atoms/FormHeader/FormHeader';
@@ -15,6 +10,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
   form,
   onBlur,
   onCancel,
+  actions,
 }) => {
   const { isSaving } = useLoadingAndSaving();
 
@@ -51,10 +47,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
                 getId={item => item.id ?? 0}
                 getLabel={item => item.name ?? ''}
                 fetchDataList={getAllUnit}
-                onCreateNew={async (value: string) => {
-                  const response = await createUnit({ name: value });
-                  return response.data;
-                }}
+                onCreateNew={actions?.onCreateNewUnit}
               />
             </Form.Item>
           </Col>
@@ -69,10 +62,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
                 getId={item => item.id ?? 0}
                 getLabel={item => item.title ?? ''}
                 fetchDataList={getAllCategory}
-                onCreateNew={async (value: string) => {
-                  const response = await createCategory({ title: value });
-                  return response.data;
-                }}
+                onCreateNew={actions?.onCreateNewCategory}
               />
             </Form.Item>
           </Col>
