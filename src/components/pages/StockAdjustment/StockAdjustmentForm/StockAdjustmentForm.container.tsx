@@ -24,7 +24,8 @@ export const StockAdjustmentFormContainer = () => {
   const { id: rawId } = useParams<{ id?: string }>();
   const itemId = rawId ? parseInt(rawId, 10) : undefined;
 
-  const [initialFormData, setInitialFormData] = useState<TypeStockAdjustment>();
+  const [initialFormData, setInitialFormData] =
+    useState<TypeStockAdjustment | null>(null);
   const initialValues: TypeStockAdjustment = {
     date: dayjs(),
   };
@@ -57,18 +58,23 @@ export const StockAdjustmentFormContainer = () => {
 
   // Сравнение данных формы
   const hasDataChanged = (
-    initialData: TypeStockAdjustment | undefined,
+    initialData: TypeStockAdjustment | null,
     currentData: TypeStockAdjustment,
   ) => {
-    if (!initialData) return true;
+    if (initialData === null) {
+      return false;
+    }
 
-    return (['title', 'reason', 'date'] as (keyof TypeStockAdjustment)[]).some(
-      key => initialData[key] !== currentData[key],
+    return (
+      initialData.title !== currentData.title ||
+      initialData.reason !== currentData.reason ||
+      (dayjs.isDayjs(initialData.date) &&
+        !initialData.date.isSame(dayjs(currentData.date), 'day'))
     );
   };
 
   // Обработка создания новой корректировки
-  const createAdjustment = useCallback(
+  const createItem = useCallback(
     async (data: TypeStockAdjustment) => {
       try {
         const response = await createStockAdjustment(data);
@@ -82,7 +88,7 @@ export const StockAdjustmentFormContainer = () => {
   );
 
   // Обработка обновления существующей корректировки
-  const updateAdjustment = useCallback(async (data: TypeStockAdjustment) => {
+  const updateItem = useCallback(async (data: TypeStockAdjustment) => {
     try {
       await updateStockAdjustment(data);
       setInitialFormData(data);
@@ -108,23 +114,16 @@ export const StockAdjustmentFormContainer = () => {
 
       setIsSaving(true);
       if (!itemId) {
-        await createAdjustment(currentData);
+        await createItem(currentData);
       } else {
-        await updateAdjustment({ ...currentData, id: itemId });
+        await updateItem({ ...currentData, id: itemId });
       }
     } catch (error) {
       console.error('Ошибка валидации:', error);
     } finally {
       setIsSaving(false);
     }
-  }, [
-    form,
-    itemId,
-    initialFormData,
-    createAdjustment,
-    setIsSaving,
-    updateAdjustment,
-  ]);
+  }, [form, itemId, initialFormData, createItem, setIsSaving, updateItem]);
 
   // Функция для возврата на предыдущую страницу
   const handleCancel = () => {

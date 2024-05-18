@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormInstance, Select, Tooltip } from 'antd';
 import { useDataListLoader } from '../../../hooks';
+import '../SimpleSelect/SimpleSelect.css';
 
 interface SimpleSelectProps<T> {
   form?: FormInstance;
@@ -11,7 +12,9 @@ interface SimpleSelectProps<T> {
   placeholder: string;
   getId: (item: T) => number;
   getLabel: (item: T) => string;
+  onBlur?: () => void;
   style?: React.CSSProperties;
+  onCreateNew?: (value: string) => Promise<T>;
 }
 
 export const SimpleSelect = <T,>({
@@ -23,10 +26,14 @@ export const SimpleSelect = <T,>({
   placeholder,
   getId,
   getLabel,
+  onBlur,
   style,
+  onCreateNew,
 }: SimpleSelectProps<T>) => {
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
+
+  const [searchValue, setSearchValue] = useState('');
 
   // Преобразование данных для использования в select
   const selectOptions = dataList?.map(item => ({
@@ -71,11 +78,15 @@ export const SimpleSelect = <T,>({
     }
   };
 
-  // Изменить значение в select
-  const onChange = (value: { value: number } | undefined) => {
-    if (value) {
-      updateFormValue({ id: value.value });
-      onValueChange?.(value.value);
+  const onChange = async (value: { value: number | string } | undefined) => {
+    if (value?.value === 'create-new' && onCreateNew) {
+      const newItem = await onCreateNew(searchValue);
+      updateFormValue({ id: getId(newItem) });
+      onValueChange?.(getId(newItem));
+      setSearchValue('');
+    } else if (value) {
+      updateFormValue({ id: value.value as number });
+      onValueChange?.(value.value as number);
     } else {
       updateFormValue(undefined);
       onValueChange?.(undefined);
@@ -110,14 +121,16 @@ export const SimpleSelect = <T,>({
   return (
     <Select
       showSearch
-      allowClear
+      // allowClear
       labelInValue
       style={style}
+      onBlur={onBlur}
       placeholder={placeholder}
       value={selectValue}
       loading={isLoading}
       onChange={onChange}
       onClear={onClear}
+      onSearch={(value: string) => setSearchValue(value)}
       filterOption={onSearch}
       onDropdownVisibleChange={handleDropdownVisibleChange}>
       {selectOptions?.map(option => (
@@ -130,6 +143,17 @@ export const SimpleSelect = <T,>({
           </Tooltip>
         </Select.Option>
       ))}
+      {searchValue !== '' &&
+        !selectOptions?.some(option => option.label === searchValue) && (
+          <Select.Option
+            key="create-new"
+            value="create-new"
+            label={`Создать новый "${searchValue}"`}>
+            <div className={'option-create-button'}>
+              {`Создать новый "${searchValue}"`}
+            </div>
+          </Select.Option>
+        )}
     </Select>
   );
 };
