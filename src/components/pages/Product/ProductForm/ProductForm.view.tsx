@@ -84,9 +84,17 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
           </Form>
         );
       case 'recipe':
-        return <div>Здесь будет отображаться рецепт</div>;
+        return (
+          <div className="form-with-radio">
+            Страница с рецептом товара скоро появится здесь...
+          </div>
+        );
       case 'operations':
-        return <div>Здесь будут отображаться операции</div>;
+        return (
+          <div className="form-with-radio">
+            Страница с операциями товара скоро появится здесь...
+          </div>
+        );
       default:
         return null;
     }

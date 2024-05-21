@@ -1,3 +1,35 @@
+.radio-button-flex {
+  margin: 0 -15px;
+  padding: 0 15px;
+  background-color: #1677ff80;
+}
+
 .radio-button-group {
-    background-color: #93bbff;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+/* Стили для неактивных радио-кнопок */
+.radio-button-group .ant-radio-button-wrapper:not(.ant-radio-button-wrapper-checked) {
+  background-color: rgb(255, 255, 255, 0.4);
+  border-color: rgb(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+/* Стили для активной радио-кнопки */
+.radio-button-group .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  background-color: white;
+  border-color: white;
+  color: black;
+  border-radius: 3px;
+}
+
+/* Стили при наведении на радио-кнопку и активную радио-кнопку */
+.radio-button-group .ant-radio-button-wrapper:hover,
+.radio-button-group .ant-radio-button-wrapper-checked:not(
+    .ant-radio-button-wrapper-disabled
+  ):hover {
+  background-color: white;
+  border-color: #1677ff;
+  color: #1677ff;
 }

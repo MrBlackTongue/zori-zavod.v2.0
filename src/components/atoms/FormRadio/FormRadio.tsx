@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Radio } from 'antd';
+import { Flex, Radio, Space } from 'antd';
 import './FormRadio.css';
 
 interface FormRadioProps {
@@ -14,17 +14,20 @@ export const FormRadio: React.FC<FormRadioProps> = ({
   options,
 }) => {
   return (
-    <Flex className={'radio-button-group'}>
+    <Flex align={'center'} className={'radio-button-flex'}>
       <Radio.Group
         value={value}
         optionType="button"
         buttonStyle="solid"
+        className={'radio-button-group'}
         onChange={e => onChange(e.target.value)}>
-        {options.map(option => (
-          <Radio key={option.value} value={option.value}>
-            {option.label}
-          </Radio>
-        ))}
+        <Space>
+          {options.map(option => (
+            <Radio key={option.value} value={option.value}>
+              {option.label}
+            </Radio>
+          ))}
+        </Space>
       </Radio.Group>
     </Flex>
   );

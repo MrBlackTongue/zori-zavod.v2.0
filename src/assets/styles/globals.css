@@ -130,6 +130,10 @@
 
 /* Form style */
 
+.form-style {
+  margin-top: 10px;
+}
+
 /* input */
 .form-style .ant-input,
 .form-style .ant-picker {
