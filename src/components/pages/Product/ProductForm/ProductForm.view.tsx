@@ -5,6 +5,7 @@ import { getAllCategory, getAllUnit } from '../../../../api';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
 import { FormHeader } from '../../../atoms/FormHeader/FormHeader';
+import { FormRadio } from '../../../atoms/FormRadio/FormRadio';
 
 export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
   form,
@@ -14,60 +15,97 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
 }) => {
   const { isSaving } = useLoadingAndSaving();
 
+  // Состояние для хранения значения поля title
+  const [title, setTitle] = React.useState(form.getFieldValue('title'));
+
+  // Состояние для выбранной опции
+  const [selectedOption, setSelectedOption] = React.useState('main');
+
+  // Опции для радио-кнопок
+  const radioOptions = [
+    { value: 'main', label: 'Главная информация' },
+    { value: 'recipe', label: 'Рецепт' },
+    { value: 'operations', label: 'Операции' },
+  ];
+
+  // Содержимое опций
+  const renderContent = () => {
+    switch (selectedOption) {
+      case 'main':
+        return (
+          <Form form={form} layout="vertical" className="form-with-radio">
+            <Row gutter={24}>
+              <Col span={12}>
+                <Form.Item
+                  label="Название товара"
+                  name="title"
+                  rules={[
+                    { required: true, message: 'введите название товара' },
+                  ]}>
+                  <Input
+                    placeholder="Название"
+                    onBlur={onBlur}
+                    onPressEnter={onBlur}
+                    onChange={event => setTitle(event.target.value)}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item label="Единица измерения" name="unit">
+                  <SimpleSelect
+                    form={form}
+                    onBlur={onBlur}
+                    fieldName="unit"
+                    placeholder="Выберите единицу измерения"
+                    value={form.getFieldValue('unit')}
+                    getId={item => item.id ?? 0}
+                    getLabel={item => item.name ?? ''}
+                    fetchDataList={getAllUnit}
+                    onCreateNew={actions?.onCreateNewUnit}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item label="Категория" name="category">
+                  <SimpleSelect
+                    form={form}
+                    onBlur={onBlur}
+                    fieldName="category"
+                    placeholder="Выберите категорию"
+                    value={form.getFieldValue('category')}
+                    getId={item => item.id ?? 0}
+                    getLabel={item => item.title ?? ''}
+                    fetchDataList={getAllCategory}
+                    onCreateNew={actions?.onCreateNewCategory}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        );
+      case 'recipe':
+        return <div>Здесь будет отображаться рецепт</div>;
+      case 'operations':
+        return <div>Здесь будут отображаться операции</div>;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="page-form-style">
       <FormHeader
         header="Товар"
-        title={Form.useWatch('title', form)}
+        title={title}
         isSaving={isSaving}
         onCancel={onCancel}
       />
-      <Form form={form} layout="vertical" className="form-style">
-        <Row gutter={24}>
-          <Col span={12}>
-            <Form.Item
-              label="Название товара"
-              name="title"
-              rules={[{ required: true, message: 'введите название товара' }]}>
-              <Input
-                placeholder="Название"
-                onBlur={onBlur}
-                onPressEnter={onBlur}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Единица измерения" name="unit">
-              <SimpleSelect
-                form={form}
-                onBlur={onBlur}
-                fieldName="unit"
-                placeholder="Выберите единицу измерения"
-                value={form.getFieldValue('unit')}
-                getId={item => item.id ?? 0}
-                getLabel={item => item.name ?? ''}
-                fetchDataList={getAllUnit}
-                onCreateNew={actions?.onCreateNewUnit}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Категория" name="category">
-              <SimpleSelect
-                form={form}
-                onBlur={onBlur}
-                fieldName="category"
-                placeholder="Выберите категорию"
-                value={form.getFieldValue('category')}
-                getId={item => item.id ?? 0}
-                getLabel={item => item.title ?? ''}
-                fetchDataList={getAllCategory}
-                onCreateNew={actions?.onCreateNewCategory}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+      <FormRadio
+        value={selectedOption}
+        onChange={setSelectedOption}
+        options={radioOptions}
+      />
+      {renderContent()}
     </div>
   );
 };

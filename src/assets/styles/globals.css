@@ -167,6 +167,10 @@
   border-bottom: 2px solid #a9a9a9 !important; /* Серый цвет нижней границы */
 }
 
+.form-with-radio {
+  margin-top: 10px;
+}
+
 .close-icon-hover {
   cursor: pointer;
   border-radius: 50%; /* Создает круглую форму */
