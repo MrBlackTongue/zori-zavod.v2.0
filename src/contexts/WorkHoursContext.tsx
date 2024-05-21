@@ -1,6 +1,6 @@
-import React, {createContext, ReactNode, useContext} from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 import dayjs from 'dayjs';
-import {TypeEditingDayState, TypeTransformedWorkHour} from '../types'; // Определение обобщенных типов для данных контекста
+import { TypeEditingDayState, TypeTransformedWorkHour } from '../types';
 
 // Определение обобщенных типов для данных контекста
 interface WorkHoursContextType {

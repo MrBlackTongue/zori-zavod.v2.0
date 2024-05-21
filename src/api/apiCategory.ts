@@ -1,6 +1,6 @@
-import {TypeApiResponse, TypeCategory} from '../types';
-import {CATEGORY, TREE} from './apiEndpoints';
-import {api} from './api';
+import { TypeApiResponse, TypeCategory } from '../types';
+import { CATEGORY, TREE } from './apiEndpoints';
+import { api } from './api';
 
 // Получить список категорий
 export async function getAllCategory(): Promise<TypeCategory[]> {

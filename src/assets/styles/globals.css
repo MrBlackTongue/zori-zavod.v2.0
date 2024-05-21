@@ -36,8 +36,9 @@
 
 /* Basic table style */
 .ant-table-tbody > .ant-table-row:hover {
-  box-shadow: 0 -3px 6px 0 rgba(0, 0, 0, 0.15) /* Тень сверху */,
-  0 3px 6px 0 rgba(0, 0, 0, 0.15); /* Тень снизу */
+  box-shadow:
+    0 -3px 6px 0 rgba(0, 0, 0, 0.15) /* Тень сверху */,
+    0 3px 6px 0 rgba(0, 0, 0, 0.15); /* Тень снизу */
 }
 
 .ant-table-tbody > .ant-table-row:hover > .ant-table-cell {
