@@ -56,6 +56,16 @@
   border-right-color: #f0f0f0 !important;
 }
 
+.editable-table .ant-table-tbody > .ant-table-row .delete-button {
+  visibility: hidden; /* Кнопка становится невидимой */
+  opacity: 0; /* Кнопка полностью прозрачная */
+}
+
+.editable-table .ant-table-tbody > .ant-table-row:hover .delete-button {
+  visibility: visible; /* Кнопка становится видимой */
+  opacity: 1; /* Кнопка полностью непрозрачная */
+}
+
 .editable-cell {
   position: relative;
 }
@@ -71,55 +81,6 @@
   border-radius: 5px;
 }
 
-.editable-table .ant-table-tbody > .ant-table-row .delete-button {
-  visibility: hidden; /* Кнопка становится невидимой */
-  opacity: 0; /* Кнопка полностью прозрачная */
-}
-
-.editable-table .ant-table-tbody > .ant-table-row:hover .delete-button {
-  visibility: visible; /* Кнопка становится видимой */
-  opacity: 1; /* Кнопка полностью непрозрачная */
-}
-
-/* NavigationTabs style */
-.child-tabs-style .ant-tabs-nav-list {
-  padding-left: 30px;
-  height: 30px;
-}
-
-.child-tabs-style .ant-tabs-tab {
-  background-color: white !important;
-  border: 1px solid rgba(100, 100, 103, 0.3) !important;
-  border-bottom: 1px solid transparent !important; /* Прозрачная нижняя граница */
-  border-radius: 6px 6px 0 0 !important;
-}
-
-.child-tabs-style .ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #fff !important; /* Белый текст для активного Tab */
-}
-
-.child-tabs-style .ant-tabs-tab-active {
-  background-color: #1677ff !important; /* Яркий фон для активного Tab */
-  border-bottom: 1px solid #1677ff !important; /* Жирная нижняя граница синего цвета */
-}
-
-.child-tabs-style .ant-tabs-nav-wrap {
-  border-bottom: 5px solid #1677ff !important; /* Цвет нижней границы */
-}
-
-/* Стили для tabs без названия */
-.child-tabs-style-without-title .ant-tabs-nav-wrap {
-  border-bottom: 5px solid #1677ff !important; /* Цвет нижней границы */
-}
-
-.child-tabs-style-without-title .ant-tabs-tab-active {
-  display: none; /* Скрыть tabs */
-}
-
-.child-tabs-style-without-title .ant-tabs-nav-wrap {
-  padding-top: 35px;
-}
-
 /* Page form style */
 .page-form-style {
   min-height: 70vh;
@@ -129,7 +90,6 @@
 }
 
 /* Form style */
-
 .form-style {
   margin-top: 10px;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import './ChildTabs.css';
 
 interface ChildTabsProps {
   parentTabId: string;
