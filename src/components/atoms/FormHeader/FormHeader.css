@@ -1,6 +1,7 @@
 .form-header {
-  border-bottom: 5px solid rgba(22, 119, 255, 0.5);
-  margin-bottom: 10px;
+  border-bottom: 5px solid #1677ff80;
+  margin: 0 -15px;
+  padding: 0 15px;
 }
 
 .form-title {
