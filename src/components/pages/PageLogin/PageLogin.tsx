@@ -3,7 +3,7 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
   LockOutlined,
-  UserOutlined,
+  MailOutlined,
 } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { loginUser, WORK_HOURS } from '../../../api';
@@ -61,8 +61,8 @@ export const PageLogin: React.FC = () => {
           rules={[{ required: true, message: 'введите вашу почту' }]}>
           <Input
             size="large"
-            prefix={<UserOutlined className="input-prefix-icon" />}
-            placeholder="Почта"
+            prefix={<MailOutlined className="input-prefix-icon" />}
+            placeholder="Email"
           />
         </Form.Item>
         <Form.Item
