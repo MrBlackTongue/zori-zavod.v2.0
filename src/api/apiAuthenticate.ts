@@ -10,7 +10,7 @@ import {
   handleErrorResponseMessage,
   handleRegistrationUserMessage,
   handleResponseLogoutMessage,
-} from '../utils'; // Зарегистрировать нового пользователя
+} from '../utils';
 
 // Зарегистрировать нового пользователя
 export async function registrationUser(

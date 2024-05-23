@@ -58,11 +58,11 @@ export const PageLogin: React.FC = () => {
         </Form.Item>
         <Form.Item
           name="login"
-          rules={[{ required: true, message: 'введите ваш логин' }]}>
+          rules={[{ required: true, message: 'введите вашу почту' }]}>
           <Input
             size="large"
             prefix={<UserOutlined className="input-prefix-icon" />}
-            placeholder="Логин"
+            placeholder="Почта"
           />
         </Form.Item>
         <Form.Item

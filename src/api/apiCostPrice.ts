@@ -1,7 +1,7 @@
 import { TypeCostPriceReport, TypeCostPriceReportFilter } from '../types';
 import { api } from './api';
 import { COST_PRICE, REPORT } from './apiEndpoints';
-import { handleErrorResponseMessage } from '../utils'; // Получить список всех отчетов по себестоимости
+import { handleErrorResponseMessage } from '../utils';
 
 // Получить список всех отчетов по себестоимости
 export async function getAllCostPriceByFilter(
