@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL, LOGIN, SUBSCRIPTION } from './apiEndpoints';
+import { API_URL, SUBSCRIPTION } from './apiEndpoints';
 import { message } from 'antd';
 
 export const api = axios.create({
@@ -12,7 +12,7 @@ api.interceptors.response.use(
   error => {
     switch (error.response?.status) {
       case 401:
-        window.location.assign(`${LOGIN}`);
+        // window.location.assign(`${LOGIN}`);
         break;
       case 402:
         localStorage.setItem('redirectedDueToUnpaidSubscription', 'true');
