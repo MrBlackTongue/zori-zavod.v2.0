@@ -94,9 +94,15 @@
   margin-top: 10px;
 }
 
+.form-with-menu {
+  margin-top: 10px;
+}
+
 /* input */
 .form-style .ant-input,
-.form-style .ant-picker {
+.form-style .ant-picker,
+.form-with-menu .ant-input,
+.form-with-menu .ant-picker {
   border: none; /* Убирает все границы элемента */
   border-radius: 0; /* Убирает скругление углов */
   box-shadow: none; /* Удаляет тень вокруг элемента */
@@ -104,35 +110,38 @@
 }
 
 .form-style .ant-input:hover,
-.form-style .ant-picker:hover {
+.form-style .ant-picker:hover,
+.form-with-menu .ant-input:hover,
+.form-with-menu .ant-picker:hover {
   box-shadow: none; /* Удаляет тень вокруг элемента */
   border-bottom: 2px solid #a9a9a9; /* Серый цвет нижней границы */
 }
 
 .form-style .ant-input:focus,
-.form-style .ant-picker-focused {
+.form-style .ant-picker-focused,
+.form-with-menu .ant-input:focus,
+.form-with-menu .ant-picker-focused {
   box-shadow: none; /* Удаляет тень вокруг элемента */
   border-bottom: 2px solid #1677ff; /* Синий цвет для границы */
 }
 
 /* select */
-.form-style .ant-select-selector {
+.form-style .ant-select-selector,
+.form-with-menu .ant-select-selector {
   border: none !important; /* Убирает все границы элемента */
   border-radius: 0 !important; /* Убирает скругление углов */
   box-shadow: none !important; /* Удаляет тень вокруг элемента */
   border-bottom: 2px solid #d9d9d9 !important; /* Серый цвет нижней границы */
 }
 
-.form-style .ant-select-focused .ant-select-selector {
+.form-style .ant-select-focused .ant-select-selector,
+.form-with-menu .ant-select-focused .ant-select-selector {
   border-bottom: 2px solid #1677ff !important; /* Синий цвет для границы */
 }
 
-.form-style .ant-select:hover .ant-select-selector {
+.form-style .ant-select:hover .ant-select-selector,
+.form-with-menu .ant-select:hover .ant-select-selector {
   border-bottom: 2px solid #a9a9a9 !important; /* Серый цвет нижней границы */
-}
-
-.form-with-radio {
-  margin-top: 10px;
 }
 
 .close-icon-hover {

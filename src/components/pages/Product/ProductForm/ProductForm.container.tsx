@@ -53,7 +53,7 @@ export const ProductFormContainer = () => {
     currentData: TypeProduct,
   ) => {
     if (initialData === null) {
-      return false;
+      return true;
     }
 
     return (

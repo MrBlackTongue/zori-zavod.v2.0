@@ -15,6 +15,7 @@ interface SimpleSelectProps<T> {
   onBlur?: () => void;
   style?: React.CSSProperties;
   onCreateNew?: (value: string) => Promise<T>;
+  disabled?: boolean;
 }
 
 export const SimpleSelect = <T,>({
@@ -29,6 +30,7 @@ export const SimpleSelect = <T,>({
   onBlur,
   style,
   onCreateNew,
+  disabled,
 }: SimpleSelectProps<T>) => {
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
@@ -125,9 +127,10 @@ export const SimpleSelect = <T,>({
       labelInValue
       style={style}
       onBlur={onBlur}
-      placeholder={placeholder}
+      disabled={disabled}
       value={selectValue}
       loading={isLoading}
+      placeholder={placeholder}
       onChange={onChange}
       onClear={onClear}
       onSearch={(value: string) => setSearchValue(value)}

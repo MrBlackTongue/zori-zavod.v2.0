@@ -62,7 +62,7 @@ export const StockAdjustmentFormContainer = () => {
     currentData: TypeStockAdjustment,
   ) => {
     if (initialData === null) {
-      return false;
+      return true;
     }
 
     return (

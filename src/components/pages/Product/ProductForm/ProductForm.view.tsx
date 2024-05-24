@@ -33,7 +33,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
     switch (selectedOption) {
       case 'main':
         return (
-          <Form form={form} layout="vertical" className="form-with-radio">
+          <Form form={form} layout="vertical" className="form-with-menu">
             <Row gutter={24}>
               <Col span={12}>
                 <Form.Item
@@ -62,6 +62,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
                     getLabel={item => item.name ?? ''}
                     fetchDataList={getAllUnit}
                     onCreateNew={actions?.onCreateNewUnit}
+                    disabled={!form.getFieldValue('title')}
                   />
                 </Form.Item>
               </Col>
@@ -77,6 +78,7 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
                     getLabel={item => item.title ?? ''}
                     fetchDataList={getAllCategory}
                     onCreateNew={actions?.onCreateNewCategory}
+                    disabled={!form.getFieldValue('title')}
                   />
                 </Form.Item>
               </Col>
@@ -85,13 +87,13 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
         );
       case 'recipe':
         return (
-          <div className="form-with-radio">
+          <div className="form-with-menu">
             Страница с рецептом товара скоро появится здесь...
           </div>
         );
       case 'operations':
         return (
-          <div className="form-with-radio">
+          <div className="form-with-menu">
             Страница с операциями товара скоро появится здесь...
           </div>
         );
