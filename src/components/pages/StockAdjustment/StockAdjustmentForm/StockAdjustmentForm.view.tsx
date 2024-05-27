@@ -34,6 +34,7 @@ export const StockAdjustmentFormView: React.FC<
               <Input
                 placeholder="Введите название корректировки"
                 onBlur={onBlur}
+                onChange={onBlur}
                 onPressEnter={onBlur}
               />
             </Form.Item>
@@ -44,6 +45,7 @@ export const StockAdjustmentFormView: React.FC<
                 style={{ width: '100%' }}
                 format={'DD.MM.YYYY'}
                 onBlur={onBlur}
+                onChange={onBlur}
                 disabled={!form.getFieldValue('title')}
               />
             </Form.Item>
@@ -52,6 +54,7 @@ export const StockAdjustmentFormView: React.FC<
             <Form.Item label="Причина" name="reason">
               <Input
                 onBlur={onBlur}
+                onChange={onBlur}
                 onPressEnter={onBlur}
                 disabled={!form.getFieldValue('title')}
               />

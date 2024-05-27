@@ -65,11 +65,13 @@ export const StockAdjustmentFormContainer = () => {
       return true;
     }
 
+    const initialDate = dayjs(initialData.date);
+    const currentDate = dayjs(currentData.date);
+
     return (
       initialData.title !== currentData.title ||
       initialData.reason !== currentData.reason ||
-      (dayjs.isDayjs(initialData.date) &&
-        !initialData.date.isSame(dayjs(currentData.date), 'day'))
+      !initialDate.isSame(currentDate, 'day')
     );
   };
 
