@@ -43,3 +43,5 @@ export const CATEGORY = '/category';
 export const WORK_HOURS = '/work-hours';
 export const ALL = '/all';
 export const ITEMS = '/items';
+export const ITEM = '/item';
+export const ITEM_ATTRIBUTE = '/item-attribute';

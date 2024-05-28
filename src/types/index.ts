@@ -31,3 +31,4 @@ export * from './TypeWithId';
 export * from './TypeMaterial';
 export * from './TypeWorkHour';
 export * from './TypeItem';
+export * from './TypeItemAttribute';

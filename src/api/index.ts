@@ -29,3 +29,4 @@ export * from './apiEstimatedPrice';
 export * from './apiStoragePlace';
 export * from './apiMaterial';
 export * from './apiWorkHours';
+export * from './apiItemAttribute';
