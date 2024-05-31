@@ -90,6 +90,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           <Form.Item label="Варианты">
             <Button onClick={openModal}>Открыть конфигурацию...</Button>
             <FormModal
+              width={'700px'}
               isOpen={isModalVisible}
               onSubmit={handleSubmit}
               onCancel={handleCancel}

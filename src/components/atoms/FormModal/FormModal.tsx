@@ -77,6 +77,7 @@ export const FormModal = <T extends object>({
           {modalProps.title}
         </div>
       }
+      centered
       okText={'Сохранить'}
       cancelText={'Отмена'}
       open={isOpen}

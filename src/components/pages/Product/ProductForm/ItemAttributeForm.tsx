@@ -1,7 +1,6 @@
 import React from 'react';
-import { Col, Form, Input, Row } from 'antd';
-import { getAllUnit } from '../../../../api';
-import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
+import { Col, Form, Input, Row, Select } from 'antd';
+import { Value } from '../../../../types';
 
 interface ItemAttributeFormProps {
   form: any;
@@ -10,28 +9,32 @@ interface ItemAttributeFormProps {
 export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   form,
 }) => {
+  const handleChange = (values: string[]) => {
+    form.setFieldsValue({
+      values: values.map((value, index) => ({ id: index, value })),
+    });
+  };
+
   return (
     <Form form={form} layout="vertical" className="form-with-menu">
-      <Row gutter={24}>
-        <Col span={8}>
-          <Form.Item
-            label="Название товара"
-            name="title"
-            rules={[{ required: true, message: 'введите название товара' }]}>
-            <Input placeholder="Название" />
+      <Row gutter={16}>
+        <Col span={6}>
+          <Form.Item label="Атрибут" name="title">
+            <Input placeholder="Например, цвет" />
           </Form.Item>
         </Col>
-        <Col>
-          <Form.Item label="Единица измерения" name="unit">
-            <SimpleSelect
-              form={form}
-              fieldName="unit"
-              placeholder="Выберите единицу измерения"
-              value={form.getFieldValue('unit')}
-              getId={item => item.id ?? 0}
-              getLabel={item => item.name ?? ''}
-              fetchDataList={getAllUnit}
-              disabled={!form.getFieldValue('title')}
+        <Col span={18}>
+          <Form.Item label="Значения атрибута" name="values">
+            <Select
+              mode="tags"
+              open={false}
+              style={{ width: '100%' }}
+              placeholder="Например, красный, зеленый, синий"
+              onChange={handleChange}
+              tokenSeparators={[',']}
+              value={form
+                .getFieldValue('values')
+                ?.map((item: Value) => item.value)}
             />
           </Form.Item>
         </Col>
