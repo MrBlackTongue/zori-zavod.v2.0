@@ -5,8 +5,8 @@ import { api } from './api';
 // Получить список атрибутов по id элемента
 export async function getItemAttributeByIdItem(
   id: number,
-): Promise<TypeItemAttribute | undefined> {
-  const response = await api.get(`${ITEM_ATTRIBUTE}/${ITEM}/${id}`);
+): Promise<TypeItemAttribute[] | undefined> {
+  const response = await api.get(`${ITEM_ATTRIBUTE}${ITEM}/${id}`);
   return response.data;
 }
 

@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Input, Row } from 'antd';
-import { getAllCategory, getAllUnit } from '../../../../api';
+import {
+  createItemAttribute,
+  getAllCategory,
+  getAllUnit,
+  getItemAttributeByIdItem,
+} from '../../../../api';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 import { TypeCategory, TypeItemAttribute, TypeUnit } from '../../../../types';
 import { ItemAttributeForm } from './ItemAttributeForm';
 import { FormModal } from '../../../atoms/FormModal/FormModal';
+import { useParams } from 'react-router-dom';
 
 interface ProductFormProps {
   form: any;
@@ -22,12 +28,47 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   onTitleChange,
   actions,
 }) => {
+  // Преобразование id из пути в число
+  const { id: rawId } = useParams<{ id?: string }>();
+  const itemId = rawId ? parseInt(rawId, 10) : undefined;
+  const [modalForm] = Form.useForm();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleSubmit = (values: TypeItemAttribute) => {
-    // Обработка отправки формы
-    console.log(values);
-    setIsModalVisible(false);
+  const handleSubmit = async (values: { attributes: TypeItemAttribute[] }) => {
+    if (itemId) {
+      try {
+        const { attributes } = values;
+        for (const attribute of attributes) {
+          const data: TypeItemAttribute = {
+            itemId: itemId,
+            title: attribute.title,
+            values: attribute.values,
+          };
+
+          await createItemAttribute(data);
+        }
+        setIsModalVisible(false);
+      } catch (error) {
+        console.error('Ошибка при создании атрибутов:', error);
+      }
+    }
+  };
+
+  const fetchItemAttributes = async () => {
+    if (itemId) {
+      try {
+        const attributes = await getItemAttributeByIdItem(itemId);
+        modalForm.setFieldsValue({
+          attributes: attributes?.map(attribute => ({
+            title: attribute.title,
+            values: attribute.values.map(value => value.value),
+          })),
+        });
+      } catch (error) {
+        console.error('Ошибка при загрузке атрибутов элемента:', error);
+      }
+    }
   };
 
   const handleCancel = () => {
@@ -35,6 +76,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   };
 
   const openModal = () => {
+    void fetchItemAttributes();
     setIsModalVisible(true);
   };
 
@@ -94,7 +136,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               isOpen={isModalVisible}
               onSubmit={handleSubmit}
               onCancel={handleCancel}
-              renderForm={form => <ItemAttributeForm form={form} />}
+              renderForm={() => <ItemAttributeForm form={modalForm} />}
               title="Атрибуты элемента"
             />
           </Form.Item>

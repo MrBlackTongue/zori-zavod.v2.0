@@ -4,7 +4,7 @@ export type Value = {
 };
 
 export type TypeItemAttribute = {
-  id: number;
+  id?: number;
   itemId: number;
   title: string;
   values: Value[];
