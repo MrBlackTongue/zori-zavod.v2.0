@@ -31,7 +31,7 @@ export const numberParser = (displayValue?: string) => {
   return parseFloat(displayValue.replace(',', '.'));
 };
 
-// Функция форматирует минуы в часы
+// Функция форматирует минуты в часы
 export const formatMinutesToTime = (minutes: number) => {
   if (minutes === null || minutes === undefined) {
     return '';

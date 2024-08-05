@@ -20,6 +20,7 @@ export interface TypeWorkDay {
 
 export interface TypeTransformedWorkHour {
   employee: TypeEmployee | null;
+
   [date: string]: TypeWorkDay | TypeEmployee | null;
 }
 
