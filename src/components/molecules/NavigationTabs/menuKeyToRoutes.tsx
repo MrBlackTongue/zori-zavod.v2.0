@@ -5,28 +5,24 @@ import {
   CATEGORY,
   CLIENTS,
   COST_PRICE,
-  EMPLOYEE,
-  EMPLOYEES,
   ESTIMATED_PRICE,
   ITEMS,
   MATERIALS,
   OPERATION,
-  OPERATION_ACCOUNTING,
   OUTPUT,
   PRODUCTION_TYPE,
   PRODUCTS,
   PURCHASES,
   REPORT,
+  SELL,
   SHIPMENT,
   STOCK,
   STOCK_ADJUSTMENTS,
   STOCKS,
   STORAGE_PLACE,
   UNIT,
-  WORK_HOURS,
 } from '../../../api';
 import { PageShipment } from '../../pages/PageShipment/PageShipment';
-import { PageOperationAccounting } from '../../pages/PageOperationAccounting/PageOperationAccounting';
 import { PageOperation } from '../../pages/PageOperation/PageOperation';
 import { PageProductionType } from '../../pages/PageProductionType/PageProductionType';
 import { PageOutput } from '../../pages/PageOutput/PageOutput';
@@ -36,16 +32,13 @@ import { StockAdjustmentTableContainer } from '../../pages/StockAdjustment/Stock
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
 import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
 import { PageOperationReport } from '../../pages/PageOperationReport/PageOperationReport';
-import { PageEmployeeReport } from '../../pages/PageEmployeeReport/PageEmployeeReport';
 import { PageCostPriceReport } from '../../pages/PageCostPriceReport/PageCostPriceReport';
 import { ProductTableContainer } from '../../pages/Product/ProductTable/ProductTable.container';
 import { PageCategory } from '../../pages/PageCategory/PageCategory';
 import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
 import { PageUnit } from '../../pages/PageUnit/PageUnit';
 import { ClientTableContainer } from '../../pages/Client/ClientTable/ClientTable.container';
-import { EmployeeTableContainer } from '../../pages/Employee/EmployeeTable/EmployeeTable.container';
 import { MaterialTableContainer } from '../../pages/Material/MaterialTable/MaterialTable.container';
-import { WorkHoursTableContainer } from '../../pages/WorkHours/WorkHoursTable/WorkHoursTable.container';
 import { StockProductsTableContainer } from '../../pages/Stock/StockProductsTable/StockProductsTable.container';
 import { StockMaterialsTableContainer } from '../../pages/Stock/StockMaterialsTable/StockMaterialsTable.container';
 
@@ -64,7 +57,7 @@ export const menuKeyToRoutes: Record<
 > = {
   '01': [
     {
-      id: '/sell',
+      id: SELL,
       title: '',
       childTabs: [
         {
@@ -76,17 +69,6 @@ export const menuKeyToRoutes: Record<
     },
   ],
   '02': [
-    {
-      id: OPERATION_ACCOUNTING,
-      title: 'Учет операций',
-      route: (
-        <Route
-          key={OPERATION_ACCOUNTING}
-          path={OPERATION_ACCOUNTING}
-          element={<PageOperationAccounting />}
-        />
-      ),
-    },
     {
       id: OPERATION,
       title: 'Операции',
@@ -204,17 +186,6 @@ export const menuKeyToRoutes: Record<
     //   ),
     // },
     {
-      id: `${REPORT}${EMPLOYEE}`,
-      title: 'По сотрудникам',
-      route: (
-        <Route
-          key={`${REPORT}${EMPLOYEE}`}
-          path={`${REPORT}${EMPLOYEE}`}
-          element={<PageEmployeeReport />}
-        />
-      ),
-    },
-    {
       id: `${REPORT}${COST_PRICE}`,
       title: 'По себестоимости',
       route: (
@@ -276,30 +247,6 @@ export const menuKeyToRoutes: Record<
           key={CLIENTS}
           path={CLIENTS}
           element={<ClientTableContainer />}
-        />
-      ),
-    },
-  ],
-  '08': [
-    {
-      id: WORK_HOURS,
-      title: 'Табель учета рабочего времени',
-      route: (
-        <Route
-          key={WORK_HOURS}
-          path={WORK_HOURS}
-          element={<WorkHoursTableContainer />}
-        />
-      ),
-    },
-    {
-      id: EMPLOYEES,
-      title: 'Сотрудники',
-      route: (
-        <Route
-          key={EMPLOYEES}
-          path={EMPLOYEES}
-          element={<EmployeeTableContainer />}
         />
       ),
     },

@@ -1,7 +1,5 @@
 export const API_URL = process.env.REACT_APP_API_URL;
 
-export const EMPLOYEE = '/employee';
-export const EMPLOYEES = '/employees';
 export const OPERATION = '/operation';
 export const OUTPUT = '/output';
 export const PRODUCT = '/product';
@@ -16,9 +14,6 @@ export const PRODUCT_MOVEMENT = '/product-movement';
 export const STOCK = '/stock';
 export const STOCKS = '/stocks';
 export const MOVEMENT = '/movement';
-export const OPERATION_ACCOUNTING = '/operation-accounting';
-export const OPERATION_TIMESHEET = '/operation-timesheet';
-export const FILTER = '/filter';
 export const SHIPMENT = '/shipment';
 export const PRODUCTION_TYPE = '/production-type';
 export const TREE = '/tree';
@@ -40,6 +35,6 @@ export const MATERIAL = '/material';
 export const MATERIALS = '/materials';
 export const SEARCH = '/search';
 export const CATEGORY = '/category';
-export const WORK_HOURS = '/work-hours';
 export const ALL = '/all';
 export const ITEMS = '/items';
+export const SELL = '/sell';
