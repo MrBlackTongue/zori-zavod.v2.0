@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import {
   TypeCategory,
   TypeClient,
-  TypeEmployee,
   TypeOperation,
   TypeOutput,
   TypeProduct,
@@ -15,7 +14,6 @@ import {
 import {
   getAllCategory,
   getAllClient,
-  getAllEmployee,
   getAllOperation,
   getAllOutput,
   getAllProduct,
@@ -55,7 +53,6 @@ export const useFetchAllData = (deps: {
   const [allProduct, setAllProduct] = useState<TypeProduct[]>([]);
   const [allCategory, setAllCategory] = useState<TypeCategory[]>([]);
   const [allClient, setAllClient] = useState<TypeClient[]>([]);
-  const [allEmployee, setAllEmployee] = useState<TypeEmployee[]>([]);
   const [allProductOutput, setAllProductOutput] = useState<TypeProduct[]>([]);
   const [allStoragePlace, setAllStoragePlace] = useState<TypeStoragePlace[]>(
     [],
@@ -134,14 +131,6 @@ export const useFetchAllData = (deps: {
   }, [deps.depsClient]);
 
   useEffect(() => {
-    if (deps.depsEmployee) {
-      getAllEmployee()
-        .then(data => setAllEmployee(data))
-        .catch(error => console.error('Ошибка при получении данных: ', error));
-    }
-  }, [deps.depsEmployee]);
-
-  useEffect(() => {
     if (deps.depsProductOutput) {
       getAllProductOutput()
         .then(data => setAllProductOutput(data))
@@ -167,7 +156,6 @@ export const useFetchAllData = (deps: {
     allProduct,
     allCategory,
     allClient,
-    allEmployee,
     allProductOutput,
     allStoragePlace,
   };

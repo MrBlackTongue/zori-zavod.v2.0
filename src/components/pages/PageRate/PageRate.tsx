@@ -5,7 +5,7 @@ import './PageRate.css';
 import { MenuOutlined } from '@ant-design/icons';
 import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
 import { useRegistration } from '../../../hooks';
-import { checkAuthorization, LOGIN, RATE, WORK_HOURS } from '../../../api';
+import { checkAuthorization, LOGIN, RATE, SELL, SHIPMENT } from '../../../api';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
 import rateImage from 'assets/images/rate_image.png';
 
@@ -24,7 +24,7 @@ export const PageRate = () => {
   const handleLogin = () => {
     checkAuthorization()
       .then(isUserAuthorized => {
-        navigate(isUserAuthorized ? `${WORK_HOURS}` : `${LOGIN}`);
+        navigate(isUserAuthorized ? `${SELL + SHIPMENT}` : `${LOGIN}`);
       })
       .catch(error => {
         console.error('Ошибка при проверке авторизации:', error);

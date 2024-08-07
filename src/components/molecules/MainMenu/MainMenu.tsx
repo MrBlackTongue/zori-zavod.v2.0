@@ -7,7 +7,6 @@ import {
   AppstoreOutlined,
   BarChartOutlined,
   CarryOutOutlined,
-  ScheduleOutlined,
   ShopOutlined,
   ShoppingCartOutlined,
   TeamOutlined,
@@ -17,13 +16,12 @@ import {
   CLIENTS,
   ITEMS,
   OPERATION,
-  OPERATION_ACCOUNTING,
   PRODUCTS,
   PURCHASES,
   REPORT,
+  SELL,
   SHIPMENT,
   STOCKS,
-  WORK_HOURS,
 } from '../../../api';
 import { menuKeyToRoutes } from '../NavigationTabs/menuKeyToRoutes';
 
@@ -31,7 +29,7 @@ const items = [
   {
     key: '01',
     label: (
-      <Link to={`/sell${SHIPMENT}`} className="menu-item-container">
+      <Link to={`${SELL + SHIPMENT}`} className="menu-item-container">
         <ShopOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
         <div className="menu-item-div">Продажи</div>
       </Link>
@@ -40,7 +38,7 @@ const items = [
   {
     key: '02',
     label: (
-      <Link to={`${OPERATION_ACCOUNTING}`} className="menu-item-container">
+      <Link to={`${OPERATION}`} className="menu-item-container">
         <AppstoreAddOutlined
           className="menu-item-icon"
           style={{ fontSize: '24px' }}
@@ -103,18 +101,6 @@ const items = [
       <Link to={`${CLIENTS}`} className="menu-item-container">
         <TeamOutlined className="menu-item-icon" style={{ fontSize: '24px' }} />
         <div className="menu-item-div">Контакты</div>
-      </Link>
-    ),
-  },
-  {
-    key: '08',
-    label: (
-      <Link to={`${WORK_HOURS}`} className="menu-item-container">
-        <ScheduleOutlined
-          className="menu-item-icon"
-          style={{ fontSize: '24px' }}
-        />
-        <div className="menu-item-div">Команда</div>
       </Link>
     ),
   },

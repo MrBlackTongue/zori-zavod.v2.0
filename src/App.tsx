@@ -6,7 +6,7 @@ import { UserMenu } from './components/molecules/UserMenu/UserMenu';
 import { MainTabs } from './components/molecules/NavigationTabs/MainTabs';
 import { ContentRoutes } from './routes/ContentRoutes/ContentRoutes';
 import headerLogoDarkMontserrat from 'assets/images/header_logo_dark_montserrat.png';
-import { WORK_HOURS } from './api';
+import { SELL, SHIPMENT } from './api';
 
 function App() {
   const { Header, Content, Footer } = Layout;
@@ -20,7 +20,7 @@ function App() {
     <Layout style={{ minHeight: '100vh' }}>
       <Header className="app-header">
         <a
-          href={WORK_HOURS}
+          href={`${SELL + SHIPMENT}`}
           rel="noopener noreferrer"
           className="logo-container">
           <img
