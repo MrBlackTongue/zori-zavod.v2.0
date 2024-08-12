@@ -55,10 +55,12 @@ export const PageCostPriceReport: React.FC = () => {
                   label={`${output.item?.title}, ${output.date}, ${output.id}`}>
                   <Tooltip
                     placement="right"
-                    title={`${dayjs(output.date).format('DD.MM')}, ${output.item
-                      ?.title}, ID: ${output.id}`}>
-                    {`${dayjs(output.date).format('DD.MM')}, ${output.item
-                      ?.title}, ID: ${output.id}`}
+                    title={`${dayjs(output.date).format('DD.MM')}, ${
+                      output.item?.title
+                    }, ID: ${output.id}`}>
+                    {`${dayjs(output.date).format('DD.MM')}, ${
+                      output.item?.title
+                    }, ID: ${output.id}`}
                   </Tooltip>
                 </Select.Option>
               ))

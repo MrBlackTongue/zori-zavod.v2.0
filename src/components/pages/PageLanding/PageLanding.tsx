@@ -4,7 +4,7 @@ import { MenuOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { RegistrationModal } from '../../molecules/RegistrationModal/RegistrationModal';
 import './PageLanding.css';
-import { checkAuthorization, LOGIN, RATE, WORK_HOURS } from '../../../api';
+import { checkAuthorization, LOGIN, RATE, SELL, SHIPMENT } from '../../../api';
 import { useRegistration } from '../../../hooks';
 import headerLogoLightMontserrat from 'assets/images/header_logo_light_montserrat.png';
 import mainImage from 'assets/images/main_image.png';
@@ -30,7 +30,7 @@ export const PageLanding = () => {
   const handleLogin = () => {
     checkAuthorization()
       .then(isUserAuthorized => {
-        navigate(isUserAuthorized ? `${WORK_HOURS}` : `${LOGIN}`);
+        navigate(isUserAuthorized ? `${SELL + SHIPMENT}` : `${LOGIN}`);
       })
       .catch(error => {
         console.error('Ошибка при проверке авторизации:', error);

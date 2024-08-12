@@ -10,14 +10,16 @@
 }
 
 /* Стили для неактивных радио-кнопок */
-.radio-button-group .ant-radio-button-wrapper:not(.ant-radio-button-wrapper-checked) {
+.radio-button-group
+.ant-radio-button-wrapper:not(.ant-radio-button-wrapper-checked) {
   background-color: rgb(255, 255, 255, 0.4);
   border-color: rgb(255, 255, 255, 0.1);
   border-radius: 3px;
 }
 
 /* Стили для активной радио-кнопки */
-.radio-button-group .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+.radio-button-group
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
   background-color: white;
   border-color: white;
   color: black;
@@ -26,7 +28,8 @@
 
 /* Стили при наведении на радио-кнопку и активную радио-кнопку */
 .radio-button-group .ant-radio-button-wrapper:hover,
-.radio-button-group .ant-radio-button-wrapper-checked:not(
+.radio-button-group
+.ant-radio-button-wrapper-checked:not(
     .ant-radio-button-wrapper-disabled
   ):hover {
   background-color: white;

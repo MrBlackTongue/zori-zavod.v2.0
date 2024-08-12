@@ -109,7 +109,7 @@ export const EditableSelect = <T,>({
 
   const renderLabel = () => {
     const selectedOption = options?.find(option => option.value === value);
-    return selectedOption ? selectedOption.label : label ?? placeholder;
+    return selectedOption ? selectedOption.label : (label ?? placeholder);
   };
 
   return isOpen ? (
