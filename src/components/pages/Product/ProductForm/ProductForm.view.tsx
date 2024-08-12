@@ -3,7 +3,7 @@ import { FormViewProps, TypeProduct } from '../../../../types';
 import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
 import { FormHeader } from '../../../atoms/FormHeader/FormHeader';
 import { FormRadio } from '../../../atoms/FormRadio/FormRadio';
-import { ProductForm } from './ProductForm';
+import { MainForm } from './main/MainForm';
 
 export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
   form,
@@ -31,8 +31,8 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
     switch (selectedOption) {
       case 'main':
         return (
-          <ProductForm
-            form={form}
+          <MainForm
+            productForm={form}
             onBlur={onBlur}
             onTitleChange={setTitle}
             actions={actions}

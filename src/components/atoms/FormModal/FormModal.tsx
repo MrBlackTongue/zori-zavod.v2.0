@@ -91,7 +91,7 @@ export const FormModal = <T extends object>({
           <div ref={draggleRef}>{modal}</div>
         </Draggable>
       )}>
-      {renderForm(form)}
+      <Form form={form}>{renderForm(form)}</Form>
     </Modal>
   );
 };

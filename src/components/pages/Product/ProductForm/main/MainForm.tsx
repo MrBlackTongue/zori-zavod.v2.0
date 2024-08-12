@@ -5,15 +5,19 @@ import {
   getAllCategory,
   getAllUnit,
   getItemAttributeByIdItem,
-} from '../../../../api';
-import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
-import { TypeCategory, TypeItemAttribute, TypeUnit } from '../../../../types';
+} from '../../../../../api';
+import { SimpleSelect } from '../../../../atoms/SimpleSelect/SimpleSelect';
+import {
+  TypeCategory,
+  TypeItemAttribute,
+  TypeUnit,
+} from '../../../../../types';
 import { ItemAttributeForm } from './ItemAttributeForm';
-import { FormModal } from '../../../atoms/FormModal/FormModal';
+import { FormModal } from '../../../../atoms/FormModal/FormModal';
 import { useParams } from 'react-router-dom';
 
 interface ProductFormProps {
-  form: any;
+  productForm: any;
   onBlur?: () => void;
   onTitleChange: (title: string) => void;
   actions?: {
@@ -22,8 +26,8 @@ interface ProductFormProps {
   };
 }
 
-export const ProductForm: React.FC<ProductFormProps> = ({
-  form,
+export const MainForm: React.FC<ProductFormProps> = ({
+  productForm,
   onBlur,
   onTitleChange,
   actions,
@@ -31,26 +35,58 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   // Преобразование id из пути в число
   const { id: rawId } = useParams<{ id?: string }>();
   const itemId = rawId ? parseInt(rawId, 10) : undefined;
-  const [modalForm] = Form.useForm();
+  const [attributeForm] = Form.useForm();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [itemAttributes, setItemAttributes] = useState<TypeItemAttribute[]>([]);
 
   const handleSubmit = async (values: { attributes: TypeItemAttribute[] }) => {
+    console.log('Form values:', values);
     if (itemId) {
       try {
         const { attributes } = values;
-        for (const attribute of attributes) {
-          const data: TypeItemAttribute = {
+        console.log('attributes', attributes);
+
+        const newAttributes = attributes.filter(attr => !attr.id);
+        console.log('newAttributes', newAttributes);
+
+        // const updatedAttributes = attributes.filter(attr => attr.id);
+        // console.log('updatedAttributes', updatedAttributes);
+
+        // const deletedAttributes = itemAttributes.filter(
+        //   attr => !attributes.some(newAttr => newAttr.id === attr.id),
+        // );
+
+        // Создание новых атрибутов
+        const createPromises = newAttributes.map(attribute =>
+          createItemAttribute({
             itemId: itemId,
             title: attribute.title,
             values: attribute.values,
-          };
+          }),
+        );
+        await Promise.all(createPromises);
 
-          await createItemAttribute(data);
-        }
+        // Редактирование существующих атрибутов
+        // const updatePromises = updatedAttributes.map(attribute =>
+        //   updateItemAttribute(attribute),
+        // );
+        // await Promise.all(updatePromises);
+
+        // // Удаление атрибутов
+        // const deletePromises = deletedAttributes.map(attribute => {
+        //   if (attribute.id) {
+        //     return deleteItemAttributeById(attribute.id);
+        //   }
+        // });
+        // await Promise.all(deletePromises);
+
+        // Обновление состояния itemAttributes после успешного сохранения
+        // setItemAttributes(attributes);
+
         setIsModalVisible(false);
       } catch (error) {
-        console.error('Ошибка при создании атрибутов:', error);
+        console.error('Ошибка при сохранении атрибутов:', error);
       }
     }
   };
@@ -59,12 +95,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     if (itemId) {
       try {
         const attributes = await getItemAttributeByIdItem(itemId);
-        modalForm.setFieldsValue({
+        setItemAttributes(attributes || []);
+        attributeForm.setFieldsValue({
           attributes: attributes?.map(attribute => ({
             title: attribute.title,
             values: attribute.values.map(value => value.value),
           })),
         });
+        console.log('attributes в fetchItemAttributes:', attributes);
       } catch (error) {
         console.error('Ошибка при загрузке атрибутов элемента:', error);
       }
@@ -75,13 +113,21 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     setIsModalVisible(false);
   };
 
-  const openModal = () => {
-    void fetchItemAttributes();
+  const openModal = async () => {
+    await fetchItemAttributes();
     setIsModalVisible(true);
   };
 
+  // useEffect(() => {
+  //   (async () => {
+  //     if (isModalVisible) {
+  //       // await fetchItemAttributes();
+  //     }
+  //   })();
+  // }, [isModalVisible, fetchItemAttributes]);
+
   return (
-    <Form form={form} layout="vertical" className="form-with-menu">
+    <Form form={productForm} layout="vertical" className="form-with-menu">
       <Row gutter={24}>
         <Col span={12}>
           <Form.Item
@@ -99,32 +145,32 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         <Col span={12}>
           <Form.Item label="Единица измерения" name="unit">
             <SimpleSelect
-              form={form}
+              form={productForm}
               onBlur={onBlur}
               fieldName="unit"
               placeholder="Выберите единицу измерения"
-              value={form.getFieldValue('unit')}
+              value={productForm.getFieldValue('unit')}
               getId={item => item.id ?? 0}
               getLabel={item => item.name ?? ''}
               fetchDataList={getAllUnit}
               onCreateNew={actions?.onCreateNewUnit}
-              disabled={!form.getFieldValue('title')}
+              disabled={!productForm.getFieldValue('title')}
             />
           </Form.Item>
         </Col>
         <Col span={12}>
           <Form.Item label="Категория" name="category">
             <SimpleSelect
-              form={form}
+              form={productForm}
               onBlur={onBlur}
               fieldName="category"
               placeholder="Выберите категорию"
-              value={form.getFieldValue('category')}
+              value={productForm.getFieldValue('category')}
               getId={item => item.id ?? 0}
               getLabel={item => item.title ?? ''}
               fetchDataList={getAllCategory}
               onCreateNew={actions?.onCreateNewCategory}
-              disabled={!form.getFieldValue('title')}
+              disabled={!productForm.getFieldValue('title')}
             />
           </Form.Item>
         </Col>
@@ -136,8 +182,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               isOpen={isModalVisible}
               onSubmit={handleSubmit}
               onCancel={handleCancel}
-              renderForm={() => <ItemAttributeForm form={modalForm} />}
-              title="Атрибуты элемента"
+              renderForm={attributeForm => (
+                <ItemAttributeForm
+                  initialValues={{ attributes: itemAttributes }}
+                  attributeForm={attributeForm}
+                />
+              )}
+              title="Конфигурация атрибутов продукта"
             />
           </Form.Item>
         </Col>

@@ -1,5 +1,6 @@
 export type Value = {
   id: number;
+  attributeId?: number;
   value: string;
 };
 
