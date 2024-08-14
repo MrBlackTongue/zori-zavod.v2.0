@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, Modal } from 'antd';
+import { Modal } from 'antd';
 import { ModalProps } from 'antd/lib/modal';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import { FormInstance } from 'antd/lib/form';
 
 interface FormModalProps<T> extends ModalProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface FormModalProps<T> extends ModalProps {
   onCancel: () => void;
   renderForm: (form: any) => React.ReactNode;
   initialValues?: T;
+  form: FormInstance;
 }
 
 export const FormModal = <T extends object>({
@@ -17,9 +19,9 @@ export const FormModal = <T extends object>({
   onCancel,
   renderForm,
   initialValues,
+  form,
   ...modalProps
 }: FormModalProps<T>) => {
-  const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({
     left: 0,
@@ -36,7 +38,7 @@ export const FormModal = <T extends object>({
         onSubmit(values as T);
       })
       .catch(error => {
-        console.log('Validate Failed:', error);
+        console.log('Ошибка валидации:', error);
       });
   };
 
@@ -98,7 +100,7 @@ export const FormModal = <T extends object>({
           <div ref={draggleRef}>{modal}</div>
         </Draggable>
       )}>
-      <Form form={form}>{renderForm(form)}</Form>
+      {renderForm(form)}
     </Modal>
   );
 };

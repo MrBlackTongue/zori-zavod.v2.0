@@ -226,12 +226,13 @@ export const MainForm: React.FC<ProductFormProps> = ({
               onSubmit={handleSubmit}
               onCancel={handleCancel}
               initialValues={{ attributes: itemAttributes }}
-              renderForm={attributeForm => (
+              renderForm={form => (
                 <ItemAttributeForm
                   initialValues={{ attributes: itemAttributes }}
-                  attributeForm={attributeForm}
+                  attributeForm={form}
                 />
               )}
+              form={attributeForm}
               title="Конфигурация атрибутов продукта"
             />
           </Form.Item>
