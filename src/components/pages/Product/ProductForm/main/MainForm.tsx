@@ -84,9 +84,6 @@ export const MainForm: React.FC<ProductFormProps> = ({
         });
         await Promise.all(deletePromises);
 
-        // Обновление состояния itemAttributes после успешного сохранения ?
-        // setItemAttributes(attributes);
-
         setIsModalVisible(false);
       } catch (error) {
         console.error('Ошибка при сохранении атрибутов:', error);

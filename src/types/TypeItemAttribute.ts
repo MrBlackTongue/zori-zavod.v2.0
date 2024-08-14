@@ -1,5 +1,5 @@
 export type Value = {
-  id: number;
+  id?: number;
   attributeId?: number;
   value: string;
 };

@@ -18,20 +18,47 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
       ? initialValues
       : defaultInitialValues;
 
-  const handleChange = (values: string[], fieldKey: number) => {
-    attributeForm.setFieldsValue({
-      attributes: attributeForm
-        .getFieldValue('attributes')
-        .map((attribute: any, index: number) => {
-          if (index === fieldKey) {
-            return {
-              ...attribute,
-              values: values.map((value, index) => ({ id: index, value })),
+  const handleChange = (
+    selectedValues: { value: string; key: string }[],
+    fieldKey: number,
+  ) => {
+    const currentAttributes = attributeForm.getFieldValue('attributes');
+
+    const updatedAttributes = currentAttributes.map(
+      (attribute: TypeItemAttribute, index: number) => {
+        if (index === fieldKey) {
+          // Проверяем, является ли атрибут новым (не имеет id)
+          const isNewAttribute = !attribute.id;
+
+          // Преобразуем selectedValues в нужный формат
+          const processedValues = selectedValues.map(selected => {
+            const value = {
+              value: selected.value,
             };
-          }
-          return attribute;
-        }),
-    });
+
+            // Добавляем id и attributeId только для существующих атрибутов
+            if (!isNewAttribute) {
+              return {
+                ...value,
+                id: isNaN(parseInt(selected.key))
+                  ? undefined // Для новых значений не присваиваем id
+                  : parseInt(selected.key),
+                attributeId: attribute.id,
+              };
+            }
+
+            return value;
+          });
+
+          return {
+            ...attribute,
+            values: processedValues,
+          };
+        }
+        return attribute;
+      },
+    );
+    attributeForm.setFieldsValue({ attributes: updatedAttributes });
   };
 
   return (
@@ -65,10 +92,19 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                       placeholder="Например, красный, зеленый, синий"
                       onChange={values => handleChange(values, name)}
                       tokenSeparators={[',']}
-                      value={attributeForm
+                      labelInValue
+                      optionLabelProp="label">
+                      {attributeForm
                         .getFieldValue(['attributes', name, 'values'])
-                        ?.map((item: Value) => item.value)}
-                    />
+                        ?.map((item: Value) => (
+                          <Select.Option
+                            key={item.id}
+                            value={item.value}
+                            label={item.value}>
+                            {item.value}
+                          </Select.Option>
+                        ))}
+                    </Select>
                   </Form.Item>
                 </Col>
                 <Col span={2}>
