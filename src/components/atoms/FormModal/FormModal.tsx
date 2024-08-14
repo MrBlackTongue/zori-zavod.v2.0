@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, Modal } from 'antd';
 import { ModalProps } from 'antd/lib/modal';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
@@ -8,6 +8,7 @@ interface FormModalProps<T> extends ModalProps {
   onSubmit: (values: T) => void;
   onCancel: () => void;
   renderForm: (form: any) => React.ReactNode;
+  initialValues?: T;
 }
 
 export const FormModal = <T extends object>({
@@ -15,6 +16,7 @@ export const FormModal = <T extends object>({
   onSubmit,
   onCancel,
   renderForm,
+  initialValues,
   ...modalProps
 }: FormModalProps<T>) => {
   const [form] = Form.useForm();
@@ -32,7 +34,7 @@ export const FormModal = <T extends object>({
       .validateFields()
       .then(values => {
         onSubmit(values as T);
-        form.resetFields();
+        // form.resetFields();
       })
       .catch(error => {
         console.log('Validate Failed:', error);
@@ -57,6 +59,12 @@ export const FormModal = <T extends object>({
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     });
   };
+
+  useEffect(() => {
+    if (isOpen && initialValues) {
+      form.setFieldsValue(initialValues);
+    }
+  }, [isOpen, form, initialValues]);
 
   return (
     <Modal

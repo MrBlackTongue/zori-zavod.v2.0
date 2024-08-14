@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Form, Input, Row } from 'antd';
 import {
   createItemAttribute,
+  deleteItemAttributeById,
   getAllCategory,
   getAllUnit,
   getItemAttributeByIdItem,
+  updateItemAttribute,
 } from '../../../../../api';
 import { SimpleSelect } from '../../../../atoms/SimpleSelect/SimpleSelect';
 import {
@@ -50,12 +52,13 @@ export const MainForm: React.FC<ProductFormProps> = ({
         const newAttributes = attributes.filter(attr => !attr.id);
         console.log('newAttributes', newAttributes);
 
-        // const updatedAttributes = attributes.filter(attr => attr.id);
-        // console.log('updatedAttributes', updatedAttributes);
+        const updatedAttributes = attributes.filter(attr => attr.id);
+        console.log('updatedAttributes', updatedAttributes);
 
-        // const deletedAttributes = itemAttributes.filter(
-        //   attr => !attributes.some(newAttr => newAttr.id === attr.id),
-        // );
+        const deletedAttributes = itemAttributes.filter(
+          attr => !attributes.some(newAttr => newAttr.id === attr.id),
+        );
+        console.log('deletedAttributes', deletedAttributes);
 
         // Создание новых атрибутов
         const createPromises = newAttributes.map(attribute =>
@@ -68,20 +71,20 @@ export const MainForm: React.FC<ProductFormProps> = ({
         await Promise.all(createPromises);
 
         // Редактирование существующих атрибутов
-        // const updatePromises = updatedAttributes.map(attribute =>
-        //   updateItemAttribute(attribute),
-        // );
-        // await Promise.all(updatePromises);
+        const updatePromises = updatedAttributes.map(attribute =>
+          updateItemAttribute(attribute),
+        );
+        await Promise.all(updatePromises);
 
-        // // Удаление атрибутов
-        // const deletePromises = deletedAttributes.map(attribute => {
-        //   if (attribute.id) {
-        //     return deleteItemAttributeById(attribute.id);
-        //   }
-        // });
-        // await Promise.all(deletePromises);
+        // Удаление атрибутов
+        const deletePromises = deletedAttributes.map(attribute => {
+          if (attribute.id) {
+            return deleteItemAttributeById(attribute.id);
+          }
+        });
+        await Promise.all(deletePromises);
 
-        // Обновление состояния itemAttributes после успешного сохранения
+        // Обновление состояния itemAttributes после успешного сохранения ?
         // setItemAttributes(attributes);
 
         setIsModalVisible(false);
@@ -91,7 +94,7 @@ export const MainForm: React.FC<ProductFormProps> = ({
     }
   };
 
-  const fetchItemAttributes = async () => {
+  const fetchItemAttributes = useCallback(async () => {
     if (itemId) {
       try {
         const attributes = await getItemAttributeByIdItem(itemId);
@@ -102,29 +105,25 @@ export const MainForm: React.FC<ProductFormProps> = ({
             values: attribute.values.map(value => value.value),
           })),
         });
-        console.log('attributes в fetchItemAttributes:', attributes);
       } catch (error) {
         console.error('Ошибка при загрузке атрибутов элемента:', error);
       }
     }
-  };
+  }, [itemId, attributeForm]);
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
   const openModal = async () => {
-    await fetchItemAttributes();
     setIsModalVisible(true);
   };
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (isModalVisible) {
-  //       // await fetchItemAttributes();
-  //     }
-  //   })();
-  // }, [isModalVisible, fetchItemAttributes]);
+  useEffect(() => {
+    if (isModalVisible) {
+      fetchItemAttributes();
+    }
+  }, [isModalVisible, fetchItemAttributes]);
 
   return (
     <Form form={productForm} layout="vertical" className="form-with-menu">
@@ -182,6 +181,7 @@ export const MainForm: React.FC<ProductFormProps> = ({
               isOpen={isModalVisible}
               onSubmit={handleSubmit}
               onCancel={handleCancel}
+              initialValues={{ attributes: itemAttributes }}
               renderForm={attributeForm => (
                 <ItemAttributeForm
                   initialValues={{ attributes: itemAttributes }}
