@@ -13,6 +13,7 @@ import {
   TypeCategory,
   TypeItemAttribute,
   TypeUnit,
+  Value,
 } from '../../../../../types';
 import { ItemAttributeForm } from './ItemAttributeForm';
 import { FormModal } from '../../../../atoms/FormModal/FormModal';
@@ -71,9 +72,55 @@ export const MainForm: React.FC<ProductFormProps> = ({
         await Promise.all(createPromises);
 
         // Редактирование существующих атрибутов
-        const updatePromises = updatedAttributes.map(attribute =>
-          updateItemAttribute(attribute),
-        );
+        const updatePromises = updatedAttributes.map(attribute => {
+          const originalAttribute = itemAttributes.find(
+            attr => attr.id === attribute.id,
+          );
+          if (originalAttribute) {
+            const updatedValues = attribute.values
+              .map(value => {
+                if (!value.id) {
+                  // Новое значение
+                  return { ...value, attributeId: attribute.id };
+                }
+                const originalValue = originalAttribute.values.find(
+                  v => v.id === value.id,
+                );
+                if (originalValue) {
+                  // Существующее значение (изменённое или нет)
+                  return value;
+                }
+                return null; // Значение, которого не было в оригинальном атрибуте
+              })
+              .filter((v): v is Value => v !== null);
+
+            const deletedValueIds = originalAttribute.values
+              .filter(v => !attribute.values.some(newV => newV.id === v.id))
+              .map(v => v.id!)
+              .filter((id): id is number => id !== undefined);
+
+            // Проверяем, есть ли какие-либо изменения в атрибуте
+            const hasNewValues = updatedValues.some(v => !v.id);
+            const hasDeletedValues = deletedValueIds.length > 0;
+            const hasChangedValues = updatedValues.some(v => {
+              const originalValue = originalAttribute.values.find(
+                ov => ov.id === v.id,
+              );
+              return originalValue && originalValue.value !== v.value;
+            });
+
+            if (hasNewValues || hasDeletedValues || hasChangedValues) {
+              // Отправляем обновление только если есть изменения
+              return updateItemAttribute({
+                id: attribute.id,
+                itemId: attribute.itemId,
+                title: attribute.title,
+                values: updatedValues,
+              });
+            }
+          }
+          return Promise.resolve(); // Если атрибут не найден или нет изменений, возвращаем resolved Promise
+        });
         await Promise.all(updatePromises);
 
         // Удаление атрибутов

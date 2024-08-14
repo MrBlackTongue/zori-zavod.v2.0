@@ -34,7 +34,6 @@ export const FormModal = <T extends object>({
       .validateFields()
       .then(values => {
         onSubmit(values as T);
-        // form.resetFields();
       })
       .catch(error => {
         console.log('Validate Failed:', error);
