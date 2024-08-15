@@ -96,9 +96,9 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                       optionLabelProp="label">
                       {attributeForm
                         .getFieldValue(['attributes', name, 'values'])
-                        ?.map((item: Value) => (
+                        ?.map((item: Value, valueIndex: number) => (
                           <Select.Option
-                            key={item.id}
+                            key={item.id || `${name}-${valueIndex}`}
                             value={item.value}
                             label={item.value}>
                             {item.value}
