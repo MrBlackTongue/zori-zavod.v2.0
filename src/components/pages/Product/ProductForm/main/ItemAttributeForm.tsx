@@ -2,9 +2,11 @@ import React from 'react';
 import { Button, Col, Flex, Form, Input, Row, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { TypeItemAttribute, Value } from '../../../../../types';
+import { DefaultOptionType } from 'antd/lib/select';
+import { FormInstance } from 'antd/lib/form';
 
 interface ItemAttributeFormProps {
-  attributeForm: any;
+  attributeForm: FormInstance;
   initialValues?: { attributes: TypeItemAttribute[] };
 }
 
@@ -19,40 +21,30 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
       : defaultInitialValues;
 
   const handleChange = (
-    selectedValues: { value: string; key: string }[],
+    selectedValues: string[],
+    options: DefaultOptionType | DefaultOptionType[],
     fieldKey: number,
   ) => {
     const currentAttributes = attributeForm.getFieldValue('attributes');
-
     const updatedAttributes = currentAttributes.map(
       (attribute: TypeItemAttribute, index: number) => {
         if (index === fieldKey) {
-          // Проверяем, является ли атрибут новым (не имеет id)
-          const isNewAttribute = !attribute.id;
-
-          // Преобразуем selectedValues в нужный формат
-          const processedValues = selectedValues.map(selected => {
-            const value = {
-              value: selected.value,
-            };
-
-            // Добавляем id и attributeId только для существующих атрибутов
-            if (!isNewAttribute) {
-              return {
-                ...value,
-                id: isNaN(parseInt(selected.key))
-                  ? undefined // Для новых значений не присваиваем id
-                  : parseInt(selected.key),
-                attributeId: attribute.id,
-              };
-            }
-
-            return value;
-          });
-
           return {
             ...attribute,
-            values: processedValues,
+            values: selectedValues.map((value, i) => {
+              const option = Array.isArray(options) ? options[i] : options;
+              if (option && 'key' in option && option.key) {
+                // Это существующее значение
+                return {
+                  id: Number(option.key),
+                  value: value,
+                  attributeId: attribute.id,
+                };
+              } else {
+                // Это новое значение
+                return { value: value };
+              }
+            }),
           };
         }
         return attribute;
@@ -76,7 +68,7 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
       <Form.List name="attributes">
         {(fields, { add, remove }) => (
           <>
-            {fields.map(({ key, name, ...restField }) => (
+            {fields.map(({ key, name, ...restField }, index) => (
               <Row key={key} gutter={16}>
                 <Col span={6}>
                   <Form.Item {...restField} name={[name, 'title']}>
@@ -90,17 +82,13 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                       open={false}
                       style={{ width: '100%' }}
                       placeholder="Например, красный, зеленый, синий"
-                      onChange={values => handleChange(values, name)}
-                      tokenSeparators={[',']}
-                      labelInValue
-                      optionLabelProp="label">
+                      onChange={(values, options) =>
+                        handleChange(values, options, index)
+                      }>
                       {attributeForm
                         .getFieldValue(['attributes', name, 'values'])
-                        ?.map((item: Value, valueIndex: number) => (
-                          <Select.Option
-                            key={item.id || `${name}-${valueIndex}`}
-                            value={item.value}
-                            label={item.value}>
+                        ?.map((item: Value) => (
+                          <Select.Option key={item.id} value={item.value}>
                             {item.value}
                           </Select.Option>
                         ))}
