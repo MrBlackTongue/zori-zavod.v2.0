@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button, Col, Flex, Form, Input, Row, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { TypeItemAttribute, Value } from '../../../../../types';
@@ -20,38 +20,38 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
       ? initialValues
       : defaultInitialValues;
 
-  const handleChange = (
-    selectedValues: string[],
-    options: DefaultOptionType | DefaultOptionType[],
-    fieldKey: number,
-  ) => {
-    const currentAttributes = attributeForm.getFieldValue('attributes');
-    const updatedAttributes = currentAttributes.map(
-      (attribute: TypeItemAttribute, index: number) => {
-        if (index === fieldKey) {
-          return {
-            ...attribute,
-            values: selectedValues.map((value, i) => {
-              const option = Array.isArray(options) ? options[i] : options;
-              if (option && 'key' in option && option.key) {
-                // Это существующее значение
-                return {
-                  id: Number(option.key),
-                  value: value,
-                  attributeId: attribute.id,
-                };
-              } else {
-                // Это новое значение
-                return { value: value };
-              }
-            }),
-          };
-        }
-        return attribute;
-      },
-    );
-    attributeForm.setFieldsValue({ attributes: updatedAttributes });
-  };
+  const handleChange = useCallback(
+    (
+      selectedValues: string[],
+      options: DefaultOptionType | DefaultOptionType[],
+      fieldKey: number,
+    ) => {
+      attributeForm.setFieldsValue({
+        attributes: attributeForm
+          .getFieldValue('attributes')
+          .map((attribute: TypeItemAttribute, index: number) =>
+            index === fieldKey
+              ? {
+                  ...attribute,
+                  values: selectedValues.map((value, i) => {
+                    const option = Array.isArray(options)
+                      ? options[i]
+                      : options;
+                    return option && 'key' in option && option.key
+                      ? {
+                          id: Number(option.key),
+                          value,
+                          attributeId: attribute.id,
+                        }
+                      : { value };
+                  }),
+                }
+              : attribute,
+          ),
+      });
+    },
+    [attributeForm],
+  );
 
   return (
     <Form
