@@ -13,7 +13,6 @@ import {
   TypeCategory,
   TypeItemAttribute,
   TypeUnit,
-  Value,
 } from '../../../../../types';
 import { ItemAttributeForm } from './ItemAttributeForm';
 import { FormModal } from '../../../../atoms/FormModal/FormModal';
@@ -43,102 +42,69 @@ export const MainForm: React.FC<ProductFormProps> = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [itemAttributes, setItemAttributes] = useState<TypeItemAttribute[]>([]);
 
-  const handleSubmit = async (values: { attributes: TypeItemAttribute[] }) => {
-    console.log('Form values:', values);
-    if (itemId) {
-      try {
-        const { attributes } = values;
-        console.log('attributes', attributes);
+  const createAttributes = async (newAttributes: TypeItemAttribute[]) => {
+    const createPromises = newAttributes.map(attribute =>
+      createItemAttribute({
+        itemId: itemId!,
+        title: attribute.title,
+        values: attribute.values,
+      }),
+    );
+    await Promise.all(createPromises);
+  };
 
-        const validAttributes = attributes.filter(
-          attr => attr.title !== undefined && attr.values !== undefined,
-        );
+  const updateAttributes = async (updatedAttributes: TypeItemAttribute[]) => {
+    const updatePromises = updatedAttributes.map(attribute => {
+      const originalAttribute = itemAttributes.find(
+        attr => attr.id === attribute.id,
+      );
+      if (originalAttribute) {
+        const updatedValues = attribute.values.map(value => ({
+          ...value,
+          attributeId: attribute.id,
+        }));
 
-        const newAttributes = validAttributes.filter(attr => !attr.id);
-        console.log('newAttributes', newAttributes);
-
-        const updatedAttributes = validAttributes.filter(attr => attr.id);
-        // console.log('updatedAttributes', updatedAttributes);
-
-        const deletedAttributes = itemAttributes.filter(
-          attr => !attributes.some(newAttr => newAttr.id === attr.id),
-        );
-        // console.log('deletedAttributes', deletedAttributes);
-
-        // Создание новых атрибутов
-        const createPromises = newAttributes.map(attribute =>
-          createItemAttribute({
-            itemId: itemId,
-            title: attribute.title,
-            values: attribute.values,
-          }),
-        );
-        await Promise.all(createPromises);
-
-        // Редактирование существующих атрибутов
-        const updatePromises = updatedAttributes.map(attribute => {
-          const originalAttribute = itemAttributes.find(
-            attr => attr.id === attribute.id,
-          );
-          if (originalAttribute) {
-            const updatedValues = attribute.values
-              .map(value => {
-                if (!value.id) {
-                  // Новое значение
-                  return { ...value, attributeId: attribute.id };
-                }
-                const originalValue = originalAttribute.values.find(
-                  v => v.id === value.id,
-                );
-                if (originalValue) {
-                  // Существующее значение (изменённое или нет)
-                  return value;
-                }
-                return null; // Значение, которого не было в оригинальном атрибуте
-              })
-              .filter((v): v is Value => v !== null);
-
-            const deletedValueIds = originalAttribute.values
-              .filter(v => !attribute.values.some(newV => newV.id === v.id))
-              .map(v => v.id!)
-              .filter((id): id is number => id !== undefined);
-
-            // Проверяем, есть ли какие-либо изменения в атрибуте
-            const hasNewValues = updatedValues.some(v => !v.id);
-            const hasDeletedValues = deletedValueIds.length > 0;
-            const hasChangedValues = updatedValues.some(v => {
-              const originalValue = originalAttribute.values.find(
-                ov => ov.id === v.id,
-              );
-              return originalValue && originalValue.value !== v.value;
-            });
-
-            if (hasNewValues || hasDeletedValues || hasChangedValues) {
-              // Отправляем обновление только если есть изменения
-              return updateItemAttribute({
-                id: attribute.id,
-                itemId: attribute.itemId,
-                title: attribute.title,
-                values: updatedValues,
-              });
-            }
-          }
-          return Promise.resolve(); // Если атрибут не найден или нет изменений, возвращаем resolved Promise
+        return updateItemAttribute({
+          id: attribute.id!,
+          itemId: attribute.itemId,
+          title: attribute.title,
+          values: updatedValues,
         });
-        await Promise.all(updatePromises);
-
-        // Удаление атрибутов
-        const deletePromises = deletedAttributes.map(attribute => {
-          if (attribute.id) {
-            return deleteItemAttributeById(attribute.id);
-          }
-        });
-        await Promise.all(deletePromises);
-
-        setIsModalVisible(false);
-      } catch (error) {
-        console.error('Ошибка при сохранении атрибутов:', error);
       }
+      return Promise.resolve();
+    });
+    await Promise.all(updatePromises);
+  };
+
+  const deleteAttributes = async (deletedAttributes: TypeItemAttribute[]) => {
+    const deletePromises = deletedAttributes
+      .filter(attribute => attribute.id !== undefined)
+      .map(attribute => deleteItemAttributeById(attribute.id!));
+    await Promise.all(deletePromises);
+  };
+
+  const handleSubmit = async (values: { attributes: TypeItemAttribute[] }) => {
+    if (!itemId) return;
+
+    try {
+      const { attributes } = values;
+      const validAttributes = attributes.filter(
+        attr => attr.title !== undefined && attr.values !== undefined,
+      );
+
+      const newAttributes = validAttributes.filter(attr => !attr.id);
+      const updatedAttributes = validAttributes.filter(attr => attr.id);
+      const deletedAttributes = itemAttributes.filter(
+        attr => !attributes.some(newAttr => newAttr.id === attr.id),
+      );
+
+      await createAttributes(newAttributes);
+      await updateAttributes(updatedAttributes);
+      await deleteAttributes(deletedAttributes);
+
+      setIsModalVisible(false);
+    } catch (error) {
+      console.error('Ошибка при сохранении атрибутов:', error);
     }
   };
 
@@ -169,7 +135,7 @@ export const MainForm: React.FC<ProductFormProps> = ({
 
   useEffect(() => {
     if (isModalVisible) {
-      fetchItemAttributes();
+      fetchItemAttributes().catch(error => error);
     }
   }, [isModalVisible, fetchItemAttributes]);
 
