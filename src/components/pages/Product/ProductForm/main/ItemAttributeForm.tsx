@@ -15,10 +15,6 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   initialValues,
 }) => {
   const defaultInitialValues = { attributes: [{}] };
-  // const formInitialValues =
-  //   initialValues && initialValues.attributes.length > 0
-  //     ? initialValues
-  //     : defaultInitialValues;
 
   const handleChange = useCallback(
     (
@@ -47,6 +43,20 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
               : attribute,
           ),
       });
+    },
+    [attributeForm],
+  );
+
+  const handleRemove = useCallback(
+    (
+      fields: any[],
+      name: number,
+      remove: (index: number | number[]) => void,
+    ) => {
+      remove(name);
+      if (fields.length === 1) {
+        attributeForm.setFieldsValue(defaultInitialValues);
+      }
     },
     [attributeForm],
   );
@@ -101,11 +111,7 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                     type={'text'}
                     shape="circle"
                     size={'large'}
-                    onClick={() => {
-                      // if (fields.length > 1) {
-                      remove(name);
-                      // }
-                    }}>
+                    onClick={() => handleRemove(fields, name, remove)}>
                     <DeleteOutlined style={{ fontSize: '18px' }} />
                   </Button>
                 </Col>
