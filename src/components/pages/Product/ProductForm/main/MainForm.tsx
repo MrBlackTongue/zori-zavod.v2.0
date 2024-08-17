@@ -50,16 +50,20 @@ export const MainForm: React.FC<ProductFormProps> = ({
         const { attributes } = values;
         console.log('attributes', attributes);
 
-        const newAttributes = attributes.filter(attr => !attr.id);
+        const validAttributes = attributes.filter(
+          attr => attr.title !== undefined && attr.values !== undefined,
+        );
+
+        const newAttributes = validAttributes.filter(attr => !attr.id);
         console.log('newAttributes', newAttributes);
 
-        const updatedAttributes = attributes.filter(attr => attr.id);
-        console.log('updatedAttributes', updatedAttributes);
+        const updatedAttributes = validAttributes.filter(attr => attr.id);
+        // console.log('updatedAttributes', updatedAttributes);
 
         const deletedAttributes = itemAttributes.filter(
           attr => !attributes.some(newAttr => newAttr.id === attr.id),
         );
-        console.log('deletedAttributes', deletedAttributes);
+        // console.log('deletedAttributes', deletedAttributes);
 
         // Создание новых атрибутов
         const createPromises = newAttributes.map(attribute =>
@@ -225,7 +229,6 @@ export const MainForm: React.FC<ProductFormProps> = ({
               isOpen={isModalVisible}
               onSubmit={handleSubmit}
               onCancel={handleCancel}
-              initialValues={{ attributes: itemAttributes }}
               renderForm={form => (
                 <ItemAttributeForm
                   initialValues={{ attributes: itemAttributes }}

@@ -14,8 +14,6 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   attributeForm,
   initialValues,
 }) => {
-  const defaultInitialValues = { attributes: [{}] };
-
   const handleChange = useCallback(
     (
       selectedValues: string[],
@@ -55,7 +53,7 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     ) => {
       remove(name);
       if (fields.length === 1) {
-        attributeForm.setFieldsValue(defaultInitialValues);
+        attributeForm.setFieldsValue({ attributes: [{}] });
       }
     },
     [attributeForm],
@@ -65,7 +63,7 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     const formInitialValues =
       initialValues && initialValues.attributes.length > 0
         ? initialValues
-        : defaultInitialValues;
+        : { attributes: [{}] };
     attributeForm.setFieldsValue(formInitialValues);
   }, [attributeForm, initialValues]);
 
