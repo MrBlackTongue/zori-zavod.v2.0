@@ -54,30 +54,19 @@ export const MainForm: React.FC<ProductFormProps> = ({
   };
 
   const updateAttributes = async (updatedAttributes: TypeItemAttribute[]) => {
-    const updatePromises = updatedAttributes
-      .filter(attribute => {
-        const original = itemAttributes.find(attr => attr.id === attribute.id);
-        return (
-          original &&
-          (attribute.title !== original.title ||
-            !attribute.values.every(
-              (v, i) =>
-                v.value === original.values[i]?.value &&
-                v.id === original.values[i]?.id,
-            ))
-        );
-      })
-      .map(attribute =>
-        updateItemAttribute({
-          id: attribute.id!,
-          itemId: attribute.itemId,
-          title: attribute.title,
-          values: attribute.values.map(value => ({
-            ...value,
-            attributeId: attribute.id,
-          })),
-        }),
-      );
+    console.log('updatedAttributes', updatedAttributes);
+    const updatePromises = updatedAttributes.map(attribute =>
+      updateItemAttribute({
+        id: attribute.id!,
+        itemId: attribute.itemId,
+        title: attribute.title,
+        values: attribute.values.map(value => ({
+          ...(value.id && value.id !== 0 && { id: value.id }),
+          value: value.value,
+          attributeId: attribute.id,
+        })),
+      }),
+    );
 
     await Promise.all(updatePromises);
   };
@@ -99,7 +88,20 @@ export const MainForm: React.FC<ProductFormProps> = ({
       );
 
       const newAttributes = validAttributes.filter(attr => !attr.id);
-      const updatedAttributes = validAttributes.filter(attr => attr.id);
+      const updatedAttributes = validAttributes.filter(attr => {
+        const initialAttr = itemAttributes.find(
+          initAttr => initAttr.id === attr.id,
+        );
+        if (!initialAttr) return false;
+
+        return (
+          attr.title !== initialAttr.title ||
+          attr.values.length !== initialAttr.values.length ||
+          attr.values.some(
+            (value, index) => value.value !== initialAttr.values[index]?.value,
+          )
+        );
+      });
       const deletedAttributes = itemAttributes.filter(
         attr => !attributes.some(newAttr => newAttr.id === attr.id),
       );
