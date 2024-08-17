@@ -37,13 +37,11 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                     const option = Array.isArray(options)
                       ? options[i]
                       : options;
-                    return option && 'key' in option && option.key
-                      ? {
-                          id: Number(option.key),
-                          value,
-                          attributeId: attribute.id,
-                        }
-                      : { value };
+                    return {
+                      ...(option.key && { id: option.key }),
+                      value,
+                      attributeId: attribute.id,
+                    };
                   }),
                 }
               : attribute,
@@ -84,15 +82,14 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                       placeholder="Например, красный, зеленый, синий"
                       onChange={(values, options) =>
                         handleChange(values, options, index)
-                      }>
-                      {attributeForm
+                      }
+                      options={attributeForm
                         .getFieldValue(['attributes', name, 'values'])
-                        ?.map((item: Value) => (
-                          <Select.Option key={item.id} value={item.value}>
-                            {item.value}
-                          </Select.Option>
-                        ))}
-                    </Select>
+                        ?.map((item: Value) => ({
+                          key: item.id,
+                          value: item.value,
+                        }))}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={2}>
