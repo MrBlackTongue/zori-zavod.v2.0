@@ -54,14 +54,13 @@ export const MainForm: React.FC<ProductFormProps> = ({
   };
 
   const updateAttributes = async (updatedAttributes: TypeItemAttribute[]) => {
-    console.log('updatedAttributes', updatedAttributes);
     const updatePromises = updatedAttributes.map(attribute =>
       updateItemAttribute({
         id: attribute.id!,
         itemId: attribute.itemId,
         title: attribute.title,
         values: attribute.values.map(value => ({
-          ...(value.id && value.id !== 0 && { id: value.id }),
+          ...(value.id && value.id !== 0 && { id: value.id }), // кажется не работает условие
           value: value.value,
           attributeId: attribute.id,
         })),
