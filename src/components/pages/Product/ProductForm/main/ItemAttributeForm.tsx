@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Button, Col, Flex, Form, Input, Row, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { TypeItemAttribute, Value } from '../../../../../types';
@@ -15,10 +15,10 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   initialValues,
 }) => {
   const defaultInitialValues = { attributes: [{}] };
-  const formInitialValues =
-    initialValues && initialValues.attributes.length > 0
-      ? initialValues
-      : defaultInitialValues;
+  // const formInitialValues =
+  //   initialValues && initialValues.attributes.length > 0
+  //     ? initialValues
+  //     : defaultInitialValues;
 
   const handleChange = useCallback(
     (
@@ -51,12 +51,16 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     [attributeForm],
   );
 
+  useEffect(() => {
+    const formInitialValues =
+      initialValues && initialValues.attributes.length > 0
+        ? initialValues
+        : defaultInitialValues;
+    attributeForm.setFieldsValue(formInitialValues);
+  }, [attributeForm, initialValues]);
+
   return (
-    <Form
-      form={attributeForm}
-      layout="vertical"
-      className="form-with-menu"
-      initialValues={formInitialValues}>
+    <Form form={attributeForm} layout="vertical" className="form-with-menu">
       <Flex
         align="center"
         style={{ marginBottom: '10px', marginLeft: '10px', marginTop: '30px' }}>
@@ -98,9 +102,9 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                     shape="circle"
                     size={'large'}
                     onClick={() => {
-                      if (fields.length > 1) {
-                        remove(name);
-                      }
+                      // if (fields.length > 1) {
+                      remove(name);
+                      // }
                     }}>
                     <DeleteOutlined style={{ fontSize: '18px' }} />
                   </Button>
