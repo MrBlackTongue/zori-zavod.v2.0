@@ -54,25 +54,31 @@ export const MainForm: React.FC<ProductFormProps> = ({
   };
 
   const updateAttributes = async (updatedAttributes: TypeItemAttribute[]) => {
-    const updatePromises = updatedAttributes.map(attribute => {
-      const originalAttribute = itemAttributes.find(
-        attr => attr.id === attribute.id,
-      );
-      if (originalAttribute) {
-        const updatedValues = attribute.values.map(value => ({
-          ...value,
-          attributeId: attribute.id,
-        }));
-
-        return updateItemAttribute({
+    const updatePromises = updatedAttributes
+      .filter(attribute => {
+        const original = itemAttributes.find(attr => attr.id === attribute.id);
+        return (
+          original &&
+          (attribute.title !== original.title ||
+            !attribute.values.every(
+              (v, i) =>
+                v.value === original.values[i]?.value &&
+                v.id === original.values[i]?.id,
+            ))
+        );
+      })
+      .map(attribute =>
+        updateItemAttribute({
           id: attribute.id!,
           itemId: attribute.itemId,
           title: attribute.title,
-          values: updatedValues,
-        });
-      }
-      return Promise.resolve();
-    });
+          values: attribute.values.map(value => ({
+            ...value,
+            attributeId: attribute.id,
+          })),
+        }),
+      );
+
     await Promise.all(updatePromises);
   };
 
