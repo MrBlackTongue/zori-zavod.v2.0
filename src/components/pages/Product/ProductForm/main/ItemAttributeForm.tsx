@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { Button, Col, Flex, Form, Input, Row, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { TypeItemAttribute, Value } from '../../../../../types';
+import {
+  TypeItemAttribute,
+  TypeItemAttributeValue,
+} from '../../../../../types';
 import { DefaultOptionType } from 'antd/lib/select';
 import { FormInstance } from 'antd/lib/form';
 
@@ -97,7 +100,7 @@ export const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                       }
                       options={attributeForm
                         .getFieldValue(['attributes', name, 'values'])
-                        ?.map((item: Value) => ({
+                        ?.map((item: TypeItemAttributeValue) => ({
                           key: item.id,
                           value: item.value,
                         }))}
