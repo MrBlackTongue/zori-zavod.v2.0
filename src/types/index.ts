@@ -27,3 +27,4 @@ export * from './TypeStoragePlace';
 export * from './TypeWithId';
 export * from './TypeMaterial';
 export * from './TypeItem';
+export * from './TypeItemAttribute';

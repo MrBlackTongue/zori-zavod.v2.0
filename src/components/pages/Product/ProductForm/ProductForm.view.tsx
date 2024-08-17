@@ -1,11 +1,9 @@
 import React from 'react';
-import { Col, Form, Input, Row } from 'antd';
 import { FormViewProps, TypeProduct } from '../../../../types';
-import { getAllCategory, getAllUnit } from '../../../../api';
-import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
 import { useLoadingAndSaving } from '../../../../contexts/LoadingAndSavingContext';
 import { FormHeader } from '../../../atoms/FormHeader/FormHeader';
 import { FormRadio } from '../../../atoms/FormRadio/FormRadio';
+import { MainForm } from './main/MainForm';
 
 export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
   form,
@@ -33,57 +31,12 @@ export const ProductFormView: React.FC<FormViewProps<TypeProduct>> = ({
     switch (selectedOption) {
       case 'main':
         return (
-          <Form form={form} layout="vertical" className="form-with-menu">
-            <Row gutter={24}>
-              <Col span={12}>
-                <Form.Item
-                  label="Название товара"
-                  name="title"
-                  rules={[
-                    { required: true, message: 'введите название товара' },
-                  ]}>
-                  <Input
-                    placeholder="Название"
-                    onBlur={onBlur}
-                    onPressEnter={onBlur}
-                    onChange={event => setTitle(event.target.value)}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Единица измерения" name="unit">
-                  <SimpleSelect
-                    form={form}
-                    onBlur={onBlur}
-                    fieldName="unit"
-                    placeholder="Выберите единицу измерения"
-                    value={form.getFieldValue('unit')}
-                    getId={item => item.id ?? 0}
-                    getLabel={item => item.name ?? ''}
-                    fetchDataList={getAllUnit}
-                    onCreateNew={actions?.onCreateNewUnit}
-                    disabled={!form.getFieldValue('title')}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Категория" name="category">
-                  <SimpleSelect
-                    form={form}
-                    onBlur={onBlur}
-                    fieldName="category"
-                    placeholder="Выберите категорию"
-                    value={form.getFieldValue('category')}
-                    getId={item => item.id ?? 0}
-                    getLabel={item => item.title ?? ''}
-                    fetchDataList={getAllCategory}
-                    onCreateNew={actions?.onCreateNewCategory}
-                    disabled={!form.getFieldValue('title')}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
+          <MainForm
+            productForm={form}
+            onBlur={onBlur}
+            onTitleChange={setTitle}
+            actions={actions}
+          />
         );
       case 'recipe':
         return (
