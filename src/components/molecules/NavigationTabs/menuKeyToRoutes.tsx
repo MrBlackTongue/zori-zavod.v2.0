@@ -4,7 +4,6 @@ import {
   ALL,
   CATEGORY,
   CLIENTS,
-  COST_PRICE,
   ESTIMATED_PRICE,
   ITEMS,
   MATERIALS,
@@ -13,7 +12,6 @@ import {
   PRODUCTION_TYPE,
   PRODUCTS,
   PURCHASES,
-  REPORT,
   SELL,
   SHIPMENT,
   STOCK,
@@ -30,9 +28,6 @@ import { PurchaseTableContainer } from '../../pages/Purchase/PurchaseTable/Purch
 import { StockAllTableContainer } from '../../pages/Stock/StockAllTable/StockAllTable.container';
 import { StockAdjustmentTableContainer } from '../../pages/StockAdjustment/StockAdjustmentTable/StockAdjustmentTable.container';
 import { PageStoragePlace } from '../../pages/PageStoragePlace/PageStoragePlace';
-import { PageOutputReport } from '../../pages/PageOutputReport/PageOutputReport';
-import { PageOperationReport } from '../../pages/PageOperationReport/PageOperationReport';
-import { PageCostPriceReport } from '../../pages/PageCostPriceReport/PageCostPriceReport';
 import { ProductTableContainer } from '../../pages/Product/ProductTable/ProductTable.container';
 import { PageCategory } from '../../pages/PageCategory/PageCategory';
 import { PageEstimatedPrice } from '../../pages/PageEstimatedPrice/PageEstimatedPrice';
@@ -151,52 +146,52 @@ export const menuKeyToRoutes: Record<
       ),
     },
   ],
-  '05': [
-    {
-      id: `${REPORT}${OPERATION}`,
-      title: 'По операциям',
-      route: (
-        <Route
-          key={`${REPORT}${OPERATION}`}
-          path={`${REPORT}${OPERATION}`}
-          element={<PageOperationReport />}
-        />
-      ),
-    },
-    {
-      id: `${REPORT}${OUTPUT}`,
-      title: 'По выпускам',
-      route: (
-        <Route
-          key={`${REPORT}${OUTPUT}`}
-          path={`${REPORT}${OUTPUT}`}
-          element={<PageOutputReport />}
-        />
-      ),
-    },
-    // {
-    //   id: `${REPORT}${PRODUCT}`,
-    //   title: 'По товарам',
-    //   route: (
-    //     <Route
-    //       key={`${REPORT}${PRODUCT}`}
-    //       path={`${REPORT}${PRODUCT}`}
-    //       element={<PageProductReport />}
-    //     />
-    //   ),
-    // },
-    {
-      id: `${REPORT}${COST_PRICE}`,
-      title: 'По себестоимости',
-      route: (
-        <Route
-          key={`${REPORT}${COST_PRICE}`}
-          path={`${REPORT}${COST_PRICE}`}
-          element={<PageCostPriceReport />}
-        />
-      ),
-    },
-  ],
+  // '05': [
+  //   {
+  //     id: `${REPORT}${OPERATION}`,
+  //     title: 'По операциям',
+  //     route: (
+  //       <Route
+  //         key={`${REPORT}${OPERATION}`}
+  //         path={`${REPORT}${OPERATION}`}
+  //         element={<PageOperationReport />}
+  //       />
+  //     ),
+  //   },
+  //   {
+  //     id: `${REPORT}${OUTPUT}`,
+  //     title: 'По выпускам',
+  //     route: (
+  //       <Route
+  //         key={`${REPORT}${OUTPUT}`}
+  //         path={`${REPORT}${OUTPUT}`}
+  //         element={<PageOutputReport />}
+  //       />
+  //     ),
+  //   },
+  // {
+  //   id: `${REPORT}${PRODUCT}`,
+  //   title: 'По товарам',
+  //   route: (
+  //     <Route
+  //       key={`${REPORT}${PRODUCT}`}
+  //       path={`${REPORT}${PRODUCT}`}
+  //       element={<PageProductReport />}
+  //     />
+  //   ),
+  // },
+  //   {
+  //     id: `${REPORT}${COST_PRICE}`,
+  //     title: 'По себестоимости',
+  //     route: (
+  //       <Route
+  //         key={`${REPORT}${COST_PRICE}`}
+  //         path={`${REPORT}${COST_PRICE}`}
+  //         element={<PageCostPriceReport />}
+  //       />
+  //     ),
+  //   },
+  // ],
   '06': [
     {
       id: ITEMS,
