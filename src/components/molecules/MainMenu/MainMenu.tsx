@@ -5,7 +5,6 @@ import './MainMenu.css';
 import {
   AppstoreAddOutlined,
   AppstoreOutlined,
-  BarChartOutlined,
   CarryOutOutlined,
   ShopOutlined,
   ShoppingCartOutlined,
@@ -18,7 +17,6 @@ import {
   OPERATION,
   PRODUCTS,
   PURCHASES,
-  REPORT,
   SELL,
   SHIPMENT,
   STOCKS,
@@ -71,18 +69,18 @@ const items = [
       </Link>
     ),
   },
-  {
-    key: '05',
-    label: (
-      <Link to={`${REPORT}${OPERATION}`} className="menu-item-container">
-        <BarChartOutlined
-          className="menu-item-icon"
-          style={{ fontSize: '24px' }}
-        />
-        <div className="menu-item-div">Отчеты</div>
-      </Link>
-    ),
-  },
+  // {
+  //   key: '05',
+  //   label: (
+  //     <Link to={`${REPORT}${OPERATION}`} className="menu-item-container">
+  //       <BarChartOutlined
+  //         className="menu-item-icon"
+  //         style={{ fontSize: '24px' }}
+  //       />
+  //       <div className="menu-item-div">Отчеты</div>
+  //     </Link>
+  //   ),
+  // },
   {
     key: '06',
     label: (

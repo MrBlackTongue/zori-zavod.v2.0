@@ -14,8 +14,3 @@ export const ACTIONS_INSTRUCTION_CONTENT_EDIT = `
 export const ACTIONS_INSTRUCTION_CONTENT_DELETE = ` 
   Чтобы удалить запись, нажмите на иконку корзины и подтвердите действие.
 `;
-
-export const EMPLOYEE_CONTENT = `
-  В разделе представлены все ваши сотрудники. 
-  Здесь вы можете добавить, удалить или изменить информацию о сотрудниках
-`;
