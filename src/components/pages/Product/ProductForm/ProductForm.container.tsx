@@ -4,9 +4,7 @@ import { Form } from 'antd';
 import { ProductFormView } from './ProductForm.view';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  createCategory,
   createProduct,
-  createUnit,
   getProductById,
   ITEMS,
   PRODUCT,
@@ -110,18 +108,6 @@ export const ProductFormContainer = () => {
     }
   }, [form, itemId, initialFormData, createItem, setIsSaving, updateItem]);
 
-  // Обработчики для Select
-  const actions = {
-    onCreateNewUnit: async (value: string) => {
-      const response = await createUnit({ name: value });
-      return response.data;
-    },
-    onCreateNewCategory: async (value: string) => {
-      const response = await createCategory({ title: value });
-      return response.data;
-    },
-  };
-
   // Функция для возврата на предыдущую страницу
   const handleCancel = () => {
     navigate(`${ITEMS}${PRODUCTS}`);
@@ -150,7 +136,6 @@ export const ProductFormContainer = () => {
           form={form}
           onBlur={onBlurHandler}
           onCancel={handleCancel}
-          actions={actions}
         />
       )}
     </>

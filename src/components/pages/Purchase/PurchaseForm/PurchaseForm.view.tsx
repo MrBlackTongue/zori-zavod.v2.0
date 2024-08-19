@@ -27,6 +27,7 @@ export const PurchaseFormView: React.FC<FormViewProps<TypePurchase>> = ({
           rules={[{ required: true, message: 'выберите товар' }]}>
           <SimpleSelect
             form={form}
+            allowCreation={false}
             fieldName="item"
             placeholder="Выберите товар"
             value={form.getFieldValue('item')}

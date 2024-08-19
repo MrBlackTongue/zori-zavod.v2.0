@@ -77,6 +77,7 @@ export const StockAllTableView = () => {
         <SimpleSelect
           placeholder="Выберите категорию"
           style={{ width: '250px' }}
+          allowCreation={false}
           getId={item => item.id ?? 0}
           getLabel={item => item.title ?? ''}
           fetchDataList={getAllCategory}

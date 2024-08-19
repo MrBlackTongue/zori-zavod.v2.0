@@ -16,6 +16,7 @@ interface SimpleSelectProps<T> {
   style?: React.CSSProperties;
   onCreateNew?: (value: string) => Promise<T>;
   disabled?: boolean;
+  allowCreation?: boolean;
 }
 
 export const SimpleSelect = <T,>({
@@ -31,6 +32,7 @@ export const SimpleSelect = <T,>({
   style,
   onCreateNew,
   disabled,
+  allowCreation,
 }: SimpleSelectProps<T>) => {
   // Хук для получения всех данных и загрузки
   const { isLoading, dataList, getDataList } = useDataListLoader<T[]>();
@@ -146,7 +148,8 @@ export const SimpleSelect = <T,>({
           </Tooltip>
         </Select.Option>
       ))}
-      {searchValue !== '' &&
+      {allowCreation &&
+        searchValue !== '' &&
         !selectOptions?.some(option => option.label === searchValue) && (
           <Select.Option
             key="create-new"

@@ -4,6 +4,7 @@ import { FormViewProps, TypeMaterial } from '../../../../types';
 import FormActions from '../../../atoms/FormActions/FormActions';
 import { getAllCategory, getAllUnit } from '../../../../api';
 import { SimpleSelect } from '../../../atoms/SimpleSelect/SimpleSelect';
+import { useSimpleSelectActions } from '../../../../hooks';
 
 export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
   form,
@@ -11,6 +12,8 @@ export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
   onFinish,
   onCancel,
 }) => {
+  const { onCreateNewCategory, onCreateNewUnit } = useSimpleSelectActions();
+
   return (
     <div className="page-form-style">
       <h2 className="center-text">{title}</h2>
@@ -32,23 +35,27 @@ export const MaterialFormView: React.FC<FormViewProps<TypeMaterial>> = ({
         <Form.Item label="Категория" name="category">
           <SimpleSelect
             form={form}
+            allowCreation={true}
             fieldName="category"
             placeholder="Выберите категорию"
             value={form.getFieldValue('category')}
             getId={item => item.id ?? 0}
             getLabel={item => item.title ?? ''}
             fetchDataList={getAllCategory}
+            onCreateNew={onCreateNewCategory}
           />
         </Form.Item>
         <Form.Item label="Единица измерения" name="unit">
           <SimpleSelect
             form={form}
+            allowCreation={true}
             fieldName="unit"
             placeholder="Выберите единицу измерения"
             value={form.getFieldValue('unit')}
             getId={item => item.id ?? 0}
             getLabel={item => item.name ?? ''}
             fetchDataList={getAllUnit}
+            onCreateNew={onCreateNewUnit}
           />
         </Form.Item>
         <FormActions onCancel={onCancel} />
