@@ -17,6 +17,7 @@ import {
 import { ItemAttributeForm } from './ItemAttributeForm';
 import { FormModal } from '../../../../atoms/FormModal/FormModal';
 import { useParams } from 'react-router-dom';
+import { useSimpleSelectActions } from '../../../../../hooks';
 
 interface ProductFormProps {
   productForm: any;
@@ -32,12 +33,12 @@ export const MainForm: React.FC<ProductFormProps> = ({
   productForm,
   onBlur,
   onTitleChange,
-  actions,
 }) => {
   // Преобразование id из пути в число
   const { id: rawId } = useParams<{ id?: string }>();
   const itemId = rawId ? parseInt(rawId, 10) : undefined;
   const [attributeForm] = Form.useForm();
+  const { onCreateNewCategory, onCreateNewUnit } = useSimpleSelectActions();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [itemAttributes, setItemAttributes] = useState<TypeItemAttribute[]>([]);
@@ -167,13 +168,14 @@ export const MainForm: React.FC<ProductFormProps> = ({
             <SimpleSelect
               form={productForm}
               onBlur={onBlur}
+              allowCreation={true}
               fieldName="unit"
               placeholder="Выберите единицу измерения"
               value={productForm.getFieldValue('unit')}
               getId={item => item.id ?? 0}
               getLabel={item => item.name ?? ''}
               fetchDataList={getAllUnit}
-              onCreateNew={actions?.onCreateNewUnit}
+              onCreateNew={onCreateNewUnit}
               disabled={!productForm.getFieldValue('title')}
             />
           </Form.Item>
@@ -183,13 +185,14 @@ export const MainForm: React.FC<ProductFormProps> = ({
             <SimpleSelect
               form={productForm}
               onBlur={onBlur}
+              allowCreation={true}
               fieldName="category"
               placeholder="Выберите категорию"
               value={productForm.getFieldValue('category')}
               getId={item => item.id ?? 0}
               getLabel={item => item.title ?? ''}
               fetchDataList={getAllCategory}
-              onCreateNew={actions?.onCreateNewCategory}
+              onCreateNew={onCreateNewCategory}
               disabled={!productForm.getFieldValue('title')}
             />
           </Form.Item>

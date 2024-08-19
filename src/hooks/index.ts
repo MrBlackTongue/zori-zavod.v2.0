@@ -6,3 +6,4 @@ export * from './usePagination';
 export * from './useRowSelection';
 export * from './useDataListLoader';
 export * from './useNavigateToPath';
+export * from './useSimpleSelectActions';
